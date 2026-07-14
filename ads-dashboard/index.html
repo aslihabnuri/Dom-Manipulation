@@ -1447,7 +1447,9 @@ function detectRows(rows,filename){
       if(shopeeKind==='shopee_cpc'&&cNama>=0&&String(r[cNama]||'').trim()){
         products.push({name:String(r[cNama]).trim(),code:cKode>=0?String(r[cKode]||'').trim():'',
           qty:(cTerjual>=0?plainnum(r[cTerjual]):plainnum(r[cKonv]))||0,
-          val:plainnum(r[cOmzet])||0});
+          val:plainnum(r[cOmzet])||0, cost:b,
+          imp:cLihat>=0?(plainnum(r[cLihat])||0):0, clk:cKlik>=0?(plainnum(r[cKlik])||0):0,
+          ord:plainnum(r[cKonv])||0});
       }
     }
     const isBaru=/baru/i.test(filename||'');
@@ -1581,12 +1583,14 @@ function detectRows(rows,filename){
       /* detail produk / video / kreator utk tab Produk & Kreator */
       if(!isLive){
         const qty=(cOrd>=0?plainnum(r[cOrd]):0)||0, val=(cRev>=0?plainnum(r[cRev]):0)||0;
+        const rc=plainnum(r[cBiaya])||0,
+              ri=cImp>=0?(plainnum(r[cImp])||0):0, rk=cClk>=0?(plainnum(r[cClk])||0):0;
         const pid=cProdId>=0?String(r[cProdId]||'').trim():'';
-        if(pid&&(qty||val))products.push({name:'Produk '+pid,code:pid,chId,iso,qty,val});
+        if(pid&&(qty||val))products.push({name:'Produk '+pid,code:pid,chId,iso,qty,val,cost:rc,imp:ri,clk:rk,ord:qty});
         const akun=cAkun>=0?String(r[cAkun]||'').trim():'';
         const vt=cVidT>=0?String(r[cVidT]||'').trim():'';
         if(akun&&(qty||val))videos.push({creator:akun,title:vt||('Video '+String(cVidId>=0?r[cVidId]:'')),
-          vid:cVidId>=0?String(r[cVidId]||'').trim():'',chId,iso,qty,val});
+          vid:cVidId>=0?String(r[cVidId]||'').trim():'',chId,iso,qty,val,cost:rc,imp:ri,clk:rk});
       }
     }
     const entries=Object.values(agg);
@@ -1860,7 +1864,8 @@ function renderUpload(){
       /* detail produk & video → simpan utk tab Produk / Kreator */
       if(f.products&&f.products.length){
         const iso=f.date, chId=f.chId;
-        const inc=f.products.map(p=>({chId:p.chId||chId,iso:p.iso||iso,name:p.name,code:p.code||'',qty:p.qty||0,val:p.val||0}))
+        const inc=f.products.map(p=>({...p,chId:p.chId||chId,iso:p.iso||iso,code:p.code||'',
+            qty:p.qty||0,val:p.val||0,cost:p.cost||0,imp:p.imp||0,clk:p.clk||0,ord:p.ord||0}))
           .filter(p=>p.chId&&p.iso&&inData(p.iso));
         if(inc.length)prodStore=mergeDetail(prodStore,inc);
       }
@@ -1954,65 +1959,118 @@ function renderUpload(){
 
 /* =================== PRODUK =================== */
 const LIVE_CH=new Set(['tt_live_smo','tt_live_sid','tt_live_smv','tt_live_aff','tt_live_all','sp_live']);
-let prodView={mode:'all',ch:'',month:'',q:''};
+/* nama pendek produk: buang brand & kata kategori di depan —
+   "Sophie Martin Jam Tangan Wanita Hype Croco Watch" → "Hype Croco Watch" */
+const CAT_WORDS=new Set(['sophie','martin','jam','tangan','tas','selempang','bahu','tote','totebag','bowler','dompet','panjang','wanita','pria','bag','mini','sandal','sepatu','kacamata','clutch','ransel','backpack','sling']);
+function shortName(name){
+  const toks=String(name||'').trim().split(/\s+/);
+  let i=0;
+  while(i<toks.length-1&&CAT_WORDS.has(toks[i].toLowerCase()))i++;
+  const out=toks.slice(i).join(' ');
+  return out||name;
+}
+const fmtRoi=v=>v==null?'–':nf1.format(v)+'×';
+let prodView={mode:'all',ch:'',month:'',q:'',sort:'val',dir:-1,fmin:{}};
+const PROD_COLS=[
+  ['qty','Qty Sold',fmtN],['val','Value',fmtRp],['cost','Biaya Iklan',fmtRp],
+  ['imp','Impression',fmtNC],['clk','Click',fmtNC],
+  ['ctr','CTR',fmtPct],['ctor','CTOR',fmtPct],['roi','ROI',fmtRoi],
+];
+function derive(o){
+  o.ctr=o.imp?100*o.clk/o.imp:null;
+  o.ctor=o.clk?100*(o.ord||o.qty)/o.clk:null;
+  o.roi=o.cost?o.val/o.cost:null;
+  return o;
+}
 function renderProducts(){
-  const data=store.get(LS_P,[]).filter(r=>!LIVE_CH.has(r.chId));
+  /* hanya TikTok & Shopee, tanpa Live Ads */
+  const data=store.get(LS_P,[]).filter(r=>!LIVE_CH.has(r.chId))
+    .filter(r=>['tiktok','shopee'].includes(chDef(r.chId)?.platform));
   const monthsAvail=[...new Set(data.map(r=>mkOf(r.iso)))].sort().reverse();
-  const chAvail=[...new Set(data.map(r=>r.chId))];
   let rows=data;
   if(prodView.month)rows=rows.filter(r=>mkOf(r.iso)===prodView.month);
-  if(prodView.mode==='channel'&&prodView.ch)rows=rows.filter(r=>r.chId===prodView.ch);
-  if(prodView.q){const q=prodView.q.toLowerCase();rows=rows.filter(r=>r.name.toLowerCase().includes(q)||String(r.code).includes(q));}
-  /* agregasi per produk (gabungan lintas channel, atau per channel) */
+  if(prodView.mode==='channel'&&prodView.ch)rows=rows.filter(r=>chDef(r.chId)?.platform===prodView.ch);
+  if(prodView.q){const q=prodView.q.toLowerCase();rows=rows.filter(r=>r.name.toLowerCase().includes(q)||String(r.code).includes(q)||shortName(r.name).toLowerCase().includes(q));}
   const agg={};
   for(const r of rows){
-    const key=prodView.mode==='channel'? r.name : r.name;
-    const o=agg[key]??={name:r.name,code:r.code,qty:0,val:0,chs:new Set()};
-    o.qty+=r.qty;o.val+=r.val;o.chs.add(r.chId);
+    const o=agg[r.name]??={name:r.name,code:r.code,qty:0,val:0,cost:0,imp:0,clk:0,ord:0,chs:new Set()};
+    o.qty+=r.qty||0;o.val+=r.val||0;o.cost+=r.cost||0;o.imp+=r.imp||0;o.clk+=r.clk||0;o.ord+=r.ord||0;
+    o.chs.add(r.chId);
     if(!o.code&&r.code)o.code=r.code;
   }
-  const list=Object.values(agg).sort((a,b)=>b.val-a.val);
-  const totQty=sum(list.map(x=>x.qty)),totVal=sum(list.map(x=>x.val));
+  let list=Object.values(agg).map(derive);
+  /* filter minimum per metrik */
+  for(const[k,min]of Object.entries(prodView.fmin)){
+    if(min!==''&&!isNaN(+min))list=list.filter(x=>(x[k]??-Infinity)>=+min);
+  }
+  const sk=prodView.sort,sd=prodView.dir;
+  list.sort((a,b)=>((a[sk]??-Infinity)-(b[sk]??-Infinity))*sd || b.val-a.val);
+  const totQty=sum(list.map(x=>x.qty)),totVal=sum(list.map(x=>x.val)),totCost=sum(list.map(x=>x.cost));
+  const arrow=k=>prodView.sort===k?(prodView.dir<0?' ↓':' ↑'):'';
   view.innerHTML=`
-  <h2 class="sec">Produk <span class="hint">quantity sold & value — semua channel revenue kecuali Live Ads (Shopee, TikTok, Meta)</span></h2>
+  <h2 class="sec">Produk <span class="hint">quantity sold & value — TikTok & Shopee (tanpa Live Ads)</span></h2>
   <div class="controls">
     <div class="seg" id="pSeg">
-      <button data-m="all" class="${prodView.mode==='all'?'on':''}">Gabungan Semua Channel</button>
+      <button data-m="all" class="${prodView.mode==='all'?'on':''}">Gabungan</button>
       <button data-m="channel" class="${prodView.mode==='channel'?'on':''}">Per Channel</button>
     </div>
-    ${prodView.mode==='channel'?`<select id="pCh">${chAvail.map(c=>`<option value="${c}" ${c===prodView.ch?'selected':''}>${PLATFORMS[chDef(c)?.platform]?.name||''} — ${esc(chDef(c)?.name||c)}</option>`).join('')}</select>`:''}
+    ${prodView.mode==='channel'?`<select id="pCh">
+      <option value="tiktok" ${prodView.ch==='tiktok'?'selected':''}>TikTok</option>
+      <option value="shopee" ${prodView.ch==='shopee'?'selected':''}>Shopee</option></select>`:''}
     <select id="pMonth"><option value="">Semua bulan</option>${monthsAvail.map(mk=>`<option value="${mk}" ${mk===prodView.month?'selected':''}>${mkLabel(mk)}</option>`).join('')}</select>
-    <input type="text" id="pQ" placeholder="Cari produk…" value="${esc(prodView.q)}" style="min-width:200px">
+    <input type="text" id="pQ" placeholder="Cari produk…" value="${esc(prodView.q)}" style="min-width:180px">
   </div>
   ${!data.length?`<div class="card"><div class="empty">Belum ada data produk.<br><br>
     Data produk terisi otomatis saat Anda meng-upload raw yang memuat detail produk di tab <b>Upload</b>:<br>
     • <b>Shopee Iklan CPC</b> (per Nama Iklan / produk) — masuk ke Iklan Produk / Iklan Produk Baru<br>
-    • <b>TikTok Product GMV Max</b> (per ID produk) — masuk ke VSA / Product Card<br>
-    • Meta CPAS: menunggu raw dengan kolom produk (laporan campaign Meta tidak memuat detail produk)</div></div>`:`
+    • <b>TikTok Product GMV Max</b> (per ID produk) — masuk ke VSA / Product Card</div></div>`:`
   <div class="grid g-kpi">
     ${kpiTile('Jumlah produk',fmtN(list.length))}
     ${kpiTile('Qty Sold',fmtN(totQty))}
     ${kpiTile('Value',fmtRpC(totVal))}
-    ${kpiTile('Value / Qty',totQty?fmtRpC(totVal/totQty):'–')}
+    ${kpiTile('Biaya Iklan',fmtRpC(totCost))}
+    ${kpiTile('ROI',totCost?fmtRoi(totVal/totCost):'–')}
   </div>
   <div class="card" style="margin-top:12px"><h3>Top 10 Produk by Value</h3><div id="pTop"></div></div>
-  <h2 class="sec">Daftar Produk <span class="hint">${list.length} produk · diurutkan by value</span></h2>
+  <h2 class="sec">Daftar Produk <span class="hint">${list.length} produk · klik judul kolom untuk mengurutkan</span></h2>
+  <div class="card" style="padding:10px 14px;margin-bottom:10px">
+    <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end">
+      <span style="font-size:12px;font-weight:650;color:var(--ink-2)">Filter minimum:</span>
+      ${PROD_COLS.map(([k,lbl])=>`<label style="font-size:11px;color:var(--muted)">${lbl}<br>
+        <input type="number" step="any" class="fmin" data-k="${k}" value="${prodView.fmin[k]??''}" placeholder="≥" style="width:86px;padding:5px 7px;font-size:12px"></label>`).join('')}
+      <button class="btn ghost" id="fReset" style="padding:6px 12px;font-size:12px">Reset</button>
+    </div>
+  </div>
   <div class="tbl-wrap" style="max-height:560px;overflow:auto"><table><thead><tr>
-    <th>Produk</th><th>Kode</th>${prodView.mode==='all'?'<th>Channel</th>':''}<th>Qty Sold</th><th>Value</th><th>% Value</th>
+    <th>Nama Produk</th><th>Kode</th>${prodView.mode==='all'?'<th>Channel</th>':''}
+    ${PROD_COLS.map(([k,lbl])=>`<th class="sorth" data-k="${k}" style="cursor:pointer" title="Urutkan">${lbl}${arrow(k)}</th>`).join('')}
   </tr></thead><tbody>
-  ${list.map(x=>`<tr><td style="white-space:normal;min-width:260px;max-width:420px">${esc(x.name)}</td>
+  ${list.map(x=>`<tr><td style="white-space:normal;min-width:190px;max-width:320px" title="${esc(x.name)}"><b>${esc(shortName(x.name))}</b><br><span style="font-size:10.5px;color:var(--muted)">${esc(x.name)}</span></td>
     <td class="num" style="font-size:11px;color:var(--muted)">${esc(x.code||'–')}</td>
-    ${prodView.mode==='all'?`<td>${[...x.chs].map(c=>platChip(chDef(c)?.platform||'tiktok')).join(' ')}</td>`:''}
-    <td class="num">${fmtN(x.qty)}</td><td class="num">${fmtRp(x.val)}</td>
-    <td class="num">${totVal?nf1.format(100*x.val/totVal)+'%':'–'}</td></tr>`).join('')}
-  <tr class="tot"><td>Total</td><td></td>${prodView.mode==='all'?'<td></td>':''}<td class="num">${fmtN(totQty)}</td><td class="num">${fmtRp(totVal)}</td><td class="num">100%</td></tr>
+    ${prodView.mode==='all'?`<td>${[...new Set([...x.chs].map(c=>chDef(c)?.platform))].map(p=>platChip(p)).join(' ')}</td>`:''}
+    <td class="num">${fmtN(x.qty)}</td><td class="num">${fmtRp(x.val)}</td><td class="num">${x.cost?fmtRp(x.cost):'–'}</td>
+    <td class="num">${x.imp?fmtNC(x.imp):'–'}</td><td class="num">${x.clk?fmtNC(x.clk):'–'}</td>
+    <td class="num">${fmtPct(x.ctr)}</td><td class="num">${fmtPct(x.ctor)}</td>
+    <td class="num">${x.roi==null?'–':`<b style="color:${x.roi>=(targets.sp_pc||10)?'var(--good-ink)':x.roi>=5?'inherit':'var(--critical)'}">${fmtRoi(x.roi)}</b>`}</td></tr>`).join('')}
+  <tr class="tot"><td>Total</td><td></td>${prodView.mode==='all'?'<td></td>':''}
+    <td class="num">${fmtN(totQty)}</td><td class="num">${fmtRp(totVal)}</td><td class="num">${fmtRp(totCost)}</td>
+    <td class="num">${fmtNC(sum(list.map(x=>x.imp)))}</td><td class="num">${fmtNC(sum(list.map(x=>x.clk)))}</td>
+    <td class="num"></td><td class="num"></td><td class="num">${totCost?fmtRoi(totVal/totCost):'–'}</td></tr>
   </tbody></table></div>`}`;
-  document.querySelectorAll('#pSeg button').forEach(b=>b.onclick=()=>{prodView.mode=b.dataset.m;if(!prodView.ch)prodView.ch=chAvail[0]||'';renderProducts();});
+  document.querySelectorAll('#pSeg button').forEach(b=>b.onclick=()=>{prodView.mode=b.dataset.m;if(!prodView.ch)prodView.ch='tiktok';renderProducts();});
   const pc=document.getElementById('pCh');if(pc)pc.onchange=e=>{prodView.ch=e.target.value;renderProducts();};
   const pm=document.getElementById('pMonth');if(pm)pm.onchange=e=>{prodView.month=e.target.value;renderProducts();};
   const pq=document.getElementById('pQ');if(pq){pq.oninput=e=>{prodView.q=e.target.value;clearTimeout(pq._t);pq._t=setTimeout(renderProducts,300);};}
-  if(list.length)hBars(document.getElementById('pTop'),list.slice(0,10).map(x=>({
-    name:x.name,color:pcolor(chDef([...x.chs][0])?.platform||'tiktok'),value:x.val,extra:fmtN(x.qty)+' pcs'})));
+  view.querySelectorAll('th.sorth').forEach(th=>th.onclick=()=>{
+    const k=th.dataset.k;
+    if(prodView.sort===k)prodView.dir*=-1; else{prodView.sort=k;prodView.dir=-1;}
+    renderProducts();
+  });
+  view.querySelectorAll('input.fmin').forEach(inp=>inp.onchange=()=>{prodView.fmin[inp.dataset.k]=inp.value;renderProducts();});
+  const fr=document.getElementById('fReset');if(fr)fr.onclick=()=>{prodView.fmin={};renderProducts();};
+  const pt=document.getElementById('pTop');
+  if(pt&&list.length)hBars(pt,[...list].sort((a,b)=>b.val-a.val).slice(0,10).map(x=>({
+    name:shortName(x.name),color:pcolor(chDef([...x.chs][0])?.platform||'tiktok'),value:x.val,extra:fmtN(x.qty)+' pcs'})));
 }
 
 /* =================== KREATOR =================== */
@@ -2024,18 +2082,20 @@ function renderCreators(){
   if(creatorView.month)rows=rows.filter(r=>mkOf(r.iso)===creatorView.month);
   const byCreator={};
   for(const r of rows){
-    const o=byCreator[r.creator]??={creator:r.creator,qty:0,val:0,vids:new Map()};
-    o.qty+=r.qty;o.val+=r.val;
+    const o=byCreator[r.creator]??={creator:r.creator,qty:0,val:0,cost:0,imp:0,clk:0,vids:new Map()};
+    o.qty+=r.qty||0;o.val+=r.val||0;o.cost+=r.cost||0;o.imp+=r.imp||0;o.clk+=r.clk||0;
     const vk=r.vid||r.title;
-    const v=o.vids.get(vk)||{title:r.title,vid:r.vid,qty:0,val:0,chId:r.chId};
-    v.qty+=r.qty;v.val+=r.val;o.vids.set(vk,v);
+    const v=o.vids.get(vk)||{title:r.title,vid:r.vid,qty:0,val:0,cost:0,imp:0,clk:0,chId:r.chId};
+    v.qty+=r.qty||0;v.val+=r.val||0;v.cost+=r.cost||0;v.imp+=r.imp||0;v.clk+=r.clk||0;
+    o.vids.set(vk,v);
   }
-  const list=Object.values(byCreator).sort((a,b)=>b.val-a.val);
+  const list=Object.values(byCreator).map(o=>{o.ord=o.qty;return derive(o);}).sort((a,b)=>b.val-a.val);
   const sel=creatorView.creator&&byCreator[creatorView.creator]?byCreator[creatorView.creator]:null;
   const totVal=sum(list.map(x=>x.val));
   view.innerHTML=`
   <h2 class="sec">Kreator <span class="hint">performa kreator & video dari TikTok Product GMV Max (Akun TikTok)</span></h2>
   <div class="controls">
+    ${sel?`<button class="btn ghost cta" id="kBack">← Kembali ke daftar kreator</button>`:''}
     <select id="kMonth"><option value="">Semua bulan</option>${monthsAvail.map(mk=>`<option value="${mk}" ${mk===creatorView.month?'selected':''}>${mkLabel(mk)}</option>`).join('')}</select>
     <label>Kreator:</label>
     <select id="kSel"><option value="">— Semua kreator (ringkasan) —</option>
@@ -2050,33 +2110,45 @@ function renderCreators(){
     ${kpiTile('QTY Video',fmtN(sel.vids.size))}
     ${kpiTile('Qty Sold',fmtN(sel.qty))}
     ${kpiTile('Value',fmtRpC(sel.val))}
-    ${kpiTile('Value / Video',sel.vids.size?fmtRpC(sel.val/sel.vids.size):'–')}
+    ${kpiTile('Biaya Iklan',fmtRpC(sel.cost))}
+    ${kpiTile('ROI',sel.cost?fmtRoi(sel.val/sel.cost):'–')}
   </div>
   <h2 class="sec">Video milik ${esc(sel.creator)} <span class="hint">${sel.vids.size} video · diurutkan by value</span></h2>
   <div class="tbl-wrap" style="max-height:560px;overflow:auto"><table><thead><tr>
-    <th>Judul Video</th><th>Channel</th><th>Qty Sold</th><th>Value</th><th>% Value</th>
+    <th>Judul Video</th><th>Channel</th><th>Qty Sold</th><th>Value</th><th>Biaya Iklan</th>
+    <th>Impression</th><th>Click</th><th>CTR</th><th>CTOR</th><th>ROI</th>
   </tr></thead><tbody>
-  ${[...sel.vids.values()].sort((a,b)=>b.val-a.val).map(v=>`<tr>
-    <td style="white-space:normal;min-width:280px;max-width:460px">${esc(v.title||('Video '+v.vid))}</td>
+  ${[...sel.vids.values()].map(v=>{derive({...v});const dv=derive({...v,ord:v.qty});return `<tr>
+    <td style="white-space:normal;min-width:240px;max-width:420px">${esc(v.title||('Video '+v.vid))}</td>
     <td>${esc(chDef(v.chId)?.name||v.chId)}</td>
     <td class="num">${fmtN(v.qty)}</td><td class="num">${fmtRp(v.val)}</td>
-    <td class="num">${sel.val?nf1.format(100*v.val/sel.val)+'%':'–'}</td></tr>`).join('')}</tbody></table></div>`:`
+    <td class="num">${v.cost?fmtRp(v.cost):'–'}</td>
+    <td class="num">${v.imp?fmtNC(v.imp):'–'}</td><td class="num">${v.clk?fmtNC(v.clk):'–'}</td>
+    <td class="num">${fmtPct(dv.ctr)}</td><td class="num">${fmtPct(dv.ctor)}</td>
+    <td class="num">${dv.roi==null?'–':fmtRoi(dv.roi)}</td></tr>`;}).join('')}</tbody></table></div>`:`
   <div class="grid g-kpi">
     ${kpiTile('Jumlah kreator',fmtN(list.length))}
     ${kpiTile('Total video',fmtN(sum(list.map(x=>x.vids.size))))}
     ${kpiTile('Qty Sold',fmtN(sum(list.map(x=>x.qty))))}
     ${kpiTile('Value',fmtRpC(totVal))}
+    ${kpiTile('Biaya Iklan',fmtRpC(sum(list.map(x=>x.cost))))}
   </div>
   <div class="card" style="margin-top:12px"><h3>Top 10 Kreator by Value</h3><div id="kTop"></div></div>
   <h2 class="sec">Daftar Kreator <span class="hint">klik baris untuk melihat video-nya</span></h2>
   <div class="tbl-wrap"><table><thead><tr>
-    <th>Kreator</th><th>QTY Video</th><th>Qty Sold</th><th>Value</th><th>Value / Video</th><th>% Value</th>
+    <th>Kreator</th><th>QTY Video</th><th>Qty Sold</th><th>Value</th><th>Biaya Iklan</th>
+    <th>Impression</th><th>Click</th><th>CTR</th><th>CTOR</th><th>ROI</th><th>% Value</th>
   </tr></thead><tbody>
   ${list.map(c=>`<tr class="click" data-k="${esc(c.creator)}">
     <td>${esc(c.creator)}</td><td class="num">${fmtN(c.vids.size)}</td>
     <td class="num">${fmtN(c.qty)}</td><td class="num">${fmtRp(c.val)}</td>
-    <td class="num">${c.vids.size?fmtRpC(c.val/c.vids.size):'–'}</td>
+    <td class="num">${c.cost?fmtRp(c.cost):'–'}</td>
+    <td class="num">${c.imp?fmtNC(c.imp):'–'}</td><td class="num">${c.clk?fmtNC(c.clk):'–'}</td>
+    <td class="num">${fmtPct(c.ctr)}</td><td class="num">${fmtPct(c.ctor)}</td>
+    <td class="num">${c.roi==null?'–':fmtRoi(c.roi)}</td>
     <td class="num">${totVal?nf1.format(100*c.val/totVal)+'%':'–'}</td></tr>`).join('')}</tbody></table></div>`}`;
+  const kb=document.getElementById('kBack');
+  if(kb)kb.onclick=()=>{creatorView.creator='';renderCreators();};
   document.getElementById('kMonth').onchange=e=>{creatorView.month=e.target.value;renderCreators();};
   document.getElementById('kSel').onchange=e=>{creatorView.creator=e.target.value;renderCreators();};
   view.querySelectorAll('tr[data-k]').forEach(tr=>tr.onclick=()=>{creatorView.creator=tr.dataset.k;renderCreators();});
