@@ -1392,6 +1392,34 @@ function anyDateToIso(s){                      // → 'YYYY-MM-DD' jika dalam da
   }
   return iso&&inData(iso)?iso:null;
 }
+/* normalisasi ID produk (xlsx bisa menyimpan angka besar sbg notasi ilmiah / .0) */
+function idNorm(v){
+  let s=String(v??'').trim().replace(/\.0+$/,'');
+  if(/^\d+(\.\d+)?e\+\d+$/i.test(s))s=String(Math.round(Number(s)));
+  return s;
+}
+/* PANEN NAMA OTOMATIS: setiap file upload yang memuat kolom ID produk + Nama
+   produk (ekspor daftar produk / analitik produk / pesanan TikTok Shop)
+   otomatis memperkaya kamus ID→nama — tanpa pekerjaan manual. */
+function harvestProdNames(rows){
+  for(let i=0;i<Math.min(rows.length,15);i++){
+    const H=rows[i].map(x=>String(x||'').trim().toLowerCase());
+    let ci=-1,cn=-1;
+    H.forEach((h,idx)=>{
+      if(ci<0&&/^(id produk|produk id|product[ _]?id|id barang|id)$/.test(h))ci=idx;
+      if(cn<0&&/(nama produk|product[ _]?name|judul produk|nama barang)/.test(h))cn=idx;
+    });
+    if(ci>=0&&cn>=0&&ci!==cn){
+      const map={};
+      for(const r of rows.slice(i+1)){
+        const id=idNorm(r[ci]), nm=String(r[cn]||'').trim();
+        if(/^\d{6,}$/.test(id)&&nm&&!/^\d+$/.test(nm))map[id]=nm;
+      }
+      if(Object.keys(map).length)return map;
+    }
+  }
+  return null;
+}
 function findHeader(rows,needCols){
   for(let i=0;i<Math.min(rows.length,15);i++){
     const set=rows[i].map(x=>String(x||'').trim());
@@ -1513,7 +1541,7 @@ function detectRows(rows,filename){
       const cn=H.findIndex(h=>['nama produk','product name','judul produk','nama'].includes(h));
       const mapping={};
       for(const r of rows.slice(hiN+1)){
-        const id=String(r[ci]||'').trim(), nm=String(r[cn]||'').trim();
+        const id=idNorm(r[ci]), nm=String(r[cn]||'').trim();
         if(/^\d{6,}$/.test(id)&&nm)mapping[id]=nm;
       }
       const n=Object.keys(mapping).length;
@@ -1611,7 +1639,7 @@ function detectRows(rows,filename){
         const qty=(cOrd>=0?plainnum(r[cOrd]):0)||0, val=(cRev>=0?plainnum(r[cRev]):0)||0;
         const rc=plainnum(r[cBiaya])||0,
               ri=cImp>=0?(plainnum(r[cImp])||0):0, rk=cClk>=0?(plainnum(r[cClk])||0):0;
-        const pid=cProdId>=0?String(r[cProdId]||'').trim():'';
+        const pid=cProdId>=0?idNorm(r[cProdId]):'';
         const pname=cPName>=0&&String(r[cPName]||'').trim()?String(r[cPName]).trim():('Produk '+pid);
         if(pid&&(qty||val))products.push({name:pname,code:pid,chId,iso,qty,val,cost:rc,imp:ri,clk:rk,ord:qty});
         const akun=cAkun>=0?String(r[cAkun]||'').trim():'';
@@ -1848,6 +1876,11 @@ function renderUpload(){
         const res=detectRows(rows,f.name);
         Object.assign(item,res);
         if(res.needsCh)item.chId=res.defaultCh;
+        /* panen pasif: file apa pun yang punya kolom ID + Nama produk */
+        if(!res.error&&!res.mapping){
+          const hv=harvestProdNames(rows);
+          if(hv){item.harvest=hv;item.label=(item.label||'')+` · +${Object.keys(hv).length} nama produk terdeteksi`;}
+        }
       }catch(err){item.error='Gagal membaca file: '+(err.message||err);}
       renderFileList();
     }
@@ -1879,6 +1912,7 @@ function renderUpload(){
     for(const f of PENDING){
       if(f.error)continue;
       if(f.mapping){prodNames=Object.assign({},prodNames,f.mapping);applied=true;continue;}
+      if(f.harvest){prodNames=Object.assign({},prodNames,f.harvest);applied=true;}
       if(f.entries){
         const ent=f.needsCh&&f.chId? f.entries.map(e=>({...e,chId:f.chId})) : f.entries;
         cells+=applyEntries(ent);
