@@ -1,0 +1,1175 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ads Command Center — Sophie Martin</title>
+<style>
+:root{
+  color-scheme: light;
+  --page:#f9f9f7; --surface:#fcfcfb; --surface-2:#f3f2ee;
+  --ink:#0b0b0b; --ink-2:#52514e; --muted:#898781;
+  --grid:#e1e0d9; --axis:#c3c2b7; --ring:rgba(11,11,11,.10);
+  --tiktok:#2a78d6; --shopee:#eb6834; --meta:#1baf7a; --lazada:#4a3aa7;
+  --good:#0ca30c; --warning:#fab219; --serious:#ec835a; --critical:#d03b3b;
+  --good-ink:#006300;
+  --shadow:0 1px 2px rgba(11,11,11,.05),0 4px 14px rgba(11,11,11,.05);
+}
+:root[data-theme="dark"], :root:not([data-theme="light"])[data-osdark="1"]{
+  color-scheme: dark;
+  --page:#0d0d0d; --surface:#1a1a19; --surface-2:#232322;
+  --ink:#ffffff; --ink-2:#c3c2b7; --muted:#898781;
+  --grid:#2c2c2a; --axis:#383835; --ring:rgba(255,255,255,.10);
+  --tiktok:#3987e5; --shopee:#d95926; --meta:#199e70; --lazada:#9085e9;
+  --good-ink:#0ca30c;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 4px 14px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:system-ui,-apple-system,"Segoe UI",sans-serif;
+  background:var(--page); color:var(--ink);
+  font-size:14px; line-height:1.45;
+}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:inherit}
+
+/* ---------- shell ---------- */
+.shell{max-width:1240px;margin:0 auto;padding:0 20px 64px}
+header.top{
+  position:sticky;top:0;z-index:50;background:var(--page);
+  border-bottom:1px solid var(--grid);
+  margin:0 -20px;padding:0 20px;
+}
+.top-row{display:flex;align-items:center;gap:14px;padding:14px 0 10px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px}
+.brand .logo{
+  width:34px;height:34px;border-radius:9px;display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--tiktok),var(--lazada));
+  color:#fff;font-weight:700;font-size:15px;letter-spacing:.5px;
+}
+.brand h1{font-size:16px;font-weight:700;letter-spacing:-.01em}
+.brand .sub{font-size:12px;color:var(--muted)}
+.badge-month{
+  margin-left:auto;display:flex;align-items:center;gap:8px;
+  font-size:12px;color:var(--ink-2);
+}
+.badge-month .pill{
+  background:var(--surface);border:1px solid var(--ring);border-radius:99px;
+  padding:4px 12px;font-weight:600;
+}
+.theme-btn{
+  border:1px solid var(--ring);background:var(--surface);border-radius:99px;
+  width:32px;height:32px;cursor:pointer;display:grid;place-items:center;font-size:14px;
+}
+nav.tabs{display:flex;gap:2px;overflow-x:auto;padding-bottom:0}
+nav.tabs button{
+  border:0;background:none;cursor:pointer;white-space:nowrap;
+  padding:9px 14px;font-size:13.5px;font-weight:550;color:var(--ink-2);
+  border-bottom:2px solid transparent;border-radius:8px 8px 0 0;
+}
+nav.tabs button:hover{background:var(--surface-2)}
+nav.tabs button.on{color:var(--ink);border-bottom-color:var(--ink);font-weight:650}
+nav.tabs button .n{
+  display:inline-block;min-width:17px;text-align:center;margin-left:5px;
+  background:var(--critical);color:#fff;border-radius:99px;font-size:10.5px;
+  padding:1px 4px;vertical-align:1px;
+}
+
+/* ---------- generic ---------- */
+h2.sec{font-size:15px;font-weight:700;margin:26px 0 12px;letter-spacing:-.01em}
+h2.sec .hint{font-weight:400;color:var(--muted);font-size:12.5px;margin-left:8px}
+.grid{display:grid;gap:12px}
+.g-kpi{grid-template-columns:repeat(auto-fit,minmax(172px,1fr))}
+.g-2{grid-template-columns:1fr 1fr}
+.g-3{grid-template-columns:repeat(3,1fr)}
+@media(max-width:860px){.g-2,.g-3{grid-template-columns:1fr}}
+.card{
+  background:var(--surface);border:1px solid var(--ring);border-radius:14px;
+  padding:16px;box-shadow:var(--shadow);
+}
+.card h3{font-size:13px;font-weight:650;color:var(--ink-2);margin-bottom:8px}
+.card h3 .hint{font-weight:400;color:var(--muted);font-size:11.5px}
+
+/* KPI tiles */
+.kpi .lbl{font-size:12px;color:var(--ink-2);font-weight:550;display:flex;gap:6px;align-items:center}
+.kpi .dot{width:8px;height:8px;border-radius:99px;flex:none}
+.kpi .val{font-size:24px;font-weight:700;letter-spacing:-.02em;margin:4px 0 2px}
+.kpi .delta{font-size:12px;color:var(--muted)}
+.kpi .delta b.up{color:var(--good-ink);font-weight:650}
+.kpi .delta b.dn{color:var(--critical);font-weight:650}
+.kpi svg.spark{display:block;margin-top:8px;width:100%}
+
+/* tables */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--ring);border-radius:12px;background:var(--surface)}
+table{border-collapse:separate;border-spacing:0;width:100%;font-size:12.5px}
+th,td{padding:7px 10px;text-align:right;white-space:nowrap;border-bottom:1px solid var(--grid)}
+th{font-weight:650;color:var(--ink-2);font-size:11.5px;background:var(--surface-2);position:sticky;top:0}
+th:first-child,td:first-child{text-align:left;position:sticky;left:0;background:var(--surface);z-index:2}
+thead th:first-child{background:var(--surface-2);z-index:3}
+tr:last-child td{border-bottom:0}
+td.num{font-variant-numeric:tabular-nums}
+tr.tot td{font-weight:700;background:var(--surface-2)}
+tr.click{cursor:pointer}
+tr.click:hover td{background:var(--surface-2)}
+.plat-chip{display:inline-flex;align-items:center;gap:6px;font-weight:600}
+.plat-chip .dot{width:9px;height:9px;border-radius:3px}
+
+/* charts */
+.chart-box{position:relative}
+.chart-box svg{display:block;width:100%}
+.legend{display:flex;flex-wrap:wrap;gap:12px;font-size:12px;color:var(--ink-2);margin-top:6px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:10px;height:10px;border-radius:3px;display:inline-block}
+#tip{
+  position:fixed;z-index:99;pointer-events:none;display:none;
+  background:var(--surface);border:1px solid var(--ring);border-radius:10px;
+  box-shadow:var(--shadow);padding:8px 11px;font-size:12px;max-width:280px;
+}
+#tip .t{font-weight:650;margin-bottom:4px}
+#tip .r{display:flex;justify-content:space-between;gap:14px}
+#tip .r i{width:8px;height:8px;border-radius:2px;display:inline-block;margin-right:5px}
+#tip .r .v{font-variant-numeric:tabular-nums;font-weight:600}
+
+/* alerts */
+.alert{
+  display:flex;gap:12px;align-items:flex-start;
+  background:var(--surface);border:1px solid var(--ring);border-left-width:4px;
+  border-radius:12px;padding:13px 15px;margin-bottom:10px;
+}
+.alert .ic{font-size:16px;line-height:1.3}
+.alert .bd{flex:1;min-width:0}
+.alert .hd{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:2px}
+.alert .hd b{font-size:13.5px}
+.alert .sev{font-size:10.5px;font-weight:700;letter-spacing:.04em;padding:2px 8px;border-radius:99px;color:#fff}
+.alert .why{color:var(--ink-2);font-size:12.5px;margin:3px 0 6px}
+.alert .acts{margin:6px 0 0;padding-left:18px;font-size:12.5px}
+.alert .acts li{margin-bottom:3px}
+.alert .acts .tag{font-weight:650}
+.alert.crit{border-left-color:var(--critical)} .alert.crit .sev{background:var(--critical)}
+.alert.ser{border-left-color:var(--serious)} .alert.ser .sev{background:var(--serious);color:#3d1600}
+.alert.warn{border-left-color:var(--warning)} .alert.warn .sev{background:var(--warning);color:#4a3200}
+.alert.info{border-left-color:var(--axis)} .alert.info .sev{background:var(--surface-2);color:var(--ink-2)}
+.alert.opp{border-left-color:var(--good)} .alert.opp .sev{background:var(--good)}
+
+/* controls */
+.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:14px 0}
+.controls label{font-size:12px;color:var(--ink-2);font-weight:550}
+select,input[type=date],input[type=number],input[type=text]{
+  background:var(--surface);border:1px solid var(--ring);border-radius:9px;
+  padding:7px 10px;font-size:13px;
+}
+textarea{
+  width:100%;background:var(--surface);border:1px solid var(--ring);border-radius:10px;
+  padding:10px;font-size:12px;font-family:ui-monospace,Menlo,Consolas,monospace;min-height:130px;
+}
+.btn{
+  background:var(--ink);color:var(--page);border:0;border-radius:9px;
+  padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;
+}
+.btn.ghost{background:var(--surface);color:var(--ink);border:1px solid var(--ring)}
+.btn:disabled{opacity:.45;cursor:default}
+.note{font-size:12px;color:var(--muted);margin-top:8px}
+.pill-stat{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:650;border-radius:99px;padding:2px 9px}
+.pill-stat.ok{background:color-mix(in srgb,var(--good) 14%,transparent);color:var(--good-ink)}
+.pill-stat.bad{background:color-mix(in srgb,var(--critical) 12%,transparent);color:var(--critical)}
+.pill-stat.mid{background:color-mix(in srgb,var(--warning) 16%,transparent);color:#7a5200}
+:root[data-theme="dark"] .pill-stat.mid, :root:not([data-theme="light"])[data-osdark="1"] .pill-stat.mid{color:var(--warning)}
+.bar-track{background:var(--surface-2);border-radius:99px;height:7px;overflow:hidden;min-width:70px}
+.bar-fill{height:100%;border-radius:99px}
+.foot{color:var(--muted);font-size:11.5px;margin-top:34px;border-top:1px solid var(--grid);padding-top:12px}
+.empty{color:var(--muted);text-align:center;padding:26px 0;font-size:13px}
+</style>
+</head>
+<body data-palette="#2a78d6,#eb6834,#1baf7a,#4a3aa7">
+<header class="top"><div class="shell" style="padding-bottom:0">
+  <div class="top-row">
+    <div class="brand">
+      <div class="logo">SM</div>
+      <div><h1>Ads Command Center</h1><div class="sub">Sophie Martin Official — All Platform Ads Database</div></div>
+    </div>
+    <div class="badge-month">
+      <span class="pill" id="periodPill">Juli 2026</span>
+      <span id="asOfPill" class="pill" title="Hari terakhir dengan data">MTD</span>
+      <button class="theme-btn" id="themeBtn" title="Ganti tema">◐</button>
+    </div>
+  </div>
+  <nav class="tabs" id="tabs"></nav>
+</div></header>
+<main class="shell" id="view"></main>
+<div id="tip"></div>
+<script id="BASE_DATA" type="application/json">{"meta": {"store": "Sophie Martin Official", "month": "Juli 2026", "monthIndex": 6, "year": 2026, "daysInMonth": 31, "generated": "2026-07-14", "source": "Google Sheet: Media Buying Database 2026"}, "channels": [{"id": "tt_live_smo", "platform": "tiktok", "name": "Live Streaming SMO", "objective": "sales", "budget": 60000000.0, "title": "LIVE SHOPPING ADS SMO", "days": {"cost": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "gmv": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "orders": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "ordersMkp": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "liveViews": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "clicks": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "cancel": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}}, {"id": "tt_live_sid", "platform": "tiktok", "name": "Live Streaming SID", "objective": "sales", "budget": 40000000.0, "title": "LIVE SHOPPING ADS SID", "days": {"cost": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "gmv": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "orders": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "ordersMkp": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "liveViews": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "clicks": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}}, {"id": "tt_live_smv", "platform": "tiktok", "name": "Live Streaming SMV", "objective": "sales", "budget": 40000000.0, "title": "LIVE SHOPPING ADS SMV", "days": {"cost": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "gmv": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "orders": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "ordersMkp": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "liveViews": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "clicks": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}}, {"id": "tt_live_aff", "platform": "tiktok", "name": "Live Streaming Affiliate", "objective": "sales", "budget": 40000000.0, "title": "LIVE SHOPPING ADS Aff", "days": {"cost": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "gmv": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "orders": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "ordersMkp": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "liveViews": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "clicks": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}}, {"id": "tt_vsa", "platform": "tiktok", "name": "Video Shopping Ads", "objective": "sales", "budget": 15000000.0, "title": "VIDEO SHOPPING ADS", "days": {"cost": [4477102.0, 3562738.0, 3002058.0, 4327050.0, 3863021.0, 2954848.0, 3573294.0, 1783100.0, 1580329.0, 1778235.0, 2331008.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "gmv": [53778864.0, 47833185.0, 35916224.0, 51790078.0, 46954203.0, 38930366.0, 46814809.0, 20825253.0, 20574429.0, 19061491.0, 24352204.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "orders": [306.0, 280.0, 210.0, 313.0, 275.0, 243.0, 269.0, 117.0, 115.0, 107.0, 144.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "ordersMkp": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "impressions": [226926.0, 193410.0, 125365.0, 192782.0, 166401.0, 151070.0, 138751.0, 77399.0, 75940.0, 56345.0, 87754.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "clicks": [15223.0, 12635.0, 8262.0, 12567.0, 11327.0, 10615.0, 9964.0, 5921.0, 5769.0, 3946.0, 6438.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "cancel": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}}, {"id": "tt_vsa_ns", "platform": "tiktok", "name": "Video Shopping Ads NS", "objective": "sales", "budget": 15000000.0, "title": "VIDEO SHOPPING ADS NS", "days": {"cost": [1363919.0, 1009826.0, 1214610.0, 1760785.0, 994557.0, 2005588.0, 1425284.0, 602963.0, 510986.0, 440819.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "gmv": [8995671.0, 5888677.0, 7429828.0, 11187294.0, 6891162.0, 11957776.0, 9041578.0, 3906075.0, 2599472.0, 1958883.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "orders": [50.0, 37.0, 45.0, 62.0, 39.0, 64.0, 52.0, 24.0, 16.0, 11.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "ordersMkp": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "impressions": [43900.0, 38023.0, 37068.0, 47582.0, 28969.0, 55522.0, 40874.0, 20734.0, 19471.0, 15147.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "clicks": [2964.0, 2470.0, 2051.0, 2520.0, 0.0, 3586.0, 2993.0, 1327.0, 1188.0, 937.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "cancel": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}}, {"id": "tt_psa", "platform": "tiktok", "name": "Product Card Shopping Ads", "objective": "sales", "budget": 15000000.0, "title": "Product Card Shopping Ads", "days": {"cost": [442282.0, 491260.0, 427262.0, 362822.0, 388865.0, 302311.0, 614985.0, 208359.0, 230896.0, 269289.0, 317370.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "gmv": [15158922.0, 12819755.0, 9054764.0, 9723536.0, 11624614.0, 7915301.0, 11576978.0, 6501123.0, 5209106.0, 5342706.0, 6609750.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "orders": [88.0, 73.0, 54.0, 62.0, 69.0, 45.0, 68.0, 38.0, 29.0, 33.0, 37.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "ordersMkp": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "impressions": [32130.0, 33498.0, 26452.0, 24842.0, 23383.0, 19885.0, 26623.0, 12549.0, 13572.0, 14199.0, 16326.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "clicks": [1413.0, 1478.0, 1078.0, 1072.0, 1109.0, 1082.0, 1357.0, 617.0, 640.0, 751.0, 858.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "cancel": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}}, {"id": "tt_psa_ns", "platform": "tiktok", "name": "Product Card NS", "objective": "sales", "budget": 15000000.0, "title": "Product Card Shopping NS", "days": {"cost": [128747.0, 93951.0, 140283.0, 148064.0, 148267.0, 93949.0, 174509.0, 83959.0, 89465.0, 97621.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "gmv": [1567543.0, 1445080.0, 1665543.0, 1897419.0, 2190916.0, 1566674.0, 3007227.0, 912892.0, 1015998.0, 1050326.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "orders": [9.0, 8.0, 10.0, 11.0, 12.0, 10.0, 19.0, 5.0, 6.0, 6.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "ordersMkp": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "impressions": [7038.0, 5749.0, 6163.0, 5590.0, 6069.0, 4947.0, 9449.0, 4711.0, 5780.0, 5914.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "clicks": [261.0, 183.0, 221.0, 214.0, 0.0, 214.0, 313.0, 178.0, 234.0, 202.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "cancel": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}}, {"id": "tt_ci_smv", "platform": "tiktok", "name": "Community Interaction SMV", "objective": "upper", "budget": 5000000.0, "title": "Community Interaction Sophie Martin Verse", "days": {"cost": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "reach": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "impressions": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "follows": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}}, {"id": "tt_ci_sid", "platform": "tiktok", "name": "Community Interaction SID", "objective": "upper", "budget": 5000000.0, "title": "Community Interaction Sophie Martin ID", "days": {"cost": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "reach": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "impressions": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "follows": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null]}}, {"id": "tt_bc_ext", "platform": "tiktok", "name": "Brand Consideration", "objective": "upper", "budget": 5000000.0, "title": "Brand Consideration EXT", "days": {"cost": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "reach": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "impressions": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "consideration": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}}, {"id": "tt_bc_ns", "platform": "tiktok", "name": "Brand Consideration NS", "objective": "upper", "budget": 5000000.0, "title": "Brand Consideration NS", "days": {"cost": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "reach": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "impressions": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "consideration": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}}, {"id": "tt_aw_ext", "platform": "tiktok", "name": "Awareness TikTok", "objective": "upper", "budget": 10000000.0, "title": "Awareness TikTok Ext", "days": {"cost": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "reach": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "impressions": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}}, {"id": "tt_aw_aff", "platform": "tiktok", "name": "Awareness Affiliate", "objective": "upper", "budget": 10000000.0, "title": "Awareness TikTok Affiliate", "days": {"cost": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "reach": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "impressions": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}}, {"id": "meta_cpas", "platform": "meta", "name": "CPAS Sales", "objective": "sales", "budget": 30000000.0, "title": "Meta CPAS - Shopee", "days": {"cost": [1016229.0, 994389.0, 904330.0, 795000.0, 1080457.0, 1126900.0, 1405096.0, 852818.0, 745871.0, 779501.0, 1009357.0, 1102753.0, 1083781.0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "gmv": [17195024.0, 15111202.0, 16549867.0, 12975067.0, 15826637.0, 47767438.0, 188028975.0, 17482741.0, 8174770.0, 10166198.0, 12291228.0, 10460788.0, 19332175.0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "orders": [97.0, 84.0, 93.0, 76.0, 85.0, 261.0, 1009.0, 113.0, 54.0, 62.0, 67.0, 53.0, 94.0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "ordersMkp": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "impressions": [97692.0, 94244.0, 81915.0, 71682.0, 90245.0, 103320.0, 118549.0, 82209.0, 68357.0, 71049.0, 92223.0, 84787.0, 82981.0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "clicks": [992.0, 997.0, 896.0, 796.0, 991.0, 1036.0, 878.0, 848.0, 771.0, 773.0, 970.0, 1150.0, 1058.0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "atc": [925.0, 909.0, 907.0, 896.0, 1032.0, 2079.0, 6283.0, 1326.0, 743.0, 731.0, 727.0, 756.0, 597.0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "atcValue": [185991071.0, 165139247.0, 171858575.0, 166383121.0, 208094112.0, 397580712.0, 1161721614.0, 215299271.0, 118662273.0, 119689058.0, 135486887.0, 151017417.0, 121634800.0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "cancel": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "reach": [49401.0, 51026.0, 40085.0, 36985.0, 47897.0, 49144.0, 52949.0, 41891.0, 36569.0, 38440.0, 46266.0, 37365.0, 35312.0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}, "mergedFromRaw": true}, {"id": "meta_aw", "platform": "meta", "name": "Awareness CPAS", "objective": "upper", "budget": 4000000.0, "title": "Awareness CPAS", "days": {"cost": [348087.0, 283887.0, 268288.0, 267996.0, 326255.0, 299079.0, 291928.0, 293726.0, 297286.0, 296623.0, 295103.0, 149113.0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "reach": [261569.0, 244210.0, 224195.0, 225381.0, 273965.0, 251173.0, 246003.0, 239701.0, 247080.0, 244015.0, 237842.0, 118796.0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "impressions": [273572.0, 244210.0, 230763.0, 228273.0, 282070.0, 257986.0, 246160.0, 247047.0, 247080.0, 245619.0, 238464.0, 122209.0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "clicks": [38.0, 40.0, 36.0, 40.0, 49.0, 24.0, 30.0, 44.0, 34.0, 40.0, 61.0, 33.0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}, "mergedFromRaw": true}, {"id": "meta_traffic", "platform": "meta", "name": "Traffic CPAS", "objective": "upper", "budget": 3000000.0, "title": "Traffic CPAS", "days": {"cost": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, null], "reach": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, null], "impressions": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, null], "clicks": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, null]}}, {"id": "sp_live", "platform": "shopee", "name": "Live Shopee Ads (LSA)", "objective": "sales", "budget": 15000000.0, "title": "LIVE SHOPEE ADS", "days": {"cost": [294063.0, 300000.0, 300000.0, 300000.0, 613898.0, 2000000.0, 6069431.0, 500000.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "gmv": [2870991.0, 3120520.0, 2934618.0, 3501357.0, 4547910.0, 19102841.0, 58055089.0, 5627855.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "orders": [16.0, 18.0, 15.0, 21.0, 26.0, 124.0, 341.0, 37.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "ordersMkp": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "liveViews": [21882.0, 18367.0, 12224.0, 19334.0, 21774.0, 69605.0, 105090.0, 26296.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "clicks": [3655.0, 6707.0, 4985.0, 6662.0, 8199.0, 13935.0, 28898.0, 11755.0, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null]}}, {"id": "sp_sba", "platform": "shopee", "name": "Search Brand Ads (Banner)", "objective": "sales", "budget": 5000000.0, "title": "SBA Shopee", "days": {"cost": [500000.0, 500000.0, 500000.0, 500000.0, 682325.0, 1096000.0, 3854225.0, 472012.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "gmv": [1449113.0, 2934248.0, 2256225.0, 550620.0, 1474858.0, 3375999.0, 10814487.0, 1496539.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "orders": [8.0, 16.0, 12.0, 4.0, 9.0, 24.0, 67.0, 8.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "ordersMkp": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "impressions": [2998.0, 2890.0, 2936.0, 2936.0, 3998.0, 5352.0, 7387.0, 2216.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}}, {"id": "sp_pc", "platform": "shopee", "name": "Iklan Produk", "objective": "sales", "budget": 5000000.0, "title": "Product Card Shopee", "days": {"cost": [2915296.0, 2605551.0, 2478097.0, 2475830.0, 3261281.0, 4758299.0, 23307186.0, 4216218.0, 2658411.0, 1235018.0, 1248480.0, 1245811.0, 1245537.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "gmv": [37762888.0, 34567276.0, 30651739.0, 30753428.0, 40007421.0, 69163690.0, 288987079.0, 49259352.0, 29900221.0, 18725994.0, 25869752.0, 23002162.0, 23409676.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "orders": [205.0, 182.0, 169.0, 164.0, 217.0, 425.0, 1742.0, 302.0, 154.0, 103.0, 145.0, 135.0, 131.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "ordersMkp": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "impressions": [233909.0, 213183.0, 215351.0, 234326.0, 383362.0, 400881.0, 1125271.0, 444075.0, 295768.0, 147018.0, 161367.0, 166829.0, 118733.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "clicks": [10611.0, 10389.0, 10123.0, 10840.0, 17467.0, 17749.0, 43711.0, 16392.0, 12011.0, 6911.0, 8108.0, 8400.0, 5828.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}}, {"id": "sp_store", "platform": "shopee", "name": "Iklan Toko", "objective": "sales", "budget": 5000000.0, "title": "Ads Store", "days": {"cost": [50010.0, 50010.0, 50010.0, 50010.0, 300000.0, 300000.0, 300000.0, 300000.0, 50010.0, 50010.0, 50010.0, 50010.0, 50010.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "gmv": [394917.0, 0.0, 0.0, 229900.0, 564290.0, 1030110.0, 2206306.0, 530121.0, 210900.0, 0.0, 0.0, 126259.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "orders": [3.0, 0.0, 0.0, 1.0, 3.0, 8.0, 16.0, 4.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "ordersMkp": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "impressions": [1974.0, 2046.0, 2185.0, 2212.0, 17688.0, 13365.0, 12688.0, 12780.0, 1890.0, 2397.0, 1511.0, 2089.0, 2446.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "clicks": [142.0, 129.0, 124.0, 130.0, 1486.0, 806.0, 543.0, 764.0, 132.0, 122.0, 132.0, 153.0, 165.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}}, {"id": "sp_pc_new", "platform": "shopee", "name": "Iklan Produk Baru", "objective": "sales", "budget": 5000000.0, "title": "Product Card Shopee", "days": {"cost": [1258973.0, 1307995.0, 1124656.0, 652191.0, 1032496.0, 2016959.0, 7436489.0, 1786067.0, 1264670.0, 1011955.0, 1172116.0, 1012364.0, 1213934.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "gmv": [15933460.0, 13697531.0, 13339370.0, 8549432.0, 13701351.0, 24100105.0, 100210833.0, 15100591.0, 13590158.0, 13228910.0, 14968446.0, 10603513.0, 16843362.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "orders": [94.0, 80.0, 82.0, 50.0, 82.0, 160.0, 716.0, 100.0, 75.0, 74.0, 86.0, 61.0, 100.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "ordersMkp": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "impressions": [129735.0, 136080.0, 159151.0, 84350.0, 148520.0, 180865.0, 454753.0, 176323.0, 162109.0, 124629.0, 131761.0, 137643.0, 119427.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "clicks": [6456.0, 6946.0, 7930.0, 4569.0, 7047.0, 8497.0, 17206.0, 6609.0, 7451.0, 6096.0, 6546.0, 6655.0, 5863.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}}, {"id": "lz_store", "platform": "lazada", "name": "Sponsored Max Store", "objective": "sales", "budget": 5000000.0, "title": "Lazada Ads Sponsore Max Store", "days": {"cost": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "gmv": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "orders": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "ordersMkp": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "impressions": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "clicks": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null]}}, {"id": "lz_product", "platform": "lazada", "name": "Sponsored Max Product", "objective": "sales", "budget": 5000000.0, "title": "Lazada Ads Sponsore Max Product", "days": {"cost": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "gmv": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "orders": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "ordersMkp": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "impressions": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "clicks": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null]}}], "monthly": {"Nett ads 80%": [3771347921.0, 5724884532.0, 6711404724.0, 5883794628.0, 5265293469.0, 6854053556.0, 1359902007.0, 0.0, 0.0, 0.0, 0.0, 4414793310.0], "GMV by Video": [848225385.0, 1176000419.0, 2039273996.0, 978204604.0, 953954691.0, 1078701309.0, 406831107.0, null, null, null, null, null], "GMV by Video NS": [67692229.0, 814380025.0, 404425825.0, 347376590.0, 307949534.0, 127614940.0, 69856417.0, null, null, null, null, null], "GMV by Product Card NS": [49543088.0, 288838829.0, 234526301.0, 171181826.0, 139927715.0, 34683909.0, 16319617.0, null, null, null, null, null], "GMV by Product Card": [407050940.0, 623081829.0, 882743727.0, 519343523.0, 648497835.0, 484048429.0, 101536555.0, null, null, null, null, null], "GMV by Live Stream": [747895669.0, 1604588642.0, 2287000810.0, 3024744778.0, 2126845800.0, 4188290854.0, 0.0, null, null, null, null, null], "GMV by Meta CPAS": [714166378.0, 685121040.0, 627480903.0, 626260654.0, 628381031.0, 740402321.0, 0.0, null, null, null, null, null], "GMV by Live Shopee Ads": [71300649.0, 94176300.0, 109653377.0, 107769720.0, 131994696.0, 178840908.0, 99761181.0, null, null, null, null, null], "GMV by SBA Shopee": [203832921.0, 204726249.0, 157011085.0, 170814084.0, 150932588.0, 138375317.0, 24352089.0, null, null, null, null, null], "GMV by Product Card Shopee": [1307970784.0, 1287244542.0, 1167661052.0, 1000978589.0, 1046086741.0, 990573189.0, 702060678.0, null, null, null, null, null], "GMV by New Product Card Shopee": [179043275.0, 280749283.0, 260950276.0, 279308231.0, 309673753.0, 480922337.0, 273867062.0, null, null, null, null, null], "GMV by Ads Store": [71656965.0, 47815115.0, 79368768.0, 24089110.0, 49317894.0, 35136837.0, 5292803.0, null, null, null, null, null], "GMV by Lazada Ads": [45806618.0, 49383392.0, 139159785.0, 104671575.0, 88054558.0, 89976595.0, 0.0, null, null, null, null, null], "Total GMV From Ads": [4714184901.0, 7156105665.0, 8389255905.0, 7354743285.0, 6581616836.0, 8567566945.0, 1699877509.0, null, null, null, null, null], "Ads Efficiency Rate": [7.47, 8.72, 9.41, 9.03, 9.03, 8.88, 8.58, null, null, null, null, null], "QTY Orders by Video": [4566.0, 7410.0, 11873.0, 5685.0, 5991.0, 6391.0, 2379.0, null, null, null, null, null], "QTY Orders by Video NP": [267.0, 4366.0, 2286.0, 2161.0, 1950.0, 649.0, 400.0, null, null, null, null, null], "QTY Orders by Product Card NP": [218.0, 1491.0, 1218.0, 908.0, 777.0, 182.0, 96.0, null, null, null, null, null], "QTY Orders by Product Card": [2242.0, 3849.0, 5014.0, 2908.0, 3814.0, 2727.0, 596.0, null, null, null, null, null], "QTY Orders by Live Stream": [4199.0, 9345.0, 14580.0, 19108.0, 14539.0, 24931.0, 0.0, null, null, null, null, null], "QTY Orders by CPAS": [3618.0, 3678.0, 3148.0, 3047.0, 3121.0, 3551.0, 0.0, null, null, null, null, null], "QTY Orders by Live Shopee Ads": [369.0, 497.0, 591.0, 571.0, 709.0, 979.0, 598.0, null, null, null, null, null], "QTY Orders by SBA Shopee Ads": [622.0, 753.0, 598.0, 568.0, 694.0, 624.0, 148.0, null, null, null, null, null], "QTY by Product Card Shopee": [6883.0, 7541.0, 6628.0, 5355.0, 5934.0, 5532.0, 4074.0, null, null, null, null, null], "QTY by New Product Card Shopee": [894.0, 1424.0, 1294.0, 1499.0, 1752.0, 2702.0, 1760.0, null, null, null, null, null], "QTY by Ads Store": [270.0, 283.0, 362.0, 137.0, 271.0, 207.0, 37.0, null, null, null, null, null], "QTY Orders by Lazada Ads": [202.0, 173.0, 428.0, 337.0, 317.0, 302.0, 0.0, null, null, null, null, null], "Total Orders From Ads": [24350.0, 40810.0, 48020.0, 42284.0, 39869.0, 48777.0, 10088.0, null, null, null, null, null], "Impression": [31635838.0, 39865171.0, 59546031.0, 49353714.0, 45700364.0, 38761250.0, 6814666.0, null, null, null, null, null], "Product Clicks": [1258606.0, 2182051.0, 3032138.0, 3255046.0, 2886695.0, 3124887.0, 509087.0, null, null, null, null, null], "CTOR": [1.93, 1.87, 1.58, 1.3, 1.38, 1.56, 1.98, null, null, null, null, null], "CTR": [3.98, 5.47, 5.09, 6.6, 6.32, 8.06, 7.47, null, null, null, null, null], "Total GMV Bruto TikTok": [2331029830.0, 5597143371.0, 6324496617.0, 4984884523.0, 4318670739.0, 6016840729.0, 0.0, null, null, null, null, null], "Total GMV Shopee": [2103905198.0, 2350090238.0, 2231353150.0, 1932959297.0, 1887650637.0, 2553421441.0, 0.0, null, null, null, null, null], "Total GMV Lazada": [68515470.0, 55494731.0, 149321421.0, 110415544.0, 94869768.0, 98439860.0, 0.0, null, null, null, null, null], "Total GMV All MP": [4503450498.0, 8002728340.0, 8705171188.0, 7028259364.0, 6301191144.0, 8668702030.0, 0.0, null, null, null, null, null], "TikTok Ads Cost": [175010763.0, 438956258.0, 527961031.0, 448978886.0, 367450075.0, 499816993.0, 49816636.0, null, null, null, null, null], "Meta Ads Cost": [31566363.0, 27999799.0, 31849181.0, 29669976.0, 30915889.0, 30312109.0, 0.0, null, null, null, null, null], "Live Shopee Ads Cost": [7165473.0, 11198912.0, 10983237.0, 10628262.0, 14645162.0, 17401056.0, 10377392.0, null, null, null, null, null], "SBA Shopee Ads Cost": [17846472.0, 14948671.0, 15848309.0, 14083828.0, 23057557.0, 19521913.0, 8104562.0, null, null, null, null, null], "Product Card Shopee Ads Cost": [79434818.0, 75630432.0, 91711520.0, 82243165.0, 87447617.0, 103622610.0, 75941880.0, null, null, null, null, null], "Ads Store Shopee Ads Cost": [5525075.0, 4125056.0, 10450093.0, 3295122.0, 5595837.0, 4155243.0, 1650090.0, null, null, null, null, null], "Lazada Ads Cost": [2620740.0, 3205298.0, 10711341.0, 6268543.0, 5544590.0, 5643839.0, 0.0, null, null, null, null, null], "Total Sales Ads Cost": [319169704.0, 576064426.0, 699514712.0, 595167782.0, 534656727.0, 680473763.0, 145890560.0, null, null, null, null, null], "Total All Ads Cost": [351965815.0, 624224166.0, 789791854.0, 664323118.0, 594600118.0, 760481097.0, 145890560.0, null, null, null, null, null], "Cost Per Orders": [13108.0, 14116.0, 14567.0, 14075.0, 13410.0, 13951.0, 14462.0, null, null, null, null, null], "% Contribution by Video": [36.39, 21.01, 32.24, 19.62, 22.09, 17.93, null, null, null, null, null, null], "% Contribution by Product Card": [17.46, 11.13, 13.96, 10.42, 15.02, 8.04, null, null, null, null, null, null], "% Contribution by Live Streaming TikTok": [32.08, 28.67, 36.16, 60.68, 49.25, 69.61, null, null, null, null, null, null], "% Contribution by Meta CPAS": [33.94, 29.15, 28.12, 32.4, 33.29, 29.0, null, null, null, null, null, null], "% Contribution by Live Streaming Shopee": [3.39, 4.01, 4.91, 5.58, 6.99, 7.0, null, null, null, null, null, null], "% Total Ads Contribution": [104.68, 89.42, 96.37, 104.65, 104.45, 98.83, null, null, null, null, null, null], "AOV": [193601.0, 175352.0, 174703.0, 173937.0, 165081.0, 175648.0, 168505.0, null, null, null, null, null], "ROI": [14.77, 12.42, 11.99, 12.36, 12.31, 12.59, 11.65, null, null, null, null, null], "ROAS": [13.39, 11.46, 10.62, 11.07, 11.07, 11.27, 11.65, null, null, null, null, null]}, "breakdown": {"TikTok": {"GMV by Video": [848225385.0, 1176000419.0, 2039273996.0, 978204604.0, 953954691.0, 1078701309.0, 406831107.0, null, null, null, null, null], "GMV by Video NS": [67692229.0, 814380025.0, 404425825.0, 347376590.0, 307949534.0, 127614940.0, 69856417.0, null, null, null, null, null], "GMV by Product Card NS": [49543088.0, 288838829.0, 234526301.0, 171181826.0, 139927715.0, 34683909.0, 16319617.0, null, null, null, null, null], "GMV by Product Card": [407050940.0, 623081829.0, 882743727.0, 519343523.0, 648497835.0, 484048429.0, 101536555.0, null, null, null, null, null], "GMV by Live Stream SMO": [387120380.0, 705245136.0, 631980528.0, 771560352.0, 612141383.0, 1799158391.0, 0.0, null, null, null, null, null], "GMV by Live Stream SID": [360775289.0, 804042707.0, 569687682.0, 611576347.0, 506355297.0, 677571809.0, 0.0, null, null, null, null, null], "GMV by Live Stream SMV": [0.0, 95300799.0, 100094933.0, 231875191.0, 116462900.0, 399982015.0, 0.0, null, null, null, null, null], "GMV by Live Stream Affiliate": [0.0, 0.0, 985237668.0, 1409732888.0, 891886219.0, 1311578639.0, 0.0, null, null, null, null, null], "Total GMV From Ads": [2120407311.0, 4506889744.0, 5847970659.0, 5040851322.0, 4177175575.0, 5913339441.0, 594543696.0, null, null, null, null, null], "Ads Efficiency Rate": [8.25, 9.74, 9.03, 8.91, 8.8, 8.45, 8.38, null, null, null, null, null], "QTY Orders by Video": [4566.0, 7410.0, 11873.0, 5685.0, 5991.0, 6391.0, 2379.0, null, null, null, null, null], "QTY Orders by Video NP": [267.0, 4366.0, 2286.0, 2161.0, 1950.0, 649.0, 400.0, null, null, null, null, null], "QTY Orders by Product Card NP": [218.0, 1491.0, 1218.0, 908.0, 777.0, 182.0, 96.0, null, null, null, null, null], "QTY Orders by Product Card": [2242.0, 3849.0, 5014.0, 2908.0, 3814.0, 2727.0, 596.0, null, null, null, null, null], "QTY Orders by Live Stream SMO": [2214.0, 4165.0, 3809.0, 4380.0, 3665.0, 10814.0, 0.0, null, null, null, null, null], "QTY Orders by Live Stream SID": [1985.0, 4624.0, 3383.0, 3488.0, 3066.0, 4120.0, 0.0, null, null, null, null, null], "QTY Orders by Live Stream SMV": [0.0, 556.0, 597.0, 1331.0, 705.0, 2425.0, 0.0, null, null, null, null, null], "QTY Orders by Live Stream Affiliate": [0.0, 0.0, 6791.0, 9909.0, 7103.0, 7572.0, 0.0, null, null, null, null, null], "Total Orders From Ads": [11492.0, 26461.0, 34971.0, 30770.0, 27071.0, 34880.0, 3471.0, null, null, null, null, null], "Total Order From TikTok": [12789.0, 33529.0, 37023.0, 30125.0, 27781.0, 34950.0, 0.0, null, null, null, null, null], "Impression": [16039870.0, 21167155.0, 35869606.0, 27098493.0, 24721752.0, 23465094.0, 2144302.0, null, null, null, null, null], "Brand Consideration": [721896.0, 1625224.0, 2292572.0, 2605519.0, 2233709.0, 2482414.0, 136178.0, null, null, null, null, null], "CTOR": [1.59, 1.63, 1.53, 1.18, 1.21, 1.41, 2.55, null, null, null, null, null], "CTR": [4.5, 7.68, 6.39, 9.61, 9.04, 10.58, 6.35, null, null, null, null, null], "Total GMV Bruto TikTok": [2331029830.0, 5597143371.0, 6324496617.0, 4984884523.0, 4318670739.0, 6016840729.0, 0.0, null, null, null, null, null], "Total Sales Ads Cost": [175010763.0, 438956258.0, 527961031.0, 448978886.0, 367450075.0, 499816993.0, 49816636.0, null, null, null, null, null], "Cost Per Orders": [15229.0, 16589.0, 15097.0, 14591.0, 13574.0, 14330.0, 14352.0, null, null, null, null, null], "% Contribution by Video": [36.39, 21.01, 32.24, 19.62, 22.09, 17.93, null, null, null, null, null, null], "% Contribution by Product Card": [17.46, 11.13, 13.96, 10.42, 15.02, 8.04, null, null, null, null, null, null], "% Contribution by Live Streaming TikTok": [32.08, 28.67, 20.58, 32.4, 28.6, 47.81, null, null, null, null, null, null], "% Total Contribution by GMV": [90.96, 80.52, 92.47, 101.12, 96.72, 98.28, null, null, null, null, null, null], "% Total Contribution by Order": [89.86, 78.92, 94.46, 102.14, 97.44, 99.8, null, null, null, null, null, null], "AOV": [184512.0, 170322.0, 167223.0, 163824.0, 154304.0, 169534.0, 171289.0, null, null, null, null, null], "ROAS": [12.12, 10.27, 11.08, 11.23, 11.37, 11.83, 11.93, null, null, null, null, null]}, "Shopee": {"GMV by Live Shopee Ads": [71300649.0, 94176300.0, 109653377.0, 107769720.0, 131994696.0, 178840908.0, 99761181.0, null, null, null, null, null], "GMV by SBA Shopee": [203832921.0, 204726249.0, 157011085.0, 170814084.0, 150932588.0, 138375317.0, 24352089.0, null, null, null, null, null], "GMV by Product Card": [1307970784.0, 1287244542.0, 1167661052.0, 1000978589.0, 1046086741.0, 990573189.0, 702060678.0, null, null, null, null, null], "GMV by New Product Card": [179043275.0, 280749283.0, 260950276.0, 279308231.0, 309673753.0, 480922337.0, 273867062.0, null, null, null, null, null], "GMV by Ads Store": [71656965.0, 47815115.0, 79368768.0, 24089110.0, 49317894.0, 35136837.0, 5292803.0, null, null, null, null, null], "Total GMV From Ads": [1833804594.0, 1914711489.0, 1774644558.0, 1582959734.0, 1688005672.0, 1823848588.0, 1105333813.0, null, null, null, null, null], "Ads Efficiency Rate": [6.66, 6.48, 7.27, 6.96, 7.75, 7.93, 8.69, null, null, null, null, null], "QTY Orders by Live Shopee Ads": [369.0, 497.0, 591.0, 571.0, 709.0, 979.0, 598.0, null, null, null, null, null], "QTY Orders by SBA Shopee Ads": [622.0, 753.0, 598.0, 568.0, 694.0, 624.0, 148.0, null, null, null, null, null], "QTY Orders by New Product Card": [6883.0, 7541.0, 6628.0, 5355.0, 5934.0, 5532.0, 4074.0, null, null, null, null, null], "QTY Orders by Product Card": [894.0, 1424.0, 1294.0, 1499.0, 1752.0, 2702.0, 1760.0, null, null, null, null, null], "QTY Orders by Ads Store": [270.0, 283.0, 362.0, 137.0, 271.0, 207.0, 37.0, null, null, null, null, null], "Total Orders From Ads": [9038.0, 10498.0, 9473.0, 8130.0, 9360.0, 10044.0, 6617.0, null, null, null, null, null], "Total Orders From Shopee": [11232.0, 12202.0, 11280.0, 9581.0, 10011.0, 13414.0, 0.0, null, null, null, null, null], "Impression": [7551983.0, 8375631.0, 11497017.0, 9873744.0, 9770397.0, 5735814.0, 4670364.0, null, null, null, null, null], "Product Clicks": [459853.0, 504403.0, 649866.0, 572992.0, 584808.0, 585956.0, 372909.0, null, null, null, null, null], "CTOR": [1.97, 2.08, 1.46, 1.42, 1.6, 1.71, 1.77, null, null, null, null, null], "CTR": [6.09, 6.02, 5.65, 5.8, 5.99, 10.22, 7.98, null, null, null, null, null], "Total GMV Shopee": [2103905198.0, 2350090238.0, 2231353150.0, 1932959297.0, 1887650637.0, 2553421441.0, 0.0, null, null, null, null, null], "Total Sales Ads Cost": [122157985.0, 124054181.0, 128993159.0, 110250377.0, 130746173.0, 144700822.0, 96073924.0, null, null, null, null, null], "Cost Per Orders": [13516.0, 11817.0, 13617.0, 13561.0, 13969.0, 14407.0, 14519.0, null, null, null, null, null], "% Contribution by Live Streaming Shopee": [3.39, 4.01, 4.91, 5.58, 6.99, 7.0, null, null, null, null, null, null], "% Contribution by SBA Shopee": [9.69, 8.71, 7.04, 8.84, 8.0, 5.42, null, null, null, null, null, null], "% Total Ads Contribution by GMV": [87.16, 81.47, 79.53, 81.89, 89.42, 71.43, null, null, null, null, null, null], "% Total Ads Contribution by Order": [80.47, 86.04, 83.98, 84.86, 93.5, 74.88, null, null, null, null, null, null], "AOV": [202899.0, 182388.0, 187337.0, 194706.0, 180342.0, 181586.0, 167045.0, null, null, null, null, null], "ROAS": [15.01, 15.43, 13.76, 14.36, 12.91, 12.6, 11.51, null, null, null, null, null]}, "CPAS": {"GMV by Meta CPAS": [714166378.0, 685121040.0, 627480903.0, 626260654.0, 628381031.0, 740402321.0, 0.0, null, null, null, null, null], "Total GMV From Ads": [714166378.0, 685121040.0, 627480903.0, 626260654.0, 628381031.0, 740402321.0, 0.0, null, null, null, null, null], "Ads Efficiency Rate": [4.42, 4.09, 5.08, 4.74, 4.92, 4.09, null, null, null, null, null, null], "QTY Orders by CPAS": [3618.0, 3678.0, 3148.0, 3047.0, 3121.0, 3551.0, 0.0, null, null, null, null, null], "Total Orders From Ads": [3618.0, 3678.0, 3148.0, 3047.0, 3121.0, 3551.0, 0.0, null, null, null, null, null], "Total Orders From Shopee": [11232.0, 12202.0, 11280.0, 9581.0, 10011.0, 13414.0, 0.0, null, null, null, null, null], "Impression": [7131540.0, 9639344.0, 10780121.0, 11198382.0, 10311691.0, 8910099.0, 0.0, null, null, null, null, null], "Product Clicks": [42726.0, 26875.0, 25431.0, 26721.0, 29235.0, 24868.0, 0.0, null, null, null, null, null], "CTOR": [8.47, 13.69, 12.38, 11.4, 10.68, 14.28, null, null, null, null, null, null], "CTR": [0.6, 0.28, 0.24, 0.24, 0.28, 0.28, null, null, null, null, null, null], "Total GMV Shopee": [2103905198.0, 2350090238.0, 2231353150.0, 1932959297.0, 1887650637.0, 2553421441.0, 0.0, null, null, null, null, null], "Total Sales Ads Cost": [31566363.0, 27999799.0, 31849181.0, 29669976.0, 30915889.0, 30312109.0, 0.0, null, null, null, null, null], "Cost Per Orders": [8725.0, 7613.0, 10117.0, 9737.0, 9906.0, 8536.0, null, null, null, null, null, null], "% Total Contribution by GMV": [33.94, 29.15, 28.12, 32.4, 33.29, 29.0, null, null, null, null, null, null], "% Total Contribution by Orders": [32.21, 30.14, 27.91, 31.8, 31.18, 26.47, null, null, null, null, null, null], "AOV": [197393.0, 186275.0, 199327.0, 205534.0, 201340.0, 208505.0, null, null, null, null, null, null], "ROAS": [22.62, 24.47, 19.7, 21.11, 20.33, 24.43, null, null, null, null, null, null]}, "Lazada": {"GMV by Lazada Max Store": [20161251.0, 20307208.0, 72256694.0, 67524730.0, 54934665.0, 55866127.0, 0.0, null, null, null, null, null], "GMV by Lazada Max Product": [25645367.0, 29076184.0, 66903091.0, 37146845.0, 33119893.0, 34110468.0, 0.0, null, null, null, null, null], "Total GMV From Ads": [45806618.0, 49383392.0, 139159785.0, 104671575.0, 88054558.0, 89976595.0, 0.0, null, null, null, null, null], "Ads Efficiency Rate": [5.72, 6.49, 7.7, 5.99, 6.3, 6.27, null, null, null, null, null, null], "QTY Orders by Lazada Max Store": [90.0, 84.0, 212.0, 218.0, 182.0, 198.0, 0.0, null, null, null, null, null], "QTY Orders by Lazada Max Product": [112.0, 89.0, 216.0, 119.0, 135.0, 104.0, 0.0, null, null, null, null, null], "Total Orders From Ads": [202.0, 173.0, 428.0, 337.0, 317.0, 302.0, 0.0, null, null, null, null, null], "Total Orders From Lazada": [259.0, 192.0, 448.0, 44015.0, 331.0, 325.0, 0.0, null, null, null, null, null], "Impression": [912445.0, 683041.0, 1399287.0, 1183095.0, 896524.0, 650243.0, 0.0, null, null, null, null, null], "Product Clicks": [34131.0, 25549.0, 64269.0, 49814.0, 38943.0, 31649.0, 0.0, null, null, null, null, null], "CTOR": [0.59, 0.68, 0.67, 0.68, 0.81, 0.95, null, null, null, null, null, null], "CTR": [3.74, 3.74, 4.59, 4.21, 4.34, 4.87, null, null, null, null, null, null], "Total GMV Lazada": [68515470.0, 55494731.0, 149321421.0, 110415544.0, 94869768.0, 98439860.0, 0.0, null, null, null, null, null], "Total Sales Ads Cost": [2620740.0, 3205298.0, 10711341.0, 6268543.0, 5544590.0, 5643839.0, 0.0, null, null, null, null, null], "Cost Per Orders": [12974.0, 18528.0, 25026.0, 18601.0, 17491.0, 18688.0, null, null, null, null, null, null], "% Contribution by Lazada Max Store": [29.43, 36.59, 48.39, 61.16, 57.91, 56.75, null, null, null, null, null, null], "% Contribution by Lazada Max Product": [37.43, 52.39, 44.8, 33.64, 34.91, 34.65, null, null, null, null, null, null], "% Total Ads Contribution by GMV": [66.86, 88.99, 93.19, 94.8, 92.82, 91.4, null, null, null, null, null, null], "% Total Ads Contribution by Orders": [77.99, 90.1, 95.54, 0.77, 95.77, 92.92, null, null, null, null, null, null], "AOV": [226765.0, 285453.0, 325140.0, 310598.0, 277775.0, 297936.0, null, null, null, null, null, null], "ROAS": [17.48, 15.41, 12.99, 16.7, 15.88, 15.94, null, null, null, null, null, null]}, "TikTok \nSMO": {}, "TikTok\nSID": {}, "Meta \nTraffic": {}, "TikTok \nAwareness": {}, "Meta \nAwareness": {}}}</script>
+<script>
+'use strict';
+/* =============== Ads Command Center — Sophie Martin ===============
+   Data: Google Sheet "Media Buying Database 2026" + raw platform exports.
+   Semua berjalan lokal di browser; overlay edit disimpan di localStorage. */
+
+const RAW = JSON.parse(document.getElementById('BASE_DATA').textContent);
+const DIM = RAW.meta.daysInMonth;
+const MONTHS = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+const MONTHS_S = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+
+const PLATFORMS = {
+  tiktok:{name:'TikTok', cssVar:'--tiktok'},
+  shopee:{name:'Shopee', cssVar:'--shopee'},
+  meta:  {name:'Meta',   cssVar:'--meta'},
+  lazada:{name:'Lazada', cssVar:'--lazada'},
+};
+const pcolor = p => getComputedStyle(document.documentElement).getPropertyValue(PLATFORMS[p]?.cssVar||'--ink').trim();
+
+/* ---------- default target ROAS per channel (bisa diubah di tab Analisis) ---------- */
+const DEFAULT_TARGETS = {
+  tt_vsa:10, tt_vsa_ns:6, tt_psa:15, tt_psa_ns:10,
+  tt_live_smo:8, tt_live_sid:8, tt_live_smv:8, tt_live_aff:8,
+  meta_cpas:20, sp_live:8, sp_sba:4, sp_pc:10, sp_pc_new:8, sp_store:8,
+  lz_store:6, lz_product:6,
+};
+const LS_T='smoAdsTargets', LS_O='smoAdsOverlay', LS_TH='smoAdsTheme';
+const store = {
+  get(k,d){ try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d} },
+  set(k,v){ try{localStorage.setItem(k,JSON.stringify(v))}catch(e){} },
+};
+let targets = Object.assign({}, DEFAULT_TARGETS, store.get(LS_T,{}));
+let overlay = store.get(LS_O,{});   // {chId:{metric:{dayIdx:value}}}
+
+/* ---------- formatting (id-ID) ---------- */
+const nf0 = new Intl.NumberFormat('id-ID',{maximumFractionDigits:0});
+const nf1 = new Intl.NumberFormat('id-ID',{maximumFractionDigits:1});
+const nf2 = new Intl.NumberFormat('id-ID',{minimumFractionDigits:1,maximumFractionDigits:2});
+const fmtRp   = v => v==null?'–':'Rp'+nf0.format(Math.round(v));
+const fmtRpC  = v => { if(v==null) return '–'; const a=Math.abs(v), s=v<0?'-':'';
+  if(a>=1e9) return s+'Rp'+nf1.format(a/1e9)+' M';
+  if(a>=1e6) return s+'Rp'+nf1.format(a/1e6)+' jt';
+  if(a>=1e3) return s+'Rp'+nf0.format(a/1e3)+' rb';
+  return s+'Rp'+nf0.format(a); };
+const fmtN  = v => v==null?'–':nf0.format(Math.round(v));
+const fmtNC = v => { if(v==null) return '–'; const a=Math.abs(v);
+  if(a>=1e6) return nf1.format(v/1e6)+' jt';
+  if(a>=1e3) return nf1.format(v/1e3)+' rb';
+  return nf0.format(v); };
+const fmtX  = v => v==null?'–':nf2.format(v)+'×';
+const fmtPct= v => v==null?'–':nf1.format(v)+'%';
+const esc = s => String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+/* ---------- data model ---------- */
+const sum = a => a.reduce((x,y)=>x+(y||0),0);
+const div = (a,b) => (b&&b!==0)? a/b : null;
+
+function channelDays(ch){                       // merged base + overlay
+  const out={};
+  const keys=new Set([...Object.keys(ch.days||{}),...Object.keys(overlay[ch.id]||{})]);
+  for(const k of keys){
+    const base=(ch.days&&ch.days[k])?ch.days[k].slice():Array(DIM).fill(null);
+    while(base.length<DIM) base.push(null);
+    const ov=(overlay[ch.id]||{})[k]||{};
+    for(const d in ov) base[+d]=ov[d];
+    out[k]=base;
+  }
+  return out;
+}
+
+const CH = RAW.channels.map(c=>{
+  const days=channelDays(c);
+  const cost=days.cost||[], gmv=days.gmv||[], orders=days.orders||[];
+  const imp=days.impressions||[], clk=days.clicks||[];
+  let last=0; for(let d=0;d<DIM;d++) if((cost[d]||0)>0||(gmv[d]||0)>0||(orders[d]||0)>0) last=d+1;
+  const t={cost:sum(cost),gmv:sum(gmv),orders:sum(orders),imp:sum(imp),clk:sum(clk),
+           reach:sum(days.reach||[]),liveViews:sum(days.liveViews||[]),atc:sum(days.atc||[])};
+  return {...c, days, last, tot:t,
+    roas:div(t.gmv,t.cost), cpo:div(t.cost,t.orders), aov:div(t.gmv,t.orders),
+    ctr:t.imp?100*t.clk/t.imp:null, ctor:t.clk?100*t.orders/t.clk:null,
+    cpm:t.imp?1000*t.cost/t.imp:null, cpc:t.clk?t.cost/t.clk:null};
+});
+const chById = id => CH.find(c=>c.id===id);
+const SALES = CH.filter(c=>c.objective==='sales');
+const GLOBAL_LAST = Math.max(...CH.map(c=>c.last), 1);
+
+function aggDaily(list, metric){
+  const out=Array(DIM).fill(0);
+  for(const c of list){const a=c.days[metric]; if(a) for(let d=0;d<DIM;d++) out[d]+=a[d]||0;}
+  return out;
+}
+function platAgg(p){
+  const list=SALES.filter(c=>c.platform===p);
+  return {cost:aggDaily(list,'cost'), gmv:aggDaily(list,'gmv'), orders:aggDaily(list,'orders')};
+}
+const AGG = {all:{cost:aggDaily(SALES,'cost'),gmv:aggDaily(SALES,'gmv'),orders:aggDaily(SALES,'orders')}};
+for(const p in PLATFORMS) AGG[p]=platAgg(p);
+
+/* monthly (Jan..Des) dari tab MoM 26 */
+const M = RAW.monthly||{};
+const mrow = k => (M[k]||Array(12).fill(null)).map(v=>v==null?null:v);
+const MON = {
+  gmv: mrow('Total GMV From Ads'), cost: mrow('Total All Ads Cost'), salesCost: mrow('Total Sales Ads Cost'),
+  orders: mrow('Total Orders From Ads'), roas: mrow('ROAS'), aov: mrow('AOV'), cpo: mrow('Cost Per Orders'),
+  ctr: mrow('CTR'), ctor: mrow('CTOR'), imp: mrow('Impression'), clk: mrow('Product Clicks'),
+  eff: mrow('Ads Efficiency Rate'),
+  gmvAllMp: mrow('Total GMV All MP').map(v=>v===0?null:v),  // 0 = belum diisi di sheet
+  platGmv:{
+    tiktok: mrow('GMV by Video').map((v,i)=> (v||0)+(mrow('GMV by Video NS')[i]||0)+(mrow('GMV by Product Card NS')[i]||0)+(mrow('GMV by Product Card')[i]||0)+(mrow('GMV by Live Stream')[i]||0) || null),
+    shopee: mrow('GMV by Live Shopee Ads').map((v,i)=> (v||0)+(mrow('GMV by SBA Shopee')[i]||0)+(mrow('GMV by Product Card Shopee')[i]||0)+(mrow('GMV by New Product Card Shopee')[i]||0)+(mrow('GMV by Ads Store')[i]||0) || null),
+    meta:   mrow('GMV by Meta CPAS'),
+    lazada: mrow('GMV by Lazada Ads'),
+  },
+  platCost:{
+    tiktok: mrow('TikTok Ads Cost'), meta: mrow('Meta Ads Cost'), lazada: mrow('Lazada Ads Cost'),
+    shopee: mrow('Live Shopee Ads Cost').map((v,i)=> (v||0)+(mrow('SBA Shopee Ads Cost')[i]||0)+(mrow('Product Card Shopee Ads Cost')[i]||0)+(mrow('Ads Store Shopee Ads Cost')[i]||0) || null),
+  },
+};
+const CUR_M = RAW.meta.monthIndex; // 6 = Juli
+const monthsWithData = MON.gmv.map((v,i)=>v?i:null).filter(v=>v!=null);
+const PREV_M = monthsWithData.filter(i=>i<CUR_M).pop() ?? CUR_M-1;
+
+/* ---------- tooltip ---------- */
+const tip = document.getElementById('tip');
+function showTip(html,x,y){
+  tip.innerHTML=html; tip.style.display='block';
+  const r=tip.getBoundingClientRect();
+  let L=x+14, T=y+14;
+  if(L+r.width>innerWidth-8) L=x-r.width-14;
+  if(T+r.height>innerHeight-8) T=y-r.height-14;
+  tip.style.left=L+'px'; tip.style.top=T+'px';
+}
+const hideTip=()=>tip.style.display='none';
+
+/* ---------- SVG chart helpers ---------- */
+const SVGNS='http://www.w3.org/2000/svg';
+function el(tag,attrs,parent){const e=document.createElementNS(SVGNS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e;}
+function niceTicks(max,n=4){
+  if(!(max>0)) return [0,1];
+  const step0=max/n, mag=Math.pow(10,Math.floor(Math.log10(step0)));
+  const step=[1,2,2.5,5,10].map(m=>m*mag).find(s=>s>=step0);
+  const out=[]; for(let v=0;v<=max*1.0001+step*.5 && out.length<8;v+=step) out.push(v);
+  if(out[out.length-1]<max) out.push(out[out.length-1]+step);
+  return out;
+}
+/* Line/area chart: series=[{name,color,values[],dash?}], labels[], opts{fmt,height,area,markLast} */
+function lineChart(container, series, labels, opts={}){
+  const H=opts.height||190, PADL=46, PADR=14, PADT=12, PADB=22;
+  const box=document.createElement('div'); box.className='chart-box'; container.appendChild(box);
+  const W=Math.max(box.clientWidth||container.clientWidth||600, 320);
+  const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,width:'100%',height:H});box.appendChild(svg);
+  const iw=W-PADL-PADR, ih=H-PADT-PADB;
+  const n=labels.length;
+  const vals=series.flatMap(s=>s.values.filter(v=>v!=null));
+  const max=Math.max(...vals,0); const ticks=niceTicks(max); const ymax=ticks[ticks.length-1]||1;
+  const X=i=> PADL + (n<=1?iw/2:i*iw/(n-1));
+  const Y=v=> PADT + ih - (v/ymax)*ih;
+  const fmt=opts.fmt||fmtNC;
+  for(const t of ticks){
+    el('line',{x1:PADL,x2:W-PADR,y1:Y(t),y2:Y(t),stroke:'var(--grid)','stroke-width':1},svg);
+    const tx=el('text',{x:PADL-7,y:Y(t)+3.5,'text-anchor':'end','font-size':10,fill:'var(--muted)'},svg);
+    tx.textContent=fmt(t).replace('Rp','');
+  }
+  el('line',{x1:PADL,x2:W-PADR,y1:Y(0),y2:Y(0),stroke:'var(--axis)','stroke-width':1},svg);
+  const lblEvery=Math.ceil(n/ (W>700?12:7));
+  labels.forEach((lb,i)=>{ if(i%lblEvery===0||i===n-1){
+    const tx=el('text',{x:X(i),y:H-6,'text-anchor':'middle','font-size':10,fill:'var(--muted)'},svg);
+    tx.textContent=lb;}});
+  for(const s of series){
+    const pts=s.values.map((v,i)=>v==null?null:[X(i),Y(v)]);
+    let dPath='', started=false;
+    pts.forEach(p=>{ if(!p){started=false;return;} dPath+=(started?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1); started=true;});
+    if(opts.area && series.length===1){
+      let aPath=dPath; const first=pts.find(Boolean), lastP=[...pts].reverse().find(Boolean);
+      if(first&&lastP){aPath+=`L${lastP[0]} ${Y(0)}L${first[0]} ${Y(0)}Z`;
+        el('path',{d:aPath,fill:s.color,opacity:.09},svg);}
+    }
+    el('path',{d:dPath,fill:'none',stroke:s.color,'stroke-width':2,'stroke-linejoin':'round','stroke-linecap':'round',...(s.dash?{'stroke-dasharray':s.dash}:{})},svg);
+    const li=s.values.map((v,i)=>v!=null?i:null).filter(v=>v!=null).pop();
+    if(li!=null) el('circle',{cx:X(li),cy:Y(s.values[li]),r:3.5,fill:s.color,stroke:'var(--surface)','stroke-width':2},svg);
+  }
+  /* crosshair + tooltip */
+  const cross=el('line',{y1:PADT,y2:PADT+ih,stroke:'var(--axis)','stroke-width':1,'stroke-dasharray':'3 3',opacity:0},svg);
+  const hot=el('rect',{x:PADL,y:PADT,width:iw,height:ih,fill:'transparent'},svg);
+  hot.addEventListener('pointermove',ev=>{
+    const r=svg.getBoundingClientRect(); const sx=(ev.clientX-r.left)*(W/r.width);
+    let i=Math.round((sx-PADL)/(n<=1?1:iw/(n-1))); i=Math.max(0,Math.min(n-1,i));
+    cross.setAttribute('x1',X(i)); cross.setAttribute('x2',X(i)); cross.setAttribute('opacity',1);
+    const rows=series.map(s=>s.values[i]==null?'':`<div class="r"><span><i style="background:${s.color}"></i>${esc(s.name)}</span><span class="v">${fmt(s.values[i])}</span></div>`).join('');
+    showTip(`<div class="t">${esc(opts.tipTitle?opts.tipTitle(i):labels[i])}</div>${rows}`,ev.clientX,ev.clientY);
+  });
+  hot.addEventListener('pointerleave',()=>{cross.setAttribute('opacity',0);hideTip();});
+  if(series.length>1 && !opts.noLegend){
+    const lg=document.createElement('div');lg.className='legend';
+    lg.innerHTML=series.map(s=>`<span><i style="background:${s.color}"></i>${esc(s.name)}</span>`).join('');
+    box.appendChild(lg);
+  }
+  return box;
+}
+/* horizontal bars: items=[{name,value,color,extra}] */
+function hBars(container, items, opts={}){
+  const fmt=opts.fmt||fmtRpC;
+  const max=Math.max(...items.map(i=>i.value||0),1);
+  const div0=document.createElement('div');
+  div0.innerHTML=items.map(it=>{
+    const w=Math.max(1.2,100*(it.value||0)/max);
+    return `<div style="display:flex;align-items:center;gap:10px;margin:7px 0">
+      <span style="width:148px;flex:none;font-size:12px;color:var(--ink-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(it.name)}</span>
+      <div style="flex:1"><div style="background:${it.color};height:16px;border-radius:0 4px 4px 0;width:${w}%;min-width:3px"></div></div>
+      <span style="width:86px;flex:none;text-align:right;font-size:12px;font-weight:650;font-variant-numeric:tabular-nums">${fmt(it.value)}</span>
+      ${it.extra?`<span style="width:64px;flex:none;text-align:right;font-size:11.5px;color:var(--muted)">${esc(it.extra)}</span>`:''}
+    </div>`;}).join('');
+  container.appendChild(div0);
+}
+/* grouped/stacked monthly bars: series=[{name,color,values[12]}] over month idxs */
+function stackBars(container, series, mIdx, opts={}){
+  const H=opts.height||200, PADL=46,PADR=12,PADT=12,PADB=22;
+  const box=document.createElement('div');box.className='chart-box';container.appendChild(box);
+  const W=Math.max(box.clientWidth||600,320);
+  const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,width:'100%',height:H});box.appendChild(svg);
+  const iw=W-PADL-PADR, ih=H-PADT-PADB;
+  const totals=mIdx.map(m=>sum(series.map(s=>s.values[m]||0)));
+  const ticks=niceTicks(Math.max(...totals,1)); const ymax=ticks[ticks.length-1]||1;
+  const fmt=opts.fmt||fmtRpC;
+  for(const t of ticks){
+    el('line',{x1:PADL,x2:W-PADR,y1:PADT+ih-(t/ymax)*ih,y2:PADT+ih-(t/ymax)*ih,stroke:'var(--grid)'},svg);
+    const tx=el('text',{x:PADL-7,y:PADT+ih-(t/ymax)*ih+3.5,'text-anchor':'end','font-size':10,fill:'var(--muted)'},svg);
+    tx.textContent=fmt(t).replace('Rp','');
+  }
+  const bw=Math.min(46, iw/mIdx.length*0.55);
+  mIdx.forEach((m,k)=>{
+    const cx=PADL+iw*(k+0.5)/mIdx.length;
+    let y=PADT+ih;
+    const segs=[];
+    series.forEach(s=>{
+      const v=s.values[m]||0; if(v<=0)return;
+      const h=Math.max(0,(v/ymax)*ih - 2);        // 2px surface gap between segments
+      y-=h; segs.push({s,v,y,h}); y-=2;
+    });
+    segs.forEach((sg,si)=>{
+      const isTop=si===segs.length-1;
+      el('rect',{x:cx-bw/2,y:sg.y,width:bw,height:sg.h,fill:sg.s.color,rx:isTop?4:0},svg);
+    });
+    const tx=el('text',{x:cx,y:H-6,'text-anchor':'middle','font-size':10,fill:'var(--muted)'},svg);
+    tx.textContent=MONTHS_S[m];
+    const hot=el('rect',{x:cx-bw/2-4,y:PADT,width:bw+8,height:ih,fill:'transparent'},svg);
+    hot.addEventListener('pointermove',ev=>{
+      const rows=series.map(s=>{const v=s.values[m];return v?`<div class="r"><span><i style="background:${s.color}"></i>${esc(s.name)}</span><span class="v">${fmt(v)}</span></div>`:''}).join('');
+      showTip(`<div class="t">${MONTHS[m]}</div>${rows}<div class="r" style="margin-top:3px;border-top:1px solid var(--grid);padding-top:3px"><span>Total</span><span class="v">${fmt(totals[k])}</span></div>`,ev.clientX,ev.clientY);
+    });
+    hot.addEventListener('pointerleave',hideTip);
+  });
+  el('line',{x1:PADL,x2:W-PADR,y1:PADT+ih,y2:PADT+ih,stroke:'var(--axis)'},svg);
+  const lg=document.createElement('div');lg.className='legend';
+  lg.innerHTML=series.map(s=>`<span><i style="background:${s.color}"></i>${esc(s.name)}</span>`).join('');
+  box.appendChild(lg);
+  return box;
+}
+function spark(values,color,w=140,h=34){
+  const vals=values.filter(v=>v!=null); if(!vals.length) return '';
+  const max=Math.max(...vals),min=Math.min(...vals),n=values.length;
+  const X=i=>2+(w-4)*i/(n-1||1), Y=v=>h-4-(h-8)*((v-min)/((max-min)||1));
+  let d='',st=false;
+  values.forEach((v,i)=>{if(v==null){st=false;return}d+=(st?'L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1);st=true;});
+  return `<svg class="spark" viewBox="0 0 ${w} ${h}" height="${h}" preserveAspectRatio="none"><path d="${d}" fill="none" stroke="${color}" stroke-width="1.8" stroke-linecap="round"/></svg>`;
+}
+</script>
+<script>
+'use strict';
+/* =================== ANALYTICS ENGINE =================== */
+const avg=(a)=>{const v=a.filter(x=>x!=null);return v.length?sum(v)/v.length:null};
+const median=(a)=>{const v=a.filter(x=>x!=null).sort((x,y)=>x-y);if(!v.length)return null;
+  const m=v.length>>1;return v.length%2?v[m]:(v[m-1]+v[m])/2;};
+function windowVals(arr, endDay, len){ // endDay = 1-based inclusive
+  const s=Math.max(0,endDay-len); return (arr||[]).slice(s,endDay);
+}
+function dailyRoas(ch){
+  const c=ch.days.cost||[],g=ch.days.gmv||[];
+  return c.map((v,i)=> (v&&g[i]!=null)? (g[i]/v) : null);
+}
+const SEV={critical:0,serious:1,warning:2,info:3};
+const SEV_LBL={critical:'KRITIS',serious:'SERIUS',warning:'PERHATIAN',info:'INFO',opp:'PELUANG'};
+const SEV_CLS={critical:'crit',serious:'ser',warning:'warn',info:'info',opp:'opp'};
+const SEV_IC={critical:'⛔',serious:'🔻',warning:'⚠️',info:'ℹ️',opp:'🚀'};
+
+const SOP={
+  shopeeTurunModal:'Turunkan modal harian campaign ber-ROAS <10 ke level “ROAS Kecil” (Rp40.008–Rp60.012) sesuai SOP Budget Shopee Ads.',
+  shopeeGeser:'Geser budget ke 5 campaign ROAS tertinggi (GMV Max ROAS) — jangan matikan campaign learning <7 hari.',
+  shopeeStok:'Cek stok, harga & voucher produk utama di Seller Center — penurunan ROAS sering dipicu stok habis / voucher berakhir.',
+  ttCreative:'Rotasi 2–3 kreatif video baru; matikan video dengan CTR di bawah rata-rata channel. Fatigue umumnya muncul hari ke-7–14.',
+  ttRoi:'Tinjau target ROI GMV Max — ubah bertahap (maks 1× per hari) agar learning tidak reset.',
+  metaAudiens:'Cek overlap audiens RMK vs PTR di Ads Manager; pisahkan exclusion agar tidak saling kanibal.',
+  metaKatalog:'Refresh product set CPAS: keluarkan produk stok habis, prioritaskan produk AOV tinggi.',
+  scaling:'Scaling sehat: naikkan modal bertahap maks 20–30% per 2 hari supaya CPP tidak melonjak.',
+  peak:'Menjelang tanggal kembar/payday: naikkan modal ke level Peak pada H-1, H, dan H+1 sesuai SOP.',
+};
+
+function computeAlerts(){
+  const alerts=[], opps=[];
+  const push=(sev,ch,title,why,actions,metric)=>alerts.push({sev,ch,title,why,actions,metric});
+  for(const ch of CH){
+    const isSales=ch.objective==='sales';
+    const T=targets[ch.id]||8;
+    const cost=ch.days.cost||[], gmv=ch.days.gmv||[];
+    /* -- data availability -- */
+    if(ch.last===0){
+      if((ch.budget||0)>0) push('info',ch,'Belum ada data '+RAW.meta.month.split(' ')[0],
+        `Budget ${fmtRpC(ch.budget)} sudah dialokasikan tetapi belum ada biaya/pesanan tercatat.`,
+        ['Tarik data dari platform (ekspor harian) lalu masukkan lewat tab Data ▸ Import.',
+         'Jika campaign memang belum jalan, pastikan jadwal aktivasi & materi sudah siap.']);
+      continue;
+    }
+    if(ch.last < GLOBAL_LAST-1)
+      push('info',ch,`Data tertinggal ${GLOBAL_LAST-ch.last} hari`,
+        `Data terakhir hari ke-${ch.last}, sementara channel lain sudah sampai hari ke-${GLOBAL_LAST}.`,
+        ['Tarik ulang laporan periode yang kosong lalu import di tab Data.']);
+    if(!isSales) continue;
+
+    /* -- ROAS vs target (MTD) -- */
+    if(ch.roas!=null){
+      if(ch.roas < T*0.7)
+        push('serious',ch,`ROAS ${fmtX(ch.roas)} jauh di bawah target ${fmtX(T)}`,
+          `Sepanjang bulan berjalan, setiap Rp1 iklan hanya menghasilkan ${nf1.format(ch.roas)} — target ${nf1.format(T)}.`,
+          actionRoas(ch), {k:'ROAS MTD', v:fmtX(ch.roas), t:'Target '+fmtX(T)});
+      else if(ch.roas < T)
+        push('warning',ch,`ROAS ${fmtX(ch.roas)} di bawah target ${fmtX(T)}`,
+          `Selisih ${nf1.format(100*(1-ch.roas/T))}% dari target — masih bisa dikejar dengan optimasi campaign.`,
+          actionRoas(ch), {k:'ROAS MTD', v:fmtX(ch.roas), t:'Target '+fmtX(T)});
+    }
+    /* -- tren turun: bandingkan 3 hari terakhir vs 7 hari sebelumnya -- */
+    if(ch.last>=6){
+      const roasD=dailyRoas(ch);
+      const trend=(arr,name,fmt)=>{
+        const rec=avg(windowVals(arr,ch.last,3));
+        /* median 7-hari agar baseline tidak terdistorsi lonjakan tanggal kembar/payday */
+        const base=median(windowVals(arr,Math.max(0,ch.last-3),7));
+        if(rec==null||base==null||base<=0) return null;
+        return {rec,base,drop:100*(1-rec/base),name,fmt};
+      };
+      const tR=trend(roasD,'ROAS',fmtX), tG=trend(gmv,'GMV harian',fmtRpC), tC=trend(cost,'Spend harian',fmtRpC);
+      if(tR && tR.drop>=20)
+        push(tR.drop>=35?'critical':'serious',ch,
+          `ROAS turun ${nf0.format(tR.drop)}% dalam 3 hari terakhir`,
+          `Rata-rata 3 hari terakhir ${fmtX(tR.rec)} vs baseline 7 hari ${fmtX(tR.base)}.`,
+          actionRoas(ch), {k:'ROAS 3 hari', v:fmtX(tR.rec), t:'Baseline '+fmtX(tR.base)});
+      if(tG && tG.drop>=25 && !(tC && tC.drop>=25))
+        push('serious',ch,`GMV harian turun ${nf0.format(tG.drop)}% padahal spend stabil`,
+          `GMV 3 hari terakhir rata-rata ${fmtRpC(tG.rec)} vs baseline ${fmtRpC(tG.base)}; biaya tidak turun sebanyak itu → efisiensi memburuk.`,
+          actionRoas(ch));
+      else if(tG && tG.drop>=25 && tC && tC.drop>=25)
+        push('warning',ch,`Spend & GMV sama-sama turun ${nf0.format(tC.drop)}%`,
+          `Penurunan seiring — kemungkinan budget dikurangi/limit tercapai, bukan masalah performa.`,
+          ['Kembalikan modal harian ke level BAU bila penurunan tidak disengaja.', SOP.scaling]);
+      /* creative fatigue: CTOR turun */
+      const clk=ch.days.clicks||[], ord=ch.days.orders||[];
+      const ctorD=clk.map((v,i)=> v? 100*(ord[i]||0)/v : null);
+      const tCt=trend(ctorD,'CTOR',fmtPct);
+      if(tCt && tCt.drop>=20 && (ch.tot.clk||0)>500)
+        push('warning',ch,`CTOR melemah ${nf0.format(tCt.drop)}% — indikasi klik tidak jadi beli`,
+          `CTOR 3 hari terakhir ${fmtPct(tCt.rec)} vs baseline ${fmtPct(tCt.base)}. Traffic masih datang tapi konversinya menurun.`,
+          [SOP.shopeeStok,'Cek halaman produk: rating terbaru, ulasan negatif, dan kecepatan respon chat.',
+           ch.platform==='tiktok'?SOP.ttCreative:'Refresh kreatif/thumbnail utama & judul produk.']);
+    }
+    /* -- pacing budget -- */
+    if((ch.budget||0)>0 && ch.last>=3){
+      const proj = ch.tot.cost/ch.last*DIM;
+      const pace = ch.tot.cost/(ch.budget*ch.last/DIM);
+      if(pace>1.2 && ch.roas!=null && ch.roas>=T)
+        push('info',ch,`Spend ${nf0.format((pace-1)*100)}% di atas pace budget — tapi ROAS sehat`,
+          `Proyeksi habis bulan ${fmtRpC(proj)} vs budget ${fmtRpC(ch.budget)}. ROAS ${fmtX(ch.roas)} ≥ target, jadi overspend ini produktif.`,
+          ['Ajukan penyesuaian budget bulanan bila ingin mempertahankan laju ini.',SOP.scaling]);
+      else if(pace>1.2)
+        push('warning',ch,`Overspend ${nf0.format((pace-1)*100)}% dengan ROAS di bawah target`,
+          `Proyeksi ${fmtRpC(proj)} vs budget ${fmtRpC(ch.budget)}, sementara ROAS ${fmtX(ch.roas)} < target ${fmtX(T)}.`,
+          ['Tahan dulu laju spend: kembalikan modal harian ke BAU.',...actionRoas(ch).slice(0,2)]);
+      else if(pace<0.6)
+        push('warning',ch,`Budget terpakai lambat (${nf0.format(pace*100)}% dari pace)`,
+          `Baru ${fmtRpC(ch.tot.cost)} dari budget ${fmtRpC(ch.budget)} — sisa ${fmtRpC(ch.budget-ch.tot.cost)} berisiko hangus di akhir bulan.`,
+          ['Naikkan modal harian bertahap 20–30% per 2 hari pada campaign ROAS terbaik.',
+           ch.platform==='shopee'?'Tambah kampanye produk baru (modal awal Rp75.015 sesuai SOP).':SOP.scaling]);
+    }
+    /* -- peluang scale-up -- */
+    if(ch.roas!=null && ch.roas>=T*1.2 && ch.last>=5){
+      const pace=(ch.budget||0)>0? ch.tot.cost/(ch.budget*ch.last/DIM) : 0;
+      if(pace<=1.05)
+        opps.push({ch,title:`ROAS ${fmtX(ch.roas)} — ${nf0.format(100*ch.roas/T-100)}% di atas target. Kandidat scale-up.`,
+          why:`Spend masih ${pace?nf0.format(pace*100)+'% dari pace budget':'di bawah pace'}; ruang naik tanpa mengorbankan efisiensi.`,
+          actions:[SOP.scaling, ch.platform==='shopee'?SOP.shopeeGeser:(ch.platform==='tiktok'?SOP.ttRoi:SOP.metaKatalog), SOP.peak]});
+    }
+  }
+  alerts.sort((a,b)=>SEV[a.sev]-SEV[b.sev]);
+  /* maksimal 2 warning aktif per channel supaya daftar tetap actionable */
+  const perCh={}, kept=[];
+  for(const a of alerts){
+    if(a.sev==='info'){kept.push(a);continue;}
+    perCh[a.ch.id]=(perCh[a.ch.id]||0)+1;
+    if(perCh[a.ch.id]<=2) kept.push(a);
+  }
+  return {alerts:kept,opps};
+}
+function actionRoas(ch){
+  if(ch.platform==='shopee') return [SOP.shopeeTurunModal,SOP.shopeeGeser,SOP.shopeeStok];
+  if(ch.platform==='tiktok') return [SOP.ttCreative,SOP.ttRoi,'Cek harga & voucher vs kompetitor pada produk hero.'];
+  if(ch.platform==='meta')   return [SOP.metaAudiens,SOP.metaKatalog,'Uji kreatif carousel vs collection; pindahkan budget ke adset ROAS terbaik.'];
+  return ['Audit kata kunci & penawaran; alihkan budget ke SKU dengan konversi terbaik.'];
+}
+let ALERTS=computeAlerts();
+
+/* =================== VIEW HELPERS =================== */
+const view=document.getElementById('view');
+const dayLabels=Array.from({length:DIM},(_,i)=>String(i+1));
+const daysShown=GLOBAL_LAST;
+const platChip=p=>`<span class="plat-chip"><span class="dot" style="background:${pcolor(p)}"></span>${PLATFORMS[p].name}</span>`;
+function pill(roas,t){
+  if(roas==null) return '<span class="pill-stat mid">n/a</span>';
+  if(roas>=t) return `<span class="pill-stat ok">✓ ${fmtX(roas)}</span>`;
+  if(roas>=t*0.7) return `<span class="pill-stat mid">△ ${fmtX(roas)}</span>`;
+  return `<span class="pill-stat bad">✕ ${fmtX(roas)}</span>`;
+}
+function deltaHtml(cur,prev,goodUp=true,fmt=fmtRpC){
+  if(cur==null||prev==null||prev===0) return '<span class="delta">vs Jun: –</span>';
+  const d=100*(cur-prev)/Math.abs(prev);
+  const up=d>=0, good=(up===goodUp);
+  return `<span class="delta"><b class="${good?'up':'dn'}">${up?'▲':'▼'} ${nf1.format(Math.abs(d))}%</b> vs ${MONTHS_S[PREV_M]}</span>`;
+}
+function kpiTile(lbl,val,extra,sparkHtml,color){
+  return `<div class="card kpi">
+    <div class="lbl">${color?`<span class="dot" style="background:${color}"></span>`:''}${esc(lbl)}</div>
+    <div class="val">${val}</div>
+    ${extra||''}
+    ${sparkHtml||''}
+  </div>`;
+}
+function alertHtml(a,sevKey){
+  const sev=sevKey||a.sev;
+  return `<div class="alert ${SEV_CLS[sev]}">
+    <div class="ic">${SEV_IC[sev]}</div>
+    <div class="bd">
+      <div class="hd"><span class="sev">${SEV_LBL[sev]}</span> ${platChip(a.ch.platform)} <b>${esc(a.ch.name)}</b>
+        ${a.metric?`<span style="font-size:11.5px;color:var(--muted)">${esc(a.metric.k)}: <b style="color:var(--ink)">${a.metric.v}</b> · ${esc(a.metric.t)}</span>`:''}</div>
+      <div style="font-weight:650;font-size:13.5px">${esc(a.title)}</div>
+      <div class="why">${esc(a.why)}</div>
+      ${a.actions&&a.actions.length?`<ul class="acts"><span class="tag" style="font-size:11.5px;color:var(--muted)">ACTION PLAN</span>${a.actions.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:''}
+    </div></div>`;
+}
+
+/* =================== VIEWS =================== */
+function renderOverview(){
+  const A=AGG.all, last=GLOBAL_LAST;
+  const mtd={cost:sum(A.cost),gmv:sum(A.gmv),orders:sum(A.orders)};
+  const roas=div(mtd.gmv,mtd.cost), cpo=div(mtd.cost,mtd.orders), aov=div(mtd.gmv,mtd.orders);
+  const jn=PREV_M, dPrev=new Date(RAW.meta.year,jn+1,0).getDate();
+  const prevPro=k=> MON[k][jn]!=null? MON[k][jn]*last/dPrev : null;
+  const sevCount={critical:0,serious:0,warning:0,info:0};
+  ALERTS.alerts.forEach(a=>sevCount[a.sev]++);
+  view.innerHTML=`
+  <h2 class="sec">Ringkasan All Platform <span class="hint">MTD ${RAW.meta.month} · data s/d hari ke-${last}</span></h2>
+  <div class="grid g-kpi">
+    ${kpiTile('Total Spend (Sales)',fmtRpC(mtd.cost),deltaHtml(mtd.cost,prevPro('salesCost'),false),spark(A.cost.slice(0,last),'var(--ink-2)'))}
+    ${kpiTile('GMV dari Ads',fmtRpC(mtd.gmv),deltaHtml(mtd.gmv,prevPro('gmv')),spark(A.gmv.slice(0,last),'var(--good)'))}
+    ${kpiTile('ROAS',fmtX(roas),deltaHtml(roas,MON.roas[jn]))}
+    ${kpiTile('Orders dari Ads',fmtN(mtd.orders),deltaHtml(mtd.orders,prevPro('orders')),spark(A.orders.slice(0,last),'var(--ink-2)'))}
+    ${kpiTile('Cost / Order',fmtRpC(cpo),deltaHtml(cpo,MON.cpo[jn],false))}
+    ${kpiTile('AOV',fmtRpC(aov),deltaHtml(aov,MON.aov[jn]))}
+  </div>
+  ${ALERTS.alerts.length?`<div class="card" style="margin-top:12px;display:flex;gap:16px;flex-wrap:wrap;align-items:center">
+    <b style="font-size:13px">🔎 Health check:</b>
+    ${sevCount.critical?`<span class="pill-stat bad">⛔ ${sevCount.critical} kritis</span>`:''}
+    ${sevCount.serious?`<span class="pill-stat bad">🔻 ${sevCount.serious} serius</span>`:''}
+    ${sevCount.warning?`<span class="pill-stat mid">⚠️ ${sevCount.warning} perhatian</span>`:''}
+    ${sevCount.info?`<span class="pill-stat mid" style="opacity:.75">ℹ️ ${sevCount.info} info</span>`:''}
+    ${ALERTS.opps.length?`<span class="pill-stat ok">🚀 ${ALERTS.opps.length} peluang</span>`:''}
+    <a href="#/analisis" style="margin-left:auto;font-size:12.5px;font-weight:650">Lihat analisis & action plan →</a>
+  </div>`:''}
+  <div class="grid g-2" style="margin-top:12px">
+    <div class="card"><h3>GMV Harian per Platform <span class="hint">· Rp</span></h3><div id="ovGmv"></div></div>
+    <div class="card"><h3>Spend Harian per Platform <span class="hint">· Rp</span></h3><div id="ovCost"></div></div>
+  </div>
+  <div class="grid g-2" style="margin-top:12px">
+    <div class="card"><h3>Kontribusi GMV per Platform <span class="hint">· MTD</span></h3><div id="ovShare"></div></div>
+    <div class="card"><h3>Top Channel by GMV <span class="hint">· MTD</span></h3><div id="ovTop"></div></div>
+  </div>
+  <h2 class="sec">Ringkasan per Platform</h2>
+  <div class="tbl-wrap"><table><thead><tr>
+    <th>Platform</th><th>Spend</th><th>GMV</th><th>ROAS</th><th>Orders</th><th>CPO</th><th>AOV</th><th>Channel aktif</th>
+  </tr></thead><tbody>${Object.keys(PLATFORMS).map(p=>{
+    const c=sum(AGG[p].cost),g=sum(AGG[p].gmv),o=sum(AGG[p].orders);
+    const act=SALES.filter(x=>x.platform===p&&x.last>0).length, tot=SALES.filter(x=>x.platform===p).length;
+    return `<tr class="click" data-nav="#/platform"><td>${platChip(p)}</td><td class="num">${fmtRpC(c)}</td><td class="num">${fmtRpC(g)}</td>
+      <td class="num">${g?fmtX(div(g,c)):'–'}</td><td class="num">${fmtN(o)}</td><td class="num">${o?fmtRpC(div(c,o)):'–'}</td>
+      <td class="num">${o?fmtRpC(div(g,o)):'–'}</td><td class="num">${act}/${tot}</td></tr>`;}).join('')}
+    <tr class="tot"><td>Total</td><td class="num">${fmtRpC(mtd.cost)}</td><td class="num">${fmtRpC(mtd.gmv)}</td>
+      <td class="num">${fmtX(roas)}</td><td class="num">${fmtN(mtd.orders)}</td><td class="num">${fmtRpC(cpo)}</td><td class="num">${fmtRpC(aov)}</td><td></td></tr>
+  </tbody></table></div>`;
+  const lbl=dayLabels.slice(0,last);
+  const mkSeries=metric=>Object.keys(PLATFORMS).map(p=>({name:PLATFORMS[p].name,color:pcolor(p),values:AGG[p][metric].slice(0,last)}))
+      .filter(s=>sum(s.values)>0);
+  lineChart(document.getElementById('ovGmv'), mkSeries('gmv'), lbl, {fmt:fmtRpC,tipTitle:i=>(i+1)+' '+MONTHS_S[CUR_M]});
+  lineChart(document.getElementById('ovCost'), mkSeries('cost'), lbl, {fmt:fmtRpC,tipTitle:i=>(i+1)+' '+MONTHS_S[CUR_M]});
+  hBars(document.getElementById('ovShare'), Object.keys(PLATFORMS).map(p=>({
+    name:PLATFORMS[p].name,color:pcolor(p),value:sum(AGG[p].gmv),
+    extra: mtd.gmv? nf1.format(100*sum(AGG[p].gmv)/mtd.gmv)+'%':''})).filter(i=>i.value>0).sort((a,b)=>b.value-a.value));
+  hBars(document.getElementById('ovTop'), SALES.filter(c=>c.tot.gmv>0).sort((a,b)=>b.tot.gmv-a.tot.gmv).slice(0,8)
+    .map(c=>({name:c.name,color:pcolor(c.platform),value:c.tot.gmv,extra:c.roas?fmtX(c.roas):''})));
+}
+
+/* ---------- Harian ---------- */
+let dailySel = 'all';
+function dailyOptions(includeAgg=true){
+  let h='';
+  if(includeAgg){
+    h=`<optgroup label="Agregat"><option value="all">🌐 Semua Platform</option>`;
+    for(const p in PLATFORMS) h+=`<option value="agg:${p}">Σ ${PLATFORMS[p].name} (sales)</option>`;
+    h+='</optgroup>';
+  }
+  for(const p in PLATFORMS){
+    const list=CH.filter(c=>c.platform===p);
+    if(!list.length) continue;
+    h+=`<optgroup label="${PLATFORMS[p].name}">${list.map(c=>`<option value="${c.id}">${esc(c.name)}${c.objective!=='sales'?' (upper funnel)':''}</option>`).join('')}</optgroup>`;
+  }
+  return h;
+}
+function getDailySubject(){
+  if(dailySel==='all') return {name:'Semua Platform',platform:null,days:{cost:AGG.all.cost,gmv:AGG.all.gmv,orders:AGG.all.orders},sales:true,last:GLOBAL_LAST};
+  if(dailySel.startsWith('agg:')){const p=dailySel.slice(4);
+    return {name:'Σ '+PLATFORMS[p].name,platform:p,days:AGG[p],sales:true,last:GLOBAL_LAST};}
+  const c=chById(dailySel);
+  return {name:c.name,platform:c.platform,days:c.days,sales:c.objective==='sales',last:c.last,ch:c};
+}
+const METRIC_DEFS=[
+  ['cost','Ads Cost',fmtRp,fmtRpC],['gmv','GMV (Purchases Value)',fmtRp,fmtRpC],['orders','Orders From Ads',fmtN,fmtN],
+  ['ordersMkp','Orders From MKP',fmtN,fmtN],['impressions','Impressions',fmtN,fmtNC],['clicks','Product Clicks',fmtN,fmtNC],
+  ['liveViews','Live Views',fmtN,fmtNC],['reach','Reach',fmtN,fmtNC],['follows','Paid Follows',fmtN,fmtN],
+  ['consideration','Consideration Size',fmtN,fmtNC],['atc','Add to Cart',fmtN,fmtN],['atcValue','ATC Value',fmtRp,fmtRpC],
+];
+function renderDaily(){
+  const S=getDailySubject();
+  const color=S.platform?pcolor(S.platform):'var(--tiktok)';
+  const cost=S.days.cost||[],gmv=S.days.gmv||[],orders=S.days.orders||[];
+  const mtd={cost:sum(cost),gmv:sum(gmv),orders:sum(orders)};
+  view.innerHTML=`
+  <h2 class="sec">Database Harian <span class="hint">${RAW.meta.month} — struktur sama dengan sheet “July 26”</span></h2>
+  <div class="controls">
+    <label>Channel:</label>
+    <select id="dailySel">${dailyOptions()}</select>
+    ${S.ch?`<span style="font-size:12px;color:var(--muted)">Budget ${fmtRpC(S.ch.budget)} · data s/d hari ke-${S.last||'–'}</span>`:''}
+  </div>
+  <div class="grid g-kpi">
+    ${kpiTile('Spend MTD',fmtRpC(mtd.cost),'',spark(cost.slice(0,daysShown),color))}
+    ${S.sales?kpiTile('GMV MTD',fmtRpC(mtd.gmv),'',spark(gmv.slice(0,daysShown),'var(--good)')):''}
+    ${S.sales?kpiTile('ROAS MTD',fmtX(div(mtd.gmv,mtd.cost))):''}
+    ${S.sales?kpiTile('Orders MTD',fmtN(mtd.orders)):''}
+    ${S.sales?kpiTile('CPO',fmtRpC(div(mtd.cost,mtd.orders))):''}
+    ${S.sales?kpiTile('AOV',fmtRpC(div(mtd.gmv,mtd.orders))):''}
+  </div>
+  <div class="grid ${S.sales?'g-2':''}" style="margin-top:12px">
+    <div class="card"><h3>${S.sales?'GMV vs Spend Harian':'Spend Harian'}</h3><div id="dGmv"></div></div>
+    ${S.sales?'<div class="card"><h3>ROAS Harian</h3><div id="dRoas"></div></div>':''}
+  </div>
+  <h2 class="sec">Tabel Harian — ${esc(S.name)}</h2>
+  <div class="tbl-wrap" style="max-height:520px;overflow:auto"><table id="dailyTbl"></table></div>
+  <p class="note">Geser ke samping untuk melihat semua tanggal. Kolom Total = penjumlahan (metrik turunan dihitung ulang dari total).</p>`;
+  document.getElementById('dailySel').value=dailySel;
+  document.getElementById('dailySel').onchange=e=>{dailySel=e.target.value;renderDaily();};
+  const lbl=dayLabels.slice(0,daysShown);
+  const seriesMain=[{name:'GMV',color:'var(--good)',values:gmv.slice(0,daysShown)},
+                    {name:'Spend',color:color,values:cost.slice(0,daysShown)}].filter(s=>sum(s.values)>0);
+  lineChart(document.getElementById('dGmv'),seriesMain.length?seriesMain:[{name:'Spend',color,values:cost.slice(0,daysShown)}],lbl,{fmt:fmtRpC,area:seriesMain.length===1,tipTitle:i=>(i+1)+' '+MONTHS_S[CUR_M]});
+  if(S.sales){
+    const roasD=cost.map((v,i)=> v? (gmv[i]||0)/v : null).slice(0,daysShown);
+    lineChart(document.getElementById('dRoas'),[{name:'ROAS',color:'var(--lazada)',values:roasD}],lbl,{fmt:fmtX,area:true,tipTitle:i=>(i+1)+' '+MONTHS_S[CUR_M]});
+  }
+  /* tabel harian */
+  const rows=[];
+  for(const [key,label,f]of METRIC_DEFS){
+    const arr=S.days[key]; if(!arr||!arr.some(v=>v)) continue;
+    rows.push({label,vals:arr,f,tot:sum(arr)});
+  }
+  const der=[];
+  if(S.sales){
+    const t=(a,b)=>({}), c=S.days.cost||[],g=S.days.gmv||[],o=S.days.orders||[],im=S.days.impressions||[],cl=S.days.clicks||[];
+    const mk=(label,fn,f,totFn)=>der.push({label,vals:Array.from({length:DIM},(_,i)=>fn(i)),f,tot:totFn(),derived:true});
+    if(sum(g)>0) mk('ROAS',i=>c[i]?(g[i]||0)/c[i]:null,fmtX,()=>div(sum(g),sum(c)));
+    if(sum(cl)>0&&sum(im)>0) mk('CTR',i=>im[i]?100*(cl[i]||0)/im[i]:null,fmtPct,()=>100*sum(cl)/sum(im));
+    if(sum(o)>0&&sum(cl)>0) mk('CTOR',i=>cl[i]?100*(o[i]||0)/cl[i]:null,fmtPct,()=>100*sum(o)/sum(cl));
+    if(sum(o)>0) mk('Cost / Order',i=>o[i]?(c[i]||0)/o[i]:null,fmtRpC,()=>div(sum(c),sum(o)));
+    if(sum(o)>0&&sum(g)>0) mk('AOV',i=>o[i]?(g[i]||0)/o[i]:null,fmtRpC,()=>div(sum(g),sum(o)));
+  }
+  const tbl=document.getElementById('dailyTbl');
+  tbl.innerHTML=`<thead><tr><th>Metrik</th>${dayLabels.map((d,i)=>`<th style="${i>=daysShown?'opacity:.4':''}">${d} Jul</th>`).join('')}<th>Total</th></tr></thead>
+  <tbody>${[...rows,...der].map(r=>`<tr${r.derived?' style="color:var(--ink-2)"':''}><td>${esc(r.label)}${r.derived?' <span style="font-size:10px;color:var(--muted)">ƒ</span>':''}</td>
+    ${r.vals.map((v,i)=>`<td class="num" style="${i>=daysShown?'opacity:.4':''}">${v==null?'·':r.f(v)}</td>`).join('')}
+    <td class="num" style="font-weight:700">${r.tot==null?'–':r.f(r.tot)}</td></tr>`).join('')}</tbody>`;
+}
+
+/* ---------- Bulanan ---------- */
+function renderMonthly(){
+  const mi=monthsWithData;
+  const cur=CUR_M, prev=PREV_M;
+  view.innerHTML=`
+  <h2 class="sec">Database Bulanan <span class="hint">Month-over-Month 2026 — struktur sama dengan sheet “MoM 26”</span></h2>
+  <div class="grid g-kpi">
+    ${kpiTile('GMV '+MONTHS_S[cur]+' (MTD)',fmtRpC(MON.gmv[cur]),deltaHtml(MON.gmv[cur],MON.gmv[prev]))}
+    ${kpiTile('Spend '+MONTHS_S[cur],fmtRpC(MON.cost[cur]),deltaHtml(MON.cost[cur],MON.cost[prev],false))}
+    ${kpiTile('ROAS',fmtX(MON.roas[cur]),deltaHtml(MON.roas[cur],MON.roas[prev]))}
+    ${kpiTile('Orders',fmtN(MON.orders[cur]),deltaHtml(MON.orders[cur],MON.orders[prev]))}
+    ${kpiTile('CPO',fmtRpC(MON.cpo[cur]),deltaHtml(MON.cpo[cur],MON.cpo[prev],false))}
+    ${kpiTile('AOV',fmtRpC(MON.aov[cur]),deltaHtml(MON.aov[cur],MON.aov[prev]))}
+  </div>
+  <div class="grid g-2" style="margin-top:12px">
+    <div class="card"><h3>GMV dari Ads per Platform <span class="hint">· per bulan</span></h3><div id="mStack"></div></div>
+    <div class="card"><h3>ROAS Bulanan <span class="hint">· all platform</span></h3><div id="mRoas"></div></div>
+  </div>
+  <div class="grid g-2" style="margin-top:12px">
+    <div class="card"><h3>Total Ads Cost per Bulan</h3><div id="mCost"></div></div>
+    <div class="card"><h3>Efisiensi Iklan <span class="hint">· cost ÷ GMV marketplace</span></h3><div id="mEff"></div></div>
+  </div>
+  <h2 class="sec">Tabel MoM</h2>
+  <div class="tbl-wrap"><table><thead><tr><th>Metrik</th>${mi.map(m=>`<th>${MONTHS_S[m]}</th>`).join('')}<th>Δ ${MONTHS_S[cur]} vs ${MONTHS_S[prev]}</th></tr></thead>
+  <tbody>${[
+    ['Total GMV From Ads',MON.gmv,fmtRpC,true],['Total All Ads Cost',MON.cost,fmtRpC,false],
+    ['Total Orders From Ads',MON.orders,fmtN,true],['ROAS',MON.roas,fmtX,true],
+    ['Cost Per Order',MON.cpo,fmtRpC,false],['AOV',MON.aov,fmtRpC,true],
+    ['CTR',MON.ctr,fmtPct,true],['CTOR',MON.ctor,fmtPct,true],
+    ['Impressions',MON.imp,fmtNC,true],['Product Clicks',MON.clk,fmtNC,true],
+    ['Ads Efficiency Rate',MON.eff,fmtPct,false],['Total GMV All Marketplace',MON.gmvAllMp,fmtRpC,true],
+  ].map(([lbl,arr,f,goodUp])=>{
+    const d=(arr[cur]!=null&&arr[cur]!==0&&arr[prev])?100*(arr[cur]-arr[prev])/Math.abs(arr[prev]):null;
+    const good=d!=null&&((d>=0)===goodUp);
+    return `<tr><td>${lbl}</td>${mi.map(m=>`<td class="num">${arr[m]==null?'–':f(arr[m])}</td>`).join('')}
+      <td class="num">${d==null?'–':`<b style="color:${good?'var(--good-ink)':'var(--critical)'}">${d>=0?'▲':'▼'} ${nf1.format(Math.abs(d))}%</b>`}</td></tr>`;
+  }).join('')}</tbody></table></div>
+  <p class="note">⚠️ ${MONTHS[cur]} masih berjalan (MTD s/d hari ke-${GLOBAL_LAST}) — Δ vs bulan penuh ${MONTHS[prev]} wajar terlihat turun. Beberapa channel (TikTok Live, Meta di sheet) belum ter-update di bulan berjalan.</p>`;
+  stackBars(document.getElementById('mStack'),Object.keys(PLATFORMS).map(p=>({name:PLATFORMS[p].name,color:pcolor(p),values:MON.platGmv[p]})),mi,{fmt:fmtRpC});
+  lineChart(document.getElementById('mRoas'),[{name:'ROAS',color:'var(--lazada)',values:mi.map(m=>MON.roas[m])}],mi.map(m=>MONTHS_S[m]),{fmt:fmtX,area:true});
+  stackBars(document.getElementById('mCost'),Object.keys(PLATFORMS).map(p=>({name:PLATFORMS[p].name,color:pcolor(p),values:MON.platCost[p]})),mi,{fmt:fmtRpC});
+  lineChart(document.getElementById('mEff'),[{name:'Efficiency rate',color:'var(--shopee)',values:mi.map(m=>MON.eff[m])}],mi.map(m=>MONTHS_S[m]),{fmt:fmtPct,area:true});
+}
+
+/* ---------- Platform ---------- */
+function renderPlatforms(){
+  view.innerHTML=`<h2 class="sec">Breakdown per Platform <span class="hint">MTD ${RAW.meta.month} — klik baris untuk buka detail harian</span></h2>
+  <div id="platWrap"></div>`;
+  const wrap=document.getElementById('platWrap');
+  for(const p in PLATFORMS){
+    const chans=CH.filter(c=>c.platform===p);
+    const sales=chans.filter(c=>c.objective==='sales');
+    const cost=sum(sales.map(c=>c.tot.cost)),gmv=sum(sales.map(c=>c.tot.gmv)),ord=sum(sales.map(c=>c.tot.orders));
+    const sec=document.createElement('div');
+    sec.innerHTML=`
+    <div class="card" style="margin-bottom:14px">
+      <div style="display:flex;flex-wrap:wrap;gap:18px;align-items:baseline;margin-bottom:10px">
+        <span style="font-size:15px;font-weight:700">${platChip(p)}</span>
+        <span style="font-size:12.5px;color:var(--ink-2)">Spend <b>${fmtRpC(cost)}</b></span>
+        <span style="font-size:12.5px;color:var(--ink-2)">GMV <b>${fmtRpC(gmv)}</b></span>
+        <span style="font-size:12.5px;color:var(--ink-2)">ROAS <b>${gmv?fmtX(div(gmv,cost)):'–'}</b></span>
+        <span style="font-size:12.5px;color:var(--ink-2)">Orders <b>${fmtN(ord)}</b></span>
+      </div>
+      <div class="tbl-wrap" style="border:0;border-radius:0"><table><thead><tr>
+        <th>Channel</th><th>Budget</th><th>Spent</th><th>Pacing</th><th>GMV</th><th>Orders</th><th>ROAS vs target</th><th>CPO</th><th>AOV</th><th>CTR</th><th>CTOR</th><th>Data s/d</th>
+      </tr></thead><tbody>
+      ${chans.map(c=>{
+        const T=targets[c.id]||8;
+        const pace=(c.budget&&c.last)? c.tot.cost/(c.budget*c.last/DIM):null;
+        const pct=c.budget? Math.min(100,100*c.tot.cost/c.budget):0;
+        const pcCol=pace==null?'var(--axis)':pace>1.2?'var(--serious)':pace<0.6?'var(--warning)':'var(--good)';
+        return `<tr class="click" data-ch="${c.id}">
+          <td>${esc(c.name)}${c.objective!=='sales'?' <span style="font-size:10px;color:var(--muted)">UPPER</span>':''}</td>
+          <td class="num">${fmtRpC(c.budget)}</td><td class="num">${fmtRpC(c.tot.cost)}</td>
+          <td><div style="display:flex;align-items:center;gap:7px"><div class="bar-track" style="flex:1"><div class="bar-fill" style="width:${pct}%;background:${pcCol}"></div></div>
+            <span style="font-size:11px;color:var(--muted);width:34px;text-align:right">${c.budget?nf0.format(100*c.tot.cost/c.budget)+'%':'–'}</span></div></td>
+          <td class="num">${c.objective==='sales'?fmtRpC(c.tot.gmv):'–'}</td>
+          <td class="num">${c.objective==='sales'?fmtN(c.tot.orders):'–'}</td>
+          <td>${c.objective==='sales'? pill(c.roas,T)+` <span style="font-size:10.5px;color:var(--muted)">/ ${nf0.format(T)}</span>`:'–'}</td>
+          <td class="num">${c.cpo?fmtRpC(c.cpo):'–'}</td><td class="num">${c.aov?fmtRpC(c.aov):'–'}</td>
+          <td class="num">${c.ctr!=null?fmtPct(c.ctr):'–'}</td><td class="num">${c.ctor!=null?fmtPct(c.ctor):'–'}</td>
+          <td class="num">${c.last?('hari '+c.last):'<span style="color:var(--muted)">kosong</span>'}</td></tr>`;
+      }).join('')}</tbody></table></div>
+    </div>`;
+    wrap.appendChild(sec);
+  }
+  wrap.querySelectorAll('tr[data-ch]').forEach(tr=>tr.addEventListener('click',()=>{
+    dailySel=tr.dataset.ch; location.hash='#/harian';
+  }));
+}
+
+/* ---------- Analisis ---------- */
+function renderAnalytics(){
+  ALERTS=computeAlerts();
+  const {alerts,opps}=ALERTS;
+  const worst=SALES.filter(c=>c.roas!=null&&c.tot.cost>500000).sort((a,b)=>a.roas-b.roas)[0];
+  const best=SALES.filter(c=>c.roas!=null&&c.tot.cost>500000).sort((a,b)=>b.roas-a.roas)[0];
+  view.innerHTML=`
+  <h2 class="sec">Analisis & Warning <span class="hint">otomatis dari data harian — dievaluasi ulang setiap data berubah</span></h2>
+  <div class="grid g-3">
+    ${kpiTile('Channel terbaik',best?esc(best.name):'–',best?`<span class="delta">${platChip(best.platform)} · ROAS <b>${fmtX(best.roas)}</b></span>`:'')}
+    ${kpiTile('Perlu perhatian',worst?esc(worst.name):'–',worst?`<span class="delta">${platChip(worst.platform)} · ROAS <b>${fmtX(worst.roas)}</b></span>`:'')}
+    ${kpiTile('Total temuan',String(alerts.filter(a=>a.sev!=='info').length),`<span class="delta">${opps.length} peluang scale-up</span>`)}
+  </div>
+  <h2 class="sec">⚠️ Warning & Action Plan</h2>
+  <div id="alertList">${alerts.filter(a=>a.sev!=='info').map(a=>alertHtml(a)).join('')||'<div class="empty">Tidak ada warning — semua channel dalam kondisi sehat ✓</div>'}</div>
+  ${alerts.some(a=>a.sev==='info')?`<h2 class="sec">ℹ️ Info Data <span class="hint">channel tanpa data / data tertinggal / catatan pacing</span></h2>
+  <div class="card"><div class="tbl-wrap" style="border:0"><table><thead><tr><th>Channel</th><th>Platform</th><th style="text-align:left">Catatan</th><th style="text-align:left">Langkah</th></tr></thead>
+  <tbody>${alerts.filter(a=>a.sev==='info').map(a=>`<tr><td>${esc(a.ch.name)}</td><td>${platChip(a.ch.platform)}</td>
+    <td style="text-align:left;white-space:normal;min-width:220px"><b>${esc(a.title)}</b> — <span style="color:var(--ink-2)">${esc(a.why)}</span></td>
+    <td style="text-align:left;white-space:normal;min-width:200px;color:var(--ink-2)">${esc((a.actions&&a.actions[0])||'')}</td></tr>`).join('')}</tbody></table></div></div>`:''}
+  <h2 class="sec">🚀 Peluang & Saran</h2>
+  ${opps.map(o=>alertHtml({ch:o.ch,title:o.title,why:o.why,actions:o.actions},'opp')).join('')||'<div class="empty">Belum ada kandidat scale-up (butuh ROAS ≥ 120% target).</div>'}
+  <h2 class="sec">🎯 Target ROAS per Channel <span class="hint">dipakai engine warning — tersimpan di browser</span></h2>
+  <div class="card"><div class="tbl-wrap" style="border:0"><table><thead><tr><th>Channel</th><th>Platform</th><th>ROAS MTD</th><th>Target</th></tr></thead>
+  <tbody>${SALES.map(c=>`<tr><td>${esc(c.name)}</td><td>${platChip(c.platform)}</td><td class="num">${c.roas?fmtX(c.roas):'–'}</td>
+    <td><input type="number" step="0.5" min="0" style="width:84px" data-t="${c.id}" value="${targets[c.id]||8}"></td></tr>`).join('')}</tbody></table></div>
+  <div style="margin-top:10px;display:flex;gap:8px"><button class="btn" id="saveT">Simpan target</button><button class="btn ghost" id="resetT">Reset default</button></div></div>`;
+  document.getElementById('saveT').onclick=()=>{
+    view.querySelectorAll('input[data-t]').forEach(inp=>{targets[inp.dataset.t]=parseFloat(inp.value)||0;});
+    store.set(LS_T,targets); renderAnalytics(); updateBadge();
+  };
+  document.getElementById('resetT').onclick=()=>{targets=Object.assign({},DEFAULT_TARGETS);store.set(LS_T,targets);renderAnalytics();updateBadge();};
+}
+
+/* ---------- Data / Import ---------- */
+function detectFormat(text){
+  const first=text.slice(0,400);
+  if(first.includes('Semua Laporan Iklan CPC')) return 'shopee_cpc';
+  if(first.includes('Laporan Iklan Toko')) return 'shopee_toko';
+  if(first.includes('Search Brand Ads Report')) return 'shopee_sba';
+  if(/Campaign name/i.test(first) && /Day/i.test(first)) return 'meta';
+  return null;
+}
+function csvParse(text){
+  const rows=[];let row=[],cur='',q=false;
+  for(let i=0;i<text.length;i++){const ch=text[i];
+    if(q){ if(ch==='"'){ if(text[i+1]==='"'){cur+='"';i++;} else q=false; } else cur+=ch; }
+    else if(ch==='"') q=true;
+    else if(ch===','){row.push(cur);cur='';}
+    else if(ch==='\n'){row.push(cur);rows.push(row);row=[];cur='';}
+    else if(ch!=='\r') cur+=ch;
+  }
+  if(cur!==''||row.length){row.push(cur);rows.push(row);}
+  return rows;
+}
+const idnum=v=>{if(v==null)return null;v=String(v).trim().replace(/[Rp%\s]/g,'').replace(/\./g,'').replace(',', '.');
+  if(v===''||v==='-')return null;const n=parseFloat(v);return isNaN(n)?null:n;};
+const plainnum=v=>{if(v==null)return null;v=String(v).trim().replace(/[Rp%\s]/g,'').replace(/,/g,'');
+  if(v===''||v==='-')return null;const n=parseFloat(v);return isNaN(n)?null:n;};
+function parseImport(text){
+  const kind=detectFormat(text);
+  if(!kind) return {error:'Format tidak dikenali. Gunakan ekspor CSV Shopee (Iklan CPC / Iklan Toko / SBA) atau CSV Meta (kolom Campaign name + Day). Untuk file Excel Meta: buka lalu Save As CSV.'};
+  const rows=csvParse(text);
+  if(kind==='meta'){
+    const hi=rows.findIndex(r=>r.join(',').includes('Campaign name'));
+    const H=rows[hi].map(s=>s.trim());
+    const col=n=>H.findIndex(h=>h.toLowerCase()===n.toLowerCase());
+    const cDay=col('Day'), cSpent=H.findIndex(h=>/amount spent/i.test(h));
+    const cPur=H.findIndex(h=>/^purchases with shared/i.test(h));
+    const cVal=H.findIndex(h=>/^purchases conversion value/i.test(h));
+    const cClk=H.findIndex(h=>/link clicks/i.test(h));
+    const cReach=col('Reach'), cImp=col('Impressions');
+    const daily={};
+    for(const r of rows.slice(hi+1)){
+      const d=(r[cDay]||'').slice(0,10);
+      if(!/^\d{4}-\d{2}-\d{2}$/.test(d)) continue;
+      const o=daily[d]??={cost:0,gmv:0,orders:0,clicks:0,reach:0,impressions:0};
+      o.cost+=plainnum(r[cSpent])||0; o.gmv+=cVal>=0?plainnum(r[cVal])||0:0;
+      o.orders+=cPur>=0?plainnum(r[cPur])||0:0; o.clicks+=cClk>=0?plainnum(r[cClk])||0:0;
+      o.reach+=cReach>=0?plainnum(r[cReach])||0:0; o.impressions+=cImp>=0?plainnum(r[cImp])||0:0;
+    }
+    const days=Object.keys(daily).sort();
+    if(!days.length) return {error:'Tidak ada baris harian valid (kolom Day format YYYY-MM-DD).'};
+    return {kind,daily,label:`Meta CSV — ${days.length} hari (${days[0]} s/d ${days[days.length-1]})`,defaultCh:'meta_cpas'};
+  }
+  /* Shopee: satu periode per file */
+  const perLine=rows.find(r=>r[0]&&r[0].trim()==='Periode');
+  let date=null;
+  if(perLine){const m=String(perLine[1]||'').match(/(\d{2})\/(\d{2})\/(\d{4})\s*-\s*(\d{2})\/(\d{2})\/(\d{4})/);
+    if(m&&m[1]===m[4]&&m[2]===m[5]) date=`${m[3]}-${m[2]}-${m[1]}`;
+    else if(m) date=`${m[6]}-${m[5]}-${m[4]}`;}
+  const hi=rows.findIndex(r=>r[0]&&r[0].trim()==='Urutan');
+  if(hi<0) return {error:'Header tabel (kolom "Urutan") tidak ditemukan.'};
+  const H=rows[hi].map(s=>s.trim());
+  const ix=n=>H.indexOf(n);
+  const cBiaya=ix('Biaya'), cOmzet=ix('Omzet Penjualan'),
+        cKonv=ix('Konversi')>=0?ix('Konversi'):ix('Pesanan'),
+        cLihat=ix('Dilihat'), cKlik=ix('Jumlah Klik');
+  let cost=0,gmv=0,orders=0,imp=0,clk=0,n=0,active=0;
+  for(const r of rows.slice(hi+1)){
+    if(!r[0]||!/^\d+$/.test(String(r[0]).trim())) continue;
+    n++;
+    const b=plainnum(r[cBiaya])||0;
+    if(b<=0) continue;            // ambil campaign yang ada biaya, sesuai alur kerja
+    active++;
+    cost+=b; gmv+=plainnum(r[cOmzet])||0; orders+=plainnum(r[cKonv])||0;
+    imp+=plainnum(r[cLihat])||0; clk+=plainnum(r[cKlik])||0;
+  }
+  const defaultCh=kind==='shopee_toko'?'sp_store':kind==='shopee_sba'?'sp_sba':'sp_pc';
+  return {kind,date,single:{cost,gmv,orders,impressions:imp,clicks:clk},
+    label:`${kind==='shopee_cpc'?'Shopee Iklan CPC':kind==='shopee_toko'?'Shopee Iklan Toko':'Shopee SBA'} — ${active}/${n} campaign berbiaya${date?' · '+date:''}`,defaultCh};
+}
+let pendingImport=null;
+function renderData(){
+  const ovEntries=[];
+  for(const cid in overlay) for(const m in overlay[cid]) for(const d in overlay[cid][m])
+    ovEntries.push({cid,m,d:+d,v:overlay[cid][m][d]});
+  view.innerHTML=`
+  <h2 class="sec">Data & Import <span class="hint">alur sama dengan tab RAW di Google Sheet Anda</span></h2>
+  <div class="grid g-2">
+    <div class="card">
+      <h3>1 · Import Raw Data</h3>
+      <p class="note" style="margin:0 0 8px">Tempel isi file CSV ekspor platform, atau pilih file. Format yang dikenali otomatis:
+      Shopee <b>Iklan CPC</b> (produk / produk baru), <b>Iklan Toko</b>, <b>SBA</b>, dan <b>Meta CSV</b> (per hari).
+      File Excel Meta: buka lalu <i>Save as CSV</i> dulu.</p>
+      <input type="file" id="impFile" accept=".csv,.txt" style="margin-bottom:8px">
+      <textarea id="impText" placeholder="…atau tempel isi CSV di sini"></textarea>
+      <div style="margin-top:8px;display:flex;gap:8px"><button class="btn" id="impParse">Deteksi & preview</button></div>
+      <div id="impPrev" style="margin-top:10px"></div>
+    </div>
+    <div class="card">
+      <h3>2 · Input Manual Harian</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <label>Channel<br><select id="mCh" style="width:100%">${dailyOptions(false)}</select></label>
+        <label>Tanggal<br><input type="date" id="mDate" style="width:100%" min="${RAW.meta.year}-07-01" max="${RAW.meta.year}-07-31" value="${RAW.meta.year}-07-${String(Math.min(GLOBAL_LAST+1,DIM)).padStart(2,'0')}"></label>
+        <label>Ads Cost (Rp)<br><input type="number" id="mCost" style="width:100%"></label>
+        <label>GMV (Rp)<br><input type="number" id="mGmv" style="width:100%"></label>
+        <label>Orders<br><input type="number" id="mOrd" style="width:100%"></label>
+        <label>Impressions<br><input type="number" id="mImp" style="width:100%"></label>
+        <label>Product Clicks<br><input type="number" id="mClk" style="width:100%"></label>
+      </div>
+      <div style="margin-top:10px"><button class="btn" id="mSave">Simpan ke database</button></div>
+      <p class="note">Data tersimpan sebagai overlay di browser (localStorage) di atas data dasar dari Google Sheet — tidak mengubah sheet aslinya.</p>
+    </div>
+  </div>
+  <h2 class="sec">Overlay aktif <span class="hint">${ovEntries.length} sel diubah/ditambah</span></h2>
+  <div class="card">
+    ${ovEntries.length?`<div class="tbl-wrap" style="border:0;max-height:260px;overflow:auto"><table><thead><tr><th>Channel</th><th>Metrik</th><th>Tanggal</th><th>Nilai</th></tr></thead>
+      <tbody>${ovEntries.sort((a,b)=>a.cid.localeCompare(b.cid)||a.d-b.d).map(e=>`<tr><td>${esc(chById(e.cid)?.name||e.cid)}</td><td>${e.m}</td><td class="num">${e.d+1} Jul</td><td class="num">${['cost','gmv','atcValue'].includes(e.m)?fmtRp(e.v):fmtN(e.v)}</td></tr>`).join('')}</tbody></table></div>`:
+      '<div class="empty">Belum ada perubahan — dashboard memakai data dasar dari Google Sheet + raw upload.</div>'}
+    <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn ghost" id="expJson">⬇ Export JSON gabungan</button>
+      ${ovEntries.length?'<button class="btn ghost" id="clrOv" style="color:var(--critical)">Hapus semua overlay</button>':''}
+    </div>
+  </div>
+  <h2 class="sec">Struktur database</h2>
+  <div class="card"><div class="tbl-wrap" style="border:0"><table>
+    <thead><tr><th>Sumber raw (sheet)</th><th>Channel di dashboard</th><th>Platform</th><th>Metrik utama</th></tr></thead><tbody>
+    <tr><td>RS Prod &amp; Toko</td><td>Iklan Produk · Iklan Toko</td><td>${platChip('shopee')}</td><td>Biaya, Omzet, Konversi, Dilihat, Klik</td></tr>
+    <tr><td>RS Prod Baru</td><td>Iklan Produk Baru</td><td>${platChip('shopee')}</td><td>Biaya, Omzet, Konversi</td></tr>
+    <tr><td>RS Live</td><td>Live Shopee Ads (LSA)</td><td>${platChip('shopee')}</td><td>Biaya, Omzet, Pesanan, Penonton</td></tr>
+    <tr><td>LS SBA</td><td>Search Brand Ads (Banner)</td><td>${platChip('shopee')}</td><td>Biaya, Omzet, Pesanan, Dilihat</td></tr>
+    <tr><td>RT Product Ads</td><td>VSA / VSA NS / Product Card (NS)</td><td>${platChip('tiktok')}</td><td>Biaya, Pendapatan kotor, Pesanan SKU, Impresi, Klik</td></tr>
+    <tr><td>RT Live Ads + Produk Klik Live</td><td>Live Streaming SMO/SID/SMV/Aff</td><td>${platChip('tiktok')}</td><td>Biaya, Pendapatan, Pesanan, Tayangan LIVE, Produk Klik</td></tr>
+    <tr><td>RT Upper Funnel</td><td>Awareness / Consideration / CI</td><td>${platChip('tiktok')}</td><td>Cost, Reach, Impressions, Follows</td></tr>
+    <tr><td>RAW Meta</td><td>CPAS Sales · Awareness · Traffic</td><td>${platChip('meta')}</td><td>Spent, Purchases, Conv. Value, Link Clicks</td></tr>
+  </tbody></table></div></div>`;
+  const fileEl=document.getElementById('impFile');
+  fileEl.onchange=()=>{const f=fileEl.files[0];if(!f)return;const rd=new FileReader();
+    rd.onload=()=>{document.getElementById('impText').value=rd.result;doParse();};rd.readAsText(f);};
+  document.getElementById('impParse').onclick=doParse;
+  function doParse(){
+    const text=document.getElementById('impText').value;
+    if(!text.trim())return;
+    const res=parseImport(text); pendingImport=res;
+    const prev=document.getElementById('impPrev');
+    if(res.error){prev.innerHTML=`<div class="alert warn" style="margin:0"><div class="ic">⚠️</div><div class="bd">${esc(res.error)}</div></div>`;return;}
+    const chOpts=CH.map(c=>`<option value="${c.id}" ${c.id===res.defaultCh?'selected':''}>${PLATFORMS[c.platform].name} — ${esc(c.name)}</option>`).join('');
+    if(res.kind==='meta'){
+      const days=Object.keys(res.daily).sort();
+      prev.innerHTML=`<div class="alert opp" style="margin:0"><div class="ic">✓</div><div class="bd">
+        <b>${esc(res.label)}</b>
+        <div class="why">Total: ${fmtRpC(sum(days.map(d=>res.daily[d].cost)))} spend · ${fmtRpC(sum(days.map(d=>res.daily[d].gmv)))} GMV · ${fmtN(sum(days.map(d=>res.daily[d].orders)))} orders</div>
+        <div class="controls" style="margin:8px 0 0"><label>Masukkan ke:</label><select id="impCh">${chOpts}</select>
+        <button class="btn" id="impSave">Simpan</button></div></div></div>`;
+    } else {
+      prev.innerHTML=`<div class="alert opp" style="margin:0"><div class="ic">✓</div><div class="bd">
+        <b>${esc(res.label)}</b>
+        <div class="why">Agregat campaign berbiaya: ${fmtRpC(res.single.cost)} spend · ${fmtRpC(res.single.gmv)} omzet · ${fmtN(res.single.orders)} konversi</div>
+        <div class="controls" style="margin:8px 0 0">
+          <label>Channel:</label><select id="impCh">${chOpts}</select>
+          <label>Tanggal:</label><input type="date" id="impDate" value="${res.date||''}" min="${RAW.meta.year}-07-01" max="${RAW.meta.year}-07-31">
+          <button class="btn" id="impSave">Simpan</button></div></div></div>`;
+    }
+    document.getElementById('impSave').onclick=()=>{
+      const cid=document.getElementById('impCh').value;
+      const put=(dateIso,vals)=>{
+        const d=new Date(dateIso+'T00:00:00');
+        if(d.getMonth()!==CUR_M||d.getFullYear()!==RAW.meta.year){alert('Tanggal di luar '+RAW.meta.month+' — dashboard versi ini menyimpan data harian '+RAW.meta.month+'.');return false;}
+        const di=d.getDate()-1;
+        overlay[cid]??={};
+        for(const k in vals){ if(vals[k]==null)continue; (overlay[cid][k]??={})[di]=vals[k]; }
+        return true;
+      };
+      let ok=true;
+      if(res.kind==='meta'){ for(const d in res.daily) ok=put(d,res.daily[d])&&ok; }
+      else{ const dt=document.getElementById('impDate').value;
+        if(!dt){alert('Isi tanggal data (Periode ekspor Shopee).');return;}
+        ok=put(dt,res.single); }
+      if(ok){store.set(LS_O,overlay);location.reload();}
+    };
+  }
+  document.getElementById('mSave').onclick=()=>{
+    const cid=document.getElementById('mCh').value, dt=document.getElementById('mDate').value;
+    if(!cid||!dt||cid==='all'||cid.startsWith('agg:'))return;
+    const d=new Date(dt+'T00:00:00'); if(d.getMonth()!==CUR_M){alert('Tanggal harus di bulan '+RAW.meta.month);return;}
+    const di=d.getDate()-1, vals={cost:'mCost',gmv:'mGmv',orders:'mOrd',impressions:'mImp',clicks:'mClk'};
+    overlay[cid]??={};
+    let any=false;
+    for(const k in vals){const v=document.getElementById(vals[k]).value;
+      if(v!==''){(overlay[cid][k]??={})[di]=parseFloat(v);any=true;}}
+    if(!any)return;
+    store.set(LS_O,overlay);location.reload();
+  };
+  document.getElementById('expJson').onclick=()=>{
+    const out={meta:RAW.meta,exportedAt:new Date().toISOString(),channels:CH.map(c=>({id:c.id,platform:c.platform,name:c.name,budget:c.budget,days:c.days,totals:c.tot,roas:c.roas}))};
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(new Blob([JSON.stringify(out,null,1)],{type:'application/json'}));
+    a.download='ads-database-juli-2026.json';a.click();
+  };
+  const clr=document.getElementById('clrOv');
+  if(clr)clr.onclick=()=>{if(confirm('Hapus semua data overlay? Dashboard kembali ke data dasar.')){overlay={};store.set(LS_O,overlay);location.reload();}};
+}
+
+/* =================== ROUTER & BOOT =================== */
+const TABS=[
+  ['ringkasan','Ringkasan',renderOverview],
+  ['harian','Harian',renderDaily],
+  ['bulanan','Bulanan',renderMonthly],
+  ['platform','Platform',renderPlatforms],
+  ['analisis','Analisis',renderAnalytics],
+  ['data','Data',renderData],
+];
+let curTab='ringkasan';
+function updateBadge(){
+  ALERTS=computeAlerts();
+  const n=ALERTS.alerts.filter(a=>a.sev==='critical'||a.sev==='serious'||a.sev==='warning').length;
+  const b=document.querySelector('nav.tabs button[data-tab="analisis"]');
+  if(b) b.innerHTML='Analisis'+(n?`<span class="n">${n}</span>`:'');
+}
+function nav(){
+  const h=(location.hash||'#/ringkasan').replace('#/','');
+  const t=TABS.find(t=>t[0]===h)||TABS[0];
+  curTab=t[0];
+  document.querySelectorAll('nav.tabs button').forEach(b=>b.classList.toggle('on',b.dataset.tab===curTab));
+  view.innerHTML=''; t[2]();
+  window.scrollTo({top:0});
+}
+function boot(){
+  const tabs=document.getElementById('tabs');
+  tabs.innerHTML=TABS.map(t=>`<button data-tab="${t[0]}">${t[1]}</button>`).join('');
+  tabs.querySelectorAll('button').forEach(b=>b.onclick=()=>location.hash='#/'+b.dataset.tab);
+  document.getElementById('asOfPill').textContent='Data s/d '+GLOBAL_LAST+' Jul';
+  /* theme */
+  const mq=matchMedia('(prefers-color-scheme: dark)');
+  const applyOs=()=>document.documentElement.dataset.osdark=mq.matches?'1':'0';
+  applyOs(); mq.addEventListener('change',applyOs);
+  const saved=store.get(LS_TH,null);
+  if(saved) document.documentElement.dataset.theme=saved;
+  document.getElementById('themeBtn').onclick=()=>{
+    const cur=document.documentElement.dataset.theme;
+    const isDark=cur? cur==='dark' : mq.matches;
+    const next=isDark?'light':'dark';
+    document.documentElement.dataset.theme=next; store.set(LS_TH,next);
+    nav();
+  };
+  updateBadge();
+  addEventListener('hashchange',nav);
+  let rt; addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(nav,220);});
+  document.body.addEventListener('click',e=>{
+    const tr=e.target.closest('tr[data-nav]'); if(tr) location.hash=tr.dataset.nav;
+  });
+  nav();
+}
+boot();
+</script>
+</body>
+</html>
