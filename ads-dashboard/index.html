@@ -179,6 +179,35 @@ textarea{
 .bar-fill{height:100%;border-radius:99px}
 .foot{color:var(--muted);font-size:11.5px;margin-top:34px;border-top:1px solid var(--grid);padding-top:12px}
 .empty{color:var(--muted);text-align:center;padding:26px 0;font-size:13px}
+
+/* segmented control */
+.seg{display:inline-flex;background:var(--surface-2);border:1px solid var(--ring);border-radius:10px;padding:3px;gap:2px}
+.seg button{border:0;background:none;cursor:pointer;padding:6px 14px;font-size:12.5px;font-weight:600;color:var(--ink-2);border-radius:7px}
+.seg button.on{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+
+/* upload dropzone */
+.drop{
+  border:2px dashed var(--axis);border-radius:14px;padding:34px 20px;text-align:center;
+  color:var(--ink-2);cursor:pointer;transition:border-color .15s, background .15s;
+}
+.drop.on{border-color:var(--tiktok);background:color-mix(in srgb,var(--tiktok) 6%,transparent)}
+.drop b{display:block;font-size:14.5px;color:var(--ink);margin-bottom:4px}
+.drop small{font-size:12px;color:var(--muted)}
+.file-row{
+  display:flex;gap:12px;align-items:center;flex-wrap:wrap;
+  border:1px solid var(--ring);border-radius:11px;padding:10px 13px;margin-top:9px;background:var(--surface);
+}
+.file-row .fname{font-weight:650;font-size:12.5px;max-width:230px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.file-row .ftype{font-size:11px;font-weight:700;letter-spacing:.03em;padding:2px 8px;border-radius:99px;background:var(--surface-2);color:var(--ink-2)}
+.file-row .fsum{font-size:12px;color:var(--ink-2)}
+.file-row select,.file-row input[type=date]{padding:5px 8px;font-size:12px}
+.file-row .del{margin-left:auto;border:0;background:none;cursor:pointer;color:var(--muted);font-size:15px}
+.file-row.err{border-color:color-mix(in srgb,var(--critical) 45%,var(--ring))}
+
+/* compare */
+.cmp-delta{font-weight:700}
+.cmp-delta.up{color:var(--good-ink)} .cmp-delta.dn{color:var(--critical)} .cmp-delta.flat{color:var(--muted)}
+.btn.cta{display:inline-flex;align-items:center;gap:7px}
 </style>
 </head>
 <body data-palette="#2a78d6,#eb6834,#1baf7a,#4a3aa7">
@@ -269,7 +298,13 @@ function channelDays(ch){                       // merged base + overlay
   return out;
 }
 
-const CH = RAW.channels.map(c=>{
+/* nama channel Live GMV Max sesuai konvensi nama kampanye: SMO / SID / SMV / affiliate */
+const NAME_OVERRIDES={
+  tt_live_smo:'Live GMV Max SMO', tt_live_sid:'Live GMV Max SID',
+  tt_live_smv:'Live GMV Max SMV', tt_live_aff:'Live GMV Max Affiliate',
+};
+const CH = RAW.channels.map(c0=>{
+  const c={...c0, name:NAME_OVERRIDES[c0.id]||c0.name};
   const days=channelDays(c);
   const cost=days.cost||[], gmv=days.gmv||[], orders=days.orders||[];
   const imp=days.impressions||[], clk=days.clicks||[];
@@ -472,13 +507,7 @@ function spark(values,color,w=140,h=34){
 const avg=(a)=>{const v=a.filter(x=>x!=null);return v.length?sum(v)/v.length:null};
 const median=(a)=>{const v=a.filter(x=>x!=null).sort((x,y)=>x-y);if(!v.length)return null;
   const m=v.length>>1;return v.length%2?v[m]:(v[m-1]+v[m])/2;};
-function windowVals(arr, endDay, len){ // endDay = 1-based inclusive
-  const s=Math.max(0,endDay-len); return (arr||[]).slice(s,endDay);
-}
-function dailyRoas(ch){
-  const c=ch.days.cost||[],g=ch.days.gmv||[];
-  return c.map((v,i)=> (v&&g[i]!=null)? (g[i]/v) : null);
-}
+function windowVals(arr, endDay, len){ const s=Math.max(0,endDay-len); return (arr||[]).slice(s,endDay); }
 const SEV={critical:0,serious:1,warning:2,info:3};
 const SEV_LBL={critical:'KRITIS',serious:'SERIUS',warning:'PERHATIAN',info:'INFO',opp:'PELUANG'};
 const SEV_CLS={critical:'crit',serious:'ser',warning:'warn',info:'info',opp:'opp'};
@@ -495,7 +524,16 @@ const SOP={
   scaling:'Scaling sehat: naikkan modal bertahap maks 20–30% per 2 hari supaya CPP tidak melonjak.',
   peak:'Menjelang tanggal kembar/payday: naikkan modal ke level Peak pada H-1, H, dan H+1 sesuai SOP.',
 };
-
+function actionRoas(ch){
+  if(ch.platform==='shopee') return [SOP.shopeeTurunModal,SOP.shopeeGeser,SOP.shopeeStok];
+  if(ch.platform==='tiktok') return [SOP.ttCreative,SOP.ttRoi,'Cek harga & voucher vs kompetitor pada produk hero.'];
+  if(ch.platform==='meta')   return [SOP.metaAudiens,SOP.metaKatalog,'Uji kreatif carousel vs collection; pindahkan budget ke adset ROAS terbaik.'];
+  return ['Audit kata kunci & penawaran; alihkan budget ke SKU dengan konversi terbaik.'];
+}
+function dailyRoas(ch){
+  const c=ch.days.cost||[],g=ch.days.gmv||[];
+  return c.map((v,i)=> (v&&g[i]!=null)? (g[i]/v) : null);
+}
 function computeAlerts(){
   const alerts=[], opps=[];
   const push=(sev,ch,title,why,actions,metric)=>alerts.push({sev,ch,title,why,actions,metric});
@@ -503,21 +541,17 @@ function computeAlerts(){
     const isSales=ch.objective==='sales';
     const T=targets[ch.id]||8;
     const cost=ch.days.cost||[], gmv=ch.days.gmv||[];
-    /* -- data availability -- */
     if(ch.last===0){
       if((ch.budget||0)>0) push('info',ch,'Belum ada data '+RAW.meta.month.split(' ')[0],
         `Budget ${fmtRpC(ch.budget)} sudah dialokasikan tetapi belum ada biaya/pesanan tercatat.`,
-        ['Tarik data dari platform (ekspor harian) lalu masukkan lewat tab Data ▸ Import.',
-         'Jika campaign memang belum jalan, pastikan jadwal aktivasi & materi sudah siap.']);
+        ['Upload data harian channel ini lewat tab Upload.','Jika campaign memang belum jalan, pastikan jadwal aktivasi & materi siap.']);
       continue;
     }
     if(ch.last < GLOBAL_LAST-1)
       push('info',ch,`Data tertinggal ${GLOBAL_LAST-ch.last} hari`,
-        `Data terakhir hari ke-${ch.last}, sementara channel lain sudah sampai hari ke-${GLOBAL_LAST}.`,
-        ['Tarik ulang laporan periode yang kosong lalu import di tab Data.']);
+        `Data terakhir hari ke-${ch.last}, channel lain sudah sampai hari ke-${GLOBAL_LAST}.`,
+        ['Upload laporan periode yang kosong lewat tab Upload.']);
     if(!isSales) continue;
-
-    /* -- ROAS vs target (MTD) -- */
     if(ch.roas!=null){
       if(ch.roas < T*0.7)
         push('serious',ch,`ROAS ${fmtX(ch.roas)} jauh di bawah target ${fmtX(T)}`,
@@ -528,17 +562,15 @@ function computeAlerts(){
           `Selisih ${nf1.format(100*(1-ch.roas/T))}% dari target — masih bisa dikejar dengan optimasi campaign.`,
           actionRoas(ch), {k:'ROAS MTD', v:fmtX(ch.roas), t:'Target '+fmtX(T)});
     }
-    /* -- tren turun: bandingkan 3 hari terakhir vs 7 hari sebelumnya -- */
     if(ch.last>=6){
       const roasD=dailyRoas(ch);
-      const trend=(arr,name,fmt)=>{
+      const trend=(arr)=>{
         const rec=avg(windowVals(arr,ch.last,3));
-        /* median 7-hari agar baseline tidak terdistorsi lonjakan tanggal kembar/payday */
-        const base=median(windowVals(arr,Math.max(0,ch.last-3),7));
+        const base=median(windowVals(arr,Math.max(0,ch.last-3),7)); // median: tahan lonjakan tanggal kembar
         if(rec==null||base==null||base<=0) return null;
-        return {rec,base,drop:100*(1-rec/base),name,fmt};
+        return {rec,base,drop:100*(1-rec/base)};
       };
-      const tR=trend(roasD,'ROAS',fmtX), tG=trend(gmv,'GMV harian',fmtRpC), tC=trend(cost,'Spend harian',fmtRpC);
+      const tR=trend(roasD), tG=trend(gmv), tC=trend(cost);
       if(tR && tR.drop>=20)
         push(tR.drop>=35?'critical':'serious',ch,
           `ROAS turun ${nf0.format(tR.drop)}% dalam 3 hari terakhir`,
@@ -552,24 +584,22 @@ function computeAlerts(){
         push('warning',ch,`Spend & GMV sama-sama turun ${nf0.format(tC.drop)}%`,
           `Penurunan seiring — kemungkinan budget dikurangi/limit tercapai, bukan masalah performa.`,
           ['Kembalikan modal harian ke level BAU bila penurunan tidak disengaja.', SOP.scaling]);
-      /* creative fatigue: CTOR turun */
       const clk=ch.days.clicks||[], ord=ch.days.orders||[];
       const ctorD=clk.map((v,i)=> v? 100*(ord[i]||0)/v : null);
-      const tCt=trend(ctorD,'CTOR',fmtPct);
+      const tCt=trend(ctorD);
       if(tCt && tCt.drop>=20 && (ch.tot.clk||0)>500)
-        push('warning',ch,`CTOR melemah ${nf0.format(tCt.drop)}% — indikasi klik tidak jadi beli`,
-          `CTOR 3 hari terakhir ${fmtPct(tCt.rec)} vs baseline ${fmtPct(tCt.base)}. Traffic masih datang tapi konversinya menurun.`,
-          [SOP.shopeeStok,'Cek halaman produk: rating terbaru, ulasan negatif, dan kecepatan respon chat.',
+        push('warning',ch,`CTOR melemah ${nf0.format(tCt.drop)}% — klik tidak jadi beli`,
+          `CTOR 3 hari terakhir ${fmtPct(tCt.rec)} vs baseline ${fmtPct(tCt.base)}. Traffic masih datang tapi konversi menurun.`,
+          [SOP.shopeeStok,'Cek halaman produk: rating terbaru, ulasan negatif, kecepatan respon chat.',
            ch.platform==='tiktok'?SOP.ttCreative:'Refresh kreatif/thumbnail utama & judul produk.']);
     }
-    /* -- pacing budget -- */
     if((ch.budget||0)>0 && ch.last>=3){
       const proj = ch.tot.cost/ch.last*DIM;
       const pace = ch.tot.cost/(ch.budget*ch.last/DIM);
       if(pace>1.2 && ch.roas!=null && ch.roas>=T)
         push('info',ch,`Spend ${nf0.format((pace-1)*100)}% di atas pace budget — tapi ROAS sehat`,
-          `Proyeksi habis bulan ${fmtRpC(proj)} vs budget ${fmtRpC(ch.budget)}. ROAS ${fmtX(ch.roas)} ≥ target, jadi overspend ini produktif.`,
-          ['Ajukan penyesuaian budget bulanan bila ingin mempertahankan laju ini.',SOP.scaling]);
+          `Proyeksi habis bulan ${fmtRpC(proj)} vs budget ${fmtRpC(ch.budget)}. ROAS ${fmtX(ch.roas)} ≥ target, overspend ini produktif.`,
+          ['Ajukan penyesuaian budget bulanan bila ingin mempertahankan laju ini.']);
       else if(pace>1.2)
         push('warning',ch,`Overspend ${nf0.format((pace-1)*100)}% dengan ROAS di bawah target`,
           `Proyeksi ${fmtRpC(proj)} vs budget ${fmtRpC(ch.budget)}, sementara ROAS ${fmtX(ch.roas)} < target ${fmtX(T)}.`,
@@ -580,30 +610,22 @@ function computeAlerts(){
           ['Naikkan modal harian bertahap 20–30% per 2 hari pada campaign ROAS terbaik.',
            ch.platform==='shopee'?'Tambah kampanye produk baru (modal awal Rp75.015 sesuai SOP).':SOP.scaling]);
     }
-    /* -- peluang scale-up -- */
     if(ch.roas!=null && ch.roas>=T*1.2 && ch.last>=5){
       const pace=(ch.budget||0)>0? ch.tot.cost/(ch.budget*ch.last/DIM) : 0;
       if(pace<=1.05)
         opps.push({ch,title:`ROAS ${fmtX(ch.roas)} — ${nf0.format(100*ch.roas/T-100)}% di atas target. Kandidat scale-up.`,
-          why:`Spend masih ${pace?nf0.format(pace*100)+'% dari pace budget':'di bawah pace'}; ruang naik tanpa mengorbankan efisiensi.`,
+          why:`Spend masih ${pace?nf0.format(pace*100)+'% dari pace budget':'di bawah pace'}; ada ruang naik tanpa mengorbankan efisiensi.`,
           actions:[SOP.scaling, ch.platform==='shopee'?SOP.shopeeGeser:(ch.platform==='tiktok'?SOP.ttRoi:SOP.metaKatalog), SOP.peak]});
     }
   }
   alerts.sort((a,b)=>SEV[a.sev]-SEV[b.sev]);
-  /* maksimal 2 warning aktif per channel supaya daftar tetap actionable */
-  const perCh={}, kept=[];
+  const perCh={}, kept=[];   // maks 2 warning aktif per channel supaya tetap actionable
   for(const a of alerts){
     if(a.sev==='info'){kept.push(a);continue;}
     perCh[a.ch.id]=(perCh[a.ch.id]||0)+1;
     if(perCh[a.ch.id]<=2) kept.push(a);
   }
   return {alerts:kept,opps};
-}
-function actionRoas(ch){
-  if(ch.platform==='shopee') return [SOP.shopeeTurunModal,SOP.shopeeGeser,SOP.shopeeStok];
-  if(ch.platform==='tiktok') return [SOP.ttCreative,SOP.ttRoi,'Cek harga & voucher vs kompetitor pada produk hero.'];
-  if(ch.platform==='meta')   return [SOP.metaAudiens,SOP.metaKatalog,'Uji kreatif carousel vs collection; pindahkan budget ke adset ROAS terbaik.'];
-  return ['Audit kata kunci & penawaran; alihkan budget ke SKU dengan konversi terbaik.'];
 }
 let ALERTS=computeAlerts();
 
@@ -618,19 +640,14 @@ function pill(roas,t){
   if(roas>=t*0.7) return `<span class="pill-stat mid">△ ${fmtX(roas)}</span>`;
   return `<span class="pill-stat bad">✕ ${fmtX(roas)}</span>`;
 }
-function deltaHtml(cur,prev,goodUp=true,fmt=fmtRpC){
-  if(cur==null||prev==null||prev===0) return '<span class="delta">vs Jun: –</span>';
+function deltaHtml(cur,prev,goodUp=true){
+  if(cur==null||prev==null||prev===0) return `<span class="delta">vs ${MONTHS_S[PREV_M]}: –</span>`;
   const d=100*(cur-prev)/Math.abs(prev);
   const up=d>=0, good=(up===goodUp);
   return `<span class="delta"><b class="${good?'up':'dn'}">${up?'▲':'▼'} ${nf1.format(Math.abs(d))}%</b> vs ${MONTHS_S[PREV_M]}</span>`;
 }
-function kpiTile(lbl,val,extra,sparkHtml,color){
-  return `<div class="card kpi">
-    <div class="lbl">${color?`<span class="dot" style="background:${color}"></span>`:''}${esc(lbl)}</div>
-    <div class="val">${val}</div>
-    ${extra||''}
-    ${sparkHtml||''}
-  </div>`;
+function kpiTile(lbl,val,extra,sparkHtml){
+  return `<div class="card kpi"><div class="lbl">${esc(lbl)}</div><div class="val">${val}</div>${extra||''}${sparkHtml||''}</div>`;
 }
 function alertHtml(a,sevKey){
   const sev=sevKey||a.sev;
@@ -644,12 +661,28 @@ function alertHtml(a,sevKey){
       ${a.actions&&a.actions.length?`<ul class="acts"><span class="tag" style="font-size:11.5px;color:var(--muted)">ACTION PLAN</span>${a.actions.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:''}
     </div></div>`;
 }
+const iso=(y,m,d)=>`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+const julDate=d=>iso(RAW.meta.year,CUR_M,d);          // d = 1-based
+function parseIsoJulDay(s){                            // → 1-based day, atau null jika di luar Juli
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(s||'')) return null;
+  const dt=new Date(s+'T00:00:00');
+  return (dt.getFullYear()===RAW.meta.year&&dt.getMonth()===CUR_M)? dt.getDate():null;
+}
+/* metrik gabungan untuk satu subjek (channel/agregat) pada rentang hari [d1..d2] 1-based */
+function rangeStats(days,d1,d2){
+  const cut=a=>(a||[]).slice(d1-1,d2);
+  const c=sum(cut(days.cost)),g=sum(cut(days.gmv)),o=sum(cut(days.orders)),
+        im=sum(cut(days.impressions)),cl=sum(cut(days.clicks));
+  return {cost:c,gmv:g,orders:o,imp:im,clk:cl,
+    roas:div(g,c),cpo:div(c,o),aov:div(g,o),
+    ctr:im?100*cl/im:null,ctor:cl?100*o/cl:null};
+}
 
-/* =================== VIEWS =================== */
+/* =================== RINGKASAN =================== */
 function renderOverview(){
   const A=AGG.all, last=GLOBAL_LAST;
-  const mtd={cost:sum(A.cost),gmv:sum(A.gmv),orders:sum(A.orders)};
-  const roas=div(mtd.gmv,mtd.cost), cpo=div(mtd.cost,mtd.orders), aov=div(mtd.gmv,mtd.orders);
+  const st=rangeStats({cost:A.cost,gmv:A.gmv,orders:A.orders,
+    impressions:aggDaily(SALES,'impressions'),clicks:aggDaily(SALES,'clicks')},1,DIM);
   const jn=PREV_M, dPrev=new Date(RAW.meta.year,jn+1,0).getDate();
   const prevPro=k=> MON[k][jn]!=null? MON[k][jn]*last/dPrev : null;
   const sevCount={critical:0,serious:0,warning:0,info:0};
@@ -657,21 +690,24 @@ function renderOverview(){
   view.innerHTML=`
   <h2 class="sec">Ringkasan All Platform <span class="hint">MTD ${RAW.meta.month} · data s/d hari ke-${last}</span></h2>
   <div class="grid g-kpi">
-    ${kpiTile('Total Spend (Sales)',fmtRpC(mtd.cost),deltaHtml(mtd.cost,prevPro('salesCost'),false),spark(A.cost.slice(0,last),'var(--ink-2)'))}
-    ${kpiTile('GMV dari Ads',fmtRpC(mtd.gmv),deltaHtml(mtd.gmv,prevPro('gmv')),spark(A.gmv.slice(0,last),'var(--good)'))}
-    ${kpiTile('ROAS',fmtX(roas),deltaHtml(roas,MON.roas[jn]))}
-    ${kpiTile('Orders dari Ads',fmtN(mtd.orders),deltaHtml(mtd.orders,prevPro('orders')),spark(A.orders.slice(0,last),'var(--ink-2)'))}
-    ${kpiTile('Cost / Order',fmtRpC(cpo),deltaHtml(cpo,MON.cpo[jn],false))}
-    ${kpiTile('AOV',fmtRpC(aov),deltaHtml(aov,MON.aov[jn]))}
+    ${kpiTile('Total Spend (Sales)',fmtRpC(st.cost),deltaHtml(st.cost,prevPro('salesCost'),false),spark(A.cost.slice(0,last),'var(--ink-2)'))}
+    ${kpiTile('GMV dari Ads',fmtRpC(st.gmv),deltaHtml(st.gmv,prevPro('gmv')),spark(A.gmv.slice(0,last),'var(--good)'))}
+    ${kpiTile('ROAS',fmtX(st.roas),deltaHtml(st.roas,MON.roas[jn]))}
+    ${kpiTile('Orders dari Ads',fmtN(st.orders),deltaHtml(st.orders,prevPro('orders')),spark(A.orders.slice(0,last),'var(--ink-2)'))}
+    ${kpiTile('Impression',fmtNC(st.imp),deltaHtml(st.imp,prevPro('imp')))}
+    ${kpiTile('Product Clicks',fmtNC(st.clk),deltaHtml(st.clk,prevPro('clk')))}
+    ${kpiTile('CTR',fmtPct(st.ctr),deltaHtml(st.ctr,MON.ctr[jn]))}
+    ${kpiTile('CTOR',fmtPct(st.ctor),deltaHtml(st.ctor,MON.ctor[jn]))}
+    ${kpiTile('Cost / Order',fmtRpC(st.cpo),deltaHtml(st.cpo,MON.cpo[jn],false))}
+    ${kpiTile('AOV',fmtRpC(st.aov),deltaHtml(st.aov,MON.aov[jn]))}
   </div>
-  ${ALERTS.alerts.length?`<div class="card" style="margin-top:12px;display:flex;gap:16px;flex-wrap:wrap;align-items:center">
-    <b style="font-size:13px">🔎 Health check:</b>
+  ${ALERTS.alerts.length?`<div class="card" style="margin-top:12px;display:flex;gap:14px;flex-wrap:wrap;align-items:center">
+    <b style="font-size:13px">Health check:</b>
     ${sevCount.critical?`<span class="pill-stat bad">⛔ ${sevCount.critical} kritis</span>`:''}
     ${sevCount.serious?`<span class="pill-stat bad">🔻 ${sevCount.serious} serius</span>`:''}
     ${sevCount.warning?`<span class="pill-stat mid">⚠️ ${sevCount.warning} perhatian</span>`:''}
-    ${sevCount.info?`<span class="pill-stat mid" style="opacity:.75">ℹ️ ${sevCount.info} info</span>`:''}
     ${ALERTS.opps.length?`<span class="pill-stat ok">🚀 ${ALERTS.opps.length} peluang</span>`:''}
-    <a href="#/analisis" style="margin-left:auto;font-size:12.5px;font-weight:650">Lihat analisis & action plan →</a>
+    <a href="#/analisis" style="margin-left:auto;font-size:12.5px;font-weight:650">Analisis & action plan →</a>
   </div>`:''}
   <div class="grid g-2" style="margin-top:12px">
     <div class="card"><h3>GMV Harian per Platform <span class="hint">· Rp</span></h3><div id="ovGmv"></div></div>
@@ -690,8 +726,8 @@ function renderOverview(){
     return `<tr class="click" data-nav="#/platform"><td>${platChip(p)}</td><td class="num">${fmtRpC(c)}</td><td class="num">${fmtRpC(g)}</td>
       <td class="num">${g?fmtX(div(g,c)):'–'}</td><td class="num">${fmtN(o)}</td><td class="num">${o?fmtRpC(div(c,o)):'–'}</td>
       <td class="num">${o?fmtRpC(div(g,o)):'–'}</td><td class="num">${act}/${tot}</td></tr>`;}).join('')}
-    <tr class="tot"><td>Total</td><td class="num">${fmtRpC(mtd.cost)}</td><td class="num">${fmtRpC(mtd.gmv)}</td>
-      <td class="num">${fmtX(roas)}</td><td class="num">${fmtN(mtd.orders)}</td><td class="num">${fmtRpC(cpo)}</td><td class="num">${fmtRpC(aov)}</td><td></td></tr>
+    <tr class="tot"><td>Total</td><td class="num">${fmtRpC(st.cost)}</td><td class="num">${fmtRpC(st.gmv)}</td>
+      <td class="num">${fmtX(st.roas)}</td><td class="num">${fmtN(st.orders)}</td><td class="num">${fmtRpC(st.cpo)}</td><td class="num">${fmtRpC(st.aov)}</td><td></td></tr>
   </tbody></table></div>`;
   const lbl=dayLabels.slice(0,last);
   const mkSeries=metric=>Object.keys(PLATFORMS).map(p=>({name:PLATFORMS[p].name,color:pcolor(p),values:AGG[p][metric].slice(0,last)}))
@@ -700,17 +736,17 @@ function renderOverview(){
   lineChart(document.getElementById('ovCost'), mkSeries('cost'), lbl, {fmt:fmtRpC,tipTitle:i=>(i+1)+' '+MONTHS_S[CUR_M]});
   hBars(document.getElementById('ovShare'), Object.keys(PLATFORMS).map(p=>({
     name:PLATFORMS[p].name,color:pcolor(p),value:sum(AGG[p].gmv),
-    extra: mtd.gmv? nf1.format(100*sum(AGG[p].gmv)/mtd.gmv)+'%':''})).filter(i=>i.value>0).sort((a,b)=>b.value-a.value));
+    extra: st.gmv? nf1.format(100*sum(AGG[p].gmv)/st.gmv)+'%':''})).filter(i=>i.value>0).sort((a,b)=>b.value-a.value));
   hBars(document.getElementById('ovTop'), SALES.filter(c=>c.tot.gmv>0).sort((a,b)=>b.tot.gmv-a.tot.gmv).slice(0,8)
     .map(c=>({name:c.name,color:pcolor(c.platform),value:c.tot.gmv,extra:c.roas?fmtX(c.roas):''})));
 }
 
-/* ---------- Harian ---------- */
-let dailySel = 'all';
+/* =================== HARIAN =================== */
+let dailySel='all', dailyMode='channel', dailyDate=null;
 function dailyOptions(includeAgg=true){
   let h='';
   if(includeAgg){
-    h=`<optgroup label="Agregat"><option value="all">🌐 Semua Platform</option>`;
+    h=`<optgroup label="Agregat"><option value="all">Semua Platform</option>`;
     for(const p in PLATFORMS) h+=`<option value="agg:${p}">Σ ${PLATFORMS[p].name} (sales)</option>`;
     h+='</optgroup>';
   }
@@ -722,37 +758,55 @@ function dailyOptions(includeAgg=true){
   return h;
 }
 function getDailySubject(){
-  if(dailySel==='all') return {name:'Semua Platform',platform:null,days:{cost:AGG.all.cost,gmv:AGG.all.gmv,orders:AGG.all.orders},sales:true,last:GLOBAL_LAST};
+  if(dailySel==='all') return {name:'Semua Platform',platform:null,days:{cost:AGG.all.cost,gmv:AGG.all.gmv,orders:AGG.all.orders,
+    impressions:aggDaily(SALES,'impressions'),clicks:aggDaily(SALES,'clicks')},sales:true,last:GLOBAL_LAST};
   if(dailySel.startsWith('agg:')){const p=dailySel.slice(4);
-    return {name:'Σ '+PLATFORMS[p].name,platform:p,days:AGG[p],sales:true,last:GLOBAL_LAST};}
+    const list=SALES.filter(c=>c.platform===p);
+    return {name:'Σ '+PLATFORMS[p].name,platform:p,days:{...AGG[p],impressions:aggDaily(list,'impressions'),clicks:aggDaily(list,'clicks')},sales:true,last:GLOBAL_LAST};}
   const c=chById(dailySel);
   return {name:c.name,platform:c.platform,days:c.days,sales:c.objective==='sales',last:c.last,ch:c};
 }
 const METRIC_DEFS=[
-  ['cost','Ads Cost',fmtRp,fmtRpC],['gmv','GMV (Purchases Value)',fmtRp,fmtRpC],['orders','Orders From Ads',fmtN,fmtN],
-  ['ordersMkp','Orders From MKP',fmtN,fmtN],['impressions','Impressions',fmtN,fmtNC],['clicks','Product Clicks',fmtN,fmtNC],
-  ['liveViews','Live Views',fmtN,fmtNC],['reach','Reach',fmtN,fmtNC],['follows','Paid Follows',fmtN,fmtN],
-  ['consideration','Consideration Size',fmtN,fmtNC],['atc','Add to Cart',fmtN,fmtN],['atcValue','ATC Value',fmtRp,fmtRpC],
+  ['cost','Ads Cost',fmtRp],['gmv','GMV (Purchases Value)',fmtRp],['orders','Orders From Ads',fmtN],
+  ['ordersMkp','Orders From MKP',fmtN],['impressions','Impressions',fmtN],['clicks','Product Clicks',fmtN],
+  ['liveViews','Live Views',fmtN],['reach','Reach',fmtN],['follows','Paid Follows',fmtN],
+  ['consideration','Consideration Size',fmtN],['atc','Add to Cart',fmtN],['atcValue','ATC Value',fmtRp],
 ];
 function renderDaily(){
+  const header=`
+  <h2 class="sec">Database Harian <span class="hint">${RAW.meta.month} — struktur sheet “July 26”</span></h2>
+  <div class="controls">
+    <div class="seg" id="dailySeg">
+      <button data-m="channel" class="${dailyMode==='channel'?'on':''}">Per Channel</button>
+      <button data-m="date" class="${dailyMode==='date'?'on':''}">Per Tanggal</button>
+    </div>
+    <span style="flex:1"></span>
+    <button class="btn ghost cta" id="goCmp">⇄ Bandingkan</button>
+  </div>`;
+  view.innerHTML=header+`<div id="dailyBody"></div>`;
+  document.querySelectorAll('#dailySeg button').forEach(b=>b.onclick=()=>{dailyMode=b.dataset.m;renderDaily();});
+  document.getElementById('goCmp').onclick=()=>{cmp.subj=dailySel;location.hash='#/bandingkan';};
+  if(dailyMode==='channel') renderDailyChannel(document.getElementById('dailyBody'));
+  else renderDailyDate(document.getElementById('dailyBody'));
+}
+function renderDailyChannel(root){
   const S=getDailySubject();
   const color=S.platform?pcolor(S.platform):'var(--tiktok)';
   const cost=S.days.cost||[],gmv=S.days.gmv||[],orders=S.days.orders||[];
-  const mtd={cost:sum(cost),gmv:sum(gmv),orders:sum(orders)};
-  view.innerHTML=`
-  <h2 class="sec">Database Harian <span class="hint">${RAW.meta.month} — struktur sama dengan sheet “July 26”</span></h2>
-  <div class="controls">
+  const st=rangeStats(S.days,1,DIM);
+  root.innerHTML=`
+  <div class="controls" style="margin-top:0">
     <label>Channel:</label>
     <select id="dailySel">${dailyOptions()}</select>
     ${S.ch?`<span style="font-size:12px;color:var(--muted)">Budget ${fmtRpC(S.ch.budget)} · data s/d hari ke-${S.last||'–'}</span>`:''}
   </div>
   <div class="grid g-kpi">
-    ${kpiTile('Spend MTD',fmtRpC(mtd.cost),'',spark(cost.slice(0,daysShown),color))}
-    ${S.sales?kpiTile('GMV MTD',fmtRpC(mtd.gmv),'',spark(gmv.slice(0,daysShown),'var(--good)')):''}
-    ${S.sales?kpiTile('ROAS MTD',fmtX(div(mtd.gmv,mtd.cost))):''}
-    ${S.sales?kpiTile('Orders MTD',fmtN(mtd.orders)):''}
-    ${S.sales?kpiTile('CPO',fmtRpC(div(mtd.cost,mtd.orders))):''}
-    ${S.sales?kpiTile('AOV',fmtRpC(div(mtd.gmv,mtd.orders))):''}
+    ${kpiTile('Spend MTD',fmtRpC(st.cost),'',spark(cost.slice(0,daysShown),color))}
+    ${S.sales?kpiTile('GMV MTD',fmtRpC(st.gmv),'',spark(gmv.slice(0,daysShown),'var(--good)')):''}
+    ${S.sales?kpiTile('ROAS MTD',fmtX(st.roas)):''}
+    ${S.sales?kpiTile('Orders MTD',fmtN(st.orders)):''}
+    ${S.sales?kpiTile('CPO',fmtRpC(st.cpo)):''}
+    ${S.sales?kpiTile('AOV',fmtRpC(st.aov)):''}
   </div>
   <div class="grid ${S.sales?'g-2':''}" style="margin-top:12px">
     <div class="card"><h3>${S.sales?'GMV vs Spend Harian':'Spend Harian'}</h3><div id="dGmv"></div></div>
@@ -760,18 +814,17 @@ function renderDaily(){
   </div>
   <h2 class="sec">Tabel Harian — ${esc(S.name)}</h2>
   <div class="tbl-wrap" style="max-height:520px;overflow:auto"><table id="dailyTbl"></table></div>
-  <p class="note">Geser ke samping untuk melihat semua tanggal. Kolom Total = penjumlahan (metrik turunan dihitung ulang dari total).</p>`;
-  document.getElementById('dailySel').value=dailySel;
-  document.getElementById('dailySel').onchange=e=>{dailySel=e.target.value;renderDaily();};
+  <p class="note">Geser ke samping untuk semua tanggal. Kolom Total = penjumlahan; metrik ƒ dihitung ulang dari total. Klik header tanggal untuk membuka tampilan Per Tanggal.</p>`;
+  const sel=root.querySelector('#dailySel'); sel.value=dailySel;
+  sel.onchange=e=>{dailySel=e.target.value;renderDaily();};
   const lbl=dayLabels.slice(0,daysShown);
   const seriesMain=[{name:'GMV',color:'var(--good)',values:gmv.slice(0,daysShown)},
                     {name:'Spend',color:color,values:cost.slice(0,daysShown)}].filter(s=>sum(s.values)>0);
-  lineChart(document.getElementById('dGmv'),seriesMain.length?seriesMain:[{name:'Spend',color,values:cost.slice(0,daysShown)}],lbl,{fmt:fmtRpC,area:seriesMain.length===1,tipTitle:i=>(i+1)+' '+MONTHS_S[CUR_M]});
+  lineChart(root.querySelector('#dGmv'),seriesMain.length?seriesMain:[{name:'Spend',color,values:cost.slice(0,daysShown)}],lbl,{fmt:fmtRpC,area:seriesMain.length===1,tipTitle:i=>(i+1)+' '+MONTHS_S[CUR_M]});
   if(S.sales){
     const roasD=cost.map((v,i)=> v? (gmv[i]||0)/v : null).slice(0,daysShown);
-    lineChart(document.getElementById('dRoas'),[{name:'ROAS',color:'var(--lazada)',values:roasD}],lbl,{fmt:fmtX,area:true,tipTitle:i=>(i+1)+' '+MONTHS_S[CUR_M]});
+    lineChart(root.querySelector('#dRoas'),[{name:'ROAS',color:'var(--lazada)',values:roasD}],lbl,{fmt:fmtX,area:true,tipTitle:i=>(i+1)+' '+MONTHS_S[CUR_M]});
   }
-  /* tabel harian */
   const rows=[];
   for(const [key,label,f]of METRIC_DEFS){
     const arr=S.days[key]; if(!arr||!arr.some(v=>v)) continue;
@@ -779,7 +832,7 @@ function renderDaily(){
   }
   const der=[];
   if(S.sales){
-    const t=(a,b)=>({}), c=S.days.cost||[],g=S.days.gmv||[],o=S.days.orders||[],im=S.days.impressions||[],cl=S.days.clicks||[];
+    const c=S.days.cost||[],g=S.days.gmv||[],o=S.days.orders||[],im=S.days.impressions||[],cl=S.days.clicks||[];
     const mk=(label,fn,f,totFn)=>der.push({label,vals:Array.from({length:DIM},(_,i)=>fn(i)),f,tot:totFn(),derived:true});
     if(sum(g)>0) mk('ROAS',i=>c[i]?(g[i]||0)/c[i]:null,fmtX,()=>div(sum(g),sum(c)));
     if(sum(cl)>0&&sum(im)>0) mk('CTR',i=>im[i]?100*(cl[i]||0)/im[i]:null,fmtPct,()=>100*sum(cl)/sum(im));
@@ -787,19 +840,175 @@ function renderDaily(){
     if(sum(o)>0) mk('Cost / Order',i=>o[i]?(c[i]||0)/o[i]:null,fmtRpC,()=>div(sum(c),sum(o)));
     if(sum(o)>0&&sum(g)>0) mk('AOV',i=>o[i]?(g[i]||0)/o[i]:null,fmtRpC,()=>div(sum(g),sum(o)));
   }
-  const tbl=document.getElementById('dailyTbl');
-  tbl.innerHTML=`<thead><tr><th>Metrik</th>${dayLabels.map((d,i)=>`<th style="${i>=daysShown?'opacity:.4':''}">${d} Jul</th>`).join('')}<th>Total</th></tr></thead>
+  const tbl=root.querySelector('#dailyTbl');
+  tbl.innerHTML=`<thead><tr><th>Metrik</th>${dayLabels.map((d,i)=>`<th class="dayh" data-d="${i+1}" style="cursor:pointer;${i>=daysShown?'opacity:.4':''}" title="Lihat semua channel tanggal ini">${d} Jul</th>`).join('')}<th>Total</th></tr></thead>
   <tbody>${[...rows,...der].map(r=>`<tr${r.derived?' style="color:var(--ink-2)"':''}><td>${esc(r.label)}${r.derived?' <span style="font-size:10px;color:var(--muted)">ƒ</span>':''}</td>
     ${r.vals.map((v,i)=>`<td class="num" style="${i>=daysShown?'opacity:.4':''}">${v==null?'·':r.f(v)}</td>`).join('')}
     <td class="num" style="font-weight:700">${r.tot==null?'–':r.f(r.tot)}</td></tr>`).join('')}</tbody>`;
+  tbl.querySelectorAll('th.dayh').forEach(th=>th.onclick=()=>{dailyDate=+th.dataset.d;dailyMode='date';renderDaily();});
+}
+function renderDailyDate(root){
+  const d = dailyDate || GLOBAL_LAST;
+  const di=d-1;
+  const rows=[];
+  for(const p in PLATFORMS){
+    const chans=CH.filter(c=>c.platform===p);
+    const withData=chans.filter(c=>((c.days.cost||[])[di]||0)>0||((c.days.gmv||[])[di]||0)>0||((c.days.orders||[])[di]||0)>0);
+    if(!withData.length) continue;
+    let pc=0,pg=0,po=0,pi=0,pk=0;
+    const chRows=withData.map(c=>{
+      const cost=(c.days.cost||[])[di]||0, gmv=(c.days.gmv||[])[di]||0, ord=(c.days.orders||[])[di]||0,
+            im=(c.days.impressions||[])[di]||0, cl=(c.days.clicks||[])[di]||0;
+      pc+=cost;pg+=gmv;po+=ord;pi+=im;pk+=cl;
+      return `<tr class="click" data-ch="${c.id}"><td style="padding-left:26px">${esc(c.name)}</td>
+        <td class="num">${fmtRp(cost)}</td><td class="num">${gmv?fmtRp(gmv):'–'}</td>
+        <td class="num">${cost&&gmv?fmtX(gmv/cost):'–'}</td><td class="num">${fmtN(ord)}</td>
+        <td class="num">${im?fmtNC(im):'–'}</td><td class="num">${cl?fmtNC(cl):'–'}</td>
+        <td class="num">${im&&cl?fmtPct(100*cl/im):'–'}</td><td class="num">${cl&&ord?fmtPct(100*ord/cl):'–'}</td>
+        <td class="num">${ord?fmtRpC(cost/ord):'–'}</td><td class="num">${ord&&gmv?fmtRpC(gmv/ord):'–'}</td></tr>`;
+    }).join('');
+    rows.push(`<tr style="background:var(--surface-2)"><td>${platChip(p)}</td>
+      <td class="num" style="font-weight:700">${fmtRp(pc)}</td><td class="num" style="font-weight:700">${pg?fmtRp(pg):'–'}</td>
+      <td class="num" style="font-weight:700">${pc&&pg?fmtX(pg/pc):'–'}</td><td class="num" style="font-weight:700">${fmtN(po)}</td>
+      <td class="num">${pi?fmtNC(pi):'–'}</td><td class="num">${pk?fmtNC(pk):'–'}</td>
+      <td class="num">${pi&&pk?fmtPct(100*pk/pi):'–'}</td><td class="num">${pk&&po?fmtPct(100*po/pk):'–'}</td>
+      <td class="num">${po?fmtRpC(pc/po):'–'}</td><td class="num">${po&&pg?fmtRpC(pg/po):'–'}</td></tr>`+chRows);
+  }
+  const tc=AGG.all.cost[di]||0, tg=AGG.all.gmv[di]||0, to=AGG.all.orders[di]||0;
+  root.innerHTML=`
+  <div class="controls" style="margin-top:0">
+    <label>Tanggal:</label>
+    <input type="date" id="dateSel" value="${julDate(d)}" min="${julDate(1)}" max="${julDate(DIM)}">
+    <button class="btn ghost" id="dPrev">‹</button><button class="btn ghost" id="dNext">›</button>
+    <span style="font-size:12px;color:var(--muted)">Semua channel yang tercatat pada ${d} ${MONTHS[CUR_M]} ${RAW.meta.year}</span>
+  </div>
+  <div class="grid g-kpi">
+    ${kpiTile('Spend',fmtRpC(tc))}
+    ${kpiTile('GMV',fmtRpC(tg))}
+    ${kpiTile('ROAS',tc?fmtX(tg/tc):'–')}
+    ${kpiTile('Orders',fmtN(to))}
+    ${kpiTile('CPO',to?fmtRpC(tc/to):'–')}
+    ${kpiTile('AOV',to?fmtRpC(tg/to):'–')}
+  </div>
+  <div style="margin-top:12px" class="tbl-wrap"><table><thead><tr>
+    <th>Platform / Channel</th><th>Spend</th><th>GMV</th><th>ROAS</th><th>Orders</th>
+    <th>Impression</th><th>Clicks</th><th>CTR</th><th>CTOR</th><th>CPO</th><th>AOV</th>
+  </tr></thead><tbody>${rows.join('')||'<tr><td colspan="11" class="empty">Tidak ada data pada tanggal ini</td></tr>'}
+  <tr class="tot"><td>Total All Platform</td><td class="num">${fmtRp(tc)}</td><td class="num">${fmtRp(tg)}</td>
+    <td class="num">${tc?fmtX(tg/tc):'–'}</td><td class="num">${fmtN(to)}</td><td class="num"></td><td class="num"></td><td></td><td></td>
+    <td class="num">${to?fmtRpC(tc/to):'–'}</td><td class="num">${to?fmtRpC(tg/to):'–'}</td></tr></tbody></table></div>
+  <p class="note">Klik baris channel untuk membuka detail harian channel tersebut.</p>`;
+  root.querySelector('#dateSel').onchange=e=>{const dd=parseIsoJulDay(e.target.value);if(dd){dailyDate=dd;renderDaily();}};
+  root.querySelector('#dPrev').onclick=()=>{dailyDate=Math.max(1,d-1);renderDaily();};
+  root.querySelector('#dNext').onclick=()=>{dailyDate=Math.min(DIM,d+1);renderDaily();};
+  root.querySelectorAll('tr[data-ch]').forEach(tr=>tr.onclick=()=>{dailySel=tr.dataset.ch;dailyMode='channel';renderDaily();});
 }
 
-/* ---------- Bulanan ---------- */
+/* =================== BANDINGKAN =================== */
+let cmp={mode:'periode', subj:'all', subj2:'agg:shopee',
+  a1:Math.max(1,GLOBAL_LAST-6), a2:GLOBAL_LAST,
+  b1:Math.max(1,GLOBAL_LAST-13), b2:Math.max(1,GLOBAL_LAST-7)};
+function subjDays(sel){
+  const old=dailySel; dailySel=sel; const S=getDailySubject(); dailySel=old; return S;
+}
+function renderCompare(){
+  const isPeriode=cmp.mode==='periode';
+  view.innerHTML=`
+  <h2 class="sec">Bandingkan <span class="hint">periode vs periode, atau channel vs channel</span></h2>
+  <div class="controls">
+    <div class="seg" id="cmpSeg">
+      <button data-m="periode" class="${isPeriode?'on':''}">Periode vs Periode</button>
+      <button data-m="channel" class="${!isPeriode?'on':''}">Channel vs Channel</button>
+    </div>
+  </div>
+  <div class="card" style="margin-bottom:12px"><div class="controls" style="margin:0">
+    ${isPeriode?`
+      <label>Channel:</label><select id="cSubj">${dailyOptions()}</select>
+      <label style="margin-left:8px">Periode A:</label>
+      <input type="date" id="cA1" value="${julDate(cmp.a1)}" min="${julDate(1)}" max="${julDate(DIM)}"> –
+      <input type="date" id="cA2" value="${julDate(cmp.a2)}" min="${julDate(1)}" max="${julDate(DIM)}">
+      <label style="margin-left:8px">Periode B:</label>
+      <input type="date" id="cB1" value="${julDate(cmp.b1)}" min="${julDate(1)}" max="${julDate(DIM)}"> –
+      <input type="date" id="cB2" value="${julDate(cmp.b2)}" min="${julDate(1)}" max="${julDate(DIM)}">
+    `:`
+      <label>Channel A:</label><select id="cSubj">${dailyOptions()}</select>
+      <label>Channel B:</label><select id="cSubj2">${dailyOptions()}</select>
+      <label style="margin-left:8px">Rentang:</label>
+      <input type="date" id="cA1" value="${julDate(cmp.a1)}" min="${julDate(1)}" max="${julDate(DIM)}"> –
+      <input type="date" id="cA2" value="${julDate(cmp.a2)}" min="${julDate(1)}" max="${julDate(DIM)}">
+    `}
+    <button class="btn" id="cGo" style="margin-left:auto">Bandingkan</button>
+  </div></div>
+  <div id="cmpOut"></div>`;
+  document.querySelectorAll('#cmpSeg button').forEach(b=>b.onclick=()=>{cmp.mode=b.dataset.m;renderCompare();});
+  const $=id=>document.getElementById(id);
+  $('cSubj').value=cmp.subj;
+  if(!isPeriode) $('cSubj2').value=cmp.subj2;
+  $('cGo').onclick=()=>{
+    cmp.subj=$('cSubj').value;
+    if(!isPeriode) cmp.subj2=$('cSubj2').value;
+    const g=id=>parseIsoJulDay($(id).value);
+    const a1=g('cA1'),a2=g('cA2'); if(a1&&a2&&a2>=a1){cmp.a1=a1;cmp.a2=a2;}
+    if(isPeriode){const b1=g('cB1'),b2=g('cB2'); if(b1&&b2&&b2>=b1){cmp.b1=b1;cmp.b2=b2;}}
+    drawCompare();
+  };
+  drawCompare();
+  function drawCompare(){
+    const out=document.getElementById('cmpOut');
+    const SA=subjDays(cmp.subj);
+    const SB=isPeriode? SA : subjDays(cmp.subj2);
+    const rA=isPeriode? [cmp.a1,cmp.a2] : [cmp.a1,cmp.a2];
+    const rB=isPeriode? [cmp.b1,cmp.b2] : [cmp.a1,cmp.a2];
+    const stA=rangeStats(SA.days,rA[0],rA[1]);
+    const stB=rangeStats(SB.days,rB[0],rB[1]);
+    const nameA=isPeriode? `${rA[0]}–${rA[1]} Jul` : SA.name;
+    const nameB=isPeriode? `${rB[0]}–${rB[1]} Jul` : SB.name;
+    const metricRows=[
+      ['Spend','cost',fmtRpC,false],['GMV','gmv',fmtRpC,true],['Orders','orders',fmtN,true],
+      ['ROAS','roas',fmtX,true],['Impression','imp',fmtNC,true],['Product Clicks','clk',fmtNC,true],
+      ['CTR','ctr',fmtPct,true],['CTOR','ctor',fmtPct,true],['Cost / Order','cpo',fmtRpC,false],['AOV','aov',fmtRpC,true],
+    ];
+    const trow=([lbl,k,f,goodUp])=>{
+      const a=stA[k],b=stB[k];
+      let dHtml='<span class="cmp-delta flat">–</span>';
+      if(a!=null&&b!=null&&b!==0){
+        const dd=100*(a-b)/Math.abs(b);
+        const good=(dd>=0)===goodUp;
+        dHtml=`<span class="cmp-delta ${Math.abs(dd)<0.05?'flat':good?'up':'dn'}">${dd>=0?'▲':'▼'} ${nf1.format(Math.abs(dd))}%</span>`;
+      }
+      return `<tr><td>${lbl}</td><td class="num">${a==null?'–':f(a)}</td><td class="num">${b==null?'–':f(b)}</td><td class="num">${dHtml}</td></tr>`;
+    };
+    out.innerHTML=`
+    <div class="grid g-2">
+      <div class="card"><h3>Perbandingan Metrik</h3>
+        <div class="tbl-wrap" style="border:0"><table><thead><tr><th>Metrik</th><th>${esc(nameA)} (A)</th><th>${esc(nameB)} (B)</th><th>Δ A vs B</th></tr></thead>
+        <tbody>${metricRows.map(trow).join('')}</tbody></table></div></div>
+      <div class="card"><h3>GMV Harian — A vs B ${isPeriode?'<span class="hint">· disejajarkan per hari ke-n</span>':''}</h3><div id="cChart"></div>
+        <h3 style="margin-top:16px">Spend Harian — A vs B</h3><div id="cChart2"></div></div>
+    </div>`;
+    const lenA=rA[1]-rA[0]+1, lenB=rB[1]-rB[0]+1, L=Math.max(lenA,lenB);
+    const lab=Array.from({length:L},(_,i)=>'H'+(i+1));
+    const cut=(days,k,r)=> (days[k]||[]).slice(r[0]-1,r[1]);
+    const pad=a=>{const x=a.slice();while(x.length<L)x.push(null);return x;};
+    const colA=SA.platform?pcolor(SA.platform):'var(--tiktok)';
+    const colB=isPeriode?'var(--muted)':(SB.platform?pcolor(SB.platform):'var(--lazada)');
+    lineChart(document.getElementById('cChart'),[
+      {name:'A · '+nameA,color:colA,values:pad(cut(SA.days,'gmv',rA))},
+      {name:'B · '+nameB,color:colB,values:pad(cut(SB.days,'gmv',rB)),dash:isPeriode?'5 4':null},
+    ],lab,{fmt:fmtRpC});
+    lineChart(document.getElementById('cChart2'),[
+      {name:'A · '+nameA,color:colA,values:pad(cut(SA.days,'cost',rA))},
+      {name:'B · '+nameB,color:colB,values:pad(cut(SB.days,'cost',rB)),dash:isPeriode?'5 4':null},
+    ],lab,{fmt:fmtRpC});
+  }
+}
+
+/* =================== BULANAN =================== */
 function renderMonthly(){
   const mi=monthsWithData;
   const cur=CUR_M, prev=PREV_M;
   view.innerHTML=`
-  <h2 class="sec">Database Bulanan <span class="hint">Month-over-Month 2026 — struktur sama dengan sheet “MoM 26”</span></h2>
+  <h2 class="sec">Database Bulanan <span class="hint">Month-over-Month 2026 — struktur sheet “MoM 26”</span></h2>
   <div class="grid g-kpi">
     ${kpiTile('GMV '+MONTHS_S[cur]+' (MTD)',fmtRpC(MON.gmv[cur]),deltaHtml(MON.gmv[cur],MON.gmv[prev]))}
     ${kpiTile('Spend '+MONTHS_S[cur],fmtRpC(MON.cost[cur]),deltaHtml(MON.cost[cur],MON.cost[prev],false))}
@@ -831,21 +1040,28 @@ function renderMonthly(){
     return `<tr><td>${lbl}</td>${mi.map(m=>`<td class="num">${arr[m]==null?'–':f(arr[m])}</td>`).join('')}
       <td class="num">${d==null?'–':`<b style="color:${good?'var(--good-ink)':'var(--critical)'}">${d>=0?'▲':'▼'} ${nf1.format(Math.abs(d))}%</b>`}</td></tr>`;
   }).join('')}</tbody></table></div>
-  <p class="note">⚠️ ${MONTHS[cur]} masih berjalan (MTD s/d hari ke-${GLOBAL_LAST}) — Δ vs bulan penuh ${MONTHS[prev]} wajar terlihat turun. Beberapa channel (TikTok Live, Meta di sheet) belum ter-update di bulan berjalan.</p>`;
+  <p class="note">${MONTHS[cur]} masih berjalan (MTD s/d hari ke-${GLOBAL_LAST}) — Δ vs bulan penuh ${MONTHS[prev]} wajar terlihat turun. Channel yang belum di-upload (TikTok Live, dsb.) belum masuk angka bulan berjalan.</p>`;
   stackBars(document.getElementById('mStack'),Object.keys(PLATFORMS).map(p=>({name:PLATFORMS[p].name,color:pcolor(p),values:MON.platGmv[p]})),mi,{fmt:fmtRpC});
   lineChart(document.getElementById('mRoas'),[{name:'ROAS',color:'var(--lazada)',values:mi.map(m=>MON.roas[m])}],mi.map(m=>MONTHS_S[m]),{fmt:fmtX,area:true});
   stackBars(document.getElementById('mCost'),Object.keys(PLATFORMS).map(p=>({name:PLATFORMS[p].name,color:pcolor(p),values:MON.platCost[p]})),mi,{fmt:fmtRpC});
   lineChart(document.getElementById('mEff'),[{name:'Efficiency rate',color:'var(--shopee)',values:mi.map(m=>MON.eff[m])}],mi.map(m=>MONTHS_S[m]),{fmt:fmtPct,area:true});
 }
 
-/* ---------- Platform ---------- */
+/* =================== PLATFORM =================== */
+let showEmptyCh=false;
 function renderPlatforms(){
-  view.innerHTML=`<h2 class="sec">Breakdown per Platform <span class="hint">MTD ${RAW.meta.month} — klik baris untuk buka detail harian</span></h2>
+  const emptyCount=CH.filter(c=>c.last===0).length;
+  view.innerHTML=`<h2 class="sec">Breakdown per Platform <span class="hint">MTD ${RAW.meta.month} — klik baris untuk detail harian</span></h2>
+  <div class="controls"><label style="display:flex;align-items:center;gap:7px;cursor:pointer">
+    <input type="checkbox" id="showEmpty" ${showEmptyCh?'checked':''}> Tampilkan channel tanpa data (${emptyCount})</label></div>
   <div id="platWrap"></div>`;
+  document.getElementById('showEmpty').onchange=e=>{showEmptyCh=e.target.checked;renderPlatforms();};
   const wrap=document.getElementById('platWrap');
   for(const p in PLATFORMS){
-    const chans=CH.filter(c=>c.platform===p);
-    const sales=chans.filter(c=>c.objective==='sales');
+    let chans=CH.filter(c=>c.platform===p);
+    if(!showEmptyCh) chans=chans.filter(c=>c.last>0);
+    if(!chans.length) continue;
+    const sales=CH.filter(c=>c.platform===p&&c.objective==='sales');
     const cost=sum(sales.map(c=>c.tot.cost)),gmv=sum(sales.map(c=>c.tot.gmv)),ord=sum(sales.map(c=>c.tot.orders));
     const sec=document.createElement('div');
     sec.innerHTML=`
@@ -881,11 +1097,11 @@ function renderPlatforms(){
     wrap.appendChild(sec);
   }
   wrap.querySelectorAll('tr[data-ch]').forEach(tr=>tr.addEventListener('click',()=>{
-    dailySel=tr.dataset.ch; location.hash='#/harian';
+    dailySel=tr.dataset.ch; dailyMode='channel'; location.hash='#/harian'; if(curTab==='harian')renderDaily();
   }));
 }
 
-/* ---------- Analisis ---------- */
+/* =================== ANALISIS =================== */
 function renderAnalytics(){
   ALERTS=computeAlerts();
   const {alerts,opps}=ALERTS;
@@ -896,18 +1112,18 @@ function renderAnalytics(){
   <div class="grid g-3">
     ${kpiTile('Channel terbaik',best?esc(best.name):'–',best?`<span class="delta">${platChip(best.platform)} · ROAS <b>${fmtX(best.roas)}</b></span>`:'')}
     ${kpiTile('Perlu perhatian',worst?esc(worst.name):'–',worst?`<span class="delta">${platChip(worst.platform)} · ROAS <b>${fmtX(worst.roas)}</b></span>`:'')}
-    ${kpiTile('Total temuan',String(alerts.filter(a=>a.sev!=='info').length),`<span class="delta">${opps.length} peluang scale-up</span>`)}
+    ${kpiTile('Temuan aktif',String(alerts.filter(a=>a.sev!=='info').length),`<span class="delta">${opps.length} peluang scale-up</span>`)}
   </div>
-  <h2 class="sec">⚠️ Warning & Action Plan</h2>
-  <div id="alertList">${alerts.filter(a=>a.sev!=='info').map(a=>alertHtml(a)).join('')||'<div class="empty">Tidak ada warning — semua channel dalam kondisi sehat ✓</div>'}</div>
-  ${alerts.some(a=>a.sev==='info')?`<h2 class="sec">ℹ️ Info Data <span class="hint">channel tanpa data / data tertinggal / catatan pacing</span></h2>
+  <h2 class="sec">Warning & Action Plan</h2>
+  <div id="alertList">${alerts.filter(a=>a.sev!=='info').map(a=>alertHtml(a)).join('')||'<div class="empty">Tidak ada warning — semua channel sehat ✓</div>'}</div>
+  ${alerts.some(a=>a.sev==='info')?`<h2 class="sec">Info Data <span class="hint">channel tanpa data / tertinggal / catatan pacing</span></h2>
   <div class="card"><div class="tbl-wrap" style="border:0"><table><thead><tr><th>Channel</th><th>Platform</th><th style="text-align:left">Catatan</th><th style="text-align:left">Langkah</th></tr></thead>
   <tbody>${alerts.filter(a=>a.sev==='info').map(a=>`<tr><td>${esc(a.ch.name)}</td><td>${platChip(a.ch.platform)}</td>
     <td style="text-align:left;white-space:normal;min-width:220px"><b>${esc(a.title)}</b> — <span style="color:var(--ink-2)">${esc(a.why)}</span></td>
     <td style="text-align:left;white-space:normal;min-width:200px;color:var(--ink-2)">${esc((a.actions&&a.actions[0])||'')}</td></tr>`).join('')}</tbody></table></div></div>`:''}
-  <h2 class="sec">🚀 Peluang & Saran</h2>
+  <h2 class="sec">Peluang & Saran</h2>
   ${opps.map(o=>alertHtml({ch:o.ch,title:o.title,why:o.why,actions:o.actions},'opp')).join('')||'<div class="empty">Belum ada kandidat scale-up (butuh ROAS ≥ 120% target).</div>'}
-  <h2 class="sec">🎯 Target ROAS per Channel <span class="hint">dipakai engine warning — tersimpan di browser</span></h2>
+  <h2 class="sec">Target ROAS per Channel <span class="hint">dipakai engine warning — tersimpan di browser</span></h2>
   <div class="card"><div class="tbl-wrap" style="border:0"><table><thead><tr><th>Channel</th><th>Platform</th><th>ROAS MTD</th><th>Target</th></tr></thead>
   <tbody>${SALES.map(c=>`<tr><td>${esc(c.name)}</td><td>${platChip(c.platform)}</td><td class="num">${c.roas?fmtX(c.roas):'–'}</td>
     <td><input type="number" step="0.5" min="0" style="width:84px" data-t="${c.id}" value="${targets[c.id]||8}"></td></tr>`).join('')}</tbody></table></div>
@@ -919,15 +1135,7 @@ function renderAnalytics(){
   document.getElementById('resetT').onclick=()=>{targets=Object.assign({},DEFAULT_TARGETS);store.set(LS_T,targets);renderAnalytics();updateBadge();};
 }
 
-/* ---------- Data / Import ---------- */
-function detectFormat(text){
-  const first=text.slice(0,400);
-  if(first.includes('Semua Laporan Iklan CPC')) return 'shopee_cpc';
-  if(first.includes('Laporan Iklan Toko')) return 'shopee_toko';
-  if(first.includes('Search Brand Ads Report')) return 'shopee_sba';
-  if(/Campaign name/i.test(first) && /Day/i.test(first)) return 'meta';
-  return null;
-}
+/* =================== UPLOAD (parser & pipeline) =================== */
 function csvParse(text){
   const rows=[];let row=[],cur='',q=false;
   for(let i=0;i<text.length;i++){const ch=text[i];
@@ -940,174 +1148,381 @@ function csvParse(text){
   if(cur!==''||row.length){row.push(cur);rows.push(row);}
   return rows;
 }
-const idnum=v=>{if(v==null)return null;v=String(v).trim().replace(/[Rp%\s]/g,'').replace(/\./g,'').replace(',', '.');
-  if(v===''||v==='-')return null;const n=parseFloat(v);return isNaN(n)?null:n;};
 const plainnum=v=>{if(v==null)return null;v=String(v).trim().replace(/[Rp%\s]/g,'').replace(/,/g,'');
   if(v===''||v==='-')return null;const n=parseFloat(v);return isNaN(n)?null:n;};
-function parseImport(text){
-  const kind=detectFormat(text);
-  if(!kind) return {error:'Format tidak dikenali. Gunakan ekspor CSV Shopee (Iklan CPC / Iklan Toko / SBA) atau CSV Meta (kolom Campaign name + Day). Untuk file Excel Meta: buka lalu Save As CSV.'};
-  const rows=csvParse(text);
-  if(kind==='meta'){
-    const hi=rows.findIndex(r=>r.join(',').includes('Campaign name'));
-    const H=rows[hi].map(s=>s.trim());
-    const col=n=>H.findIndex(h=>h.toLowerCase()===n.toLowerCase());
-    const cDay=col('Day'), cSpent=H.findIndex(h=>/amount spent/i.test(h));
-    const cPur=H.findIndex(h=>/^purchases with shared/i.test(h));
-    const cVal=H.findIndex(h=>/^purchases conversion value/i.test(h));
-    const cClk=H.findIndex(h=>/link clicks/i.test(h));
-    const cReach=col('Reach'), cImp=col('Impressions');
-    const daily={};
-    for(const r of rows.slice(hi+1)){
-      const d=(r[cDay]||'').slice(0,10);
-      if(!/^\d{4}-\d{2}-\d{2}$/.test(d)) continue;
-      const o=daily[d]??={cost:0,gmv:0,orders:0,clicks:0,reach:0,impressions:0};
-      o.cost+=plainnum(r[cSpent])||0; o.gmv+=cVal>=0?plainnum(r[cVal])||0:0;
-      o.orders+=cPur>=0?plainnum(r[cPur])||0:0; o.clicks+=cClk>=0?plainnum(r[cClk])||0:0;
-      o.reach+=cReach>=0?plainnum(r[cReach])||0:0; o.impressions+=cImp>=0?plainnum(r[cImp])||0:0;
-    }
-    const days=Object.keys(daily).sort();
-    if(!days.length) return {error:'Tidak ada baris harian valid (kolom Day format YYYY-MM-DD).'};
-    return {kind,daily,label:`Meta CSV — ${days.length} hari (${days[0]} s/d ${days[days.length-1]})`,defaultCh:'meta_cpas'};
-  }
-  /* Shopee: satu periode per file */
-  const perLine=rows.find(r=>r[0]&&r[0].trim()==='Periode');
-  let date=null;
-  if(perLine){const m=String(perLine[1]||'').match(/(\d{2})\/(\d{2})\/(\d{4})\s*-\s*(\d{2})\/(\d{2})\/(\d{4})/);
-    if(m&&m[1]===m[4]&&m[2]===m[5]) date=`${m[3]}-${m[2]}-${m[1]}`;
-    else if(m) date=`${m[6]}-${m[5]}-${m[4]}`;}
-  const hi=rows.findIndex(r=>r[0]&&r[0].trim()==='Urutan');
-  if(hi<0) return {error:'Header tabel (kolom "Urutan") tidak ditemukan.'};
-  const H=rows[hi].map(s=>s.trim());
-  const ix=n=>H.indexOf(n);
-  const cBiaya=ix('Biaya'), cOmzet=ix('Omzet Penjualan'),
-        cKonv=ix('Konversi')>=0?ix('Konversi'):ix('Pesanan'),
-        cLihat=ix('Dilihat'), cKlik=ix('Jumlah Klik');
-  let cost=0,gmv=0,orders=0,imp=0,clk=0,n=0,active=0;
-  for(const r of rows.slice(hi+1)){
-    if(!r[0]||!/^\d+$/.test(String(r[0]).trim())) continue;
-    n++;
-    const b=plainnum(r[cBiaya])||0;
-    if(b<=0) continue;            // ambil campaign yang ada biaya, sesuai alur kerja
-    active++;
-    cost+=b; gmv+=plainnum(r[cOmzet])||0; orders+=plainnum(r[cKonv])||0;
-    imp+=plainnum(r[cLihat])||0; clk+=plainnum(r[cKlik])||0;
-  }
-  const defaultCh=kind==='shopee_toko'?'sp_store':kind==='shopee_sba'?'sp_sba':'sp_pc';
-  return {kind,date,single:{cost,gmv,orders,impressions:imp,clicks:clk},
-    label:`${kind==='shopee_cpc'?'Shopee Iklan CPC':kind==='shopee_toko'?'Shopee Iklan Toko':'Shopee SBA'} — ${active}/${n} campaign berbiaya${date?' · '+date:''}`,defaultCh};
+const MON_MAP={jan:0,feb:1,mar:2,apr:3,mei:4,may:4,jun:5,jul:6,agu:7,aug:7,sep:8,okt:9,oct:9,nov:10,des:11,dec:11};
+function anyDateToJulDay(s){          // → hari 1-based di bulan Juli, else null
+  if(!s) return null; s=String(s).trim();
+  let m=s.match(/^(\d{4})[-\/](\d{2})[-\/](\d{2})/);          // 2026-07-01 / 2026/07/01(/ 19:00)
+  if(m) return (+m[1]===RAW.meta.year&&+m[2]===CUR_M+1)? +m[3]:null;
+  m=s.match(/^(\d{2})\/(\d{2})\/(\d{4})/);                    // 01/07/2026
+  if(m) return (+m[3]===RAW.meta.year&&+m[2]===CUR_M+1)? +m[1]:null;
+  m=s.match(/^(\d{1,2})\s+([A-Za-z]{3})/);                    // 1 Jul
+  if(m) return (MON_MAP[m[2].toLowerCase()]===CUR_M)? +m[1]:null;
+  return null;
 }
-let pendingImport=null;
-function renderData(){
+function findHeader(rows, needCols){
+  for(let i=0;i<Math.min(rows.length,15);i++){
+    const set=rows[i].map(x=>String(x||'').trim());
+    if(needCols.every(n=>set.includes(n))) return i;
+  }
+  return -1;
+}
+const colIdxOf=(H,...names)=>{for(const n of names){const i=H.findIndex(h=>h.toLowerCase()===n.toLowerCase());if(i>=0)return i;}return -1;};
+function liveChannelFromName(name){
+  const n=String(name||'').toLowerCase();
+  if(/\baff|affiliate/.test(n)) return 'tt_live_aff';
+  if(/smo/.test(n)) return 'tt_live_smo';
+  if(/sid/.test(n)) return 'tt_live_sid';
+  if(/smv/.test(n)) return 'tt_live_smv';
+  return 'tt_live_smo';
+}
+/* Deteksi + ekstraksi → {type,label,entries?[{chId,day,metrics}] , single?, defaultCh, date} */
+function detectRows(rows, filename){
+  const head400=rows.slice(0,6).flat().join(' ');
+  const H_at=i=>rows[i].map(x=>String(x||'').trim());
+
+  /* --- Shopee: satu periode per file --- */
+  const shopeeKind=
+    head400.includes('Semua Laporan Iklan CPC')?'shopee_cpc':
+    head400.includes('Laporan Iklan Toko')?'shopee_toko':
+    head400.includes('Search Brand Ads Report')?'shopee_sba':
+    (head400.includes('Livestream')||head400.includes('Iklan Live'))?'shopee_live':null;
+  if(shopeeKind){
+    const perLine=rows.find(r=>String(r[0]||'').trim()==='Periode');
+    let date=null;
+    if(perLine){const m=String(perLine[1]||'').match(/(\d{2})\/(\d{2})\/(\d{4})\s*-\s*(\d{2})\/(\d{2})\/(\d{4})/);
+      if(m&&m[1]===m[4]&&m[2]===m[5]) date=anyDateToJulDay(`${m[1]}/${m[2]}/${m[3]}`);
+      else if(m) date=anyDateToJulDay(`${m[4]}/${m[5]}/${m[6]}`);}
+    const hi=rows.findIndex(r=>String(r[0]||'').trim()==='Urutan');
+    if(hi<0) return {error:'Header tabel Shopee (kolom "Urutan") tidak ditemukan.'};
+    const H=H_at(hi);
+    const cBiaya=colIdxOf(H,'Biaya'), cOmzet=colIdxOf(H,'Omzet Penjualan'),
+          cKonv=colIdxOf(H,'Konversi','Pesanan'), cLihat=colIdxOf(H,'Dilihat'),
+          cKlik=colIdxOf(H,'Jumlah Klik'), cView=colIdxOf(H,'Penonton');
+    let cost=0,gmv=0,orders=0,imp=0,clk=0,lv=0,n=0,active=0;
+    for(const r of rows.slice(hi+1)){
+      if(!r[0]||!/^\d+$/.test(String(r[0]).trim())) continue;
+      n++;
+      const b=plainnum(r[cBiaya])||0;
+      if(b<=0) continue;                       // hanya campaign berbiaya, sesuai alur kerja
+      active++;
+      cost+=b; gmv+=plainnum(r[cOmzet])||0; orders+=plainnum(r[cKonv])||0;
+      if(cLihat>=0)imp+=plainnum(r[cLihat])||0; if(cKlik>=0)clk+=plainnum(r[cKlik])||0;
+      if(cView>=0)lv+=plainnum(r[cView])||0;
+    }
+    const isBaru=/baru/i.test(filename||'');
+    const defaultCh=shopeeKind==='shopee_toko'?'sp_store':shopeeKind==='shopee_sba'?'sp_sba':
+                    shopeeKind==='shopee_live'?'sp_live':(isBaru?'sp_pc_new':'sp_pc');
+    const single={cost,gmv,orders}; if(imp)single.impressions=imp; if(clk)single.clicks=clk; if(lv)single.liveViews=lv;
+    const lblMap={shopee_cpc:'Shopee Iklan CPC',shopee_toko:'Shopee Iklan Toko',shopee_sba:'Shopee SBA',shopee_live:'Shopee Live'};
+    return {type:shopeeKind,label:`${lblMap[shopeeKind]} · ${active}/${n} campaign berbiaya`,single,defaultCh,date,needsDate:true,needsCh:true};
+  }
+
+  /* --- Meta (CSV / XLSX): harian per kolom Day --- */
+  let hi=findHeader(rows,['Campaign name','Day']);
+  if(hi<0) hi=findHeader(rows,['Day','Campaign name']);
+  if(hi>=0){
+    const H=H_at(hi);
+    const cDay=colIdxOf(H,'Day'),
+          cSpent=H.findIndex(h=>/amount spent/i.test(h)),
+          cPur=H.findIndex(h=>/^purchases with shared/i.test(h)),
+          cVal=H.findIndex(h=>/^purchases conversion value/i.test(h)),
+          cClk=H.findIndex(h=>/link clicks/i.test(h)),
+          cReach=colIdxOf(H,'Reach'), cImp=colIdxOf(H,'Impressions');
+    const isSalesFile=cPur>=0||cVal>=0;
+    const chId=isSalesFile?'meta_cpas':'meta_aw';
+    const byDay={}; let skipped=0;
+    for(const r of rows.slice(hi+1)){
+      const d=anyDateToJulDay(r[cDay]);
+      if(d==null){ if(String(r[cDay]||'').trim())skipped++; continue; }
+      const o=byDay[d]??={cost:0,gmv:0,orders:0,clicks:0,reach:0,impressions:0};
+      o.cost+=plainnum(r[cSpent])||0;
+      if(cVal>=0)o.gmv+=plainnum(r[cVal])||0;
+      if(cPur>=0)o.orders+=plainnum(r[cPur])||0;
+      if(cClk>=0)o.clicks+=plainnum(r[cClk])||0;
+      if(cReach>=0)o.reach+=plainnum(r[cReach])||0;
+      if(cImp>=0)o.impressions+=plainnum(r[cImp])||0;
+    }
+    const days=Object.keys(byDay).map(Number).sort((a,b)=>a-b);
+    if(!days.length) return {error:'Tidak ada baris di bulan '+RAW.meta.month+' (kolom Day).'};
+    const entries=days.map(d=>({chId,day:d,metrics:byDay[d]}));
+    return {type:'meta',label:`Meta ${isSalesFile?'CPAS Sales':'Awareness'} · ${days.length} hari (${days[0]}–${days[days.length-1]} Jul)${skipped?` · ${skipped} baris di luar Juli dilewati`:''}`,entries};
+  }
+
+  /* --- TikTok Live GMV Max: kampanye mengandung SMO / SID / affiliate --- */
+  hi=findHeader(rows,['Nama kampanye','Biaya']);
+  if(hi<0){ // varian dengan header di baris 2 (baris 1 = kategori)
+    for(let i=0;i<Math.min(rows.length,5);i++){
+      const set=H_at(i);
+      if(set.includes('Nama kampanye')&&set.some(h=>/Biaya/.test(h))){hi=i;break;}
+    }
+  }
+  if(hi>=0){
+    const H=H_at(hi);
+    const cName=colIdxOf(H,'Nama kampanye'),
+          cBiaya=colIdxOf(H,'Biaya'), cOrd=H.findIndex(h=>/^Pesanan/.test(h)),
+          cRev=H.findIndex(h=>/Pendapatan kotor|Penghasilan bruto/.test(h)),
+          cLive=H.findIndex(h=>/Tayangan LIVE$/.test(h)),
+          cImp=H.findIndex(h=>/Impresi/.test(h)), cClk=H.findIndex(h=>/Jumlah klik/.test(h)),
+          cJenis=colIdxOf(H,'Jenis materi iklan'),
+          cWaktu=H.findIndex(h=>/Waktu peluncuran/.test(h)), cDate=colIdxOf(H,'Date','Tanggal','Hari');
+    const isLive=cLive>=0||cWaktu>=0;
+    const agg={}; let skipped=0, rowsUsed=0;
+    for(const r of rows.slice(hi+1)){
+      const name=r[cName];
+      if(!name&&!(r[cBiaya])) continue;
+      const d=anyDateToJulDay(r[cWaktu>=0?cWaktu:cDate]);
+      if(d==null){skipped++;continue;}
+      let chId;
+      if(isLive) chId=liveChannelFromName(name);
+      else{
+        const jenis=String(cJenis>=0?r[cJenis]:'').toLowerCase();
+        const ns=/\bns\b/i.test(String(name||''));
+        if(/video/.test(jenis)) chId=ns?'tt_vsa_ns':'tt_vsa';
+        else if(/kartu|card/.test(jenis)) chId=ns?'tt_psa_ns':'tt_psa';
+        else chId=ns?'tt_vsa_ns':'tt_vsa';
+      }
+      rowsUsed++;
+      const key=chId+'|'+d;
+      const o=agg[key]??={chId,day:d,metrics:{cost:0,gmv:0,orders:0}};
+      o.metrics.cost+=plainnum(r[cBiaya])||0;
+      if(cRev>=0)o.metrics.gmv+=plainnum(r[cRev])||0;
+      if(cOrd>=0)o.metrics.orders+=plainnum(r[cOrd])||0;
+      if(cImp>=0)o.metrics.impressions=(o.metrics.impressions||0)+(plainnum(r[cImp])||0);
+      if(cClk>=0)o.metrics.clicks=(o.metrics.clicks||0)+(plainnum(r[cClk])||0);
+      if(cLive>=0)o.metrics.liveViews=(o.metrics.liveViews||0)+(plainnum(r[cLive])||0);
+    }
+    const entries=Object.values(agg);
+    if(!entries.length) return {error:'Tidak ada baris TikTok di bulan '+RAW.meta.month+'. Pastikan ada kolom tanggal (Date / Waktu peluncuran).'};
+    const chs=[...new Set(entries.map(e=>chById(e.chId)?.name))].join(', ');
+    return {type:isLive?'tt_live':'tt_product',
+      label:`TikTok ${isLive?'Live GMV Max':'Product GMV Max'} · ${rowsUsed} baris → ${chs}${skipped?` · ${skipped} baris di luar Juli dilewati`:''}`,entries};
+  }
+
+  /* --- Produk Klik Live TikTok --- */
+  hi=findHeader(rows,['Nama LIVE','Produk Klik']);
+  if(hi<0) hi=findHeader(rows,['Produk Klik']);
+  if(hi>=0){
+    const H=H_at(hi);
+    const cClk=colIdxOf(H,'Produk Klik'), cName=colIdxOf(H,'Nama kampanye'),
+          cWaktu=H.findIndex(h=>/Waktu peluncuran/.test(h));
+    const agg={}; let skipped=0;
+    for(const r of rows.slice(hi+1)){
+      const d=anyDateToJulDay(r[cWaktu]);
+      if(d==null){skipped++;continue;}
+      const chId=liveChannelFromName(r[cName]);
+      const key=chId+'|'+d;
+      const o=agg[key]??={chId,day:d,metrics:{clicks:0}};
+      o.metrics.clicks+=plainnum(r[cClk])||0;
+    }
+    const entries=Object.values(agg);
+    if(!entries.length) return {error:'Tidak ada baris Produk Klik di bulan '+RAW.meta.month+'.'};
+    return {type:'tt_liveclicks',label:`Produk Klik Live TikTok · ${entries.length} channel-hari${skipped?` · ${skipped} di luar Juli`:''}`,entries};
+  }
+  return {error:'Format tidak dikenali. Yang didukung: CSV Shopee (Iklan CPC / Toko / SBA / Live), Meta CSV/XLSX (kolom Day), TikTok GMV Max (Live & Product), Produk Klik Live.'};
+}
+/* --- XLSX reader mini (zip + DecompressionStream) --- */
+const decodeXml=s=>s.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g,'"').replace(/&apos;/g,"'").replace(/&amp;/g,'&');
+const colIdx=ref=>{let n=0;for(const ch of ref)n=n*26+(ch.charCodeAt(0)-64);return n-1;};
+async function xlsxToRows(buf){
+  const dv=new DataView(buf), u8=new Uint8Array(buf);
+  let e=-1;
+  for(let i=u8.length-22;i>=Math.max(0,u8.length-65558);i--){if(dv.getUint32(i,true)===0x06054b50){e=i;break;}}
+  if(e<0) throw new Error('bukan file xlsx/zip');
+  const cnt=dv.getUint16(e+10,true), cdOff=dv.getUint32(e+16,true);
+  const files={}; let p=cdOff;
+  for(let i=0;i<cnt;i++){
+    if(dv.getUint32(p,true)!==0x02014b50) break;
+    const method=dv.getUint16(p+10,true), csize=dv.getUint32(p+20,true),
+          nlen=dv.getUint16(p+28,true), elen=dv.getUint16(p+30,true), clen=dv.getUint16(p+32,true),
+          lho=dv.getUint32(p+42,true);
+    files[new TextDecoder().decode(u8.subarray(p+46,p+46+nlen))]={method,csize,lho};
+    p+=46+nlen+elen+clen;
+  }
+  async function read(name){
+    const f=files[name]; if(!f) return null;
+    const q=f.lho, nl=dv.getUint16(q+26,true), el=dv.getUint16(q+28,true);
+    const data=u8.subarray(q+30+nl+el, q+30+nl+el+f.csize);
+    if(f.method===0) return new TextDecoder().decode(data);
+    if(typeof DecompressionStream==='undefined') throw new Error('Browser tidak mendukung baca XLSX — simpan sebagai CSV dulu.');
+    const stream=new Blob([data]).stream().pipeThrough(new DecompressionStream('deflate-raw'));
+    return await new Response(stream).text();
+  }
+  const shared=[];
+  const ss=await read('xl/sharedStrings.xml');
+  if(ss) for(const m of ss.matchAll(/<si[ >][\s\S]*?<\/si>/g)){
+    shared.push([...m[0].matchAll(/<t[^>]*>([\s\S]*?)<\/t>/g)].map(x=>decodeXml(x[1])).join(''));
+  }
+  const sheetName=Object.keys(files).find(n=>/^xl\/worksheets\/sheet1\.xml$/.test(n))||Object.keys(files).find(n=>/^xl\/worksheets\/sheet\d+\.xml$/.test(n));
+  const sheet=await read(sheetName);
+  if(!sheet) throw new Error('worksheet tidak ditemukan');
+  const rows=[];
+  for(const rm of sheet.matchAll(/<row[^>]*>([\s\S]*?)<\/row>/g)){
+    const row=[];
+    for(const cm of rm[1].matchAll(/<c([^>]*?)(?:\/>|>([\s\S]*?)<\/c>)/g)){
+      const attrs=cm[1], inner=cm[2]||'';
+      const ref=/r="([A-Z]+)\d+"/.exec(attrs);
+      const col=ref?colIdx(ref[1]):row.length;
+      const t=(/t="([^"]+)"/.exec(attrs)||[])[1];
+      let v='';
+      const vm=/<v>([\s\S]*?)<\/v>/.exec(inner);
+      if(t==='s'&&vm) v=shared[+vm[1]]??'';
+      else if(t==='inlineStr'){const tm=/<t[^>]*>([\s\S]*?)<\/t>/.exec(inner); v=tm?decodeXml(tm[1]):'';}
+      else if(vm) v=decodeXml(vm[1]);
+      while(row.length<col) row.push('');
+      row[col]=v;
+    }
+    rows.push(row);
+  }
+  return rows;
+}
+/* --- Upload page state & render --- */
+let PENDING=[];   // {name,label,type,entries?|single,defaultCh,chId,date,error}
+function applyEntries(entries){
+  let cells=0;
+  for(const en of entries){
+    const di=en.day-1;
+    overlay[en.chId]??={};
+    for(const k in en.metrics){
+      const v=en.metrics[k];
+      if(v==null) continue;
+      (overlay[en.chId][k]??={})[di]=Math.round(v*100)/100;
+      cells++;
+    }
+  }
+  return cells;
+}
+function renderUpload(){
   const ovEntries=[];
   for(const cid in overlay) for(const m in overlay[cid]) for(const d in overlay[cid][m])
     ovEntries.push({cid,m,d:+d,v:overlay[cid][m][d]});
   view.innerHTML=`
-  <h2 class="sec">Data & Import <span class="hint">alur sama dengan tab RAW di Google Sheet Anda</span></h2>
-  <div class="grid g-2">
-    <div class="card">
-      <h3>1 · Import Raw Data</h3>
-      <p class="note" style="margin:0 0 8px">Tempel isi file CSV ekspor platform, atau pilih file. Format yang dikenali otomatis:
-      Shopee <b>Iklan CPC</b> (produk / produk baru), <b>Iklan Toko</b>, <b>SBA</b>, dan <b>Meta CSV</b> (per hari).
-      File Excel Meta: buka lalu <i>Save as CSV</i> dulu.</p>
-      <input type="file" id="impFile" accept=".csv,.txt" style="margin-bottom:8px">
-      <textarea id="impText" placeholder="…atau tempel isi CSV di sini"></textarea>
-      <div style="margin-top:8px;display:flex;gap:8px"><button class="btn" id="impParse">Deteksi & preview</button></div>
-      <div id="impPrev" style="margin-top:10px"></div>
+  <h2 class="sec">Upload Data <span class="hint">taruh file ekspor platform di sini — dashboard yang memproses</span></h2>
+  <div class="card">
+    <div class="drop" id="drop">
+      <b>Tarik & letakkan file di sini, atau klik untuk pilih</b>
+      <small>CSV / XLSX · boleh banyak file sekaligus · Shopee (Iklan CPC, Iklan Toko, SBA, Live), Meta (Sales & Awareness), TikTok GMV Max (Product & Live), Produk Klik Live</small>
+      <input type="file" id="fileIn" multiple accept=".csv,.txt,.xlsx" style="display:none">
     </div>
+    <div id="fileList"></div>
+    <div id="applyBar" style="display:none;margin-top:12px">
+      <button class="btn" id="applyAll">Terapkan semua ke database</button>
+      <span class="note" style="margin-left:8px">Data masuk sebagai overlay di browser — data dasar sheet tidak berubah.</span>
+    </div>
+  </div>
+  <div class="grid g-2" style="margin-top:12px">
     <div class="card">
-      <h3>2 · Input Manual Harian</h3>
+      <h3>Input Manual <span class="hint">· satu tanggal atau rentang (mis. Produk Klik Live 1–3 Jul)</span></h3>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
         <label>Channel<br><select id="mCh" style="width:100%">${dailyOptions(false)}</select></label>
-        <label>Tanggal<br><input type="date" id="mDate" style="width:100%" min="${RAW.meta.year}-07-01" max="${RAW.meta.year}-07-31" value="${RAW.meta.year}-07-${String(Math.min(GLOBAL_LAST+1,DIM)).padStart(2,'0')}"></label>
-        <label>Ads Cost (Rp)<br><input type="number" id="mCost" style="width:100%"></label>
-        <label>GMV (Rp)<br><input type="number" id="mGmv" style="width:100%"></label>
-        <label>Orders<br><input type="number" id="mOrd" style="width:100%"></label>
-        <label>Impressions<br><input type="number" id="mImp" style="width:100%"></label>
-        <label>Product Clicks<br><input type="number" id="mClk" style="width:100%"></label>
+        <label>Metrik<br><select id="mMetric" style="width:100%">
+          <option value="clicks">Product Clicks</option><option value="cost">Ads Cost (Rp)</option>
+          <option value="gmv">GMV (Rp)</option><option value="orders">Orders</option>
+          <option value="impressions">Impressions</option><option value="liveViews">Live Views</option>
+        </select></label>
+        <label>Dari tanggal<br><input type="date" id="mD1" style="width:100%" min="${julDate(1)}" max="${julDate(DIM)}" value="${julDate(Math.min(GLOBAL_LAST,DIM))}"></label>
+        <label>Sampai tanggal<br><input type="date" id="mD2" style="width:100%" min="${julDate(1)}" max="${julDate(DIM)}" value="${julDate(Math.min(GLOBAL_LAST,DIM))}"></label>
+        <label>Nilai<br><input type="number" id="mVal" style="width:100%" placeholder="mis. 3600"></label>
+        <label>Cara isi rentang<br><select id="mMode" style="width:100%">
+          <option value="split">Total → dibagi rata per hari</option>
+          <option value="each">Nilai yang sama untuk tiap hari</option>
+        </select></label>
       </div>
-      <div style="margin-top:10px"><button class="btn" id="mSave">Simpan ke database</button></div>
-      <p class="note">Data tersimpan sebagai overlay di browser (localStorage) di atas data dasar dari Google Sheet — tidak mengubah sheet aslinya.</p>
+      <div style="margin-top:10px"><button class="btn" id="mSave">Simpan</button></div>
+    </div>
+    <div class="card">
+      <h3>Overlay aktif <span class="hint">· ${ovEntries.length} sel</span></h3>
+      ${ovEntries.length?`<div class="tbl-wrap" style="border:0;max-height:240px;overflow:auto"><table><thead><tr><th>Channel</th><th>Metrik</th><th>Tanggal</th><th>Nilai</th></tr></thead>
+        <tbody>${ovEntries.sort((a,b)=>a.cid.localeCompare(b.cid)||a.d-b.d).slice(0,300).map(e=>`<tr><td>${esc(chById(e.cid)?.name||e.cid)}</td><td>${e.m}</td><td class="num">${e.d+1} Jul</td><td class="num">${['cost','gmv','atcValue'].includes(e.m)?fmtRp(e.v):fmtN(e.v)}</td></tr>`).join('')}</tbody></table></div>`:
+        '<div class="empty">Belum ada data upload — dashboard memakai data dasar dari Google Sheet + raw.</div>'}
+      <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn ghost" id="expJson">⬇ Export JSON gabungan</button>
+        ${ovEntries.length?'<button class="btn ghost" id="clrOv" style="color:var(--critical)">Hapus semua</button>':''}
+      </div>
     </div>
   </div>
-  <h2 class="sec">Overlay aktif <span class="hint">${ovEntries.length} sel diubah/ditambah</span></h2>
-  <div class="card">
-    ${ovEntries.length?`<div class="tbl-wrap" style="border:0;max-height:260px;overflow:auto"><table><thead><tr><th>Channel</th><th>Metrik</th><th>Tanggal</th><th>Nilai</th></tr></thead>
-      <tbody>${ovEntries.sort((a,b)=>a.cid.localeCompare(b.cid)||a.d-b.d).map(e=>`<tr><td>${esc(chById(e.cid)?.name||e.cid)}</td><td>${e.m}</td><td class="num">${e.d+1} Jul</td><td class="num">${['cost','gmv','atcValue'].includes(e.m)?fmtRp(e.v):fmtN(e.v)}</td></tr>`).join('')}</tbody></table></div>`:
-      '<div class="empty">Belum ada perubahan — dashboard memakai data dasar dari Google Sheet + raw upload.</div>'}
-    <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
-      <button class="btn ghost" id="expJson">⬇ Export JSON gabungan</button>
-      ${ovEntries.length?'<button class="btn ghost" id="clrOv" style="color:var(--critical)">Hapus semua overlay</button>':''}
-    </div>
-  </div>
-  <h2 class="sec">Struktur database</h2>
-  <div class="card"><div class="tbl-wrap" style="border:0"><table>
-    <thead><tr><th>Sumber raw (sheet)</th><th>Channel di dashboard</th><th>Platform</th><th>Metrik utama</th></tr></thead><tbody>
-    <tr><td>RS Prod &amp; Toko</td><td>Iklan Produk · Iklan Toko</td><td>${platChip('shopee')}</td><td>Biaya, Omzet, Konversi, Dilihat, Klik</td></tr>
-    <tr><td>RS Prod Baru</td><td>Iklan Produk Baru</td><td>${platChip('shopee')}</td><td>Biaya, Omzet, Konversi</td></tr>
-    <tr><td>RS Live</td><td>Live Shopee Ads (LSA)</td><td>${platChip('shopee')}</td><td>Biaya, Omzet, Pesanan, Penonton</td></tr>
-    <tr><td>LS SBA</td><td>Search Brand Ads (Banner)</td><td>${platChip('shopee')}</td><td>Biaya, Omzet, Pesanan, Dilihat</td></tr>
-    <tr><td>RT Product Ads</td><td>VSA / VSA NS / Product Card (NS)</td><td>${platChip('tiktok')}</td><td>Biaya, Pendapatan kotor, Pesanan SKU, Impresi, Klik</td></tr>
-    <tr><td>RT Live Ads + Produk Klik Live</td><td>Live Streaming SMO/SID/SMV/Aff</td><td>${platChip('tiktok')}</td><td>Biaya, Pendapatan, Pesanan, Tayangan LIVE, Produk Klik</td></tr>
-    <tr><td>RT Upper Funnel</td><td>Awareness / Consideration / CI</td><td>${platChip('tiktok')}</td><td>Cost, Reach, Impressions, Follows</td></tr>
-    <tr><td>RAW Meta</td><td>CPAS Sales · Awareness · Traffic</td><td>${platChip('meta')}</td><td>Spent, Purchases, Conv. Value, Link Clicks</td></tr>
-  </tbody></table></div></div>`;
-  const fileEl=document.getElementById('impFile');
-  fileEl.onchange=()=>{const f=fileEl.files[0];if(!f)return;const rd=new FileReader();
-    rd.onload=()=>{document.getElementById('impText').value=rd.result;doParse();};rd.readAsText(f);};
-  document.getElementById('impParse').onclick=doParse;
-  function doParse(){
-    const text=document.getElementById('impText').value;
-    if(!text.trim())return;
-    const res=parseImport(text); pendingImport=res;
-    const prev=document.getElementById('impPrev');
-    if(res.error){prev.innerHTML=`<div class="alert warn" style="margin:0"><div class="ic">⚠️</div><div class="bd">${esc(res.error)}</div></div>`;return;}
-    const chOpts=CH.map(c=>`<option value="${c.id}" ${c.id===res.defaultCh?'selected':''}>${PLATFORMS[c.platform].name} — ${esc(c.name)}</option>`).join('');
-    if(res.kind==='meta'){
-      const days=Object.keys(res.daily).sort();
-      prev.innerHTML=`<div class="alert opp" style="margin:0"><div class="ic">✓</div><div class="bd">
-        <b>${esc(res.label)}</b>
-        <div class="why">Total: ${fmtRpC(sum(days.map(d=>res.daily[d].cost)))} spend · ${fmtRpC(sum(days.map(d=>res.daily[d].gmv)))} GMV · ${fmtN(sum(days.map(d=>res.daily[d].orders)))} orders</div>
-        <div class="controls" style="margin:8px 0 0"><label>Masukkan ke:</label><select id="impCh">${chOpts}</select>
-        <button class="btn" id="impSave">Simpan</button></div></div></div>`;
-    } else {
-      prev.innerHTML=`<div class="alert opp" style="margin:0"><div class="ic">✓</div><div class="bd">
-        <b>${esc(res.label)}</b>
-        <div class="why">Agregat campaign berbiaya: ${fmtRpC(res.single.cost)} spend · ${fmtRpC(res.single.gmv)} omzet · ${fmtN(res.single.orders)} konversi</div>
-        <div class="controls" style="margin:8px 0 0">
-          <label>Channel:</label><select id="impCh">${chOpts}</select>
-          <label>Tanggal:</label><input type="date" id="impDate" value="${res.date||''}" min="${RAW.meta.year}-07-01" max="${RAW.meta.year}-07-31">
-          <button class="btn" id="impSave">Simpan</button></div></div></div>`;
+  <details style="margin-top:14px"><summary style="cursor:pointer;font-weight:650;font-size:13px">Aturan pemetaan otomatis</summary>
+  <div class="card" style="margin-top:8px"><div class="tbl-wrap" style="border:0"><table>
+    <thead><tr><th style="text-align:left">File</th><th style="text-align:left">Dikenali dari</th><th style="text-align:left">Masuk ke channel</th></tr></thead><tbody>
+    <tr><td style="text-align:left">Shopee Iklan CPC</td><td style="text-align:left">“Semua Laporan Iklan CPC” + baris Periode</td><td style="text-align:left">Iklan Produk (file mengandung “BARU” → Iklan Produk Baru); tanggal dari Periode</td></tr>
+    <tr><td style="text-align:left">Shopee Iklan Toko / SBA / Live</td><td style="text-align:left">Judul laporan</td><td style="text-align:left">Iklan Toko / SBA / Live Shopee Ads</td></tr>
+    <tr><td style="text-align:left">Meta (CSV/XLSX)</td><td style="text-align:left">Kolom Campaign name + Day</td><td style="text-align:left">Ada kolom Purchases → CPAS Sales, tanpa itu → Awareness; per hari otomatis</td></tr>
+    <tr><td style="text-align:left">TikTok Live GMV Max</td><td style="text-align:left">Nama kampanye + Waktu peluncuran</td><td style="text-align:left">Nama mengandung “SMO” → Live SMO · “SID” → Live SID · “affiliate” → Live Affiliate · “SMV” → Live SMV</td></tr>
+    <tr><td style="text-align:left">TikTok Product GMV Max</td><td style="text-align:left">Nama kampanye + Jenis materi iklan + Date</td><td style="text-align:left">Video → VSA · Kartu produk → Product Card · nama “NS” → varian NS</td></tr>
+    <tr><td style="text-align:left">Produk Klik Live</td><td style="text-align:left">Kolom “Produk Klik”</td><td style="text-align:left">Klik masuk ke channel Live sesuai nama kampanye</td></tr>
+  </tbody></table></div></div></details>`;
+  /* dropzone */
+  const drop=document.getElementById('drop'), fin=document.getElementById('fileIn');
+  drop.onclick=()=>fin.click();
+  drop.ondragover=e=>{e.preventDefault();drop.classList.add('on');};
+  drop.ondragleave=()=>drop.classList.remove('on');
+  drop.ondrop=e=>{e.preventDefault();drop.classList.remove('on');handleFiles(e.dataTransfer.files);};
+  fin.onchange=()=>handleFiles(fin.files);
+  renderFileList();
+  async function handleFiles(fileList){
+    for(const f of fileList){
+      const item={name:f.name,status:'proses…'};
+      PENDING.push(item);
+      try{
+        let rows;
+        if(/\.xlsx$/i.test(f.name)) rows=await xlsxToRows(await f.arrayBuffer());
+        else rows=csvParse(await f.text());
+        const res=detectRows(rows,f.name);
+        Object.assign(item,res);
+        if(res.needsCh) item.chId=res.defaultCh;
+      }catch(err){ item.error='Gagal membaca file: '+(err.message||err); }
+      renderFileList();
     }
-    document.getElementById('impSave').onclick=()=>{
-      const cid=document.getElementById('impCh').value;
-      const put=(dateIso,vals)=>{
-        const d=new Date(dateIso+'T00:00:00');
-        if(d.getMonth()!==CUR_M||d.getFullYear()!==RAW.meta.year){alert('Tanggal di luar '+RAW.meta.month+' — dashboard versi ini menyimpan data harian '+RAW.meta.month+'.');return false;}
-        const di=d.getDate()-1;
-        overlay[cid]??={};
-        for(const k in vals){ if(vals[k]==null)continue; (overlay[cid][k]??={})[di]=vals[k]; }
-        return true;
-      };
-      let ok=true;
-      if(res.kind==='meta'){ for(const d in res.daily) ok=put(d,res.daily[d])&&ok; }
-      else{ const dt=document.getElementById('impDate').value;
-        if(!dt){alert('Isi tanggal data (Periode ekspor Shopee).');return;}
-        ok=put(dt,res.single); }
-      if(ok){store.set(LS_O,overlay);location.reload();}
-    };
   }
+  function renderFileList(){
+    const el=document.getElementById('fileList');
+    if(!el) return;
+    el.innerHTML=PENDING.map((f,i)=>{
+      if(f.error) return `<div class="file-row err"><span class="fname">${esc(f.name)}</span><span class="fsum" style="color:var(--critical)">${esc(f.error)}</span><button class="del" data-i="${i}">✕</button></div>`;
+      const chSel=f.needsCh?`<select data-ch="${i}">${CH.map(c=>`<option value="${c.id}" ${c.id===f.chId?'selected':''}>${PLATFORMS[c.platform].name} — ${esc(c.name)}</option>`).join('')}</select>`:'';
+      const dateSel=f.needsDate?`<input type="date" data-dt="${i}" value="${f.date?julDate(f.date):''}" min="${julDate(1)}" max="${julDate(DIM)}">`:'';
+      const sums=f.single?`${fmtRpC(f.single.cost||0)} spend · ${fmtRpC(f.single.gmv||0)} omzet · ${fmtN(f.single.orders||0)} orders`:
+        f.entries?`${fmtRpC(sum(f.entries.map(e=>e.metrics.cost||0)))} spend · ${fmtRpC(sum(f.entries.map(e=>e.metrics.gmv||0)))} GMV · ${fmtNC(sum(f.entries.map(e=>e.metrics.clicks||0)))} clicks`:'';
+      return `<div class="file-row">
+        <span class="fname" title="${esc(f.name)}">${esc(f.name)}</span>
+        <span class="ftype">${esc((f.label||'').split(' · ')[0])}</span>
+        <span class="fsum">${esc((f.label||'').split(' · ').slice(1).join(' · '))}${sums?' — '+sums:''}</span>
+        ${chSel}${dateSel}
+        <button class="del" data-i="${i}" title="Hapus dari antrean">✕</button></div>`;
+    }).join('');
+    document.getElementById('applyBar').style.display=PENDING.some(f=>!f.error)?'':'none';
+    el.querySelectorAll('.del').forEach(b=>b.onclick=()=>{PENDING.splice(+b.dataset.i,1);renderFileList();});
+    el.querySelectorAll('select[data-ch]').forEach(s=>s.onchange=()=>{PENDING[+s.dataset.ch].chId=s.value;});
+    el.querySelectorAll('input[data-dt]').forEach(s=>s.onchange=()=>{PENDING[+s.dataset.dt].date=parseIsoJulDay(s.value);});
+  }
+  document.getElementById('applyAll').onclick=()=>{
+    let cells=0, problems=[];
+    for(const f of PENDING){
+      if(f.error) continue;
+      if(f.entries) cells+=applyEntries(f.entries);
+      else if(f.single){
+        if(!f.date){problems.push(f.name+': tanggal belum diisi');continue;}
+        cells+=applyEntries([{chId:f.chId,day:f.date,metrics:f.single}]);
+      }
+    }
+    if(problems.length){alert('Sebagian file belum lengkap:\n'+problems.join('\n'));return;}
+    if(!cells)return;
+    store.set(LS_O,overlay); PENDING=[]; location.reload();
+  };
+  /* manual */
   document.getElementById('mSave').onclick=()=>{
-    const cid=document.getElementById('mCh').value, dt=document.getElementById('mDate').value;
-    if(!cid||!dt||cid==='all'||cid.startsWith('agg:'))return;
-    const d=new Date(dt+'T00:00:00'); if(d.getMonth()!==CUR_M){alert('Tanggal harus di bulan '+RAW.meta.month);return;}
-    const di=d.getDate()-1, vals={cost:'mCost',gmv:'mGmv',orders:'mOrd',impressions:'mImp',clicks:'mClk'};
-    overlay[cid]??={};
-    let any=false;
-    for(const k in vals){const v=document.getElementById(vals[k]).value;
-      if(v!==''){(overlay[cid][k]??={})[di]=parseFloat(v);any=true;}}
-    if(!any)return;
-    store.set(LS_O,overlay);location.reload();
+    const cid=document.getElementById('mCh').value, metric=document.getElementById('mMetric').value;
+    const d1=parseIsoJulDay(document.getElementById('mD1').value), d2=parseIsoJulDay(document.getElementById('mD2').value);
+    const val=parseFloat(document.getElementById('mVal').value);
+    const mode=document.getElementById('mMode').value;
+    if(!cid||d1==null||d2==null||d2<d1||isNaN(val)){alert('Lengkapi channel, rentang tanggal (di bulan '+RAW.meta.month+'), dan nilai.');return;}
+    const nDays=d2-d1+1;
+    const per= mode==='split'? val/nDays : val;
+    const entries=[];
+    for(let d=d1;d<=d2;d++) entries.push({chId:cid,day:d,metrics:{[metric]:per}});
+    applyEntries(entries);
+    store.set(LS_O,overlay); location.reload();
   };
   document.getElementById('expJson').onclick=()=>{
     const out={meta:RAW.meta,exportedAt:new Date().toISOString(),channels:CH.map(c=>({id:c.id,platform:c.platform,name:c.name,budget:c.budget,days:c.days,totals:c.tot,roas:c.roas}))};
@@ -1125,13 +1540,14 @@ const TABS=[
   ['harian','Harian',renderDaily],
   ['bulanan','Bulanan',renderMonthly],
   ['platform','Platform',renderPlatforms],
+  ['bandingkan','Bandingkan',renderCompare],
   ['analisis','Analisis',renderAnalytics],
-  ['data','Data',renderData],
+  ['upload','Upload',renderUpload],
 ];
 let curTab='ringkasan';
 function updateBadge(){
   ALERTS=computeAlerts();
-  const n=ALERTS.alerts.filter(a=>a.sev==='critical'||a.sev==='serious'||a.sev==='warning').length;
+  const n=ALERTS.alerts.filter(a=>a.sev!=='info').length;
   const b=document.querySelector('nav.tabs button[data-tab="analisis"]');
   if(b) b.innerHTML='Analisis'+(n?`<span class="n">${n}</span>`:'');
 }
@@ -1148,7 +1564,6 @@ function boot(){
   tabs.innerHTML=TABS.map(t=>`<button data-tab="${t[0]}">${t[1]}</button>`).join('');
   tabs.querySelectorAll('button').forEach(b=>b.onclick=()=>location.hash='#/'+b.dataset.tab);
   document.getElementById('asOfPill').textContent='Data s/d '+GLOBAL_LAST+' Jul';
-  /* theme */
   const mq=matchMedia('(prefers-color-scheme: dark)');
   const applyOs=()=>document.documentElement.dataset.osdark=mq.matches?'1':'0';
   applyOs(); mq.addEventListener('change',applyOs);
