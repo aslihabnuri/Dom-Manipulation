@@ -1495,6 +1495,31 @@ function detectRows(rows,filename){
     return {type:'meta',needsCh:true,defaultCh:chId,
       label:`${chDef(chId)?.name||'Meta'} · ${isos.length} hari (${isoLabel(isos[0])}–${isoLabelY(isos[isos.length-1])})${skipped?` · ${skipped} baris di luar rentang dilewati`:''}`,entries};
   }
+  /* --- Kamus Produk TikTok: file berisi ID produk + Nama produk (tanpa kolom Biaya) ---
+     mis. ekspor daftar produk dari TikTok Seller Center. Sekali upload,
+     semua "Produk <ID>" di tab Produk otomatis berubah jadi nama aslinya. */
+  {
+    let hiN=-1;
+    for(let i=0;i<Math.min(rows.length,15);i++){
+      const set=rows[i].map(x=>String(x||'').trim().toLowerCase());
+      const hasId=set.some(h=>['id produk','product id','id'].includes(h));
+      const hasName=set.some(h=>['nama produk','product name','judul produk','nama'].includes(h));
+      const hasBiaya=set.some(h=>/biaya|cost|pengeluaran/.test(h));
+      if(hasId&&hasName&&!hasBiaya){hiN=i;break;}
+    }
+    if(hiN>=0){
+      const H=rows[hiN].map(x=>String(x||'').trim().toLowerCase());
+      const ci=H.findIndex(h=>['id produk','product id','id'].includes(h));
+      const cn=H.findIndex(h=>['nama produk','product name','judul produk','nama'].includes(h));
+      const mapping={};
+      for(const r of rows.slice(hiN+1)){
+        const id=String(r[ci]||'').trim(), nm=String(r[cn]||'').trim();
+        if(/^\d{6,}$/.test(id)&&nm)mapping[id]=nm;
+      }
+      const n=Object.keys(mapping).length;
+      if(n)return {type:'prodnames',mapping,label:`Kamus Produk TikTok · ${n} pasangan ID → nama`};
+    }
+  }
   /* --- Lazada Sponsored Max (Campaign report): satu file berisi Max Store + Max Product --- */
   hi=findHeader(rows,['Tanggal','Tipe Campaign','Pengeluaran']);
   if(hi>=0){
@@ -1540,7 +1565,8 @@ function detectRows(rows,filename){
           cJenis=colIdxOf(H,'Jenis materi iklan'),
           cWaktu=H.findIndex(h=>/Waktu peluncuran/.test(h)),cDate=colIdxOf(H,'Date','Tanggal','Hari'),
           cProdId=colIdxOf(H,'ID produk'),cVidT=colIdxOf(H,'Judul video'),
-          cVidId=colIdxOf(H,'ID video'),cAkun=colIdxOf(H,'Akun TikTok');
+          cVidId=colIdxOf(H,'ID video'),cAkun=colIdxOf(H,'Akun TikTok'),
+          cPName=colIdxOf(H,'Nama produk','Nama Produk','Product name','Judul produk');
     const isLive=cLive>=0||cWaktu>=0;
     const hasDateCol=cWaktu>=0||cDate>=0;
     /* tanggal dari nama file, mis. RAW_TIKTOK_PRODUCT_2026-07-14.xlsx / ..._14-07-2026 */
@@ -1586,7 +1612,8 @@ function detectRows(rows,filename){
         const rc=plainnum(r[cBiaya])||0,
               ri=cImp>=0?(plainnum(r[cImp])||0):0, rk=cClk>=0?(plainnum(r[cClk])||0):0;
         const pid=cProdId>=0?String(r[cProdId]||'').trim():'';
-        if(pid&&(qty||val))products.push({name:'Produk '+pid,code:pid,chId,iso,qty,val,cost:rc,imp:ri,clk:rk,ord:qty});
+        const pname=cPName>=0&&String(r[cPName]||'').trim()?String(r[cPName]).trim():('Produk '+pid);
+        if(pid&&(qty||val))products.push({name:pname,code:pid,chId,iso,qty,val,cost:rc,imp:ri,clk:rk,ord:qty});
         const akun=cAkun>=0?String(r[cAkun]||'').trim():'';
         const vt=cVidT>=0?String(r[cVidT]||'').trim():'';
         if(akun&&(qty||val))videos.push({creator:akun,title:vt||('Video '+String(cVidId>=0?r[cVidId]:'')),
@@ -1707,9 +1734,10 @@ async function xlsxToRows(buf){
 }
 let PENDING=[];
 /* ---- penyimpanan detail Produk & Video/Kreator (dari upload) ---- */
-const LS_P='smoAdsProducts', LS_V='smoAdsVideos';
-let prodStore=store.get(LS_P,[]);   // {chId,iso,name,code,qty,val}
-let vidStore=store.get(LS_V,[]);    // {creator,title,vid,chId,iso,qty,val}
+const LS_P='smoAdsProducts', LS_V='smoAdsVideos', LS_PN='smoAdsProdNames';
+let prodStore=store.get(LS_P,[]);   // {chId,iso,name,code,qty,val,cost,imp,clk,ord}
+let vidStore=store.get(LS_V,[]);    // {creator,title,vid,chId,iso,qty,val,cost,imp,clk}
+let prodNames=store.get(LS_PN,{}); // kamus ID produk TikTok → nama
 function mergeDetail(storeArr, incoming){
   /* re-upload periode yang sama menimpa data lama (per channel+tanggal) */
   const keys=new Set(incoming.map(r=>r.chId+'|'+r.iso));
@@ -1798,6 +1826,7 @@ function renderUpload(){
     <tr><td style="text-align:left">Meta (CSV/XLSX)</td><td style="text-align:left">Kolom Campaign name + Day, plus nama file</td><td style="text-align:left">Nama file mengandung <b>“CPAS”</b> → Meta CPAS · <b>“REGULER”</b> → Meta Reguler; tanpa penanda: ada kolom Purchases → CPAS, tanpa → Awareness. Channel tetap bisa diganti sebelum Terapkan.</td></tr>
     <tr><td style="text-align:left">TikTok Live GMV Max</td><td style="text-align:left">Nama kampanye + Waktu peluncuran</td><td style="text-align:left">“SMO” → Live SMO · “SID” → Live SID · “affiliate” → Live Affiliate · “SMV” → Live SMV</td></tr>
     <tr><td style="text-align:left">TikTok Product GMV Max <span style="color:var(--muted)">(1 file RAW yang sama)</span></td><td style="text-align:left">Nama kampanye + Jenis materi iklan + tanggal</td><td style="text-align:left">Jenis <b>Video</b> → Video Shopping Ads · Jenis <b>Kartu Produk</b> → Product Card Shopping Ads · nama kampanye mengandung <b>“New”</b> → varian NS · baris dengan <b>Biaya 0 dan Pesanan 0 dibuang</b> otomatis</td></tr>
+    <tr><td style="text-align:left">Kamus Produk TikTok</td><td style="text-align:left">Kolom ID produk + Nama produk (tanpa kolom biaya) — mis. ekspor daftar produk Seller Center</td><td style="text-align:left">Memberi nama semua “Produk &lt;ID&gt;” di tab Produk, berlaku surut tanpa upload ulang; bisa juga klik ✎ di tabel produk untuk beri nama manual</td></tr>
     <tr><td style="text-align:left">Lazada Sponsored Max (XLSX/CSV)</td><td style="text-align:left">Kolom Tanggal + Tipe Campaign + Pengeluaran</td><td style="text-align:left">Tipe <b>Sponsored Max Store</b> → Max Store · <b>Sponsored Max Product</b> → Max Product; per hari otomatis (Pengeluaran, Pendapatan Toko, Order Toko, Impresi, Klik)</td></tr>
     <tr><td style="text-align:left">Produk Klik Live TikTok (raw LIVE per kreator)</td><td style="text-align:left">Kolom “Klik Produk” + “Nama panggilan” + “Waktu Live”</td><td style="text-align:left">Nama panggilan <b>sophiemartinofficial</b> → Live SMO · <b>sophiemartin_id</b> → Live SID · <b>sophiemartin.verse</b> → Live SMV; klik dijumlah per tanggal</td></tr>
   </tbody></table></div></div></details>`;
@@ -1846,9 +1875,10 @@ function renderUpload(){
     el.querySelectorAll('input[data-dt]').forEach(s=>s.onchange=()=>{PENDING[+s.dataset.dt].date=inData(s.value)?s.value:null;});
   }
   document.getElementById('applyAll').onclick=()=>{
-    let cells=0,problems=[];
+    let cells=0,applied=false,problems=[];
     for(const f of PENDING){
       if(f.error)continue;
+      if(f.mapping){prodNames=Object.assign({},prodNames,f.mapping);applied=true;continue;}
       if(f.entries){
         const ent=f.needsCh&&f.chId? f.entries.map(e=>({...e,chId:f.chId})) : f.entries;
         cells+=applyEntries(ent);
@@ -1876,8 +1906,8 @@ function renderUpload(){
       }
     }
     if(problems.length){alert('Sebagian file belum lengkap:\n'+problems.join('\n'));return;}
-    if(!cells)return;
-    store.set(LS_O,overlay);store.set(LS_P,prodStore);store.set(LS_V,vidStore);
+    if(!cells&&!applied)return;
+    store.set(LS_O,overlay);store.set(LS_P,prodStore);store.set(LS_V,vidStore);store.set(LS_PN,prodNames);
     PENDING=[];location.reload();
   };
   /* input manual: grid per-tanggal, nilai bebas beda tiap hari */
@@ -1983,9 +2013,10 @@ function derive(o){
   return o;
 }
 function renderProducts(){
-  /* hanya TikTok & Shopee, tanpa Live Ads */
+  /* hanya TikTok & Shopee, tanpa Live Ads; ID TikTok diberi nama dari kamus produk */
   const data=store.get(LS_P,[]).filter(r=>!LIVE_CH.has(r.chId))
-    .filter(r=>['tiktok','shopee'].includes(chDef(r.chId)?.platform));
+    .filter(r=>['tiktok','shopee'].includes(chDef(r.chId)?.platform))
+    .map(r=> (r.name.startsWith('Produk ')&&prodNames[r.code]) ? {...r,name:prodNames[r.code]} : r);
   const monthsAvail=[...new Set(data.map(r=>mkOf(r.iso)))].sort().reverse();
   let rows=data;
   if(prodView.month)rows=rows.filter(r=>mkOf(r.iso)===prodView.month);
@@ -2045,13 +2076,16 @@ function renderProducts(){
     <th>Nama Produk</th><th>Kode</th>${prodView.mode==='all'?'<th>Channel</th>':''}
     ${PROD_COLS.map(([k,lbl])=>`<th class="sorth" data-k="${k}" style="cursor:pointer" title="Urutkan">${lbl}${arrow(k)}</th>`).join('')}
   </tr></thead><tbody>
-  ${list.map(x=>`<tr><td style="white-space:normal;min-width:190px;max-width:320px" title="${esc(x.name)}"><b>${esc(shortName(x.name))}</b><br><span style="font-size:10.5px;color:var(--muted)">${esc(x.name)}</span></td>
+  ${list.map(x=>{
+    const unnamed=x.name.startsWith('Produk ');
+    return `<tr><td style="white-space:normal;min-width:190px;max-width:320px${unnamed?';cursor:pointer':''}" title="${unnamed?'Klik untuk memberi nama produk ini':esc(x.name)}" ${unnamed?`data-rename="${esc(x.code)}"`:''}>
+      <b>${esc(shortName(x.name))}</b>${unnamed?' <span style="font-size:10px;color:var(--tiktok)">✎ beri nama</span>':''}<br><span style="font-size:10.5px;color:var(--muted)">${esc(x.name)}</span></td>
     <td class="num" style="font-size:11px;color:var(--muted)">${esc(x.code||'–')}</td>
     ${prodView.mode==='all'?`<td>${[...new Set([...x.chs].map(c=>chDef(c)?.platform))].map(p=>platChip(p)).join(' ')}</td>`:''}
     <td class="num">${fmtN(x.qty)}</td><td class="num">${fmtRp(x.val)}</td><td class="num">${x.cost?fmtRp(x.cost):'–'}</td>
     <td class="num">${x.imp?fmtNC(x.imp):'–'}</td><td class="num">${x.clk?fmtNC(x.clk):'–'}</td>
     <td class="num">${fmtPct(x.ctr)}</td><td class="num">${fmtPct(x.ctor)}</td>
-    <td class="num">${x.roi==null?'–':`<b style="color:${x.roi>=(targets.sp_pc||10)?'var(--good-ink)':x.roi>=5?'inherit':'var(--critical)'}">${fmtRoi(x.roi)}</b>`}</td></tr>`).join('')}
+    <td class="num">${x.roi==null?'–':`<b style="color:${x.roi>=(targets.sp_pc||10)?'var(--good-ink)':x.roi>=5?'inherit':'var(--critical)'}">${fmtRoi(x.roi)}</b>`}</td></tr>`;}).join('')}
   <tr class="tot"><td>Total</td><td></td>${prodView.mode==='all'?'<td></td>':''}
     <td class="num">${fmtN(totQty)}</td><td class="num">${fmtRp(totVal)}</td><td class="num">${fmtRp(totCost)}</td>
     <td class="num">${fmtNC(sum(list.map(x=>x.imp)))}</td><td class="num">${fmtNC(sum(list.map(x=>x.clk)))}</td>
@@ -2067,6 +2101,11 @@ function renderProducts(){
     renderProducts();
   });
   view.querySelectorAll('input.fmin').forEach(inp=>inp.onchange=()=>{prodView.fmin[inp.dataset.k]=inp.value;renderProducts();});
+  view.querySelectorAll('td[data-rename]').forEach(td=>td.onclick=()=>{
+    const code=td.dataset.rename;
+    const nm=prompt('Nama produk untuk ID '+code+':\n(mis. "Sophie Martin Tote Bag Wanita Francine Bag")',prodNames[code]||'');
+    if(nm&&nm.trim()){prodNames[code]=nm.trim();store.set(LS_PN,prodNames);renderProducts();}
+  });
   const fr=document.getElementById('fReset');if(fr)fr.onclick=()=>{prodView.fmin={};renderProducts();};
   const pt=document.getElementById('pTop');
   if(pt&&list.length)hBars(pt,[...list].sort((a,b)=>b.val-a.val).slice(0,10).map(x=>({
