@@ -1578,24 +1578,45 @@ function detectRows(rows,filename){
     return {type:isLive?'tt_live':'tt_product',
       label:`TikTok ${isLive?'Live GMV Max':'Product GMV Max'} · ${rowsUsed} baris → ${chs}${skipped?` · ${skipped} baris tanpa tanggal valid`:''}`,entries};
   }
-  hi=findHeader(rows,['Nama LIVE','Produk Klik']);
+  /* --- Produk Klik Live TikTok ---
+     dua varian: (a) raw LIVE per kreator: kolom "Klik Produk" + "Nama panggilan" + "Waktu Live",
+     (b) format sheet: kolom "Produk Klik" + "Nama kampanye" + "Waktu peluncuran".
+     Routing akun via nama panggilan: sophiemartinofficial → SMO ·
+     sophiemartin_id → SID · sophiemartin.verse → SMV. */
+  hi=findHeader(rows,['Nama panggilan','Klik Produk']);
+  if(hi<0)hi=findHeader(rows,['Nama LIVE','Produk Klik']);
   if(hi<0)hi=findHeader(rows,['Produk Klik']);
+  if(hi<0)hi=findHeader(rows,['Klik Produk']);
   if(hi>=0){
     const H=H_at(hi);
-    const cClk=colIdxOf(H,'Produk Klik'),cName=colIdxOf(H,'Nama kampanye'),
-          cWaktu=H.findIndex(h=>/Waktu peluncuran/.test(h));
-    const agg={};let skipped=0;
+    const cClk=colIdxOf(H,'Klik Produk','Produk Klik'),
+          cNick=colIdxOf(H,'Nama panggilan'),cName=colIdxOf(H,'Nama kampanye'),
+          cWaktu=H.findIndex(h=>/Waktu Live|Waktu peluncuran/.test(h));
+    const nickChannel=nick=>{
+      const n=String(nick||'').toLowerCase();
+      if(n.includes('official'))return 'tt_live_smo';
+      if(n.includes('_id')||n.includes('sophiemartinid'))return 'tt_live_sid';
+      if(n.includes('verse'))return 'tt_live_smv';
+      if(/aff/.test(n))return 'tt_live_aff';
+      return null;
+    };
+    const agg={};let skipped=0,unknown=0;
     for(const r of rows.slice(hi+1)){
       const iso=anyDateToIso(r[cWaktu]);
-      if(iso==null){skipped++;continue;}
-      const chId=liveChannelFromName(r[cName]);
+      if(iso==null){if((r||[]).some(v=>String(v||'').trim()))skipped++;continue;}
+      let chId=cNick>=0?nickChannel(r[cNick]):null;
+      if(!chId&&cName>=0)chId=liveChannelFromName(r[cName]);
+      if(!chId){unknown++;continue;}
       const key=chId+'|'+iso;
       const o=agg[key]??={chId,iso,metrics:{clicks:0}};
       o.metrics.clicks+=plainnum(r[cClk])||0;
     }
     const entries=Object.values(agg);
     if(!entries.length)return {error:'Tidak ada baris Produk Klik dengan tanggal valid.'};
-    return {type:'tt_liveclicks',label:`Produk Klik Live TikTok · ${entries.length} channel-hari${skipped?` · ${skipped} dilewati`:''}`,entries};
+    const perCh={};
+    for(const e of entries){perCh[e.chId]=(perCh[e.chId]||0)+e.metrics.clicks;}
+    const chSum=Object.entries(perCh).map(([k,v])=>`${(chDef(k)?.name||k).replace('Live GMV Max ','')} ${fmtNC(v)}`).join(' · ');
+    return {type:'tt_liveclicks',label:`Produk Klik Live TikTok · ${chSum}${skipped?` · ${skipped} baris dilewati`:''}${unknown?` · ${unknown} akun tak dikenal`:''}`,entries};
   }
   return {error:'Format tidak dikenali. Didukung: CSV Shopee (Iklan CPC / Toko / SBA / Live), Meta CSV/XLSX (kolom Day), TikTok GMV Max (Live & Product), Lazada Sponsored Max, Produk Klik Live.'};
 }
@@ -1723,7 +1744,7 @@ function renderUpload(){
     <tr><td style="text-align:left">TikTok Live GMV Max</td><td style="text-align:left">Nama kampanye + Waktu peluncuran</td><td style="text-align:left">“SMO” → Live SMO · “SID” → Live SID · “affiliate” → Live Affiliate · “SMV” → Live SMV</td></tr>
     <tr><td style="text-align:left">TikTok Product GMV Max <span style="color:var(--muted)">(1 file RAW yang sama)</span></td><td style="text-align:left">Nama kampanye + Jenis materi iklan + tanggal</td><td style="text-align:left">Jenis <b>Video</b> → Video Shopping Ads · Jenis <b>Kartu Produk</b> → Product Card Shopping Ads · nama kampanye mengandung <b>“New”</b> → varian NS</td></tr>
     <tr><td style="text-align:left">Lazada Sponsored Max (XLSX/CSV)</td><td style="text-align:left">Kolom Tanggal + Tipe Campaign + Pengeluaran</td><td style="text-align:left">Tipe <b>Sponsored Max Store</b> → Max Store · <b>Sponsored Max Product</b> → Max Product; per hari otomatis (Pengeluaran, Pendapatan Toko, Order Toko, Impresi, Klik)</td></tr>
-    <tr><td style="text-align:left">Produk Klik Live</td><td style="text-align:left">Kolom “Produk Klik”</td><td style="text-align:left">Klik masuk ke channel Live sesuai nama kampanye</td></tr>
+    <tr><td style="text-align:left">Produk Klik Live TikTok (raw LIVE per kreator)</td><td style="text-align:left">Kolom “Klik Produk” + “Nama panggilan” + “Waktu Live”</td><td style="text-align:left">Nama panggilan <b>sophiemartinofficial</b> → Live SMO · <b>sophiemartin_id</b> → Live SID · <b>sophiemartin.verse</b> → Live SMV; klik dijumlah per tanggal</td></tr>
   </tbody></table></div></div></details>`;
   const drop=document.getElementById('drop'),fin=document.getElementById('fileIn');
   drop.onclick=()=>fin.click();
