@@ -208,12 +208,28 @@ def parse_mom_sheet(name):
 
 mom={'2026':parse_mom_sheet('MoM 26'),'2025':parse_mom_sheet('MoM')}
 
+# Kamus produk resmi (sheet "Product ID & Name", gid 1514463345): PID -> nama disetujui
+prodmap={}
+try:
+    import csv as _csv
+    _plat=None
+    for r in list(_csv.reader(open(f'{BASE}/tab_prodmap.csv',encoding='utf-8-sig')))[1:]:
+        if not r or len(r)<3: continue
+        if (r[0] or '').strip(): _plat=r[0].strip().upper()
+        pid=(r[1] or '').strip().replace('.0','')
+        name=(r[2] or '').strip()
+        if pid and name and _plat: prodmap[pid]=name
+except FileNotFoundError:
+    pass
+print('prodmap entries:', len(prodmap))
+
 data={
  'meta':{'store':'Sophie Martin Official','generated':'2026-07-14',
    'defaultMonth':'2026-07','source':'Google Sheet: Media Buying Database 2025–2026'},
  'channels':[{'id':cid,**CH_META[cid]} for cid in CH_META],
  'months':months,
  'mom':mom,
+ 'prodMap':prodmap,
 }
 out=json.dumps(data,ensure_ascii=False,separators=(',',':'))
 open(f'{BASE}/dashboard_data_v3.json','w').write(out)
