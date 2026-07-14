@@ -208,6 +208,52 @@ textarea{
 .cmp-delta{font-weight:700}
 .cmp-delta.up{color:var(--good-ink)} .cmp-delta.dn{color:var(--critical)} .cmp-delta.flat{color:var(--muted)}
 .btn.cta{display:inline-flex;align-items:center;gap:7px}
+
+/* ---------- polish pass: lebih halus, hierarki jelas, interaksi terasa ---------- */
+header.top{
+  background:color-mix(in srgb,var(--page) 82%,transparent);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+}
+.brand .logo{box-shadow:0 4px 12px color-mix(in srgb,var(--tiktok) 35%,transparent)}
+nav.tabs{gap:4px;padding:2px 0 8px}
+nav.tabs button{
+  border-radius:99px;padding:7px 15px;border-bottom:none;
+  transition:background .15s ease,color .15s ease;
+}
+nav.tabs button.on{
+  background:var(--ink);color:var(--page);font-weight:650;box-shadow:var(--shadow);
+}
+nav.tabs button.on .n{background:var(--critical)}
+nav.tabs button:not(.on):hover{background:var(--surface-2)}
+.card{border-radius:16px;transition:box-shadow .18s ease,transform .18s ease}
+.card.kpi:hover{transform:translateY(-1.5px);box-shadow:0 2px 4px rgba(11,11,11,.06),0 10px 26px rgba(11,11,11,.09)}
+h2.sec{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+h2.sec::before{content:'';width:4px;height:15px;border-radius:99px;background:linear-gradient(180deg,var(--tiktok),var(--lazada));flex:none}
+.kpi .val{font-size:25px}
+th{text-transform:uppercase;font-size:10.5px;letter-spacing:.05em}
+tbody tr:nth-child(even):not(.tot) td{background:color-mix(in srgb,var(--surface-2) 44%,transparent)}
+tbody tr:not(.tot):hover td{background:color-mix(in srgb,var(--tiktok) 7%,var(--surface))}
+tbody tr:nth-child(even):not(.tot):hover td{background:color-mix(in srgb,var(--tiktok) 7%,var(--surface))}
+.btn{transition:transform .12s ease,opacity .15s ease,box-shadow .15s ease}
+.btn:hover{opacity:.92;box-shadow:var(--shadow)}
+.btn:active{transform:scale(.97)}
+select,input[type=date],input[type=number],input[type=text],textarea{transition:border-color .15s ease,box-shadow .15s ease}
+select:focus-visible,input:focus-visible,textarea:focus-visible,button:focus-visible{
+  outline:none;border-color:var(--tiktok);
+  box-shadow:0 0 0 3px color-mix(in srgb,var(--tiktok) 22%,transparent);
+}
+nav.tabs button:focus-visible{outline:2px solid var(--tiktok);outline-offset:2px}
+.seg button{transition:background .15s ease,box-shadow .15s ease}
+.alert{transition:box-shadow .15s ease}
+.alert:hover{box-shadow:var(--shadow)}
+.drop{transition:border-color .18s ease,background .18s ease}
+.file-row{animation:fadeup .22s ease}
+@keyframes fadeup{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+#view{animation:fadeview .18s ease}
+@keyframes fadeview{from{opacity:.4}to{opacity:1}}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
 </style>
 </head>
 <body data-palette="#2a78d6,#eb6834,#1baf7a,#4a3aa7">
@@ -274,7 +320,8 @@ const DEFAULT_TARGETS = {
   meta_cpas:20, meta_reg:8, sp_live:8, sp_sba:4, sp_pc:10, sp_pc_new:8, sp_store:8,
   lz_store:6, lz_product:6,
 };
-const LS_T='smoAdsTargets', LS_O='smoAdsOverlayV3', LS_TH='smoAdsTheme', LS_MASK='smoAdsMaskMonths';
+const LS_T='smoAdsTargets', LS_O='smoAdsOverlayV3', LS_TH='smoAdsTheme', LS_MASK='smoAdsMaskMonths',
+      LS_B='smoAdsBudgets', LS_GMVMP='smoAdsGmvMp';
 const store = {
   get(k,d){ try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d} },
   set(k,v){ try{localStorage.setItem(k,JSON.stringify(v))}catch(e){} },
@@ -283,6 +330,8 @@ let targets = Object.assign({}, DEFAULT_TARGETS, store.get(LS_T,{}));
 /* bulan yang "dikosongkan": data dasar sheet diabaikan, hanya pakai upload (overlay).
    Reversible — matikan lagi dari tab Upload untuk kembali ke data sheet. */
 let maskMonths = store.get(LS_MASK,{});
+let budgetOv = store.get(LS_B,{});      // {mk:{chId:budget}} — budget bisa diedit di tab Platform
+let gmvMpOv = store.get(LS_GMVMP,{});   // {mk:{tiktok,shopee,lazada}} — GMV marketplace bulanan (input manual)
 let overlay = store.get(LS_O,null);
 if(!overlay){                       // migrasi format lama (index hari Juli) → iso
   const old=store.get('smoAdsOverlay',null);
@@ -388,7 +437,7 @@ function chMonth(cid, mk){
   let last=0; for(let d=0;d<nd;d++) if((cost[d]||0)>0||(gmv[d]||0)>0||(orders[d]||0)>0) last=d+1;
   const t={cost:sum(cost),gmv:sum(gmv),orders:sum(orders),imp:sum(days.impressions||[]),clk:sum(days.clicks||[])};
   return {id:cid,...(chDef(cid)||{}),days,last,tot:t,nd,
-    budget:((RAW.months[mk]||{}).budgets||{})[cid]||null,
+    budget:(budgetOv[mk]||{})[cid] ?? (((RAW.months[mk]||{}).budgets||{})[cid]||null),
     roas:div(t.gmv,t.cost),cpo:div(t.cost,t.orders),aov:div(t.gmv,t.orders),
     ctr:t.imp?100*t.clk/t.imp:null,ctor:t.clk?100*t.orders/t.clk:null};
 }
@@ -575,6 +624,9 @@ const avg=a=>{const v=a.filter(x=>x!=null);return v.length?sum(v)/v.length:null}
 const median=a=>{const v=a.filter(x=>x!=null).sort((x,y)=>x-y);if(!v.length)return null;
   const m=v.length>>1;return v.length%2?v[m]:(v[m-1]+v[m])/2;};
 const windowVals=(arr,endDay,len)=>{const s=Math.max(0,endDay-len);return (arr||[]).slice(s,endDay);};
+/* channel gabungan 2025 disembunyikan dari UI — datanya tetap dihitung di
+   agregat Σ platform / Semua Platform agar total 2025 tidak hilang */
+const HIDDEN_CH=new Set(['tt_live_all','tt_vsa_psa']);
 const SEV={critical:0,serious:1,warning:2,info:3};
 const SEV_LBL={critical:'KRITIS',serious:'SERIUS',warning:'PERHATIAN',info:'INFO',opp:'PELUANG'};
 const SEV_CLS={critical:'crit',serious:'ser',warning:'warn',info:'info',opp:'opp'};
@@ -601,6 +653,7 @@ function computeAlerts(){
   const push=(sev,ch,title,why,actions,metric)=>alerts.push({sev,ch,title,why,actions,metric});
   const DIMl=mkDays(LATEST);
   for(const def of CH_DEF){
+    if(HIDDEN_CH.has(def.id))continue;
     const ch=chMonth(def.id,LATEST);
     const isSales=ch.objective==='sales';
     const T=targets[ch.id]||8;
@@ -732,23 +785,16 @@ function dailyOptions(includeAgg=true){
     h+='</optgroup>';
   }
   for(const p in PLATFORMS){
-    const list=CH_DEF.filter(c=>c.platform===p);
+    const list=CH_DEF.filter(c=>c.platform===p&&!HIDDEN_CH.has(c.id));
     if(!list.length)continue;
     h+=`<optgroup label="${PLATFORMS[p].name}">${list.map(c=>`<option value="${c.id}">${esc(c.name)}${c.objective!=='sales'?' (upper funnel)':''}</option>`).join('')}</optgroup>`;
   }
   return h;
 }
-/* channel "gabungan" = jumlah dari channel pecahannya; aman karena tidak ada bulan
-   yang memiliki data gabungan dan pecahan sekaligus (2025 awal vs era split) */
-const COMBINED_IDS={
-  tt_live_all:['tt_live_all','tt_live_smo','tt_live_sid','tt_live_smv','tt_live_aff'],
-  tt_vsa_psa:['tt_vsa_psa','tt_vsa','tt_vsa_ns','tt_psa','tt_psa_ns'],
-};
 function subjectOf(sel){
   if(sel==='all')return {name:'Semua Platform',platform:null,ids:SALES_IDS,sales:true};
   if(sel.startsWith('agg:')){const p=sel.slice(4);return {name:'Σ '+PLATFORMS[p].name,platform:p,ids:platIds(p),sales:true};}
   const c=chDef(sel);
-  if(COMBINED_IDS[sel])return {name:c.name+' — Σ semua akun',platform:c.platform,ids:COMBINED_IDS[sel],sales:true,ch:c};
   return {name:c.name,platform:c.platform,ids:[c.id],sales:c.objective==='sales',ch:c};
 }
 const MAX_COLS=62;
@@ -820,7 +866,11 @@ function momSectionHtml(y){
     ['Cost Per Order',M.cpo,fmtRpC,false,'cpo'],['AOV',M.aov,fmtRpC,true,'aov'],
     ['CTR',M.ctr,fmtPct,true,'ctr'],['CTOR',M.ctor,fmtPct,true,'ctor'],
     ['Impressions',M.imp,fmtNC,true,'sum'],['Product Clicks',M.clk,fmtNC,true,'sum'],
-    ['Ads Efficiency Rate',M.eff,fmtPct,false,null],['Total GMV All Marketplace',M.gmvAllMp,fmtRpC,true,'sum'],
+    ['Ads Efficiency Rate',M.eff,fmtPct,false,null],
+    ['Total GMV All Marketplace',M.gmvAllMp.map((v,m)=>{
+      const o=gmvMpOv[`${y}-${String(m+1).padStart(2,'0')}`];
+      const s=o?(o.tiktok||0)+(o.shopee||0)+(o.lazada||0):0;
+      return s||v; }),fmtRpC,true,'sum'],
   ].map(([lbl,arr,f,goodUp,totKind])=>{
     const d=(arr[lastM]!=null&&arr[lastM]!==0&&arr[prevM])?100*(arr[lastM]-arr[prevM])/Math.abs(arr[prevM]):null;
     const good=d!=null&&((d>=0)===goodUp);
@@ -837,14 +887,36 @@ function momSectionHtml(y){
   }).join('')}</tbody></table></div>
   ${y==='2026'?`<p class="note">${mkLabel(LATEST)} masih berjalan (MTD s/d hari ke-${GLOBAL_LAST}).</p>`:''}`;
 }
+/* angka resmi bulanan dari tabel MoM (sheet) — dipakai KPI Ringkasan untuk bulan penuh,
+   karena tabel MoM adalah sumber kebenaran bulanan */
+function momStatsFor(mk,basis){
+  const y=mk.slice(0,4), m=+mk.slice(5,7)-1, M=MOM[y];
+  if(!M||M.gmv[m]==null||M.cost[m]==null)return null;
+  const salesC=M.salesCost[m]??M.cost[m];
+  const spend=basis==='sales'? salesC : M.cost[m];
+  return {spend,spendSales:salesC,spendUpper:Math.max(0,(M.cost[m]||0)-(salesC||0)),
+    gmv:M.gmv[m],orders:M.orders[m],imp:M.imp[m],clk:M.clk[m],
+    roas:div(M.gmv[m],spend),cpo:div(spend,M.orders[m]),aov:M.aov[m],
+    ctr:M.ctr[m],ctor:M.ctor[m],fromMoM:true};
+}
 function renderOverview(){
   const {cur,cmp,curLabel,cmpLabel}=ovRanges();
-  const st=ovStats(cur[0],cur[1],OV.basis);
-  const pv=cmp?ovStats(cmp[0],cmp[1],OV.basis):{};
+  let st=ovStats(cur[0],cur[1],OV.basis);
+  let pv=cmp?ovStats(cmp[0],cmp[1],OV.basis):{};
+  let momNote='';
+  if(OV.mode==='month'&&OV.month!==LATEST){
+    const ms=momStatsFor(OV.month,OV.basis);
+    if(ms){st=ms;momNote=' · angka dari tabel MoM';}
+    if(cmp){
+      const cmpMk=mkOf(cmp[0]);
+      const pm=momStatsFor(cmpMk,OV.basis);
+      if(pm&&isoDiff(cmp[0],cmp[1])+1>=mkDays(cmpMk))pv=pm;
+    }
+  }
   const sevCount={critical:0,serious:0,warning:0,info:0};
   ALERTS.alerts.forEach(a=>sevCount[a.sev]++);
   view.innerHTML=`
-  <h2 class="sec">Ringkasan All Platform <span class="hint">${esc(curLabel)} · pembanding: ${esc(cmpLabel)}</span></h2>
+  <h2 class="sec">Ringkasan All Platform <span class="hint">${esc(curLabel)} · pembanding: ${esc(cmpLabel)}${momNote}</span></h2>
   <div class="controls">
     <div class="seg" id="ovSeg">
       <button data-m="month" class="${OV.mode==='month'?'on':''}">Bulanan</button>
@@ -971,7 +1043,7 @@ let dailySel='all', dailyMode='channel', dailyDate=null;
 let DH={range:'month', month:LATEST, from:isoOf(LATEST,1), to:LATEST_LAST_ISO()};
 const METRIC_DEFS=[
   ['cost','Ads Cost',fmtRp],['gmv','GMV (Purchases Value)',fmtRp],['orders','Orders From Ads',fmtN],
-  ['ordersMkp','Orders From MKP',fmtN],['impressions','Impressions',fmtN],['clicks','Product Clicks',fmtN],
+  ['impressions','Impressions',fmtN],['clicks','Product Clicks',fmtN],
   ['liveViews','Live Views',fmtN],['reach','Reach',fmtN],['follows','Paid Follows',fmtN],
   ['consideration','Consideration Size',fmtN],['atc','Add to Cart',fmtN],['atcValue','ATC Value',fmtRp],
 ];
@@ -1091,7 +1163,7 @@ function renderDailyDate(root){
   const rows=[];
   let tc=0,tg=0,tor=0;
   for(const p in PLATFORMS){
-    const chans=CH_DEF.filter(c=>c.platform===p);
+    const chans=CH_DEF.filter(c=>c.platform===p&&!HIDDEN_CH.has(c.id));
     const withData=chans.filter(c=>{const d=ms[c.id]||{};return ((d.cost||[])[di]||0)>0||((d.gmv||[])[di]||0)>0||((d.orders||[])[di]||0)>0;});
     if(!withData.length)continue;
     let pc=0,pg=0,po=0,pi=0,pk=0;
@@ -1242,7 +1314,7 @@ function renderCompare(){
 let showEmptyCh=false, platMonth=LATEST;
 function renderPlatforms(){
   const mk=platMonth;
-  const stats=CH_DEF.map(c=>chMonth(c.id,mk));
+  const stats=CH_DEF.filter(c=>!HIDDEN_CH.has(c.id)).map(c=>chMonth(c.id,mk));
   const emptyCount=stats.filter(c=>c.last===0).length;
   view.innerHTML=`<h2 class="sec">Breakdown per Platform <span class="hint">klik baris untuk detail harian</span></h2>
   <div class="controls">
@@ -1285,7 +1357,7 @@ function renderPlatforms(){
         const pcCol=pace==null?'var(--axis)':pace>1.2?'var(--serious)':pace<0.6?'var(--warning)':'var(--good)';
         return `<tr class="click" data-ch="${c.id}">
           <td>${esc(c.name)}${c.objective!=='sales'?' <span style="font-size:10px;color:var(--muted)">UPPER</span>':''}</td>
-          <td class="num">${fmtRpC(c.budget)}</td><td class="num">${fmtRpC(c.tot.cost)}</td>
+          <td class="num"><span class="budget-edit" data-b="${c.id}" title="Klik untuk ubah budget bulan ini" style="cursor:pointer;border-bottom:1px dashed var(--axis)">${fmtRpC(c.budget)}</span></td><td class="num">${fmtRpC(c.tot.cost)}</td>
           <td><div style="display:flex;align-items:center;gap:7px"><div class="bar-track" style="flex:1"><div class="bar-fill" style="width:${pct}%;background:${pcCol}"></div></div>
             <span style="font-size:11px;color:var(--muted);width:34px;text-align:right">${c.budget?nf0.format(100*c.tot.cost/c.budget)+'%':'–'}</span></div></td>
           <td class="num">${c.objective==='sales'?fmtRpC(c.tot.gmv):'–'}</td>
@@ -1320,6 +1392,17 @@ function renderPlatforms(){
     </div>`;
     wrap.appendChild(sec);
   }
+  /* budget bisa diedit per channel per bulan (tersimpan di browser) */
+  wrap.querySelectorAll('.budget-edit').forEach(el=>el.addEventListener('click',ev=>{
+    ev.stopPropagation();
+    const cid=el.dataset.b;
+    const cur=(budgetOv[mk]||{})[cid] ?? (((RAW.months[mk]||{}).budgets||{})[cid]||0);
+    const v=prompt(`Budget ${chDef(cid)?.name} untuk ${mkLabel(mk)} (Rp):`, cur||'');
+    if(v===null)return;
+    const n=parseFloat(String(v).replace(/[^\d.]/g,''));
+    (budgetOv[mk]??={})[cid]=isNaN(n)?0:n;
+    store.set(LS_B,budgetOv);invalidateCache();renderPlatforms();updateBadge();
+  }));
   wrap.querySelectorAll('tr[data-ch]').forEach(tr=>tr.addEventListener('click',()=>{
     dailySel=tr.dataset.ch;dailyMode='channel';DH={range:'month',month:mk,from:isoOf(mk,1),to:isoOf(mk,mkDays(mk))};
     location.hash='#/harian';if(curTab==='harian')renderDaily();
@@ -1351,7 +1434,7 @@ function renderAnalytics(){
   ${opps.map(o=>alertHtml({ch:o.ch,title:o.title,why:o.why,actions:o.actions},'opp')).join('')||'<div class="empty">Belum ada kandidat scale-up (butuh ROAS ≥ 120% target).</div>'}
   <h2 class="sec">Target ROAS per Channel <span class="hint">dipakai engine warning — tersimpan di browser</span></h2>
   <div class="card"><div class="tbl-wrap" style="border:0"><table><thead><tr><th>Channel</th><th>Platform</th><th>ROAS MTD</th><th>Target</th></tr></thead>
-  <tbody>${SALES_DEF.map(c=>{const s=chMonth(c.id,LATEST);
+  <tbody>${SALES_DEF.filter(c=>!HIDDEN_CH.has(c.id)).map(c=>{const s=chMonth(c.id,LATEST);
     return `<tr><td>${esc(c.name)}</td><td>${platChip(c.platform)}</td><td class="num">${s.roas?fmtX(s.roas):'–'}</td>
     <td><input type="number" step="0.5" min="0" style="width:84px" data-t="${c.id}" value="${targets[c.id]||8}"></td></tr>`;}).join('')}</tbody></table></div>
   <div style="margin-top:10px;display:flex;gap:8px"><button class="btn" id="saveT">Simpan target</button><button class="btn ghost" id="resetT">Reset default</button></div></div>`;
@@ -1459,7 +1542,12 @@ function detectRows(rows,filename){
           cKonv=colIdxOf(H,'Konversi','Pesanan'),cLihat=colIdxOf(H,'Dilihat'),
           cKlik=colIdxOf(H,'Jumlah Klik'),cView=colIdxOf(H,'Penonton'),
           cNama=colIdxOf(H,'Nama Iklan'),cKode=colIdxOf(H,'Kode Produk'),
-          cTerjual=colIdxOf(H,'Produk Terjual');
+          cTerjual=colIdxOf(H,'Produk Terjual'),cMode=colIdxOf(H,'Mode Bidding');
+    /* Iklan CPC: produk lama & produk baru jadi SATU file — pembeda kolom Mode Bidding.
+       "Tahap 1: GMV Max Auto, Tahap 2: GMV Max ROAS" → Iklan Produk Baru. */
+    const isNewProd=r=>/tahap\s*1/i.test(String(cMode>=0?r[cMode]:''));
+    const acc={sp_pc:{cost:0,gmv:0,orders:0,impressions:0,clicks:0,n:0},
+               sp_pc_new:{cost:0,gmv:0,orders:0,impressions:0,clicks:0,n:0}};
     let cost=0,gmv=0,orders=0,imp=0,clk=0,lv=0,n=0,active=0;
     const products=[];
     for(const r of rows.slice(hi+1)){
@@ -1468,24 +1556,36 @@ function detectRows(rows,filename){
       const b=plainnum(r[cBiaya])||0;
       if(b<=0)continue;
       active++;
-      cost+=b;gmv+=plainnum(r[cOmzet])||0;orders+=plainnum(r[cKonv])||0;
-      if(cLihat>=0)imp+=plainnum(r[cLihat])||0;if(cKlik>=0)clk+=plainnum(r[cKlik])||0;
+      const rowCh=shopeeKind==='shopee_cpc'?(isNewProd(r)?'sp_pc_new':'sp_pc'):null;
+      const g=plainnum(r[cOmzet])||0, o=plainnum(r[cKonv])||0,
+            im=cLihat>=0?(plainnum(r[cLihat])||0):0, kl=cKlik>=0?(plainnum(r[cKlik])||0):0;
+      cost+=b;gmv+=g;orders+=o;imp+=im;clk+=kl;
       if(cView>=0)lv+=plainnum(r[cView])||0;
-      /* baris per-produk untuk tab Produk (khusus laporan CPC produk) */
+      if(rowCh){const a=acc[rowCh];a.cost+=b;a.gmv+=g;a.orders+=o;a.impressions+=im;a.clicks+=kl;a.n++;}
       if(shopeeKind==='shopee_cpc'&&cNama>=0&&String(r[cNama]||'').trim()){
         products.push({name:String(r[cNama]).trim(),code:cKode>=0?String(r[cKode]||'').trim():'',
+          chId:rowCh||undefined,
           qty:(cTerjual>=0?plainnum(r[cTerjual]):plainnum(r[cKonv]))||0,
-          val:plainnum(r[cOmzet])||0, cost:b,
-          imp:cLihat>=0?(plainnum(r[cLihat])||0):0, clk:cKlik>=0?(plainnum(r[cKlik])||0):0,
-          ord:plainnum(r[cKonv])||0});
+          val:g, cost:b, imp:im, clk:kl, ord:o});
       }
     }
-    const isBaru=/baru/i.test(filename||'');
-    const defaultCh=shopeeKind==='shopee_toko'?'sp_store':shopeeKind==='shopee_sba'?'sp_sba':
-                    shopeeKind==='shopee_live'?'sp_live':(isBaru?'sp_pc_new':'sp_pc');
-    const single={cost,gmv,orders};if(imp)single.impressions=imp;if(clk)single.clicks=clk;if(lv)single.liveViews=lv;
     const lblMap={shopee_cpc:'Shopee Iklan CPC',shopee_toko:'Shopee Iklan Toko',shopee_sba:'Shopee SBA',shopee_live:'Shopee Live'};
-    return {type:shopeeKind,label:`${lblMap[shopeeKind]} · ${active}/${n} campaign berbiaya${products.length?` · ${products.length} produk`:''}`,
+    if(shopeeKind==='shopee_cpc'){
+      const entriesNoDate=[];
+      for(const [chId,a] of Object.entries(acc)){
+        if(!a.cost)continue;
+        const m={cost:a.cost,gmv:a.gmv,orders:a.orders};
+        if(a.impressions)m.impressions=a.impressions;
+        if(a.clicks)m.clicks=a.clicks;
+        entriesNoDate.push({chId,metrics:m});
+      }
+      return {type:'shopee_cpc',needsDate:true,date,
+        label:`Shopee Iklan CPC · Iklan Produk ${acc.sp_pc.n} camp / Produk Baru ${acc.sp_pc_new.n} camp (Mode Bidding “Tahap 1…” → baru) · ${products.length} produk`,
+        entriesNoDate,products};
+    }
+    const defaultCh=shopeeKind==='shopee_toko'?'sp_store':shopeeKind==='shopee_sba'?'sp_sba':'sp_live';
+    const single={cost,gmv,orders};if(imp)single.impressions=imp;if(clk)single.clicks=clk;if(lv)single.liveViews=lv;
+    return {type:shopeeKind,label:`${lblMap[shopeeKind]} · ${active}/${n} campaign berbiaya`,
       single,defaultCh,date,needsDate:true,needsCh:true,products};
   }
   let hi=findHeader(rows,['Campaign name','Day']);
@@ -1842,6 +1942,16 @@ function renderUpload(){
       <span style="flex:1"></span>
       <button class="btn ghost" id="clrMonth" style="color:var(--critical)">Hapus data upload bulan terpilih</button>
     </div>
+    <div style="margin-top:14px;border-top:1px solid var(--grid);padding-top:12px">
+      <h3 style="margin-bottom:6px">GMV Marketplace Bulanan <span class="hint">· untuk baris “Total GMV All Marketplace” di tabel MoM — raw-nya dari tiap marketplace, isi manual di sini</span></h3>
+      <div class="controls" style="margin:0">
+        <select id="gmvMk">${monthOptions(LATEST)}</select>
+        <label>TikTok</label><input type="number" id="gmvTt" style="width:130px" placeholder="Rp">
+        <label>Shopee</label><input type="number" id="gmvSp" style="width:130px" placeholder="Rp">
+        <label>Lazada</label><input type="number" id="gmvLz" style="width:130px" placeholder="Rp">
+        <button class="btn ghost" id="gmvSave">Simpan</button>
+      </div>
+    </div>
     <div id="maskList" style="margin-top:8px">${Object.keys(maskMonths).filter(k=>maskMonths[k]).length?
       'Bulan yang dikosongkan (hanya pakai upload): '+Object.keys(maskMonths).filter(k=>maskMonths[k]).sort().map(mk=>`<span class="pill-stat mid" style="margin-right:6px">${mkLabel(mk)}</span>`).join(''):
       '<span class="note">Tidak ada bulan yang dikosongkan — semua bulan memakai data sheet + upload.</span>'}</div>
@@ -1849,7 +1959,7 @@ function renderUpload(){
   <details style="margin-top:14px"><summary style="cursor:pointer;font-weight:650;font-size:13px">Aturan pemetaan otomatis</summary>
   <div class="card" style="margin-top:8px"><div class="tbl-wrap" style="border:0"><table>
     <thead><tr><th style="text-align:left">File</th><th style="text-align:left">Dikenali dari</th><th style="text-align:left">Masuk ke channel</th></tr></thead><tbody>
-    <tr><td style="text-align:left">Shopee Iklan CPC</td><td style="text-align:left">“Semua Laporan Iklan CPC” + baris Periode</td><td style="text-align:left">Iklan Produk (nama file mengandung “BARU” → Iklan Produk Baru); tanggal dari Periode</td></tr>
+    <tr><td style="text-align:left">Shopee Iklan CPC <span style="color:var(--muted)">(1 file: produk + produk baru)</span></td><td style="text-align:left">“Semua Laporan Iklan CPC” + baris Periode</td><td style="text-align:left">Per baris via <b>Mode Bidding</b>: mengandung “Tahap 1: GMV Max Auto…” → <b>Iklan Produk Baru</b>, selainnya → Iklan Produk; tanggal dari Periode</td></tr>
     <tr><td style="text-align:left">Shopee Iklan Toko / SBA / Live</td><td style="text-align:left">Judul laporan</td><td style="text-align:left">Iklan Toko / SBA / Live Shopee Ads</td></tr>
     <tr><td style="text-align:left">Meta (CSV/XLSX)</td><td style="text-align:left">Kolom Campaign name + Day, plus nama file</td><td style="text-align:left">Nama file mengandung <b>“CPAS”</b> → Meta CPAS · <b>“REGULER”</b> → Meta Reguler; tanpa penanda: ada kolom Purchases → CPAS, tanpa → Awareness. Channel tetap bisa diganti sebelum Terapkan.</td></tr>
     <tr><td style="text-align:left">TikTok Live GMV Max</td><td style="text-align:left">Nama kampanye + Waktu peluncuran</td><td style="text-align:left">“SMO” → Live SMO · “SID” → Live SID · “affiliate” → Live Affiliate · “SMV” → Live SMV</td></tr>
@@ -2007,6 +2117,18 @@ function renderUpload(){
       maskMonths[mk]=true;
     }
     store.set(LS_MASK,maskMonths);location.reload();
+  };
+  /* GMV marketplace bulanan */
+  const gmvMk=document.getElementById('gmvMk');
+  const syncGmv=()=>{const o=gmvMpOv[gmvMk.value]||{};
+    document.getElementById('gmvTt').value=o.tiktok??'';
+    document.getElementById('gmvSp').value=o.shopee??'';
+    document.getElementById('gmvLz').value=o.lazada??'';};
+  syncGmv();gmvMk.onchange=syncGmv;
+  document.getElementById('gmvSave').onclick=()=>{
+    const g=id=>{const v=document.getElementById(id).value;return v===''?0:(parseFloat(v)||0);};
+    gmvMpOv[gmvMk.value]={tiktok:g('gmvTt'),shopee:g('gmvSp'),lazada:g('gmvLz')};
+    store.set(LS_GMVMP,gmvMpOv);alert('GMV marketplace '+mkLabel(gmvMk.value)+' tersimpan — lihat baris Total GMV All Marketplace di tabel MoM.');
   };
   document.getElementById('clrMonth').onclick=()=>{
     const mk=maskSel.value;
@@ -2213,11 +2335,12 @@ function renderCreators(){
   </div>
   <h2 class="sec">Video milik ${esc(sel.creator)} <span class="hint">${sel.vids.size} video · diurutkan by value</span></h2>
   <div class="tbl-wrap" style="max-height:560px;overflow:auto"><table><thead><tr>
-    <th>Judul Video</th><th>Channel</th><th>Qty Sold</th><th>Value</th><th>Biaya Iklan</th>
+    <th>Judul Video</th><th>ID Video</th><th>Channel</th><th>Qty Sold</th><th>Value</th><th>Biaya Iklan</th>
     <th>Impression</th><th>Click</th><th>CTR</th><th>CTOR</th><th>ROI</th>
   </tr></thead><tbody>
   ${[...sel.vids.values()].map(v=>{derive({...v});const dv=derive({...v,ord:v.qty});return `<tr>
     <td style="white-space:normal;min-width:240px;max-width:420px">${esc(v.title||('Video '+v.vid))}</td>
+    <td class="num" style="font-size:11px;color:var(--muted)">${esc(v.vid||'–')}</td>
     <td>${esc(chDef(v.chId)?.name||v.chId)}</td>
     <td class="num">${fmtN(v.qty)}</td><td class="num">${fmtRp(v.val)}</td>
     <td class="num">${v.cost?fmtRp(v.cost):'–'}</td>
