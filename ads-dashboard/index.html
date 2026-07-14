@@ -274,12 +274,15 @@ const DEFAULT_TARGETS = {
   meta_cpas:20, meta_reg:8, sp_live:8, sp_sba:4, sp_pc:10, sp_pc_new:8, sp_store:8,
   lz_store:6, lz_product:6,
 };
-const LS_T='smoAdsTargets', LS_O='smoAdsOverlayV3', LS_TH='smoAdsTheme';
+const LS_T='smoAdsTargets', LS_O='smoAdsOverlayV3', LS_TH='smoAdsTheme', LS_MASK='smoAdsMaskMonths';
 const store = {
   get(k,d){ try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d} },
   set(k,v){ try{localStorage.setItem(k,JSON.stringify(v))}catch(e){} },
 };
 let targets = Object.assign({}, DEFAULT_TARGETS, store.get(LS_T,{}));
+/* bulan yang "dikosongkan": data dasar sheet diabaikan, hanya pakai upload (overlay).
+   Reversible — matikan lagi dari tab Upload untuk kembali ke data sheet. */
+let maskMonths = store.get(LS_MASK,{});
 let overlay = store.get(LS_O,null);
 if(!overlay){                       // migrasi format lama (index hari Juli) → iso
   const old=store.get('smoAdsOverlay',null);
@@ -331,7 +334,7 @@ const _cache={};
 function monthSeries(mk){
   if(_cache[mk]) return _cache[mk];
   const nd=mkDays(mk);
-  const src=(RAW.months[mk]||{}).series||{};
+  const src=maskMonths[mk]? {} : ((RAW.months[mk]||{}).series||{});
   const out={};
   const ids=new Set([...Object.keys(src)]);
   for(const cid in overlay){for(const m in overlay[cid]){for(const iso in overlay[cid][m]){
@@ -1762,6 +1765,20 @@ function renderUpload(){
       </div>
     </div>
   </div>
+  <div class="card" style="margin-top:12px">
+    <h3>Sumber Data per Bulan <span class="hint">· hindari tumpang tindih sheet vs upload</span></h3>
+    <p class="note" style="margin:0 0 10px">Upload bekerja <b>replace per channel per tanggal</b> — meng-upload ulang periode yang sama menimpa, bukan menambah, jadi umumnya tidak double.
+    Jika ingin satu bulan <b>100% dari upload</b> (mis. Juli 2026 diisi ulang dari nol), kosongkan data dasar sheet untuk bulan itu — bisa diaktifkan kembali kapan saja, data sheet tidak hilang.</p>
+    <div class="controls" style="margin:0">
+      <select id="maskMonth">${monthOptions(LATEST)}</select>
+      <button class="btn ghost" id="maskToggle"></button>
+      <span style="flex:1"></span>
+      <button class="btn ghost" id="clrMonth" style="color:var(--critical)">Hapus data upload bulan terpilih</button>
+    </div>
+    <div id="maskList" style="margin-top:8px">${Object.keys(maskMonths).filter(k=>maskMonths[k]).length?
+      'Bulan yang dikosongkan (hanya pakai upload): '+Object.keys(maskMonths).filter(k=>maskMonths[k]).sort().map(mk=>`<span class="pill-stat mid" style="margin-right:6px">${mkLabel(mk)}</span>`).join(''):
+      '<span class="note">Tidak ada bulan yang dikosongkan — semua bulan memakai data sheet + upload.</span>'}</div>
+  </div>
   <details style="margin-top:14px"><summary style="cursor:pointer;font-weight:650;font-size:13px">Aturan pemetaan otomatis</summary>
   <div class="card" style="margin-top:8px"><div class="tbl-wrap" style="border:0"><table>
     <thead><tr><th style="text-align:left">File</th><th style="text-align:left">Dikenali dari</th><th style="text-align:left">Masuk ke channel</th></tr></thead><tbody>
@@ -1895,7 +1912,37 @@ function renderUpload(){
     a.download='ads-database-2025-2026.json';a.click();
   };
   const clr=document.getElementById('clrOv');
-  if(clr)clr.onclick=()=>{if(confirm('Hapus semua data overlay? Dashboard kembali ke data dasar.')){overlay={};store.set(LS_O,overlay);location.reload();}};
+  if(clr)clr.onclick=()=>{if(confirm('Hapus SEMUA data upload (overlay + produk + video)? Dashboard kembali ke data dasar sheet.')){
+    overlay={};prodStore=[];vidStore=[];
+    store.set(LS_O,overlay);store.set(LS_P,prodStore);store.set(LS_V,vidStore);location.reload();}};
+  /* --- sumber data per bulan (mask) & pembersihan per bulan --- */
+  const maskSel=document.getElementById('maskMonth');
+  const maskBtn=document.getElementById('maskToggle');
+  const syncMaskBtn=()=>{maskBtn.textContent=maskMonths[maskSel.value]?
+    'Aktifkan kembali data sheet '+mkLabelS(maskSel.value):
+    'Kosongkan data dasar '+mkLabelS(maskSel.value)+' (pakai upload saja)';};
+  syncMaskBtn();
+  maskSel.onchange=syncMaskBtn;
+  maskBtn.onclick=()=>{
+    const mk=maskSel.value;
+    if(maskMonths[mk]){delete maskMonths[mk];}
+    else{
+      if(!confirm(`Kosongkan data dasar ${mkLabel(mk)}?\n\nAngka dari Google Sheet untuk bulan ini akan disembunyikan; dashboard hanya memakai data yang Anda upload. Bisa dibalik kapan saja.`))return;
+      maskMonths[mk]=true;
+    }
+    store.set(LS_MASK,maskMonths);location.reload();
+  };
+  document.getElementById('clrMonth').onclick=()=>{
+    const mk=maskSel.value;
+    if(!confirm(`Hapus semua data UPLOAD untuk ${mkLabel(mk)}? (overlay, produk, video bulan ini)`))return;
+    for(const cid in overlay){for(const m in overlay[cid]){
+      for(const iso in overlay[cid][m]) if(mkOf(iso)===mk) delete overlay[cid][m][iso];
+      if(!Object.keys(overlay[cid][m]).length) delete overlay[cid][m];
+    } if(!Object.keys(overlay[cid]).length) delete overlay[cid];}
+    prodStore=prodStore.filter(r=>mkOf(r.iso)!==mk);
+    vidStore=vidStore.filter(r=>mkOf(r.iso)!==mk);
+    store.set(LS_O,overlay);store.set(LS_P,prodStore);store.set(LS_V,vidStore);location.reload();
+  };
 }
 
 /* =================== PRODUK =================== */
