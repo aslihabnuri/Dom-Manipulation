@@ -24,7 +24,9 @@ for base, key in [
     ('Product Clicks','clicks'),('Live Views','liveViews'),('Reach','reach'),
     ('Paid Follows','follows'),('Link Click','clicks'),('Link Clicks','clicks'),('Click','clicks'),
     ('Add to Cart','atc'),('Add to Cart Value','atcValue'),
-    ('Consideration Size','consideration'),('Brand Consideration','consideration'),
+    # Consideration Size dihitung sebagai Product Clicks (permintaan user) agar
+    # masuk ke total Product Clicks di Ringkasan
+    ('Consideration Size','clicks'),('Brand Consideration','clicks'),
     ('Cancel Order','cancel'),
 ]:
     RAW_METRICS[base]=key
@@ -55,9 +57,9 @@ BLOCKS = [
     ('Awareness TikTok','tt_aw_ext','tiktok','Awareness TikTok','upper'),
     ('Brand Consideration','tt_bc_ext','tiktok','Brand Consideration','upper'),
     ('Community Interaction','tt_ci_smo','tiktok','Community Interaction SMO','upper'),
-    ('Meta CPAS - Shopee','meta_cpas','meta','CPAS Sales','sales'),
-    ('Awareness CPAS','meta_aw','meta','Awareness CPAS','upper'),
-    ('Traffic CPAS','meta_traffic','meta','Traffic CPAS','upper'),
+    ('Meta CPAS - Shopee','meta_cpas','meta','Meta CPAS (Sales)','sales'),
+    ('Awareness CPAS','meta_aw','meta','Awareness — Meta Reguler','upper'),
+    ('Traffic CPAS','meta_traffic','meta','Traffic — Meta Reguler','upper'),
     ('LIVE SHOPEE ADS','sp_live','shopee','Live Shopee Ads (LSA)','sales'),
     ('SBA Shopee','sp_sba','shopee','Search Brand Ads (Banner)','sales'),
     ('Ads Store','sp_store','shopee','Iklan Toko','sales'),
@@ -164,39 +166,13 @@ for mk in MONTH_SHEETS:
     tot=sum(sum(a) for ch in months[mk]['series'].values() for kk,a in ch.items() if kk=='cost')
     print(f'{mk}: {ns:2d} channel, cost={tot:,.0f}')
 
-# ---------- Merge Meta raw xlsx untuk Juli 2026 (sheet masih kosong) ----------
-UP='/root/.claude/uploads/ca5f51ab-0e5a-5153-af60-f6be86b6c17f'
-def merge_meta(mk, cid, path, colmap):
-    wb2=openpyxl.load_workbook(path, read_only=True, data_only=True)
-    ws2=wb2.worksheets[0]
-    rows2=list(ws2.iter_rows(values_only=True))
-    header=[str(h).strip() if h else '' for h in rows2[0]]
-    idx={k:header.index(c) for k,c in colmap.items() if c in header}
-    daycol=header.index('Day')
-    y,m=int(mk[:4]),int(mk[5:7]); nd=calendar.monthrange(y,m)[1]
-    acc={k:[0.0]*nd for k in idx}
-    seen=False
-    for r in rows2[1:]:
-        s=str(r[daycol])[:10]
-        if not s.startswith(f'{y}-{m:02d}-'): continue
-        d=int(s[8:10]); seen=True
-        for k,ci in idx.items():
-            v=r[ci]
-            if isinstance(v,(int,float)): acc[k][d-1]+=float(v)
-    if not seen: return
-    ser=months[mk]['series'].setdefault(cid,{})
-    for k,arr in acc.items():
-        if k not in ser or not any(ser[k]):
-            ser[k]=[round(v,2) for v in arr]
-    CH_META.setdefault(cid, {'platform':'meta','name':'CPAS Sales' if cid=='meta_cpas' else 'Awareness CPAS','objective':'sales' if cid=='meta_cpas' else 'upper'})
+# CATATAN AUDIT (poin 5): data dasar = 100% dari Google Sheet.
+# TIDAK ada lagi auto-merge file raw Meta — data Meta Juli dimasukkan user
+# sendiri lewat tab Upload agar total selalu cocok dengan sheet (single source of truth).
 
-merge_meta('2026-07','meta_cpas',f'{UP}/d5a5c6e7-RAW_META_SALES.xlsx',{
-    'cost':'Amount spent (IDR)','gmv':'Purchases conversion value for shared items only',
-    'orders':'Purchases with shared items','clicks':'Link clicks','reach':'Reach','impressions':'Impressions',
-    'atc':'Adds to cart with shared items','atcValue':'Adds to cart conversion value for shared items only'})
-merge_meta('2026-07','meta_aw',f'{UP}/7fd97624-RAW_META__AWARENESS.xlsx',{
-    'cost':'Amount spent (IDR)','reach':'Reach','impressions':'Impressions','clicks':'Link clicks'})
-print('meta merged for 2026-07:', 'meta_cpas' in months['2026-07']['series'], 'meta_aw' in months['2026-07']['series'])
+# Channel Meta Reguler (direct to website) — belum ada di sheet, disiapkan
+# sebagai tujuan upload "Meta Reguler" (metrik sama dengan CPAS).
+CH_META.setdefault('meta_reg', {'platform':'meta','name':'Meta Reguler (Sales)','objective':'sales'})
 
 # ---------- MoM tabs ----------
 PCT_ROWS={'Ads Efficiency Rate','CTOR','CTR','New consideration rate'}
