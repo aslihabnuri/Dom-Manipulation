@@ -1502,6 +1502,34 @@ function detectRows(rows,filename){
     return {type:'meta',needsCh:true,defaultCh:chId,
       label:`${chDef(chId)?.name||'Meta'} · ${isos.length} hari (${isoLabel(isos[0])}–${isoLabelY(isos[isos.length-1])})${skipped?` · ${skipped} baris di luar rentang dilewati`:''}`,entries};
   }
+  /* --- Lazada Sponsored Max (Campaign report): satu file berisi Max Store + Max Product --- */
+  hi=findHeader(rows,['Tanggal','Tipe Campaign','Pengeluaran']);
+  if(hi>=0){
+    const H=H_at(hi);
+    const cTgl=colIdxOf(H,'Tanggal'),cTipe=colIdxOf(H,'Tipe Campaign'),
+          cCost=colIdxOf(H,'Pengeluaran'),cRev=colIdxOf(H,'Pendapatan Toko'),
+          cOrd=colIdxOf(H,'Order Toko'),cImp=colIdxOf(H,'Impresi'),cKlik=colIdxOf(H,'Klik');
+    const agg={};let skipped=0,rowsUsed=0;
+    for(const r of rows.slice(hi+1)){
+      const iso=anyDateToIso(r[cTgl]);
+      if(iso==null){if(String(r[cTgl]||'').trim())skipped++;continue;}
+      const tipe=String(r[cTipe]||'').toLowerCase();
+      const chId=/product/.test(tipe)?'lz_product':'lz_store';
+      rowsUsed++;
+      const key=chId+'|'+iso;
+      const o=agg[key]??={chId,iso,metrics:{cost:0,gmv:0,orders:0,impressions:0,clicks:0}};
+      o.metrics.cost+=plainnum(r[cCost])||0;
+      o.metrics.gmv+=plainnum(r[cRev])||0;
+      o.metrics.orders+=plainnum(r[cOrd])||0;
+      o.metrics.impressions+=plainnum(r[cImp])||0;
+      o.metrics.clicks+=plainnum(r[cKlik])||0;
+    }
+    const entries=Object.values(agg);
+    if(!entries.length)return {error:'Tidak ada baris Lazada dengan tanggal valid dalam rentang database.'};
+    const isos=entries.map(e=>e.iso).sort();
+    return {type:'lazada',
+      label:`Lazada Sponsored Max · ${rowsUsed} baris → Max Store & Max Product (${isoLabel(isos[0])}–${isoLabelY(isos[isos.length-1])})${skipped?` · ${skipped} baris dilewati`:''}`,entries};
+  }
   hi=findHeader(rows,['Nama kampanye','Biaya']);
   if(hi<0){
     for(let i=0;i<Math.min(rows.length,5);i++){
@@ -1569,7 +1597,7 @@ function detectRows(rows,filename){
     if(!entries.length)return {error:'Tidak ada baris Produk Klik dengan tanggal valid.'};
     return {type:'tt_liveclicks',label:`Produk Klik Live TikTok · ${entries.length} channel-hari${skipped?` · ${skipped} dilewati`:''}`,entries};
   }
-  return {error:'Format tidak dikenali. Didukung: CSV Shopee (Iklan CPC / Toko / SBA / Live), Meta CSV/XLSX (kolom Day), TikTok GMV Max (Live & Product), Produk Klik Live.'};
+  return {error:'Format tidak dikenali. Didukung: CSV Shopee (Iklan CPC / Toko / SBA / Live), Meta CSV/XLSX (kolom Day), TikTok GMV Max (Live & Product), Lazada Sponsored Max, Produk Klik Live.'};
 }
 const decodeXml=s=>s.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g,'"').replace(/&apos;/g,"'").replace(/&amp;/g,'&');
 const colIdx=ref=>{let n=0;for(const ch of ref)n=n*26+(ch.charCodeAt(0)-64);return n-1;};
@@ -1694,6 +1722,7 @@ function renderUpload(){
     <tr><td style="text-align:left">Meta (CSV/XLSX)</td><td style="text-align:left">Kolom Campaign name + Day, plus nama file</td><td style="text-align:left">Nama file mengandung <b>“CPAS”</b> → Meta CPAS · <b>“REGULER”</b> → Meta Reguler; tanpa penanda: ada kolom Purchases → CPAS, tanpa → Awareness. Channel tetap bisa diganti sebelum Terapkan.</td></tr>
     <tr><td style="text-align:left">TikTok Live GMV Max</td><td style="text-align:left">Nama kampanye + Waktu peluncuran</td><td style="text-align:left">“SMO” → Live SMO · “SID” → Live SID · “affiliate” → Live Affiliate · “SMV” → Live SMV</td></tr>
     <tr><td style="text-align:left">TikTok Product GMV Max <span style="color:var(--muted)">(1 file RAW yang sama)</span></td><td style="text-align:left">Nama kampanye + Jenis materi iklan + tanggal</td><td style="text-align:left">Jenis <b>Video</b> → Video Shopping Ads · Jenis <b>Kartu Produk</b> → Product Card Shopping Ads · nama kampanye mengandung <b>“New”</b> → varian NS</td></tr>
+    <tr><td style="text-align:left">Lazada Sponsored Max (XLSX/CSV)</td><td style="text-align:left">Kolom Tanggal + Tipe Campaign + Pengeluaran</td><td style="text-align:left">Tipe <b>Sponsored Max Store</b> → Max Store · <b>Sponsored Max Product</b> → Max Product; per hari otomatis (Pengeluaran, Pendapatan Toko, Order Toko, Impresi, Klik)</td></tr>
     <tr><td style="text-align:left">Produk Klik Live</td><td style="text-align:left">Kolom “Produk Klik”</td><td style="text-align:left">Klik masuk ke channel Live sesuai nama kampanye</td></tr>
   </tbody></table></div></div></details>`;
   const drop=document.getElementById('drop'),fin=document.getElementById('fileIn');
