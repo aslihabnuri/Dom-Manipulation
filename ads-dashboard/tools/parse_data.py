@@ -1,250 +1,245 @@
 #!/usr/bin/env python3
-"""Parse Google Sheet CSV exports into structured JSON for the ads dashboard."""
-import csv, json, re, sys
+"""Parse full workbook (2025 + 2026 monthly sheets + MoM tabs) into dashboard JSON v3."""
+import json, warnings, calendar, datetime, os
+import openpyxl
+warnings.filterwarnings('ignore')
 
 BASE = '/tmp/claude-0/-home-user-Dom-Manipulation/ca5f51ab-0e5a-5153-af60-f6be86b6c17f/scratchpad'
+wb = openpyxl.load_workbook(f'{BASE}/workbook.xlsx', read_only=True, data_only=True)
 
-def num(v):
-    if v is None: return None
-    v = str(v).strip()
-    if v in ('', '-', '#DIV/0!', '#REF!', '#N/A', '#VALUE!'): return None
-    neg = v.startswith('-') or (v.startswith('(') and v.endswith(')'))
-    v = v.replace('Rp', '').replace('(', '').replace(')', '').replace('%', '').replace(',', '').replace(' ', '')
-    if v in ('', '-'): return None
-    try:
-        n = float(v)
-        return -abs(n) if neg and n > 0 else n
-    except ValueError:
-        return None
-
-def read_rows(path):
-    with open(path, newline='', encoding='utf-8-sig') as f:
-        return list(csv.reader(f))
-
-# ---------- July 26 daily blocks ----------
-# Block detection: a "Product Type,Budget,..." header row; title from 1-3 rows above;
-# tracker header row with "1 Jul" follows; metric rows until blank col0.
-RAW_METRICS = {
-    'Ads Cost': 'cost', 'Ads Cost F': 'cost', 'Ads Cost K': 'cost', 'Ads Cost Q': 'cost', 'Ads Cost AA': 'cost',
-    'Purchases Conversion Value': 'gmv', 'Purchases Conversion Value O': 'gmv',
-    'Purchases Conversion Value P': 'gmv', 'Purchases Conversion Value Y': 'gmv',
-    'Orders From Ads': 'orders', 'Orders From Ads M': 'orders', 'Orders From Ads N': 'orders',
-    'Orders From Ads O': 'orders', 'Orders From Ads Q': 'orders',
-    'Orders From MKP': 'ordersMkp',
-    'Impression': 'impressions', 'Impression Q': 'impressions', 'Impressions': 'impressions',
-    'Impression I': 'impressions', 'Impression J': 'impressions', 'Impression K': 'impressions',
-    'Impression N': 'impressions',
-    'Product Clicks': 'clicks', 'Product Clicks R': 'clicks', 'Product Clicks O': 'clicks',
-    'Live Views': 'liveViews', 'Live Views M': 'liveViews',
-    'Reach': 'reach', 'Reach H': 'reach', 'Paid Follows': 'follows',
-    'Link Click': 'clicks', 'Link Clicks N': 'clicks', 'Click N': 'clicks',
-    'Add to Cart Q': 'atc', 'Add to Cart Value R': 'atcValue',
-    'Consideration Size M': 'consideration', 'Brand Consideration': 'consideration',
-    'Cancel Order': 'cancel',
+MONTH_SHEETS = {
+    '2025-01':'Januari','2025-02':'Februari','2025-03':'Maret','2025-04':'April',
+    '2025-05':'May','2025-06':'June','2025-07':'July','2025-08':'August',
+    '2025-09':'September','2025-10':'Oktober','2025-11':'November','2025-12':'Desember',
+    '2026-01':'Januari 26','2026-02':'February 26','2026-03':'March 26','2026-04':'April 26',
+    '2026-05':'May 26','2026-06':'June 26','2026-07':'July 26',
 }
+MON_ABBR = {'jan':1,'feb':2,'mar':3,'apr':4,'mei':4.5,'may':5,'jun':6,'jul':7,'agu':8,'aug':8,'sep':9,'okt':10,'oct':10,'nov':11,'des':12,'dec':12}
 
-# title -> (platform, channelId, channelName, objective)
-BLOCK_MAP = [
-    ('LIVE SHOPPING ADS SMO',        ('tiktok', 'tt_live_smo',  'Live Streaming SMO',        'sales')),
-    ('LIVE SHOPPING ADS SID',        ('tiktok', 'tt_live_sid',  'Live Streaming SID',        'sales')),
-    ('LIVE SHOPPING ADS SMV',        ('tiktok', 'tt_live_smv',  'Live Streaming SMV',        'sales')),
-    ('LIVE SHOPPING ADS Aff',        ('tiktok', 'tt_live_aff',  'Live Streaming Affiliate',  'sales')),
-    ('VIDEO SHOPPING ADS NS',        ('tiktok', 'tt_vsa_ns',    'Video Shopping Ads NS',     'sales')),
-    ('VIDEO SHOPPING ADS',           ('tiktok', 'tt_vsa',       'Video Shopping Ads',        'sales')),
-    ('Product Card Shopping NS',     ('tiktok', 'tt_psa_ns',    'Product Card NS',           'sales')),
-    ('Product Card Shopping Ads',    ('tiktok', 'tt_psa',       'Product Card Shopping Ads', 'sales')),
-    ('OVERALL TIKTOK SHOP ADS',      None),  # computed, skip
-    ('Community Interaction Sophie Martin Verse', ('tiktok', 'tt_ci_smv', 'Community Interaction SMV', 'upper')),
-    ('Community Interaction Sophie Martin ID',    ('tiktok', 'tt_ci_sid', 'Community Interaction SID', 'upper')),
-    ('Brand Consideration EXT',      ('tiktok', 'tt_bc_ext',    'Brand Consideration',       'upper')),
-    ('Brand Consideration NS',       ('tiktok', 'tt_bc_ns',     'Brand Consideration NS',    'upper')),
-    ('Awareness TikTok Ext',         ('tiktok', 'tt_aw_ext',    'Awareness TikTok',          'upper')),
-    ('Awareness TikTok Affiliate',   ('tiktok', 'tt_aw_aff',    'Awareness Affiliate',       'upper')),
-    ('Meta CPAS - Shopee',           ('meta',   'meta_cpas',    'CPAS Sales',                'sales')),
-    ('Awareness CPAS',               ('meta',   'meta_aw',      'Awareness CPAS',            'upper')),
-    ('Traffic CPAS',                 ('meta',   'meta_traffic', 'Traffic CPAS',              'upper')),
-    ('LIVE SHOPEE ADS',              ('shopee', 'sp_live',      'Live Shopee Ads (LSA)',     'sales')),
-    ('SBA Shopee',                   ('shopee', 'sp_sba',       'Search Brand Ads (Banner)', 'sales')),
-    ('Ads Store',                    ('shopee', 'sp_store',     'Iklan Toko',                'sales')),
-    ('Overall Shopee Ads',           None),
-    ('Lazada Ads Sponsore Max Store',  ('lazada', 'lz_store',   'Sponsored Max Store',       'sales')),
-    ('Lazada Ads Sponsore Max Product',('lazada', 'lz_product', 'Sponsored Max Product',     'sales')),
+RAW_METRICS = {}
+for base, key in [
+    ('Ads Cost','cost'),('Purchases Conversion Value','gmv'),('Orders From Ads','orders'),
+    ('Orders','orders'),
+    ('Orders From MKP','ordersMkp'),('Impression','impressions'),('Impressions','impressions'),
+    ('Product Clicks','clicks'),('Live Views','liveViews'),('Reach','reach'),
+    ('Paid Follows','follows'),('Link Click','clicks'),('Link Clicks','clicks'),('Click','clicks'),
+    ('Add to Cart','atc'),('Add to Cart Value','atcValue'),
+    ('Consideration Size','consideration'),('Brand Consideration','consideration'),
+    ('Cancel Order','cancel'),
+]:
+    RAW_METRICS[base]=key
+    for suf in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ':
+        RAW_METRICS[f'{base} {suf}']=key
+        RAW_METRICS[f'{base} A{suf}']=key
+
+# (title, id, platform, name, objective) — longest-prefix wins
+BLOCKS = [
+    ('LIVE SHOPPING ADS SMO','tt_live_smo','tiktok','Live GMV Max SMO','sales'),
+    ('LIVE SHOPPING ADS SID','tt_live_sid','tiktok','Live GMV Max SID','sales'),
+    ('LIVE SHOPPING ADS SMV','tt_live_smv','tiktok','Live GMV Max SMV','sales'),
+    ('LIVE SHOPPING ADS Aff','tt_live_aff','tiktok','Live GMV Max Affiliate','sales'),
+    ('LIVE SHOPPING ADS','tt_live_all','tiktok','Live GMV Max (gabungan)','sales'),
+    ('VIDEO SHOPPING ADS + PRODUCT SHOPPING ADS','tt_vsa_psa','tiktok','VSA + PSA (gabungan)','sales'),
+    ('VIDEO SHOPPING ADS NS','tt_vsa_ns','tiktok','Video Shopping Ads NS','sales'),
+    ('VIDEO SHOPPING ADS','tt_vsa','tiktok','Video Shopping Ads','sales'),
+    ('Product Card Shopping NS','tt_psa_ns','tiktok','Product Card NS','sales'),
+    ('Product Card Shopping Ads','tt_psa','tiktok','Product Card Shopping Ads','sales'),
+    ('OVERALL TIKTOK SHOP ADS',None,None,None,None),
+    ('Community Interaction Sophie Martin Verse','tt_ci_smv','tiktok','Community Interaction SMV','upper'),
+    ('Community Interaction Sophie Martin Official','tt_ci_smo','tiktok','Community Interaction SMO','upper'),
+    ('Community Interaction Sophie Martin ID','tt_ci_sid','tiktok','Community Interaction SID','upper'),
+    ('Brand Consideration EXT','tt_bc_ext','tiktok','Brand Consideration','upper'),
+    ('Brand Consideration NS','tt_bc_ns','tiktok','Brand Consideration NS','upper'),
+    ('Awareness TikTok Ext','tt_aw_ext','tiktok','Awareness TikTok','upper'),
+    ('Awareness TikTok Affiliate','tt_aw_aff','tiktok','Awareness Affiliate','upper'),
+    ('Awareness TikTok','tt_aw_ext','tiktok','Awareness TikTok','upper'),
+    ('Brand Consideration','tt_bc_ext','tiktok','Brand Consideration','upper'),
+    ('Community Interaction','tt_ci_smo','tiktok','Community Interaction SMO','upper'),
+    ('Meta CPAS - Shopee','meta_cpas','meta','CPAS Sales','sales'),
+    ('Awareness CPAS','meta_aw','meta','Awareness CPAS','upper'),
+    ('Traffic CPAS','meta_traffic','meta','Traffic CPAS','upper'),
+    ('LIVE SHOPEE ADS','sp_live','shopee','Live Shopee Ads (LSA)','sales'),
+    ('SBA Shopee','sp_sba','shopee','Search Brand Ads (Banner)','sales'),
+    ('Ads Store','sp_store','shopee','Iklan Toko','sales'),
+    ('Overall Shopee Ads',None,None,None,None),
+    ('Lazada Ads Sponsore Max Store','lz_store','lazada','Sponsored Max Store','sales'),
+    ('Lazada Ads Sponsore Max Product','lz_product','lazada','Sponsored Max Product','sales'),
 ]
+BLOCKS.sort(key=lambda b:-len(b[0]))
+CH_META = {}   # id -> {platform,name,objective}
 
-def parse_july(rows):
-    channels = []
-    pc_shopee_count = 0
-    i = 0
-    n = len(rows)
-    while i < n:
-        row = rows[i]
-        if row and row[0].strip() == 'Product Type' and len(row) > 1 and row[1].strip() == 'Budget':
-            # find title: scan up to 3 rows above for first non-empty col0
-            cands = []
-            for k in range(1, 4):
-                if i - k >= 0 and rows[i-k] and rows[i-k][0].strip():
-                    cands.append(rows[i-k][0].strip())
-            def is_known(t):
-                return t == 'Product Card Shopee' or any(t.startswith(b) for b, _ in BLOCK_MAP)
-            known = [t for t in cands if is_known(t)]
-            title = known[0] if known else (cands[-1] if cands else None)
-            subtitle = cands[0] if cands and cands[0] != title else None
-            # budget row
-            budget = spent = None
-            if i+1 < n:
-                budget = num(rows[i+1][1] if len(rows[i+1]) > 1 else None)
-                spent = num(rows[i+1][2] if len(rows[i+1]) > 2 else None)
-            # tracker header
-            j = i + 2
-            while j < n and not (rows[j] and len(rows[j]) > 1 and rows[j][1].strip() == '1 Jul'):
-                j += 1
-                if j > i + 4: break
-            metrics = {}
-            if j < n and rows[j] and len(rows[j]) > 1 and rows[j][1].strip() == '1 Jul':
-                j += 1
-                while j < n and rows[j] and rows[j][0].strip():
-                    name = rows[j][0].strip()
-                    if name in RAW_METRICS:
-                        key = RAW_METRICS[name]
-                        vals = [num(rows[j][c]) if c < len(rows[j]) else None for c in range(1, 32)]
-                        if key not in metrics:
-                            metrics[key] = vals
-                    j += 1
-            # map title
-            mapped = 'UNMAPPED'
-            if title:
-                if title == 'Product Card Shopee':
-                    pc_shopee_count += 1
-                    mapped = ('shopee', 'sp_pc', 'Iklan Produk', 'sales') if pc_shopee_count == 1 \
-                        else ('shopee', 'sp_pc_new', 'Iklan Produk Baru', 'sales')
-                else:
-                    for t, m in BLOCK_MAP:
-                        if title.startswith(t):
-                            mapped = m
-                            break
-            if mapped == 'UNMAPPED':
-                print(f'  !! unmapped block: {title!r} (sub {subtitle!r}) at row {i}', file=sys.stderr)
-            elif mapped is not None:
-                platform, cid, cname, obj = mapped
-                channels.append({
-                    'id': cid, 'platform': platform, 'name': cname, 'objective': obj,
-                    'budget': budget, 'title': title, 'days': metrics,
-                })
-            i = j
-        else:
-            i += 1
-    return channels
+def match_block(title, pc_count):
+    if title == 'Product Card Shopee':
+        return ('sp_pc','shopee','Iklan Produk','sales') if pc_count==0 else ('sp_pc_new','shopee','Iklan Produk Baru','sales')
+    for t,cid,plat,name,obj in BLOCKS:
+        if title.startswith(t):
+            return None if cid is None else (cid,plat,name,obj)
+    return 'UNKNOWN'
 
-# ---------- MoM 26 monthly ----------
-def parse_mom(rows):
-    out = {}
-    for row in rows:
-        if not row or not row[0].strip(): continue
-        name = row[0].strip()
-        vals = [num(row[c]) if c < len(row) else None for c in range(1, 13)]
-        if any(v is not None for v in vals):
-            out.setdefault(name, vals)
-    return out
-
-# ---------- MoM Breakdown per platform ----------
-def parse_breakdown(rows):
-    out = {}
-    current = None
-    for row in rows[2:]:
-        if not row: continue
-        p = row[0].strip()
-        if p:
-            current = p
-            out.setdefault(current, {})
-        if current and len(row) > 1 and row[1].strip():
-            name = row[1].strip()
-            vals = [num(row[c]) if c < len(row) else None for c in range(2, 14)]
-            if any(v is not None for v in vals):
-                out[current].setdefault(name, vals)
-    return out
-
-july_rows = read_rows(f'{BASE}/tab_July26.csv')
-channels = parse_july(july_rows)
-
-# ---------- Merge Meta raw xlsx (sheet July masih kosong utk Meta) ----------
-import openpyxl
-UP = '/root/.claude/uploads/ca5f51ab-0e5a-5153-af60-f6be86b6c17f'
-
-def load_xlsx_rows(path):
-    wb = openpyxl.load_workbook(path, read_only=True, data_only=True)
-    ws = wb.worksheets[0]
-    rows = list(ws.iter_rows(values_only=True))
-    header = [str(h).strip() if h else '' for h in rows[0]]
-    return header, rows[1:]
-
-def day_of_july(datestr):
-    s = str(datestr)[:10]
-    if s.startswith('2026-07-'):
-        try: return int(s[8:10])
-        except ValueError: return None
+def day_from_header(v, year, month):
+    if isinstance(v, datetime.datetime) or isinstance(v, datetime.date):
+        if v.year==year and v.month==month: return v.day
+        return None
+    s=str(v or '').strip()
+    if not s: return None
+    parts=s.split()
+    if len(parts)==2 and parts[0].isdigit():
+        return int(parts[0])
     return None
 
-def merge_meta(ch_id, path, colmap):
-    ch = next((c for c in channels if c['id'] == ch_id), None)
-    if ch is None: return
-    header, rows = load_xlsx_rows(path)
-    idx = {name: header.index(col) for name, col in colmap.items() if col in header}
-    daycol = header.index('Day')
-    acc = {k: [0.0]*31 for k in idx}
-    seen = False
-    for r in rows:
-        d = day_of_july(r[daycol])
-        if d is None: continue
-        seen = True
-        for k, ci in idx.items():
-            v = r[ci]
-            if isinstance(v, (int, float)):
-                acc[k][d-1] += float(v)
+def is_known_title(t):
+    return t=='Product Card Shopee' or any(t.startswith(b[0]) for b in BLOCKS)
+
+def parse_month_sheet(mk):
+    year, month = int(mk[:4]), int(mk[5:7])
+    ndays = calendar.monthrange(year, month)[1]
+    ws = wb[MONTH_SHEETS[mk]]
+    rows = [list(r) for r in ws.iter_rows(values_only=True)]
+    series, budgets = {}, {}
+    pc_count = 0
+    i = 0
+    while i < len(rows):
+        r = rows[i]
+        c0 = str(r[0]).strip() if r and r[0] is not None else ''
+        c1 = str(r[1]).strip() if r and len(r)>1 and r[1] is not None else ''
+        if c0=='Product Type' and c1=='Budget':
+            cands=[]
+            for k in range(1,4):
+                if i-k>=0 and rows[i-k] and rows[i-k][0] is not None and str(rows[i-k][0]).strip():
+                    cands.append(str(rows[i-k][0]).strip())
+            known=[t for t in cands if is_known_title(t)]
+            title = known[0] if known else (cands[-1] if cands else '')
+            m = match_block(title, pc_count)
+            if title=='Product Card Shopee': pc_count+=1
+            budget=None
+            if i+1<len(rows) and len(rows[i+1])>1 and isinstance(rows[i+1][1],(int,float)):
+                budget=float(rows[i+1][1])
+            # tracker header
+            j=i+2; daycols=None
+            while j<len(rows) and j<i+6:
+                hdr=rows[j]
+                cols=[]
+                for c in range(1, min(len(hdr), 40)):
+                    d=day_from_header(hdr[c], year, month)
+                    if d and 1<=d<=ndays: cols.append((c,d))
+                if len(cols)>=20 or (len(cols)>=ndays-4 and len(cols)>10):
+                    daycols=cols; break
+                j+=1
+            if daycols and m not in (None,'UNKNOWN'):
+                cid,plat,name,obj = m
+                CH_META.setdefault(cid, {'platform':plat,'name':name,'objective':obj})
+                ser = series.setdefault(cid, {})
+                if budget: budgets[cid]=budget
+                j+=1
+                while j<len(rows):
+                    r2=rows[j]
+                    label=str(r2[0]).strip() if r2 and r2[0] is not None else ''
+                    if not label: break
+                    key=RAW_METRICS.get(label)
+                    if key and key not in ser:
+                        arr=[0]*ndays
+                        any_val=False
+                        for c,d in daycols:
+                            v=r2[c] if c<len(r2) else None
+                            if isinstance(v,(int,float)):
+                                arr[d-1]=round(float(v),2)
+                                if v: any_val=True
+                        if any_val: ser[key]=arr
+                    j+=1
+                i=j
+                continue
+            elif m=='UNKNOWN' and title:
+                print(f'  ?? {mk}: unmapped block {title!r}')
+            i=j if daycols else i+1
+            continue
+        i+=1
+    # buang channel tanpa nilai sama sekali
+    series={k:v for k,v in series.items() if v}
+    return {'days':ndays,'budgets':budgets,'series':series}
+
+months={}
+for mk in MONTH_SHEETS:
+    months[mk]=parse_month_sheet(mk)
+    ns=len(months[mk]['series'])
+    tot=sum(sum(a) for ch in months[mk]['series'].values() for kk,a in ch.items() if kk=='cost')
+    print(f'{mk}: {ns:2d} channel, cost={tot:,.0f}')
+
+# ---------- Merge Meta raw xlsx untuk Juli 2026 (sheet masih kosong) ----------
+UP='/root/.claude/uploads/ca5f51ab-0e5a-5153-af60-f6be86b6c17f'
+def merge_meta(mk, cid, path, colmap):
+    wb2=openpyxl.load_workbook(path, read_only=True, data_only=True)
+    ws2=wb2.worksheets[0]
+    rows2=list(ws2.iter_rows(values_only=True))
+    header=[str(h).strip() if h else '' for h in rows2[0]]
+    idx={k:header.index(c) for k,c in colmap.items() if c in header}
+    daycol=header.index('Day')
+    y,m=int(mk[:4]),int(mk[5:7]); nd=calendar.monthrange(y,m)[1]
+    acc={k:[0.0]*nd for k in idx}
+    seen=False
+    for r in rows2[1:]:
+        s=str(r[daycol])[:10]
+        if not s.startswith(f'{y}-{m:02d}-'): continue
+        d=int(s[8:10]); seen=True
+        for k,ci in idx.items():
+            v=r[ci]
+            if isinstance(v,(int,float)): acc[k][d-1]+=float(v)
     if not seen: return
-    for k, arr in acc.items():
-        arr = [round(v, 2) if v else 0 for v in arr]
-        existing = ch['days'].get(k)
-        if not existing or not any(existing):
-            ch['days'][k] = arr
-    ch['mergedFromRaw'] = True
+    ser=months[mk]['series'].setdefault(cid,{})
+    for k,arr in acc.items():
+        if k not in ser or not any(ser[k]):
+            ser[k]=[round(v,2) for v in arr]
+    CH_META.setdefault(cid, {'platform':'meta','name':'CPAS Sales' if cid=='meta_cpas' else 'Awareness CPAS','objective':'sales' if cid=='meta_cpas' else 'upper'})
 
-merge_meta('meta_cpas', f'{UP}/d5a5c6e7-RAW_META_SALES.xlsx', {
-    'cost': 'Amount spent (IDR)', 'gmv': 'Purchases conversion value for shared items only',
-    'orders': 'Purchases with shared items', 'clicks': 'Link clicks',
-    'reach': 'Reach', 'impressions': 'Impressions',
-    'atc': 'Adds to cart with shared items', 'atcValue': 'Adds to cart conversion value for shared items only',
-})
-merge_meta('meta_aw', f'{UP}/7fd97624-RAW_META__AWARENESS.xlsx', {
-    'cost': 'Amount spent (IDR)', 'reach': 'Reach', 'impressions': 'Impressions', 'clicks': 'Link clicks',
-})
-mom = parse_mom(read_rows(f'{BASE}/tab_MoM26.csv'))
-breakdown = parse_breakdown(read_rows(f'{BASE}/tab_MoMBreakdown26.csv'))
+merge_meta('2026-07','meta_cpas',f'{UP}/d5a5c6e7-RAW_META_SALES.xlsx',{
+    'cost':'Amount spent (IDR)','gmv':'Purchases conversion value for shared items only',
+    'orders':'Purchases with shared items','clicks':'Link clicks','reach':'Reach','impressions':'Impressions',
+    'atc':'Adds to cart with shared items','atcValue':'Adds to cart conversion value for shared items only'})
+merge_meta('2026-07','meta_aw',f'{UP}/7fd97624-RAW_META__AWARENESS.xlsx',{
+    'cost':'Amount spent (IDR)','reach':'Reach','impressions':'Impressions','clicks':'Link clicks'})
+print('meta merged for 2026-07:', 'meta_cpas' in months['2026-07']['series'], 'meta_aw' in months['2026-07']['series'])
 
-data = {
-    'meta': {
-        'store': 'Sophie Martin Official',
-        'month': 'Juli 2026', 'monthIndex': 6, 'year': 2026, 'daysInMonth': 31,
-        'generated': '2026-07-14',
-        'source': 'Google Sheet: Media Buying Database 2026',
-    },
-    'channels': channels,
-    'monthly': mom,
-    'breakdown': breakdown,
+# ---------- MoM tabs ----------
+PCT_ROWS={'Ads Efficiency Rate','CTOR','CTR','New consideration rate'}
+MONTH_NAMES={'januari':1,'january':1,'februari':2,'february':2,'maret':3,'march':3,'april':4,
+ 'mei':5,'may':5,'juni':6,'june':6,'juli':7,'july':7,'agustus':8,'august':8,
+ 'september':9,'oktober':10,'october':10,'november':11,'desember':12,'december':12}
+def parse_mom_sheet(name):
+    ws=wb[name]
+    rows=[list(r) for r in ws.iter_rows(values_only=True)]
+    # deteksi kolom bulan: baris dengan >=6 nama bulan (MoM 2025 punya kolom delta di sela-sela)
+    monthcols=None
+    for row in rows[:8]:
+        cols=[]
+        for c,v in enumerate(row):
+            m=MONTH_NAMES.get(str(v).strip().lower()) if v is not None else None
+            if m: cols.append((c,m))
+        if len(cols)>=6: monthcols=cols; break
+    if not monthcols: monthcols=[(c,c) for c in range(1,13)]
+    out={}
+    for row in rows:
+        if not row or row[0] is None: continue
+        label=str(row[0]).strip()
+        if not label: continue
+        vals=[None]*12
+        for c,m in monthcols:
+            v=row[c] if c<len(row) else None
+            if isinstance(v,(int,float)): vals[m-1]=round(float(v),4)
+        if any(v is not None for v in vals) and label not in out:
+            if label in PCT_ROWS or label.startswith('%'):
+                vals=[(round(v*100,2) if v is not None and abs(v)<=1.5 else v) for v in vals]
+            out[label]=vals
+    return out
+
+mom={'2026':parse_mom_sheet('MoM 26'),'2025':parse_mom_sheet('MoM')}
+
+data={
+ 'meta':{'store':'Sophie Martin Official','generated':'2026-07-14',
+   'defaultMonth':'2026-07','source':'Google Sheet: Media Buying Database 2025–2026'},
+ 'channels':[{'id':cid,**CH_META[cid]} for cid in CH_META],
+ 'months':months,
+ 'mom':mom,
 }
-
-with open(f'{BASE}/dashboard_data.json', 'w', encoding='utf-8') as f:
-    json.dump(data, f, ensure_ascii=False)
-
-# report
-print(f'channels: {len(channels)}')
-for c in channels:
-    tot_cost = sum(v for v in c['days'].get('cost', []) if v) if 'cost' in c['days'] else 0
-    tot_gmv = sum(v for v in c['days'].get('gmv', []) if v) if 'gmv' in c['days'] else 0
-    dlast = 0
-    for idx, v in enumerate(c['days'].get('cost', [])):
-        if v: dlast = idx + 1
-    print(f"  {c['platform']:7s} {c['id']:14s} {c['name']:28s} budget={c['budget']} cost={tot_cost:,.0f} gmv={tot_gmv:,.0f} lastDay={dlast} metrics={list(c['days'].keys())}")
-print('monthly keys:', len(mom))
-print('breakdown platforms:', list(breakdown.keys()))
-import os
-print('json size:', os.path.getsize(f'{BASE}/dashboard_data.json'))
+out=json.dumps(data,ensure_ascii=False,separators=(',',':'))
+open(f'{BASE}/dashboard_data_v3.json','w').write(out)
+print('channels:',len(CH_META))
+print('json size:',len(out))
