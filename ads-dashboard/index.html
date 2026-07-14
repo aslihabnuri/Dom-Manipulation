@@ -1552,7 +1552,7 @@ function detectRows(rows,filename){
       if(/kartu|card/.test(jenis))return ns?'tt_psa_ns':'tt_psa';
       return ns?'tt_vsa_ns':'tt_vsa';
     };
-    const agg={};let skipped=0,rowsUsed=0;
+    const agg={};let skipped=0,rowsUsed=0,zeroDropped=0;
     const products=[],videos=[];
     for(const r of rows.slice(hi+1)){
       const name=r[cName];
@@ -1561,7 +1561,14 @@ function detectRows(rows,filename){
       if(hasDateCol&&iso==null){skipped++;continue;}
       let chId;
       if(isLive)chId=liveChannelFromName(name);
-      else chId=routeProduct(name,String(cJenis>=0?r[cJenis]:'').toLowerCase());
+      else{
+        /* aturan: baris Product GMV Max dengan Biaya 0 DAN Pesanan 0 dibuang —
+           hanya data berbiaya / berpesanan yang masuk database */
+        const rowCost=plainnum(r[cBiaya])||0;
+        const rowOrd=cOrd>=0?(plainnum(r[cOrd])||0):0;
+        if(rowCost===0&&rowOrd===0){zeroDropped++;continue;}
+        chId=routeProduct(name,String(cJenis>=0?r[cJenis]:'').toLowerCase());
+      }
       rowsUsed++;
       const key=chId+'|'+(iso||'?');
       const o=agg[key]??={chId,iso,metrics:{cost:0,gmv:0,orders:0}};
@@ -1592,12 +1599,12 @@ function detectRows(rows,filename){
       /* laporan tanpa kolom tanggal (ekspor per-periode 1 hari): minta tanggal,
          default dari nama file bila ada */
       return {type:'tt_product',needsDate:true,date:fnDate,
-        label:`TikTok Product GMV Max (tanpa kolom tanggal) · ${rowsUsed} baris → ${chs}`,
+        label:`TikTok Product GMV Max (tanpa kolom tanggal) · ${rowsUsed} baris → ${chs}${zeroDropped?` · ${zeroDropped} baris biaya & pesanan 0 dibuang`:''}`,
         entriesNoDate:entries,products,videos,
         hint:'Tidak ada kolom tanggal — pilih tanggal data di samping. Tips: ekspor per 1 hari dan tambahkan tanggal di nama file (mis. RAW_TIKTOK_PRODUCT_2026-07-14.xlsx) supaya terisi otomatis.'};
     }
     return {type:isLive?'tt_live':'tt_product',
-      label:`TikTok ${isLive?'Live GMV Max':'Product GMV Max'} · ${rowsUsed} baris → ${chs}${skipped?` · ${skipped} baris tanpa tanggal valid`:''}`,entries,products,videos};
+      label:`TikTok ${isLive?'Live GMV Max':'Product GMV Max'} · ${rowsUsed} baris → ${chs}${skipped?` · ${skipped} baris tanpa tanggal valid`:''}${zeroDropped?` · ${zeroDropped} baris biaya & pesanan 0 dibuang`:''}`,entries,products,videos};
   }
   /* --- Produk Klik Live TikTok ---
      dua varian: (a) raw LIVE per kreator: kolom "Klik Produk" + "Nama panggilan" + "Waktu Live",
@@ -1786,7 +1793,7 @@ function renderUpload(){
     <tr><td style="text-align:left">Shopee Iklan Toko / SBA / Live</td><td style="text-align:left">Judul laporan</td><td style="text-align:left">Iklan Toko / SBA / Live Shopee Ads</td></tr>
     <tr><td style="text-align:left">Meta (CSV/XLSX)</td><td style="text-align:left">Kolom Campaign name + Day, plus nama file</td><td style="text-align:left">Nama file mengandung <b>“CPAS”</b> → Meta CPAS · <b>“REGULER”</b> → Meta Reguler; tanpa penanda: ada kolom Purchases → CPAS, tanpa → Awareness. Channel tetap bisa diganti sebelum Terapkan.</td></tr>
     <tr><td style="text-align:left">TikTok Live GMV Max</td><td style="text-align:left">Nama kampanye + Waktu peluncuran</td><td style="text-align:left">“SMO” → Live SMO · “SID” → Live SID · “affiliate” → Live Affiliate · “SMV” → Live SMV</td></tr>
-    <tr><td style="text-align:left">TikTok Product GMV Max <span style="color:var(--muted)">(1 file RAW yang sama)</span></td><td style="text-align:left">Nama kampanye + Jenis materi iklan + tanggal</td><td style="text-align:left">Jenis <b>Video</b> → Video Shopping Ads · Jenis <b>Kartu Produk</b> → Product Card Shopping Ads · nama kampanye mengandung <b>“New”</b> → varian NS</td></tr>
+    <tr><td style="text-align:left">TikTok Product GMV Max <span style="color:var(--muted)">(1 file RAW yang sama)</span></td><td style="text-align:left">Nama kampanye + Jenis materi iklan + tanggal</td><td style="text-align:left">Jenis <b>Video</b> → Video Shopping Ads · Jenis <b>Kartu Produk</b> → Product Card Shopping Ads · nama kampanye mengandung <b>“New”</b> → varian NS · baris dengan <b>Biaya 0 dan Pesanan 0 dibuang</b> otomatis</td></tr>
     <tr><td style="text-align:left">Lazada Sponsored Max (XLSX/CSV)</td><td style="text-align:left">Kolom Tanggal + Tipe Campaign + Pengeluaran</td><td style="text-align:left">Tipe <b>Sponsored Max Store</b> → Max Store · <b>Sponsored Max Product</b> → Max Product; per hari otomatis (Pengeluaran, Pendapatan Toko, Order Toko, Impresi, Klik)</td></tr>
     <tr><td style="text-align:left">Produk Klik Live TikTok (raw LIVE per kreator)</td><td style="text-align:left">Kolom “Klik Produk” + “Nama panggilan” + “Waktu Live”</td><td style="text-align:left">Nama panggilan <b>sophiemartinofficial</b> → Live SMO · <b>sophiemartin_id</b> → Live SID · <b>sophiemartin.verse</b> → Live SMV; klik dijumlah per tanggal</td></tr>
   </tbody></table></div></div></details>`;
