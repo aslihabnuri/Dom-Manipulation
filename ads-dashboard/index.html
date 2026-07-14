@@ -1996,10 +1996,19 @@ function shortName(name){
   const toks=String(name||'').trim().split(/\s+/);
   let i=0;
   while(i<toks.length-1&&CAT_WORDS.has(toks[i].toLowerCase()))i++;
-  const out=toks.slice(i).join(' ');
+  const out=toks.slice(i).join(' ').replace(/\s*\[\s*\d+\s*\]\s*$/,'');
   return out||name;
 }
 const fmtRoi=v=>v==null?'–':nf1.format(v)+'×';
+/* kunci penyatuan produk lintas platform: ID TikTok ≠ ID Shopee, jadi produk
+   digabung berdasarkan NAMA yang dinormalisasi — nama pendek, huruf kecil,
+   tanpa penanda listing "[2]" dan tanda baca. Beri nama ID TikTok (via kamus)
+   sama dengan nama produk Shopee → otomatis menyatu. */
+function canonKey(name){
+  return shortName(name).toLowerCase()
+    .replace(/\[\s*\d+\s*\]/g,'').replace(/[^a-z0-9 ]/g,' ')
+    .replace(/\s+/g,' ').trim() || String(name).toLowerCase();
+}
 let prodView={mode:'all',ch:'',month:'',q:'',sort:'val',dir:-1,fmin:{}};
 const PROD_COLS=[
   ['qty','Qty Sold',fmtN],['val','Value',fmtRp],['cost','Biaya Iklan',fmtRp],
@@ -2021,13 +2030,20 @@ function renderProducts(){
   let rows=data;
   if(prodView.month)rows=rows.filter(r=>mkOf(r.iso)===prodView.month);
   if(prodView.mode==='channel'&&prodView.ch)rows=rows.filter(r=>chDef(r.chId)?.platform===prodView.ch);
-  if(prodView.q){const q=prodView.q.toLowerCase();rows=rows.filter(r=>r.name.toLowerCase().includes(q)||String(r.code).includes(q)||shortName(r.name).toLowerCase().includes(q));}
+  if(prodView.q){const q=prodView.q.toLowerCase();rows=rows.filter(r=>r.name.toLowerCase().includes(q)||String(r.code).includes(q)||canonKey(r.name).includes(q));}
   const agg={};
   for(const r of rows){
-    const o=agg[r.name]??={name:r.name,code:r.code,qty:0,val:0,cost:0,imp:0,clk:0,ord:0,chs:new Set()};
+    const key=canonKey(r.name);
+    const o=agg[key]??={name:r.name,names:new Set(),codes:new Set(),qty:0,val:0,cost:0,imp:0,clk:0,ord:0,chs:new Set()};
     o.qty+=r.qty||0;o.val+=r.val||0;o.cost+=r.cost||0;o.imp+=r.imp||0;o.clk+=r.clk||0;o.ord+=r.ord||0;
-    o.chs.add(r.chId);
-    if(!o.code&&r.code)o.code=r.code;
+    o.chs.add(r.chId);o.names.add(r.name);
+    if(r.code)o.codes.add(String(r.code));
+    if(r.name.length>o.name.length)o.name=r.name;        // tampilkan nama terlengkap
+  }
+  for(const o of Object.values(agg)){
+    const codes=[...o.codes];
+    o.code=codes.slice(0,2).join(', ')+(codes.length>2?` +${codes.length-2}`:'');
+    o.allNames=[...o.names].join(' | ');
   }
   let list=Object.values(agg).map(derive);
   /* filter minimum per metrik */
@@ -2078,8 +2094,9 @@ function renderProducts(){
   </tr></thead><tbody>
   ${list.map(x=>{
     const unnamed=x.name.startsWith('Produk ');
-    return `<tr><td style="white-space:normal;min-width:190px;max-width:320px${unnamed?';cursor:pointer':''}" title="${unnamed?'Klik untuk memberi nama produk ini':esc(x.name)}" ${unnamed?`data-rename="${esc(x.code)}"`:''}>
-      <b>${esc(shortName(x.name))}</b>${unnamed?' <span style="font-size:10px;color:var(--tiktok)">✎ beri nama</span>':''}<br><span style="font-size:10.5px;color:var(--muted)">${esc(x.name)}</span></td>
+    const merged=x.chs.size>1||x.names.size>1;
+    return `<tr><td style="white-space:normal;min-width:190px;max-width:320px${unnamed?';cursor:pointer':''}" title="${unnamed?'Klik untuk memberi nama produk ini':esc(x.allNames||x.name)}" ${unnamed?`data-rename="${esc([...x.codes][0]||'')}"`:''}>
+      <b>${esc(shortName(x.name))}</b>${unnamed?' <span style="font-size:10px;color:var(--tiktok)">✎ beri nama</span>':''}${merged&&!unnamed?` <span style="font-size:10px;color:var(--muted)">⊕ ${x.names.size>1?x.names.size+' listing':''}</span>`:''}<br><span style="font-size:10.5px;color:var(--muted)">${esc(x.name)}</span></td>
     <td class="num" style="font-size:11px;color:var(--muted)">${esc(x.code||'–')}</td>
     ${prodView.mode==='all'?`<td>${[...new Set([...x.chs].map(c=>chDef(c)?.platform))].map(p=>platChip(p)).join(' ')}</td>`:''}
     <td class="num">${fmtN(x.qty)}</td><td class="num">${fmtRp(x.val)}</td><td class="num">${x.cost?fmtRp(x.cost):'–'}</td>
