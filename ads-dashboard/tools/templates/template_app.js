@@ -1163,7 +1163,7 @@ function anyDateToIso(s){
   if(s==null)return null; s=String(s).trim();
   let iso=null,m;
   if((m=s.match(/^(\d{4})[-\/](\d{2})[-\/](\d{2})/)))iso=`${m[1]}-${m[2]}-${m[3]}`;
-  else if((m=s.match(/^(\d{2})\/(\d{2})\/(\d{4})/)))iso=`${m[3]}-${m[2]}-${m[1]}`;
+  else if((m=s.match(/^(\d{2})[\/-](\d{2})[\/-](\d{4})/)))iso=`${m[3]}-${m[2]}-${m[1]}`;
   else if((m=s.match(/^(\d{1,2})\s+([A-Za-z]{3})/))){
     const mo=MON_MAP[m[2].toLowerCase()];
     if(mo){
@@ -1443,6 +1443,37 @@ function detectRows(rows,filename){
     }
     return {type:isLive?'tt_live':'tt_product',
       label:`TikTok ${isLive?'Live GMV Max':'Product GMV Max'} · ${rowsUsed} ${L('baris','rows')} → ${chs}${skipped?` · ${skipped} ${L('baris tanpa tanggal valid','rows without valid dates')}`:''}${zeroDropped?` · ${zeroDropped} ${L('baris biaya dan pesanan 0 dibuang','zero cost and order rows dropped')}`:''}`,entries,products,videos};
+  }
+  /* --- Laporan produk TikTok Seller Center (ekspor "exportsc_confirmed"):
+     per produk per hari, kolom Periode Data + Produk + Klik Produk + Penjualan.
+     Dipakai sebagai sumber Klik Produk + nilai (GMV) untuk channel Live GMV Max.
+     Akun (SMO/SID/SMV/Affiliate) dipilih manual karena file hanya memuat User Id. --- */
+  hi=findHeader(rows,['Periode Data','Produk','Klik Produk']);
+  if(hi>=0){
+    const H=H_at(hi);
+    const cDate=colIdxOf(H,'Periode Data'),cProd=colIdxOf(H,'Produk'),
+          cClk=colIdxOf(H,'Klik Produk'),cAtc=colIdxOf(H,'Tambah ke Keranjang'),
+          cOrd=H.findIndex(h=>/^Pesanan\(Pesanan Dibuat\)/i.test(h)),
+          cQty=H.findIndex(h=>/^Produk Terjual\(Pesanan Dibuat\)/i.test(h)),
+          cVal=H.findIndex(h=>/^Penjualan\(Pesanan Dibuat\)/i.test(h));
+    /* nilai memakai format Indonesia: titik = pemisah ribuan, koma = desimal */
+    const idnum=v=>{if(v==null)return 0;const t=String(v).replace(/[Rp\s]/g,'').replace(/\./g,'').replace(/,/g,'.');const n=parseFloat(t);return isNaN(n)?0:n;};
+    const byIso={};let skipped=0,rowsUsed=0;
+    for(const r of rows.slice(hi+1)){
+      const iso=anyDateToIso(r[cDate]);
+      if(iso==null){if(String(r[cProd]||'').trim())skipped++;continue;}
+      rowsUsed++;
+      const o=byIso[iso]??={clicks:0};
+      o.clicks+=idnum(r[cClk]);   /* hanya kolom Klik Produk yang diambil */
+    }
+    const isos=Object.keys(byIso).sort();
+    if(isos.length){
+      const entries=isos.map(iso=>({iso,metrics:byIso[iso]}));
+      const totClk=sum(entries.map(e=>e.metrics.clicks));
+      return {type:'sc_clicks',needsCh:true,defaultCh:'sp_live',liveOnly:true,entries,
+        label:`${L('Klik Produk Live (Seller Center)','Live Product Clicks (Seller Center)')} · ${fmtNC(totClk)} ${L('klik produk','product clicks')} · ${isos.length} ${L('hari','days')}`,
+        hint:L('Hanya kolom Klik Produk yang diambil. Pilih channel Live yang sesuai (Shopee Live / Live GMV Max TikTok) sebelum Terapkan; file hanya memuat User Id sehingga akun tidak dikenali otomatis.','Only the Product Clicks column is taken. Choose the matching Live channel (Shopee Live / TikTok Live GMV Max) before Apply; the file only carries a User Id, so the account is not detected automatically.')};
+    }
   }
   hi=findHeader(rows,['Nama panggilan','Klik Produk']);
   if(hi<0)hi=findHeader(rows,['Nama LIVE','Produk Klik']);
@@ -2003,7 +2034,8 @@ function renderUpload(){
     if(!el)return;
     el.innerHTML=PENDING.map((f,i)=>{
       if(f.error)return `<div class="file-row err"><span class="fname">${esc(f.name)}</span><span class="fsum" style="color:var(--critical)">${esc(f.error)}</span><button class="del" data-i="${i}">✕</button></div>`;
-      const chSel=f.needsCh?`<select data-ch="${i}">${CH_DEF.map(c=>`<option value="${c.id}" ${c.id===f.chId?'selected':''}>${PLATFORMS[c.platform].name} · ${esc(chName(c.id))}</option>`).join('')}</select>`:'';
+      const chList=f.liveOnly?CH_DEF.filter(c=>['sp_live','tt_live_smo','tt_live_sid','tt_live_smv','tt_live_aff'].includes(c.id)):CH_DEF;
+      const chSel=f.needsCh?`<select data-ch="${i}">${chList.map(c=>`<option value="${c.id}" ${c.id===f.chId?'selected':''}>${PLATFORMS[c.platform].name} · ${esc(chName(c.id))}</option>`).join('')}</select>`:'';
       const dateSel=f.needsDate?`<input type="date" data-dt="${i}" value="${f.date||''}" min="${dmin}" max="${dmax}">`:'';
       const sums=f.single?`${fmtRpC(f.single.cost||0)} spend · ${fmtRpC(f.single.gmv||0)} ${L('omzet','revenue')} · ${fmtN(f.single.orders||0)} ${L('pesanan','orders')}`:
         f.entries?`${fmtRpC(sum(f.entries.map(e=>e.metrics.cost||0)))} spend · ${fmtRpC(sum(f.entries.map(e=>e.metrics.gmv||0)))} GMV · ${fmtNC(sum(f.entries.map(e=>e.metrics.clicks||0)))} ${L('klik','clicks')}`:'';
