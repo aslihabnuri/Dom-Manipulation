@@ -1470,8 +1470,9 @@ function detectRows(rows,filename){
     if(isos.length){
       const entries=isos.map(iso=>({iso,metrics:byIso[iso]}));
       const totClk=sum(entries.map(e=>e.metrics.clicks));
-      return {type:'sc_clicks',needsCh:true,defaultCh:'sp_live',liveOnly:true,entries,
-        label:`${L('Klik Produk Live (Seller Center)','Live Product Clicks (Seller Center)')} · ${fmtNC(totClk)} ${L('klik produk','product clicks')} · ${isos.length} ${L('hari','days')}`,
+      const dateStr=isos.length===1?isoLabelY(isos[0]):`${isoLabel(isos[0])} - ${isoLabelY(isos[isos.length-1])} (${isos.length} ${L('hari','days')})`;
+      return {type:'sc_clicks',needsCh:true,defaultCh:'sp_live',liveOnly:true,clicksOnly:true,entries,
+        label:`${L('Klik Produk Live (Seller Center)','Live Product Clicks (Seller Center)')} · ${fmtNC(totClk)} ${L('klik produk','product clicks')} · ${dateStr}`,
         hint:L('Hanya kolom Klik Produk yang diambil. Pilih channel Live yang sesuai (Shopee Live / Live GMV Max TikTok) sebelum Terapkan; file hanya memuat User Id sehingga akun tidak dikenali otomatis.','Only the Product Clicks column is taken. Choose the matching Live channel (Shopee Live / TikTok Live GMV Max) before Apply; the file only carries a User Id, so the account is not detected automatically.')};
     }
   }
@@ -2037,8 +2038,12 @@ function renderUpload(){
       const chList=f.liveOnly?CH_DEF.filter(c=>['sp_live','tt_live_smo','tt_live_sid','tt_live_smv','tt_live_aff'].includes(c.id)):CH_DEF;
       const chSel=f.needsCh?`<select data-ch="${i}">${chList.map(c=>`<option value="${c.id}" ${c.id===f.chId?'selected':''}>${PLATFORMS[c.platform].name} · ${esc(chName(c.id))}</option>`).join('')}</select>`:'';
       const dateSel=f.needsDate?`<input type="date" data-dt="${i}" value="${f.date||''}" min="${dmin}" max="${dmax}">`:'';
-      const sums=f.single?`${fmtRpC(f.single.cost||0)} spend · ${fmtRpC(f.single.gmv||0)} ${L('omzet','revenue')} · ${fmtN(f.single.orders||0)} ${L('pesanan','orders')}`:
-        f.entries?`${fmtRpC(sum(f.entries.map(e=>e.metrics.cost||0)))} spend · ${fmtRpC(sum(f.entries.map(e=>e.metrics.gmv||0)))} GMV · ${fmtNC(sum(f.entries.map(e=>e.metrics.clicks||0)))} ${L('klik','clicks')}`:'';
+      let sums='';
+      if(f.single)sums=`${fmtRpC(f.single.cost||0)} spend · ${fmtRpC(f.single.gmv||0)} ${L('omzet','revenue')} · ${fmtN(f.single.orders||0)} ${L('pesanan','orders')}`;
+      else if(f.entries){
+        const tc=sum(f.entries.map(e=>e.metrics.cost||0)),tg=sum(f.entries.map(e=>e.metrics.gmv||0)),tk=sum(f.entries.map(e=>e.metrics.clicks||0));
+        sums=(f.clicksOnly||(!tc&&!tg))?`${fmtNC(tk)} ${L('klik produk','product clicks')}`:`${fmtRpC(tc)} spend · ${fmtRpC(tg)} GMV · ${fmtNC(tk)} ${L('klik','clicks')}`;
+      }
       return `<div class="file-row">
         <span class="fname" title="${esc(f.name)}">${esc(f.name)}</span>
         <span class="ftype">${esc((f.label||'').split(' · ')[0])}</span>
