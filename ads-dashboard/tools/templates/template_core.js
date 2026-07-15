@@ -292,7 +292,11 @@ function lineChart(container, series, labels, opts={}){
     const r=svg.getBoundingClientRect();const sx=(ev.clientX-r.left)*(W/r.width);
     let i=Math.round((sx-PADL)/(n<=1?1:iw/(n-1)));i=Math.max(0,Math.min(n-1,i));
     cross.setAttribute('x1',X(i));cross.setAttribute('x2',X(i));cross.setAttribute('opacity',1);
-    const rows=series.map(s=>s.values[i]==null?'':`<div class="r"><span><i style="background:${s.color}"></i>${esc(s.name)}</span><span class="v">${fmt(s.values[i])}</span></div>`).join('');
+    const rows=series.map(s=>{
+      if(s.values[i]==null)return '';
+      const shown=s.real?(s.rfmt||fmt)(s.real[i]):fmt(s.values[i]);
+      return `<div class="r"><span><i style="background:${s.color}"></i>${esc(s.name)}</span><span class="v">${shown}</span></div>`;
+    }).join('');
     showTip(`<div class="t">${esc(opts.tipTitle?opts.tipTitle(i):labels[i])}</div>${rows}`,ev.clientX,ev.clientY);
   });
   hot.addEventListener('pointerleave',()=>{cross.setAttribute('opacity',0);hideTip();});

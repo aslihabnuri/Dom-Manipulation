@@ -347,7 +347,7 @@ function metricChart(container,{id,seriesData,labels,defaults,tipTitle}){
     const series=act.map(m=>{
       if(!mixed)return {name:m.label,color:m.color,values:m.values};
       const mx=Math.max(...m.values.filter(v=>v!=null),0)||1;
-      return {name:m.label,color:m.color,values:m.values.map(v=>v==null?null:100*v/mx),_raw:m};
+      return {name:m.label,color:m.color,values:m.values.map(v=>v==null?null:100*v/mx),real:m.values,rfmt:m.fmt};
     });
     const fmt=mixed?(v=>nf0.format(v)):(act[0]?.fmt||fmtNC);
     const chartHost=document.createElement('div');box.appendChild(chartHost);
@@ -355,7 +355,7 @@ function metricChart(container,{id,seriesData,labels,defaults,tipTitle}){
       ...(mixed?{}:{area:series.length===1})});
     if(mixed){
       const n=document.createElement('div');n.className='note';n.style.marginTop='2px';
-      n.textContent=L('Metrik memiliki satuan berbeda sehingga ditampilkan sebagai indeks (100 = nilai tertinggi tiap metrik). Arahkan kursor untuk indeksnya.','Metrics use different units, so values are shown as an index (100 = each metric\'s peak). Hover for index values.');
+      n.textContent=L('Metrik memiliki satuan berbeda sehingga garis ditampilkan sebagai indeks (100 = puncak tiap metrik) agar bisa sejajar. Arahkan kursor ke grafik untuk melihat nilai aslinya lengkap dengan satuan.','Metrics use different units, so the lines are drawn as an index (100 = each metric\'s peak) to stay comparable. Hover over the chart to see the real values with units.');
       box.appendChild(n);
     }
   };
@@ -1792,6 +1792,75 @@ function buildMonthSheet(mk){
     note:L('Blok per channel mengikuti judul blok pada sheet bulanan. Tempel blok yang dibutuhkan ke area tracker channel terkait.','Channel blocks follow the monthly sheet block titles. Paste the blocks you need into the matching channel tracker area.')};
 }
 function genTsv(g){return [g.header,...g.body].map(r=>r.join('\t')).join('\n');}
+/* ---- penulis XLSX mandiri (zip tanpa kompresi + format angka #,##0) ---- */
+function crc32buf(u8){
+  let T=crc32buf.T;
+  if(!T){T=crc32buf.T=new Uint32Array(256);
+    for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;T[n]=c>>>0;}}
+  let crc=-1;
+  for(let i=0;i<u8.length;i++)crc=T[(crc^u8[i])&0xFF]^(crc>>>8);
+  return (crc^-1)>>>0;
+}
+function zipStore(files){
+  const enc=new TextEncoder(),parts=[],cd=[];let off=0;
+  for(const [name,text] of files){
+    const n=enc.encode(name),data=enc.encode(text),crc=crc32buf(data);
+    const lh=new DataView(new ArrayBuffer(30));
+    lh.setUint32(0,0x04034b50,true);lh.setUint16(4,20,true);
+    lh.setUint32(14,crc,true);lh.setUint32(18,data.length,true);lh.setUint32(22,data.length,true);
+    lh.setUint16(26,n.length,true);
+    parts.push(new Uint8Array(lh.buffer),n,data);
+    const ch=new DataView(new ArrayBuffer(46));
+    ch.setUint32(0,0x02014b50,true);ch.setUint16(4,20,true);ch.setUint16(6,20,true);
+    ch.setUint32(16,crc,true);ch.setUint32(20,data.length,true);ch.setUint32(24,data.length,true);
+    ch.setUint16(28,n.length,true);ch.setUint32(42,off,true);
+    cd.push(new Uint8Array(ch.buffer),n);
+    off+=30+n.length+data.length;
+  }
+  let cdLen=0;for(const c of cd)cdLen+=c.length;
+  const eo=new DataView(new ArrayBuffer(22));
+  eo.setUint32(0,0x06054b50,true);eo.setUint16(8,files.length,true);eo.setUint16(10,files.length,true);
+  eo.setUint32(12,cdLen,true);eo.setUint32(16,off,true);
+  return new Blob([...parts,...cd,new Uint8Array(eo.buffer)],
+    {type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+}
+const colRef=i=>{let r='';i++;while(i>0){r=String.fromCharCode(65+(i-1)%26)+r;i=Math.floor((i-1)/26);}return r;};
+const escXml=t=>String(t??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+function xlsxFromGen(g){
+  const rows=[g.header,...g.body];
+  const rowXml=rows.map((r,ri)=>{
+    const cells=r.map((v,ci)=>{
+      v=String(v??'');
+      if(v==='')return '';
+      const ref=colRef(ci)+(ri+1);
+      if(ri>0&&ci>0){
+        if(/^-?\d+$/.test(v))return `<c r="${ref}" s="1"><v>${v}</v></c>`;
+        if(/^-?\d+\.\d+$/.test(v))return `<c r="${ref}" s="2"><v>${v}</v></c>`;
+        const mp=/^(-?\d+(?:\.\d+)?)%$/.exec(v);
+        if(mp)return `<c r="${ref}" s="3"><v>${+mp[1]/100}</v></c>`;
+      }
+      return `<c r="${ref}" t="inlineStr"${ri===0?' s="4"':''}><is><t xml:space="preserve">${escXml(v)}</t></is></c>`;
+    }).join('');
+    return `<row r="${ri+1}">${cells}</row>`;
+  }).join('');
+  const sheetName=escXml(String(g.name).replace(/[\\\/\?\*\[\]:]/g,' ').slice(0,31));
+  const files=[
+    ['[Content_Types].xml','<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/></Types>'],
+    ['_rels/.rels','<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>'],
+    ['xl/workbook.xml',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets><sheet name="${sheetName}" sheetId="1" r:id="rId1"/></sheets></workbook>`],
+    ['xl/_rels/workbook.xml.rels','<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>'],
+    ['xl/styles.xml','<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><numFmts count="2"><numFmt numFmtId="164" formatCode="#,##0"/><numFmt numFmtId="165" formatCode="#,##0.00"/></numFmts><fonts count="2"><font><sz val="11"/><name val="Calibri"/></font><font><b/><sz val="11"/><name val="Calibri"/></font></fonts><fills count="2"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill></fills><borders count="1"><border/></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="5"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/><xf numFmtId="164" fontId="0" fillId="0" borderId="0" applyNumberFormat="1"/><xf numFmtId="165" fontId="0" fillId="0" borderId="0" applyNumberFormat="1"/><xf numFmtId="10" fontId="0" fillId="0" borderId="0" applyNumberFormat="1"/><xf numFmtId="0" fontId="1" fillId="0" borderId="0" applyFont="1"/></cellXfs></styleSheet>'],
+    ['xl/worksheets/sheet1.xml',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetData>${rowXml}</sheetData></worksheet>`],
+  ];
+  return zipStore(files);
+}
+/* tampilan angka pada pratinjau generate: pakai pemisah ribuan sesuai bahasa */
+function fmtPrevCell(v){
+  v=String(v??'');
+  if(/^-?\d+$/.test(v))return nf0.format(+v);
+  if(/^-?\d+\.\d+$/.test(v))return nf2.format(+v);
+  return v;
+}
 function genCsvText(g){const esc2=c=>{c=String(c??'');return /[",\n]/.test(c)?'"'+c.replace(/"/g,'""')+'"':c;};
   return [g.header,...g.body].map(r=>r.map(esc2).join(',')).join('\n');}
 async function copyTsv(t){
@@ -1835,7 +1904,7 @@ function renderUpload(){
       <button class="btn" id="genGo">Generate</button>
       <span style="flex:1"></span>
       <button class="btn ghost" id="genCopy" disabled>${L('Salin untuk sheet','Copy for sheet')}</button>
-      <button class="btn ghost" id="genCsv" disabled>${L('Unduh CSV','Download CSV')}</button>
+      <button class="btn ghost" id="genCsv" disabled>${L('Unduh Excel','Download Excel')}</button>
     </div>
     <div id="genPrev"></div>
   </div>
@@ -1872,7 +1941,7 @@ function renderUpload(){
     <h3>${L('Sumber Data per Bulan','Data Source per Month')}</h3>
     <p class="note" style="margin:0 0 10px">${L('Unggahan bekerja secara replace per channel per tanggal. Mengunggah ulang periode yang sama menimpa, bukan menambah, sehingga umumnya tidak dobel. Jika ingin satu bulan sepenuhnya dari unggahan, kosongkan data dasar sheet untuk bulan itu. Dapat diaktifkan kembali kapan saja, data sheet tidak hilang.','Uploads replace per channel per date. Re-uploading the same period overwrites rather than adds, so duplicates are unlikely. To make a month fully upload based, blank the base sheet data for that month. It can be re-enabled at any time; sheet data is not lost.')}</p>
     <div class="controls" style="margin:0">
-      <select id="maskMonth">${monthOptions(LATEST)}</select>
+      <span id="maskPick"></span>
       <button class="btn ghost" id="maskToggle"></button>
       <span style="flex:1"></span>
       <button class="btn ghost" id="clrMonth" style="color:var(--critical)">${L('Hapus data unggahan bulan terpilih','Delete uploads for the selected month')}</button>
@@ -1880,7 +1949,7 @@ function renderUpload(){
     <div style="margin-top:14px;border-top:1px solid var(--grid);padding-top:12px">
       <h3 style="margin-bottom:6px">${L('GMV Marketplace Bulanan','Monthly Marketplace GMV')}</h3>
       <div class="controls" style="margin:0">
-        <select id="gmvMk">${monthOptions(LATEST)}</select>
+        <span id="gmvPick"></span>
         <label>TikTok</label><input type="number" id="gmvTt" style="width:130px" placeholder="Rp">
         <label>Shopee</label><input type="number" id="gmvSp" style="width:130px" placeholder="Rp">
         <label>Lazada</label><input type="number" id="gmvLz" style="width:130px" placeholder="Rp">
@@ -2001,7 +2070,7 @@ function renderUpload(){
     prev.innerHTML=`
       <p class="note" style="margin:10px 0 6px"><b>${L('Target tab','Target tab')}: ${esc(genData.name)}</b> · ${genData.body.length} ${L('baris','rows')}${genData.note?'<br>'+esc(genData.note):''}</p>
       <div class="gen-prev"><table><thead><tr>${genData.header.map(h=>`<th>${esc(h)}</th>`).join('')}</tr></thead>
-      <tbody>${genData.body.slice(0,maxR).map(r=>`<tr>${genData.header.map((_,i)=>`<td class="${i?'num':''}" style="${i?'':'text-align:left'}">${esc(r[i]??'')}</td>`).join('')}</tr>`).join('')}
+      <tbody>${genData.body.slice(0,maxR).map(r=>`<tr>${genData.header.map((_,i)=>`<td class="${i?'num':''}" style="${i?'':'text-align:left'}">${esc(i?fmtPrevCell(r[i]):(r[i]??''))}</td>`).join('')}</tr>`).join('')}
       ${genData.body.length>maxR?`<tr><td colspan="${genData.header.length}" class="empty">… ${genData.body.length-maxR} ${L('baris lagi (lengkap saat disalin / diunduh)','more rows (complete when copied / downloaded)')}</td></tr>`:''}</tbody></table></div>`;
     document.getElementById('genCopy').disabled=false;
     document.getElementById('genCsv').disabled=false;
@@ -2021,8 +2090,9 @@ function renderUpload(){
       return;
     }
     const a=document.createElement('a');
-    a.href=URL.createObjectURL(new Blob(['\ufeff'+genCsvText(genData)],{type:'text/csv'}));
-    a.download=genData.name.replace(/\s+/g,'_')+'.csv';a.click();
+    a.href=URL.createObjectURL(xlsxFromGen(genData));
+    a.download=genData.name.replace(/\s+/g,'_')+'.xlsx';a.click();
+    uiToast(L('File Excel diunduh dengan format pemisah ribuan.','Excel file downloaded with thousand separator formatting.'));
   };
   document.getElementById('mBuild').onclick=()=>{
     const d1=document.getElementById('mD1').value,d2=document.getElementById('mD2').value;
@@ -2090,15 +2160,16 @@ function renderUpload(){
     L('Hapus','Delete'),L('Batal','Cancel'))){
     overlay={};prodStore=[];vidStore=[];
     store.set(LS_O,overlay);store.set(LS_P,prodStore);store.set(LS_V,vidStore);location.reload();}};
-  const maskSel=document.getElementById('maskMonth');
+  let maskMk=LATEST;
   const maskBtn=document.getElementById('maskToggle');
-  const syncMaskBtn=()=>{maskBtn.textContent=maskMonths[maskSel.value]?
-    L('Aktifkan kembali data sheet ','Re-enable sheet data ')+mkLabelS(maskSel.value):
-    L('Kosongkan data dasar ','Blank base data ')+mkLabelS(maskSel.value)+L(' (pakai unggahan saja)',' (uploads only)');};
-  syncMaskBtn();
-  maskSel.onchange=syncMaskBtn;
+  const syncMaskBtn=()=>{maskBtn.textContent=maskMonths[maskMk]?
+    L('Aktifkan kembali data sheet ','Re-enable sheet data ')+mkLabelS(maskMk):
+    L('Kosongkan data dasar ','Blank base data ')+mkLabelS(maskMk)+L(' (pakai unggahan saja)',' (uploads only)');};
+  const drawMaskPick=()=>{const el=document.getElementById('maskPick');el.innerHTML='';
+    monthPicker(el,{value:maskMk,onApply:v=>{maskMk=v;drawMaskPick();syncMaskBtn();}});};
+  drawMaskPick();syncMaskBtn();
   maskBtn.onclick=async()=>{
-    const mk=maskSel.value;
+    const mk=maskMk;
     if(maskMonths[mk]){delete maskMonths[mk];}
     else{
       if(!await uiConfirm(L('Kosongkan data dasar ','Blank base data ')+mkLabel(mk)+'?',
@@ -2108,20 +2179,22 @@ function renderUpload(){
     }
     store.set(LS_MASK,maskMonths);location.reload();
   };
-  const gmvMk=document.getElementById('gmvMk');
-  const syncGmv=()=>{const o=gmvMpOv[gmvMk.value]||{};
+  let gmvSelMk=LATEST;
+  const syncGmv=()=>{const o=gmvMpOv[gmvSelMk]||{};
     document.getElementById('gmvTt').value=o.tiktok??'';
     document.getElementById('gmvSp').value=o.shopee??'';
     document.getElementById('gmvLz').value=o.lazada??'';};
-  syncGmv();gmvMk.onchange=syncGmv;
+  const drawGmvPick=()=>{const el=document.getElementById('gmvPick');el.innerHTML='';
+    monthPicker(el,{value:gmvSelMk,onApply:v=>{gmvSelMk=v;drawGmvPick();syncGmv();}});};
+  drawGmvPick();syncGmv();
   document.getElementById('gmvSave').onclick=()=>{
     const g=id=>{const v=document.getElementById(id).value;return v===''?0:(parseFloat(v)||0);};
-    gmvMpOv[gmvMk.value]={tiktok:g('gmvTt'),shopee:g('gmvSp'),lazada:g('gmvLz')};
+    gmvMpOv[gmvSelMk]={tiktok:g('gmvTt'),shopee:g('gmvSp'),lazada:g('gmvLz')};
     store.set(LS_GMVMP,gmvMpOv);
-    uiToast(L('GMV marketplace ','Marketplace GMV for ')+mkLabel(gmvMk.value)+L(' tersimpan. Lihat baris Total GMV All Marketplace pada tabel MoM.',' saved. See the Total GMV All Marketplace row in the MoM table.'));
+    uiToast(L('GMV marketplace ','Marketplace GMV for ')+mkLabel(gmvSelMk)+L(' tersimpan. Lihat baris Total GMV All Marketplace pada tabel MoM.',' saved. See the Total GMV All Marketplace row in the MoM table.'));
   };
   document.getElementById('clrMonth').onclick=async()=>{
-    const mk=maskSel.value;
+    const mk=maskMk;
     if(!await uiConfirm(L('Hapus data unggahan ','Delete uploads for ')+mkLabel(mk)+'?',
       L('Overlay, produk, dan video bulan ini akan dihapus.','This month\'s overlay, products, and videos will be removed.'),
       L('Hapus','Delete'),L('Batal','Cancel')))return;
@@ -2369,7 +2442,7 @@ function renderCreators(){
 /* =================== CHATBOT ASISTEN ANALISIS =================== */
 function chatTexts(){
   document.getElementById('chatTitle').textContent=L('Asisten Analisis','Analysis Assistant');
-  document.getElementById('chatSub').textContent=L('Iklan · Produk · Kreator','Ads · Products · Creators');
+  document.getElementById('chatSub').textContent=L('Iklan · Produk · Kreator','Ads · Products · Creators')+(chatAiAvailable()?' · AI':L(' · mesin lokal',' · local engine'));
   document.getElementById('chatIn').placeholder=L('Tulis pertanyaan…','Type a question…');
 }
 const CHAT_CHIPS=()=>[
@@ -2384,6 +2457,55 @@ function chatChipsRender(){
   const el=document.getElementById('chatChips');
   el.innerHTML=CHAT_CHIPS().map(c=>`<button type="button">${esc(c)}</button>`).join('');
   el.querySelectorAll('button').forEach(b=>b.onclick=()=>chatAsk(b.textContent));
+}
+/* ---- mode AI: window.claude.complete (artifact ber-AI) atau kunci API Anthropic ---- */
+const LS_KEY='smoAdsAnthKey';
+let chatHist=[], chatNotified=false;
+const chatAiAvailable=()=>!!(window.claude&&window.claude.complete)||!!store.get(LS_KEY,'');
+function chatContext(){
+  const st=ovStats(isoOf(LATEST,1),LATEST_LAST_ISO(),'all');
+  const chm=SALES_DEF.filter(c=>!HIDDEN_CH.has(c.id)).map(c=>chMonth(c.id,LATEST)).filter(c=>c.tot.cost>0||c.tot.gmv>0);
+  ALERTS=computeAlerts();
+  const pm=prevMonthKey(LATEST), pms=momStatsFor(pm,'all');
+  const PI=prodInsights(), KI=creatorInsights();
+  const ln=[];
+  ln.push(`${mkLabel(LATEST)} MTD (hari 1-${GLOBAL_LAST}): spend ${fmtRpC(st.spend)} (penjualan ${fmtRpC(st.spendSales)}, branding ${fmtRpC(st.spendUpper)}), GMV ${fmtRpC(st.gmv)}, ROAS ${fmtX(st.roas)}, pesanan ${fmtN(st.orders)}, CPO ${fmtRpC(st.cpo)}, AOV ${fmtRpC(st.aov)}, CTR ${fmtPct(st.ctr)}, CTOR ${fmtPct(st.ctor)}`);
+  if(pms)ln.push(`${mkLabel(pm)} (bulan penuh): spend ${fmtRpC(pms.spend)}, GMV ${fmtRpC(pms.gmv)}, ROAS ${fmtX(pms.roas)}, pesanan ${fmtN(pms.orders)}`);
+  ln.push('Channel MTD (nama | platform | spend | GMV | ROAS | target ROAS):');
+  for(const c of chm)ln.push(`- ${chName(c.id)} | ${c.platform} | ${fmtRpC(c.tot.cost)} | ${fmtRpC(c.tot.gmv)} | ${c.roas?fmtX(c.roas):'-'} | ${nf0.format(targets[c.id]||8)}`);
+  const act=ALERTS.alerts.filter(a=>a.sev!=='info');
+  if(act.length){ln.push('Peringatan aktif:');act.slice(0,10).forEach(a=>ln.push(`- [${a.sev}] ${chName(a.ch.id)}: ${a.title}. Langkah pertama: ${(a.actions||[])[0]||'-'}`));}
+  if(ALERTS.opps.length){ln.push('Peluang peningkatan anggaran:');ALERTS.opps.forEach(o=>ln.push(`- ${chName(o.ch.id)}: ${o.title}`));}
+  if(PI){ln.push(`Produk ${mkLabel(PI.mk)} (${PI.n} produk, nilai ${fmtRpC(PI.tot)}, ROI ${PI.roi?fmtRoi(PI.roi):'-'}), teratas: `+PI.top.map(x=>`${shortName(x.name)} ${fmtRpC(x.val)} (ROI ${x.roi?fmtRoi(x.roi):'-'})`).join('; '));
+    if(PI.low.length)ln.push('Produk ROI rendah: '+PI.low.map(x=>`${shortName(x.name)} biaya ${fmtRpC(x.cost)} ROI ${x.roi==null?'-':fmtRoi(x.roi)}`).join('; '));}
+  if(KI)ln.push(`Kreator ${mkLabel(KI.mk)} teratas: `+KI.top.map(x=>`${x.creator} ${fmtRpC(x.val)} (${x.vids.size} video, ROI ${x.roi?fmtRoi(x.roi):'-'})`).join('; '));
+  return ln.join('\n');
+}
+function chatSystem(){
+  return L(
+'Anda adalah Asisten Analisis dashboard iklan Sophie Martin Official (merek fashion Indonesia: tas, jam tangan, dompet) yang beriklan di TikTok (GMV Max Live & Product), Shopee, Meta CPAS, dan Lazada. Jawab dalam bahasa Indonesia yang formal, ringkas, dan langsung ke inti. Gunakan HANYA angka dari data di bawah; jangan mengarang angka. Bila ditanya rekomendasi, beri langkah konkret sesuai praktik iklan e-commerce. Tulis teks polos tanpa markdown; butir memakai tanda "-". Jangan memakai tanda pisah panjang.',
+'You are the Analysis Assistant for the Sophie Martin Official ads dashboard (an Indonesian fashion brand: bags, watches, wallets) advertising on TikTok (GMV Max Live & Product), Shopee, Meta CPAS, and Lazada. Reply in concise, formal English. Use ONLY the figures from the data below; never invent numbers. When asked for recommendations, give concrete steps aligned with e-commerce advertising practice. Plain text without markdown; bullets use "-".');
+}
+async function chatLLM(q){
+  const sys=chatSystem(), ctx=chatContext();
+  if(window.claude&&window.claude.complete){
+    const prompt=`${sys}\n\n=== DATA DASHBOARD (fakta) ===\n${ctx}\n\n=== PERCAKAPAN ===\n${chatHist.slice(-8).map(m=>(m.role==='user'?'Pengguna: ':'Asisten: ')+m.content).join('\n')}\nPengguna: ${q}\nAsisten:`;
+    const r=await window.claude.complete(prompt);
+    return typeof r==='string'?r:(r&&(r.completion||r.text))||String(r);
+  }
+  const key=store.get(LS_KEY,'');
+  if(key){
+    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',
+      headers:{'content-type':'application/json','x-api-key':key,
+        'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-sonnet-5',max_tokens:700,
+        system:sys+'\n\n=== DATA DASHBOARD (fakta) ===\n'+ctx,
+        messages:[...chatHist.slice(-8),{role:'user',content:q}]})});
+    if(!res.ok)throw new Error('API '+res.status);
+    const j=await res.json();
+    return (j.content||[]).map(b=>b.text||'').join('').trim();
+  }
+  return null;
 }
 function chatPush(who,html){
   const body=document.getElementById('chatBody');
@@ -2498,12 +2620,31 @@ function botReply(q0){
   return L('Saya dapat membantu analisis iklan, produk, dan kreator. Contoh pertanyaan:\n• Bagaimana performa bulan ini?\n• ROAS channel mana yang di bawah target?\n• Ringkasan TikTok / Shopee / Meta / Lazada\n• Produk apa yang terlaris? Kreator terbaik?\n• Bandingkan dengan bulan lalu\n• Bagaimana pacing anggaran?',
     'I can help analyze ads, products, and creators. Example questions:\n• How is this month performing?\n• Which channel ROAS is below target?\n• TikTok / Shopee / Meta / Lazada summary\n• Which products sell best? Top creators?\n• Compare with last month\n• How is budget pacing?');
 }
-function chatAsk(q){
+async function chatAsk(q){
   q=String(q||'').trim();
   if(!q)return;
   chatPush('user',q);
+  chatHist.push({role:'user',content:q});
   document.getElementById('chatIn').value='';
-  setTimeout(()=>chatPush('bot',botReply(q)),140);
+  const body=document.getElementById('chatBody');
+  const tp=document.createElement('div');tp.className='msg bot typing';tp.innerHTML='<i></i><i></i><i></i>';
+  body.appendChild(tp);body.scrollTop=body.scrollHeight;
+  const t0=Date.now();
+  let ans=null,viaAI=false;
+  try{ans=await chatLLM(q);viaAI=ans!=null&&String(ans).trim()!=='';}catch(e){ans=null;}
+  const wait=380-(Date.now()-t0);
+  if(wait>0)await new Promise(r=>setTimeout(r,wait));
+  tp.remove();
+  if(!viaAI){
+    ans=botReply(q);
+    if(!chatAiAvailable()&&!chatNotified){
+      chatNotified=true;
+      ans+='\n\n'+L('Catatan: jawaban di atas dari mesin analisis lokal. Untuk jawaban AI yang memahami konteks bebas, buka dashboard sebagai file HTML lalu tekan ikon ⚙ di kepala chat dan masukkan kunci API Anthropic.','Note: the answer above comes from the local analysis engine. For AI answers with free-form context, open the dashboard as an HTML file, press the ⚙ icon in the chat header, and enter an Anthropic API key.');
+    }
+  }
+  chatHist.push({role:'assistant',content:String(ans).replace(/<[^>]+>/g,'')});
+  if(chatHist.length>20)chatHist=chatHist.slice(-20);
+  chatPush('bot',viaAI?esc(ans):ans);
 }
 let chatGreeted=false;
 function chatOpen(open){
@@ -2620,6 +2761,17 @@ function boot(){
   };
   /* chatbot */
   document.getElementById('chatFab').onclick=()=>chatOpen(!document.getElementById('chatPanel').classList.contains('open'));
+  document.getElementById('chatCfg').onclick=async()=>{
+    if(window.claude&&window.claude.complete){
+      uiToast(L('Mode AI sudah aktif melalui lingkungan artifact.','AI mode is already active through the artifact environment.'));return;
+    }
+    const v=await uiPrompt({title:L('Mode AI Chatbot','Chatbot AI Mode'),
+      label:L('Tempel kunci API Anthropic (sk-ant-...) agar chatbot dijawab Claude dengan konteks data dashboard. Kunci hanya disimpan di browser ini dan dipakai langsung ke api.anthropic.com. Kosongkan lalu Simpan untuk menonaktifkan.','Paste an Anthropic API key (sk-ant-...) so the chatbot is answered by Claude with dashboard data context. The key is stored only in this browser and used directly against api.anthropic.com. Clear and Save to disable.'),
+      value:store.get(LS_KEY,''),ok:L('Simpan','Save'),cancel:L('Batal','Cancel')});
+    if(v===null)return;
+    store.set(LS_KEY,v.trim());chatTexts();
+    uiToast(v.trim()?L('Mode AI aktif.','AI mode enabled.'):L('Mode AI dimatikan; memakai mesin lokal.','AI mode disabled; using the local engine.'));
+  };
   document.getElementById('chatClose').onclick=()=>chatOpen(false);
   document.getElementById('chatSend').onclick=()=>chatAsk(document.getElementById('chatIn').value);
   document.getElementById('chatIn').onkeydown=e=>{if(e.key==='Enter')chatAsk(e.target.value);};
