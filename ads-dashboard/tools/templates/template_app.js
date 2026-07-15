@@ -2483,12 +2483,13 @@ function chatTexts(){
   document.getElementById('chatIn').placeholder=L('Tulis pertanyaan…','Type a question…');
 }
 const CHAT_CHIPS=()=>[
+  L('Tanggal berapa yang belum diinput?','Which dates are not input yet?'),
+  L('Kenapa sales turun?','Why did sales drop?'),
+  L('Channel mana yang turun minggu ini?','Which channels declined this week?'),
+  L('Produk apa yang menurun?','Which products are declining?'),
+  L('Kreator mana yang naik?','Which creators are rising?'),
   L('Bagaimana performa bulan ini?','How is this month performing?'),
-  L('Channel mana yang bermasalah?','Which channels have issues?'),
-  L('Apa peluang peningkatan anggaran?','Any budget scale up opportunities?'),
-  L('Produk apa yang terlaris?','Which products sell best?'),
-  L('Siapa kreator terbaik?','Who are the top creators?'),
-  L('Ringkasan Shopee','Shopee summary'),
+  L('Apa peluang peningkatan anggaran?','Any scale up opportunities?'),
 ];
 function chatChipsRender(){
   const el=document.getElementById('chatChips');
@@ -2516,6 +2517,12 @@ function chatContext(){
   if(PI){ln.push(`Produk ${mkLabel(PI.mk)} (${PI.n} produk, nilai ${fmtRpC(PI.tot)}, ROI ${PI.roi?fmtRoi(PI.roi):'-'}), teratas: `+PI.top.map(x=>`${shortName(x.name)} ${fmtRpC(x.val)} (ROI ${x.roi?fmtRoi(x.roi):'-'})`).join('; '));
     if(PI.low.length)ln.push('Produk ROI rendah: '+PI.low.map(x=>`${shortName(x.name)} biaya ${fmtRpC(x.cost)} ROI ${x.roi==null?'-':fmtRoi(x.roi)}`).join('; '));}
   if(KI)ln.push(`Kreator ${mkLabel(KI.mk)} teratas: `+KI.top.map(x=>`${x.creator} ${fmtRpC(x.val)} (${x.vids.size} video, ROI ${x.roi?fmtRoi(x.roi):'-'})`).join('; '));
+  const cov=dataCoverage();
+  const beh=cov.rows.filter(r=>r.behind>0);
+  ln.push('Kelengkapan data (hari terisi menyeluruh: '+cov.last+'): '+(beh.length?'channel tertinggal '+beh.map(r=>chName(r.c.id)+' (terakhir hari '+r.lastDay+')').join('; '):'semua channel aktif lengkap sampai hari '+cov.last));
+  const ct=channelTrendData(SALES_DEF.filter(c=>!HIDDEN_CH.has(c.id)));
+  if(ct.down.length)ln.push('Channel GMV menurun 7 hari terakhir vs sebelumnya: '+ct.down.slice(0,6).map(r=>chName(r.c.id)+' '+trFmt(r.dG)+' (ROAS '+trFmt(r.dR)+')').join('; '));
+  if(ct.up.length)ln.push('Channel GMV meningkat: '+ct.up.slice(0,6).map(r=>chName(r.c.id)+' '+trFmt(r.dG)).join('; '));
   return ln.join('\n');
 }
 function chatSystem(){
@@ -2553,11 +2560,173 @@ function chatPush(who,html){
   body.scrollTop=body.scrollHeight;
 }
 function chLine(c){return `• <b>${esc(chName(c.id))}</b> (${PLATFORMS[c.platform].name}): ROAS ${fmtX(c.roas)} · spend ${fmtRpC(c.tot.cost)} · GMV ${fmtRpC(c.tot.gmv)}`;}
+/* =========== ANALISIS LANJUTAN CHATBOT (mesin lokal) =========== */
+/* jendela tren: 7 hari terakhir vs 7 hari sebelumnya */
+function trendWindows(){
+  const end=LATEST_LAST_ISO();
+  const curFrom=clampIso(isoShift(end,-6)),curTo=end;
+  const prevTo=clampIso(isoShift(curFrom,-1)),prevFrom=clampIso(isoShift(prevTo,-6));
+  return {curFrom,curTo,prevFrom,prevTo};
+}
+const trFmt=d=>d==null?'–':(d>=0?'▲':'▼')+' '+nf1.format(Math.abs(d))+'%';
+const pctD=(a,b)=>a?100*(b-a)/a:null;
+
+/* --- kelengkapan data per channel per tanggal --- */
+function dataCoverage(){
+  const last=GLOBAL_LAST, ms=monthSeries(LATEST);
+  const rows=[];
+  for(const c of CH_DEF){
+    if(HIDDEN_CH.has(c.id))continue;
+    const d=ms[c.id]||{};
+    const hasDay=day=>{const i=day-1;return ((d.cost||[])[i]||0)>0||((d.gmv||[])[i]||0)>0||((d.clicks||[])[i]||0)>0||((d.impressions||[])[i]||0)>0||((d.orders||[])[i]||0)>0||((d.liveViews||[])[i]||0)>0;};
+    let lastDay=0;for(let day=1;day<=last;day++)if(hasDay(day))lastDay=day;
+    if(lastDay===0)continue;
+    const missing=[];for(let day=1;day<=lastDay;day++)if(!hasDay(day))missing.push(day);
+    rows.push({c,lastDay,missing,behind:last-lastDay});
+  }
+  return {last,rows};
+}
+function coverageReply(){
+  const {last,rows}=dataCoverage();
+  if(!rows.length)return L('Belum ada channel dengan data pada '+mkLabel(LATEST)+'. Silakan unggah raw data di tab Unggah.','No channel has data in '+mkLabel(LATEST)+' yet. Please upload raw data on the Upload tab.');
+  const behind=rows.filter(r=>r.behind>0).sort((a,b)=>b.behind-a.behind);
+  const gaps=rows.filter(r=>r.missing.length);
+  const dayList=days=>days.map(dd=>isoLabel(isoOf(LATEST,dd))).join(', ');
+  let out=`<b>${L('Kelengkapan data','Data completeness')} · ${mkLabel(LATEST)}</b>\n`+
+    L(`Data terbaru menyeluruh mencapai ${isoLabelY(isoOf(LATEST,last))} (hari ke-${last}).`,`Latest data across channels reaches ${isoLabelY(isoOf(LATEST,last))} (day ${last}).`)+'\n';
+  if(behind.length)out+='\n'+L(`Channel yang belum sampai hari ${last}:`,`Channels not yet at day ${last}:`)+'\n'+
+    behind.map(r=>`• <b>${esc(chName(r.c.id))}</b>: ${L('terakhir','last')} ${isoLabel(isoOf(LATEST,r.lastDay))} · ${L('belum diinput','not input')} ${dayList(Array.from({length:last-r.lastDay},(_,i)=>r.lastDay+1+i))}`).join('\n');
+  if(gaps.length)out+='\n\n'+L('Ada tanggal kosong di tengah:','Gaps in the middle:')+'\n'+
+    gaps.map(r=>`• <b>${esc(chName(r.c.id))}</b>: ${dayList(r.missing)}`).join('\n');
+  if(!behind.length&&!gaps.length)out+='\n'+L(`Semua channel aktif sudah terisi lengkap sampai hari ${last} ✓`,`All active channels are complete through day ${last} ✓`);
+  out+='\n\n'+L('Catatan: channel yang memang tidak beriklan pada suatu hari terbaca "belum diinput" karena nilainya nol. Abaikan bila channel itu memang tidak jalan hari itu.','Note: a channel that genuinely did not run on a day reads as "not input" because its value is zero. Ignore if it truly was inactive that day.');
+  return out;
+}
+
+/* --- tren channel (naik/turun GMV & ROAS) --- */
+function channelTrendData(defs){
+  const w=trendWindows();
+  const rows=[];
+  for(const c of defs){
+    const a=statsRange([c.id],w.prevFrom,w.prevTo),b=statsRange([c.id],w.curFrom,w.curTo);
+    if(!a.gmv&&!b.gmv&&!a.cost&&!b.cost)continue;
+    rows.push({c,a,b,dG:pctD(a.gmv,b.gmv),dR:pctD(a.roas,b.roas)});
+  }
+  const down=rows.filter(r=>r.dG!=null&&r.dG<=-15).sort((a,b)=>a.dG-b.dG);
+  const up=rows.filter(r=>r.dG!=null&&r.dG>=15).sort((a,b)=>b.dG-a.dG);
+  return {w,rows,down,up};
+}
+function channelTrendReply(q){
+  let defs=SALES_DEF.filter(c=>!HIDDEN_CH.has(c.id));
+  let scope='';
+  for(const p in PLATFORMS)if(q&&q.includes(p)){defs=defs.filter(c=>c.platform===p);scope=' · '+PLATFORMS[p].name;}
+  const {w,down,up}=channelTrendData(defs);
+  const line=r=>`<b>${esc(chName(r.c.id))}</b>: GMV ${trFmt(r.dG)} (${fmtRpC(r.a.gmv)}→${fmtRpC(r.b.gmv)}) · ROAS ${trFmt(r.dR)}`;
+  let out=`<b>${L('Tren channel','Channel trend')}${scope}</b>\n`+
+    L(`7 hari terakhir (${isoLabel(w.curFrom)}–${isoLabel(w.curTo)}) vs sebelumnya (${isoLabel(w.prevFrom)}–${isoLabel(w.prevTo)})`,`Last 7 days (${isoLabel(w.curFrom)}–${isoLabel(w.curTo)}) vs prior (${isoLabel(w.prevFrom)}–${isoLabel(w.prevTo)})`)+'\n';
+  if(down.length)out+='\n'+L('Menurun:','Declining:')+'\n'+down.slice(0,5).map(r=>'▼ '+line(r)).join('\n');
+  if(up.length)out+='\n\n'+L('Meningkat:','Rising:')+'\n'+up.slice(0,5).map(r=>'▲ '+line(r)).join('\n');
+  if(!down.length&&!up.length)out+='\n'+L('Tidak ada perubahan GMV signifikan (±15%) pada channel.','No significant GMV change (±15%) across channels.');
+  return out;
+}
+
+/* --- tren produk --- */
+function prodAggRange(from,to){
+  const all=store.get(LS_P,[]).filter(r=>!LIVE_CH.has(r.chId))
+    .filter(r=>['tiktok','shopee'].includes(chDef(r.chId)?.platform)).map(resolveProdName)
+    .filter(r=>r.iso>=from&&r.iso<=to);
+  return prodAgg(all);
+}
+function prodTrendReply(){
+  const w=trendWindows();
+  const cur=prodAggRange(w.curFrom,w.curTo), prev=prodAggRange(w.prevFrom,w.prevTo);
+  if(!cur.length&&!prev.length)return L('Belum ada data produk untuk membandingkan tren. Unggah raw produk lebih dari satu hari dulu.','No product data to compare trends yet. Upload more than one day of product data first.');
+  const pmap={};prev.forEach(x=>pmap[canonKey(x.name)]=x);
+  const rows=cur.map(x=>{const p=pmap[canonKey(x.name)];const pv=p?p.val:0;return {x,pv,d:pctD(pv,x.val)};});
+  const down=rows.filter(r=>r.d!=null&&r.d<=-20&&r.pv>200000).sort((a,b)=>a.d-b.d);
+  const up=rows.filter(r=>r.d!=null&&r.d>=20&&r.x.val>200000).sort((a,b)=>b.d-a.d);
+  let out=`<b>${L('Tren produk','Product trend')}</b>\n`+L(`Nilai 7 hari terakhir vs sebelumnya`,`Value last 7 days vs prior`)+'\n';
+  if(down.length)out+='\n'+L('Menurun:','Declining:')+'\n'+down.slice(0,6).map(r=>`▼ <b>${esc(shortName(r.x.name))}</b>: ${trFmt(r.d)} (${fmtRpC(r.pv)}→${fmtRpC(r.x.val)})`).join('\n');
+  if(up.length)out+='\n\n'+L('Meningkat:','Rising:')+'\n'+up.slice(0,6).map(r=>`▲ <b>${esc(shortName(r.x.name))}</b>: ${trFmt(r.d)} (${fmtRpC(r.pv)}→${fmtRpC(r.x.val)})`).join('\n');
+  if(!down.length&&!up.length)out+='\n'+L('Tidak ada produk dengan perubahan nilai signifikan (±20%).','No product with a significant value change (±20%).');
+  return out;
+}
+
+/* --- tren kreator --- */
+function creatorAggRange(from,to){
+  const rows=store.get(LS_V,[]).filter(r=>r.iso>=from&&r.iso<=to);
+  const by={};
+  for(const r of rows){const o=by[r.creator]??={creator:r.creator,qty:0,val:0,cost:0,imp:0,clk:0,vids:new Set()};
+    o.qty+=r.qty||0;o.val+=r.val||0;o.cost+=r.cost||0;o.imp+=r.imp||0;o.clk+=r.clk||0;o.vids.add(r.vid||r.title);}
+  return Object.values(by).map(o=>{o.ord=o.qty;return derive(o);});
+}
+function creatorTrendReply(){
+  const w=trendWindows();
+  const cur=creatorAggRange(w.curFrom,w.curTo), prev=creatorAggRange(w.prevFrom,w.prevTo);
+  if(!cur.length&&!prev.length)return L('Belum ada data kreator untuk membandingkan tren.','No creator data to compare trends yet.');
+  const pmap={};prev.forEach(x=>pmap[x.creator]=x);
+  const rows=cur.map(x=>{const p=pmap[x.creator];const pv=p?p.val:0;return {x,pv,d:pctD(pv,x.val)};});
+  const down=rows.filter(r=>r.d!=null&&r.d<=-20&&r.pv>150000).sort((a,b)=>a.d-b.d);
+  const up=rows.filter(r=>r.d!=null&&r.d>=20&&r.x.val>150000).sort((a,b)=>b.d-a.d);
+  let out=`<b>${L('Tren kreator','Creator trend')}</b>\n`+L('Nilai 7 hari terakhir vs sebelumnya','Value last 7 days vs prior')+'\n';
+  if(down.length)out+='\n'+L('Menurun:','Declining:')+'\n'+down.slice(0,6).map(r=>`▼ <b>${esc(r.x.creator)}</b>: ${trFmt(r.d)} (${fmtRpC(r.pv)}→${fmtRpC(r.x.val)})`).join('\n');
+  if(up.length)out+='\n\n'+L('Meningkat:','Rising:')+'\n'+up.slice(0,6).map(r=>`▲ <b>${esc(r.x.creator)}</b>: ${trFmt(r.d)} (${fmtRpC(r.pv)}→${fmtRpC(r.x.val)})`).join('\n');
+  if(!down.length&&!up.length)out+='\n'+L('Tidak ada kreator dengan perubahan nilai signifikan (±20%).','No creator with a significant value change (±20%).');
+  return out;
+}
+
+/* --- diagnosis penyebab sales turun --- */
+function driverReply(q){
+  const w=trendWindows();
+  let defs=SALES_DEF.filter(c=>!HIDDEN_CH.has(c.id));
+  for(const p in PLATFORMS)if(q&&q.includes(p))defs=defs.filter(c=>c.platform===p);
+  const A=statsRange(defs.map(c=>c.id),w.prevFrom,w.prevTo), B=statsRange(defs.map(c=>c.id),w.curFrom,w.curTo);
+  const dG=pctD(A.gmv,B.gmv);
+  const rows=[];
+  for(const c of defs){const a=statsRange([c.id],w.prevFrom,w.prevTo),b=statsRange([c.id],w.curFrom,w.curTo);
+    if(a.gmv||b.gmv)rows.push({c,a,b,delta:b.gmv-a.gmv});}
+  const drops=rows.filter(r=>r.delta<0).sort((a,b)=>a.delta-b.delta).slice(0,4);
+  const gains=rows.filter(r=>r.delta>0).sort((a,b)=>b.delta-a.delta).slice(0,2);
+  const diag=r=>{
+    const dCost=pctD(r.a.cost,r.b.cost),dRoas=pctD(r.a.roas,r.b.roas),dCtor=pctD(r.a.ctor,r.b.ctor),dClk=pctD(r.a.clk,r.b.clk);
+    if(dCost!=null&&dCost<=-15)return L(`anggaran turun ${nf0.format(-dCost)}% (volume iklan berkurang)`,`spend down ${nf0.format(-dCost)}% (ad volume reduced)`);
+    if(dRoas!=null&&dRoas<=-15)return L(`efisiensi ROAS turun ${nf0.format(-dRoas)}% (biaya tetap, hasil turun)`,`ROAS efficiency down ${nf0.format(-dRoas)}% (spend held, returns fell)`);
+    if(dCtor!=null&&dCtor<=-15)return L(`konversi CTOR melemah ${nf0.format(-dCtor)}% (klik masuk tapi tidak jadi order)`,`CTOR conversion weakened ${nf0.format(-dCtor)}% (clicks arrive but do not convert)`);
+    if(dClk!=null&&dClk<=-15)return L(`trafik/klik turun ${nf0.format(-dClk)}%`,`traffic/clicks down ${nf0.format(-dClk)}%`);
+    return L('penurunan volume umum','general volume decline');
+  };
+  let out=`<b>${L('Diagnosis penjualan','Sales diagnosis')}</b>\n`+
+    L(`GMV 7 hari terakhir ${fmtRpC(B.gmv)} vs 7 hari sebelumnya ${fmtRpC(A.gmv)} (${trFmt(dG)}).`,`GMV last 7 days ${fmtRpC(B.gmv)} vs prior 7 days ${fmtRpC(A.gmv)} (${trFmt(dG)}).`)+'\n';
+  if(dG!=null&&dG>=0){
+    out+='\n'+L('GMV tidak turun pada periode ini.','GMV did not decline in this period.')+(gains.length?'\n'+L('Pendorong: ','Drivers: ')+gains.map(r=>esc(chName(r.c.id))+' +'+fmtRpC(r.delta)).join(', '):'');
+    return out;
+  }
+  if(drops.length)out+='\n'+L('Penyumbang penurunan terbesar:','Biggest contributors to the drop:')+'\n'+
+    drops.map(r=>`▼ <b>${esc(chName(r.c.id))}</b>: ${fmtRpC(r.a.gmv)}→${fmtRpC(r.b.gmv)} (${fmtRpC(r.delta)})\n   ${L('Penyebab','Cause')}: ${diag(r)}`).join('\n');
+  if(gains.length)out+='\n\n'+L('Yang menahan penurunan (naik): ','Offsetting (rose): ')+gains.map(r=>esc(chName(r.c.id))+' +'+fmtRpC(r.delta)).join(', ');
+  out+='\n\n'+L('Saran: prioritaskan channel penurun terbesar sesuai penyebabnya (kembalikan anggaran, rotasi materi bila ROAS turun, atau perbaiki halaman produk bila CTOR turun). Lihat tab Analisis untuk rencana tindakan lengkap.','Suggestion: prioritize the biggest decliners per their cause (restore budget, rotate creatives if ROAS fell, or fix the product page if CTOR fell). See the Analysis tab for full action plans.');
+  return out;
+}
+
 function botReply(q0){
   const q=String(q0||'').toLowerCase();
   const st=ovStats(isoOf(LATEST,1),LATEST_LAST_ISO(),'all');
   const chm=SALES_DEF.filter(c=>!HIDDEN_CH.has(c.id)).map(c=>chMonth(c.id,LATEST)).filter(c=>c.tot.cost>0||c.tot.gmv>0);
   const has=(...ws)=>ws.some(w=>q.includes(w));
+  const wantTrend=has('turun','naik','penurunan','kenaikan','menurun','meningkat','tren','trend','decline','increase','drop','rising','anjlok','melonjak');
+  const wantWhy=has('kenapa','mengapa','penyebab','why','cause','karena','apa yang menyebabkan');
+  /* 1. kelengkapan data / tanggal yang belum diinput */
+  if(has('belum diinput','belum input','belum saya input','yang belum','kelengkapan','sudah lengkap','belum lengkap','cek data','cek kelengkapan','tanggal berapa','data belum','kurang input','missing','tertinggal'))
+    return coverageReply();
+  /* 2. penyebab penjualan turun */
+  if(wantWhy&&has('sales','penjualan','gmv','roas','turun','drop','anjlok','omzet'))
+    return driverReply(q);
+  /* 3. tren naik/turun dengan subjek */
+  if(wantTrend){
+    if(has('produk','product'))return prodTrendReply();
+    if(has('kreator','creator','video','afiliator'))return creatorTrendReply();
+    return channelTrendReply(q);
+  }
   /* platform tertentu */
   for(const p in PLATFORMS){
     if(q.includes(p)){
@@ -2654,8 +2823,8 @@ function botReply(q0){
       (worst?`${L('Perlu perhatian','Needs attention')}: <b>${esc(chName(worst.id))}</b> (ROAS ${fmtX(worst.roas)})\n`:'')+
       `\n${n?L(`Ada ${n} temuan aktif dan ${ALERTS.opps.length} peluang. Tanyakan "channel bermasalah" untuk detail.`,`There are ${n} active findings and ${ALERTS.opps.length} opportunities. Ask "which channels have issues" for detail.`):L('Tidak ada peringatan aktif ✓','No active warnings ✓')}`;
   }
-  return L('Saya dapat membantu analisis iklan, produk, dan kreator. Contoh pertanyaan:\n• Bagaimana performa bulan ini?\n• ROAS channel mana yang di bawah target?\n• Ringkasan TikTok / Shopee / Meta / Lazada\n• Produk apa yang terlaris? Kreator terbaik?\n• Bandingkan dengan bulan lalu\n• Bagaimana pacing anggaran?',
-    'I can help analyze ads, products, and creators. Example questions:\n• How is this month performing?\n• Which channel ROAS is below target?\n• TikTok / Shopee / Meta / Lazada summary\n• Which products sell best? Top creators?\n• Compare with last month\n• How is budget pacing?');
+  return L('Saya teman analisis Anda. Contoh yang bisa ditanyakan:\n• Tanggal berapa yang belum saya input?\n• Kenapa sales turun? (diagnosis penyebab)\n• Channel / produk / kreator mana yang turun atau naik?\n• Ringkasan TikTok / Shopee / Meta / Lazada\n• ROAS di bawah target, peluang scale up, pacing anggaran\n• Bandingkan dengan bulan lalu',
+    'I am your analysis companion. You can ask, for example:\n• Which dates have I not input yet?\n• Why did sales drop? (root-cause diagnosis)\n• Which channels / products / creators are up or down?\n• TikTok / Shopee / Meta / Lazada summary\n• ROAS below target, scale up opportunities, budget pacing\n• Compare with last month');
 }
 async function chatAsk(q){
   q=String(q||'').trim();
