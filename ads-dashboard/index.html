@@ -2823,8 +2823,14 @@ function renderUpload(){
     uiToast(ok?L('Tersalin. Buka tab "'+genData.name+'" di Google Sheet, pilih sel awal, lalu tempel (Ctrl+V).','Copied. Open the "'+genData.name+'" tab in Google Sheets, select the starting cell, then paste (Ctrl+V).')
       :L('Salin diblokir browser. Gunakan Unduh CSV.','Copying was blocked by the browser. Use Download CSV.'));
   };
-  document.getElementById('genCsv').onclick=()=>{
+  document.getElementById('genCsv').onclick=async()=>{
     if(!genData)return;
+    if(IN_ARTIFACT){
+      const ok=await copyTsv(genTsv(genData));
+      uiToast(ok?L('Unduhan diblokir di artifact; tabel disalin ke clipboard, tempel langsung ke Google Sheet.','Downloads are blocked on the artifact; the table was copied to the clipboard, paste it straight into Google Sheets.')
+        :L('Unduhan dan clipboard diblokir. Gunakan file HTML mandiri.','Both download and clipboard are blocked. Use the standalone HTML file.'));
+      return;
+    }
     const a=document.createElement('a');
     a.href=URL.createObjectURL(new Blob(['\ufeff'+genCsvText(genData)],{type:'text/csv'}));
     a.download=genData.name.replace(/\s+/g,'_')+'.csv';a.click();
@@ -2864,13 +2870,27 @@ function renderUpload(){
       store.set(LS_O,overlay);location.reload();
     };
   };
-  document.getElementById('expTeam').onclick=()=>{
+  document.getElementById('expTeam').onclick=async()=>{
+    if(IN_ARTIFACT){
+      const ok=await copyTsv(JSON.stringify(currentBake()));
+      await uiAlert(L('Unduhan diblokir di halaman artifact','Downloads are blocked on the artifact page'),
+        ok?L('Sebagai gantinya, seluruh data unggahan Anda sudah DISALIN ke clipboard. Buka chat Claude, tempel (Cmd+V / Ctrl+V), lalu tulis "update untuk tim". Claude akan memasukkan data ini dan menerbitkan ulang artifact untuk semua orang. Unduhan file hanya tersedia bila dashboard dibuka sebagai file HTML biasa.','Instead, all of your uploaded data has been COPIED to the clipboard. Open the Claude chat, paste (Cmd+V / Ctrl+V), then write "update for the team". Claude will merge this data and republish the artifact for everyone. File downloads are only available when the dashboard is opened as a regular HTML file.')
+          :L('Penyalinan ke clipboard juga ditolak browser. Gunakan file HTML mandiri (bukan artifact) untuk melakukan ekspor.','Clipboard copy was also refused by the browser. Use the standalone HTML file (not the artifact) to export.'),
+        'OK');
+      return;
+    }
     exportTeamHtml();
-    uiToast(L('File HTML dibuat. Bagikan ke tim lewat WhatsApp, email, atau Google Drive.','HTML file created. Share it with your team via WhatsApp, email, or Google Drive.'));
+    uiToast(L('File HTML diunduh. Bagikan ke tim lewat WhatsApp, email, atau Google Drive.','HTML file downloaded. Share it with your team via WhatsApp, email, or Google Drive.'));
   };
-  document.getElementById('expJson').onclick=()=>{
+  document.getElementById('expJson').onclick=async()=>{
     const out={meta:RAW.meta,exportedAt:new Date().toISOString(),
       months:Object.fromEntries(MONTH_KEYS.map(mk=>[mk,{days:mkDays(mk),series:monthSeries(mk)}]))};
+    if(IN_ARTIFACT){
+      const ok=await copyTsv(JSON.stringify(out));
+      uiToast(ok?L('Unduhan diblokir di artifact; JSON disalin ke clipboard.','Downloads are blocked on the artifact; JSON copied to the clipboard.')
+        :L('Unduhan dan clipboard diblokir. Gunakan file HTML mandiri.','Both download and clipboard are blocked. Use the standalone HTML file.'));
+      return;
+    }
     const a=document.createElement('a');
     a.href=URL.createObjectURL(new Blob([JSON.stringify(out)],{type:'application/json'}));
     a.download='ads-database-2025-2026.json';a.click();
@@ -3362,11 +3382,26 @@ function nav(){
 }
 /* snapshot HTML bersih (sebelum #view diisi) untuk ekspor file mandiri */
 let PRISTINE_HTML='';
-function exportTeamHtml(){
-  const bake={ stamp:new Date().toISOString(),
+/* halaman artifact claude.ai berjalan dalam iframe sandbox yang memblokir unduhan;
+   di lingkungan itu ekspor beralih ke clipboard */
+const IN_ARTIFACT=(()=>{try{return window.self!==window.top}catch(e){return true}})();
+function currentBake(){
+  return { stamp:new Date().toISOString(), origin:IN_ARTIFACT?'artifact':'file',
     keys:{ [LS_O]:overlay, [LS_P]:prodStore, [LS_V]:vidStore, [LS_PN]:prodNames,
       [LS_B]:budgetOv, [LS_GMVMP]:gmvMpOv, [LS_T]:targets, [LS_MASK]:maskMonths } };
-  const json=JSON.stringify(bake).replace(/<\//g,'<\\/');
+}
+function uiAlert(title,msg,ok){
+  return new Promise(res=>{
+    modalBox.innerHTML=`<h4>${title}</h4>${msg?`<p>${msg}</p>`:''}
+      <div class="row"><button class="btn" id="mOk">${ok||'OK'}</button></div>`;
+    modalWrap.classList.add('open');
+    const done=()=>{modalWrap.classList.remove('open');res(true);};
+    document.getElementById('mOk').onclick=done;
+    modalWrap.onclick=e=>{if(e.target===modalWrap)done();};
+  });
+}
+function exportTeamHtml(){
+  const json=JSON.stringify(currentBake()).replace(/<\//g,'<\\/');
   const html=PRISTINE_HTML.replace(/(<script id="BAKED_STATE"[^>]*>)[\s\S]*?(<\/script>)/,
     (m,a,b)=>a+json+b);
   const a=document.createElement('a');
