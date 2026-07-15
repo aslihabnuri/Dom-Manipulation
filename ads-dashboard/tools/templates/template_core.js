@@ -67,6 +67,18 @@ const store = {
   get(k,d){ try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d} },
   set(k,v){ try{localStorage.setItem(k,JSON.stringify(v))}catch(e){} },
 };
+/* data yang di-"bake" ke dalam file HTML ekspor (mode satu operator):
+   sekali per stamp, isi localStorage dari snapshot supaya tim melihat data
+   yang sama tanpa server. Tidak menimpa berulang kali (menjaga eksplorasi tim). */
+(function seedBaked(){
+  let B=null; try{B=JSON.parse((document.getElementById('BAKED_STATE')||{}).textContent||'null')}catch(e){}
+  if(!B||!B.keys)return;
+  const flag='smoAdsBaked_'+(B.stamp||'x');
+  try{ if(localStorage.getItem(flag))return;
+    for(const k in B.keys) localStorage.setItem(k, JSON.stringify(B.keys[k]));
+    localStorage.setItem(flag,'1');
+  }catch(e){}
+})();
 let targets = Object.assign({}, DEFAULT_TARGETS, store.get(LS_T,{}));
 /* bulan yang "dikosongkan": data dasar sheet diabaikan, hanya pakai upload (overlay).
    Reversible — matikan lagi dari tab Upload untuk kembali ke data sheet. */

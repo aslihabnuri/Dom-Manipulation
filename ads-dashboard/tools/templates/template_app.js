@@ -1861,9 +1861,11 @@ function renderUpload(){
         <tbody>${ovEntries.sort((a,b)=>a.cid.localeCompare(b.cid)||a.iso.localeCompare(b.iso)).slice(0,300).map(e=>`<tr><td>${esc(chName(e.cid)||e.cid)}</td><td>${e.m}</td><td class="num">${isoLabelY(e.iso)}</td><td class="num">${['cost','gmv','atcValue'].includes(e.m)?fmtRp(e.v):fmtN(e.v)}</td></tr>`).join('')}</tbody></table></div>`:
         `<div class="empty">${L('Belum ada data unggahan. Dashboard memakai data dasar dari Google Sheet.','No uploaded data yet. The dashboard uses the base data from the Google Sheet.')}</div>`}
       <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
-        <button class="btn ghost" id="expJson">⬇ ${L('Ekspor JSON gabungan','Export combined JSON')}</button>
+        <button class="btn" id="expTeam">⬇ ${L('Ekspor HTML untuk tim','Export HTML for the team')}</button>
+        <button class="btn ghost" id="expJson">${L('Ekspor JSON','Export JSON')}</button>
         ${ovEntries.length?`<button class="btn ghost" id="clrOv" style="color:var(--critical)">${L('Hapus semua','Delete all')}</button>`:''}
       </div>
+      <p class="note" style="margin-top:8px">${L('Alur satu operator: Anda mengunggah semua data di perangkat ini, lalu tekan Ekspor HTML untuk tim. File yang dihasilkan sudah memuat seluruh data upload, jadi tim cukup membukanya untuk melihat angka yang sama tanpa perlu server.','One operator workflow: you upload all data on this device, then press Export HTML for the team. The generated file already contains all uploaded data, so the team just opens it to see the same figures with no server needed.')}</p>
     </div>
   </div>
   <div class="card" style="margin-top:12px">
@@ -2050,6 +2052,10 @@ function renderUpload(){
       applyEntries(entries);
       store.set(LS_O,overlay);location.reload();
     };
+  };
+  document.getElementById('expTeam').onclick=()=>{
+    exportTeamHtml();
+    uiToast(L('File HTML dibuat. Bagikan ke tim lewat WhatsApp, email, atau Google Drive.','HTML file created. Share it with your team via WhatsApp, email, or Google Drive.'));
   };
   document.getElementById('expJson').onclick=()=>{
     const out={meta:RAW.meta,exportedAt:new Date().toISOString(),
@@ -2543,7 +2549,21 @@ function nav(){
   view.innerHTML='';t[1]();
   window.scrollTo({top:0});
 }
+/* snapshot HTML bersih (sebelum #view diisi) untuk ekspor file mandiri */
+let PRISTINE_HTML='';
+function exportTeamHtml(){
+  const bake={ stamp:new Date().toISOString(),
+    keys:{ [LS_O]:overlay, [LS_P]:prodStore, [LS_V]:vidStore, [LS_PN]:prodNames,
+      [LS_B]:budgetOv, [LS_GMVMP]:gmvMpOv, [LS_T]:targets, [LS_MASK]:maskMonths } };
+  const json=JSON.stringify(bake).replace(/<\//g,'<\\/');
+  const html=PRISTINE_HTML.replace(/(<script id="BAKED_STATE"[^>]*>)[\s\S]*?(<\/script>)/,
+    (m,a,b)=>a+json+b);
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([html],{type:'text/html'}));
+  a.download='ads-command-center-'+LATEST+'.html';a.click();
+}
 function boot(){
+  PRISTINE_HTML='<!doctype html>\n'+document.documentElement.outerHTML;
   applyLangUi();
   document.getElementById('langBtn').onclick=()=>{
     LANG=LANG==='id'?'en':'id';
