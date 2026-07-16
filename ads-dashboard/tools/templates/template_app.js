@@ -14,13 +14,9 @@ const CH_LABEL={
   tt_psa:['Product Card Existing','Product Card Existing'],
   tt_psa_ns:['Product Card New','Product Card New'],
   tt_vsa_psa:['Total GMV Max Product','Total GMV Max Product'],
-  tt_ci_smo:['Community Interaction SMO','Community Interaction SMO'],
   tt_ci_smv:['Community Interaction','Community Interaction'],
-  tt_ci_sid:['Community Interaction SID','Community Interaction SID'],
   tt_bc_ext:['Brand Consideration','Brand Consideration'],
-  tt_bc_ns:['Brand Consideration NS','Brand Consideration NS'],
   tt_aw_ext:['Awareness TikTok','TikTok Awareness'],
-  tt_aw_aff:['Awareness Affiliate','Affiliate Awareness'],
   meta_cpas:['Meta CPAS (Penjualan)','Meta CPAS (Sales)'],
   meta_reg:['Meta Reguler (Penjualan)','Meta Regular (Sales)'],
   meta_aw:['Awareness Meta Reguler','Meta Regular Awareness'],
@@ -1295,13 +1291,9 @@ function detectRows(rows,filename){
       if(fnDate&&!inData(fnDate))fnDate=null;
       const brandingChannel=name=>{
         const n=String(name||'').toLowerCase();
-        if(n.includes('community')){
-          if(/\bsmv\b|verse/.test(n))return 'tt_ci_smv';
-          if(/\bsid\b|_id|martin id/.test(n))return 'tt_ci_sid';
-          return 'tt_ci_smo';
-        }
-        if(n.includes('consideration'))return /\bns\b|new product|\bbaru\b/.test(n)?'tt_bc_ns':'tt_bc_ext';
-        if(n.includes('awareness')||n.includes('reach'))return /affiliate|\baff\b/.test(n)?'tt_aw_aff':'tt_aw_ext';
+        if(n.includes('community'))return 'tt_ci_smv';
+        if(n.includes('consideration'))return 'tt_bc_ext';
+        if(n.includes('awareness')||n.includes('reach'))return 'tt_aw_ext';
         return null;
       };
       const agg={};let rowsUsed=0,zeroDropped=0,unknown=0;
@@ -1762,7 +1754,7 @@ function buildBreakdown(y){
     ['Total Orders From Ads','n',O(TT)],
     ['Total Order From TikTok','n',null],
     ['Impression','n',ttImp],
-    ['Brand Consideration','n',CL(['tt_bc_ext','tt_bc_ns'])],
+    ['Brand Consideration','n',CL(['tt_bc_ext'])],
     ['CTOR','pct',pctOf(O(TT),CL(TT))],
     ['CTR','pct',pctOf(CL(TT),ttImp)],
     ['Total GMV Bruto TikTok','rp',mp('tiktok')],
@@ -1841,8 +1833,8 @@ function buildBreakdown(y){
 }
 const SHEET_BLOCK={tt_live_smo:'LIVE SHOPPING ADS SMO',tt_live_sid:'LIVE SHOPPING ADS SID',tt_live_smv:'LIVE SHOPPING ADS SMV',tt_live_aff:'LIVE SHOPPING ADS Affiliate',
   tt_vsa:'VIDEO SHOPPING ADS',tt_vsa_ns:'VIDEO SHOPPING ADS NS',tt_psa:'Product Card Shopping Ads',tt_psa_ns:'Product Card Shopping NS',
-  tt_ci_smo:'Community Interaction Sophie Martin Official',tt_ci_sid:'Community Interaction Sophie Martin ID',tt_ci_smv:'Community Interaction Sophie Martin Verse',
-  tt_bc_ext:'Brand Consideration EXT',tt_bc_ns:'Brand Consideration NS',tt_aw_ext:'Awareness TikTok Ext',tt_aw_aff:'Awareness TikTok Affiliate',
+  tt_ci_smv:'Community Interaction Sophie Martin Verse',
+  tt_bc_ext:'Brand Consideration EXT',tt_aw_ext:'Awareness TikTok Ext',
   meta_cpas:'Meta CPAS - Shopee',meta_reg:'Meta Reguler',meta_aw:'Awareness CPAS',meta_traffic:'Traffic CPAS',
   sp_live:'LIVE SHOPEE ADS',sp_sba:'SBA Shopee',sp_pc:'Product Card Shopee',sp_pc_new:'Product Card Shopee (Produk Baru)',sp_store:'Ads Store',
   lz_store:'Lazada Ads Sponsore Max Store',lz_product:'Lazada Ads Sponsore Max Product'};

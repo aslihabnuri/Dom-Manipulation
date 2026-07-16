@@ -38,7 +38,7 @@ const pcolor = p => getComputedStyle(document.documentElement).getPropertyValue(
 
 /* ---------- channel defs ---------- */
 const CH_ORDER = ['tt_live_smo','tt_live_sid','tt_live_smv','tt_live_aff','tt_live_all','tt_vsa','tt_vsa_ns','tt_psa','tt_psa_ns','tt_vsa_psa',
-  'tt_ci_smo','tt_ci_smv','tt_ci_sid','tt_bc_ext','tt_bc_ns','tt_aw_ext','tt_aw_aff',
+  'tt_ci_smv','tt_bc_ext','tt_aw_ext',
   'meta_cpas','meta_reg','meta_aw','meta_traffic','sp_live','sp_sba','sp_pc','sp_pc_new','sp_store','lz_store','lz_product'];
 const CH_DEF = RAW.channels.slice().sort((a,b)=>{
   const ia=CH_ORDER.indexOf(a.id), ib=CH_ORDER.indexOf(b.id);
