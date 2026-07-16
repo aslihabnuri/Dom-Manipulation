@@ -1279,6 +1279,63 @@ function detectRows(rows,filename){
     return {type:shopeeKind,label:`${lblMap[shopeeKind]} · ${active}/${n} ${L('kampanye berbiaya','campaigns with spend')}`,
       single,defaultCh,date,needsDate:true,needsCh:true,products};
   }
+  /* --- Laporan Campaign Branding Ads (upper funnel): Community Interaction / Awareness / Brand Consideration ---
+     Consideration Size dicatat sebagai Product Clicks (masuk Ringkasan & MoM). --- */
+  {
+    let bhi=findHeader(rows,['Campaign name','Spend','New consideration size']);
+    if(bhi<0)bhi=findHeader(rows,['Campaign name','Spend','Paid follows']);
+    if(bhi>=0){
+      const H=H_at(bhi);
+      const cName=colIdxOf(H,'Campaign name'),cSpend=colIdxOf(H,'Spend'),
+            cReach=colIdxOf(H,'Reach'),cImp=colIdxOf(H,'Impressions'),
+            cCons=colIdxOf(H,'New consideration size','Consideration size'),
+            cFol=colIdxOf(H,'Paid follows');
+      let fnDate=null,fm;
+      if((fm=String(filename||'').match(/(\d{4})[-_.]?(\d{2})[-_.]?(\d{2})/)))fnDate=`${fm[1]}-${fm[2]}-${fm[3]}`;
+      if(fnDate&&!inData(fnDate))fnDate=null;
+      const brandingChannel=name=>{
+        const n=String(name||'').toLowerCase();
+        if(n.includes('community')){
+          if(/\bsmv\b|verse/.test(n))return 'tt_ci_smv';
+          if(/\bsid\b|_id|martin id/.test(n))return 'tt_ci_sid';
+          return 'tt_ci_smo';
+        }
+        if(n.includes('consideration'))return /\bns\b|new product|\bbaru\b/.test(n)?'tt_bc_ns':'tt_bc_ext';
+        if(n.includes('awareness')||n.includes('reach'))return /affiliate|\baff\b/.test(n)?'tt_aw_aff':'tt_aw_ext';
+        return null;
+      };
+      const agg={};let rowsUsed=0,zeroDropped=0,unknown=0;
+      for(const r of rows.slice(bhi+1)){
+        const name=String(r[cName]||'').trim();
+        if(!name||/^total/i.test(name))continue;
+        const spend=plainnum(r[cSpend])||0;
+        if(spend<=0){zeroDropped++;continue;}
+        const chId=brandingChannel(name);
+        if(!chId){unknown++;continue;}
+        rowsUsed++;
+        const o=agg[chId]??={cost:0,reach:0,impressions:0,clicks:0,follows:0};
+        o.cost+=spend;
+        o.reach+=cReach>=0?(plainnum(r[cReach])||0):0;
+        o.impressions+=cImp>=0?(plainnum(r[cImp])||0):0;
+        if(chId.startsWith('tt_bc')&&cCons>=0)o.clicks+=plainnum(r[cCons])||0;   /* consideration size -> product clicks */
+        if(chId.startsWith('tt_ci')&&cFol>=0)o.follows+=plainnum(r[cFol])||0;
+      }
+      const chIds=Object.keys(agg);
+      if(chIds.length){
+        const entriesNoDate=chIds.map(chId=>{
+          const o=agg[chId],m={cost:o.cost};
+          if(o.reach)m.reach=o.reach;
+          if(o.impressions)m.impressions=o.impressions;
+          if(o.clicks)m.clicks=o.clicks;
+          if(o.follows)m.follows=o.follows;
+          return {chId,metrics:m};
+        });
+        return {type:'branding',needsDate:true,date:fnDate,entriesNoDate,
+          label:`${L('Iklan Branding','Branding Ads')} · ${chIds.map(c=>chName(c)).join(', ')} · ${fmtRpC(sum(chIds.map(c=>agg[c].cost)))} spend${zeroDropped?` · ${zeroDropped} ${L('campaign 0 dibuang','zero campaigns dropped')}`:''}${unknown?` · ${unknown} ${L('tak dikenal','unrecognized')}`:''}`,
+          hint:L('Consideration Size dicatat sebagai Product Clicks (masuk ke Ringkasan dan tabel MoM). Pilih tanggal data bila belum terisi otomatis.','Consideration Size is recorded as Product Clicks (feeds the Summary and MoM table). Choose the data date if it is not filled automatically.')};
+      }
+    }
+  }
   let hi=findHeader(rows,['Campaign name','Day']);
   if(hi<0)hi=findHeader(rows,['Day','Campaign name']);
   if(hi>=0){
