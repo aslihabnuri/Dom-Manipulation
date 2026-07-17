@@ -1,0 +1,24 @@
+{
+  "comment": "Peta folder Google Drive untuk sinkron raw data dashboard. Dibuat 2026-07-17.",
+  "rootId": "12uqdYmeIssBj-Q9Y9VaZBZ7F6s2YurcX",
+  "rootName": "SM Ads Raw Data",
+  "guideDocId": "11QJNyhXfBSY3_NmRYB2SFuofud7CvuthHfksdwtwsuQ",
+  "folders": {
+    "1ybXyEWs4tjlzJ9ChvE8VXbnEZgiPGQtM": { "name": "01 TikTok Product GMV Max", "detector": "tt_product" },
+    "1dDCAGvCEX3p0X8uh_fCV0ZTlSI1Jx6b-": { "name": "02 TikTok Live GMV Max", "detector": "tt_live" },
+    "1THtge7B-KHI1xe6pAGgiuu6_XtSs46K_": { "name": "03 Klik Produk Live", "detector": "parent-only" },
+    "1HJP1gMY9xOosH5HahBPSGr-kpO7xOT6W": { "name": "03/Shopee Live", "detector": "sc_clicks", "channel": "sp_live" },
+    "1STvsNBaKtDMxFLHwRbjYlWUPGT8MPLIP": { "name": "03/GMV Max Live SMO", "detector": "sc_clicks", "channel": "tt_live_smo" },
+    "1XzVvYj1GDOIGpHNNWOqLxwNSauL7ovrA": { "name": "03/GMV Max Live SID", "detector": "sc_clicks", "channel": "tt_live_sid" },
+    "1A4Glwt7TpSEI28MIp9LslZ-WCHEmmS_n": { "name": "03/GMV Max Live SMV", "detector": "sc_clicks", "channel": "tt_live_smv" },
+    "1buMGZNJQVLS9lLSPFr4IYY_JhLUSyi6v": { "name": "03/GMV Max Live Affiliate", "detector": "sc_clicks", "channel": "tt_live_aff" },
+    "1cpddQTTiElLqM9aXn1BwBYb278kOMHja": { "name": "04 Shopee CPC", "detector": "shopee_cpc" },
+    "1aUBcHn2UOWXg4Nk2snjiZFcyMfIfGee1": { "name": "05 Shopee Toko", "detector": "shopee_toko", "channel": "sp_store" },
+    "1cn0W0yewgVjg1VGFo4iDk2g-F_Sbk4An": { "name": "06 Shopee SBA", "detector": "shopee_sba", "channel": "sp_sba" },
+    "1uosilDGmHP4z7D9e-gacRPf6FfU-hYU8": { "name": "07 Shopee Live", "detector": "shopee_live", "channel": "sp_live" },
+    "1PpOwXp2MwXu1dmY0NYCE15DTWm-IZWs6": { "name": "08 Meta", "detector": "meta" },
+    "1iM-d5v4lxHjI608B9M2u0N91vSRvB0m_": { "name": "09 Lazada", "detector": "lazada" },
+    "1yTPpdquQckCppPnEcyO2NOW9bepnPi3s": { "name": "10 Branding Ads", "detector": "branding" }
+  },
+  "processedFileIds": {}
+}
