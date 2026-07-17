@@ -1954,6 +1954,116 @@ async function copyTsv(t){
   }
 }
 
+/* =================== SINKRON GOOGLE DRIVE (via connector viewer) =================== */
+const GD_SERVER_NAMES=['Google Drive','Google_Drive'];
+const GD_FOLDERS=[
+  {id:'1ybXyEWs4tjlzJ9ChvE8VXbnEZgiPGQtM',name:'01 TikTok Product GMV Max'},
+  {id:'1dDCAGvCEX3p0X8uh_fCV0ZTlSI1Jx6b-',name:'02 TikTok Live GMV Max'},
+  {id:'1HJP1gMY9xOosH5HahBPSGr-kpO7xOT6W',name:'03 Klik Produk / Shopee Live',channel:'sp_live'},
+  {id:'1STvsNBaKtDMxFLHwRbjYlWUPGT8MPLIP',name:'03 Klik Produk / GMV Max Live SMO',channel:'tt_live_smo'},
+  {id:'1XzVvYj1GDOIGpHNNWOqLxwNSauL7ovrA',name:'03 Klik Produk / GMV Max Live SID',channel:'tt_live_sid'},
+  {id:'1A4Glwt7TpSEI28MIp9LslZ-WCHEmmS_n',name:'03 Klik Produk / GMV Max Live SMV',channel:'tt_live_smv'},
+  {id:'1buMGZNJQVLS9lLSPFr4IYY_JhLUSyi6v',name:'03 Klik Produk / GMV Max Live Affiliate',channel:'tt_live_aff'},
+  {id:'1cpddQTTiElLqM9aXn1BwBYb278kOMHja',name:'04 Shopee CPC'},
+  {id:'1aUBcHn2UOWXg4Nk2snjiZFcyMfIfGee1',name:'05 Shopee Toko',channel:'sp_store'},
+  {id:'1cn0W0yewgVjg1VGFo4iDk2g-F_Sbk4An',name:'06 Shopee SBA',channel:'sp_sba'},
+  {id:'1uosilDGmHP4z7D9e-gacRPf6FfU-hYU8',name:'07 Shopee Live',channel:'sp_live'},
+  {id:'1PpOwXp2MwXu1dmY0NYCE15DTWm-IZWs6',name:'08 Meta'},
+  {id:'1iM-d5v4lxHjI608B9M2u0N91vSRvB0m_',name:'09 Lazada'},
+  {id:'1yTPpdquQckCppPnEcyO2NOW9bepnPi3s',name:'10 Branding Ads'},
+];
+const LS_SYNC='smoAdsSyncedIds';
+let syncedIds=store.get(LS_SYNC,{});
+const gdAvailable=()=>!!(window.claude&&window.claude.mcp);
+function gdErrMsg(e){
+  const c=e&&e.code;
+  if(c==='needs_reauth')return L('Koneksi Google Drive kedaluwarsa. Sambungkan ulang di claude.ai: Settings → Connectors → Google Drive.','Google Drive connection expired. Reconnect in claude.ai: Settings → Connectors → Google Drive.');
+  if(c==='server_not_connected'||c==='selection_required')return L('Connector Google Drive belum tersedia di akun claude.ai Anda. Tambahkan di Settings → Connectors, lalu muat ulang halaman.','The Google Drive connector is not available on your claude.ai account. Add it in Settings → Connectors, then reload the page.');
+  if(c==='not_in_manifest')return L('Versi halaman ini belum memuat izin Drive. Muat ulang halaman artifact.','This page version does not carry the Drive permission yet. Reload the artifact page.');
+  if(c==='not_granted'||c==='capability_disabled'||c==='capability_removed')return L('Izin connector tidak diberikan pada tampilan ini. Muat ulang halaman dan setujui akses saat diminta.','Connector permission was not granted for this view. Reload the page and approve access when prompted.');
+  if(c==='blocked_by_policy'||c==='approval_required')return L('Kebijakan organisasi memblokir akses tool ini.','Organization policy blocks this tool.');
+  return (e&&e.message)?e.message:String(c||e);
+}
+async function gdResolveServer(){
+  const r=await window.claude.mcp.listTools();
+  const hit=(r.servers||[]).find(s=>GD_SERVER_NAMES.includes(s.server)&&(s.tools||[]).length);
+  if(hit)return hit.server;
+  const loose=(r.servers||[]).find(s=>/google[ _]?drive/i.test(s.server)&&(s.tools||[]).length);
+  return loose?loose.server:null;
+}
+function b64ToBuf(b64){const bin=atob(b64);const u8=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u8[i]=bin.charCodeAt(i);return u8.buffer;}
+async function runDriveSync(onStatus){
+  const report={applied:[],skipped:[],errors:[]};
+  let cells=0,filesDone=0;
+  const server=await gdResolveServer();
+  if(!server){report.errors.push(gdErrMsg({code:'server_not_connected'}));return {report,cells,filesDone};}
+  for(const f of GD_FOLDERS){
+    onStatus(L('Memindai ','Scanning ')+f.name+'…');
+    let res;
+    try{
+      res=await window.claude.mcp.callTool(server,'search_files',
+        {query:`parentId = '${f.id}'`,pageSize:100,excludeContentSnippets:true},{cache:false});
+    }catch(e){
+      if(e&&e.retryable){
+        await new Promise(r=>setTimeout(r,(e.retryAfterMs||1500)+Math.random()*500));
+        try{res=await window.claude.mcp.callTool(server,'search_files',
+          {query:`parentId = '${f.id}'`,pageSize:100,excludeContentSnippets:true},{cache:false});}
+        catch(e2){report.errors.push(f.name+': '+gdErrMsg(e2));continue;}
+      } else {report.errors.push(f.name+': '+gdErrMsg(e));continue;}
+    }
+    const pay=res&&res.payload?res.payload:{};
+    const list=(pay.files||[]).filter(x=>x.mimeType!=='application/vnd.google-apps.folder');
+    for(const file of list){
+      if(syncedIds[file.id])continue;
+      const t=String(file.title||'');
+      const okType=/\.(csv|xlsx|txt)$/i.test(t)||/csv|excel|spreadsheetml|text\/plain/.test(String(file.mimeType||''));
+      if(!okType){report.skipped.push(t+': '+L('format tidak didukung','unsupported format'));syncedIds[file.id]='skip-format';continue;}
+      onStatus(L('Memproses ','Processing ')+t+'…');
+      let dl;
+      try{dl=await window.claude.mcp.callTool(server,'download_file_content',{fileId:file.id},{cache:false});}
+      catch(e){report.errors.push(t+': '+gdErrMsg(e));continue;}
+      const dpay=dl&&dl.payload?dl.payload:{};
+      if(!dpay.content){report.errors.push(t+': '+L('konten kosong','empty content'));continue;}
+      let rows;
+      try{
+        if(/\.xlsx$/i.test(t)||/officedocument|spreadsheetml|ms-excel/.test(String(dpay.mimeType||'')))
+          rows=await xlsxToRows(b64ToBuf(dpay.content));
+        else rows=csvParse(new TextDecoder().decode(b64ToBuf(dpay.content)).replace(/^﻿/,''));
+      }catch(e){report.errors.push(t+': '+(e.message||e));continue;}
+      const det=detectRows(rows,t);
+      if(det.error){report.skipped.push(t+': '+det.error);syncedIds[file.id]='skip-detect';continue;}
+      if(det.mapping){prodNames=Object.assign({},prodNames,det.mapping);store.set(LS_PN,prodNames);}
+      let entries=null;
+      if(det.entries)entries=det.entries.map(e=>({...e,chId:f.channel||e.chId||det.defaultCh}));
+      else if(det.entriesNoDate){
+        if(!det.date){report.skipped.push(t+': '+L('tanggal tidak terbaca, tambahkan tanggal pada nama file','date unreadable, add the date to the file name'));continue;}
+        entries=det.entriesNoDate.map(e=>({...e,iso:det.date,chId:f.channel||e.chId||det.defaultCh}));
+      }else if(det.single){
+        if(!det.date){report.skipped.push(t+': '+L('tanggal tidak terbaca','date unreadable'));continue;}
+        entries=[{chId:f.channel||det.defaultCh,iso:det.date,metrics:det.single}];
+      }
+      if(entries&&entries.length)cells+=applyEntries(entries);
+      if(det.products&&det.products.length){
+        const inc=det.products.map(p=>({...p,chId:p.chId||f.channel||det.defaultCh,iso:p.iso||det.date,code:p.code||'',
+          qty:p.qty||0,val:p.val||0,cost:p.cost||0,imp:p.imp||0,clk:p.clk||0,ord:p.ord||0}))
+          .filter(p=>p.chId&&p.iso&&inData(p.iso));
+        if(inc.length){prodStore=mergeDetail(prodStore,inc);store.set(LS_P,prodStore);}
+      }
+      if(det.videos&&det.videos.length){
+        const inc=det.videos.map(v=>({...v,iso:v.iso||det.date})).filter(v=>v.iso&&inData(v.iso));
+        if(inc.length){vidStore=mergeDetail(vidStore,inc);store.set(LS_V,vidStore);}
+      }
+      syncedIds[file.id]=new Date().toISOString();
+      filesDone++;
+      report.applied.push(t+' → '+f.name);
+    }
+  }
+  store.set(LS_SYNC,syncedIds);
+  store.set(LS_O,overlay);
+  invalidateCache();GLOBAL_LAST=computeGlobalLast();
+  return {report,cells,filesDone};
+}
+
 function renderUpload(){
   const ovEntries=[];
   for(const cid in overlay)for(const m in overlay[cid])for(const iso in overlay[cid][m])
@@ -1972,6 +2082,19 @@ function renderUpload(){
       <button class="btn" id="applyAll">${L('Terapkan semua ke database','Apply all to the database')}</button>
       <span class="note" style="margin-left:8px">${L('Data masuk sebagai overlay di browser. Data dasar sheet tidak berubah.','Data is stored as an overlay in the browser. The base sheet data is unchanged.')}</span>
     </div>
+  </div>
+  <div class="card" style="margin-top:12px">
+    <h3>${L('Sinkron Google Drive','Google Drive Sync')}</h3>
+    ${gdAvailable()?`
+    <p class="note" style="margin:0 0 10px">${L('Tarik raw data terbaru dari folder "SM Ads Raw Data" di Google Drive. File yang sudah pernah diproses dilewati otomatis. Data masuk sebagai overlay di browser ini; untuk membagikannya ke semua pemegang link, minta Claude menerbitkan ulang.','Pull the latest raw data from the "SM Ads Raw Data" folder in Google Drive. Files already processed are skipped automatically. Data lands as an overlay in this browser; to share it with all link holders, ask Claude to republish.')}</p>
+    <div class="controls" style="margin:0">
+      <button class="btn" id="gdSync">⟳ ${L('Sinkron dari Drive','Sync from Drive')}</button>
+      <span id="gdStatus" style="font-size:12px;color:var(--muted)"></span>
+      <span style="flex:1"></span>
+      <button class="btn ghost" id="gdReset" style="font-size:12px">${L('Lupakan riwayat file','Forget file history')}</button>
+    </div>
+    <div id="gdReport"></div>`:`
+    <p class="note" style="margin:0">${L('Tombol sinkron aktif saat dashboard dibuka sebagai artifact claude.ai dengan connector Google Drive. Pada file HTML biasa, unggah manual di atas atau minta Claude "sync gdrive" di chat.','The sync button activates when the dashboard is opened as a claude.ai artifact with the Google Drive connector. In the plain HTML file, upload manually above or ask Claude to "sync gdrive" in chat.')}</p>`}
   </div>
   <div class="card" style="margin-top:12px">
     <h3>${L('Generate ke Google Sheet','Generate to Google Sheet')}</h3>
@@ -2142,6 +2265,33 @@ function renderUpload(){
     store.set(LS_O,overlay);store.set(LS_P,prodStore);store.set(LS_V,vidStore);store.set(LS_PN,prodNames);
     PENDING=[];location.reload();
   };
+  /* Sinkron Google Drive */
+  const gdBtn=document.getElementById('gdSync');
+  if(gdBtn){
+    const st=document.getElementById('gdStatus');
+    gdBtn.onclick=async()=>{
+      gdBtn.disabled=true;st.textContent=L('Menyiapkan…','Preparing…');
+      try{
+        const {report,cells,filesDone}=await runDriveSync(m=>{st.textContent=m;});
+        st.textContent='';
+        const rep=document.getElementById('gdReport');
+        rep.innerHTML=`<p class="note" style="margin:10px 0 4px"><b>${filesDone} ${L('file diproses','files processed')} · ${cells} ${L('sel data masuk','data cells written')}</b></p>`+
+          (report.applied.length?`<p class="note" style="margin:2px 0">✓ ${report.applied.map(esc).join('<br>✓ ')}</p>`:'')+
+          (report.skipped.length?`<p class="note" style="margin:2px 0;color:var(--warning)">△ ${report.skipped.map(esc).join('<br>△ ')}</p>`:'')+
+          (report.errors.length?`<p class="note" style="margin:2px 0;color:var(--critical)">✕ ${report.errors.map(esc).join('<br>✕ ')}</p>`:'')+
+          (!filesDone&&!report.skipped.length&&!report.errors.length?`<p class="note">${L('Tidak ada file baru di Drive.','No new files in Drive.')}</p>`:'');
+        if(filesDone){uiToast(L('Sinkron selesai. Dashboard diperbarui.','Sync finished. Dashboard updated.'));updateBadge();renderUpload();
+          const rep2=document.getElementById('gdReport');if(rep2)rep2.innerHTML=rep.innerHTML;}
+      }catch(e){st.textContent='';uiToast(gdErrMsg(e));}
+      const b2=document.getElementById('gdSync');if(b2)b2.disabled=false;
+    };
+    document.getElementById('gdReset').onclick=async()=>{
+      if(!await uiConfirm(L('Lupakan riwayat file?','Forget file history?'),
+        L('Semua file di Drive akan dianggap baru dan diproses ulang pada sinkron berikutnya (data sama akan tertimpa, bukan dobel).','All Drive files will be treated as new and reprocessed on the next sync (identical data is overwritten, not duplicated).'),
+        L('Lupakan','Forget'),L('Batal','Cancel')))return;
+      syncedIds={};store.set(LS_SYNC,syncedIds);uiToast(L('Riwayat file dikosongkan.','File history cleared.'));
+    };
+  }
   /* Generate ke Google Sheet */
   let genTarget='mom', genData=null;
   document.querySelectorAll('#genSeg button').forEach(b=>b.onclick=()=>{
