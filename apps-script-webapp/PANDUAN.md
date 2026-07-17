@@ -2,92 +2,79 @@
 
 Dashboard yang sama persis dengan artifact claude.ai Anda, tetapi:
 
-- **Real-time** — setiap kali halaman dibuka, dashboard otomatis menarik file raw data terbaru dari folder "SM Ads Raw Data" di Google Drive Anda. File yang berubah di Drive ikut diproses ulang otomatis.
-- **Bisa diakses tim** — di-hosting gratis di akun Google Anda; Anda yang mengatur siapa boleh membuka. Tim **tidak perlu** akun claude.ai dan **tidak perlu** akses ke folder Drive-nya (Web App berjalan atas nama akun Anda).
+- **Real-time** — setiap kali halaman dibuka, dashboard otomatis menarik file raw data terbaru dari folder "SM Ads Raw Data" di Google Drive. File yang berubah di Drive ikut diproses ulang otomatis.
+- **Hanya untuk orang pilihan Anda** — akses dibatasi ke daftar email Google yang Anda tentukan sendiri di `ALLOWED_EMAILS` (file `Code.gs`). Orang di luar daftar melihat halaman "Akses ditolak" meskipun memegang link.
 - **Artifact asli tidak berubah** — ini salinan terpisah; artifact di claude.ai tetap seperti semula.
 
 Isi folder ini:
 
 | File | Peran |
 |---|---|
-| `Code.gs` | Server: menyajikan halaman + jembatan baca Google Drive |
+| `Code.gs` | Server: cek izin akses, menyajikan halaman, jembatan baca Google Drive |
 | `Index.html` | Seluruh dashboard (UI, data dasar, logika parsing) |
 | `appsscript.json` | Manifest proyek (zona waktu, izin, mode web app) |
 
 ---
 
-## Setup (±10 menit, sekali saja)
+## Cara kerja pembatasan akses
+
+Web app di-deploy dengan **Execute as: "User accessing the web app"**. Artinya skrip berjalan atas nama *pengunjung*, sehingga Google memberi tahu skrip email siapa yang membuka — dan skrip menolak semua email yang tidak ada di `ALLOWED_EMAILS`. Ini kontrol berbasis identitas asli (login Google), bukan sekadar link rahasia.
+
+Konsekuensinya ada dua, dan keduanya wajib:
+
+1. **Folder "SM Ads Raw Data" harus di-share (cukup Viewer) ke email yang sama** — karena pembacaan Drive kini berjalan atas nama pengunjung.
+2. **Setiap anggota mengklik "Allow" sekali** saat pertama kali membuka (layar otorisasi Google; muncul peringatan "unverified app" — normal untuk skrip pribadi).
+
+---
+
+## Setup awal (±10 menit, sekali saja)
 
 ### 1. Buat proyek Apps Script
 
-1. Buka **https://script.google.com** dengan akun Google **yang memiliki folder "SM Ads Raw Data"** (penting — server membaca Drive akun ini).
-2. Klik **+ New project**. Beri nama, misalnya `Ads Command Center`.
+1. Buka **https://script.google.com** dengan akun Google **pemilik folder "SM Ads Raw Data"**.
+2. Klik **+ New project**, beri nama mis. `Ads Command Center`.
 
 ### 2. Isi tiga file
 
-1. **Code.gs** — hapus isi bawaan `myFunction`, tempel seluruh isi file `Code.gs` dari folder ini.
-2. **Index.html** — klik ikon **+** di samping "Files" → **HTML** → beri nama persis `Index` (tanpa `.html`, editor menambahkannya sendiri). Hapus isi bawaan, lalu tempel seluruh isi file `Index.html` dari folder ini. *(File-nya besar, ±640 KB — tunggu beberapa detik setelah menempel.)*
-3. **appsscript.json** — buka **Project Settings** (ikon gerigi) → centang **"Show 'appsscript.json' manifest file in editor"** → kembali ke Editor, buka `appsscript.json`, ganti isinya dengan isi file `appsscript.json` dari folder ini.
-4. Tekan **Ctrl/Cmd+S** untuk menyimpan semua.
+1. **Code.gs** — hapus isi bawaan, tempel seluruh isi `Code.gs` dari folder ini, lalu **isi `ALLOWED_EMAILS`** dengan email Anda + email anggota tim yang dipilih.
+2. **Index.html** — ikon **+** di "Files" → **HTML** → beri nama persis `Index`. Tempel seluruh isi `Index.html`. *(±640 KB — tunggu beberapa detik. Jangan copy lewat TextEdit/Quick Look; ambil dari GitHub tombol **Raw**.)*
+3. **appsscript.json** — Project Settings (gerigi) → centang **"Show 'appsscript.json' manifest file in editor"** → ganti isinya dengan `appsscript.json` dari folder ini.
+4. **Cmd/Ctrl+S** untuk menyimpan.
 
-### 3. Deploy sebagai Web App
+### 3. Share folder Drive ke tim
 
-1. Klik **Deploy → New deployment**.
-2. Klik ikon gerigi di samping "Select type" → pilih **Web app**.
-3. Atur:
-   - **Description**: bebas, mis. `v1`.
-   - **Execute as**: **Me** ← wajib, supaya tim tidak perlu akses Drive Anda.
-   - **Who has access**: pilih salah satu (lihat bagian *Mengatur akses tim* di bawah).
-4. Klik **Deploy**. Saat diminta, klik **Authorize access** → pilih akun Anda → jika muncul layar "Google hasn't verified this app", klik **Advanced → Go to Ads Command Center (unsafe)** → **Allow**. (Ini normal untuk skrip pribadi; izinnya hanya *baca* Drive/Sheets akun Anda sendiri, dan kodenya bisa Anda audit sendiri di editor.)
-5. Salin **Web app URL** (`https://script.google.com/macros/s/…/exec`) — inilah link dashboard yang dibagikan ke tim.
+Di Google Drive: klik kanan folder **SM Ads Raw Data** (folder induknya sekaligus semua sub-folder) → **Share** → masukkan email yang sama dengan `ALLOWED_EMAILS` → peran **Viewer** → Send.
 
-### 4. Selesai — uji
+### 4. Deploy sebagai Web App
 
-Buka URL tersebut. Dashboard tampil dengan data dasar, lalu di pojok kanan atas terlihat status `⟳ Memindai…` saat sinkron otomatis berjalan. Jika ada file baru/berubah di Drive, muncul notifikasi "N file baru dari Drive diterapkan" dan angka-angka ter-update.
+1. **Deploy → New deployment** → gerigi "Select type" → **Web app**.
+2. Atur:
+   - **Execute as**: **User accessing the web app** ← kunci mode akses ini.
+   - **Who has access**: **Anyone with Google account**. *(Jangan khawatir — yang lolos tetap hanya email di `ALLOWED_EMAILS`; pengaturan ini hanya berarti "harus login Google dulu".)*
+3. Klik **Deploy** → **Authorize access** → pilih akun Anda → layar "Google hasn't verified this app" → **Advanced → Go to … (unsafe) → Allow**.
+4. Salin **Web app URL** (`…/exec`) — link inilah yang dibagikan ke tim.
 
 ---
 
-## Mengatur akses tim
+## Flow harian
 
-Pilihan **Who has access** saat deploy:
+**Anggota tim (pertama kali):** buka link → login Google → Allow (sekali saja) → dashboard tampil, sinkron otomatis berjalan.
 
-| Pilihan | Artinya | Cocok untuk |
-|---|---|---|
-| **Anyone with Google account** | Harus login Google dulu, siapa pun yang punya link bisa buka | **Direkomendasikan** — link-nya panjang dan tidak bisa ditebak |
-| **Anyone** | Terbuka tanpa login | Hanya jika tim ada yang tidak punya akun Google |
-| **Anyone within [domain]** | Khusus akun Google Workspace organisasi Anda | Jika seluruh tim memakai email kantor satu domain |
+**Anggota tim (selanjutnya):** buka link → langsung tampil dengan data terkini.
 
-**Lapisan ekstra (opsional):** di `Code.gs` ada konstanta `SECRET_KEY`. Jika diisi (mis. `'sm-ads-2026'`), dashboard hanya terbuka lewat link `…/exec?key=sm-ads-2026`. Berguna sebagai "password" sederhana bila Anda memilih akses "Anyone".
+**Menambah anggota:** tambahkan emailnya di `ALLOWED_EMAILS` → Cmd+S → **Deploy → Manage deployments → ✏️ → Version: New version → Deploy** → share folder "SM Ads Raw Data" ke email itu (Viewer) → kirim link.
 
-> Catatan: pembatasan per-alamat-email hanya andal di akun Google Workspace (lewat pilihan domain di atas). Di akun Gmail biasa, gunakan kombinasi "Anyone with Google account" + `SECRET_KEY`.
+**Mencabut akses:** hapus emailnya dari `ALLOWED_EMAILS` → simpan → Manage deployments → New version → Deploy → hentikan share foldernya. Sejak itu ia hanya melihat "Akses ditolak".
 
----
-
-## Alur data harian (tidak berubah dari kebiasaan sekarang)
-
-1. Anda/tim mengunggah file ekspor platform (CSV/XLSX) ke sub-folder "SM Ads Raw Data" di Drive seperti biasa.
-2. Siapa pun yang membuka dashboard setelah itu langsung melihat data terbarunya — tanpa perlu menerbitkan ulang apa pun.
-3. File yang **diganti/di-update** di Drive (ID sama, isi baru) juga otomatis diproses ulang — data yang sama tertimpa, tidak dobel.
-4. Google Sheet asli di dalam folder raw data kini juga terbaca (otomatis diekspor sebagai CSV dari sheet pertamanya).
-
-Fitur lain (unggah manual, input manual, generate ke Google Sheet, ekspor HTML tim, chatbot analisis, ID/EN, tema gelap) berfungsi sama seperti di artifact.
-
----
-
-## Memperbarui dashboard di kemudian hari
-
-Jika nanti ada perubahan kode (mis. tambah channel atau bulan baru di data dasar):
-
-1. Tempel `Index.html` / `Code.gs` versi baru di editor Apps Script, simpan.
-2. **Deploy → Manage deployments → ✏️ (edit) → Version: New version → Deploy.**
-   Link web app **tetap sama** — tim tidak perlu link baru. (Jangan pakai "New deployment", karena itu membuat URL baru.)
+**Update kode dashboard:** tempel versi baru → simpan → Manage deployments → New version. **Link tidak berubah** (jangan pakai "New deployment", itu membuat URL baru).
 
 ---
 
 ## Troubleshooting
 
-- **"Akses ditolak" saat tim membuka link** → cek "Who has access" di Manage deployments; pastikan tim memakai link `/exec` (bukan `/dev`), dan bila `SECRET_KEY` diisi, link harus menyertakan `?key=…`.
-- **Sinkron menampilkan error nama folder** → pastikan akun yang men-deploy adalah pemilik/punya akses folder "SM Ads Raw Data", dan otorisasi Drive sudah disetujui (Deploy ulang → Authorize).
-- **Data tidak ter-update padahal file baru sudah ada** → buka tab **Unggah Data → Sinkron Google Drive → "Sinkron dari Drive"** untuk memaksa; tombol **"Lupakan riwayat file"** membuat semua file diproses ulang dari nol (aman — data identik tertimpa, tidak dobel).
-- **Safari/iPhone: sinkron mengulang dari awal setiap buka** → Safari kadang memblokir penyimpanan lokal di iframe; dashboard tetap benar, hanya sinkron pertamanya lebih lama. Di Chrome/Edge/Firefox normal.
-- **Halaman kosong setelah menempel Index.html** → pastikan seluruh isi file tertempel utuh (baris pertama `<!doctype html>`, baris terakhir `</html>`) dan nama file HTML persis `Index`.
+- **Anggota melihat "Akses ditolak" padahal sudah didaftarkan** → cek ejaan email di `ALLOWED_EMAILS` (harus persis, huruf kecil); pastikan ia login dengan akun itu (coba jendela incognito); pastikan setelah mengubah daftar Anda melakukan **New version** di Manage deployments.
+- **"Akses ditolak" menampilkan "(email tidak terbaca)"** → deployment masih "Execute as: Me". Ubah ke "User accessing the web app" lewat Manage deployments → ✏️.
+- **Sinkron error "Folder … : Access denied / not found"** → folder "SM Ads Raw Data" belum di-share ke anggota tersebut. Share ulang sebagai Viewer.
+- **Anggota takut dengan layar "Google hasn't verified this app"** → normal untuk skrip pribadi (bukan aplikasi terpublikasi). Klik Advanced → Go to … → Allow; izinnya hanya *baca* Drive/Sheets, dan kodenya bisa diaudit di editor.
+- **Data tidak ter-update padahal file baru ada** → tab **Unggah Data → Sinkron Google Drive → "Sinkron dari Drive"**; tombol **"Lupakan riwayat file"** memproses ulang semua dari nol (aman, data identik tertimpa).
+- **Halaman kosong setelah menempel Index.html** → pastikan tertempel utuh: baris pertama `<!doctype html>`, baris terakhir `</html>`, nama file persis `Index`.
