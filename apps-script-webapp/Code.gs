@@ -1,53 +1,37 @@
 /**
  * Ads Command Center - Sophie Martin
  * Server Apps Script: menyajikan dashboard + jembatan baca Google Drive.
- * Parsing CSV/XLSX dan seluruh logika dashboard berjalan di browser (Index.html).
  *
- * MODE AKSES: hanya email yang terdaftar di ALLOWED_EMAILS yang bisa membuka.
- * Syarat mode ini (lihat PANDUAN.md):
- *   - Deployment: Execute as "User accessing the web app",
- *     Who has access "Anyone with Google account".
- *   - Folder "SM Ads Raw Data" di-share (Viewer) ke email yang sama.
+ * MODE AKSES: "Execute as: Me" + kunci pribadi per anggota (TOKENS).
+ *   - Tim TIDAK pernah melihat layar izin/"unverified" Google.
+ *   - Folder Drive TIDAK perlu di-share ke tim (dibaca atas nama pemilik).
+ *   - Tiap anggota diberi link dengan kuncinya sendiri:
+ *       https://script.google.com/.../exec?key=KUNCI-DIA
+ *   - Cabut akses = hapus barisnya di TOKENS + Deploy "New version".
  */
 
 /**
- * Daftar email yang boleh membuka dashboard (huruf kecil semua).
- * Kosongkan daftar ( [] ) = semua orang yang punya link boleh masuk.
+ * Daftar kunci akses. Satu baris per orang: 'kunci': 'nama'.
+ * Buat kunci yang sulit ditebak (campur kata + angka acak).
+ * Kosongkan ( {} ) = semua orang yang punya link bisa masuk tanpa kunci.
  */
-var ALLOWED_EMAILS = [
-  'aslihabnuri28@gmail.com'
-  // ,'anggota1@gmail.com'
-  // ,'anggota2@gmail.com'
-];
+var TOKENS = {
+  'ganti-kunci-admin-123': 'Aslih (admin)'
+  // ,'budi-x7k2q9': 'Budi'
+  // ,'sari-m4w8z1': 'Sari'
+};
 
-function getVisitorEmail_() {
-  var em = '';
-  try { em = Session.getActiveUser().getEmail() || ''; } catch (e) {}
-  if (!em) { try { em = Session.getEffectiveUser().getEmail() || ''; } catch (e) {} }
-  return String(em).trim().toLowerCase();
-}
-
-function isAllowed_() {
-  if (!ALLOWED_EMAILS.length) return true;
-  var em = getVisitorEmail_();
-  if (!em) return false;
-  for (var i = 0; i < ALLOWED_EMAILS.length; i++) {
-    if (String(ALLOWED_EMAILS[i]).trim().toLowerCase() === em) return true;
-  }
-  return false;
-}
-
-function doGet() {
-  if (!isAllowed_()) {
-    var em = getVisitorEmail_();
+function doGet(e) {
+  var key = e && e.parameter ? String(e.parameter.key || '') : '';
+  var locked = false;
+  for (var k in TOKENS) { locked = true; break; }
+  if (locked && !TOKENS.hasOwnProperty(key)) {
     return HtmlService.createHtmlOutput(
       '<div style="font-family:sans-serif;max-width:480px;margin:60px auto;padding:0 20px">' +
       '<h3>Akses ditolak</h3>' +
-      '<p>Dashboard ini hanya untuk anggota tim yang terdaftar.</p>' +
-      '<p>Anda login sebagai: <b>' + (em || '(email tidak terbaca)') + '</b></p>' +
-      '<p>Jika ini akun yang salah, buka link dalam jendela incognito lalu login ' +
-      'dengan akun Google yang didaftarkan. Jika akun sudah benar, minta admin ' +
-      'menambahkan email Anda.</p></div>'
+      '<p>Dashboard ini hanya untuk anggota tim yang diundang.</p>' +
+      '<p>Gunakan link lengkap (mengandung <code>?key=...</code>) yang ' +
+      'dibagikan admin, atau minta admin mengirimkan link pribadi Anda.</p></div>'
     ).setTitle('Ads Command Center');
   }
   return HtmlService.createHtmlOutputFromFile('Index')
@@ -61,7 +45,6 @@ function doGet() {
  * Stempel "updated" dipakai browser untuk memproses ulang file yang berubah.
  */
 function gdListFiles(folderId) {
-  if (!isAllowed_()) return { error: 'Akses ditolak.' };
   try {
     var folder = DriveApp.getFolderById(folderId);
     var it = folder.getFiles();
@@ -92,7 +75,6 @@ function gdListFiles(folderId) {
  * Google Sheet asli diekspor otomatis menjadi CSV (sheet pertama).
  */
 function gdDownload(fileId) {
-  if (!isAllowed_()) return { error: 'Akses ditolak.' };
   try {
     var f = DriveApp.getFileById(fileId);
     if (f.getMimeType() === 'application/vnd.google-apps.spreadsheet') {
