@@ -1,33 +1,22 @@
 /**
  * Ads Command Center - Sophie Martin
- * Server Apps Script: cek izin akses, menyajikan dashboard,
- * dan jembatan baca Google Drive.
+ * Akses: daftar email (ALLOWED_EMAILS).
  *
- * MODE AKSES: hanya email di ALLOWED_EMAILS yang bisa membuka.
- * Deployment: Execute as "User accessing the web app",
- *             Who has access "Anyone with Google account".
- * Folder "SM Ads Raw Data" di-share (Viewer) ke email yang sama.
+ * Halaman dashboard TIDAK disajikan langsung (mesin penyaji Apps Script
+ * memotong halaman sebesar ini di tengah script). Sebagai gantinya doGet
+ * mengirim halaman pemuat kecil; browser lalu mengambil isi dashboard
+ * dari file Index.html di Drive lewat google.script.run (jalur data,
+ * bebas dari pemotongan) dan merakitnya sendiri.
  */
 
-/**
- * Daftar email yang boleh membuka dashboard (huruf kecil semua).
- * Kosongkan daftar ( [] ) = semua orang yang punya link boleh masuk.
- */
 var ALLOWED_EMAILS = [
   'aslihabnuri28@gmail.com'
   // ,'anggota1@gmail.com'
   // ,'anggota2@gmail.com'
 ];
 
-/**
- * OPSIONAL - sumber halaman dashboard dari Google Drive.
- * Biarkan '' = pakai file "Index" di editor Apps Script (cara normal).
- * Jika diisi ID file Index.html yang diunggah ke Drive, halaman dibaca
- * dari file itu - berguna bila menempel 640 KB di editor selalu gagal.
- * File tsb harus bisa dibaca anggota tim (taruh di folder "SM Ads Raw
- * Data" yang sudah di-share, atau share filenya ke email yang sama).
- */
-var INDEX_FILE_ID = '';
+/** ID file Index.html di Google Drive. */
+var INDEX_FILE_ID = 'TEMPEL-ID-FILE-DI-SINI';
 
 function getVisitorEmail_() {
   var em = '';
@@ -46,18 +35,32 @@ function isAllowed_() {
   return false;
 }
 
-function serveIndex_() {
-  var out;
-  if (INDEX_FILE_ID) {
-    var html = DriveApp.getFileById(INDEX_FILE_ID).getBlob().getDataAsString('utf-8');
-    out = HtmlService.createHtmlOutput(html);
-  } else {
-    out = HtmlService.createHtmlOutputFromFile('Index');
-  }
-  return out
-    .setTitle('Ads Command Center - Sophie Martin')
-    .addMetaTag('viewport', 'width=device-width, initial-scale=1');
-}
+var BOOTSTRAP_HTML = [
+  '<!doctype html><html><head><meta charset="utf-8"><title>Ads Command Center</title>',
+  '<style>body{font-family:sans-serif;background:#f1f2f7;color:#333;display:grid;place-items:center;min-height:100vh;margin:0}',
+  '.box{text-align:center;max-width:420px;padding:0 20px}',
+  '.sp{width:34px;height:34px;border:3px solid #ccd;border-top-color:#1b2380;border-radius:50%;margin:0 auto 12px;animation:r 1s linear infinite}',
+  '@keyframes r{to{transform:rotate(360deg)}}</style>',
+  '</head><body><div class="box"><div class="sp"></div><div id="st">Memuat dashboard…</div></div>',
+  '<script>',
+  'function fail(m){var s=document.getElementById("st");if(s)s.innerHTML="<b>Gagal memuat:</b> "+m;}',
+  'google.script.run.withSuccessHandler(function(r){',
+  '  if(!r||r.error){fail((r&&r.error)||"respons kosong");return;}',
+  '  try{',
+  '    var doc=new DOMParser().parseFromString(r.html,"text/html");',
+  '    document.replaceChild(document.adoptNode(doc.documentElement),document.documentElement);',
+  '    var list=document.querySelectorAll("script");',
+  '    for(var i=0;i<list.length;i++){',
+  '      var o=list[i],t=o.getAttribute("type");',
+  '      if(t&&t.indexOf("javascript")===-1)continue;',
+  '      var s=document.createElement("script");',
+  '      s.textContent=o.textContent;',
+  '      o.parentNode.replaceChild(s,o);',
+  '    }',
+  '  }catch(e){fail(e.message);}',
+  '}).withFailureHandler(function(e){fail((e&&e.message)||e);}).getIndexHtml();',
+  '<\/script></body></html>'
+].join('\n');
 
 function doGet() {
   if (!isAllowed_()) {
@@ -72,16 +75,19 @@ function doGet() {
       'menambahkan email Anda.</p></div>'
     ).setTitle('Ads Command Center');
   }
+  return HtmlService.createHtmlOutput(BOOTSTRAP_HTML)
+    .setTitle('Ads Command Center - Sophie Martin')
+    .addMetaTag('viewport', 'width=device-width, initial-scale=1');
+}
+
+/** Isi file Index.html dari Drive, dikirim sebagai data ke halaman pemuat. */
+function getIndexHtml() {
+  if (!isAllowed_()) return { error: 'Akses ditolak.' };
   try {
-    return serveIndex_();
+    return { html: DriveApp.getFileById(INDEX_FILE_ID).getBlob().getDataAsString('utf-8') };
   } catch (err) {
-    return HtmlService.createHtmlOutput(
-      '<div style="font-family:sans-serif;max-width:520px;margin:60px auto;padding:0 20px">' +
-      '<h3>Halaman dashboard tidak bisa dimuat</h3>' +
-      '<p>' + err.message + '</p>' +
-      '<p>Untuk admin: jika INDEX_FILE_ID diisi, pastikan file Index.html di ' +
-      'Drive di-share (Viewer) ke anggota ini.</p></div>'
-    ).setTitle('Ads Command Center');
+    return { error: err.message + ' — untuk admin: pastikan INDEX_FILE_ID benar dan file ' +
+      'Index.html di Drive bisa dibaca anggota ini (taruh di folder yang di-share).' };
   }
 }
 
