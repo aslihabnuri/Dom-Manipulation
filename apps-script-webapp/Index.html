@@ -2807,7 +2807,7 @@ function gasRun(fn){
 }
 function b64ToBuf(b64){const bin=atob(b64);const u8=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u8[i]=bin.charCodeAt(i);return u8.buffer;}
 async function runDriveSync(onStatus){
-  const report={applied:[],skipped:[],errors:[]};
+  const report={applied:[],skipped:[],errors:[],folders:[]};
   let cells=0,filesDone=0;
   if(!gdAvailable()){report.errors.push(L('Sinkron Drive hanya aktif saat dibuka lewat link Web App.','Drive sync only works when opened via the Web App link.'));return {report,cells,filesDone};}
   for(const f of GD_FOLDERS){
@@ -2816,10 +2816,11 @@ async function runDriveSync(onStatus){
     try{pay=await gasRun('gdListFiles',f.id);}
     catch(e){report.errors.push(f.name+': '+gdErrMsg(e));continue;}
     const list=(pay.files||[]).filter(x=>x.mimeType!=='application/vnd.google-apps.folder');
+    let gdPrev=0;
     for(const file of list){
       const gdStamp=String(file.updated||'1');
       const gdSeen=syncedIds[file.id];
-      if(gdSeen&&(gdSeen===gdStamp||gdSeen==='skip|'+gdStamp))continue;
+      if(gdSeen&&(gdSeen===gdStamp||gdSeen==='skip|'+gdStamp)){gdPrev++;continue;}
       const t=String(file.title||'');
       const okType=/\.(csv|xlsx|txt)$/i.test(t)||/csv|excel|spreadsheetml|text\/plain/.test(String(file.mimeType||''));
       if(!okType){report.skipped.push(t+': '+L('format tidak didukung','unsupported format'));syncedIds[file.id]='skip|'+gdStamp;continue;}
@@ -2861,6 +2862,7 @@ async function runDriveSync(onStatus){
       filesDone++;
       report.applied.push(t+' → '+f.name);
     }
+    report.folders.push(f.name+': '+list.length+' file'+(gdPrev?' ('+gdPrev+' '+L('sudah pernah diproses','already processed')+')':''));
   }
   store.set(LS_SYNC,syncedIds);
   store.set(LS_O,overlay);
@@ -3080,6 +3082,7 @@ function renderUpload(){
         st.textContent='';
         const rep=document.getElementById('gdReport');
         rep.innerHTML=`<p class="note" style="margin:10px 0 4px"><b>${filesDone} ${L('file diproses','files processed')} · ${cells} ${L('sel data masuk','data cells written')}</b></p>`+
+          (report.folders&&report.folders.length?`<p class="note" style="margin:2px 0;color:var(--muted)">${report.folders.map(esc).join('<br>')}</p>`:'')+
           (report.applied.length?`<p class="note" style="margin:2px 0">✓ ${report.applied.map(esc).join('<br>✓ ')}</p>`:'')+
           (report.skipped.length?`<p class="note" style="margin:2px 0;color:var(--warning)">△ ${report.skipped.map(esc).join('<br>△ ')}</p>`:'')+
           (report.errors.length?`<p class="note" style="margin:2px 0;color:var(--critical)">✕ ${report.errors.map(esc).join('<br>✕ ')}</p>`:'')+
