@@ -91,33 +91,98 @@ function getIndexHtml() {
   }
 }
 
+/** Folder induk "SM Ads Raw Data" di Drive. */
+var RAW_PARENT_ID = '12uqdYmeIssBj-Q9Y9VaZBZ7F6s2YurcX';
+
+/** Nama folder (bisa bertingkat) untuk tiap ID lama yang tertanam di dashboard. */
+var FOLDER_PATHS = {
+  '1ybXyEWs4tjlzJ9ChvE8VXbnEZgiPGQtM': ['01 TikTok Product GMV Max'],
+  '1dDCAGvCEX3p0X8uh_fCV0ZTlSI1Jx6b-': ['02 TikTok Live GMV Max'],
+  '1HJP1gMY9xOosH5HahBPSGr-kpO7xOT6W': ['03 Klik Produk', 'Shopee Live'],
+  '1STvsNBaKtDMxFLHwRbjYlWUPGT8MPLIP': ['03 Klik Produk', 'GMV Max Live SMO'],
+  '1XzVvYj1GDOIGpHNNWOqLxwNSauL7ovrA': ['03 Klik Produk', 'GMV Max Live SID'],
+  '1A4Glwt7TpSEI28MIp9LslZ-WCHEmmS_n': ['03 Klik Produk', 'GMV Max Live SMV'],
+  '1buMGZNJQVLS9lLSPFr4IYY_JhLUSyi6v': ['03 Klik Produk', 'GMV Max Live Affiliate'],
+  '1cpddQTTiElLqM9aXn1BwBYb278kOMHja': ['04 Shopee CPC'],
+  '1aUBcHn2UOWXg4Nk2snjiZFcyMfIfGee1': ['05 Shopee Toko'],
+  '1cn0W0yewgVjg1VGFo4iDk2g-F_Sbk4An': ['06 Shopee SBA'],
+  '1uosilDGmHP4z7D9e-gacRPf6FfU-hYU8': ['07 Shopee Live'],
+  '1PpOwXp2MwXu1dmY0NYCE15DTWm-IZWs6': ['08 Meta'],
+  '1iM-d5v4lxHjI608B9M2u0N91vSRvB0m_': ['09 Lazada'],
+  '1yTPpdquQckCppPnEcyO2NOW9bepnPi3s': ['10 Branding Ads']
+};
+
+function childFolderByName_(parent, name) {
+  var it = parent.getFoldersByName(name);
+  return it.hasNext() ? it.next() : null;
+}
+
+/** Cari folder lewat nama di dalam RAW_PARENT_ID; null bila tidak ketemu. */
+function resolveByPath_(pathArr) {
+  try {
+    var f = DriveApp.getFolderById(RAW_PARENT_ID);
+    for (var i = 0; i < pathArr.length; i++) {
+      var next = childFolderByName_(f, pathArr[i]);
+      if (!next && i === 0 && pathArr.length > 1) {
+        // fallback: mungkin foldernya satu tingkat dengan nama gabungan
+        next = childFolderByName_(f, pathArr.join(' / '));
+        if (next) return next;
+      }
+      if (!next) return null;
+      f = next;
+    }
+    return f;
+  } catch (e) { return null; }
+}
+
+/** Kumpulkan file dari folder + sub-foldernya (maks 2 tingkat, maks 400 file). */
+function collectFiles_(folder, out, depth) {
+  var it = folder.getFiles();
+  while (it.hasNext() && out.length < 400) {
+    var f = it.next();
+    var mime = f.getMimeType();
+    var title = f.getName();
+    if (mime === 'application/vnd.google-apps.spreadsheet') {
+      mime = 'text/csv';
+      if (!/\.csv$/i.test(title)) title += '.csv';
+    }
+    out.push({
+      id: f.getId(),
+      title: title,
+      mimeType: mime,
+      updated: f.getLastUpdated() ? f.getLastUpdated().toISOString() : ''
+    });
+  }
+  if (depth > 0) {
+    var fs = folder.getFolders();
+    while (fs.hasNext() && out.length < 400) collectFiles_(fs.next(), out, depth - 1);
+  }
+}
+
 /**
- * Daftar file di dalam satu folder Drive.
- * Mengembalikan {files:[{id,title,mimeType,updated}]}.
- * Stempel "updated" dipakai browser untuk memproses ulang file yang berubah.
+ * Daftar file untuk satu folder raw data.
+ * Mencoba ID asli DAN mencari folder bernama sama di dalam "SM Ads Raw Data"
+ * yang sekarang, lalu membaca sampai 2 tingkat sub-folder.
  */
 function gdListFiles(folderId) {
   if (!isAllowed_()) return { error: 'Akses ditolak.' };
   try {
-    var folder = DriveApp.getFolderById(folderId);
-    var it = folder.getFiles();
     var files = [];
-    while (it.hasNext()) {
-      var f = it.next();
-      var mime = f.getMimeType();
-      var title = f.getName();
-      if (mime === 'application/vnd.google-apps.spreadsheet') {
-        mime = 'text/csv';
-        if (!/\.csv$/i.test(title)) title += '.csv';
-      }
-      files.push({
-        id: f.getId(),
-        title: title,
-        mimeType: mime,
-        updated: f.getLastUpdated() ? f.getLastUpdated().toISOString() : ''
-      });
+    var f1 = null;
+    try { f1 = DriveApp.getFolderById(folderId); } catch (e) {}
+    if (f1) collectFiles_(f1, files, 2);
+    var path = FOLDER_PATHS[folderId];
+    if (path) {
+      var f2 = resolveByPath_(path);
+      if (f2 && (!f1 || f2.getId() !== f1.getId())) collectFiles_(f2, files, 2);
     }
-    return { files: files };
+    var seen = {}, dedup = [];
+    for (var i = 0; i < files.length; i++) {
+      if (seen[files[i].id]) continue;
+      seen[files[i].id] = 1;
+      dedup.push(files[i]);
+    }
+    return { files: dedup };
   } catch (err) {
     return { error: 'Folder ' + folderId + ': ' + err.message };
   }
