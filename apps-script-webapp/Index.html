@@ -2792,6 +2792,7 @@ const GD_FOLDERS=[
   {id:'1iM-d5v4lxHjI608B9M2u0N91vSRvB0m_',name:'09 Lazada'},
   {id:'1yTPpdquQckCppPnEcyO2NOW9bepnPi3s',name:'10 Branding Ads'},
 ];
+const GD_CUTOFF=String((RAW&&RAW.meta&&RAW.meta.generated)||'').replace(/-/g,'');
 const LS_SYNC='smoAdsSyncedIds';
 let syncedIds=store.get(LS_SYNC,{});
 const gdAvailable=()=>!!(typeof google!=='undefined'&&google.script&&google.script.run);
@@ -2816,12 +2817,14 @@ async function runDriveSync(onStatus){
     try{pay=await gasRun('gdListFiles',f.id);}
     catch(e){report.errors.push(f.name+': '+gdErrMsg(e));continue;}
     const list=(pay.files||[]).filter(x=>x.mimeType!=='application/vnd.google-apps.folder');
-    let gdPrev=0;
+    let gdPrev=0,gdOld=0;
     for(const file of list){
       const gdStamp=String(file.updated||'1');
       const gdSeen=syncedIds[file.id];
       if(gdSeen&&(gdSeen===gdStamp||gdSeen==='skip|'+gdStamp)){gdPrev++;continue;}
       const t=String(file.title||'');
+      const gdM=t.match(/(20\d\d)[-_.]?(\d\d)[-_.]?(\d\d)/);
+      if(gdM&&GD_CUTOFF&&(gdM[1]+gdM[2]+gdM[3])<GD_CUTOFF){syncedIds[file.id]='skip|'+gdStamp;gdOld++;continue;}
       const okType=/\.(csv|xlsx|txt)$/i.test(t)||/csv|excel|spreadsheetml|text\/plain/.test(String(file.mimeType||''));
       if(!okType){report.skipped.push(t+': '+L('format tidak didukung','unsupported format'));syncedIds[file.id]='skip|'+gdStamp;continue;}
       onStatus(L('Memproses ','Processing ')+t+'…');
@@ -2862,7 +2865,7 @@ async function runDriveSync(onStatus){
       filesDone++;
       report.applied.push(t+' → '+f.name);
     }
-    report.folders.push(f.name+': '+list.length+' file'+(gdPrev?' ('+gdPrev+' '+L('sudah pernah diproses','already processed')+')':''));
+    report.folders.push(f.name+': '+list.length+' file'+(gdPrev?' · '+gdPrev+' '+L('sudah pernah diproses','already processed'):'')+(gdOld?' · '+gdOld+' '+L('tercakup data dasar','covered by base data'):''));
   }
   store.set(LS_SYNC,syncedIds);
   store.set(LS_O,overlay);
