@@ -1,8 +1,15 @@
 {
   "mcpServers": {
-    "tikhub": {
+    "tikhub-tiktok": {
       "type": "http",
       "url": "https://mcp.tikhub.io/tiktok/mcp",
+      "headers": {
+        "Authorization": "Bearer ${TIKHUB_API_KEY}"
+      }
+    },
+    "tikhub-instagram": {
+      "type": "http",
+      "url": "https://mcp.tikhub.io/instagram/mcp",
       "headers": {
         "Authorization": "Bearer ${TIKHUB_API_KEY}"
       }

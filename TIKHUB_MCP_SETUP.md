@@ -1,7 +1,14 @@
 # Integrasi TikHub Social Media API ke Claude Code (MCP)
 
 Project ini sudah dikonfigurasi memakai **TikHub MCP Server** lewat file `.mcp.json`,
-sehingga Claude Code bisa mengambil data video/user/trending dari TikTok, Douyin, dll.
+sehingga Claude Code bisa mengambil data video/user/trending.
+
+Platform yang aktif saat ini:
+
+- `tikhub-tiktok` -> https://mcp.tikhub.io/tiktok/mcp
+- `tikhub-instagram` -> https://mcp.tikhub.io/instagram/mcp
+
+Kedua platform memakai API key yang sama (`TIKHUB_API_KEY`).
 
 ## 1. Dapatkan API Key TikHub
 
