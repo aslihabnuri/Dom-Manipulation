@@ -2094,7 +2094,7 @@ function renderUpload(){
       <button class="btn ghost" id="gdReset" style="font-size:12px">${L('Lupakan riwayat file','Forget file history')}</button>
     </div>
     <div id="gdReport"></div>`:`
-    <p class="note" style="margin:0">${L('Pada versi bagikan-publik ini sinkron otomatis dimatikan. Pembaruan data dilakukan admin (unggah manual di atas, atau versi online real-time yang terhubung Google Drive).','Automatic sync is disabled in this shareable version. Data updates are done by the admin (manual upload above, or the real-time online version connected to Google Drive).')}</p>`}
+    <p class="note" style="margin:0">${L('Tombol sinkron aktif saat dashboard dibuka sebagai artifact claude.ai dengan connector Google Drive. Pada file HTML biasa, unggah manual di atas atau minta Claude "sync gdrive" di chat.','The sync button activates when the dashboard is opened as a claude.ai artifact with the Google Drive connector. In the plain HTML file, upload manually above or ask Claude to "sync gdrive" in chat.')}</p>`}
   </div>
   <div class="card" style="margin-top:12px">
     <h3>${L('Generate ke Google Sheet','Generate to Google Sheet')}</h3>
