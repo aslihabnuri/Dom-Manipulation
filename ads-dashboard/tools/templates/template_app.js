@@ -1992,6 +1992,39 @@ async function gdResolveServer(){
   return loose?loose.server:null;
 }
 function b64ToBuf(b64){const bin=atob(b64);const u8=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u8[i]=bin.charCodeAt(i);return u8.buffer;}
+/* Jalur file besar: connector menolak transfer biner (download_file_content 502) untuk
+   file sekitar 7MB, tetapi read_file_content tetap memberikan representasi teks CSV dari
+   xlsx tanpa batas ukuran file. Teksnya satu baris panjang tanpa pemisah baris; batas
+   baris direkonstruksi dari kolom terakhir laporan TikTok Product ("Mata uang" = IDR). */
+function gdFixQuoted(r,nc){
+  while(r.length>nc&&String(r[0]).startsWith('"')){
+    const merged=String(r[0])+','+String(r[1]);
+    r=[merged.endsWith('"')?merged.slice(1,-1):merged].concat(r.slice(2));
+  }
+  return r;
+}
+function gdTextToRows(text){
+  text=String(text||'');
+  if(/[\r\n]/.test(text))return csvParse(text);
+  const toks=(csvParse(text)[0]||[]).map(String);
+  const endH=toks.findIndex(t=>t.startsWith('Mata uang'));
+  if(endH<1)return null;
+  const header=toks.slice(0,endH);
+  if(/Nama kampanye$/.test(header[0]))header[0]='Nama kampanye';
+  header.push('Mata uang');
+  const nc=header.length;
+  const rows=[header];
+  let cur=[toks[endH].slice('Mata uang '.length)];
+  for(let i=endH+1;i<toks.length;i++){
+    const t=toks[i];
+    if(t==='IDR'&&cur.length>=nc-6){cur.push('IDR');rows.push(gdFixQuoted(cur,nc));cur=[];}
+    else if(t.startsWith('IDR ')&&cur.length>=nc-6){cur.push('IDR');rows.push(gdFixQuoted(cur,nc));cur=[t.slice(4)];}
+    else cur.push(t);
+  }
+  /* baris tanpa penutup IDR = baris terpotong batas teks; representasi teks memangkas
+     ekor file sangat besar, dan ekor laporan ini berisi baris biaya 0 yang memang dibuang */
+  return rows.length>1?rows:null;
+}
 async function gdSearchChildren(server,parentId){
   try{
     return await window.claude.mcp.callTool(server,'search_files',
@@ -2036,43 +2069,52 @@ async function runDriveSync(onStatus){
       list=await gdGatherFiles(server,f.id,onStatus,f.name);
     }catch(e){report.errors.push(f.name+': '+gdErrMsg(e));continue;}
     for(const file of list){
+      /* tanda 'fail-big' dari versi lama dianggap belum sinkron agar otomatis dicoba ulang */
       if(syncedIds[file.id]&&syncedIds[file.id]!=='fail-big')continue;
       const t=String(file.title||'');
       const okType=/\.(csv|xlsx|txt)$/i.test(t)||/csv|excel|spreadsheetml|text\/plain/.test(String(file.mimeType||''));
       if(!okType){report.skipped.push(t+': '+L('format tidak didukung','unsupported format'));syncedIds[file.id]='skip-format';continue;}
       const fsize=+(file.fileSize||0);
-      /* file yang sudah terbukti gagal ditarik connector (terlalu besar): jangan buang waktu
-         mencobanya lagi tiap sinkron; "Lupakan riwayat file" membuka kesempatan coba ulang */
-      if(syncedIds[file.id]==='fail-big'){
-        report.skipped.push(t+': '+L(`pernah gagal ditarik connector (${(fsize/1048576).toFixed(1)}MB). Unggah manual di kotak atas, atau tekan "Lupakan riwayat file" untuk mencoba lagi.`,`previously failed to transfer (${(fsize/1048576).toFixed(1)}MB). Upload manually in the box above, or press "Forget file history" to retry.`));
-        continue;
-      }
       onStatus(L('Memproses ','Processing ')+t+(fsize>4*1024*1024?` (${(fsize/1048576).toFixed(1)}MB)…`:'…'));
-      let dl;
-      const bigHint=fsize>4*1024*1024?L(` (file ${(fsize/1048576).toFixed(1)}MB, kemungkinan melebihi kapasitas transfer connector; unggah manual di kotak atas)`,` (file is ${(fsize/1048576).toFixed(1)}MB, likely beyond the connector transfer capacity; upload manually in the box above)`):'';
+      let dl=null,dlErr=null,viaText=null;
       try{dl=await window.claude.mcp.callTool(server,'download_file_content',{fileId:file.id},{cache:false});}
       catch(e){
         if(e&&e.retryable){
           await new Promise(r=>setTimeout(r,(e.retryAfterMs||1500)+Math.random()*500));
           try{dl=await window.claude.mcp.callTool(server,'download_file_content',{fileId:file.id},{cache:false});}
-          catch(e2){
-            report.errors.push(t+': '+gdErrMsg(e2)+bigHint);
-            if(fsize>4*1024*1024)syncedIds[file.id]='fail-big';
-            continue;
-          }
-        } else {
-          report.errors.push(t+': '+gdErrMsg(e)+bigHint);
-          if(fsize>4*1024*1024&&!['needs_reauth','server_not_connected','not_in_manifest','not_granted'].includes(e&&e.code))syncedIds[file.id]='fail-big';
-          continue;
-        }
+          catch(e2){dlErr=e2;}
+        } else dlErr=e;
       }
-      const dpay=dl&&dl.payload?dl.payload:{};
-      if(!dpay.content){report.errors.push(t+': '+L('konten kosong','empty content'));continue;}
+      if(!dl||!dl.payload||!dl.payload.content){
+        /* transfer biner gagal (biasanya file besar sekitar 7MB ditolak 502 oleh connector):
+           tarik representasi teks file lewat read_file_content, jalur ini tanpa batas ukuran file */
+        if(dlErr&&['needs_reauth','server_not_connected','not_in_manifest','not_granted','blocked_by_policy','approval_required'].includes(dlErr.code)){
+          report.errors.push(t+': '+gdErrMsg(dlErr));continue;
+        }
+        onStatus(L('Transfer biner gagal, menarik teks ','Binary transfer failed, pulling text of ')+t+'…');
+        let rd=null;
+        try{rd=await window.claude.mcp.callTool(server,'read_file_content',{fileId:file.id},{cache:false});}
+        catch(e3){
+          if(e3&&e3.retryable){
+            await new Promise(r=>setTimeout(r,(e3.retryAfterMs||1500)+Math.random()*500));
+            try{rd=await window.claude.mcp.callTool(server,'read_file_content',{fileId:file.id},{cache:false});}
+            catch(e4){rd=null;}
+          }
+        }
+        const rp=rd&&rd.payload;
+        const txt=rp?(typeof rp==='string'?rp:(rp.fileContent||rp.content||'')):'';
+        if(!txt){report.errors.push(t+': '+gdErrMsg(dlErr||{})+L(' (jalur teks juga gagal; unggah manual di kotak atas)',' (text path also failed; upload manually in the box above)'));continue;}
+        viaText=String(txt);
+      }
       let rows;
       try{
-        if(/\.xlsx$/i.test(t)||/officedocument|spreadsheetml|ms-excel/.test(String(dpay.mimeType||'')))
-          rows=await xlsxToRows(b64ToBuf(dpay.content));
-        else rows=csvParse(new TextDecoder().decode(b64ToBuf(dpay.content)).replace(/^﻿/,''));
+        if(viaText!=null){
+          rows=gdTextToRows(viaText);
+          if(!rows||rows.length<2)throw new Error(L('format teks tidak dikenali; unggah manual di kotak atas','unrecognized text format; upload manually in the box above'));
+        }
+        else if(/\.xlsx$/i.test(t)||/officedocument|spreadsheetml|ms-excel/.test(String(dl.payload.mimeType||'')))
+          rows=await xlsxToRows(b64ToBuf(dl.payload.content));
+        else rows=csvParse(new TextDecoder().decode(b64ToBuf(dl.payload.content)).replace(/^﻿/,''));
       }catch(e){report.errors.push(t+': '+(e.message||e));continue;}
       const det=detectRows(rows,t);
       if(det.error){report.skipped.push(t+': '+det.error);syncedIds[file.id]='skip-detect';continue;}
@@ -2099,7 +2141,7 @@ async function runDriveSync(onStatus){
       }
       syncedIds[file.id]=new Date().toISOString();
       filesDone++;
-      report.applied.push(t+' → '+f.name);
+      report.applied.push(t+' → '+f.name+(viaText!=null?L(' (via teks, tanpa batas ukuran)',' (via text, no size limit)'):''));
     }
   }
   store.set(LS_SYNC,syncedIds);
@@ -2130,7 +2172,7 @@ function renderUpload(){
   <div class="card" style="margin-top:12px">
     <h3>${L('Sinkron Google Drive','Google Drive Sync')}</h3>
     ${gdAvailable()?`
-    <p class="note" style="margin:0 0 10px">${L('Tarik raw data terbaru dari folder "SM Ads Raw Data" di Google Drive (termasuk subfolder di dalamnya). File yang sudah diproses dilewati otomatis. Data masuk sebagai overlay di browser ini; untuk membagikannya ke semua pemegang link, minta Claude menerbitkan ulang. Catatan: sinkron mencoba semua ukuran file; file sangat besar (mis. RAW TikTok Product 7MB) dapat gagal ditarik oleh connector, bila gagal unggah manual di kotak atas atau pakai versi online.','Pull the latest raw data from the "SM Ads Raw Data" folder in Google Drive (including its subfolders). Files already processed are skipped automatically. Data lands as an overlay in this browser; to share it with all link holders, ask Claude to republish. Note: sync attempts every file size; very large files (e.g. 7MB RAW TikTok Product) can fail the connector transfer, if so upload them manually in the box above or use the online version.')}</p>
+    <p class="note" style="margin:0 0 10px">${L('Tarik raw data terbaru dari folder "SM Ads Raw Data" di Google Drive (termasuk subfolder di dalamnya). File yang sudah diproses dilewati otomatis. Data masuk sebagai overlay di browser ini; untuk membagikannya ke semua pemegang link, minta Claude menerbitkan ulang. Semua ukuran file didukung: bila transfer biner ditolak connector (file besar seperti RAW TikTok Product 7MB), sistem otomatis beralih ke jalur teks yang tanpa batas ukuran.','Pull the latest raw data from the "SM Ads Raw Data" folder in Google Drive (including its subfolders). Files already processed are skipped automatically. Data lands as an overlay in this browser; to share it with all link holders, ask Claude to republish. All file sizes are supported: when the connector rejects the binary transfer (large files such as the 7MB RAW TikTok Product), the system automatically falls back to the size-unlimited text path.')}</p>
     <div class="controls" style="margin:0">
       <button class="btn" id="gdSync">⟳ ${L('Sinkron dari Drive','Sync from Drive')}</button>
       <span id="gdStatus" style="font-size:12px;color:var(--muted)"></span>
