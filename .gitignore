@@ -1,0 +1,4 @@
+# Jangan commit API key / rahasia
+.env
+.env.local
+*.key
