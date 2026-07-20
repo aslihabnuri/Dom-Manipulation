@@ -1,0 +1,4 @@
+# Third-party agent skills installed at runtime (not part of the project)
+.agents/
+.claude/skills/
+skills-lock.json
