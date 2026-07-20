@@ -2813,6 +2813,38 @@ async function gdResolveServer(){
   return loose?loose.server:null;
 }
 function b64ToBuf(b64){const bin=atob(b64);const u8=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u8[i]=bin.charCodeAt(i);return u8.buffer;}
+async function gdSearchChildren(server,parentId){
+  try{
+    return await window.claude.mcp.callTool(server,'search_files',
+      {query:`parentId = '${parentId}'`,pageSize:200,excludeContentSnippets:true},{cache:false});
+  }catch(e){
+    if(e&&e.retryable){
+      await new Promise(r=>setTimeout(r,(e.retryAfterMs||1500)+Math.random()*500));
+      return await window.claude.mcp.callTool(server,'search_files',
+        {query:`parentId = '${parentId}'`,pageSize:200,excludeContentSnippets:true},{cache:false});
+    }
+    throw e;
+  }
+}
+/* kumpulkan file secara rekursif: folder channel + subfolder di dalamnya
+   (mis. tim membuat subfolder "JULY 2026" di tiap folder channel) */
+async function gdGatherFiles(server,rootId,onStatus,label){
+  const files=[]; let queue=[rootId], depth=0, guard=0;
+  while(queue.length&&depth<5&&guard<80){
+    const next=[];
+    for(const fid of queue){
+      guard++;
+      const res=await gdSearchChildren(server,fid);
+      const items=(res&&res.payload&&res.payload.files)||[];
+      for(const it of items){
+        if(it.mimeType==='application/vnd.google-apps.folder'){next.push(it.id);onStatus(L('Memindai ','Scanning ')+label+' / '+(it.title||'')+'…');}
+        else files.push(it);
+      }
+    }
+    queue=next; depth++;
+  }
+  return files;
+}
 async function runDriveSync(onStatus){
   const report={applied:[],skipped:[],errors:[]};
   let cells=0,filesDone=0;
@@ -2820,20 +2852,10 @@ async function runDriveSync(onStatus){
   if(!server){report.errors.push(gdErrMsg({code:'server_not_connected'}));return {report,cells,filesDone};}
   for(const f of GD_FOLDERS){
     onStatus(L('Memindai ','Scanning ')+f.name+'…');
-    let res;
+    let list;
     try{
-      res=await window.claude.mcp.callTool(server,'search_files',
-        {query:`parentId = '${f.id}'`,pageSize:100,excludeContentSnippets:true},{cache:false});
-    }catch(e){
-      if(e&&e.retryable){
-        await new Promise(r=>setTimeout(r,(e.retryAfterMs||1500)+Math.random()*500));
-        try{res=await window.claude.mcp.callTool(server,'search_files',
-          {query:`parentId = '${f.id}'`,pageSize:100,excludeContentSnippets:true},{cache:false});}
-        catch(e2){report.errors.push(f.name+': '+gdErrMsg(e2));continue;}
-      } else {report.errors.push(f.name+': '+gdErrMsg(e));continue;}
-    }
-    const pay=res&&res.payload?res.payload:{};
-    const list=(pay.files||[]).filter(x=>x.mimeType!=='application/vnd.google-apps.folder');
+      list=await gdGatherFiles(server,f.id,onStatus,f.name);
+    }catch(e){report.errors.push(f.name+': '+gdErrMsg(e));continue;}
     for(const file of list){
       if(syncedIds[file.id])continue;
       const t=String(file.title||'');
