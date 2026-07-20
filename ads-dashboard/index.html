@@ -2857,26 +2857,35 @@ async function runDriveSync(onStatus){
       list=await gdGatherFiles(server,f.id,onStatus,f.name);
     }catch(e){report.errors.push(f.name+': '+gdErrMsg(e));continue;}
     for(const file of list){
-      if(syncedIds[file.id])continue;
+      if(syncedIds[file.id]&&syncedIds[file.id]!=='fail-big')continue;
       const t=String(file.title||'');
       const okType=/\.(csv|xlsx|txt)$/i.test(t)||/csv|excel|spreadsheetml|text\/plain/.test(String(file.mimeType||''));
       if(!okType){report.skipped.push(t+': '+L('format tidak didukung','unsupported format'));syncedIds[file.id]='skip-format';continue;}
-      /* connector artifact tidak sanggup menarik file besar (>5MB) → 502.
-         Lewati dengan pesan jelas; file besar diproses lewat unggah manual atau versi online. */
       const fsize=+(file.fileSize||0);
-      if(fsize>5*1024*1024){
-        report.skipped.push(t+': '+L(`terlalu besar (${(fsize/1048576).toFixed(1)}MB) untuk sinkron di browser. Unggah manual file ini di kotak atas, atau pakai versi online.`,`too large (${(fsize/1048576).toFixed(1)}MB) for in-browser sync. Upload this file manually in the box above, or use the online version.`));
+      /* file yang sudah terbukti gagal ditarik connector (terlalu besar): jangan buang waktu
+         mencobanya lagi tiap sinkron; "Lupakan riwayat file" membuka kesempatan coba ulang */
+      if(syncedIds[file.id]==='fail-big'){
+        report.skipped.push(t+': '+L(`pernah gagal ditarik connector (${(fsize/1048576).toFixed(1)}MB). Unggah manual di kotak atas, atau tekan "Lupakan riwayat file" untuk mencoba lagi.`,`previously failed to transfer (${(fsize/1048576).toFixed(1)}MB). Upload manually in the box above, or press "Forget file history" to retry.`));
         continue;
       }
-      onStatus(L('Memproses ','Processing ')+t+'…');
+      onStatus(L('Memproses ','Processing ')+t+(fsize>4*1024*1024?` (${(fsize/1048576).toFixed(1)}MB)…`:'…'));
       let dl;
+      const bigHint=fsize>4*1024*1024?L(` (file ${(fsize/1048576).toFixed(1)}MB, kemungkinan melebihi kapasitas transfer connector; unggah manual di kotak atas)`,` (file is ${(fsize/1048576).toFixed(1)}MB, likely beyond the connector transfer capacity; upload manually in the box above)`):'';
       try{dl=await window.claude.mcp.callTool(server,'download_file_content',{fileId:file.id},{cache:false});}
       catch(e){
         if(e&&e.retryable){
           await new Promise(r=>setTimeout(r,(e.retryAfterMs||1500)+Math.random()*500));
           try{dl=await window.claude.mcp.callTool(server,'download_file_content',{fileId:file.id},{cache:false});}
-          catch(e2){report.errors.push(t+': '+gdErrMsg(e2)+(String(e2&&e2.code).includes('unavailable')||/502/.test(gdErrMsg(e2))?L(' (mungkin file terlalu besar; unggah manual)',' (possibly too large; upload manually)'):''));continue;}
-        } else {report.errors.push(t+': '+gdErrMsg(e));continue;}
+          catch(e2){
+            report.errors.push(t+': '+gdErrMsg(e2)+bigHint);
+            if(fsize>4*1024*1024)syncedIds[file.id]='fail-big';
+            continue;
+          }
+        } else {
+          report.errors.push(t+': '+gdErrMsg(e)+bigHint);
+          if(fsize>4*1024*1024&&!['needs_reauth','server_not_connected','not_in_manifest','not_granted'].includes(e&&e.code))syncedIds[file.id]='fail-big';
+          continue;
+        }
       }
       const dpay=dl&&dl.payload?dl.payload:{};
       if(!dpay.content){report.errors.push(t+': '+L('konten kosong','empty content'));continue;}
@@ -2942,7 +2951,7 @@ function renderUpload(){
   <div class="card" style="margin-top:12px">
     <h3>${L('Sinkron Google Drive','Google Drive Sync')}</h3>
     ${gdAvailable()?`
-    <p class="note" style="margin:0 0 10px">${L('Tarik raw data terbaru dari folder "SM Ads Raw Data" di Google Drive (termasuk subfolder di dalamnya). File yang sudah diproses dilewati otomatis. Data masuk sebagai overlay di browser ini; untuk membagikannya ke semua pemegang link, minta Claude menerbitkan ulang. Catatan: file sangat besar (di atas 5MB, mis. RAW TikTok Product) tidak bisa ditarik lewat sinkron browser, unggah manual file itu di kotak atas.','Pull the latest raw data from the "SM Ads Raw Data" folder in Google Drive (including its subfolders). Files already processed are skipped automatically. Data lands as an overlay in this browser; to share it with all link holders, ask Claude to republish. Note: very large files (over 5MB, e.g. RAW TikTok Product) cannot be pulled via in-browser sync, upload those manually in the box above.')}</p>
+    <p class="note" style="margin:0 0 10px">${L('Tarik raw data terbaru dari folder "SM Ads Raw Data" di Google Drive (termasuk subfolder di dalamnya). File yang sudah diproses dilewati otomatis. Data masuk sebagai overlay di browser ini; untuk membagikannya ke semua pemegang link, minta Claude menerbitkan ulang. Catatan: sinkron mencoba semua ukuran file; file sangat besar (mis. RAW TikTok Product 7MB) dapat gagal ditarik oleh connector, bila gagal unggah manual di kotak atas atau pakai versi online.','Pull the latest raw data from the "SM Ads Raw Data" folder in Google Drive (including its subfolders). Files already processed are skipped automatically. Data lands as an overlay in this browser; to share it with all link holders, ask Claude to republish. Note: sync attempts every file size; very large files (e.g. 7MB RAW TikTok Product) can fail the connector transfer, if so upload them manually in the box above or use the online version.')}</p>
     <div class="controls" style="margin:0">
       <button class="btn" id="gdSync">⟳ ${L('Sinkron dari Drive','Sync from Drive')}</button>
       <span id="gdStatus" style="font-size:12px;color:var(--muted)"></span>
