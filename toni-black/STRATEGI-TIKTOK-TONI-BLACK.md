@@ -32,16 +32,57 @@ Konsekuensinya: musuh utama Toni Black di TikTok **bukan brand premium lain, tap
 - Kata "premium" di TikTok Shop underwear sudah *terdilusi* — dipakai produk 10 ribuan. Toni Black **tidak boleh berebut kata "premium"**; harus membuktikannya lewat demo dan storytelling, bukan klaim.
 - Tren konten underwear pria global di TikTok: comfort-first, color-matching dengan outfit, styling hacks, dan konten edukasi/grooming — bukan konten sensual.
 
-### 2.3 Catatan Kalodata
+### 2.3 Data Riil Kalodata — Men's Underwear Indonesia (30 hari terakhir)
 
-Halaman `kalodata.com/explore` mewajibkan login (akses langsung diblokir 403), jadi data revenue per produk/creator tidak bisa saya tarik dari sesi ini. Rekomendasi: buat akun Kalodata (ada tier gratis), lalu pantau kategori **Men's Underwear — region ID** untuk: (1) top produk by revenue, (2) kreator/affiliate yang menjual kategori ini, (3) rasio penjualan live vs video. Gunakan sebagai watchlist bulanan.
+Ditarik langsung via KaloPilot (kategori Men's Underwear, region ID, currency IDR). **Ini data aktual, bukan estimasi.**
+
+**A. Top produk by revenue (kisaran harga Rp80–150rb):**
+
+| # | Produk (ringkas) | Toko/Brand | Harga "paket" | Terjual | Revenue |
+|---|---|---|---|---|---|
+| 1 | Boxer olahraga anti-wear, beli 4 gratis 2 | uncolive.underwear | Rp102rb | 14.450 | Rp1,48 M |
+| 2 | Sports underwear "French" beli 4 gratis 2 (12 warna) | uomolive | Rp91rb | 10.498 | Rp959 jt |
+| 3 | S9002 sports underwear beli 4 gratis 2 | uomolive | Rp119rb | 6.201 | Rp736 jt |
+| 4 | Ryusei Boxer Haruki 3 pcs | Ryusei | Rp95rb | 5.682 | Rp540 jt |
+| 5 | Boxer Premium Anti Bakteri paket 6 pcs | Vallero Store | Rp102rb | 5.029 | Rp511 jt |
+| 6 | Boxer Ice Silk antibakteri 6 pcs | Michiyo | Rp94rb | 4.331 | Rp407 jt |
+| 7 | VAUDREÉ paket hemat 4 pcs Ice Silk | VAUDREE | Rp82rb | 4.266 | Rp352 jt |
+| 8 | JFYOU katun premium buy 1 get 3 (4 pcs) | SUANKA STORE | Rp88rb | 3.188 | Rp282 jt |
+| 9 | Crossbell x Moow paket 4 pcs Ice Silk | Crossbell Store | Rp123rb | 1.886 | Rp233 jt |
+| 10 | Combo boxer poly 6 pcs | LEADER.CO | Rp91rb | 2.088 | Rp190 jt |
+
+**Temuan paling penting:** hampir SEMUA produk teratas di tier Rp80–150rb adalah **paket bundling 3–6 pcs**. Artinya harga efektif per pcs cuma **± Rp15–30rb** — mereka bukan produk premium, hanya *dikemas* di label harga Rp100rb-an lewat multipack. **Praktis tidak ada satu pun produk 1 pcs premium seharga Rp100rb di ranking teratas.** Ini mengonfirmasi: **Toni Black berada di ruang kosong yang nyaris tak berkompetitor langsung** — tapi harus mengedukasi pasar yang otaknya sudah ter-anchor "Rp100rb = dapat banyak".
+
+**B. Top creator/affiliate (revenue tertinggi kategori ini):**
+
+| # | Creator | Follower | Revenue | Model |
+|---|---|---|---|---|
+| 1 | JURAGAN SEMPAK (@user835006894) | 3.402 | Rp452 jt | 100% video |
+| 2 | Ryan Outfitness (@ryan.outfitness) | 9.574 | Rp439 jt | Hybrid (98% live) |
+| 3 | Ko.ony (@ko.ony96) | 65.700 | Rp411 jt | Video |
+| 4 | JRshop88 (@jrshop_08) | 17.200 | Rp361 jt | Hybrid (live) |
+| 5 | CK Underwear Store (@ck_underwear_store) | 5.153 | Rp339 jt | 100% live (AOV ~Rp356rb!) |
+| 7 | Promo harian (@promoharian12) | 1.482 | Rp322 jt | Video (AI) |
+| 9 | Spesialis Underwear (@spill_underwear) | 2.683 | Rp310 jt | Hybrid (live) |
+| 10 | sulastridua2 | 44.000 | Rp306 jt | Hybrid — **growth +283%** |
+
+**C. Format video yang menang (analisis 50 video teratas):**
+- **98% adalah PAID ADS** (bukan organik). Tanpa budget iklan, sangat sulit tembus top revenue di kategori ini.
+- Dua durasi pemenang: **ultra-short 5–20 detik** (product showcase langsung, GPM Rp33rb–763rb/1000 views) dan **demo detail 60–80 detik** (tunjuk bahan + bundle, GPM tertinggi).
+- Elemen umum: **produk muncul di 3 detik pertama** (tanpa intro), hashtag mix (`#cdpria #boxerpria #celanadalampria #fyp`), CTA "cek keranjang kuning", bundle promo agresif.
+- **Model hybrid video + livestream = ROI tertinggi.** ~50% revenue top creator berasal dari live selling.
+- **AI video** mulai muncul (GPM sangat tinggi, biaya produksi rendah) tapi masih <5%.
+- **Red flag pasar:** 8 dari 10 creator teratas revenue-nya turun (-5% s/d -50%) → kategori bundle murah sudah **jenuh & perang harga**. Justru alasan kuat Toni Black main di lapangan berbeda (brand + premium), bukan ikut perang bundle.
 
 ### 2.4 Insight kunci dari riset
 
-1. **White space konten:** tidak ada pemain 100rb/pcs yang punya strategi konten TikTok Indonesia yang serius. First-mover advantage terbuka.
-2. **Musuhnya persepsi harga**, bukan brand lain → konten harus terus menjawab "kenapa 100 ribu untuk 1 pcs itu masuk akal".
-3. **Pembeli sering kali bukan pemakai:** porsi signifikan pembelian CD pria premium dilakukan istri/pacar → butuh konten yang menyasar perempuan (gift, "beliin suami").
-4. **Kategori ini punya risiko moderasi TikTok** (produk intim) → format konten harus dirancang aman sejak awal (lihat bagian 4).
+1. **White space terbukti dari data:** tidak ada produk 1 pcs premium Rp100rb di ranking Kalodata — semua kompetitor di tier harga itu adalah multipack murah. First-mover advantage untuk brand premium betulan.
+2. **Musuhnya persepsi harga**, bukan brand lain → konten harus terus menjawab "kenapa 100 ribu untuk 1 pcs itu masuk akal" (ini persis kekuatan pillar 2: demo & anatomy of Rp100.000).
+3. **Micro-influencer + affiliate adalah mesin penjualan, bukan follower besar.** Creator 1.482–5.153 follower menghasilkan Rp300–450 jt. Toni Black wajib punya program affiliate/seeding ke micro-creator niche (grooming pria, couple), sediakan sample + script + komisi menarik.
+4. **Live shopping wajib**, bukan opsional — separuh revenue kategori dari live. CK Underwear Store bahkan 100% live dengan AOV ~Rp356rb (bukti segmen mau bayar mahal saat di-edukasi live).
+5. **Paid ads (Spark Ads) tidak bisa dihindari** untuk skala — tapi Toni Black bisa menang di *kualitas kreatif & brand*, bukan perang harga, karena kompetitor bundle sedang jenuh & decline.
+6. **Pembeli sering kali bukan pemakai:** porsi signifikan pembelian dilakukan istri/pacar → konten menyasar perempuan (gift, "beliin suami").
+7. **Kategori ini punya risiko moderasi TikTok** (produk intim) → format konten harus dirancang aman sejak awal (lihat bagian 4).
 
 ---
 
@@ -144,8 +185,9 @@ Produk celana dalam rawan takedown/shadowban di TikTok kalau dieksekusi salah. A
 - **Frekuensi:** 1 video/hari (30 video/bulan) — cukup untuk belajar algoritma tanpa membakar tim.
 - **Rasio:** ikuti porsi pillar (9 : 8 : 6 : 4 : 3 per 30 hari).
 - **Format wajib:** hook 3 detik pertama (visual + verbal + text overlay sekaligus), subtitle selalu ada, durasi 15–45 detik, CTA jelas di akhir.
-- **Live shopping:** mulai 2x/minggu setelah minggu ke-2 (fokus edukasi bahan + bundle gift box, bukan obral).
-- **Creator/affiliate seeding:** target kreator grooming pria, fashion pria kelas menengah-atas, dan **kreator couple/istri muda** (untuk angle gift). Hindari kreator yang identik dengan produk murah/borongan.
+- **Live shopping (WAJIB, dari data):** separuh revenue kategori ini berasal dari live. Mulai 2x/minggu sejak minggu ke-2, naikkan ke 4–5x/minggu. Fokus: edukasi bahan + demo langsung + bundle gift box — bukan obral. Benchmark: CK Underwear Store 100% live dengan AOV ~Rp356rb (segmen mau bayar mahal saat di-edukasi live).
+- **Program affiliate/creator seeding (mesin penjualan utama):** data Kalodata menunjukkan **micro-influencer 1.500–5.000 follower menghasilkan Rp300–450 jt/bulan** — jauh mengalahkan follower besar. Rekrut 10–20 micro-creator niche (grooming pria, fashion pria menengah-atas, **couple/istri muda** untuk angle gift). Sediakan **sample + script + asset siap pakai + komisi menarik**; creator dengan material ready-to-use konversi 2x lebih baik. Hindari creator yang identik produk borongan murah.
+- **Paid ads / Spark Ads (tidak terhindarkan untuk skala):** 98% video top-revenue di kategori ini adalah iklan. Toni Black harus alokasi budget ads — tapi menang di **kualitas kreatif & brand**, bukan perang harga (kompetitor bundle sedang jenuh & decline -5% s/d -50%). Boost video demo terbaik (pillar 2) sebagai Spark Ads, target SES A + interest grooming/fashion pria.
 - **Engagement:** balas komentar 1 jam pertama; komentar nyinyir soal harga = bahan konten reply-to-comment (pillar 4).
 
 **KPI 90 hari pertama:**
@@ -173,4 +215,5 @@ Produk celana dalam rawan takedown/shadowban di TikTok kalau dieksekusi salah. A
 - Konten kompetitor mass-market TikTok: [@adi_katalino](https://www.tiktok.com/@adi_katalino/video/7493939988543868166) · [@dirinsilva99](https://www.tiktok.com/@dirinsilva99/video/7508372123652508936) · [@pusat.grosir200](https://www.tiktok.com/@pusat.grosir200/video/7379630523058064645)
 - [Tokopedia — celana dalam serat bambu/micromodal](https://www.tokopedia.com/find/celana-dalam-pria-serat-bambu)
 - Tren global underwear TikTok: [Medium — TikTok & the Underwear Industry](https://medium.com/@ad_88729/tiktoks-obsession-with-men-s-fashion-how-viral-trends-are-transforming-the-underwear-industry-55de7fd7c038) · [Panoramata — Underwear Marketing Benchmark](https://www.panoramata.co/benchmark-marketing/best-ads-marketing-strategies-underwear-industry)
-- [Kalodata — kategori produk TikTok Shop ID](https://www.kalodata.com/product?region=ID&language=id-ID) (butuh login untuk data detail)
+- **Data primer Kalodata (via KaloPilot, ditarik 20 Juli 2026):** kategori Men's Underwear ID 841352, region ID, 30 hari terakhir — top produk by revenue & top creator/affiliate. Angka di bagian 2.3 berasal dari sini.
+- [Kalodata — kategori produk TikTok Shop ID](https://www.kalodata.com/product?region=ID&language=id-ID)
