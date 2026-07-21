@@ -565,7 +565,7 @@ function monthSeries(mk){
   }
   return _cache[mk]=out;
 }
-function invalidateCache(){ for(const k in _cache) delete _cache[k]; }
+function invalidateCache(){ for(const k in _cache) delete _cache[k]; if(typeof rebuildMOM==='function') rebuildMOM(); }
 
 const sum=a=>a.reduce((x,y)=>x+(y||0),0);
 const div=(a,b)=>(b&&b!==0)?a/b:null;
@@ -616,16 +616,39 @@ const LATEST_LAST_ISO = () => isoOf(LATEST, GLOBAL_LAST);
 
 /* ---------- MoM (tab sheet) ---------- */
 const momRow=(y,name)=>((RAW.mom[y]||{})[name]||Array(12).fill(null));
+/* bulan yang punya unggahan (overlay) atau di-mask: dihitung ulang dari data harian
+   supaya tabel MoM ikut terupdate tiap kali data ditambahkan, konsisten dengan tab
+   Daily/Platform. Bulan tanpa unggahan tetap memakai angka resmi dari sheet. */
+function momMonthLive(mk){
+  if(maskMonths&&maskMonths[mk])return true;
+  for(const cid in overlay){const mm=overlay[cid];for(const k in mm){for(const iso in mm[k]){if(mkOf(iso)===mk)return true;}}}
+  return false;
+}
 function momPack(y){
-  const r=n=>momRow(y,n);
-  return {
+  const r=n=>momRow(y,n).slice();
+  const P={
     gmv:r('Total GMV From Ads'), cost:r('Total All Ads Cost'), salesCost:r('Total Sales Ads Cost'),
     orders:r('Total Orders From Ads'), roas:r('ROAS'), aov:r('AOV'), cpo:r('Cost Per Orders'),
     ctr:r('CTR'), ctor:r('CTOR'), imp:r('Impression'), clk:r('Product Clicks'), eff:r('Ads Efficiency Rate'),
     gmvAllMp:r('Total GMV All MP').map(v=>v===0?null:v),
   };
+  for(let m=0;m<12;m++){
+    const mk=`${y}-${String(m+1).padStart(2,'0')}`;
+    if(!RAW.months[mk]||!momMonthLive(mk))continue;
+    const from=isoOf(mk,1),to=isoOf(mk,mkDays(mk));
+    const s=statsRange(SALES_IDS,from,to),u=statsRange(UPPER_IDS,from,to);
+    const allCost=s.cost+u.cost,imp=s.imp+u.imp,clk=s.clk+u.clk;
+    P.gmv[m]=s.gmv; P.cost[m]=allCost; P.salesCost[m]=s.cost; P.orders[m]=s.orders;
+    P.imp[m]=imp; P.clk[m]=clk;
+    P.roas[m]=div(s.gmv,allCost); P.aov[m]=div(s.gmv,s.orders); P.cpo[m]=div(allCost,s.orders);
+    P.ctr[m]=imp?100*clk/imp:null; P.ctor[m]=clk?100*s.orders/clk:null;
+    /* Ads Efficiency Rate tetap dari sheet (tidak dihitung dari harian);
+       Total GMV All Marketplace tetap dari sheet / input manual (gmvMpOv) di render */
+  }
+  return P;
 }
-const MOM={ '2025':momPack('2025'), '2026':momPack('2026') };
+let MOM={ '2025':momPack('2025'), '2026':momPack('2026') };
+function rebuildMOM(){ MOM={ '2025':momPack('2025'), '2026':momPack('2026') }; }
 /* GMV & cost per platform per bulan — dihitung dari data harian channel (konsisten dgn filter) */
 function platMonthly(year, metric){
   const out={};
