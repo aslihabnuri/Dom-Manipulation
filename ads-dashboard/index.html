@@ -616,10 +616,15 @@ const LATEST_LAST_ISO = () => isoOf(LATEST, GLOBAL_LAST);
 
 /* ---------- MoM (tab sheet) ---------- */
 const momRow=(y,name)=>((RAW.mom[y]||{})[name]||Array(12).fill(null));
-/* bulan yang punya unggahan (overlay) atau di-mask: dihitung ulang dari data harian
-   supaya tabel MoM ikut terupdate tiap kali data ditambahkan, konsisten dengan tab
-   Daily/Platform. Bulan tanpa unggahan tetap memakai angka resmi dari sheet. */
+/* Workflow perhitungan ulang MoM hanya berlaku untuk Juli 2026 dan seterusnya.
+   Bulan sebelum ini SELALU memakai angka resmi dari sheet dan tidak pernah diubah,
+   walau ada unggahan. */
+const MOM_LIVE_FROM='2026-07';
+/* untuk bulan >= MOM_LIVE_FROM: bila ada unggahan (overlay) atau di-mask, dihitung
+   ulang dari data harian supaya tabel MoM ikut terupdate tiap data ditambahkan,
+   konsisten dengan tab Daily/Platform. */
 function momMonthLive(mk){
+  if(mk<MOM_LIVE_FROM)return false;
   if(maskMonths&&maskMonths[mk])return true;
   for(const cid in overlay){const mm=overlay[cid];for(const k in mm){for(const iso in mm[k]){if(mkOf(iso)===mk)return true;}}}
   return false;
