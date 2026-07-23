@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LARISIN · Generator Listing Shopee & TikTok Shop</title>
+  <meta name="description" content="Mesin generator nama produk, deskripsi SEO, dan prompt gambar ChatGPT untuk Shopee & TikTok Shop, berbasis brand guideline dan keyword pencarian tertinggi.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Gantari:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛒</text></svg>">
+</head>
+<body>
+
+  <!-- ══════════ MARQUEE STRIP ══════════ -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee__track">
+      <span>NAMA PRODUK ✦ DESKRIPSI SEO ✦ PROMPT GAMBAR ✦ KEYWORD PENCARIAN TERTINGGI ✦ SHOPEE ✦ TIKTOK SHOP ✦&nbsp;</span>
+      <span>NAMA PRODUK ✦ DESKRIPSI SEO ✦ PROMPT GAMBAR ✦ KEYWORD PENCARIAN TERTINGGI ✦ SHOPEE ✦ TIKTOK SHOP ✦&nbsp;</span>
+    </div>
+  </div>
+
+  <header class="hero">
+    <div class="hero__inner">
+      <div class="hero__badge">MESIN LISTING v1.0</div>
+      <h1 class="hero__title">LARI<span>SIN</span></h1>
+      <p class="hero__sub">Generator <strong>nama produk</strong>, <strong>deskripsi</strong>, &amp; <strong>prompt gambar ChatGPT</strong> untuk Shopee &amp; TikTok Shop, dirakit dari brand guideline kamu + keyword yang paling banyak dicari.</p>
+      <div class="hero__stickers" aria-hidden="true">
+        <div class="sticker sticker--orange">SEO-READY</div>
+        <div class="sticker sticker--teal">AUTO KEYWORD</div>
+        <div class="sticker sticker--ink">COPY 1-KLIK</div>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+
+    <!-- ══════════ FORM ══════════ -->
+    <section class="panel" id="form-panel">
+
+      <div class="panel__head">
+        <span class="panel__num">01</span>
+        <h2>Identitas Brand</h2>
+        <p>Tempel brand guideline kamu di sini: semua output akan mengikuti karakter brand.</p>
+      </div>
+
+      <div class="grid grid--2">
+        <label class="field">
+          <span class="field__label">Nama Brand <em>*</em></span>
+          <input type="text" id="brandName" placeholder="cth: Glowé Beauty" autocomplete="off">
+        </label>
+        <label class="field">
+          <span class="field__label">Industri / Kategori <em>*</em></span>
+          <select id="industry">
+            <option value="fashionWanita">Fashion Wanita</option>
+            <option value="fashionPria">Fashion Pria</option>
+            <option value="fashionMuslim">Fashion Muslim</option>
+            <option value="beauty">Kecantikan &amp; Skincare</option>
+            <option value="ibuBayi">Ibu &amp; Bayi</option>
+            <option value="elektronik">Elektronik &amp; Aksesoris</option>
+            <option value="fnb">Makanan &amp; Minuman</option>
+            <option value="rumahTangga">Perabot &amp; Rumah Tangga</option>
+            <option value="kesehatan">Kesehatan &amp; Herbal</option>
+            <option value="olahraga">Olahraga &amp; Outdoor</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="grid grid--2">
+        <label class="field">
+          <span class="field__label">Tone / Kepribadian Brand</span>
+          <select id="tone">
+            <option value="playful">Playful &amp; Fun</option>
+            <option value="premium">Elegan &amp; Premium</option>
+            <option value="natural">Natural &amp; Organik</option>
+            <option value="bold">Bold &amp; Energik</option>
+            <option value="minimal">Minimalis &amp; Clean</option>
+            <option value="warm">Hangat &amp; Bersahabat</option>
+          </select>
+        </label>
+        <label class="field">
+          <span class="field__label">Target Audiens</span>
+          <input type="text" id="audience" placeholder="cth: Wanita 18–30 thn, suka skincare, aktif di TikTok" autocomplete="off">
+        </label>
+      </div>
+
+      <div class="grid grid--colors">
+        <label class="field field--color">
+          <span class="field__label">Warna Utama Brand</span>
+          <span class="colorbox"><input type="color" id="color1" value="#FF4D00"><input type="text" id="color1hex" value="#FF4D00" maxlength="7" spellcheck="false"></span>
+        </label>
+        <label class="field field--color">
+          <span class="field__label">Warna Sekunder</span>
+          <span class="colorbox"><input type="color" id="color2" value="#00B8A9"><input type="text" id="color2hex" value="#00B8A9" maxlength="7" spellcheck="false"></span>
+        </label>
+      </div>
+
+      <label class="field">
+        <span class="field__label">Keunggulan Produk / USP <em>*</em> <small>(satu per baris)</small></span>
+        <textarea id="usp" rows="3" placeholder="cth:&#10;Glowing dalam 7 hari&#10;Sudah BPOM &amp; halal&#10;Cocok untuk kulit sensitif"></textarea>
+      </label>
+
+      <label class="field">
+        <span class="field__label">Brand Guideline Tambahan <small>(opsional: mood, gaya visual, kata yang dilarang, dll.)</small></span>
+        <textarea id="guideline" rows="3" placeholder="cth: Gaya visual soft &amp; dreamy, selalu pakai elemen bunga, hindari kata 'murah'..."></textarea>
+      </label>
+
+      <div class="panel__head panel__head--gap">
+        <span class="panel__num">02</span>
+        <h2>Data Produk</h2>
+        <p>Detail produk yang mau dibuatkan listing-nya.</p>
+      </div>
+
+      <div class="grid grid--2">
+        <label class="field">
+          <span class="field__label">Nama Dasar Produk <em>*</em></span>
+          <input type="text" id="productName" placeholder="cth: Serum Wajah Vitamin C" autocomplete="off">
+        </label>
+        <label class="field">
+          <span class="field__label">Bahan / Spesifikasi Utama</span>
+          <input type="text" id="specs" placeholder="cth: Niacinamide 10%, 30ml" autocomplete="off">
+        </label>
+      </div>
+
+      <div class="grid grid--2">
+        <label class="field">
+          <span class="field__label">Varian <small>(warna / ukuran / rasa)</small></span>
+          <input type="text" id="variants" placeholder="cth: 30ml &amp; 60ml" autocomplete="off">
+        </label>
+        <label class="field">
+          <span class="field__label">Promo Aktif <small>(opsional)</small></span>
+          <input type="text" id="promo" placeholder="cth: Diskon 50% + Gratis Ongkir" autocomplete="off">
+        </label>
+      </div>
+
+      <button class="btn-generate" id="generateBtn">
+        <span class="btn-generate__label">⚡ GASKEUN, GENERATE!</span>
+        <span class="btn-generate__shadow" aria-hidden="true"></span>
+      </button>
+      <p class="form-error" id="formError" hidden>Isi dulu kolom bertanda <em>*</em> ya: nama brand, nama produk, dan minimal 1 keunggulan.</p>
+    </section>
+
+    <!-- ══════════ RESULTS ══════════ -->
+    <section class="results" id="results" hidden>
+
+      <div class="results__bar">
+        <h2 class="results__title">Hasil Racikan</h2>
+        <button class="btn-reroll" id="rerollBtn" title="Acak ulang variasi">🎲 Racik Ulang</button>
+      </div>
+
+      <nav class="tabs" role="tablist">
+        <button class="tab is-active" data-tab="names" role="tab" aria-selected="true">🏷️ Nama Produk</button>
+        <button class="tab" data-tab="desc" role="tab" aria-selected="false">📝 Deskripsi</button>
+        <button class="tab" data-tab="prompts" role="tab" aria-selected="false">🎨 Prompt Gambar</button>
+      </nav>
+
+      <div class="tabpane is-active" id="pane-names" role="tabpanel">
+        <div class="seo-tip">
+          <strong>Teori keyword-nya:</strong> keyword utama (jenis produk) selalu ditaruh di <u>awal judul</u> karena algoritma Shopee memberi bobot terbesar di sana. Sisanya dirangkai dari kata yang paling banyak diketik pembeli di industri kamu, tanpa spam &amp; tanpa huruf kapital berlebihan. Ideal: 60–100 karakter (maks 255). Judul TikTok Shop dibuat lebih pendek karena hanya ±34 karakter pertama yang tampil di feed.
+        </div>
+        <h3 class="platform-label platform-label--shopee">Shopee · 5 Variasi</h3>
+        <div id="shopeeNames"></div>
+        <h3 class="platform-label platform-label--tiktok">TikTok Shop · 3 Variasi</h3>
+        <div id="tiktokNames"></div>
+      </div>
+
+      <div class="tabpane" id="pane-desc" role="tabpanel">
+        <div class="seo-tip">
+          <strong>Strukturnya:</strong> hook di baris pertama (yang muncul di preview), bullet keunggulan, spesifikasi, sinyal kepercayaan (COD/garansi), lalu <u>paragraf keyword</u> di bagian bawah: cara halus menanam kata kunci pencarian tanpa merusak copywriting. Hashtag disetel per platform.
+        </div>
+        <h3 class="platform-label platform-label--shopee">Deskripsi Shopee</h3>
+        <div id="shopeeDesc"></div>
+        <h3 class="platform-label platform-label--tiktok">Deskripsi TikTok Shop</h3>
+        <div id="tiktokDesc"></div>
+      </div>
+
+      <div class="tabpane" id="pane-prompts" role="tabpanel">
+        <div class="seo-tip">
+          <strong>Cara pakai:</strong> salin prompt (bahasa Inggris, supaya hasil ChatGPT/DALL·E lebih akurat), tempel di ChatGPT, lalu minta rasio 1:1 untuk thumbnail katalog. Warna &amp; mood brand kamu sudah ditanam di dalam prompt. Copy text untuk overlay gambar disediakan terpisah di tiap kartu.
+        </div>
+        <div id="imagePrompts"></div>
+      </div>
+
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>LARISIN · dirakit dengan ✦ untuk para seller. Semua hasil bisa diedit sesuai selera; mesin ini titik awal, kamu kuratornya.</p>
+  </footer>
+
+  <div class="toast" id="toast" role="status">Tersalin! ✔</div>
+
+  <script src="script.js"></script>
+</body>
+</html>
