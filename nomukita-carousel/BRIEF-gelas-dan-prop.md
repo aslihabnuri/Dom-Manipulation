@@ -1,74 +1,83 @@
-# Brief gambar gelas + prop bahan — slide 1, varian 1000 gram
+# Brief gambar minuman + prop bahan — slide 1, varian 1000 gram
 
-Slide 1000 gram sekarang hanya berisi pouch, terlalu polos. Rencananya mengikuti
-referensi `Refrensi/Referensi Matchamu`: pouch di kiri, gelas berisi minuman di
-kanan agak turun dan sedikit di depan pouch, plus satu prop bahan sesuai nama
-produk di kiri bawah.
+Slide 1000 gram terbaca terlalu polos kalau hanya berisi pouch. Susunannya
+mengikuti `Refrensi/Referensi Matchamu`: pouch di kiri, gelas berisi minuman di
+kanan agak turun dan sedikit di depan pouch, prop bahan di kiri bawah.
 
-**Status:** gelas dan referensi bahan sudah tersedia di Drive `Nomukita/Refrensi`.
-Gelasnya diisi minuman secara programatik oleh `glass.py`, jadi tidak perlu
-generate 12 foto gelas — cukup satu gelas kosong, isinya diganti per produk.
-Referensi bahan tinggal di-key dari checkerboard-nya.
+## Status: gambarnya harus digenerate di luar
 
-## Komposisi (sudah dikunci, diukur dari referensi Matchamu)
+Mengisi gelas secara programatik (`glass.py`) sudah dicoba dan **hasilnya tidak
+dipakai**. Metodenya benar secara optik — gelas diperlakukan sebagai layer rasio
+sehingga bibir, refraksi, highlight, dan bayangannya kembali utuh — tapi cairan
+yang dilukis dengan kode tidak akan pernah terlihat seperti foto. Tidak ada tekstur
+buih, tidak ada partikel, tidak ada pantulan cairan ke dinding kaca.
 
-Di referensi, tinggi gelas 0.617× tinggi pouch, dasar gelas 40/681 lebih rendah
-dari dasar pouch, dan keduanya bertumpuk 15/336 lebar pouch. Proporsi itu
-dipertahankan pada kanvas 1024 × 1024:
+Sesi Claude ini tidak punya tool image generation, jadi gambarnya harus dibuat di
+luar. `glass.py` tetap disimpan sebagai catatan metode, bukan sebagai jalur produksi.
 
-| elemen | posisi | ukuran |
+## Yang perlu digenerate
+
+Dua file per produk, total 24. Gunakan **image-to-image** dengan
+`Refrensi/Referensi_Gelas.jpeg` sebagai acuan gelas — ini yang menjaga 12 produk
+memakai gelas yang sama persis. Prop bahan sudah ada referensinya untuk 9 produk
+di folder yang sama.
+
+| file | isi | ukuran render minimal |
 |---|---|---|
-| pouch 1000 gram | x 274–580, dasar y 829 | tinggi 440 |
-| gelas | x 566–749, dasar y 855 | **183 × 271** |
-| prop bahan | x 96–254, dasar y 855 | **158 × 120** |
+| `glass-<produk>.png` | gelas acuan, terisi minuman produk | 900 × 2100 |
+| `prop-<produk>.png` | bahan sesuai nama produk | 1200 × 1300 |
 
-Gelas menutup sebagian sisi kanan bawah pouch — itu disengaja, memberi kedalaman.
+## Ukuran akhir di slide (kanvas 1024 × 1024)
 
-## Spesifikasi teknis (berlaku untuk semua file)
+Proporsi diambil dari referensi Matchamu: tinggi gelas 0.617× tinggi pouch, dasar
+gelas sedikit lebih rendah dari dasar pouch, keduanya bertumpuk tipis. Setelah
+dinaikkan sesuai revisi:
 
-- PNG **latar transparan**. Kalau tidak bisa, latar rata bone white (241, 240, 235)
-  — nanti saya key out.
-- Resolusi minimal 3× ukuran tabel di atas (gelas ≥ 550 × 815 px) supaya tajam
-  setelah diperkecil.
-- **Tanpa teks, tanpa logo, tanpa watermark** apa pun di dalam gambar.
-- Soft studio light dari kiri atas, bayangan lembut, Japanese minimalism.
-- Sudut pandang setinggi mata produk (eye level), sama untuk 12 produk.
-- **Gelas yang sama persis untuk 12 produk** — hanya isinya yang berganti. Ini yang
-  menjaga carousel terbaca satu set.
-- Tanpa sedotan, tanpa hiasan berlebihan, tanpa tetesan air di meja.
+| elemen | tinggi | dasar | catatan |
+|---|---|---|---|
+| pouch 1000 gram | 440 | y 829 | |
+| gelas | 330 | y 855 | menutup tipis sisi kanan pouch |
+| prop bahan | 200 | y 855 | menutup tipis sisi kiri pouch |
 
-## Gelasnya
+Ketiganya dihitung sebagai satu grup lalu dipusatkan bersama di x 512. Render
+minimal 3× ukuran ini supaya tetap tajam setelah diperkecil.
 
-Satu jenis untuk semua: gelas kaca bening tanpa kaki (stemless), badan melengkung
-sedikit membesar ke atas seperti pada referensi Matchamu, dinding tipis, bening
-sempurna. Isi minuman sampai sekitar 85% tinggi gelas.
+## Spesifikasi teknis (semua file)
+
+- PNG **latar transparan**. Kalau tidak bisa, latar rata bone white (241, 240, 235).
+- **Tanpa teks, tanpa logo, tanpa watermark** di dalam gambar.
+- Soft studio light dari kiri atas — arah yang sama dengan mockup pouch.
+- Eye level, sama untuk 12 produk.
+- Tanpa sedotan, tanpa tetesan air di meja, tanpa properti tambahan.
+- Gelas terisi sekitar 85% tinggi.
 
 ## Prompt per produk
 
-Awali setiap prompt dengan:
-`clear stemless curved glass tumbler, thin wall, filled 85%, soft studio light from
-upper left, bone white seamless background, japanese minimalism, product
-photography, eye level, no text, no logo —`
+Awalan untuk semua gelas:
 
-| produk | isi gelas | prop bahan (file terpisah) |
+> using the reference glass exactly as-is, same shape and proportions, filled 85%
+> with —, soft studio light from upper left, seamless off-white background,
+> japanese minimalism, product photography, eye level, no text, no logo
+
+| produk | isi gelas | prop bahan |
 |---|---|---|
-| Matcha Latte | iced matcha latte berlapis, susu putih di bawah, hijau matcha di atas | bubuk matcha di piring kecil + chasen bambu |
-| Premix Matcha | matcha murni, hijau pekat, buih halus tipis di permukaan | bubuk matcha menggunung + sendok kayu |
-| Teh Tarik | teh tarik cokelat susu, buih tebal di permukaan | daun teh kering di kain linen |
-| Chocolate Signature | cokelat panas kental, warna cokelat gelap, buih tipis | potongan cokelat pekat + biji kakao |
-| Cookies & Cream | milkshake krem dengan remah biskuit cokelat, whipped cream di atas | biskuit cokelat isi krim, satu utuh satu patah |
-| Charcoal | charcoal latte abu gelap bergradasi ke susu di bawah | bubuk charcoal hitam di mangkuk keramik kecil |
-| Avocado | jus alpukat hijau lembut, garis cokelat di dinding gelas | **alpukat utuh + satu belah dengan biji** |
-| Vanilla | vanilla latte krem pucat, buih halus | batang vanilla + bunga vanilla kecil |
-| Milk Tea | milk tea cokelat susu, warna rata | daun teh kering + sedikit susu di kendi kecil |
-| Lemon Tea | iced lemon tea kuning keemasan, es batu, irisan lemon | irisan lemon segar + satu lemon utuh |
-| Frappe Base | frappe es blender putih krem, whipped cream tebal | es batu bening bertumpuk |
-| Lemon Grass | minuman lemongrass kuning kehijauan bening, hangat | batang serai diikat |
+| Matcha Latte | iced matcha latte berlapis, susu putih di bawah, hijau matcha pekat di atas, batas lapisan lembut | bubuk matcha + chasen bambu *(ada referensi)* |
+| Premix Matcha | matcha murni hijau pekat, buih halus tipis di permukaan | bubuk matcha menggunung *(ada referensi)* |
+| Teh Tarik | teh tarik cokelat susu, buih tebal khas tarikan di permukaan | **belum ada referensi** |
+| Chocolate Signature | cokelat kental, warna cokelat gelap, buih tipis | potongan cokelat + biji kakao *(ada referensi)* |
+| Cookies & Cream | milkshake krem dengan remah biskuit cokelat tersebar, whipped cream tebal | biskuit cokelat isi krim *(ada referensi)* |
+| Charcoal | charcoal latte abu gelap bergradasi ke susu di bawah | bubuk charcoal *(ada referensi)* |
+| Avocado | **jus alpukat cokelat**: sirup cokelat meleleh di dinding dalam gelas, alpukat hijau krem, cokelat mengendap di dasar | alpukat utuh + belah berbiji *(ada referensi)* |
+| Vanilla | vanilla latte krem pucat, buih halus | batang + bunga vanilla *(ada referensi)* |
+| Milk Tea | milk tea cokelat susu, warna rata | **belum ada referensi** |
+| Lemon Tea | iced lemon tea kuning keemasan, es batu, irisan lemon | irisan lemon *(ada referensi)* |
+| Frappe Base | frappe blender putih krem, whipped cream tebal | **belum ada referensi** |
+| Lemon Grass | minuman serai kuning kehijauan bening | batang serai *(ada referensi)* |
 
 ## Setelah file diterima
 
-Taruh di Drive `Nomukita/Cup` (atau folder baru), beri nama
-`glass-<produk>.png` dan `prop-<produk>.png`. Sebutkan ke saya, lalu komposit
-12 slide 1000 gram dijalankan sekali dan hasilnya masuk ke `slide-1/`.
+Taruh di Drive dengan nama sesuai tabel, lalu sebutkan ke saya. Komposit 12 slide
+1000 gram dijalankan sekali; posisi dan ukurannya sudah terkunci di
+`render_one.py`. Mulai dari satu produk dulu untuk validasi sebelum 11 sisanya.
 
 Slide 250 gram dan kombinasi tidak ikut berubah — keduanya sudah penuh.
