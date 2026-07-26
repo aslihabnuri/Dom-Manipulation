@@ -117,7 +117,7 @@ def build(product, creations, out='s5.png'):
         if h > room:
             h = room
         w = photo.size_at(cr['image'], h)
-        photo.place(flat, cr['image'], MARK_X[i] - w // 2, BASE, h)
+        photo.place(flat, cr["image"], MARK_X[i] - w // 2, BASE, h, replace=False)
         heads.append(BASE - h)
 
     over = Image.new('RGBA', (1024, 1024), (0, 0, 0, 0))

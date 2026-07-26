@@ -13,6 +13,7 @@ what the customer had picked, so the glass now follows the drink.
 import base64, json, os, subprocess, sys, time
 
 import photo
+import s5_menu
 
 KEY = os.environ["KIE_API_KEY"]
 REF = "refs"
@@ -135,19 +136,21 @@ PROP_PROMPT = (
 # 238 dengan sebaran 37, bukan 254 dengan sebaran 2 seperti frame yang berhasil.
 # Di atas sweep seperti itu estimasi latarnya meleset, `ink` menyala di 60% frame,
 # dan siluetnya menelan seluruh gambar sehingga persegi lapisannya ikut tercetak.
-S5 = {
-    "matchalatte": [
-        ("hot", "S5_mug_white.png",
-         "a hot matcha latte: an even vivid green surface with a soft white latte-art "
-         "rosetta poured on it, a wisp of steam"),
-        ("iced", "S5_glass_white.png",
-         "an iced matcha latte: vivid green matcha poured over cold milk so the two sit in "
-         "distinct layers, with ice cubes through the green"),
-        ("float", "S5_glass_white.png",
-         "an iced matcha latte with one round scoop of vanilla ice cream resting on the rim, "
-         "the green drink visible below it"),
-    ],
-}
+#
+# Daftar minumannya tidak ditulis ulang di sini. Menunya sudah ada di `s5_menu`,
+# dan menyalinnya ke berkas kedua berarti gambar yang digenerate bisa perlahan
+# melenceng dari keterangan yang tercetak di sebelahnya - persis kesalahan yang
+# baru ketahuan setelah kreditnya terlanjur habis.
+VESSEL_REF = {"mug": "S5_mug_white.png", "tall": "S5_glass_white.png",
+              "short": "S5_glass_white.png"}
+# Label posisi kolom, bukan suhu minumannya: Avocado dan Frappe Base tidak punya
+# sajian panas sama sekali, jadi kreasi pertamanya tetap bernama "-hot" walaupun
+# isinya dingin. Yang menentukan wadah dan isinya adalah menunya, bukan namanya.
+TAGS = ("hot", "iced", "float")
+
+S5 = {s5_menu.KEY[slug]: [(TAGS[i], VESSEL_REF[vessel], desc)
+                          for i, (_nm, vessel, _lines, desc) in enumerate(creations)]
+      for slug, (_sub, creations) in s5_menu.MENU.items()}
 
 S5_PROMPT = (
     "Restage this as a clean studio product shot of a single drink. "
@@ -159,6 +162,14 @@ S5_PROMPT = (
     "Seamless pure white background: no horizon line, no table edge, no surface seam, no "
     "visible floor and no gradient. One soft contact shadow directly beneath the base and "
     "nothing else. Soft diffused studio light from the upper left. Real camera photograph, "
+    # Perintahnya sengaja dibiarkan seperti saat slide Matcha Latte disetujui.
+    # Versi yang lebih keras - menyebut satu per satu "no beige patch, panel, mat,
+    # pool or halo" - sudah dicoba dengan biaya 4 kredit dan lempeng hangat di
+    # bawah gelasnya tetap muncul, hanya bentuk minumannya yang berubah. Menukar
+    # perintah yang sudah disetujui dengan perintah lain yang cacatnya sama
+    # persis tidak menghasilkan apa pun selain sebelas slide yang gayanya
+    # sedikit berbeda dari slide yang sudah dilihat pelanggan. `verify.flare`
+    # yang mencatat lempeng itu, supaya keputusannya ada pada pelanggan.
     "50 mm lens, eye level, sharp focus, natural colour, no rim light, no glow, no neon "
     "edge, no text, no logo, no watermark, ABSOLUTELY NO STRAW."
 )
@@ -187,17 +198,35 @@ def serving(only=None):
         print(f"\n{len(SPENT)} images, {sum(SPENT)} credits this run")
 
 
-def req(url, data=None):
+def req(url, data=None, tries=5):
     """All traffic goes through curl: the proxy refuses urllib on the upload
-    host and on the result CDN with a 403."""
+    host and on the result CDN with a 403.
+
+    Retried, because a dropped connection here used to end the whole run. A
+    thirty-image batch takes the better part of an hour, the container was
+    restarted in the middle of one, and the very next poll came back with curl
+    exit 7 - which raised, unwound out of `serving()`, and left sixteen images
+    ungenerated. The paid work was safe (every finished image is on disk and
+    skipped on the next run), but the batch still had to be noticed and started
+    again by hand. A poll that fails is worth waiting out, not dying on.
+    """
     cmd = ["curl", "-sS", "--max-time", "180",
            "-H", f"Authorization: Bearer {KEY}", "-H", "Content-Type: application/json"]
     if data is not None:
         cmd += ["-X", "POST", "--data-binary", "@-"]
     cmd.append(url)
-    p = subprocess.run(cmd, input=json.dumps(data).encode() if data else None,
-                       capture_output=True, check=True)
-    return json.loads(p.stdout)
+    body = json.dumps(data).encode() if data else None
+    for attempt in range(tries):
+        p = subprocess.run(cmd, input=body, capture_output=True)
+        if p.returncode == 0:
+            try:
+                return json.loads(p.stdout)
+            except json.JSONDecodeError:
+                pass
+        if attempt == tries - 1:
+            raise RuntimeError(f"{url} failed {tries} times: "
+                               f"exit {p.returncode} {p.stderr[:200]!r}")
+        time.sleep(2 ** attempt)
 
 
 def whiten(src, dst):

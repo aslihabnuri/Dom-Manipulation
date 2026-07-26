@@ -124,3 +124,109 @@ di `BRIEF-gelas-dan-prop.md`.
 `batch.py` melewati file yang sudah ada, jadi menjalankan ulang tidak membakar
 kredit untuk hal yang sudah berhasil. Butuh `KIE_API_KEY` dari environment;
 jangan menaruh kunci di dalam repo.
+
+## Slide 5: serving suggestions
+
+12 slide di `slide-5/` — satu produk, tiga cara menyajikan. Tata letaknya diukur
+dari `ref-Uji_S5.png` piksel demi piksel, bukan dikira-kira.
+
+| elemen | posisi |
+|---|---|
+| judul `SERVING SUGGESTIONS` | tinta atas y 162, rata tengah, All Round Gothic Bold 54 |
+| sub-judul `one <produk>, three ways to enjoy` | tinta atas y 226, Comfortaa 24 |
+| sumbu ketiga kolom | x 226, 516, 791 |
+| nama kreasi | tinta atas y 316 / **440** / 316, Comfortaa 24 huruf besar |
+| baris resep | 34 px di bawah nama, jarak antar baris 28 px, Comfortaa 20 |
+| tepi rata | kiri x 95, kanan x 944, tengah rata tengah |
+| ketiga wadah berdiri di | y 915 |
+| penanda tetes | 13 × 13, steel blue (94, 152, 189) |
+
+Tata letaknya **tidak simetris, dan itu memang begitu di acuannya**: kolom kiri
+rata kiri, kolom kanan rata kanan, kolom tengah rata tengah dan turun 124 px.
+Garis penunjuk tipis yang menjembatani jarak yang berbeda-beda itu.
+
+### Gaya penulisan
+
+Mengikuti Uji apa adanya: takaran menempel pada huruf g (`25g`), volume dipisah
+spasi (`200 ml`), spasi di kiri-kanan `+`, baris pertama diakhiri koma, tidak ada
+titik di akhir, `&` untuk bahan terakhir.
+
+Satu hal yang mudah terlewat: acuannya menyebut isinya dengan **satu kata
+pendek** — `2g matcha`, bukan `2g exclusive matcha`. Nama panjang produknya sudah
+ada di sub-judul, jadi mengulangnya di tiap baris resep hanya melebarkan barisnya
+sampai menabrak kolom sebelah. Versi pertama menu ini memakai nama penuh dan
+**40 dari 72 barisnya tidak muat** — `20g lemongrass + 150 ml sparkling water,`
+selebar 414 px untuk jatah 284 px. Seperti acuannya, kreasi yang barisnya masih
+kepanjangan boleh membuang volumenya (`+ cold water,`).
+
+`fit_s5.py` mengukur lebar tinta tiap baris **sebelum satu kredit pun dipakai** —
+itulah gunanya. Jalankan sampai nol pelanggaran, baru generate.
+
+### Wadah
+
+Dipotong langsung dari `ref-Uji_S5.png`, jadi kedua belas slide memakai bahasa
+wadah yang sama dengan acuannya: mug batu untuk sajian panas, gelas tinggi untuk
+dua sisanya. Tingginya diukur **utuh** — mug 244 px, gelas 365 px — bukan badan
+gelasnya saja. Sekali percobaan menskalakan pada badan 370 px, lalu es dan busa
+di atas bibir gelas menambah tinggi totalnya jadi ~475 px dan gelas tengah naik
+menabrak keterangannya sendiri sedalam 84 px.
+
+Wadahnya juga dipusatkan pada **bentuk utuhnya**, bukan badannya. Di acuan, mug
+utuh berpusat di x 232,5 sementara badannya di x 263,5, dan penandanya ada di
+x 226 — jadi acuannya memang memusatkan pada bentuk utuh termasuk gagangnya.
+
+### Lempeng beige di bawah wadahnya
+
+Sebagian frame hasil generate datang dengan wadahnya berdiri di atas **lempeng
+beige lebar**, bukan bayangan. Terukur 190/173/149 — empat puluh level merah di
+atas biru — sedangkan bayangan sejati menskalakan ketiga kanal sama rata.
+`photo._key` benar menolak menyebutnya bayangan, tapi justru karena itu
+lempengnya terhitung sebagai bagian dari subjek.
+
+Akibatnya bukan sekadar bayangan yang kelebaran. Slide Vanilla mencetak **dua
+persegi pucat bertepi lurus**: lempeng si mug menjulur sampai x 390, persegi
+lapisan minuman berikutnya mulai di x 317, dan di daerah tumpangnya lapisan
+kedua mengecat ulang lempeng lapisan pertama dengan `ratio × bone`.
+
+Perbaikannya: **`photo.place(..., replace=False)` untuk slide 5**. Jalur alpha
+hanya ada untuk satu keperluan — minuman yang berdiri di depan pouch hitam di
+slide 1, di mana perkalian akan menyeret alpukat ke nyaris hitam sehingga
+terbaca seolah di belakang kemasan. Ketiga wadah di slide 5 berdiri terpisah di
+atas bone white dan tidak menumpuk apa pun, jadi alpha di sana tidak membeli
+apa-apa dan justru merusak. Dengan perkalian saja, 172 menjadi 158 dan tidak ada
+sambungan yang kelihatan.
+
+Slide 1 tidak ikut berubah sama sekali — kedua puluh empat berkasnya diperiksa
+byte demi byte setelah perubahan ini dan identik dengan yang sudah disetujui.
+
+`verify.flare()` tetap menandainya, lewat bentuknya: gelas minum kira-kira sama
+lebar di kakinya dan di badannya. Kedua belas minuman slide 1 yang sudah
+disetujui terukur 0,67–1,10; frame yang membawa lempeng 1,26–2,11. Peringatan itu
+sekarang soal **bayangan yang lebih lebar daripada di acuan**, bukan lagi cacat
+yang tercetak — dan sengaja dibiarkan menyala supaya keadaan bahannya tetap
+terlihat.
+
+Yang sudah dicoba dan **tidak** menyelesaikan:
+
+- melunakkan tepi bayangan di compositor — masalahnya bentuk lempengnya, bukan
+  ketajaman tepinya; diblur seberapa pun tetap lempeng;
+- menaikkan `SHADOW_CHROMA` — menyembuhkan satu frame, tidak menyentuh yang lain;
+- memperkeras perintahnya, menyebut satu per satu "no beige patch, panel, mat,
+  pool or halo" — 4 kredit, lempengnya tetap muncul, hanya bentuk minumannya yang
+  berubah. Perintahnya dikembalikan ke versi yang slide Matcha Latte-nya sudah
+  disetujui, supaya kedua belas slide tetap satu gaya.
+
+### Satu frame digenerate ulang
+
+`s5-cookiescream-hot.png` yang pertama datang dengan **gagang mugnya putus** —
+tinggal bayangan samar di kiri bawah. `verify.frame()` menangkapnya sebagai 857
+px detail di atas sweep di luar subjek. Digenerate ulang sekali, 4 kredit, dan
+yang kedua lolos semua pemeriksaan.
+
+### Menjalankan
+
+```
+python3 fit_s5.py         # nol kredit: pastikan tiap baris muat
+python3 -c "import batch; batch.serving()"    # 4 kredit per gambar, melewati yang sudah ada
+python3 build_all_s5.py   # susun dan periksa kedua belas slide
+```

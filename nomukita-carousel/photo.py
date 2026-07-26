@@ -344,9 +344,12 @@ def fit(path, height, max_width, body=False):
     return height if w <= max_width else max(1, round(height * max_width / w))
 
 
-def place(canvas, path, left, bottom, height, body=False):
+def place(canvas, path, left, bottom, height, body=False, replace=True):
     """Draw the photo so its subject lands at `left`, standing `height` tall
-    with its foot on `bottom`."""
+    with its foot on `bottom`.
+
+    `replace=False` drops the alpha path and multiplies only - see the note
+    beside it below."""
     ratio, _ = load(path)
     l, t, r, b = box(path, body)
     H, W = ratio.shape[:2]
@@ -363,8 +366,23 @@ def place(canvas, path, left, bottom, height, body=False):
     # overlaps something else - the black pouch - because there the multiply
     # would darken an avocado into near black and it would read as sitting
     # behind the pouch.
-    obj = _MASK[path]
-    alpha = ndi.gaussian_filter(obj.astype(float), 1.0)[..., None]
+    # Where nothing is drawn behind the subject, alpha buys nothing and costs
+    # something. `subject = ratio * BONE` is "what this photo would look like on
+    # bone white", so wherever alpha is one the layer paints that *over whatever
+    # is already there* - and `obj` is not trustworthy on a frame whose vessel
+    # stands on a painted slab, because the slab is inside it. On the vanilla
+    # serving slide the mug's slab reached x=390, the next drink's rectangle
+    # began at x=317, and inside the overlap the second layer repainted the first
+    # one's slab at 0.92 x bone: a pale rectangle with a straight vertical edge
+    # at exactly x=317. Multiplying instead darkens 172 to 158 and leaves no seam.
+    #
+    # So the alpha path exists for one job only - the drink standing in front of
+    # the black pouch on slide 1, where multiplying would drag an avocado down to
+    # near black and read as if it were behind the packaging. The three vessels
+    # on slide 5 stand apart on bare bone white and never overlap anything.
+    alpha = 0.0
+    if replace:
+        alpha = ndi.gaussian_filter(_MASK[path].astype(float), 1.0)[..., None]
     subject = ratio * np.array(BONE, float)
     out = np.clip(backdrop * ratio * (1 - alpha) + subject * alpha, 0, 255).astype(np.uint8)
     layer = Image.fromarray(out).resize((tw, th), Image.LANCZOS)
