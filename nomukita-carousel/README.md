@@ -74,3 +74,25 @@ python3 build_slides.py      # writes out/<Product>_S1_<variant>.png
 
 The 250 gram Avocado pouch prints レモンティー (lemon tea) instead of アボカド. The slide
 uses the correct アボカド; the pouch artwork itself needs fixing separately.
+
+## Gelas berisi minuman (slide 1000 gram)
+
+`ref/Referensi_Gelas.jpeg` adalah gelas kosong transparan yang difoto di atas
+gradasi abu. Benda transparan tidak punya matte yang bersih, jadi gelasnya tidak
+dipotong. `glass.py` memperlakukannya sebagai **layer rasio**: tiap piksel dibagi
+estimasi latar tempat ia difoto. Mengalikan rasio itu ke latar baru
+mengembalikan bibir gelas, refraksi dinding, highlight, dan bayangannya — dan
+membuat warna minuman bisa duduk di belakang kaca persis seperti dituang.
+
+Konsekuensinya satu foto gelas cukup untuk 12 produk; yang berganti hanya warna
+cairannya. Tiga hal yang perlu dijaga saat kalibrasi:
+
+- Estimasi latar pakai normalized convolution, bukan fit polinomial — polinomial
+  menyisakan galat beberapa persen di tepi yang tercetak sebagai kotak pucat.
+- Di luar siluet gelas, layer hanya boleh menggelapkan (bayangan). Kalau boleh
+  menerangkan, sisa galat estimasi muncul sebagai bercak terang.
+- Bayangan gelas terpotong tepi frame sumber, jadi layer di-fade di tepinya.
+
+Prop bahan di-key dari checkerboard transparansi: piksel netral terang yang
+terhubung ke tepi gambar (8-konektivitas — kotak checker hanya bersentuhan
+diagonal).

@@ -5,9 +5,10 @@ referensi `Refrensi/Referensi Matchamu`: pouch di kiri, gelas berisi minuman di
 kanan agak turun dan sedikit di depan pouch, plus satu prop bahan sesuai nama
 produk di kiri bawah.
 
-Gambar-gambar ini **belum ada** dan harus digenerate di luar (kie.ai Nano Banana 2,
-sesuai design system pasal 7). Setelah file jadi, komposit ke 12 slide dijalankan
-sekali lewat `build_slides.py`.
+**Status:** gelas dan referensi bahan sudah tersedia di Drive `Nomukita/Refrensi`.
+Gelasnya diisi minuman secara programatik oleh `glass.py`, jadi tidak perlu
+generate 12 foto gelas — cukup satu gelas kosong, isinya diganti per produk.
+Referensi bahan tinggal di-key dari checkerboard-nya.
 
 ## Komposisi (sudah dikunci, diukur dari referensi Matchamu)
 
