@@ -66,16 +66,42 @@ WATERMARKED = {"blacktea": "Black tea_clean.png"}
 DRINK_PROMPT = (
     "Restage this photograph as a clean studio product shot of the drink on its own. "
     "{what} "
+    "The glass must read as glass: a visible rim, visible wall thickness down both sides, "
+    "clean specular highlights along the glass, and a solid foot with its own thickness "
+    "showing. The drink is inside a glass, not a moulded block. "
     "Remove the straw, the table, every surrounding prop and the entire background. "
     "Stand the glass upright and centred, whole and unclipped, filling most of the frame "
     "with a margin above the rim and below the base. "
-    "Seamless pure white background: no horizon line, no table edge, no surface seam, no "
-    "visible floor and no gradient - the white must be even everywhere behind and beside "
-    "the glass. One soft contact shadow directly beneath the base and nothing else. "
+    "{sweep} {glass} No horizon line, no table edge, no surface seam, no visible floor and no "
+    "gradient - the backdrop must be even everywhere behind and beside the glass. One soft "
+    "contact shadow directly beneath the base and nothing else. "
     "Soft diffused studio light from the upper left. Real camera photograph, 50 mm lens, "
     "eye level, sharp focus, natural colour, no rim light, no glow, no neon edge, no text, "
     "no logo, no watermark, ABSOLUTELY NO STRAW."
 )
+WHITE_SWEEP = "Seamless pure white background."
+
+# A pale drink in a clear glass has nothing to separate against on white, and the
+# first vanilla attempt came back with the glass swallowed whole - it read as a
+# moulded block of ice cream with no rim, no walls and no foot. The customer's own
+# reference photograph solves that with a mid grey backdrop.
+#
+# Copying that does not work here. The layer is developed against bone white by
+# multiplying the ratio of the photo to its own backdrop, so a subject brighter
+# than the sweep it was shot on runs past 255 and clips. On a 193 grey the shake
+# measured a ratio of 1.20 against a ceiling of 1.058, and 54,489 pixels blew out;
+# on white it peaked at 1.006 and none did.
+#
+# So the sweep stays white and the glass is made to read the way a photographer
+# would do it on white - by lighting the glass rather than darkening the room.
+GLASSWARE = (
+    "This is a pale drink in clear glass on a white background, the hardest thing there is to "
+    "keep legible, so light it the way a specialist would: dark-field lighting that lays a "
+    "soft dark refraction line down each wall of the glass, a clearly defined rim, and a heavy "
+    "base whose glass thickness reads darker than the drink above it. The glass must be "
+    "unmistakably a glass and never brighter than the background."
+)
+GLASS_NOTE = {"vanilla": GLASSWARE}
 KEEP_GLASS_AND_DRINK = (
     "Keep the same glass - identical shape, proportions, wall thickness and foot - and the "
     "same drink inside it, with the same colours, layers, foam and garnish."
@@ -195,7 +221,9 @@ def main(only=None):
             continue
         print(slug, flush=True)
         what = KEEP_GLASS_AND_DRINK if desc is None else KEEP_GLASS_ONLY.format(desc=desc)
-        run(DRINK_PROMPT.format(what=what), [link(ref)], "3:4", out)
+        prompt = DRINK_PROMPT.format(what=what, sweep=WHITE_SWEEP,
+                                     glass=GLASS_NOTE.get(slug, ""))
+        run(prompt, [link(ref)], "3:4", out)
 
     for name, (ref, desc) in PROPS.items():
         if only and name not in only:
