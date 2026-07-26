@@ -82,6 +82,32 @@ def matte(path, obj, sil, limit=2.0):
         f"torn alpha matte: {med:.0f} on/off crossings per row inside the subject"]
 
 
+def silhouette(path, sil, limit=0.45):
+    """Check the keying found a subject rather than the whole picture.
+
+    `frame()` only inspects what lies outside the silhouette, so it is blind
+    exactly when the silhouette has swallowed everything - and that is a real
+    failure mode, not a hypothetical one. A vessel reference cut from an approved
+    slide carried that slide's warm, vignetted background; the model copied the
+    background instead of obeying "pure white"; on a sweep like that the backdrop
+    estimate misses, `ink` fires across sixty per cent of the frame, and the
+    silhouette covers the lot. The layer then prints its whole rectangle onto the
+    slide, which is how two pale blocks appeared beside a glass.
+
+    A drink photographed on a sweep occupies about a fifth to a third of its
+    frame. Two thirds means the keying has lost the subject.
+    """
+    frac = float(sil.mean())
+    H, W = sil.shape
+    edges = sum([sil[0].any(), sil[-1].any(), sil[:, 0].any(), sil[:, -1].any()])
+    bad = []
+    if frac > limit:
+        bad.append(f"silhouette covers {frac:.0%} of the frame, expected under {limit:.0%}")
+    if edges == 4:
+        bad.append("silhouette touches all four frame edges")
+    return bad
+
+
 def check(path):
     """Return a list of problems; empty means the slide passed."""
     bad = []

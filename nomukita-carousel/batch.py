@@ -12,6 +12,8 @@ what the customer had picked, so the glass now follows the drink.
 
 import base64, json, os, subprocess, sys, time
 
+import photo
+
 KEY = os.environ["KIE_API_KEY"]
 REF = "refs"
 OUT = "gen"
@@ -121,6 +123,70 @@ PROP_PROMPT = (
 )
 
 
+# ── Slide 5: serving suggestions ─────────────────────────────────────────────
+#
+# Wadahnya dipotong langsung dari Uji_S5 yang sudah disetujui, jadi kedua belas
+# slide S5 memakai bahasa wadah yang sama persis dengan acuannya - mug batu untuk
+# yang panas, gelas tinggi untuk dua sisanya.
+#
+# Latarnya diputihkan dulu sebelum dikirim. Potongannya membawa latar bone white
+# ber-vignette milik slide asalnya, dan modelnya meniru latar itu alih-alih
+# menuruti perintah "pure white" - hasilnya sweep hangat bergradien, tepi frame
+# 238 dengan sebaran 37, bukan 254 dengan sebaran 2 seperti frame yang berhasil.
+# Di atas sweep seperti itu estimasi latarnya meleset, `ink` menyala di 60% frame,
+# dan siluetnya menelan seluruh gambar sehingga persegi lapisannya ikut tercetak.
+S5 = {
+    "matchalatte": [
+        ("hot", "S5_mug_white.png",
+         "a hot matcha latte: an even vivid green surface with a soft white latte-art "
+         "rosetta poured on it, a wisp of steam"),
+        ("iced", "S5_glass_white.png",
+         "an iced matcha latte: vivid green matcha poured over cold milk so the two sit in "
+         "distinct layers, with ice cubes through the green"),
+        ("float", "S5_glass_white.png",
+         "an iced matcha latte with one round scoop of vanilla ice cream resting on the rim, "
+         "the green drink visible below it"),
+    ],
+}
+
+S5_PROMPT = (
+    "Restage this as a clean studio product shot of a single drink. "
+    "Keep the SAME vessel - identical shape, proportions, wall thickness, rim, foot and "
+    "handle if it has one - and fill it with {desc}. "
+    "The vessel must read clearly as what it is, with a visible rim and a solid base. "
+    "Remove every surrounding prop and the entire background. Stand it upright and centred, "
+    "whole and unclipped, filling most of the frame with a margin above and below. "
+    "Seamless pure white background: no horizon line, no table edge, no surface seam, no "
+    "visible floor and no gradient. One soft contact shadow directly beneath the base and "
+    "nothing else. Soft diffused studio light from the upper left. Real camera photograph, "
+    "50 mm lens, eye level, sharp focus, natural colour, no rim light, no glow, no neon "
+    "edge, no text, no logo, no watermark, ABSOLUTELY NO STRAW."
+)
+
+
+def serving(only=None):
+    """Generate tiga penyajian untuk tiap produk di S5."""
+    os.makedirs(OUT, exist_ok=True)
+    cache = {}
+
+    def link(name):
+        if name not in cache:
+            cache[name] = upload(name)
+        return cache[name]
+
+    for slug, items in S5.items():
+        if only and slug not in only:
+            continue
+        for tag, vessel, desc in items:
+            out = f"{OUT}/s5-{slug}-{tag}.png"
+            if os.path.exists(out):
+                continue
+            print(f"{slug} {tag}", flush=True)
+            run(S5_PROMPT.format(desc=desc), [link(vessel)], "3:4", out)
+    if SPENT:
+        print(f"\n{len(SPENT)} images, {sum(SPENT)} credits this run")
+
+
 def req(url, data=None):
     """All traffic goes through curl: the proxy refuses urllib on the upload
     host and on the result CDN with a 403."""
@@ -132,6 +198,29 @@ def req(url, data=None):
     p = subprocess.run(cmd, input=json.dumps(data).encode() if data else None,
                        capture_output=True, check=True)
     return json.loads(p.stdout)
+
+
+def whiten(src, dst):
+    """Lift a reference's background to pure white, keeping everything else.
+
+    The S5 vessels are cut from an approved slide, so they arrive on that slide's
+    warm, vignetted bone white - and the model copies the background it is shown
+    rather than the one the prompt asks for. On a sweep like that the backdrop
+    estimate misses, `ink` fires across sixty per cent of the frame, the
+    silhouette swallows the picture and the layer prints its whole rectangle.
+
+    Done by dividing out the estimated sweep, NOT by masking the subject and
+    flooding the rest. Masking looks simpler and is wrong here: the mug's handle
+    is pale cream against pale bone and measures (241, 240, 235) - the background
+    value exactly - so no threshold separates them. The first attempt erased the
+    handle, and the model duly produced a mug without one.
+    """
+    import numpy as np
+    from PIL import Image
+    img, bg = photo._backdrop(os.path.join(REF, src))
+    out = np.clip(img / np.maximum(bg, 1) * 255.0, 0, 255)
+    Image.fromarray(np.rint(out).astype(np.uint8)).save(os.path.join(REF, dst))
+    return dst
 
 
 def strip_watermark(src, dst, margin=60, light=225, sat=28):
