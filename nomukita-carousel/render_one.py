@@ -10,22 +10,52 @@ import bs, photo
 
 POUCH_H = 440
 GLASS_H = 330
-PROP_H = 200
 POUCH_BOTTOM = 829
 BOTTOM = 855
 GLASS_OVERLAP = 26   # Matchamu: gelas menimpa pouch ~4.5% lebar pouch, plus tepi pouch yang menjorok
-PROP_OVERLAP = 48    # cukup dalam agar jelas berada di depan pouch, bukan di belakangnya
+
+# Skala foto: alpukat utuh 11 cm digambar 200 px dan itu yang disetujui, jadi
+# 18.2 px/cm. Dengan patokan itu pouch 1000 gram 440 px = 24 cm dan gelas 330 px
+# = 18 cm, keduanya masuk akal. Sebelumnya semua prop dipaksa 200 px, sehingga
+# biskuit 4,5 cm tampil setinggi 11 cm - "gambar cookies terlalu besar".
+PX_PER_CM = 200 / 11.0
+
+# tinggi asli tiap prop dalam cm, seperti yang tampak di foto
+PROP_CM = {
+    "matchalatte": 8.0,    # mangkuk kayu kecil berisi bubuk matcha
+    "premixmatcha": 8.0,
+    "tehtarik": 6.0,       # gundukan daun teh kering
+    "chocolate": 5.5,      # potongan cokelat bertumpuk
+    "cookiescream": 5.0,   # dua biskuit, satu bersandar
+    "charcoal": 9.0,       # bongkahan arang
+    "avocado": 11.0,       # alpukat utuh + belahannya
+    "vanilla": 9.0,        # bunga vanili dan polongnya
+    "milktea": 6.0,
+    "lemontea": 7.5,       # lemon utuh + belahannya
+    "lemongrass": 8.5,     # ikat serai berbaring
+}
+# Prop tidak boleh melebihi lebar pouch: begitu lewat, ia tidak lagi terbaca
+# sebagai bahan di sebelah produk melainkan bersaing dengan produknya.
+PROP_MAX_W = round(POUCH_H * 0.695 * 0.92)
 
 
-def build(idx, glass_img, prop_img=None, out='slide.png'):
+def prop_height(slug):
+    return round(PROP_CM[slug] * PX_PER_CM)
+
+
+def build(idx, glass_img, prop_img=None, out='slide.png', slug=None):
     p = bs.PRODUCTS[idx]
     pw = round(POUCH_H * 0.695)
     gw = photo.size_at(glass_img, GLASS_H, body=True)
-    aw = photo.size_at(prop_img, PROP_H) if prop_img else 0
-    # Centre the whole group: prop edge .. pouch .. glass edge. With no prop
-    # (Frappe Base) its overlap has to drop out too, or the pair sits off centre.
-    prop_shift = PROP_OVERLAP if prop_img else 0
-    x0 = round(512 - (pw + gw - GLASS_OVERLAP - aw + prop_shift) / 2)
+    if prop_img:
+        ph = photo.fit(prop_img, prop_height(slug), PROP_MAX_W)
+        aw = photo.size_at(prop_img, ph)
+        # Tumpang tindih ikut mengecil bersama propnya; 48 px tetap di alpukat
+        # yang sudah disetujui, tapi pada biskuit 110 px itu menutup separuhnya.
+        overlap = min(48, round(0.28 * aw))
+    else:
+        ph = aw = overlap = 0
+    x0 = round(512 - (pw + gw - GLASS_OVERLAP - aw + overlap) / 2)
 
     c = Image.new('RGBA', (1024, 1024), bs.BG + (255,))
     c.alpha_composite(Image.open(f'{bs.ASSETS}/logo_nomukita.png').convert('RGBA'), bs.LOGO_XY)
@@ -46,10 +76,56 @@ def build(idx, glass_img, prop_img=None, out='slide.png'):
 
     flat = Image.new('RGB', (1024, 1024), bs.BG)
     flat.paste(c, (0, 0), c)
+    clean = flat.copy()
 
     photo.place(flat, glass_img, x0 + pw - GLASS_OVERLAP, BOTTOM, GLASS_H, body=True)
     if prop_img:
-        photo.place(flat, prop_img, x0 + PROP_OVERLAP - aw, BOTTOM, PROP_H)
+        photo.place(flat, prop_img, x0 + overlap - aw, BOTTOM, ph)
 
     flat.save(out)
-    return out
+    return out, layers_intact(clean, flat, [(x0, x0 + overlap),
+                                            (x0 + pw - GLASS_OVERLAP, x0 + pw)])
+
+
+def layers_intact(clean, final, allowed, margin=6, tol=14):
+    """Check what the photo layers did to the slide beneath them.
+
+    The pouch is drawn before any photo, so the clean render says exactly what
+    the slide should look like underneath. Judging the finished image on its own
+    cannot separate a defect from the packaging artwork; judging the difference
+    can.
+
+    Two things are looked for. Over the pouch the layers may only *darken*, which
+    is what a cast shadow does - they may only brighten inside the narrow columns
+    where the glass and the prop genuinely stand in front. The keying used to pull
+    a glass's cast shadow into the subject, and the subject is composited against
+    bone white, which printed a pale wedge across the Matcha Latte packaging.
+
+    And nothing a layer adds may clip to pure white: the vignetted source frames
+    used to blow the glass out in solid patches. The pouch wordmark is
+    legitimately pure white, so only white the layers *introduced* counts."""
+    import numpy as np
+    from scipy import ndimage as ndi
+    a = np.array(clean.convert('RGB')).astype(int)
+    b = np.array(final.convert('RGB')).astype(int)
+    bad = []
+
+    pouch = ndi.binary_erosion(ndi.binary_fill_holes(a.mean(2) < 70),
+                               np.ones((2 * margin + 1,) * 2))
+    for lo, hi in allowed:
+        pouch[:, max(0, lo - margin):hi + margin] = False
+    bad += _blob((b.mean(2) - a.mean(2) > tol) & pouch, 120,
+                 "pale patch of {} px painted over the pouch")
+    bad += _blob((b == 255).all(2) & ~(a == 255).all(2), 700,
+                 "blown-out white patch of {} px added by a photo layer")
+    return bad
+
+
+def _blob(mask, limit, msg):
+    from scipy import ndimage as ndi
+    import numpy as np
+    if not mask.any():
+        return []
+    lab, n = ndi.label(mask, structure=np.ones((3, 3)))
+    big = int(ndi.sum(mask, lab, range(1, n + 1)).max())
+    return [] if big < limit else [msg.format(big)]

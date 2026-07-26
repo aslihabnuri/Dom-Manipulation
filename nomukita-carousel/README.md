@@ -72,17 +72,31 @@ python3 build_slides.py      # writes out/<Product>_S1_<variant>.png
 
 ## Note on artwork
 
-The 250 gram Avocado pouch prints レモンティー (lemon tea) instead of アボカド. The slide
-uses the correct アボカド; the pouch artwork itself needs fixing separately.
+Both Avocado pouch mockups — 250 gram and 1000 gram — print レモンティー (lemon tea)
+instead of アボカド. The slides use the correct アボカド in the watermark; the pouch
+artwork itself needs fixing separately, at the source.
+
+`Black tea_refrensi.jpg` is a watermarked stock comp. `batch.py` strips the
+watermark before sending it so the model stops copying it back, but the licence
+still has to be bought before this goes to print — the same as for the All Round
+Gothic demo font.
 
 ## Slide 1000 gram: gelas berisi minuman + prop bahan
 
 12 slide di `slide-1-1000gr/`. Gambar minuman dan prop digenerate lewat kie.ai
-`google/nano-banana-edit` dengan acuan gelas dikirim tiap job, lalu dikomposit
-dengan `photo.py` dan diperiksa satu per satu oleh `verify.py` — 12 dari 12 lolos.
+`google/nano-banana-edit`, lalu dikomposit dengan `photo.py` dan diperiksa satu
+per satu — 12 dari 12 lolos.
 
-Alur, pemetaan referensi, dan empat jebakan keying yang masing-masing pernah
-merusak hasil ada di `BRIEF-gelas-dan-prop.md`.
+**Tiap minuman dipentaskan ulang dari referensinya sendiri, jadi gelasnya ikut
+gelas di referensi itu.** Versi sebelumnya menuangkan kedua belas minuman ke satu
+gelas acuan bersama; hasilnya tidak lagi mirip minuman yang dipilih pelanggan.
+
+**Prop diukur dari ukuran aslinya**, dikunci pada alpukat utuh 11 cm = 200 px
+(18,2 px/cm), dengan batas lebar 92% lebar pouch. Sebelumnya semua prop dipaksa
+200 px, sehingga biskuit 4,5 cm tampil setinggi 11 cm.
+
+Alur, pemetaan referensi, dan tiap jebakan keying yang pernah merusak hasil ada
+di `BRIEF-gelas-dan-prop.md`.
 
 `batch.py` melewati file yang sudah ada, jadi menjalankan ulang tidak membakar
 kredit untuk hal yang sudah berhasil. Butuh `KIE_API_KEY` dari environment;

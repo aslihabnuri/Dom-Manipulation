@@ -28,6 +28,31 @@ def _ink(a, y0, y1, x0=0, x1=1024, thr=18):
     return (x0 + int(xs.min()), y0 + int(ys.min()), x0 + int(xs.max()) + 1, y0 + int(ys.max()) + 1)
 
 
+def frame(path, sil, shadow, tol=6.0, area=400):
+    """Check a generated photo before it is ever composited.
+
+    Everything outside the subject is supposed to be bare studio sweep, so it
+    should carry no detail at all - only the smooth falloff of the lighting and
+    the subject's own shadow. Anything else printed there came from the model
+    copying furniture out of the reference: a table edge, a horizon seam, or, on
+    one run, the tiled stock-library watermark reproduced letter for letter.
+
+    Measured as local contrast, which the lighting falloff does not have.
+    """
+    img = np.array(Image.open(path).convert("RGB")).astype(float).mean(2)
+    away = ~ndi.binary_dilation(sil | shadow, np.ones((3, 3)), iterations=30)
+    if not away.any():
+        return []
+    local = ndi.gaussian_filter(img, 1.2) - ndi.gaussian_filter(img, 6)
+    dirty = (np.abs(local) > tol) & away
+    if not dirty.any():
+        return []
+    dirty = ndi.binary_closing(dirty, np.ones((5, 5)))
+    lab, n = ndi.label(dirty, structure=np.ones((3, 3)))
+    big = int(ndi.sum(dirty, lab, range(1, n + 1)).max()) if n else 0
+    return [] if big < area else [f"{big} px of detail on the sweep outside the subject"]
+
+
 def check(path):
     """Return a list of problems; empty means the slide passed."""
     bad = []
@@ -88,15 +113,7 @@ def check(path):
         if abs((halal[0] + halal[2]) / 2 - 512) > 2:
             bad.append(f"Halal off centre at {(halal[0] + halal[2]) / 2}")
 
-    # Blown highlights: the vignetted source frames used to clip the glass to
-    # pure white in solid patches. Counting white pixels alone flags the pouch
-    # wordmark, which is legitimately pure white, so only large *connected*
-    # white areas count as a regression.
-    white = (a[360:870] == 255).all(2)
-    if white.any():
-        lab, n = ndi.label(white, structure=np.ones((3, 3)))
-        biggest = int(ndi.sum(white, lab, range(1, n + 1)).max()) if n else 0
-        if biggest > 700:
-            bad.append(f"blown-out white patch of {biggest} px in the product band")
-
+    # Blown highlights are checked in render_one.layers_intact instead, against
+    # the clean render: the pouch wordmark is legitimately pure white, and only
+    # white that a photo layer *added* is a defect.
     return bad
