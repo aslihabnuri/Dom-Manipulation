@@ -31,6 +31,26 @@ against the approved `Uji_S1_500gr.png` and `Uji_S1_500&30.png`.
 - **Sub-line** mirrors "ceremonial grade · 500 gram" from the reference, with the series
   in the grade slot: `premium grade · 250 gram`, `exclusive grade · 1000 gram`.
 
+## White pouch on bone white
+
+The 250 gram pouch is white and renders almost flat — its paper sits at 238–252,
+*brighter* than the background, with only ~14 points of shading. On bone white it
+reads as a pasted rectangle instead of an object.
+
+Reference `Refrensi/Referensi Matchamu` solves the same white-on-white case the
+other way round: background pure white (255), pouch paper kept **below** it at
+217–238 (about 27 points down, sides falling to 150), so the form is carried by a
+wide gradient rather than by brightness.
+
+`model_white()` reproduces that on our background: paper down to 215 — 26 points
+under the bone white — with the shading stretched 1.7×, plus a soft contact
+shadow at the base. The curve is smoothstepped above luminance 175, so the
+printed kanji, the blue mark and the label text keep their full strength, the way
+the Matchamu label stays fully saturated.
+
+Applied to the 250 gram slides and to the small pouch on the combination slides.
+The 1000 gram pouch is black and is left untouched.
+
 ## Font licence
 
 All Round Gothic is the Fontspring DEMO build: `-`, `–`, `°`, `4` and `&` are locked and

@@ -15,8 +15,8 @@ Per brief:
 """
 
 import os
-import unicodedata
-from PIL import Image, ImageDraw, ImageFont
+import numpy as np
+from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 PROD = os.path.join(ROOT, "prod")
@@ -194,7 +194,45 @@ def draw_text_top(canvas, text, font, color, cx, top):
     canvas.alpha_composite(layer.crop((pad, pad, pad + W, pad + H)), (0, 0))
 
 
-def place(canvas, path, box_h, cx=None, bottom=None, left=None, max_w=None):
+# ── white pouch on a near-white background ───────────────────────────────────
+# The 250 g pouch renders almost flat: its paper sits at 238-252, brighter than
+# the bone white behind it and with only ~14 points of shading, so it reads as a
+# pasted rectangle rather than an object. The Matchamu reference solves the same
+# white-on-white case by keeping the paper *below* the background (217-238 on a
+# 255 background, roughly 27 points down) and carrying the form on a wide
+# gradient. MODEL_* reproduces that: paper down to 215, shading widened 1.7x.
+MODEL_TARGET = 215      # where the pouch paper lands, 26 points under the bone white
+MODEL_GAIN = 1.7        # how far the shading is stretched around the paper tone
+MODEL_PIVOT = 244       # measured median of the untouched pouch paper
+MODEL_LO, MODEL_HI = 175, 235   # blend band; below it printed artwork is untouched
+
+
+def model_white(img):
+    """Give a white pouch volume against the bone white background, leaving the
+    printed kanji, the blue mark and the label text at full strength."""
+    a = np.array(img).astype(float)
+    rgb = a[..., :3]
+    lum = rgb.mean(2)
+    t = np.clip((lum - MODEL_LO) / (MODEL_HI - MODEL_LO), 0, 1)
+    w = t * t * (3 - 2 * t)                       # smoothstep, so the print is spared
+    target = (1 - w) * lum + w * (MODEL_TARGET + (lum - MODEL_PIVOT) * MODEL_GAIN)
+    factor = np.where(lum > 1, np.clip(target, 0, 255) / np.maximum(lum, 1e-6), 1.0)
+    a[..., :3] = np.clip(rgb * factor[..., None], 0, 255)
+    return Image.fromarray(a.astype(np.uint8), "RGBA")
+
+
+def contact_shadow(canvas, x, y, w, h, opacity=44, blur=22):
+    """A soft ellipse at the base so the pouch sits on the surface."""
+    layer = Image.new("L", canvas.size, 0)
+    ImageDraw.Draw(layer).ellipse(
+        [x + w * 0.10, y + h - 14, x + w * 0.90, y + h + 16], fill=opacity
+    )
+    shadow = Image.new("RGBA", canvas.size, (126, 124, 116, 0))
+    shadow.putalpha(layer.filter(ImageFilter.GaussianBlur(blur)))
+    canvas.alpha_composite(shadow)
+
+
+def place(canvas, path, box_h, cx=None, bottom=None, left=None, max_w=None, white=False):
     """Scale a mockup to `box_h` tall and drop it on the canvas."""
     im = Image.open(os.path.join(PROD, path)).convert("RGBA")
     im = im.crop(im.getbbox())
@@ -202,8 +240,12 @@ def place(canvas, path, box_h, cx=None, bottom=None, left=None, max_w=None):
     if max_w and im.width * scale > max_w:
         scale = max_w / im.width
     im = im.resize((max(1, round(im.width * scale)), max(1, round(im.height * scale))), Image.LANCZOS)
+    if white:
+        im = model_white(im)
     x = left if left is not None else round(cx - im.width / 2)
     y = round(bottom - im.height)
+    if white:
+        contact_shadow(canvas, x, y, im.width, im.height)
     canvas.alpha_composite(im, (x, y))
     return x, y, im.width, im.height
 
@@ -231,7 +273,7 @@ def slide(product, variant):
     # with the criteria column and the origin badge gone the product owns the
     # full width, so it sits larger than on the Uji slide
     if variant == "250":
-        place(c, product["p250"], PHOTO_H, cx=512, bottom=PHOTO_BOTTOM, max_w=HEAD_MAX_W)
+        place(c, product["p250"], PHOTO_H, cx=512, bottom=PHOTO_BOTTOM, max_w=HEAD_MAX_W, white=True)
     elif variant == "1000":
         place(c, product["p1000"], PHOTO_H, cx=512, bottom=PHOTO_BOTTOM)
     else:
@@ -248,7 +290,7 @@ def slide(product, variant):
         total = big_w + small_w - overlap
         x0 = round(512 - total / 2)
         place(c, product["p1000"], big_h, left=x0, bottom=bottom)
-        place(c, product["p250"], small_h, left=x0 + big_w - overlap, bottom=bottom)
+        place(c, product["p250"], small_h, left=x0 + big_w - overlap, bottom=bottom, white=True)
 
     halal = Image.open(os.path.join(ASSETS, "halal.png")).convert("RGBA")
     halal = halal.crop(halal.getbbox())
