@@ -39,6 +39,8 @@ DEV_LUM = 0.030      # luminance departure from the sweep that counts as ink
 DEV_CHROMA = 0.040   # colour cast that counts as ink
 SHADOW_CHROMA = 0.055    # a shadow is neutral: it scales all three channels alike
 TEXTURE = 1.0            # local contrast that means detail rather than a level change
+INNER_LUM = 0.014        # neighbourhood deviation that means the subject is really there
+INNER_CHROMA = 0.022     # and the same for colour
 FLOOR = 0.030            # darkening below this, outside the subject, is estimate error
 SPAN = 0.060             # and it ramps up to full strength over this much more
 
@@ -243,10 +245,21 @@ def _key(img, ratio):
     # Alpha mask: everything clearly inside the silhouette, plus the solid ink
     # itself. Eroding keeps a few pixels of soft edge on the multiply, where a
     # hard alpha would cut the antialiasing off against the pouch.
-    # Gate the interior on ink. The vertical closing that rebuilds the body also
-    # bridges gaps that hold nothing at all, and anything opaque there prints as
-    # a flat slab of bone white - which is what appeared beside the pouch.
-    obj = (solid | (ndi.binary_erosion(sil, np.ones((3, 3)), iterations=3) & ink)) & ~shadow
+    # Gate the interior on whether there is anything there. The vertical closing
+    # that rebuilds the body also bridges gaps holding nothing at all, and
+    # anything opaque there prints as a flat slab of bone white beside the pouch.
+    #
+    # The gate averages over a neighbourhood rather than testing each pixel. A
+    # pale drink sits barely above the sweep it was shot on - the vanilla shake
+    # reads 0.023 against the sweep's 0.007 - so a per-pixel threshold flickers
+    # through it and left a tenth of the drink unclaimed. Alpha then dropped to
+    # zero in those speckles and the black pouch showed through them, chewing a
+    # dirty fringe down the edge where the drink overlaps the packaging. Averaged
+    # over a neighbourhood the two separate cleanly, because bare sweep is
+    # consistently flat while a drink is consistently, if only slightly, not.
+    near = ((ndi.gaussian_filter(np.abs(lum - 1), 6) > INNER_LUM)
+            | (ndi.gaussian_filter(chroma, 6) > INNER_CHROMA))
+    obj = solid | (ndi.binary_erosion(sil, np.ones((3, 3)), iterations=3) & near)
     return obj, sil, shadow
 
 

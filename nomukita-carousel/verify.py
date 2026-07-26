@@ -53,6 +53,33 @@ def frame(path, sil, shadow, tol=6.0, area=400):
     return [] if big < area else [f"{big} px of detail on the sweep outside the subject"]
 
 
+def matte(path, obj, sil, limit=2.0):
+    """Check that the alpha matte has a clean edge rather than a torn one.
+
+    Where the drink overlaps the pouch, alpha decides pixel by pixel whether the
+    drink replaces the black packaging or multiplies onto it. A solid matte reads
+    as a photographic edge; a speckled one alternates between the two every few
+    pixels and prints as a band of gravel down the side of the glass.
+
+    A pale drink did exactly that - too close in tone to the sweep it was shot on
+    for a per-pixel test to hold - and so did the cast shadow's growth when it
+    climbed the glass's own neutral wall.
+
+    A clean matte crosses on and off about twice per row, once at each side.
+    Counted inside the silhouette, where the drink is supposed to be solid. This
+    is the one place `render_one.layers_intact` cannot look, because those are
+    precisely the columns it has to let the drink brighten.
+    """
+    inner = ndi.binary_erosion(sil, np.ones((3, 3)), iterations=6)
+    rows = np.nonzero(inner.any(1))[0]
+    if not len(rows):
+        return []
+    crossings = [int(np.abs(np.diff(obj[y][inner[y]].astype(int))).sum()) for y in rows]
+    med = float(np.median(crossings))
+    return [] if med <= limit else [
+        f"torn alpha matte: {med:.0f} on/off crossings per row inside the subject"]
+
+
 def check(path):
     """Return a list of problems; empty means the slide passed."""
     bad = []

@@ -32,15 +32,15 @@ urllib dengan 403, baik di host upload maupun di CDN hasil.
 | Cookies & Cream | Chocolate_referensi *(gelasnya saja)* | Cookies & Cream_referensi |
 | Charcoal | Charcoal_referensi | Charcoal_Aestetic |
 | Avocado | *tidak digenerate ulang — sudah disetujui* | Avocado |
-| Vanilla | Exclusive Matcha_referensi *(gelasnya saja)* | Referensi Vanilla |
+| Vanilla | Vanilla_referensi | Referensi Vanilla |
 | Milk Tea | Milk Tea_referensi | Black tea *(aturan: pengganti alpukat)* |
 | Lemon Tea | Lemon tea_referensi | lemon |
 | Frappe Base | Frappe Base_referensi | — *(aturan: minuman saja)* |
 | Lemon Grass | Lemon grass_referensi | Lemon Grass |
 
-Teh Tarik, Cookies & Cream dan Vanilla tidak punya referensi minuman sendiri.
-Masing-masing meminjam gelas dari minuman yang disajikan dengan cara serupa,
-lalu isinya ditulis di prompt.
+Teh Tarik dan Cookies & Cream tidak punya referensi minuman sendiri. Masing-masing
+meminjam gelas dari minuman yang disajikan dengan cara serupa, lalu isinya ditulis
+di prompt.
 
 Prop daun teh dipakai bersama Teh Tarik dan Milk Tea, jadi digenerate sekali
 saja sebagai `prop-blacktea.png`.
@@ -158,6 +158,20 @@ Setiap poin di bawah ini pernah merusak hasil.
   latar, menempel seperti halo di atas angkanya. Di mana pun rasionya tepat 1,
   lapisannya tidak punya apa-apa untuk ditambahkan, jadi kanvasnya dibiarkan utuh.
 
+- **Gerbang bagian dalam siluet dirata-ratakan sepanjang lingkungan, bukan diuji
+  per piksel.** Minuman yang pucat cuma sedikit di atas sweep tempat ia difoto —
+  milkshake vanila terbaca 0,023 melawan sweep 0,007 — jadi ambang per piksel
+  berkedip menembusnya dan menyisakan sepersepuluh minumannya tak terklaim. Alpha
+  lalu jatuh ke nol di bintik-bintik itu dan pouch hitam menembusnya, menggerogoti
+  pinggiran kotor di sisi tempat minuman menimpa kemasan. Dirata-ratakan sepanjang
+  lingkungan keduanya terpisah bersih, karena sweep kosong itu rata secara
+  konsisten sementara minuman itu tidak — walau cuma sedikit.
+
+- **Bayangan tidak lagi dikurangkan dari `obj`.** Pertumbuhan bayangan memanjat
+  dinding kiri gelas yang netral, dan naiknya compang-camping; 95% piksel tak
+  terklaim di jahitan itu berasal dari sana. `solid` sudah bebas bayangan, jadi
+  pengurangan kedua itu cuma merusak.
+
 - **Subjek di-alpha-composite, bukan dikalikan.** Layer rasio itu perkalian; di
   atas pouch hitam alpukat ikut menggelap sampai terbaca seperti di belakang
   pouch. Perkalian tetap dipakai di luar subjek, karena bayangan memang butuh itu.
@@ -196,5 +210,13 @@ Matcha Latte, yang lolos dari semua pemeriksaan lain karena warnanya bukan putih
 murni. Lalu, tidak ada yang ditambahkan lapisan boleh mentok jadi putih murni.
 Wordmark di pouch memang putih murni dan sah, jadi yang dihitung hanya putih
 yang *ditambahkan* lapisannya.
+
+`verify.matte()` — mask alpha harus bertepi bersih, bukan robek. Di tempat minuman
+menimpa pouch, alpha memutuskan piksel demi piksel apakah minumannya menggantikan
+kemasan hitam atau dikalikan ke atasnya; mask yang berbintik berganti-ganti
+di antara keduanya tiap beberapa piksel dan tercetak sebagai pita kerikil di sisi
+gelas. Mask yang bersih menyeberang hidup-mati sekitar dua kali per baris, sekali
+di tiap sisi. Ini satu-satunya tempat yang tidak bisa dilihat `layers_intact`,
+karena justru kolom-kolom itulah yang harus ia izinkan menerang.
 
 12 dari 12 lolos.

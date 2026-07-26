@@ -21,10 +21,10 @@ MODEL = "google/nano-banana-edit"
 # slug -> (reference the glass comes from, drink to put in it)
 #
 # A description of None means the reference already *is* the product's drink, so
-# the shot is restaged unchanged. Teh Tarik, Cookies & Cream and Vanilla have no
-# drink reference of their own; each borrows the glass of a drink served the same
-# way and states its own contents. Avocado is absent: it was approved as it
-# stands and regenerating it would only risk losing that.
+# the shot is restaged unchanged. Teh Tarik and Cookies & Cream have no drink
+# reference of their own; each borrows the glass of a drink served the same way
+# and states its own contents. Avocado is absent: it was approved as it stands
+# and regenerating it would only risk losing that.
 DRINKS = {
     "matchalatte": ("Matcha_Referensi.jpg", None),
     "premixmatcha": ("Exclusive Matcha_referensi.jpeg", None),
@@ -36,9 +36,7 @@ DRINKS = {
                      "a cookies and cream milkshake: thick creamy off-white, dark chocolate "
                      "cookie crumbs suspended through it and scattered over the top"),
     "charcoal": ("Charcoal_referensi.jpg", None),
-    "vanilla": ("Exclusive Matcha_referensi.jpeg",
-                "a vanilla latte: warm pale cream, a gentle darker coffee layer low in the "
-                "glass, under a soft white foam. Nothing green anywhere"),
+    "vanilla": ("Vanilla_referensi.jpg", None),
     "milktea": ("Milk Tea_referensi.jpg", None),
     "lemontea": ("Lemon tea_referensi.jpg", None),
     "frappebase": ("Frappe Base_referensi.jpg", None),

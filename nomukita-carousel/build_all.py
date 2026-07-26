@@ -36,7 +36,8 @@ def main():
         for src in [glass] + ([prop] if prop else []):
             photo.load(src)
             problems += [f"{os.path.basename(src)}: {m}"
-                         for m in verify.frame(src, photo._SIL[src], photo._SHADOW[src])]
+                         for m in (verify.frame(src, photo._SIL[src], photo._SHADOW[src])
+                                   + verify.matte(src, photo._MASK[src], photo._SIL[src]))]
         path = f'{OUT}/{bs.PRODUCTS[idx]["slug"]}_S1_1000gr.png'
         problems += r.build(idx, glass, prop, path, slug)[1] + verify.check(path)
         (ok if not problems else bad).append((slug, problems or "PASS"))
