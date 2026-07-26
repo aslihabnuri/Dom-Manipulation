@@ -81,6 +81,29 @@ watermark before sending it so the model stops copying it back, but the licence
 still has to be bought before this goes to print — the same as for the All Round
 Gothic demo font.
 
+## Slide 250 gram: gelas berisi minuman + prop bahan
+
+12 slide di `slide-1-250gr/`, memakai aset minuman dan prop yang sama dengan
+varian 1000 gram - tidak ada generate baru sama sekali.
+
+250 gram bukan sekadar mengecilkan yang 1000 gram. Pouch-nya sachet datar yang
+lebih lebar daripada tinggi dan tingginya separuh, jadi **gelas minum lebih
+tinggi daripada pouch-nya**. Dua akibatnya:
+
+- **Pouch digambar di depan**, bukan di belakang. Percobaan pertama menaruh
+  fotonya di atas pouch dan produknya - yang justru hero - terkubur di antara
+  propnya dan gelas.
+- **Pouch-nya sendiri dibesarkan 30%** di luar skala fisiknya, di atas grup yang
+  sudah dikomposisikan 1,35x skala slide 1000 gram. Itu memang melanggar skala:
+  sachet 250 gram tidak setinggi gelas minum. Tapi pouch itu barang yang dijual,
+  dan di marketplace produknya harus memimpin - keputusan dagang, bukan
+  keputusan fotografi. Angkanya dipilih pelanggan dari empat tingkat.
+
+Grupnya dipusatkan pada **rentang sesungguhnya** - termasuk garnis dan bayangan
+yang menjulur keluar badan gelas - lalu dikecilkan kalau masih tidak muat dalam
+margin 60 px. Memusatkan pada badan gelas saja membuat polong vanili menembus
+tepi kanan kanvas, dan serai menyentuhnya lewat bayangannya.
+
 ## Slide 1000 gram: gelas berisi minuman + prop bahan
 
 12 slide di `slide-1-1000gr/`. Gambar minuman dan prop digenerate lewat kie.ai
