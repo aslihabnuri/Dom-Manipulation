@@ -3,34 +3,25 @@
 from PIL import Image, ImageFont
 import importlib.util, sys
 
-for _n, _p in [('bs', 'build_slides.py'), ('glass', 'glass.py')]:
+for _n, _p in [('bs', 'build_slides.py'), ('photo', 'photo.py')]:
     _s = importlib.util.spec_from_file_location(_n, _p)
     _m = importlib.util.module_from_spec(_s); sys.modules[_n] = _m; _s.loader.exec_module(_m)
-import bs, glass
+import bs, photo
 
 POUCH_H = 440
-GLASS_H = 330          # naik dari 271 - gelas sebelumnya terbaca terlalu kecil
-PROP_H = 200           # naik dari 150
+GLASS_H = 330
+PROP_H = 200
 POUCH_BOTTOM = 829
 BOTTOM = 855
-GLASS_OVERLAP = 16     # gelas sedikit menutup sisi kanan pouch
-PROP_OVERLAP = 14      # prop sedikit menutup sisi kiri pouch
+GLASS_OVERLAP = 16
+PROP_OVERLAP = 14
 
 
-def build(idx, recipe, prop=None, out='slide.png'):
+def build(idx, glass_img, prop_img=None, out='slide.png'):
     p = bs.PRODUCTS[idx]
     pw = round(POUCH_H * 0.695)
-    gl, gt, gr, gb = glass.bbox()
-    gw = round((gr - gl) * GLASS_H / (gb - gt))
-
-    prop_img = None
-    aw = 0
-    if prop:
-        prop_img = Image.open(prop).convert('RGBA')
-        aw = round(prop_img.width * PROP_H / prop_img.height)
-        prop_img = prop_img.resize((aw, PROP_H), Image.LANCZOS)
-
-    # centre the whole group: prop edge .. pouch .. glass edge
+    gw = photo.size_at(glass_img, GLASS_H)
+    aw = photo.size_at(prop_img, PROP_H) if prop_img else 0
     x0 = round(512 - (pw + gw - GLASS_OVERLAP - aw + PROP_OVERLAP) / 2)
 
     c = Image.new('RGBA', (1024, 1024), bs.BG + (255,))
@@ -53,14 +44,9 @@ def build(idx, recipe, prop=None, out='slide.png'):
     flat = Image.new('RGB', (1024, 1024), bs.BG)
     flat.paste(c, (0, 0), c)
 
-    glass.paste(flat, x0 + pw - GLASS_OVERLAP, BOTTOM, GLASS_H, recipe)
-
+    photo.place(flat, glass_img, x0 + pw - GLASS_OVERLAP, BOTTOM, GLASS_H)
     if prop_img:
-        px = x0 + PROP_OVERLAP - aw
-        tmp = flat.convert('RGBA')
-        bs.contact_shadow(tmp, px, BOTTOM - PROP_H, aw, PROP_H, opacity=46, blur=18)
-        flat = tmp.convert('RGB')
-        flat.paste(prop_img, (px, BOTTOM - PROP_H), prop_img)
+        photo.place(flat, prop_img, x0 + PROP_OVERLAP - aw, BOTTOM, PROP_H)
 
     flat.save(out)
     return out
