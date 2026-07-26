@@ -22,7 +22,10 @@ def build(idx, glass_img, prop_img=None, out='slide.png'):
     pw = round(POUCH_H * 0.695)
     gw = photo.size_at(glass_img, GLASS_H, body=True)
     aw = photo.size_at(prop_img, PROP_H) if prop_img else 0
-    x0 = round(512 - (pw + gw - GLASS_OVERLAP - aw + PROP_OVERLAP) / 2)
+    # Centre the whole group: prop edge .. pouch .. glass edge. With no prop
+    # (Frappe Base) its overlap has to drop out too, or the pair sits off centre.
+    prop_shift = PROP_OVERLAP if prop_img else 0
+    x0 = round(512 - (pw + gw - GLASS_OVERLAP - aw + prop_shift) / 2)
 
     c = Image.new('RGBA', (1024, 1024), bs.BG + (255,))
     c.alpha_composite(Image.open(f'{bs.ASSETS}/logo_nomukita.png').convert('RGBA'), bs.LOGO_XY)

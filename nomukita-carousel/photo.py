@@ -131,26 +131,41 @@ def load(path):
     return _CACHE[path]
 
 
+GLASS_RATIO = 0.472   # width / height of the reference glass, measured across the set
+
+
 def box(path, body=False):
-    """Subject box. With `body=True` the top is the glass rim rather than the
-    tip of the garnish: a mint sprig or a fruit slice on the rim would otherwise
-    count toward the height, and every product would end up with a differently
-    sized glass."""
+    """Subject box. With `body=True` the box is the glass itself: the top is the
+    rim rather than the tip of a garnish, and the bottom is the foot rather than
+    the cast shadow pooling beneath it."""
     ratio, bb = load(path)
     if not body:
         return bb
     mask = _MASK[path]
-    l, t, r, b = bb
-    widths = mask[:, l:r].sum(1)
-    wide = np.nonzero(widths >= 0.6 * widths.max())[0]
-    rim = int(wide.min())
-    # Horizontal extent measured on the upper half of the body only. A garnish
-    # leaning out of the rim would widen the box from above, and the cast shadow
-    # pooling at the foot merges into the mask from below - on one render that
-    # made the same glass measure 503 px wide instead of 394, which would drift
-    # the glass across the pouch from product to product.
-    cols = np.nonzero(mask[rim:rim + (b - rim) // 2].any(0))[0]
-    return int(cols.min()), rim, int(cols.max()) + 1, b
+    widths = mask.sum(1)
+    rows = np.nonzero(widths)[0]
+    med = np.median(widths[widths > 0.2 * widths.max()])
+
+    # A shadow flaring out at the base is much wider than the glass, and taking
+    # the widest row as the reference let it swallow the profile: on one render
+    # the rim was found at y 808 instead of 240 and the glass came out four
+    # times too large. Both ends are measured against the median width instead.
+    rim = next(int(y) for y in rows if widths[y] >= 0.5 * med)
+    foot = next(int(y) for y in rows[::-1] if widths[y] <= 1.35 * med)
+
+    def span(top):
+        cols = np.nonzero(mask[top:top + max(1, (foot - top) // 2)].any(0))[0]
+        return int(cols.min()), int(cols.max()) + 1
+
+    l, r = span(rim)
+    # Every product uses the same glass, so a silhouette whose proportions are
+    # far off means the drink blended into the sweep and the rim was missed -
+    # the milky top of the charcoal drink did exactly that. Rebuild the rim from
+    # the foot and the known shape rather than trusting the measurement.
+    if abs((r - l) / max(foot - rim, 1) - GLASS_RATIO) > 0.12 * GLASS_RATIO:
+        rim = max(0, foot - int(round((r - l) / GLASS_RATIO)))
+        l, r = span(rim)
+    return l, rim, r, foot
 
 
 def size_at(path, height, body=False):
@@ -187,5 +202,20 @@ def place(canvas, path, left, bottom, height, body=False):
     alpha = ndi.gaussian_filter(obj.astype(float), 1.0)[..., None]
     subject = ratio * np.array(BONE, float)
     out = np.clip(backdrop * ratio * (1 - alpha) + subject * alpha, 0, 255).astype(np.uint8)
-    canvas.paste(Image.fromarray(out).resize((tw, th), Image.LANCZOS), (ox, oy))
+    layer = Image.fromarray(out).resize((tw, th), Image.LANCZOS)
+
+    # The layer's own fade is measured in source pixels, so a shadow that runs
+    # to the edge of the pasted rectangle can still land on the slide border and
+    # leave it a few levels off bone white. Fade back to the backdrop over the
+    # last few pixels of the canvas instead.
+    guard = 26
+    cw, ch = canvas.size
+    la = np.array(layer).astype(float)
+    under_px = np.array(canvas.crop((ox, oy, ox + tw, oy + th)).convert("RGB")).astype(float)
+    X0, Y0 = np.meshgrid(np.arange(tw) + ox, np.arange(th) + oy)
+    keep = np.minimum.reduce([np.clip(X0 / guard, 0, 1), np.clip((cw - 1 - X0) / guard, 0, 1),
+                              np.clip(Y0 / guard, 0, 1), np.clip((ch - 1 - Y0) / guard, 0, 1)])[..., None]
+    layer = Image.fromarray(np.clip(la * keep + under_px * (1 - keep), 0, 255).astype(np.uint8))
+
+    canvas.paste(layer, (ox, oy))
     return canvas

@@ -75,12 +75,15 @@ python3 build_slides.py      # writes out/<Product>_S1_<variant>.png
 The 250 gram Avocado pouch prints レモンティー (lemon tea) instead of アボカド. The slide
 uses the correct アボカド; the pouch artwork itself needs fixing separately.
 
-## Gelas berisi minuman (slide 1000 gram)
+## Slide 1000 gram: gelas berisi minuman + prop bahan
 
-Gambar minuman dan prop bahan digenerate lewat kie.ai `google/nano-banana-edit`
-(image-to-image, acuan gelas dikirim tiap kali agar 12 produk memakai gelas yang
-sama), lalu dikomposit dengan `photo.py`. Detail alur, prompt, dan tiga jebakan
-keying yang sudah dibereskan ada di `BRIEF-gelas-dan-prop.md`.
+12 slide di `slide-1-1000gr/`. Gambar minuman dan prop digenerate lewat kie.ai
+`google/nano-banana-edit` dengan acuan gelas dikirim tiap job, lalu dikomposit
+dengan `photo.py` dan diperiksa satu per satu oleh `verify.py` — 12 dari 12 lolos.
 
-`runjob.py` membungkus createTask/polling/unduh. Butuh `KIE_API_KEY` dari
-environment; jangan menaruh kunci di dalam repo.
+Alur, pemetaan referensi, dan empat jebakan keying yang masing-masing pernah
+merusak hasil ada di `BRIEF-gelas-dan-prop.md`.
+
+`batch.py` melewati file yang sudah ada, jadi menjalankan ulang tidak membakar
+kredit untuk hal yang sudah berhasil. Butuh `KIE_API_KEY` dari environment;
+jangan menaruh kunci di dalam repo.
