@@ -65,6 +65,23 @@ def _layer(path):
     if not obj.any():
         obj = dev > OBJ
 
+    # The edge mask is an outline, and for a glass it is hollow: the interior
+    # drains out through the mouth, so binary_fill_holes left it 19 per cent
+    # filled and the unfilled channels printed as vertical streaks down the
+    # drink. Fill each row between the outermost edge pixels instead - the cast
+    # shadow has almost no gradient, so it never enters that span.
+    filled = np.zeros_like(obj)
+    for y in np.nonzero(obj.any(1))[0]:
+        row = np.nonzero(obj[y])[0]
+        filled[y, row.min():row.max() + 1] = True
+    obj = filled
+
+    ring0 = ndi.binary_dilation(obj, np.ones((3, 3)), iterations=25) & ~obj
+    white = (np.percentile(img[ring0], 97, axis=0) if ring0.any()
+             else np.array([245.0] * 3))
+    bg = _calibrate(bg, ring0, white)
+    ratio = img / np.maximum(bg, 1)
+
     # away from the object the layer may only darken - that is the cast shadow.
     # Letting it brighten prints the error of the backdrop estimate as a patch.
     ratio = np.where(obj[..., None], ratio, np.minimum(ratio, 1))
@@ -79,19 +96,38 @@ def _layer(path):
                               np.clip(Y / ramp, 0, 1), np.clip((H - 1 - Y) / ramp, 0, 1)])
     ratio = 1 + (ratio - 1) * (soft * fade)[..., None]
 
+    # White point of the sweep right next to the subject. The generated frames
+    # are vignetted - the sweep behind the glass reads ~240 while the frame edge
+    # is ~213 - so a per-pixel divide blows the subject out: grey glass at 186
+    # came back as 250 and the highlights clipped to pure white. The subject is
+    # therefore rebalanced by this single local white instead.
     ys, xs = np.nonzero(obj)
-    return ratio, obj, (int(xs.min()), int(ys.min()), int(xs.max()) + 1, int(ys.max()) + 1)
+    return (ratio, obj, white,
+            (int(xs.min()), int(ys.min()), int(xs.max()) + 1, int(ys.max()) + 1))
+
+
+def _calibrate(bg, ring, white):
+    """Scale the backdrop estimate so it matches the sweep measured beside the
+    subject. The generated frames are vignetted, so the diffused estimate reads
+    ~210 where the real sweep behind the glass is ~240 - a 14 per cent error
+    that pushed grey glass at 186 up to 250 and clipped highlights to white."""
+    if not ring.any():
+        return bg
+    here = np.percentile(bg[ring], 97, axis=0)
+    return bg * (white / np.maximum(here, 1.0))
 
 
 _CACHE = {}
 _MASK = {}
+_WHITE = {}
 
 
 def load(path):
     if path not in _CACHE:
-        ratio, obj, bb = _layer(path)
+        ratio, obj, white, bb = _layer(path)
         _CACHE[path] = (ratio, bb)
         _MASK[path] = obj
+        _WHITE[path] = white
     return _CACHE[path]
 
 
@@ -142,10 +178,14 @@ def place(canvas, path, left, bottom, height, body=False):
     # near black and read as sitting *behind* the pouch. So the subject is
     # composited over the backdrop, developed against bone white, and only the
     # area outside it keeps the multiply.
+    # Over the bone white slide, `backdrop * ratio` already reproduces the
+    # subject exactly, so the multiply is kept. Alpha only matters where the
+    # subject overlaps something else - the black pouch - because there the
+    # multiply would darken an avocado into near black and it would read as
+    # sitting behind the pouch.
     obj = _MASK[path]
     alpha = ndi.gaussian_filter(obj.astype(float), 1.0)[..., None]
-    shadow = np.where(obj[..., None], 1.0, ratio)
     subject = ratio * np.array(BONE, float)
-    out = np.clip(backdrop * shadow * (1 - alpha) + subject * alpha, 0, 255).astype(np.uint8)
+    out = np.clip(backdrop * ratio * (1 - alpha) + subject * alpha, 0, 255).astype(np.uint8)
     canvas.paste(Image.fromarray(out).resize((tw, th), Image.LANCZOS), (ox, oy))
     return canvas
