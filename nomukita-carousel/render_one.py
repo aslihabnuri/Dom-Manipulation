@@ -82,6 +82,8 @@ def build(idx, glass_img, prop_img=None, out='slide.png', slug=None):
     if prop_img:
         photo.place(flat, prop_img, x0 + overlap - aw, BOTTOM, ph)
 
+    flat.paste(clean.crop((0, 0, 1024, TOP_GUARD)), (0, 0))
+
     flat.save(out)
     return out, layers_intact(clean, flat, [(x0, x0 + overlap),
                                             (x0 + pw - GLASS_OVERLAP, x0 + pw)])
@@ -118,7 +120,45 @@ def layers_intact(clean, final, allowed, margin=6, tol=14):
                  "pale patch of {} px painted over the pouch")
     bad += _blob((b == 255).all(2) & ~(a == 255).all(2), 700,
                  "blown-out white patch of {} px added by a photo layer")
+
+    # Nothing may be drawn over the brand furniture. The Halal seal, the logo and
+    # the three lines of type all go down before any photo, so a drink or a prop
+    # that reaches their rows is composited straight over them.
+    #
+    # Checking the seal by its own shape is not enough: a bounding box survives
+    # having its middle punched out, and the customer has twice had to ask that
+    # the seal not disappear. Comparing against the clean render leaves nowhere
+    # for that to hide.
+    #
+    # What is protected is the ink itself, not the band around it. A soft shadow
+    # drifting across the empty background beside the seal harms nothing; one
+    # crossing the seal does.
+    touched = np.abs(b - a).max(2) > 2
+    for name, (y0, y1) in PROTECTED.items():
+        ink = np.abs(a[y0:y1] - np.array(bs.BG)).max(2) > 6
+        ink = ndi.binary_dilation(ink, np.ones((7, 7)))
+        hit = int((touched[y0:y1] & ink).sum())
+        if hit:
+            bad.append(f"a photo layer painted {hit} px over the {name}")
     return bad
+
+
+# Where the brand furniture lives, measured off the approved reference. Only its
+# ink is protected, found within these bands on the clean render.
+PROTECTED = {
+    "logo": (40, 100),
+    "katakana": (150, 215),
+    "headline": (225, 292),
+    "sub-line": (298, 345),
+    "Halal seal": (875, 1000),
+}
+
+# Above this there is nothing but brand furniture on bare background - the pouch
+# does not start until y 389. A photo layer reaching up here has nothing to
+# contribute and everything to spoil: it put a bright halo over the sub-line
+# once, and left faint smudges under two of the katakana watermarks. The rows
+# are simply restored from the clean render.
+TOP_GUARD = 360
 
 
 def _blob(mask, limit, msg):

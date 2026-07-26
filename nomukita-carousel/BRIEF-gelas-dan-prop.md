@@ -219,4 +219,38 @@ gelas. Mask yang bersih menyeberang hidup-mati sekitar dua kali per baris, sekal
 di tiap sisi. Ini satu-satunya tempat yang tidak bisa dilihat `layers_intact`,
 karena justru kolom-kolom itulah yang harus ia izinkan menerang.
 
+`render_one.layers_intact()` juga menjaga **furnitur mereknya**: logo, katakana,
+headline, sub-line, dan segel Halal semuanya digambar sebelum foto apa pun, jadi
+minuman atau prop yang mencapai barisnya akan terkomposit langsung di atasnya.
+Yang dijaga adalah tintanya, bukan pita di sekelilingnya — bayangan lembut yang
+melintas di latar kosong di sebelah segel tidak merusak apa-apa, yang melintasi
+segelnya merusak.
+
+Memeriksa segel lewat bentuknya sendiri tidak cukup: kotak pembatas tetap utuh
+walau tengahnya dilubangi, dan pelanggan sudah dua kali harus meminta agar
+segelnya tidak hilang. Sekarang piksel ungunya dihitung (segel utuh = 1484), dan
+selisih terhadap render bersih tidak menyisakan tempat sembunyi.
+
+`TOP_GUARD = 360` — di atas garis itu tidak ada apa pun selain furnitur merek di
+atas latar kosong; pouch baru mulai di y 389. Lapisan foto yang menjangkau ke
+sana tidak punya sumbangan apa-apa dan cuma bisa merusak: pernah menaruh halo
+terang di atas sub-line, dan menyisakan noda samar di bawah dua watermark
+katakana. Barisnya cukup dikembalikan dari render bersih.
+
+`verify.text()` — memastikan slide-nya benar-benar **berbunyi** seperti yang
+seharusnya. Tidak ada pemeriksaan lain yang membaca tipografinya: katakana,
+headline, dan sub-line hanya diuji letak tintanya, bukan ejaannya. Watermark yang
+salah, "500 gram" alih-alih "1000 gram", atau headline hijau matcha di produk yang
+bukan matcha — semuanya akan lolos. Itu bukan hipotesis di proyek ini: font
+berlisensinya versi demo yang merender `&` sebagai lencana "DEMO", dan itulah
+sebabnya COOKIES & CREAM butuh fallback. Ketiga barisnya sekarang dirender ulang
+dari tabel `EXPECTED` — sengaja salinan kedua, dijauhkan dari tabel yang dipakai
+membangun slide-nya, karena pemeriksa yang membaca harapannya dari benda yang ia
+periksa cuma bisa membuktikan render-nya bisa diulang, bukan bahwa katanya benar.
+Kalau keduanya berbeda, salah satunya typo.
+
+Tepi juga diperiksa sepanjang seluruh sisinya, bukan enam piksel contoh — dan sisi
+bawah, satu-satunya yang benar-benar dijangkau bayangan gelas dan prop, dulu tidak
+punya contoh inset sama sekali.
+
 12 dari 12 lolos.

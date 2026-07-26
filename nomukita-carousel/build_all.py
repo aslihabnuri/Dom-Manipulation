@@ -40,6 +40,7 @@ def main():
                                    + verify.matte(src, photo._MASK[src], photo._SIL[src]))]
         path = f'{OUT}/{bs.PRODUCTS[idx]["slug"]}_S1_1000gr.png'
         problems += r.build(idx, glass, prop, path, slug)[1] + verify.check(path)
+        problems += verify.text(path, bs.PRODUCTS[idx]['slug'], bs)
         (ok if not problems else bad).append((slug, problems or "PASS"))
         print(f"{slug:14s} {'PASS' if not problems else problems}")
     print(f"\n{len(ok)} passed, {len(bad)} need attention")

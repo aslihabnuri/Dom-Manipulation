@@ -18,6 +18,8 @@ KANJI_TOP = 165
 HEAD_TOP, HEAD_BOTTOM = 232, 284
 SUB_TOP, SUB_BOTTOM = 304, 338
 HALAL_TOP, HALAL_H = 881, 110
+HALAL_PURPLE_FULL = 1484   # purple pixels in an intact seal at this size
+HALAL_PURPLE = 1300        # below this it has been eaten into
 
 
 def _ink(a, y0, y1, x0=0, x1=1024, thr=18):
@@ -88,18 +90,22 @@ def check(path):
         bad.append(f"size {im.size}, expected (1024, 1024)")
     a = np.array(im).astype(int)
 
-    # The true border must be exactly bone white. A couple of pixels further in,
-    # the soft shadow of a product legitimately reaches the frame, so those
-    # samples allow a level or two rather than demanding an exact match.
-    for name, px in [("top border", (0, 512)), ("bottom border", (1023, 512)),
-                     ("left border", (512, 0)), ("right border", (512, 1023)),
-                     ("top-left", (0, 0)), ("bottom-right", (1023, 1023))]:
-        if tuple(a[px]) != BONE:
-            bad.append(f"{name} is {tuple(a[px])}, expected {BONE}")
-    for name, px in [("left inset", (512, 6)), ("right inset", (512, 1017)),
-                     ("top inset", (6, 512))]:
-        if max(abs(int(a[px][c]) - BONE[c]) for c in range(3)) > 2:
-            bad.append(f"{name} is {tuple(a[px])}, too far from {BONE}")
+    # The true border must be exactly bone white, along its whole length. Six
+    # sample pixels used to stand in for this, which left most of every edge
+    # unexamined - and the bottom, the one the glass and prop shadows actually
+    # reach, had no inset sample at all.
+    edges = {"top": a[0], "bottom": a[-1], "left": a[:, 0], "right": a[:, -1]}
+    for name, strip in edges.items():
+        off = int(np.abs(strip - np.array(BONE)).max())
+        if off:
+            bad.append(f"{name} border departs from {BONE} by {off}")
+    # A couple of pixels in, a soft shadow legitimately reaches the frame, so
+    # these allow a level or two rather than demanding an exact match.
+    insets = {"top": a[6], "bottom": a[-7], "left": a[:, 6], "right": a[:, -7]}
+    for name, strip in insets.items():
+        off = int(np.abs(strip - np.array(BONE)).max())
+        if off > 2:
+            bad.append(f"{name} inset departs from {BONE} by {off}")
 
     logo = _ink(a, 20, 130)
     if logo != LOGO:
@@ -133,6 +139,13 @@ def check(path):
     if not halal:
         bad.append("Halal seal missing")
     else:
+        # Count the purple, do not just box it. A bounding box survives having
+        # its middle punched out, and the seal goes down before the drink does,
+        # so anything reaching these rows is composited straight over it. The
+        # customer has twice had to ask that the seal not disappear; a gutted
+        # seal used to pass all three of the tests below.
+        if len(ys) < HALAL_PURPLE:
+            bad.append(f"Halal seal only {len(ys)} purple px, expected ~{HALAL_PURPLE_FULL}")
         if abs(halal[1] - HALAL_TOP) > 1:
             bad.append(f"Halal top {halal[1]}, expected {HALAL_TOP}")
         if abs((halal[3] - halal[1]) - HALAL_H) > 2:
@@ -143,4 +156,66 @@ def check(path):
     # Blown highlights are checked in render_one.layers_intact instead, against
     # the clean render: the pouch wordmark is legitimately pure white, and only
     # white that a photo layer *added* is a defect.
+    return bad
+
+
+# What each slide must actually say. Deliberately a second copy, kept apart from
+# the table the slides are built from: a checker that reads its expectations out
+# of the thing it is checking can only prove the render is repeatable, never that
+# the words are right. If these two disagree, one of them has a typo.
+EXPECTED = {
+    "MatchaLatte": ("抹茶ラテ", "MATCHA LATTE", "premium"),
+    "PremixMatcha": ("抹茶", "PREMIX MATCHA", "exclusive"),
+    "TehTarik": ("テ・タリック", "TEH TARIK", "premium"),
+    "ChocolateSignature": ("チョコレート", "CHOCOLATE SIGNATURE", "exclusive"),
+    "CookiesCream": ("クッキー＆クリーム", "COOKIES & CREAM", "premium"),
+    "Charcoal": ("チャコール", "CHARCOAL", "premium"),
+    "Avocado": ("アボカド", "AVOCADO", "premium"),
+    "Vanilla": ("バニラ", "VANILLA", "premium"),
+    "MilkTea": ("ミルクティー", "MILK TEA", "premium"),
+    "LemonTea": ("レモンティー", "LEMON TEA", "premium"),
+    "FrappeBase": ("フラッペベース", "FRAPPE BASE", "premium"),
+    "LemonGrass": ("レモングラス", "LEMON GRASS", "premium"),
+}
+
+
+def text(path, slug, bs, variant="1000 gram"):
+    """Check that the slide says what it is supposed to say.
+
+    Nothing else here reads the type at all - the katakana, headline and sub-line
+    are tested for where their ink sits, not for what it spells. A wrong
+    watermark, "500 gram" in place of "1000 gram", or a matcha-green headline on
+    a product that is not matcha would all pass.
+
+    That is not hypothetical on this project. The licensed font is a demo build
+    whose `&` renders as a "DEMO" badge, which is why COOKIES & CREAM needs a
+    fallback - a silent regression there would put the badge on a live slide.
+
+    So the three lines are rendered again from `EXPECTED` and compared to the
+    slide pixel for pixel.
+    """
+    from PIL import Image as _Image, ImageFont as _F
+    if slug not in EXPECTED:
+        return [f"no expected text on file for {slug}"]
+    kana, head, series = EXPECTED[slug]
+    got = np.array(Image.open(path).convert("RGB")).astype(int)
+
+    want = _Image.new("RGBA", (1024, 1024), BONE + (255,))
+    bs.draw_text_top(want, kana, _F.truetype(bs.F_JP, bs.KANJI_SIZE),
+                     bs.KANJI_GREY, 512, bs.KANJI_TOP)
+    h = bs.build_headline(head, bs.HEAD_SIZE, bs.accent(head))
+    want.alpha_composite(h, ((1024 - h.width) // 2, bs.HEAD_TOP))
+    bs.draw_text_top(want, f"{series} grade · {variant}",
+                     _F.truetype(bs.F_BODY, bs.SUB_SIZE), bs.CHARCOAL, 512, bs.SUB_TOP)
+    flat = _Image.new("RGB", (1024, 1024), BONE)
+    flat.paste(want, (0, 0), want)
+    exp = np.array(flat).astype(int)
+
+    bad = []
+    for name, (y0, y1) in [("katakana", (150, 215)), ("headline", (225, 292)),
+                           ("sub-line", (298, 345))]:
+        off = int(np.abs(got[y0:y1] - exp[y0:y1]).max())
+        if off > 2:
+            n = int((np.abs(got[y0:y1] - exp[y0:y1]).max(2) > 2).sum())
+            bad.append(f"{name} does not match the expected text ({n} px differ by up to {off})")
     return bad
