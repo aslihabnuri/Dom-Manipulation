@@ -13,14 +13,14 @@ GLASS_H = 330
 PROP_H = 200
 POUCH_BOTTOM = 829
 BOTTOM = 855
-GLASS_OVERLAP = 16
-PROP_OVERLAP = 14
+GLASS_OVERLAP = 26   # Matchamu: gelas menimpa pouch ~4.5% lebar pouch, plus tepi pouch yang menjorok
+PROP_OVERLAP = 48    # cukup dalam agar jelas berada di depan pouch, bukan di belakangnya
 
 
 def build(idx, glass_img, prop_img=None, out='slide.png'):
     p = bs.PRODUCTS[idx]
     pw = round(POUCH_H * 0.695)
-    gw = photo.size_at(glass_img, GLASS_H)
+    gw = photo.size_at(glass_img, GLASS_H, body=True)
     aw = photo.size_at(prop_img, PROP_H) if prop_img else 0
     x0 = round(512 - (pw + gw - GLASS_OVERLAP - aw + PROP_OVERLAP) / 2)
 
@@ -44,7 +44,7 @@ def build(idx, glass_img, prop_img=None, out='slide.png'):
     flat = Image.new('RGB', (1024, 1024), bs.BG)
     flat.paste(c, (0, 0), c)
 
-    photo.place(flat, glass_img, x0 + pw - GLASS_OVERLAP, BOTTOM, GLASS_H)
+    photo.place(flat, glass_img, x0 + pw - GLASS_OVERLAP, BOTTOM, GLASS_H, body=True)
     if prop_img:
         photo.place(flat, prop_img, x0 + PROP_OVERLAP - aw, BOTTOM, PROP_H)
 

@@ -17,6 +17,7 @@ from scipy import ndimage as ndi
 FLAT = 0.018      # below this the layer counts as untouched background
 OBJ = 0.06        # fallback: deviation that counts as the object
 EDGE = 2.6        # gradient strength that separates the subject from its shadow
+BONE = (241, 240, 235)   # slide background the subject is developed against
 
 
 def _layer(path):
@@ -79,28 +80,54 @@ def _layer(path):
     ratio = 1 + (ratio - 1) * (soft * fade)[..., None]
 
     ys, xs = np.nonzero(obj)
-    return ratio, (int(xs.min()), int(ys.min()), int(xs.max()) + 1, int(ys.max()) + 1)
+    return ratio, obj, (int(xs.min()), int(ys.min()), int(xs.max()) + 1, int(ys.max()) + 1)
 
 
 _CACHE = {}
+_MASK = {}
 
 
 def load(path):
     if path not in _CACHE:
-        _CACHE[path] = _layer(path)
+        ratio, obj, bb = _layer(path)
+        _CACHE[path] = (ratio, bb)
+        _MASK[path] = obj
     return _CACHE[path]
 
 
-def size_at(path, height):
+def box(path, body=False):
+    """Subject box. With `body=True` the top is the glass rim rather than the
+    tip of the garnish: a mint sprig or a fruit slice on the rim would otherwise
+    count toward the height, and every product would end up with a differently
+    sized glass."""
+    ratio, bb = load(path)
+    if not body:
+        return bb
+    mask = _MASK[path]
+    l, t, r, b = bb
+    widths = mask[:, l:r].sum(1)
+    wide = np.nonzero(widths >= 0.6 * widths.max())[0]
+    rim = int(wide.min())
+    # Horizontal extent measured on the upper half of the body only. A garnish
+    # leaning out of the rim would widen the box from above, and the cast shadow
+    # pooling at the foot merges into the mask from below - on one render that
+    # made the same glass measure 503 px wide instead of 394, which would drift
+    # the glass across the pouch from product to product.
+    cols = np.nonzero(mask[rim:rim + (b - rim) // 2].any(0))[0]
+    return int(cols.min()), rim, int(cols.max()) + 1, b
+
+
+def size_at(path, height, body=False):
     """Width the object occupies when scaled to `height`."""
-    _, (l, t, r, b) = load(path)
+    l, t, r, b = box(path, body)
     return round((r - l) * height / (b - t))
 
 
-def place(canvas, path, left, bottom, height):
+def place(canvas, path, left, bottom, height, body=False):
     """Draw the photo so its subject lands at `left`, standing `height` tall
     with its foot on `bottom`."""
-    ratio, (l, t, r, b) = load(path)
+    ratio, _ = load(path)
+    l, t, r, b = box(path, body)
     H, W = ratio.shape[:2]
     scale = height / (b - t)
     ox = int(round(left - l * scale))
@@ -109,6 +136,16 @@ def place(canvas, path, left, bottom, height):
 
     under = canvas.crop((ox, oy, ox + tw, oy + th)).convert("RGB")
     backdrop = np.array(under.resize((W, H), Image.LANCZOS)).astype(float)
-    out = np.clip(backdrop * ratio, 0, 255).astype(np.uint8)
+
+    # A ratio layer multiplies, which is right for the cast shadow but wrong for
+    # the subject: over the black pouch an avocado would be multiplied down to
+    # near black and read as sitting *behind* the pouch. So the subject is
+    # composited over the backdrop, developed against bone white, and only the
+    # area outside it keeps the multiply.
+    obj = _MASK[path]
+    alpha = ndi.gaussian_filter(obj.astype(float), 1.0)[..., None]
+    shadow = np.where(obj[..., None], 1.0, ratio)
+    subject = ratio * np.array(BONE, float)
+    out = np.clip(backdrop * shadow * (1 - alpha) + subject * alpha, 0, 255).astype(np.uint8)
     canvas.paste(Image.fromarray(out).resize((tw, th), Image.LANCZOS), (ox, oy))
     return canvas
