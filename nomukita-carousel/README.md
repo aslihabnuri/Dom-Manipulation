@@ -621,3 +621,70 @@ mockup-nya diperbaiki; ia tetap terhitung dalam "ten flavours".
    judul; digeser keluar, ia menutup setengah nama rasa anggota pertama. Kategori
    250 gram sekarang punya susunan slotnya sendiri, yang menaruh anggota jauh ke
    kanan jauh ke bawah juga.
+
+## Kategori gaya poster (`kategori/poster/`)
+
+Acuan: `ref-kategori-poster-icedmango.jpg` - "Iced Mango Matcha Latte". Skrip:
+`render_poster.py`. Lima kategori, dua ukuran, sepuluh berkas. Menggantikan gaya
+flat-lay atas permintaan pelanggan; berkas flat-lay tetap disimpan.
+
+| Kategori | Judul | Kemasan yang tampil |
+| --- | --- | --- |
+| matcha | MATCHA SERIES / FIVE PACKS | Pure Matcha Uji Kyoto 500 gram |
+| premium | PREMIUM SERIES / TEN FLAVOURS | Matcha Latte 1000 gram |
+| exclusive | EXCLUSIVE SERIES / TWO FLAVOURS | Chocolate Signature 1000 gram |
+| 250gram | 250 GRAM PACK / TWELVE FLAVOURS | Matcha Latte 250 gram |
+| 1000gram | 1000 GRAM POUCH / TWELVE FLAVOURS | Teh Tarik 1000 gram |
+
+Ukurannya 1024 x 1024 dan 1080 x 1440. Acuannya 1086 x 1448; syarat 1:1 untuk
+gambar kategori Shopee tetap berlaku, jadi keduanya dibuat dari satu tata letak
+yang seluruh angkanya pecahan kanvas.
+
+### Yang diukur dari acuan
+
+Bidang rata tanpa pita. Satu baris kecil di atas, lebar 0,29 kanvas. Judul dua
+baris yang DIULANG tiga kali, jadi enam baris; jaraknya 157,4 px dengan tinggi
+huruf 122, jadi selanya 35 px atau 0,0242 tinggi kanvas. Lebar tinta 0,851 lebar
+kanvas, dan **kedua baris sama lebar** - itu yang membuat baloknya rata
+kiri-kanan. Produk di tengah, tinggi 0,582 kanvas, alasnya di 0,918, digambar
+DI ATAS naskah sehingga empat baris terakhir tertutup sebagian.
+
+### Yang tidak disalin
+
+Warnanya: krem dan jingga acuan tidak ada di palet. Bidangnya campuran bone white
+dengan warna judulnya sendiri, meniru hubungan acuan (krem adalah jingga yang
+diencerkan). Hurufnya: acuan serif kontras tinggi, merek ini All Round Gothic.
+Naskahnya: nama satu minuman diganti nama kategori dan jumlah anggotanya.
+Cangkirnya: diganti kemasan, sesuai permintaan.
+
+### Empat hal yang muncul saat membangun
+
+1. **Acuan memilih dua baris yang kebetulan hampir sama lebar** ("Iced Mango" 924,
+   "Matcha Latte" 927) pada satu ukuran huruf. Nama kategori tidak begitu, jadi
+   lebarnya yang dijaga tetap dan tinggi hurufnya yang dibiarkan berbeda - cara
+   yang sama yang dipakai pada keterangan slide 5.
+2. **Ukuran huruf bilangan bulat tidak pernah mendarat tepat.** Enam baris
+   berakhir 866, 867 dan 868 px dan tepi baloknya bergerigi. Sisanya diselesaikan
+   dengan meregangkan potongannya sendiri - di bawah setengah persen, tidak
+   terlihat.
+3. **Batas lebar acuan membuat kemasan 250 gram berhenti menindih naskah.** Gelas
+   acuan 52 persen lebar; kantong 250 gram 1,24 kali lebih lebar daripada tinggi,
+   jadi pada batas yang sama tingginya tinggal 488 px dan ia berdiri seluruhnya
+   di bawah balok - susunan berlapis yang jadi inti acuan itu hilang. Batas
+   lebarnya dilonggarkan ke 0,72.
+4. **Logo diukur dari lebarnya, bukan tingginya.** Wordmark ini 6,9 kali lebih
+   lebar daripada tinggi; menyamakan tingginya dengan baris kecil acuan
+   membuatnya 0,435 kanvas, dan ia berhenti terbaca sebagai baris kecil.
+
+`render_poster.check()` memeriksa kontras judul terhadap bidang, lebar tiap baris
+(harus sama persis, selisih dua piksel sudah tampak), tinta menyentuh tepi
+kanvas, kemasan terpotong tepi kanvas, kemasan menutupi logo, dan kemasan yang
+tidak menindih naskah sama sekali. Kesepuluh berkas lolos.
+
+### Yang perlu keputusan pelanggan
+
+Kemasan 1000 gram tampil setinggi 58 persen kanvas, dan pada ukuran itu **panel
+kontak di sisi kirinya terbaca**: alamat web, nomor Customer Service, nomor
+WhatsApp dan tiga akun media sosial. Shopee melarang informasi kontak di dalam
+gambar produk. Panel itu tercetak pada mockup-nya sendiri, jadi menghapusnya
+berarti mengubah kemasan pelanggan - saya tidak melakukannya tanpa persetujuan.
