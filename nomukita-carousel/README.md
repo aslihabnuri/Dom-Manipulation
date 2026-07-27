@@ -683,9 +683,19 @@ Yang dikurangi jumlah katanya, bukan gagasannya:
    puncak kemasan - tidak ada yang tertindih, dan susunan berlapis yang jadi inti
    acuan itu hilang. Salinan ditambah sampai baloknya benar-benar masuk ke
    belakang kemasan.
-3. **Batas lebar acuan membuat kemasan 250 gram menyusut.** Gelas acuan 52 persen
-   lebar; kantong 250 gram 1,24 kali lebih lebar daripada tinggi, jadi pada batas
-   yang sama tingginya tinggal sepertiga. Batas lebarnya dilonggarkan ke 0,72.
+3. **Balok naskah harus lebih lebar daripada kemasan.** Serpihan di kiri dan
+   kanan kemasan adalah seluruh isi gagasan ini. Kantong 250 gram 1,24 kali lebih
+   lebar daripada tinggi, dan pada batas lebar 0,72 ia jadi lebih lebar daripada
+   baloknya yang 0,52: setiap salinan di bawah yang pertama tertelan bulat-bulat
+   dan yang tersisa cuma satu sayatan tipis di tepi atas kemasan, terbaca sebagai
+   cacat cetak. Lebar balok sekarang diturunkan dari lebar kemasan, dan batas
+   lebar kemasan dirapatkan ke 0,64.
+4. **Sayatan tipis dilarang.** Kalau puncak sebuah salinan jatuh sedikit saja di
+   atas puncak kemasan - pada Exclusive 1:1 selisihnya satu piksel - yang tampak
+   cuma seiris huruf. Salinan itu digeser turun sampai persis mulai di puncak
+   kemasan, sehingga ia sepenuhnya di belakang dan hanya ujung kiri-kanannya yang
+   muncul. `check()` menolak salinan yang tersayat kurang dari 30 persen
+   tingginya, dan menolak kemasan yang lebih lebar daripada baloknya.
 
 Logo diukur dari lebarnya, bukan tingginya: wordmark ini 6,9 kali lebih lebar
 daripada tinggi, dan menyamakan tingginya dengan baris kecil acuan membuatnya

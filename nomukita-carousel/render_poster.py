@@ -85,7 +85,8 @@ LAYOUT = dict(
     logo_top=0.070, logo_w=0.200,
     kanji_top=0.134, kanji_h=0.050,
     text_top=0.243, text_w=0.520, line_gap=0.010, lines=3,
-    hero_h=0.560, hero_w=0.720, hero_bottom=0.882, overlap=0.055,
+    hero_h=0.560, hero_w=0.640, hero_bottom=0.882,
+    side_show=0.065, text_w_max=0.780, echo_min=0.35,
     cap_top=0.930, cap_size=0.0205, cap_track=0.26,
 )
 
@@ -243,7 +244,16 @@ def build(cat="premium", size="1024", out=None):
     hy = L["hero_bottom"] * H - im.height
 
     # ── balok naskah: satu kata, diulang dan memudar ────────────────────────
-    target = round(L["text_w"] * W)
+    #
+    # Lebarnya diturunkan dari lebar KEMASAN. Serpihan di kiri dan kanan kemasan
+    # adalah seluruh isi gagasan ini; kalau kemasannya lebih lebar daripada
+    # baloknya, tidak ada serpihan sama sekali. Itu yang terjadi pada 250 gram:
+    # kantongnya 0,72 lebar kanvas sementara baloknya 0,52, jadi setiap salinan
+    # di bawah yang pertama tertelan bulat-bulat dan yang tersisa cuma satu
+    # sayatan tipis di tepi atas kemasan - terbaca sebagai cacat cetak, bukan
+    # sebagai gema.
+    target = round(min(L["text_w_max"],
+                       max(L["text_w"], im.width / W + 2 * L["side_show"])) * W)
     strip = _fit(spec["word"], target, hue)
     text = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     y = L["text_top"] * H
@@ -252,11 +262,21 @@ def build(cat="premium", size="1024", out=None):
     # Banyaknya salinan bukan angka tetap. Tinggi huruf turun dari lebar yang
     # dijaga tetap, jadi kata panjang menghasilkan potongan pendek: "250 GRAM"
     # hanya setinggi 82 px dan tiga salinannya berakhir 17 px DI ATAS puncak
-    # kemasan - tidak ada yang tertindih, dan susunan berlapis yang jadi inti
-    # acuan itu hilang. Salinan ditambah sampai baloknya benar-benar masuk ke
-    # belakang kemasan.
+    # kemasan - tidak ada yang tertindih. Salinan ditambah sampai baloknya masuk
+    # ke belakang kemasan, TAPI salinan terakhir harus terlihat sepertiga
+    # tingginya; syarat sebelumnya hanya menuntut puncaknya di atas kemasan, dan
+    # itu meloloskan sayatan setebal beberapa piksel.
     i = 0
-    while i < MAX_ECHO and (i < L["lines"] or y < hy + L["overlap"] * H):
+    while i < MAX_ECHO and (i < L["lines"]
+                            or hy - y >= L["echo_min"] * strip.height):
+        # Sayatan tipis dilarang. Kalau puncak sebuah salinan jatuh sedikit saja
+        # di atas puncak kemasan, yang tampak cuma seiris huruf setebal beberapa
+        # piksel di tepi atas kemasan - terbaca sebagai cacat cetak. Salinan itu
+        # digeser turun sampai persis mulai di puncak kemasan: ia lalu
+        # sepenuhnya di belakang kemasan dan hanya ujung kiri-kanannya yang
+        # muncul, yang memang bentuk yang dituju.
+        if 0 < hy - y < L["echo_min"] * strip.height:
+            y = hy
         fade = strip.copy()
         fade.putalpha(fade.split()[3].point(lambda v, k=ECHO_R ** i: round(v * k)))
         text.alpha_composite(fade, (left, round(y)))
@@ -341,6 +361,15 @@ def check(path):
     last_bottom = L["tops"][-1][0] + L["tops"][-1][1]
     if hy0 > last_bottom:
         out.append("kemasan tidak menindih naskah sama sekali")
+
+    # Serpihan di kiri dan kanan kemasan adalah seluruh isi gagasannya; kalau
+    # kemasan lebih lebar daripada baloknya, salinan di bawah tertelan bulat.
+    if hx1 - hx0 >= L["target"]:
+        out.append("kemasan lebih lebar daripada balok naskah")
+    for i, (top, hgt) in enumerate(L["tops"]):
+        vis = hy0 - top
+        if 0 < vis < 0.30 * hgt:
+            out.append(f"salinan {i + 1} cuma tersayat {vis} px di tepi kemasan")
 
     return out
 
