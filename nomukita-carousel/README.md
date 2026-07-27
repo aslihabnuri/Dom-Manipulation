@@ -467,3 +467,48 @@ Karena Shopee dan TikTok Shop sama-sama menerima sembilan gambar, versi lima
 bidang memberi tiap anggota satu kanvas penuh: pita diagonal, naskah, berat, dan
 pouch pada ukuran yang terbaca. Arah miringnya bergantian antar anggota supaya
 lima kotak yang dilihat berurutan tetap terasa satu deret.
+
+### Kategori Premium, Exclusive, dan 250 gram
+
+`kategori/Kategori_*.png`, dari `ref-kategori-goodprotein.jpg`. Semuanya 1:1,
+**nol kredit**.
+
+Diukur dari acuan: kanvas praktis 1:1, latar krem di bidang atas, pita berwarna
+di 14% terbawah dengan tepi atas **mendatar**, enam pouch menumpuk sebagian dan
+membesar dari kiri ke kanan (yang terkanan 1,27 kali yang terkiri), dan **pitanya
+digambar di atas pouch** sehingga kakinya terpotong.
+
+Naskah acuannya promo diskon, "50% off" dan "LIMITED TIME OFFER". Itu tidak
+disalin: potongan harga bukan sesuatu yang boleh dikarang. Yang dipinjam susunan
+tiga tingkatnya - baris kecil, baris besar sebagai jangkar, baris di dalam pita -
+lalu diisi nama kategori dan ukuran kemasan, yang keduanya sudah tercetak di
+kemasannya sendiri. Warnanya juga tidak disalin: krem dan biru acuan tidak ada di
+palet, jadi yang dipakai bone white dan steel blue.
+
+**Keanggotaannya dibaca dari kata seri yang TERCETAK di kemasan**, bukan dari nama
+berkas mockup. Labelnya berbunyi: Premium untuk sepuluh produk (biru muda),
+Exclusive untuk dua - Premix Matcha dan Chocolate Signature (emas). Empat berkas
+mockup bernama "Exclusive series" padahal labelnya sendiri Premium, jadi nama
+berkas tidak dipakai sama sekali. Frappe Base tidak mencetak kata seri apa pun;
+`build_slides.py` menempatkannya di premium.
+
+Kemasan membedakan kedua seri dengan **warna**: Premium biru muda, Exclusive
+emas. Emas tidak ada di palet slide, jadi kedua kategori memakai steel blue. Kalau
+pembedaan warna itu penting, ia perlu ditambahkan ke palet lebih dulu.
+
+### Tiga hal yang tidak bisa disalin mentah dari acuan
+
+1. **Jumlah yang dipajang, bukan jumlah yang ada.** Acuan memajang enam. Dipaksa
+   memajang kedua belas anggota 250 gram, tiap kemasan tinggal 122 px dan tidak
+   ada yang terbaca. Enam yang dipajang, jumlah sebenarnya dinyatakan di baris
+   kecil - dan itu memang konvensi marketplace: penjual multi-varian menampilkan
+   empat sampai tujuh kemasan lalu menyebut totalnya dengan angka.
+2. **Kedalaman pita mengikuti tinggi pouch.** Versi pertama memakai garis pijak
+   tetap di y 998; kemasan 250 gram yang cuma setinggi 125 px lalu terbenam
+   seluruhnya di balik pita dan kategori itu terbit **tanpa satu pun produk
+   terlihat**. Sekarang pita menutupi 18% bagian bawah pouch, berapa pun tingginya.
+3. **Jarak antar pouch mengikuti bentuk kemasannya.** Langkah 0,58 milik acuan
+   hanya cocok untuk kemasan yang lebih tinggi daripada lebar. Kantong 250 gram
+   1,24 kali lebih lebar daripada tinggi, dan pada langkah itu ia hanya bisa
+   setinggi 237 px, menggantung di dasar dengan lubang 400 px di atasnya.
+   Langkahnya dirapatkan dulu sampai 0,34, baru tingginya yang dikorbankan.
