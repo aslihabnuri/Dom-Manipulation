@@ -230,3 +230,85 @@ python3 fit_s5.py         # nol kredit: pastikan tiap baris muat
 python3 -c "import batch; batch.serving()"    # 4 kredit per gambar, melewati yang sudah ada
 python3 build_all_s5.py   # susun dan periksa kedua belas slide
 ```
+
+## Slide 2: manfaat produk
+
+24 slide di `slide-2/`, dua belas produk x dua ukuran. **Nol kredit** - pouch-nya
+memakai mockup yang sudah ada, sisanya tipografi.
+
+Tata letaknya mengikuti `ref-slide-2-matchamu.webp` yang dikirim pelanggan
+(Matchamu "Pure Sakura"), diukur piksel demi piksel:
+
+| elemen | tinta atas | catatan |
+|---|---|---|
+| nama baris 1 | y 68 | dipaskan ke lebar 620 px, tinggi huruf 60-127 |
+| nama baris 2 | y 206 | 0,6x baris pertama |
+| judul manfaat 1 | y 398 | All Round Gothic Bold, tinggi huruf 28, warna aksen |
+| badan | 21 px di bawah judulnya | Comfortaa 23, jarak baris 29 |
+| judul manfaat 2 | 18 px di bawah dasar badan pertama | **mengalir**, tidak dipaku |
+| baris penutup | y 778 | dipaku, seperti acuan |
+| logo nomukita | y 953 | pojok kiri bawah, bukan tengah atas |
+| pouch | garis alas y 884 | berpusat x 799, lebar maksimal 390 |
+
+Semua teks rata kiri di x = 65. Badan dan penutup dibatasi lebar 490 px, judul
+560 px, nama 620 px.
+
+### Tiga angka yang sengaja tidak disalin mentah dari acuan
+
+- **Jarak baris badan.** Acuan memakai 22 px untuk badan setinggi 19 px. Fontnya berbadan pendek; Comfortaa bundar dan tinggi, jadi pada 22 px
+  ekor huruf g menyentuh kepala baris di bawahnya. Perbandingannya yang dijaga.
+- **Lebar pouch.** Acuan memberi 298 px karena kantong Matchamu datar dan
+  langsing (0,53). Standing pouch Nomukita jauh lebih gempal (0,73) dan menyusut
+  jadi 407 px kalau dipaksa masuk. Yang ditiru pusat dan garis alasnya.
+- **Tinggi huruf nama.** Nama acuan pendek ("Pure", empat huruf). Nomukita punya
+  "TEH" sampai "CHOCOLATE". Disamakan tingginya, CHOCOLATE butuh 1143 px. Jadi
+  yang dijaga tetap sama lebarnya (620 px), dan tinggi hurufnya bergerak 69 px
+  (CHOCOLATE) sampai 127 px (TEH, MILK).
+
+### Kemasan 250 gram punya geometri sendiri
+
+Bukan versi kecil yang 1000 gram melainkan format lain: kantong datar bertali
+gantung, lebih lebar daripada tinggi. Berdiri di garis alas yang sama ia cuma
+setinggi 355 px dan meninggalkan lubang kosong 300 px di atasnya, jadi
+garis alasnya dinaikkan ke y 785 supaya berpusat di tengah kolom kanan.
+
+### Naskah
+
+`s2_copy.py`. Judul dan badan berbahasa Inggris, tanpa tanda pisah panjang, atas
+permintaan pelanggan - dan itu konsisten dengan slide yang sudah tayang
+("SERVING SUGGESTIONS", "premium grade . 1000 gram").
+
+**Semua manfaat adalah sifat BAHANNYA, bukan hasil uji atas bubuk jadinya.** Itu
+bedanya dengan acuan: Matchamu "Pure" itu produk murni, bahannya memang
+produknya. Kalau bubuk Nomukita didominasi gula dan krimer, klaim katekin dan
+flavanol harus diturunkan jadi kalimat rasa. **Pertanyaan ini belum dijawab
+pelanggan.**
+
+Tiga baris penutup menyatakan fakta produk dan masih menunggu konfirmasi:
+Avocado ("Thick because of the fruit"), Vanilla ("the aroma came from the pod"),
+Frappe Base ("stays thick instead of separating"). Ditandai `NEEDS_OK`.
+
+**Klaim detoks untuk Charcoal sengaja tidak ditulis.** Arang aktif mengikat obat
+dan nutrisi, dan detoks masuk kategori klaim pengobatan yang dilarang Shopee
+untuk makanan-minuman; TikTok Shop juga menolak klaim berlebihan.
+
+### Dua hal yang perlu keputusan pelanggan
+
+**Panel kontak di pouch 1000 gram.** Terbaca jelas pada ukuran slide 2:
+`www.nomukita`, `+62 818-025...`, dan dua blok `Find Us on Social Media` berisi
+handle Instagram dan TikTok. Aturan Shopee melarang informasi kontak pribadi dan
+tautan media sosial di luar Shopee muncul di foto produk, sanksinya produk
+diblokir lalu dihapus. Wilayah abu-abu karena itu foto kemasan asli, bukan
+tempelan penjual - tapi slide 2 memperbesar pouch dua kali lipat dibanding
+slide 1.
+
+**Katakana Avocado masih salah.** Mockup-nya mencetak レモンティー (lemon tea).
+Sudah tercatat sejak slide 1; di slide 2 pouch-nya lebih besar, jadi lebih
+terbaca.
+
+### Menjalankan
+
+```
+python3 fit_s2.py         # nol kredit: pastikan tiap baris muat
+python3 build_all_s2.py   # susun dan periksa 24 slide
+```

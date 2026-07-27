@@ -488,3 +488,89 @@ def _s5_text(canvas, text, font, colour, top, cx=512):
     _D.Draw(layer).text((pad, pad), text, font=font, fill=colour + (255,))
     bb = layer.getbbox()
     canvas.alpha_composite(layer, (round(cx - (bb[0] + bb[2]) / 2), round(top - bb[1])))
+
+
+# ── slide 2: manfaat produk ──────────────────────────────────────────────────
+#
+# Angka-angka ini diukur dari `Referensi Slide 2.webp` yang dikirim pelanggan,
+# dan ditulis di sini alih-alih diimpor dari `render_s2` dengan alasan yang sama
+# seperti di seluruh berkas ini: pemeriksa yang membaca harapannya dari pembuat
+# hanya bisa membuktikan render itu berulang, bukan bahwa ia benar.
+S2_LEFT = 65
+S2_NAME1_TOP = 68
+S2_NAME2_TOP = 206
+S2_HEAD1_TOP = 398
+S2_CLOSE_TOP = 778
+# Kotak tinta logo, bukan titik tempelnya: berkas logonya berpadding transparan
+# 2 px mendatar dan 4 px menurun, persis seperti pada slide 1 di mana logo
+# ditempel di (360, 48) dan tintanya terukur mulai (362, 52).
+S2_LOGO = (67, 957, 367, 993)
+S2_POUCH_BOTTOM = 884
+S2_TEXT_MAX_X = 600      # teks tidak boleh menyentuh kolom pouch
+
+
+def s2(path, slug, bs):
+    """Check a finished benefit slide."""
+    bad = []
+    im = Image.open(path).convert("RGB")
+    if im.size != (1024, 1024):
+        return [f"size {im.size}, expected (1024, 1024)"]
+    a = np.array(im).astype(int)
+    bad += _borders(a)
+
+    # Nama produk berdiri di atas pouch, jadi pitanya boleh diukur selebar
+    # kanvas; pouch tertinggi pun baru mulai di y = 352.
+    for name, y0, y1, want, x1 in [("name line 1", 55, 200, S2_NAME1_TOP, 1024),
+                                   ("name line 2", 200, 320, S2_NAME2_TOP, 1024),
+                                   ("first heading", 385, 445, S2_HEAD1_TOP, S2_TEXT_MAX_X),
+                                   ("closing line", 765, 850, S2_CLOSE_TOP, S2_TEXT_MAX_X)]:
+        box = _dark(a, y0, y1, 0, x1, thr=200)
+        if box is None:
+            bad.append(f"{name} missing")
+            continue
+        if abs(box[1] - want) > 1:
+            bad.append(f"{name} top {box[1]}, expected {want}")
+        # Toleransi satu piksel di tepi kiri, dan itu bukan kelonggaran malas.
+        # Lapisannya ditempel tepat di x = 65 memakai kotak alfa, sedangkan
+        # pemeriksa ini mengukur piksel yang lebih gelap dari 200. Huruf berlekuk
+        # - C pada CHOCOLATE, O pada COOKIES, B pada BLACK TEA - memulai dengan
+        # antialias yang lebih terang dari ambang itu, jadi kolom pertamanya
+        # tidak terhitung. Delapan dari dua puluh empat slide lolos hanya karena
+        # kebetulan namanya dimulai huruf bersisi lurus.
+        if abs(box[0] - S2_LEFT) > 1:
+            bad.append(f"{name} starts at x={box[0]}, expected {S2_LEFT}")
+
+    logo = _dark(a, 940, 1010, 0, 450, thr=200)
+    if logo != S2_LOGO:
+        bad.append(f"logo box {logo}, expected {S2_LOGO}")
+
+    # Judul manfaat memakai warna aksen produknya, hijau untuk matcha dan steel
+    # blue untuk sepuluh lainnya. Ini satu-satunya warna di kanvas selain tinta
+    # charcoal, jadi kalau aturan warnanya rusak, di sinilah ketahuan.
+    want_accent = np.array(bs.accent(next(p for p in bs.PRODUCTS
+                                          if p["slug"] == slug)["head"]))
+    band = a[S2_HEAD1_TOP:S2_HEAD1_TOP + 28, S2_LEFT:S2_TEXT_MAX_X]
+    solid = band[np.abs(band - want_accent).sum(2) < 30]
+    if len(solid) < 200:
+        bad.append(f"first heading is not in the product accent {tuple(want_accent)}")
+
+    # Pouch berdiri di kolom kanan dan tidak boleh bertabrakan dengan teks.
+    ink = np.abs(a - np.array(BONE)).sum(2) > 18
+    right = ink[:, S2_TEXT_MAX_X:]
+    if not right.any():
+        bad.append("no pouch in the right column")
+    else:
+        cols = np.nonzero(right.any(0))[0]
+        rows = np.nonzero(right.any(1))[0]
+        if S2_TEXT_MAX_X + int(cols.min()) < S2_TEXT_MAX_X:
+            bad.append("pouch reaches into the text column")
+        if int(rows.max()) > S2_POUCH_BOTTOM + 30:
+            bad.append(f"pouch bottom {int(rows.max())}, expected about {S2_POUCH_BOTTOM}")
+
+    # Teks kolom kiri tidak boleh menyentuh pouch.
+    text_rows = ink[380:850, :S2_TEXT_MAX_X]
+    if text_rows.any():
+        edge = S2_TEXT_MAX_X - 1
+        if text_rows[:, edge].any():
+            bad.append("body text runs into the pouch column")
+    return bad
