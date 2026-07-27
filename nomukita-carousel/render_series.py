@@ -234,3 +234,185 @@ def build_banner(series="matcha", out="series_banner.png", size="1000"):
 
     flat.save(out)
     return out
+
+
+# ── seri berisi banyak anggota ───────────────────────────────────────────────
+#
+# Susunan gelas-pouch-pouch-gelas hanya bekerja untuk dua anggota. Matcha Series
+# yang sebenarnya berisi lima: tiga Pure Matcha asal tunggal (Uji Kyoto,
+# Shizouka, Nishio) dan dua racikan (Matcha Latte, Premix Matcha).
+#
+# Dua kenyataan menentukan bentuknya, dan keduanya baru terlihat setelah
+# mockup-nya dibuka:
+#
+# 1. Ketiga pouch Pure Matcha IDENTIK kecuali satu baris teks nama. Warna, tetes,
+#    katakana, dan tata letak labelnya sama persis. Dijejer apa adanya pada
+#    ukuran thumbnail Shopee, ketiganya membentuk pita hitam tanpa informasi.
+#    Jadi nama asalnya dinaikkan menjadi TIPOGRAFI di bawah tiap pouch, bukan
+#    dibiarkan sebagai cetakan 4 px di labelnya.
+# 2. Pure Matcha 500 gram sementara dua racikannya 1000 gram, dan bentuk
+#    kantongnya pun berbeda perbandingannya. Disamakan tingginya, perbedaan itu
+#    hilang - jadi beratnya ditulis di bawah tiap nama, dinyatakan dengan kata
+#    alih-alih disiratkan lewat ukuran yang tidak bisa saya pastikan skalanya.
+LINEUP_BASE = 720
+LINEUP_POUCH_H = 300
+LINEUP_GAP = 22
+LINEUP_NAME_TOP = 762
+LINEUP_WEIGHT_TOP = 792
+LINEUP_MARGIN = 40
+
+LINEUPS = {
+    "matcha": {
+        "head": "MATCHA SERIES",
+        "kanji": "抹茶",
+        "sub": "three origins · two blends",
+        "members": [
+            ("UJI KYOTO", "500 gram", "Mockup nomukita-Pure Matcha Uji Kyoto.png"),
+            ("SHIZOUKA", "500 gram", "Mockup nomukita-Pure Matcha Shizouka.png"),
+            ("NISHIO", "500 gram", "Mockup nomukita-Pure Matcha Nishio.png"),
+            ("MATCHA LATTE", "1000 gram", "Mockup nomukita-Exclusive series-matcha latte.png"),
+            ("PREMIX MATCHA", "1000 gram", "Mockup nomukita-Exclusive series-matcha.png"),
+        ],
+    },
+}
+
+
+def _fit_labels(names, spans, font_path, size, gap=14):
+    """Kecilkan label sampai dua nama bertetangga tidak lagi bersentuhan.
+
+    Nama dipusatkan pada pouch-nya masing-masing, jadi dua nama panjang yang
+    kebetulan bersebelahan bisa bertabrakan walaupun pouch-nya tidak. Di banner
+    lima anggota, "MATCHA LATTE" dan "PREMIX MATCHA" berdiri berdampingan dan
+    itulah pasangan terpanjangnya.
+    """
+    while size > 10:
+        f = ImageFont.truetype(font_path, size)
+        w = [f.getbbox(n)[2] - f.getbbox(n)[0] for n in names]
+        clash = any((spans[i] + w[i] / 2) + gap > (spans[i + 1] - w[i + 1] / 2)
+                    for i in range(len(names) - 1))
+        if not clash:
+            return f
+        size -= 1
+    return ImageFont.truetype(font_path, size)
+
+
+def _centred(canvas, text, font, colour, top, cx):
+    from PIL import ImageDraw
+    pad = 300
+    layer = Image.new("RGBA", (canvas.width + 2 * pad, canvas.height + 2 * pad), (0, 0, 0, 0))
+    ImageDraw.Draw(layer).text((pad, pad), text, font=font, fill=colour + (255,))
+    bb = layer.getbbox()
+    canvas.alpha_composite(layer, (round(cx - (bb[0] + bb[2]) / 2 + pad - pad),
+                                   round(top - (bb[1] - pad) - pad)))
+
+
+def build_lineup(series="matcha", out="lineup.png"):
+    spec = LINEUPS[series]
+    members = spec["members"]
+    accent = bs.accent(spec["head"])
+
+    c = Image.new("RGBA", (bs.W, bs.H), bs.BG + (255,))
+    c.alpha_composite(Image.open(f"{bs.ASSETS}/logo_nomukita.png").convert("RGBA"), bs.LOGO_XY)
+    bs.draw_text_top(c, spec["kanji"], ImageFont.truetype(bs.F_JP, bs.KANJI_SIZE),
+                     bs.KANJI_GREY, bs.W // 2, bs.KANJI_TOP)
+    head = bs.build_headline(spec["head"], bs.HEAD_SIZE, accent)
+    c.alpha_composite(head, ((bs.W - head.width) // 2, bs.HEAD_TOP))
+    bs.draw_text_top(c, spec["sub"], ImageFont.truetype(bs.F_BODY, bs.SUB_SIZE),
+                     bs.CHARCOAL, bs.W // 2, bs.SUB_TOP)
+
+    # Tinggi seragam, lalu dikecilkan sekali kalau barisnya tidak muat.
+    pouches = []
+    for name, weight, mock in members:
+        im = Image.open(f"{bs.PROD}/{mock}").convert("RGBA")
+        pouches.append((name, weight, im.crop(im.getbbox())))
+    h = LINEUP_POUCH_H
+    room = bs.W - 2 * LINEUP_MARGIN - LINEUP_GAP * (len(pouches) - 1)
+    span = sum(round(im.width * h / im.height) for _, _, im in pouches)
+    if span > room:
+        h = round(h * room / span)
+        span = sum(round(im.width * h / im.height) for _, _, im in pouches)
+
+    x = (bs.W - span - LINEUP_GAP * (len(pouches) - 1)) / 2
+    places = []
+    for name, weight, im in pouches:
+        w = round(im.width * h / im.height)
+        places.append((x, w))
+        x += w + LINEUP_GAP
+    centres = [px + pw / 2 for px, pw in places]
+    name_f = _fit_labels([n for n, _, _ in pouches], centres, bs.F_BODY, 20)
+    weight_f = ImageFont.truetype(bs.F_BODY, max(12, name_f.size - 3))
+
+    for (name, weight, im), (px, pw) in zip(pouches, places):
+        c.alpha_composite(im.resize((pw, h), Image.LANCZOS), (round(px), LINEUP_BASE - h))
+        cx = px + pw / 2
+        _centred(c, name, name_f, bs.CHARCOAL, LINEUP_NAME_TOP, cx)
+        _centred(c, weight, weight_f, bs.KANJI_GREY, LINEUP_WEIGHT_TOP, cx)
+
+    halal = Image.open(f"{bs.ASSETS}/halal.png").convert("RGBA")
+    hw = round(halal.width * bs.HALAL_H / halal.height)
+    c.alpha_composite(halal.resize((hw, bs.HALAL_H), Image.LANCZOS),
+                      ((bs.W - hw) // 2, bs.HALAL_TOP))
+
+    flat = Image.new("RGB", (bs.W, bs.H), bs.BG)
+    flat.paste(c, (0, 0), c)
+    flat.save(out)
+    return out
+
+
+def build_lineup_banner(series="matcha", out="lineup_banner.png"):
+    """Versi memanjang 1200 x 600 untuk banner toko.
+
+    Perangkat mereknya pindah ke kolom kiri dengan alasan yang sama seperti
+    banner dua anggota: pada tinggi 600 px, tumpukan tengah tidak menyisakan
+    ruang yang cukup untuk produknya.
+    """
+    from PIL import ImageDraw
+    spec = LINEUPS[series]
+    members = spec["members"]
+    accent = bs.accent(spec["head"])
+
+    c = Image.new("RGBA", (BANNER_W, BANNER_H), bs.BG + (255,))
+    c.alpha_composite(Image.open(f"{bs.ASSETS}/logo_nomukita.png").convert("RGBA"),
+                      (BANNER_LEFT, 92))
+    head = bs.build_headline(spec["head"], 62, accent)
+    c.alpha_composite(head, (BANNER_LEFT, 190))
+
+    pad = 300
+    for text, font, colour, top in [
+            (spec["kanji"], ImageFont.truetype(bs.F_JP, 40), bs.KANJI_GREY, 140),
+            (spec["sub"], ImageFont.truetype(bs.F_BODY, 26), bs.CHARCOAL, 286)]:
+        layer = Image.new("RGBA", (BANNER_W + 2 * pad, BANNER_H + 2 * pad), (0, 0, 0, 0))
+        ImageDraw.Draw(layer).text((pad, pad), text, font=font, fill=colour + (255,))
+        bb = layer.getbbox()
+        c.alpha_composite(layer, (round(BANNER_LEFT - (bb[0] - pad) - pad),
+                                  round(top - (bb[1] - pad) - pad)))
+
+    left = 500
+    room = BANNER_W - left - 40 - LINEUP_GAP * (len(members) - 1)
+    pouches = []
+    for name, weight, mock in members:
+        im = Image.open(f"{bs.PROD}/{mock}").convert("RGBA")
+        pouches.append((name, weight, im.crop(im.getbbox())))
+    h = 250
+    span = sum(round(im.width * h / im.height) for _, _, im in pouches)
+    if span > room:
+        h = round(h * room / span)
+        span = sum(round(im.width * h / im.height) for _, _, im in pouches)
+
+    base = 460
+    x = left + (room - span) / 2
+    places = []
+    for name, weight, im in pouches:
+        w = round(im.width * h / im.height)
+        places.append((x, w))
+        x += w + LINEUP_GAP
+    centres = [px + pw / 2 for px, pw in places]
+    name_f = _fit_labels([n for n, _, _ in pouches], centres, bs.F_BODY, 16)
+    for (name, weight, im), (px, pw) in zip(pouches, places):
+        c.alpha_composite(im.resize((pw, h), Image.LANCZOS), (round(px), base - h))
+        _centred(c, name, name_f, bs.CHARCOAL, base + 22, px + pw / 2)
+
+    flat = Image.new("RGB", (BANNER_W, BANNER_H), bs.BG)
+    flat.paste(c, (0, 0), c)
+    flat.save(out)
+    return out

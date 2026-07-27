@@ -315,21 +315,50 @@ python3 build_all_s2.py   # susun dan periksa 24 slide
 
 ## Gambar kategori toko
 
-`kategori/`. Untuk komponen Kategori di dekorasi toko Shopee, yang mengelompokkan
-produk di luar halaman produk itu sendiri. **Nol kredit.**
+`kategori/`. Untuk komponen Kategori di dekorasi toko Shopee. **Nol kredit.**
 
 Dua bentuk, karena Shopee memakainya untuk dua keperluan: komponen Kategori
 memakai gambar persegi 1024 x 1024, banner toko memanjang 1200 x 600.
 
-Bahasa visualnya dipinjam utuh dari slide 1 - logo, watermark katakana, headline,
-sub-baris, garis alas y 855, seal Halal y 881 - supaya halaman kategori dan
-halaman produk terbaca sebagai satu toko. Yang berbeda hanya isinya: seluruh
-anggota seri berdiri berdampingan, masing-masing dengan minumannya, disusun
-cermin (gelas, pouch, pouch, gelas) sehingga kedua pouch bertemu di tengah.
+### Matcha Series berisi lima, bukan dua
 
-Versi memanjang tidak bisa memakai susunan yang sama. Pada tinggi 600 px,
-tumpukan tengah menyisakan kurang dari 400 px untuk produk dan pouch-nya
-mengecil sampai tidak terbaca, jadi perangkat mereknya pindah ke kolom kiri.
+Anggotanya **Uji Kyoto, Shizouka, Nishio, Matcha Latte, dan Premix Matcha** -
+tiga Pure Matcha asal tunggal dan dua racikan. Ketiga Pure Matcha itu tidak ada
+di tabel dua belas produk `build_slides.py`; mockup-nya diambil dari Drive dan
+disimpan di `prod-matcha/`.
+
+Dua kenyataan menentukan bentuk gambarnya, dan keduanya baru terlihat setelah
+mockup-nya dibuka:
+
+1. **Ketiga pouch Pure Matcha identik** kecuali satu baris teks nama. Warna,
+   tetes, katakana, dan tata letak labelnya sama persis. Dijejer apa adanya pada
+   ukuran thumbnail, ketiganya membentuk pita hitam tanpa informasi. Jadi nama
+   asalnya dinaikkan menjadi tipografi di bawah tiap pouch, bukan dibiarkan
+   sebagai cetakan 4 px di labelnya.
+2. **Pure Matcha 500 gram, dua racikannya 1000 gram**, dan bentuk kantongnya pun
+   berbeda perbandingannya. Disamakan tingginya, perbedaan itu hilang - jadi
+   beratnya ditulis di bawah tiap nama, dinyatakan dengan kata alih-alih
+   disiratkan lewat ukuran yang skalanya belum bisa dipastikan.
+
+Label nama mengecil sendiri sampai dua nama bertetangga tidak bersentuhan.
+"MATCHA LATTE" dan "PREMIX MATCHA" kebetulan berdampingan dan itulah pasangan
+terpanjangnya.
+
+Sub-baris "three origins . two blends" **menunggu konfirmasi**: ia menyatakan
+ketiga Pure Matcha berasal dari satu daerah masing-masing dan kedua sisanya
+racikan. Dasarnya kata "Pure" dan nama daerah yang tercetak di kemasan, bukan
+dokumen produk.
+
+**Ejaan "Shizouka" mengikuti kemasan.** Nama daerahnya di Jepang dieja
+*Shizuoka*. Untuk produk yang menjual asal-usul Jepang, salah eja di kemasan
+adalah hal yang layak diperbaiki di sumbernya - sama seperti katakana Avocado.
+
+### Versi dua anggota
+
+`render_series.py` masih memuat `build()` dan `build_banner()`, yang menyusun
+gelas-pouch-pouch-gelas untuk seri beranggota dua. Susunan itu tidak dipakai
+untuk Matcha Series lagi karena lima anggota tidak muat, tapi tetap ada untuk
+seri lain yang beranggota sedikit.
 
 ### Tiga kesalahan tata letak yang tertangkap saat membangunnya
 
@@ -338,11 +367,10 @@ Ketiganya sejenis: menyusun tata letak dari ukuran yang salah.
 1. **Gelas diukur dari kotak penuhnya.** Kotak penuh gelas Matcha Latte 569 x 706
    karena bayangan dan caustic-nya menjulur jauh ke samping; badannya sendiri
    hanya 327 px. Dipakai apa adanya, gelasnya terhitung 242 px dan mendorong
-   kelompoknya keluar kanvas. Ukur badannya.
+   kelompoknya keluar kanvas.
 2. **Bayangan lempar tidak ikut terukur.** `photo.box()` mengembalikan kotak
    SILUET, dan bayangan bukan bagian dari siluet. Setelah perbaikan pertama,
    tintanya masih berhenti empat piksel dari tepi meski marginnya empat puluh.
-   Yang benar diukur adalah setiap piksel yang rasionya menyimpang dari satu.
 3. **Rentang yang dipusatkan salah tanda.** Menjulurnya ditambahkan, bukan
    dikurangi, sehingga kelompoknya bergeser separuh total julurannya ke kanan:
    margin kiri 100 px, margin kanan 2 px.
@@ -353,5 +381,6 @@ berputar 985 kali tanpa pernah selesai waktu membangun slide 250 gram.
 
 ### Menambah seri lain
 
-Tambahkan entri di `SERIES` pada `render_series.py`: headline, katakana,
-sub-baris, dan daftar anggotanya. Susunannya menyesuaikan sendiri.
+Tambahkan entri di `LINEUPS` pada `render_series.py`: headline, katakana,
+sub-baris, dan daftar (nama, berat, berkas mockup). Susunannya menyesuaikan
+sendiri dan mengecil otomatis kalau anggotanya bertambah.
