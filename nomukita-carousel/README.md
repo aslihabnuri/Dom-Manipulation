@@ -512,3 +512,67 @@ pembedaan warna itu penting, ia perlu ditambahkan ke palet lebih dulu.
    1,24 kali lebih lebar daripada tinggi, dan pada langkah itu ia hanya bisa
    setinggi 237 px, menggantung di dasar dengan lubang 400 px di atasnya.
    Langkahnya dirapatkan dulu sampai 0,34, baru tingginya yang dikorbankan.
+
+## Kategori gaya flat-lay (`kategori/flatlay/`)
+
+Acuan: `ref-kategori-flatlay-oatsovernight.jpg` - Oats Overnight, "Have a Healthy
+Start to 2020". Skrip: `render_flatlay.py`. Satu gambar per kategori, bukan
+carousel. Exclusive ditahan atas permintaan pelanggan.
+
+| Berkas | Ukuran | Isi |
+| --- | --- | --- |
+| `Kategori_premium_flatlay_1000x1500.png` | 1000 x 1500 | lima pouch 1000 gram |
+| `Kategori_premium_flatlay_1024.png` | 1024 x 1024 | empat pouch 1000 gram |
+| `Kategori_250gr_flatlay_1000x1500.png` | 1000 x 1500 | lima kantong 250 gram |
+| `Kategori_250gr_flatlay_1024.png` | 1024 x 1024 | empat kantong 250 gram |
+
+Dua ukuran karena acuannya 2:3 sementara syarat gambar kategori Shopee yang
+berlaku di repo ini 1:1. Keduanya memakai satu tata letak: seluruh angka posisi
+disimpan sebagai pecahan lebar/tinggi kanvas, bukan piksel.
+
+### Yang diukur dari acuan
+
+Kemiringan pita 0,379 pada tepi atas ungu dan 0,425 pada hijau muda, dipakai
+0,40. Tangga tiga tingkat, tiap tingkat satu atau dua slab bertumpuk, ujung
+kanannya berbeda-beda. Pouch terbaring miring dengan bayangan lembut. Judul
+pendek rata kanan, tepi kirinya bergerigi. Tiga langkah berikon dengan garis
+bawah. Tombol ajakan di kiri bawah.
+
+### Yang tidak disalin
+
+**Warnanya.** Acuan memakai enam warna jenuh; palet Nomukita hanya matcha green,
+steel blue, bone white, charcoal. Tangganya disusun dari campuran dua hue merek
+itu dengan bone white - gradasi, bukan hue baru.
+
+**Naskah musimannya.** "Have a Healthy Start to 2020" adalah kampanye tahun baru.
+Yang dipinjam bentuknya; isinya nama kategori dan jumlah rasa, dua hal yang
+tercetak di kemasannya sendiri.
+
+**Mix / Sleep / Eat** diganti Scoop / Pour / Stir, karena produknya bubuk
+minuman. Ikonnya digambar garis di dalam skrip, bukan dihasilkan model: nol
+kredit dan bisa diulang persis.
+
+### Empat hal yang muncul saat membangun
+
+1. **Terang pita harus melawan terang pouch.** Pouch 1000 gram hampir hitam
+   (rata-rata 59,64,69), kantong 250 gram putih (228,230,227). Satu skema warna
+   tidak bisa melayani keduanya: Premium dapat bidang steel blue dengan pita
+   terang, 250 gram dibalik - bidang bone white dengan pita jenuh.
+2. **Kolom kanan milik naskah.** Percobaan pertama memanjangkan pita sampai 0,80
+   lebar seperti acuan, dan ikon serta label bone white mendarat penuh di atas
+   slab bone white - hilang, dan kata "Scoop" terpotong tepi pita. Acuan bisa
+   begitu karena ikonnya hitam di atas hijau. Sekarang tiap pita berhenti sebelum
+   kolom kanan.
+3. **Kanvas 1:1 memuat empat pouch, bukan lima.** Tingginya sepertiga lebih
+   pendek daripada acuan sementara isinya sama. Dipaksa lima, pouch kelima
+   terpotong tepi bawah dan yang keempat menabrak tombol.
+4. **Tombolnya charcoal, bukan bone white.** Versi bone white pada kanvas 1:1
+   mendarat penuh di atas slab bone white: 25.636 piksel tanpa kontras sama
+   sekali. `render_flatlay.check()` sekarang membandingkan tiap unsur lapisan atas
+   dengan apa yang persis ada di bawahnya, dan kotak tombol diperiksa tersendiri.
+
+### Yang tidak dipajang
+
+Mockup Avocado mencetak レモンティー, bukan アボカド. Di gambar kategori kemasannya
+tampil cukup besar untuk terbaca, jadi produk itu tidak ikut dipajang sampai
+mockup-nya diperbaiki; ia tetap terhitung dalam "ten flavours".
