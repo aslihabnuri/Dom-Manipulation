@@ -384,3 +384,49 @@ berputar 985 kali tanpa pernah selesai waktu membangun slide 250 gram.
 Tambahkan entri di `LINEUPS` pada `render_series.py`: headline, katakana,
 sub-baris, dan daftar (nama, berat, berkas mockup). Susunannya menyesuaikan
 sendiri dan mengecil otomatis kalau anggotanya bertambah.
+
+### Halaman panjang seri
+
+`kategori/MatchaSeries_longform_1200x3364.png`, dari
+`ref-matcha-series-sproutliving.webp` yang dikirim pelanggan. Bentuknya untuk
+area **deskripsi produk**, bukan carousel: Shopee dan TikTok Shop sama-sama
+membatasi carousel di sembilan gambar persegi, sedangkan deskripsi menerima
+gambar panjang.
+
+Yang diukur dari acuan:
+
+| | |
+|---|---|
+| kanvas | 1200 x 2377, empat pita |
+| tinggi pita | 588 px |
+| kemiringan batas | 0,2 px per px, arahnya **bergantian** tiap batas |
+| susunan | teks kiri, teks kanan, teks kiri, teks kanan |
+
+Versi Nomukita memakai lima pita untuk lima anggota, ditambah kepala halaman
+karena acuannya potongan dari halaman yang lebih panjang dan tidak menyatakan
+miliknya siapa.
+
+**Warnanya tidak diambil dari acuan.** Acuan memakai empat pastel - biru
+(169,224,249), salmon (252,204,190), krem (247,219,167), mint (179,221,191) -
+dan tidak satu pun ada di palet Nomukita. Menyalinnya berarti mengarang empat
+warna merek baru. Jadi pitanya berselang-seling antara bone white dan satu tint
+matcha green 18%, keduanya sudah ada di palet, dan headline-nya tetap matcha
+green seperti di seluruh slide yang sudah disetujui.
+
+Acuan juga memakai teks putih miring. Comfortaa maupun All Round Gothic tidak
+punya potongan miring, dan teks putih di atas tint terang tidak terbaca, jadi
+teksnya charcoal - warna teks merek ini sejak slide pertama.
+
+Baris berat memakai charcoal, bukan kanji grey. Kanji grey (219,218,213) dipakai
+untuk watermark di atas bone white; di atas tint pita (220,226,205) selisihnya
+tinggal satu level dan barisnya hilang. Tingkatannya dibawa ukuran huruf.
+
+**Tidak ada dokumen brand guideline di Drive.** Palet dan font yang dipakai di
+sini adalah yang sudah tayang dan disetujui di slide 1, 2, dan 5: bone white
+(241,240,235), matcha green (127,162,67), steel blue (94,152,189), charcoal
+(29,29,30), kanji grey (219,218,213); All Round Gothic Bold untuk headline,
+Comfortaa untuk badan, Shippori Mincho untuk katakana.
+
+Tiga baris tentang asal - Uji, Shizouka, Nishio - menyatakan apa daerah itu,
+bukan mutu atau kultivar produknya, dan **masih menunggu konfirmasi** seperti
+sub-baris "three origins . two blends".
