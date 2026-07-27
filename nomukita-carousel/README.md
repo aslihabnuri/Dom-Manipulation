@@ -628,13 +628,13 @@ Acuan: `ref-kategori-poster-icedmango.jpg` - "Iced Mango Matcha Latte". Skrip:
 `render_poster.py`. Lima kategori, dua ukuran, sepuluh berkas. Menggantikan gaya
 flat-lay atas permintaan pelanggan; berkas flat-lay tetap disimpan.
 
-| Kategori | Judul | Kemasan yang tampil |
-| --- | --- | --- |
-| matcha | MATCHA SERIES / FIVE PACKS | Pure Matcha Uji Kyoto 500 gram |
-| premium | PREMIUM SERIES / TEN FLAVOURS | Matcha Latte 1000 gram |
-| exclusive | EXCLUSIVE SERIES / TWO FLAVOURS | Chocolate Signature 1000 gram |
-| 250gram | 250 GRAM PACK / TWELVE FLAVOURS | Matcha Latte 250 gram |
-| 1000gram | 1000 GRAM POUCH / TWELVE FLAVOURS | Teh Tarik 1000 gram |
+| Kategori | Kata | Kanji | Baris kaki | Kemasan |
+| --- | --- | --- | --- | --- |
+| matcha | MATCHA | 抹茶 | five packs | Pure Matcha Uji Kyoto 500 gram |
+| premium | PREMIUM | 飲む | ten flavours | Matcha Latte 1000 gram |
+| exclusive | EXCLUSIVE | 飲む | two flavours | Chocolate Signature 1000 gram |
+| 250gram | 250 GRAM | 飲む | twelve flavours | Matcha Latte 250 gram |
+| 1000gram | 1000 GRAM | 飲む | twelve flavours | Teh Tarik 1000 gram |
 
 Ukurannya 1024 x 1024 dan 1080 x 1440. Acuannya 1086 x 1448; syarat 1:1 untuk
 gambar kategori Shopee tetap berlaku, jadi keduanya dibuat dari satu tata letak
@@ -642,48 +642,63 @@ yang seluruh angkanya pecahan kanvas.
 
 ### Yang diukur dari acuan
 
-Bidang rata tanpa pita. Satu baris kecil di atas, lebar 0,29 kanvas. Judul dua
-baris yang DIULANG tiga kali, jadi enam baris; jaraknya 157,4 px dengan tinggi
-huruf 122, jadi selanya 35 px atau 0,0242 tinggi kanvas. Lebar tinta 0,851 lebar
-kanvas, dan **kedua baris sama lebar** - itu yang membuat baloknya rata
-kiri-kanan. Produk di tengah, tinggi 0,582 kanvas, alasnya di 0,918, digambar
-DI ATAS naskah sehingga empat baris terakhir tertutup sebagian.
+Bidang rata tanpa pita. Satu baris kecil di atas. Judul yang DIULANG, produk
+digambar DI ATASnya sehingga salinan di bawah tertutup sebagian, alas produk di
+0,918 tinggi kanvas. Lebar tinta dijaga tetap sehingga tepi baloknya rata
+kiri-kanan.
 
-### Yang tidak disalin
+### Versi pertama terlalu padat
 
-Warnanya: krem dan jingga acuan tidak ada di palet. Bidangnya campuran bone white
-dengan warna judulnya sendiri, meniru hubungan acuan (krem adalah jingga yang
-diencerkan). Hurufnya: acuan serif kontras tinggi, merek ini All Round Gothic.
-Naskahnya: nama satu minuman diganti nama kategori dan jumlah anggotanya.
-Cangkirnya: diganti kemasan, sesuai permintaan.
+Versi pertama menyalin kepadatan acuan apa adanya: dua baris berisi tiga kata,
+diulang tiga kali, selebar 0,851 kanvas. Enam baris huruf tebal setinggi 122 px
+memenuhi hampir seluruh bidang. Pada acuan itu berhasil karena naskahnya nama
+satu minuman yang memang panjang dan hurufnya serif tipis-tebal, jadi baloknya
+terbaca sebagai tekstur. Dengan All Round Gothic yang tebal merata dan nama
+kategori yang pendek, yang tersisa hanya kata bertumpuk - dan pelanggan benar,
+itu bukan minimalis Jepang.
 
-### Empat hal yang muncul saat membangun
+Yang dikurangi jumlah katanya, bukan gagasannya:
+
+- yang diulang **satu kata**, bukan dua baris berisi tiga kata;
+- lebarnya turun dari 0,851 ke 0,52 kanvas;
+- salinannya **memudar** 0,62 kali tiap tingkat. Ketiga salinan pada kekuatan
+  penuh membuat serpihan di kiri dan kanan kemasan sama beratnya dengan kata
+  pertama, dan yang terbaca tiga kata, bukan satu kata yang bergema;
+- jumlah anggota turun ke satu baris kecil berjarak huruf di kaki;
+- ditambah satu tanda kanji, dan **hanya yang tercetak pada kemasan Nomukita
+  sendiri** - 抹茶 pada kemasan matcha, 飲む pada kemasan 250 gram - supaya tidak
+  ada satu pun kata Jepang yang dikarang.
+
+### Tiga hal yang tidak bisa disalin
 
 1. **Acuan memilih dua baris yang kebetulan hampir sama lebar** ("Iced Mango" 924,
    "Matcha Latte" 927) pada satu ukuran huruf. Nama kategori tidak begitu, jadi
    lebarnya yang dijaga tetap dan tinggi hurufnya yang dibiarkan berbeda - cara
-   yang sama yang dipakai pada keterangan slide 5.
-2. **Ukuran huruf bilangan bulat tidak pernah mendarat tepat.** Enam baris
-   berakhir 866, 867 dan 868 px dan tepi baloknya bergerigi. Sisanya diselesaikan
-   dengan meregangkan potongannya sendiri - di bawah setengah persen, tidak
-   terlihat.
-3. **Batas lebar acuan membuat kemasan 250 gram berhenti menindih naskah.** Gelas
-   acuan 52 persen lebar; kantong 250 gram 1,24 kali lebih lebar daripada tinggi,
-   jadi pada batas yang sama tingginya tinggal 488 px dan ia berdiri seluruhnya
-   di bawah balok - susunan berlapis yang jadi inti acuan itu hilang. Batas
-   lebarnya dilonggarkan ke 0,72.
-4. **Logo diukur dari lebarnya, bukan tingginya.** Wordmark ini 6,9 kali lebih
-   lebar daripada tinggi; menyamakan tingginya dengan baris kecil acuan
-   membuatnya 0,435 kanvas, dan ia berhenti terbaca sebagai baris kecil.
+   yang sama yang dipakai pada keterangan slide 5. Ukuran huruf bilangan bulat
+   tidak pernah mendarat tepat, jadi sisanya diselesaikan dengan meregangkan
+   potongannya sendiri, di bawah setengah persen.
+2. **Banyaknya salinan tidak bisa jadi angka tetap.** Tinggi huruf turun dari
+   lebar yang dijaga tetap, jadi kata panjang menghasilkan potongan pendek:
+   "250 GRAM" hanya setinggi 82 px dan tiga salinannya berakhir 17 px DI ATAS
+   puncak kemasan - tidak ada yang tertindih, dan susunan berlapis yang jadi inti
+   acuan itu hilang. Salinan ditambah sampai baloknya benar-benar masuk ke
+   belakang kemasan.
+3. **Batas lebar acuan membuat kemasan 250 gram menyusut.** Gelas acuan 52 persen
+   lebar; kantong 250 gram 1,24 kali lebih lebar daripada tinggi, jadi pada batas
+   yang sama tingginya tinggal sepertiga. Batas lebarnya dilonggarkan ke 0,72.
 
-`render_poster.check()` memeriksa kontras judul terhadap bidang, lebar tiap baris
-(harus sama persis, selisih dua piksel sudah tampak), tinta menyentuh tepi
-kanvas, kemasan terpotong tepi kanvas, kemasan menutupi logo, dan kemasan yang
-tidak menindih naskah sama sekali. Kesepuluh berkas lolos.
+Logo diukur dari lebarnya, bukan tingginya: wordmark ini 6,9 kali lebih lebar
+daripada tinggi, dan menyamakan tingginya dengan baris kecil acuan membuatnya
+0,435 kanvas - ia berhenti terbaca sebagai baris kecil.
+
+`render_poster.check()` memeriksa kontras judul terhadap bidang, lebar tiap
+salinan (harus sama persis), tinta menyentuh tepi kanvas, kemasan terpotong tepi
+kanvas, kemasan menutupi logo, kanji atau baris kaki, dan kemasan yang tidak
+menindih naskah sama sekali. Kesepuluh berkas lolos.
 
 ### Yang perlu keputusan pelanggan
 
-Kemasan 1000 gram tampil setinggi 58 persen kanvas, dan pada ukuran itu **panel
+Kemasan 1000 gram tampil setinggi 56 persen kanvas, dan pada ukuran itu **panel
 kontak di sisi kirinya terbaca**: alamat web, nomor Customer Service, nomor
 WhatsApp dan tiga akun media sosial. Shopee melarang informasi kontak di dalam
 gambar produk. Panel itu tercetak pada mockup-nya sendiri, jadi menghapusnya
