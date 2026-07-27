@@ -213,17 +213,24 @@ def build(series="matcha", out="longform.png"):
 
 # ── versi 1:1 ────────────────────────────────────────────────────────────────
 #
-# Marketplace meminta 1:1, jadi bentuk panjang acuannya harus dilipat ke dalam
-# 1024 x 1024. Kepala halaman memakan 176 px dan sisanya dibagi lima, sehingga
-# tiap pita tinggal 170 px - kurang dari sepertiga tinggi pita acuan. Yang tidak
-# muat pada tinggi segitu dibuang, bukan dikecilkan sampai tidak terbaca: dua
-# baris keterangan dan baris berat tidak dipertahankan di sini, dan nama produk
-# yang membawa seluruh isinya.
+# Marketplace meminta 1:1, jadi bentuk panjang acuannya dilipat ke 1024 x 1024.
+# Percobaan pertama menyisakan 170 px per pita dan naskahnya terpaksa dibuang,
+# tinggal nama produk - padahal keterangan itulah isi halaman panjangnya.
+#
+# Yang mengembalikannya: kepala halaman dipangkas dari 176 px jadi 118 px, dan
+# seluruh tipografinya diperkecil sesuai pita 181 px. Blok teksnya jadi setinggi
+# 110 px, menyisakan 35 px lapang di atas dan di bawahnya. Yang tidak ikut
+# dikecilkan adalah pouch-nya: ia tetap 158 px supaya labelnya masih terbaca.
 SQ = 1024
-SQ_HEADER = 176
-SQ_POUCH_H = 132
-SQ_NAME_SIZE = 30
-SQ_SIDE = 72
+SQ_HEADER = 118
+SQ_POUCH_H = 158
+SQ_NAME_SIZE = 38
+SQ_SUB_SIZE = 17
+SQ_SUB_LEAD = 22
+SQ_HEAD_TO_SUB = 16
+SQ_WEIGHT_SIZE = 15
+SQ_WEIGHT_GAP = 14
+SQ_SIDE = 62
 
 
 def build_square(series="matcha", out="longform_square.png"):
@@ -249,27 +256,43 @@ def build_square(series="matcha", out="longform_square.png"):
 
     c = Image.new("RGBA", (SQ, SQ), (0, 0, 0, 0))
     logo = Image.open(f"{bs.ASSETS}/logo_nomukita.png").convert("RGBA")
-    lw = round(logo.width * 0.72)
-    logo = logo.resize((lw, round(logo.height * 0.72)), Image.LANCZOS)
-    c.alpha_composite(logo, ((SQ - lw) // 2, 34))
-    big = bs.build_headline(spec["head"], 46, bs.MATCHA_GREEN)
-    c.alpha_composite(big, ((SQ - big.width) // 2, 92))
-    bs.draw_text_top(c, spec["subtitle"], ImageFont.truetype(bs.F_BODY, 20),
-                     bs.CHARCOAL, SQ // 2, 146)
+    lw = round(logo.width * 0.52)
+    c.alpha_composite(logo.resize((lw, round(logo.height * 0.52)), Image.LANCZOS),
+                      ((SQ - lw) // 2, 18))
+    big = bs.build_headline(spec["head"], 38, bs.MATCHA_GREEN)
+    c.alpha_composite(big, ((SQ - big.width) // 2, 56))
+    bs.draw_text_top(c, spec["subtitle"], ImageFont.truetype(bs.F_BODY, 17),
+                     bs.CHARCOAL, SQ // 2, 96)
+
+    sub_f = ImageFont.truetype(bs.F_BODY, SQ_SUB_SIZE)
+    weight_f = ImageFont.truetype(bs.F_BODY, SQ_WEIGHT_SIZE)
 
     for i, (name, sub, weight, mock) in enumerate(members):
         mid = edges[i] + band_h / 2
         text_left = (i % 2 == 0)
 
         head = bs.build_headline(name, SQ_NAME_SIZE, bs.MATCHA_GREEN)
-        x = SQ_SIDE if text_left else SQ - SQ_SIDE - head.width
-        c.alpha_composite(head, (round(x), round(mid - head.height / 2)))
+        block_h = (head.height + SQ_HEAD_TO_SUB + SQ_SUB_LEAD * (len(sub) - 1)
+                   + SQ_SUB_SIZE + SQ_WEIGHT_GAP + SQ_WEIGHT_SIZE)
+        top = mid - block_h / 2
+        x = SQ_SIDE if text_left else SQ - SQ_SIDE - 340
+        c.alpha_composite(head, (round(x), round(top)))
+        end = _text_block(c, sub, sub_f, bs.CHARCOAL, x,
+                          top + head.height + SQ_HEAD_TO_SUB, SQ_SUB_LEAD)
+        _text_block(c, [weight], weight_f, bs.CHARCOAL, x,
+                    end - SQ_SUB_LEAD + SQ_WEIGHT_GAP + SQ_SUB_SIZE, 0)
 
         im = Image.open(f"{bs.PROD}/{mock}").convert("RGBA")
         im = im.crop(im.getbbox())
         pw = round(im.width * SQ_POUCH_H / im.height)
         px = SQ - SQ_SIDE - pw if text_left else SQ_SIDE
-        py = mid - SQ_POUCH_H / 2
+        # Dipusatkan pada pitanya, kecuali kalau itu membuatnya menembus tepi.
+        # Pusat pita terakhir jatuh di y 933, dan pouch setinggi 158 yang
+        # dipusatkan di sana berakhir 12 px dari dasar kanvas - sementara sisi
+        # kiri dan kanannya bermargin 62. Bayangan jatuhnya menjulur 26 px lagi
+        # di bawah itu.
+        py = min(max(mid - SQ_POUCH_H / 2, SQ_SIDE),
+                 SQ - SQ_SIDE - 26 - SQ_POUCH_H)
         _drop_shadow(c, px, py, pw, SQ_POUCH_H)
         c.alpha_composite(im.resize((pw, SQ_POUCH_H), Image.LANCZOS),
                           (round(px), round(py)))

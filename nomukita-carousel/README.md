@@ -452,9 +452,16 @@ daripada pitanya sendiri - sehingga batas atas dan batas bawah saling menyeberan
 dan pitanya pecah menjadi baji. Dengan perbandingan yang benar, kemiringannya
 jadi 0,068 dan pitanya utuh.
 
-**Yang satu bidang membuang naskahnya.** Lima pita di dalam 1024 x 1024 menyisakan
-170 px per pita, dan pada tinggi itu dua baris keterangan tidak muat sama sekali;
-yang tersisa hanya nama produk. Padahal keterangan itulah isi halaman panjangnya.
+**Yang satu bidang tetap membawa naskahnya.** Percobaan pertama menyisakan 170 px
+per pita dan naskahnya terpaksa dibuang, tinggal nama produk - padahal keterangan
+itulah isi halaman panjangnya. Yang mengembalikannya: kepala halaman dipangkas
+dari 176 px jadi 118 px, dan seluruh tipografinya diperkecil sesuai pita 181 px.
+Blok teksnya jadi setinggi 110 px, menyisakan 35 px lapang di atas dan bawahnya.
+Pouch-nya tidak ikut dikecilkan supaya labelnya masih terbaca.
+
+Pouch dipusatkan pada pitanya, kecuali kalau itu membuatnya menembus tepi. Pusat
+pita terakhir jatuh di y 933, dan pouch setinggi 158 yang dipusatkan di sana
+berakhir 12 px dari dasar kanvas sementara sisi kiri-kanannya bermargin 62.
 
 Karena Shopee dan TikTok Shop sama-sama menerima sembilan gambar, versi lima
 bidang memberi tiap anggota satu kanvas penuh: pita diagonal, naskah, berat, dan
