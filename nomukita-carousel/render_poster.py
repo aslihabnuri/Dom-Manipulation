@@ -109,7 +109,11 @@ CATEGORY = {
     ),
     "premium": dict(
         word="PREMIUM", kanji="飲む", cap="ten flavours",
-        hero="Mockup nomukita-Exclusive series-matcha latte.png",
+        # Bukan matcha, atas permintaan pelanggan: Matcha Latte sudah mewakili
+        # kategori matcha, dan Premium sepuluh rasa yang sebagian besar bukan
+        # matcha. Cookies & Cream label seri Premium, dan katakananya benar -
+        # tidak seperti mockup Avocado yang mencetak レモンティー.
+        hero="Mockup nomukita-Premium series-Cookies & Cream.png",
         hue=STEEL,
     ),
     "exclusive": dict(

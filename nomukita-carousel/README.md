@@ -631,7 +631,7 @@ flat-lay atas permintaan pelanggan; berkas flat-lay tetap disimpan.
 | Kategori | Kata | Kanji | Baris kaki | Kemasan |
 | --- | --- | --- | --- | --- |
 | matcha | MATCHA | 抹茶 | five packs | Pure Matcha Uji Kyoto 500 gram |
-| premium | PREMIUM | 飲む | ten flavours | Matcha Latte 1000 gram |
+| premium | PREMIUM | 飲む | ten flavours | Cookies & Cream 1000 gram |
 | exclusive | EXCLUSIVE | 飲む | two flavours | Chocolate Signature 1000 gram |
 | 250gram | 250 GRAM | 飲む | twelve flavours | Matcha Latte 250 gram |
 | 1000gram | 1000 GRAM | 飲む | twelve flavours | Teh Tarik 1000 gram |
