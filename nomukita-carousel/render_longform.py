@@ -36,7 +36,19 @@ import bs
 W = 1200
 BAND_H = 588            # diukur dari acuan
 TOP_MARGIN = 12
-SLOPE = 0.2             # 0,2 px turun per px mendatar
+# Kemiringan acuannya 0,2 px per px pada pita setinggi 588 di kanvas selebar
+# 1200, artinya diagonalnya naik-turun 240 px sepanjang kanvas, atau 0,41 kali
+# tinggi pitanya. Yang tetap adalah PERBANDINGAN itu, bukan angka 0,2.
+#
+# Ini bukan kerapian belaka. Dipakai 0,2 pada kanvas 1:1 yang pitanya cuma 170
+# px, diagonalnya naik-turun 205 px - lebih tinggi daripada pitanya sendiri -
+# sehingga batas atas dan batas bawah saling menyeberang dan pitanya pecah jadi
+# baji, bukan pita.
+RISE_RATIO = 0.408
+
+
+def _slope(band_h, canvas_w):
+    return RISE_RATIO * band_h / canvas_w
 TINT = 0.18             # seberapa jauh pita berwarna bergerak dari bone ke green
 
 # Acuannya langsung masuk ke pita pertama tanpa kepala halaman, karena ia
@@ -143,7 +155,8 @@ def build(series="matcha", out="longform.png"):
 
     # Pita dulu, semuanya, supaya tiap batas digambar satu kali saja.
     edges = [TOP_MARGIN + HEADER_H + BAND_H * i for i in range(n + 1)]
-    slopes = [0.0] + [SLOPE * (-1) ** i for i in range(n - 1)] + [0.0]
+    sl = _slope(BAND_H, W)
+    slopes = [0.0] + [sl * (-1) ** i for i in range(n - 1)] + [0.0]
     for i in range(n):
         if i % 2 == 0:
             _band(d, edges[i], edges[i + 1], BAND_TINT, slopes[i], slopes[i + 1])
@@ -195,4 +208,143 @@ def build(series="matcha", out="longform.png"):
 
     flat.paste(c, (0, 0), c)
     flat.save(out)
+    return out
+
+
+# ── versi 1:1 ────────────────────────────────────────────────────────────────
+#
+# Marketplace meminta 1:1, jadi bentuk panjang acuannya harus dilipat ke dalam
+# 1024 x 1024. Kepala halaman memakan 176 px dan sisanya dibagi lima, sehingga
+# tiap pita tinggal 170 px - kurang dari sepertiga tinggi pita acuan. Yang tidak
+# muat pada tinggi segitu dibuang, bukan dikecilkan sampai tidak terbaca: dua
+# baris keterangan dan baris berat tidak dipertahankan di sini, dan nama produk
+# yang membawa seluruh isinya.
+SQ = 1024
+SQ_HEADER = 176
+SQ_POUCH_H = 132
+SQ_NAME_SIZE = 30
+SQ_SIDE = 72
+
+
+def build_square(series="matcha", out="longform_square.png"):
+    spec = SERIES[series]
+    members = spec["members"]
+    n = len(members)
+    band_h = (SQ - SQ_HEADER) / n
+
+    flat = Image.new("RGB", (SQ, SQ), bs.BG)
+    d = ImageDraw.Draw(flat)
+    edges = [SQ_HEADER + band_h * i for i in range(n + 1)]
+    sl = _slope(band_h, SQ)
+    slopes = [0.0] + [sl * (-1) ** i for i in range(n - 1)] + [0.0]
+
+    half = SQ / 2
+    for i in range(n):
+        if i % 2 == 0:
+            top, bottom = edges[i], edges[i + 1]
+            st, sb = slopes[i], slopes[i + 1]
+            d.polygon([(0, top + st * half), (SQ, top - st * half),
+                       (SQ, bottom - sb * half), (0, bottom + sb * half)],
+                      fill=BAND_TINT)
+
+    c = Image.new("RGBA", (SQ, SQ), (0, 0, 0, 0))
+    logo = Image.open(f"{bs.ASSETS}/logo_nomukita.png").convert("RGBA")
+    lw = round(logo.width * 0.72)
+    logo = logo.resize((lw, round(logo.height * 0.72)), Image.LANCZOS)
+    c.alpha_composite(logo, ((SQ - lw) // 2, 34))
+    big = bs.build_headline(spec["head"], 46, bs.MATCHA_GREEN)
+    c.alpha_composite(big, ((SQ - big.width) // 2, 92))
+    bs.draw_text_top(c, spec["subtitle"], ImageFont.truetype(bs.F_BODY, 20),
+                     bs.CHARCOAL, SQ // 2, 146)
+
+    for i, (name, sub, weight, mock) in enumerate(members):
+        mid = edges[i] + band_h / 2
+        text_left = (i % 2 == 0)
+
+        head = bs.build_headline(name, SQ_NAME_SIZE, bs.MATCHA_GREEN)
+        x = SQ_SIDE if text_left else SQ - SQ_SIDE - head.width
+        c.alpha_composite(head, (round(x), round(mid - head.height / 2)))
+
+        im = Image.open(f"{bs.PROD}/{mock}").convert("RGBA")
+        im = im.crop(im.getbbox())
+        pw = round(im.width * SQ_POUCH_H / im.height)
+        px = SQ - SQ_SIDE - pw if text_left else SQ_SIDE
+        py = mid - SQ_POUCH_H / 2
+        _drop_shadow(c, px, py, pw, SQ_POUCH_H)
+        c.alpha_composite(im.resize((pw, SQ_POUCH_H), Image.LANCZOS),
+                          (round(px), round(py)))
+
+    flat.paste(c, (0, 0), c)
+    flat.save(out)
+    return out
+
+
+# ── satu kotak per anggota ───────────────────────────────────────────────────
+#
+# Melipat halaman panjang ke satu bidang 1:1 memaksa tiap pita tinggal 170 px,
+# dan pada tinggi itu dua baris keterangan tidak muat sama sekali - yang tersisa
+# hanya nama produk. Padahal keterangan itulah isi halaman panjangnya.
+#
+# Marketplace tidak memaksa satu gambar: Shopee dan TikTok Shop sama-sama
+# menerima sembilan. Jadi lima anggota bisa mendapat satu bidang 1:1 masing-
+# masing, dengan pita diagonal, naskah, dan pouch pada ukuran yang terbaca.
+EACH_TOP = 168          # tinggi wedge bone di atas pita
+EACH_BOTTOM = 892       # dan batas bawahnya
+EACH_SIDE = 78
+EACH_NAME = 54
+EACH_SUB = 24
+EACH_SUB_LEAD = 32
+EACH_POUCH_H = 470
+
+
+def build_each(series="matcha", folder=".", prefix="MatchaSeries"):
+    spec = SERIES[series]
+    out = []
+    for i, (name, sub, weight, mock) in enumerate(spec["members"]):
+        flat = Image.new("RGB", (SQ, SQ), bs.BG)
+        d = ImageDraw.Draw(flat)
+
+        # Satu pita miring memenuhi bidang, dengan wedge bone di atas dan bawah.
+        # Arah miringnya bergantian antar anggota supaya lima kotak yang dilihat
+        # berurutan di carousel tetap terasa satu deret, bukan lima gambar sama.
+        sl = _slope(EACH_BOTTOM - EACH_TOP, SQ) * (-1) ** i
+        half = SQ / 2
+        d.polygon([(0, EACH_TOP + sl * half), (SQ, EACH_TOP - sl * half),
+                   (SQ, EACH_BOTTOM + sl * half), (0, EACH_BOTTOM - sl * half)],
+                  fill=BAND_TINT)
+
+        c = Image.new("RGBA", (SQ, SQ), (0, 0, 0, 0))
+        text_left = (i % 2 == 0)
+        mid = (EACH_TOP + EACH_BOTTOM) / 2
+
+        head = bs.build_headline(name, EACH_NAME, bs.MATCHA_GREEN)
+        block_h = (head.height + HEAD_TO_SUB + EACH_SUB_LEAD * (len(sub) - 1)
+                   + EACH_SUB + WEIGHT_GAP + WEIGHT_SIZE)
+        top = mid - block_h / 2
+        x = EACH_SIDE if text_left else SQ - EACH_SIDE - 400
+        c.alpha_composite(head, (round(x), round(top)))
+        end = _text_block(c, sub, ImageFont.truetype(bs.F_BODY, EACH_SUB),
+                          bs.CHARCOAL, x, top + head.height + HEAD_TO_SUB, EACH_SUB_LEAD)
+        _text_block(c, [weight], ImageFont.truetype(bs.F_BODY, WEIGHT_SIZE),
+                    bs.CHARCOAL, x, end - EACH_SUB_LEAD + WEIGHT_GAP + EACH_SUB, 0)
+
+        im = Image.open(f"{bs.PROD}/{mock}").convert("RGBA")
+        im = im.crop(im.getbbox())
+        pw = round(im.width * EACH_POUCH_H / im.height)
+        px = SQ - EACH_SIDE - pw if text_left else EACH_SIDE
+        py = mid - EACH_POUCH_H / 2
+        _drop_shadow(c, px, py, pw, EACH_POUCH_H)
+        c.alpha_composite(im.resize((pw, EACH_POUCH_H), Image.LANCZOS),
+                          (round(px), round(py)))
+
+        logo = Image.open(f"{bs.ASSETS}/logo_nomukita.png").convert("RGBA")
+        lw = round(logo.width * 0.62)
+        c.alpha_composite(logo.resize((lw, round(logo.height * 0.62)), Image.LANCZOS),
+                          (EACH_SIDE, SQ - 92))
+
+        flat.paste(c, (0, 0), c)
+        slug = name.title().replace(" ", "")
+        path = f"{folder}/{prefix}_{i + 1:02d}_{slug}.png"
+        flat.save(path)
+        out.append(path)
     return out

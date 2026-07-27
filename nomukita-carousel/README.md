@@ -430,3 +430,33 @@ Comfortaa untuk badan, Shippori Mincho untuk katakana.
 Tiga baris tentang asal - Uji, Shizouka, Nishio - menyatakan apa daerah itu,
 bukan mutu atau kultivar produknya, dan **masih menunggu konfirmasi** seperti
 sub-baris "three origins . two blends".
+
+### Versi 1:1
+
+Marketplace meminta 1:1, jadi ada tiga bentuk yang berbagi satu geometri:
+
+| berkas | untuk |
+|---|---|
+| `kategori/MatchaSeries_longform_1200x3364.png` | deskripsi produk |
+| `kategori/MatchaSeries_1to1_semua.png` | satu bidang persegi, kelima anggota |
+| `kategori/matcha-1to1/` | lima bidang persegi, satu per anggota |
+
+**Kemiringan diagonal terikat pada tinggi pita, bukan angka mutlak.** Acuannya
+0,2 px per px pada pita 588 di kanvas 1200, artinya diagonalnya naik-turun 240 px
+sepanjang kanvas, atau **0,408 kali tinggi pitanya**. Yang tetap adalah
+perbandingan itu.
+
+Ini bukan kerapian belaka. Angka 0,2 dipakai apa adanya di kanvas 1:1 yang
+pitanya cuma 170 px menghasilkan diagonal naik-turun 205 px - lebih tinggi
+daripada pitanya sendiri - sehingga batas atas dan batas bawah saling menyeberang
+dan pitanya pecah menjadi baji. Dengan perbandingan yang benar, kemiringannya
+jadi 0,068 dan pitanya utuh.
+
+**Yang satu bidang membuang naskahnya.** Lima pita di dalam 1024 x 1024 menyisakan
+170 px per pita, dan pada tinggi itu dua baris keterangan tidak muat sama sekali;
+yang tersisa hanya nama produk. Padahal keterangan itulah isi halaman panjangnya.
+
+Karena Shopee dan TikTok Shop sama-sama menerima sembilan gambar, versi lima
+bidang memberi tiap anggota satu kanvas penuh: pita diagonal, naskah, berat, dan
+pouch pada ukuran yang terbaca. Arah miringnya bergantian antar anggota supaya
+lima kotak yang dilihat berurutan tetap terasa satu deret.
