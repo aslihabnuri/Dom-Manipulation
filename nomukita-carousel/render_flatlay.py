@@ -41,6 +41,7 @@ dibalik - bidang bone white dengan pita jenuh.
 import math
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
+from scipy import ndimage as ndi
 import importlib.util, sys
 
 for _n, _p in [('bs', 'build_slides.py')]:
@@ -132,33 +133,46 @@ STEPS_TEXT = ["Scoop", "Pour", "Stir"]
 
 
 def _icon_scoop(d, x, y, s, col, w):
-    r = s * 0.26
-    cx, cy = x + s * 0.30, y + s * 0.66
-    d.ellipse([cx - r, cy - r, cx + r, cy + r], outline=col, width=w)
-    # Gagangnya polos. Versi pertama menutupnya dengan garis tegak lurus di
-    # ujung, dan yang terbaca bukan sendok tapi tanda tambah.
-    d.line([(cx + r * 0.72, cy - r * 0.72), (x + s * 0.94, y + s * 0.08)],
-           fill=col, width=w)
+    # Mangkuknya LONJONG dan miring. Versi pertama memakai lingkaran sempurna
+    # dengan gagang lurus, dan yang terbaca kaca pembesar, bukan sendok takar.
+    # Gagangnya juga sempat ditutup garis tegak lurus di ujung - itu terbaca
+    # sebagai tanda tambah.
+    ang = math.radians(-38)
+    cx, cy = x + s * 0.34, y + s * 0.64
+    ra, rb = s * 0.30, s * 0.20
+    pts = []
+    for k in range(48):
+        t = 2 * math.pi * k / 48
+        px, py = ra * math.cos(t), rb * math.sin(t)
+        pts.append((cx + px * math.cos(ang) - py * math.sin(ang),
+                    cy + px * math.sin(ang) + py * math.cos(ang)))
+    d.polygon(pts, outline=col, width=w)
+    d.line([(cx + ra * 0.84 * math.cos(ang), cy + ra * 0.84 * math.sin(ang)),
+            (x + s * 0.96, y + s * 0.06)], fill=col, width=w)
 
 
 def _icon_pour(d, x, y, s, col, w):
-    # Kemasan dimiringkan 35 derajat, mulutnya menghadap gelas, lalu tiga
-    # tetes sejajar. Versi pertama menggambar kemasannya tegak dan tetesnya
-    # menyerong - yang terbaca cuma kotak melayang di sebelah coretan.
-    a = math.radians(35)
-    cx, cy = x + s * 0.24, y + s * 0.24
-    hw, hh = s * 0.15, s * 0.21
+    # Kemasan dimiringkan, mulutnya menghadap gelas, lalu SATU aliran menyambung
+    # dari mulut ke mulut gelas. Dua percobaan sebelumnya gagal terbaca: yang
+    # pertama menggambar kemasannya tegak dengan tetesan menyerong (terbaca
+    # kotak melayang di sebelah coretan), yang kedua memakai tiga tetes terpisah
+    # di atas gelas (terbaca tiga garis yang tidak berasal dari mana pun).
+    # Miringnya berlawanan arah jarum jam: memutar searah jarum jam justru
+    # menjatuhkan mulut kemasan ke kiri, menjauhi gelas, dan alirannya keluar
+    # dari sudut yang salah lalu berpatah balik.
+    a = math.radians(-30)
+    cx, cy = x + s * 0.26, y + s * 0.24
+    hw, hh = s * 0.12, s * 0.26
+    corner = [(-hw, -hh), (hw, -hh), (hw, hh), (-hw, hh)]
     pts = [(cx + dx * math.cos(a) - dy * math.sin(a), cy + dx * math.sin(a) + dy * math.cos(a))
-           for dx, dy in ((-hw, -hh), (hw, -hh), (hw, hh), (-hw, hh))]
+           for dx, dy in corner]
     d.polygon(pts, outline=col, width=w)
-    # Tetesnya sejajar dan tepat di atas mulut gelas. Sebelumnya tiap tetes
-    # digeser turun sedikit demi sedikit, dan hasilnya terbaca seperti anak
-    # tangga kecil, bukan sesuatu yang jatuh.
-    for gx, gy, ln in ((0.66, 0.38, 0.13), (0.745, 0.42, 0.10), (0.83, 0.38, 0.13)):
-        d.line([(x + s * gx, y + s * gy), (x + s * gx, y + s * (gy + ln))],
-               fill=col, width=max(2, w - 1))
-    d.polygon([(x + s * 0.58, y + s * 0.58), (x + s * 0.98, y + s * 0.58),
-               (x + s * 0.90, y + s * 0.98), (x + s * 0.66, y + s * 0.98)],
+    mouth = max(pts, key=lambda q: q[0] + q[1])      # sudut terbawah-terkanan
+    d.line([mouth, (x + s * 0.62, y + s * 0.42), (x + s * 0.72, y + s * 0.50),
+            (x + s * 0.76, y + s * 0.57)],
+           fill=col, width=max(2, w - 1), joint="curve")
+    d.polygon([(x + s * 0.56, y + s * 0.58), (x + s * 0.96, y + s * 0.58),
+               (x + s * 0.88, y + s * 0.98), (x + s * 0.64, y + s * 0.98)],
               outline=col, width=w)
 
 
@@ -195,7 +209,7 @@ def _shadow(canvas, im, x, y, blur, drop):
     canvas.alpha_composite(sh)
 
 
-def _pouch(canvas, prod, size, cx, cy, h, angle):
+def _pouch(canvas, prod, size, cx, cy, h, angle, boxes=(), clear=0):
     im = Image.open(f'{bs.PROD}/{prod["p250" if size == "250" else "p1000"]}')
     im = im.convert("RGBA"); im = im.crop(im.getbbox())
     w = round(h * im.width / im.height)
@@ -204,8 +218,23 @@ def _pouch(canvas, prod, size, cx, cy, h, angle):
         im = bs.model_white(im)
     im = im.rotate(-angle, Image.BICUBIC, expand=True)
     x, y = cx - im.width / 2, cy - im.height / 2
+    # Kemasan mengalah kepada naskah, sama seperti pita. Kantong 250 gram 1,24
+    # kali lebih lebar daripada pouch 1000 gram, jadi pada slot yang sama sudut
+    # kanan atasnya masuk ke kotak judul. Menggeser slotnya dengan angka tetap
+    # memperbaiki satu kategori dan merusak yang lain; jadi geserannya dihitung.
+    for bx0, by0, bx1, by1 in boxes:
+        if (x < bx1 + clear and x + im.width > bx0 - clear
+                and y < by1 + clear and y + im.height > by0 - clear):
+            x = min(x, bx0 - clear - im.width)
     _shadow(canvas, im, x, y, blur=h * 0.055, drop=h * 0.045)
     canvas.alpha_composite(im, (round(x), round(y)))
+    # Kotak yang dikembalikan adalah kotak KEMASANNYA, bukan kotak lapisan
+    # setelah ditempel. Dua kesalahan tinggal di situ: mengambil getbbox()
+    # kanvas memberi kotak gabungan semua pouch sebelumnya, dan alpha kanvas
+    # sudah mengandung bayangan - bayangan yang menyentuh tombol bukan cacat.
+    b = im.split()[3].point(lambda v: 255 if v > 128 else 0).getbbox()
+    return None if b is None else (round(x) + b[0], round(y) + b[1],
+                                   round(x) + b[2], round(y) + b[3])
 
 
 def _line(canvas, text, font, colour, right, top):
@@ -254,10 +283,19 @@ VERT = dict(
     slots=[(0.200, 0, 0.50), (0.430, 0, 0.62),
            (0.175, 1, 0.48), (0.430, 1, 0.62),
            (0.320, 2, 0.52)],
+    # Kantong 250 gram butuh susunannya sendiri. Ia 1,24 kali lebih lebar
+    # daripada pouch 1000 gram, jadi pada slot yang sama anggota kedua masuk ke
+    # kotak judul; digeser keluar, ia menutupi setengah label anggota pertama -
+    # nama rasa yang tidak terbaca, cacat yang lebih buruk daripada yang
+    # diperbaikinya. Susunan ini menaruh yang jauh ke kanan jauh ke bawah juga,
+    # sehingga judul di kanan atas tidak pernah jadi soal.
+    slots250=[(0.215, 0, 0.50), (0.470, 0, 0.86),
+              (0.215, 1, 0.55), (0.470, 1, 0.95),
+              (0.300, 2, 0.55)],
     pouch_h=0.200, angle=12,
     icon_left=0.660, icon_top=0.503, icon_gap=0.148, icon_size=0.082,
     label_size=0.0330, rule_right=0.945,
-    cta=(0.060, 0.900, 0.408, 0.956), cta_size=0.0290,
+    cta=(0.060, 0.956), cta_size=0.0290,
 )
 
 SQR = dict(
@@ -277,8 +315,45 @@ SQR = dict(
     pouch_h=0.215, angle=12,
     icon_left=0.660, icon_top=0.470, icon_gap=0.150, icon_size=0.086,
     label_size=0.0345, rule_right=0.945,
-    cta=(0.058, 0.884, 0.442, 0.952), cta_size=0.0305,
+    cta=(0.058, 0.952), cta_size=0.0305,
 )
+
+
+# Jarak bebas antara naskah dan apa pun yang berwarna lain. Angkanya pecahan
+# lebar kanvas, jadi berlaku sama di 1000x1500 dan 1024x1024.
+#
+# Tanpa ini, tepi kanan pita pertama berhenti 15 px dari huruf F pada baris
+# "Flavours" dan batang huruf itu menyatu dengan slab bone white di belakangnya.
+# Menggeser pitanya dengan angka tetap memperbaiki satu berkas dan merusak yang
+# lain, karena lebar judulnya berbeda tiap kategori. Jadi ujung pitanya
+# DIHITUNG dari kotak judul, bukan ditebak.
+CLEAR = 0.026
+
+
+def _measure(text, font):
+    pad = 200
+    probe = Image.new("L", (2000 + pad, 600), 0)
+    ImageDraw.Draw(probe).text((pad, pad), text, font=font, fill=255)
+    b = probe.getbbox()
+    return (b[2] - b[0], b[3] - b[1]) if b else (0, 0)
+
+
+def _clamp(y0, t, x_end, boxes, clear):
+    """Perpendek slab supaya tidak masuk ke kotak naskah mana pun.
+
+    Slab menempati y antara y0+SLOPE*x dan y0+t+SLOPE*x, jadi rentang x tempat
+    ia bertabrakan dengan sebuah kotak bisa dihitung langsung. Kalau rentang itu
+    kosong sebelum ujungnya, slab boleh lewat - itulah sebabnya slab bawah
+    sebuah tingkat kadang boleh lebih panjang daripada slab atasnya: tepi
+    atasnya sudah turun melewati judul.
+    """
+    for bx0, by0, bx1, by1 in boxes:
+        lo = (by0 - clear - y0 - t) / SLOPE
+        hi = (by1 + clear - y0) / SLOPE
+        limit = bx0 - clear
+        if x_end > limit and max(lo, limit) <= min(hi, x_end):
+            x_end = limit
+    return x_end
 
 
 def build(cat="premium", layout=VERT, out=None):
@@ -286,57 +361,9 @@ def build(cat="premium", layout=VERT, out=None):
     sc = spec["scheme"]
     W, H = layout["size"]
     out = out or f"flatlay_{cat}_{W}x{H}.png"
+    clear = CLEAR * W
 
-    flat = Image.new("RGB", (W, H), sc["field"])
-
-    # Diagonal tandingan: acuan memisah bidangnya jadi dua terang hijau, dan
-    # batasnya NAIK ke kanan - berlawanan arah dengan pitanya. Itu yang
-    # menahan komposisinya supaya tidak terasa meluncur ke satu sudut.
-    ctr = Image.new("RGBA", (W, H), (0, 0, 0, 0))
-    ImageDraw.Draw(ctr).polygon([(0, H * 0.84), (W, H * 0.44), (W, H), (0, H)],
-                                fill=sc["field_low"] + (255,))
-    flat.paste(ctr, (0, 0), ctr)
-
-    # Tangga: tiap tingkat digambar dari atas ke bawah, slab demi slab.
-    bands = Image.new("RGBA", (W, H), (0, 0, 0, 0))
-    step_span = []
-    xe = spec.get("xe") or [st["xe"] for st in layout["steps"]]
-    for st, hfrac, slabs, xend in zip(layout["steps"], layout["step_h"], sc["steps"], xe):
-        y = st["y"] * H
-        total = hfrac * H
-        step_span.append((y, total))
-        for colour, share in slabs:
-            t = total * share
-            _band(bands, y, t, xend * W, colour)
-            y += t
-    flat.paste(bands, (0, 0), bands)
-
-    c = Image.new("RGBA", (W, H), (0, 0, 0, 0))
-
-    members = [p for p in bs.PRODUCTS
-               if spec["pick"](p) and p["slug"] not in DISPLAY_SKIP][:len(layout["slots"])]
-    for prod, (cxf, si, hshare) in zip(members, layout["slots"]):
-        cx = cxf * W
-        y0, total = step_span[si]
-        cy = y0 + SLOPE * cx + total * hshare
-        _pouch(c, prod, spec["size"], cx, cy,
-               layout["pouch_h"] * H * spec.get("pouch", 1.0), layout["angle"])
-
-    flat.paste(c, (0, 0), c)
-
-    top = Image.new("RGBA", (W, H), (0, 0, 0, 0))
-    bare = flat.copy()          # tanpa kotak tombol, untuk memeriksa kotaknya
-
-    logo = Image.open(f"{bs.ASSETS}/logo_nomukita.png").convert("RGBA")
-    if sc["ink"] == BONE:
-        tint = Image.new("RGBA", logo.size, BONE + (0,))
-        tint.putalpha(logo.split()[3]); logo = tint
-    top.alpha_composite(logo, layout["logo"])
-
-    # Judul: rata kanan, tepi kirinya dibiarkan bergerigi, persis acuan.
-    # Ukurannya SATU untuk semua baris - baris terlebar yang menentukan, dan
-    # semua ikut mengecil bersamanya. Mengecilkan hanya baris yang tumpah
-    # memang muat, tapi hasilnya empat ukuran huruf dalam satu judul.
+    # ── naskah diukur lebih dulu, karena pita mengalah kepadanya ─────────────
     size = round(layout["head_cap"] * H / (50 / 74))
     lim = layout["head_max_w"] * W
     strips = [bs.build_headline(ln, size, sc["ink"]) for ln in spec["head"]]
@@ -344,83 +371,194 @@ def build(cat="premium", layout=VERT, out=None):
     if widest > lim:
         size = max(12, round(size * lim / widest))
         strips = [bs.build_headline(ln, size, sc["ink"]) for ln in spec["head"]]
-    y = layout["head_top"] * H
-    for strip in strips:
-        top.alpha_composite(strip, (round(layout["head_right"] * W - strip.width), round(y)))
-        y += layout["head_lead"] * H
+    head_x = [round(layout["head_right"] * W - s.width) for s in strips]
+    head_y = [round((layout["head_top"] + i * layout["head_lead"]) * H)
+              for i in range(len(strips))]
+    head_box = (min(head_x), head_y[0],
+                max(x + s.width for x, s in zip(head_x, strips)),
+                head_y[-1] + strips[-1].height)
 
-    # Tiga langkah. Ikon di atas, label di bawahnya, lalu garis penuh sampai
-    # tepi kanan - susunan yang sama dengan Mix / Sleep / Eat pada acuan.
-    d = ImageDraw.Draw(top)
     isz = layout["icon_size"] * H
     lab = ImageFont.truetype(bs.F_BODY, round(layout["label_size"] * H))
+    step_y = [(layout["icon_top"] + i * layout["icon_gap"]) * H for i in range(3)]
+    col_box = (round(layout["icon_left"] * W), round(step_y[0]),
+               round(layout["rule_right"] * W),
+               round(step_y[-1] + isz * 1.12 + layout["label_size"] * H * 2.4))
+
+    cf = ImageFont.truetype(bs.F_BODY_BOLD, round(layout["cta_size"] * H))
+    ctw, cth = _measure(spec["cta"], cf)
+    pad_x, pad_y = cth * 1.05, cth * 0.82
+    arrow, gap = cth * 0.52, cth * 0.85
+    bx0 = layout["cta"][0] * W
+    by1 = layout["cta"][1] * H
+    bx1 = bx0 + pad_x * 2 + ctw + gap + arrow
+    by0 = by1 - (cth + pad_y * 2)
+
+    boxes = [head_box, col_box]
+
+    # ── latar ───────────────────────────────────────────────────────────────
+    flat = Image.new("RGB", (W, H), sc["field"])
+
+    # Diagonal tandingan: acuan memisah bidangnya jadi dua terang hijau, dan
+    # batasnya NAIK ke kanan - berlawanan arah dengan pitanya. Itu yang
+    # menahan komposisinya supaya tidak terasa meluncur ke satu sudut.
+    # Ujung kanannya tegak di batas kolom naskah, sama seperti pita. Dibiarkan
+    # menyeberang penuh, garis batasnya lewat tepat di belakang ikon sendok dan
+    # di belakang langkah ketiga - satu garis diagonal samar memotong naskah,
+    # yang terbaca sebagai cacat cetak.
+    ctr_r = min(W, layout["icon_left"] * W - clear)
+    ctr = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    ImageDraw.Draw(ctr).polygon(
+        [(0, H * 0.84), (ctr_r, H * 0.84 - 0.40 * H * ctr_r / W), (ctr_r, H), (0, H)],
+        fill=sc["field_low"] + (255,))
+    flat.paste(ctr, (0, 0), ctr)
+
+    bands = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    step_span = []
+    xe = spec.get("xe") or [st["xe"] for st in layout["steps"]]
+    for st, hfrac, slabs, xend in zip(layout["steps"], layout["step_h"], sc["steps"], xe):
+        y0 = st["y"] * H
+        total = hfrac * H
+        step_span.append((y0, total))
+        # Satu ujung untuk seluruh tingkat, yaitu yang terpendek di antara
+        # slab-slabnya. Membiarkan tiap slab berhenti sendiri-sendiri membuat
+        # tepi kanan satu pita bertakik, dan takik itu terbaca sebagai cacat.
+        limit = min(_clamp(y0 + sum(total * sh for _, sh in slabs[:i]),
+                           total * slabs[i][1], xend * W, boxes, clear)
+                    for i in range(len(slabs)))
+        y = y0
+        for colour, share in slabs:
+            t = total * share
+            _band(bands, y, t, limit, colour)
+            y += t
+    flat.paste(bands, (0, 0), bands)
+
+    c = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    slots = layout.get("slots250" if spec["size"] == "250" else "slots",
+                       layout["slots"])
+    members = [p for p in bs.PRODUCTS
+               if spec["pick"](p) and p["slug"] not in DISPLAY_SKIP][:len(slots)]
+    pouch_boxes = []
+    for prod, (cxf, si, hshare) in zip(members, slots):
+        cx = cxf * W
+        y0, total = step_span[si]
+        cy = y0 + SLOPE * cx + total * hshare
+        pouch_boxes.append(
+            _pouch(c, prod, spec["size"], cx, cy,
+                   layout["pouch_h"] * H * spec.get("pouch", 1.0), layout["angle"],
+                   boxes, clear))
+    flat.paste(c, (0, 0), c)
+
+    # ── naskah ──────────────────────────────────────────────────────────────
+    bare = flat.copy()          # tanpa kotak tombol, untuk memeriksa kotaknya
+    ImageDraw.Draw(flat).rectangle([bx0, by0, bx1, by1], fill=sc["cta_bg"])
+
+    top = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+
+    logo = Image.open(f"{bs.ASSETS}/logo_nomukita.png").convert("RGBA")
+    if sc["ink"] == BONE:
+        tint = Image.new("RGBA", logo.size, BONE + (0,))
+        tint.putalpha(logo.split()[3]); logo = tint
+    top.alpha_composite(logo, layout["logo"])
+
+    for strip, x, y in zip(strips, head_x, head_y):
+        top.alpha_composite(strip, (x, y))
+
+    d = ImageDraw.Draw(top)
     for i, (txt, icon) in enumerate(zip(STEPS_TEXT, ICONS)):
-        y = (layout["icon_top"] + i * layout["icon_gap"]) * H
+        y = step_y[i]
         x = layout["icon_left"] * W
         icon(d, x + isz * 0.55, y, isz, sc["ink"] + (255,), max(3, round(isz * 0.055)))
         ly = y + isz * 1.12
         w = _left(top, txt, lab, sc["ink"], x, ly)
-        ry = ly + layout["label_size"] * H * 1.32
-        d.line([(x + w + isz * 0.22, ry), (layout["rule_right"] * W, ry)],
+        # Garisnya mulai dari tepi kiri label dan berakhir sejajar tepi kanan
+        # judul - satu garis bawah penuh, seperti acuan. Versi sebelumnya
+        # memulainya SETELAH kata, dan yang tampak potongan garis menggantung
+        # yang tidak menempel pada apa pun.
+        ry = ly + layout["label_size"] * H * 1.30
+        d.line([(x, ry), (layout["rule_right"] * W, ry)],
                fill=sc["ink"] + (255,), width=max(2, round(H * 0.0022)))
 
-    # Tombol ajakan. Acuan menaruhnya di kiri bawah, di atas bidang polos,
-    # jauh dari tangganya.
-    bx0, by0, bx1, by1 = (layout["cta"][0] * W, layout["cta"][1] * H,
-                          layout["cta"][2] * W, layout["cta"][3] * H)
-    # Kotaknya masuk ke lapisan latar, bukan lapisan naskah, supaya pemeriksaan
-    # di bawah membandingkan tulisan dengan kotaknya sendiri - bukan dengan pita
-    # di belakang kotak, yang selalu lolos atau selalu gagal tanpa arti.
-    #
-    # Warnanya charcoal untuk kedua skema. Semula tombol pada skema pouch gelap
-    # dibuat bone white, dan pada kanvas 1:1 ia mendarat penuh di atas slab bone
-    # white: 25.636 piksel tombol tanpa kontras sama sekali, tombol yang lenyap.
-    ImageDraw.Draw(flat).rectangle([bx0, by0, bx1, by1], fill=sc["cta_bg"])
-    cf = ImageFont.truetype(bs.F_BODY_BOLD, round(layout["cta_size"] * H))
-    tw = _left(top, spec["cta"], cf, sc["cta_ink"],
-               bx0 + (bx1 - bx0) * 0.115, by0 + (by1 - by0) * 0.30)
-    ax = bx0 + (bx1 - bx0) * 0.115 + tw + (bx1 - bx0) * 0.075
+    # Tombol ajakan. Ukurannya DITURUNKAN dari lebar tulisannya, bukan
+    # sebaliknya. Versi sebelumnya memakai kotak berukuran tetap dan tulisan
+    # "See All Flavours" beserta panahnya menonjol keluar di sisi kanan.
+    _left(top, spec["cta"], cf, sc["cta_ink"], bx0 + pad_x, by0 + pad_y)
+    ax = bx0 + pad_x + ctw + gap
     ay = (by0 + by1) / 2
-    a = (by1 - by0) * 0.17
-    d.line([(ax, ay - a), (ax + a, ay), (ax, ay + a)],
+    d.line([(ax, ay - arrow * 0.62), (ax + arrow * 0.62, ay), (ax, ay + arrow * 0.62)],
            fill=sc["cta_ink"] + (255,), width=max(3, round(H * 0.0030)), joint="curve")
 
     under = flat.copy()
     flat.paste(top, (0, 0), top)
     flat.save(out)
-    LAST[out] = (under, top, bare, (bx0, by0, bx1, by1), sc["cta_bg"])
+    LAST[out] = dict(under=under, top=top, bare=bare, clear=clear,
+                     cta=(bx0, by0, bx1, by1), cta_bg=sc["cta_bg"],
+                     field=[sc["field"], sc["field_low"], sc["cta_bg"]],
+                     pouches=pouch_boxes, boxes=boxes)
     return out
 
 
 # Naskah yang lenyap adalah kegagalan yang paling mudah terjadi di sini: ikon
 # dan label bone white pernah jatuh utuh di atas slab bone white, dan tidak ada
 # yang aneh sampai gambarnya dilihat. Jadi tiap unsur di lapisan atas diperiksa
-# terhadap apa yang ada persis di bawahnya.
+# terhadap apa yang ada persis di bawahnya - bukan cuma di bawah tintanya, tapi
+# juga di sekelilingnya sejauh CLEAR, karena huruf yang hampir menyentuh pita
+# sama cacatnya dengan huruf yang tenggelam di dalamnya.
 LAST = {}
 MIN_CONTRAST = 40
+FIELD_TOL = 14
 
 
 def check(path):
-    under, top, bare, rect, cta_bg = LAST[path]
-    a = np.asarray(top).astype(int)
+    L = LAST[path]
+    a = np.asarray(L["top"]).astype(int)
     ink = a[..., 3] > 200
+    out = []
     if not ink.any():
         return ["lapisan atas kosong"]
-    lum_top = a[..., :3].mean(2)
-    lum_under = np.asarray(under).astype(int).mean(2)
-    diff = np.abs(lum_top - lum_under)
-    bad = ink & (diff < MIN_CONTRAST)
-    out = []
-    n = int(bad.sum())
-    if n > 0.02 * ink.sum():
-        ys, xs = np.nonzero(bad)
-        out.append(f"{n} px naskah nyaris tak terbaca di sekitar "
+
+    bg = np.asarray(L["under"]).astype(int)
+    diff = np.abs(a[..., :3].mean(2) - bg.mean(2))
+    faint = ink & (diff < MIN_CONTRAST)
+    if faint.sum() > 0.02 * ink.sum():
+        ys, xs = np.nonzero(faint)
+        out.append(f"{int(faint.sum())} px naskah nyaris tak terbaca di "
                    f"({xs.min()}..{xs.max()}, {ys.min()}..{ys.max()})")
-    # Kotak tombol diperiksa tersendiri, terhadap apa pun yang ditutupinya.
-    x0, y0, x1, y1 = (round(v) for v in rect)
-    beneath = np.asarray(bare).astype(int)[y0:y1, x0:x1].mean(2)
-    if np.abs(beneath - np.mean(cta_bg)).min() < MIN_CONTRAST:
+
+    # Halo: sejauh CLEAR di sekeliling tiap tinta, latar harus polos - hanya
+    # bidang, bidang bawah, atau kotak tombol. Pita atau pouch di dalam halo
+    # berarti naskahnya menempel.
+    r = int(round(L["clear"]))
+    halo = ndi.maximum_filter(ink, size=2 * r + 1)
+    dist = np.min([np.abs(bg - np.array(c)).max(2) for c in L["field"]], axis=0)
+    # Tulisan di dalam tombol punya latarnya sendiri, dan tepi tombol memang
+    # bertemu pita - itu rancangannya, bukan cacat. Jadi kotak tombol
+    # dikeluarkan dari uji halo dan diperiksa terpisah di bawah.
+    cx0, cy0, cx1, cy1 = (round(v) for v in L["cta"])
+    halo[max(0, cy0 - r):cy1 + r, max(0, cx0 - r):cx1 + r] = False
+    stray = halo & (dist > FIELD_TOL)
+    if stray.sum() > 0.001 * halo.sum():
+        ys, xs = np.nonzero(stray)
+        out.append(f"naskah menempel latar berwarna lain: {int(stray.sum())} px di "
+                   f"({xs.min()}..{xs.max()}, {ys.min()}..{ys.max()})")
+
+    x0, y0, x1, y1 = cx0, cy0, cx1, cy1
+    beneath = np.asarray(L["bare"]).astype(int)[y0:y1, x0:x1].mean(2)
+    if np.abs(beneath - np.mean(L["cta_bg"])).min() < MIN_CONTRAST:
         out.append("kotak tombol tanpa kontras terhadap latar di belakangnya")
+
+    for i, pb in enumerate(L["pouches"]):
+        if pb and not (pb[2] < x0 or pb[0] > x1 or pb[3] < y0 or pb[1] > y1):
+            out.append(f"pouch {i + 1} bertumpuk dengan tombol")
+        for bx0, by0, bx1, by1 in L["boxes"]:
+            if pb and not (pb[2] < bx0 - L["clear"] or pb[0] > bx1 + L["clear"]
+                           or pb[3] < by0 - L["clear"] or pb[1] > by1 + L["clear"]):
+                out.append(f"pouch {i + 1} masuk ke kotak naskah")
+
+    Wc, Hc = L["top"].size
+    for i, pb in enumerate(L["pouches"]):
+        if pb and (pb[0] < 0 or pb[1] < 0 or pb[2] > Wc or pb[3] > Hc):
+            out.append(f"pouch {i + 1} terpotong tepi kanvas")
 
     for name, sl in (("tepi kiri", (slice(None), slice(0, 2))),
                      ("tepi kanan", (slice(None), slice(-2, None))),
@@ -441,4 +579,4 @@ def build_all():
 
 if __name__ == "__main__":
     for f in build_all():
-        print(f)
+        print(f, check(f) or "PASS")

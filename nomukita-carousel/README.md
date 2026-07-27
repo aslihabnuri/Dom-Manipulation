@@ -552,6 +552,27 @@ tercetak di kemasannya sendiri.
 minuman. Ikonnya digambar garis di dalam skrip, bukan dihasilkan model: nol
 kredit dan bisa diulang persis.
 
+### Naskah tidak pernah menempel apa pun
+
+Ujung tiap pita, posisi tiap kemasan dan lebar tombol **dihitung dari kotak
+naskahnya**, bukan ditebak dengan angka tetap. Kotak judul dan kotak kolom kanan
+diukur lebih dulu, lalu:
+
+- tiap slab dipotong pada `x` terakhir sebelum ia masuk ke kotak mana pun, dengan
+  jarak bebas 0,026 lebar kanvas. Karena pita menurun, slab bawah sebuah tingkat
+  kadang boleh lebih panjang daripada slab atasnya - tepi atasnya sudah lewat di
+  bawah judul. Satu tingkat tetap memakai satu ujung, yang terpendek, karena tepi
+  kanan bertakik terbaca sebagai cacat;
+- kemasan yang menyentuh kotak naskah digeser ke kiri secukupnya;
+- kotak tombol diturunkan dari lebar tulisannya.
+
+`render_flatlay.check()` memeriksa hasilnya: kontras tiap tinta terhadap latar
+persis di bawahnya, **halo** selebar jarak bebas di sekeliling tiap tinta (yang
+harus polos - huruf yang hampir menyentuh pita sama cacatnya dengan huruf yang
+tenggelam di dalamnya), kontras kotak tombol terhadap apa yang ditutupinya,
+tumpang tindih tiap kemasan dengan kotak naskah dan dengan tombol, kemasan yang
+terpotong tepi kanvas, dan tinta yang menyentuh tepi kanvas. Keempat berkas lolos.
+
 ### Empat hal yang muncul saat membangun
 
 1. **Terang pita harus melawan terang pouch.** Pouch 1000 gram hampir hitam
@@ -576,3 +597,27 @@ kredit dan bisa diulang persis.
 Mockup Avocado mencetak レモンティー, bukan アボカド. Di gambar kategori kemasannya
 tampil cukup besar untuk terbaca, jadi produk itu tidak ikut dipajang sampai
 mockup-nya diperbaiki; ia tetap terhitung dalam "ten flavours".
+
+
+### Cacat yang diperbaiki setelah tinjauan pelanggan
+
+1. **Huruf F pada "Flavours" menyatu dengan slab bone white.** Ujung pita pertama
+   berhenti 15 px dari batang hurufnya. Diperbaiki dengan menurunkan ujung pita
+   dari kotak judul, bukan dengan menggeser angkanya.
+2. **"See All Flavours" menonjol keluar dari kotaknya.** Kotaknya berukuran tetap
+   sementara tulisannya tidak. Sekarang kotaknya diturunkan dari lebar tulisan
+   ditambah panah dan padding.
+3. **Ikon sendok terbaca sebagai kaca pembesar.** Lingkaran sempurna dengan gagang
+   lurus. Mangkuknya sekarang lonjong dan miring.
+4. **Ikon tuang tidak terbaca.** Kemasannya miring ke arah yang salah sehingga
+   mulutnya menjauhi gelas, dan tetesannya tiga garis yang tidak berasal dari mana
+   pun. Sekarang satu aliran menyambung dari mulut kemasan ke mulut gelas.
+5. **Garis di bawah label menggantung.** Ia mulai setelah kata dan tidak menempel
+   pada apa pun. Sekarang garis bawah penuh dari tepi kiri label sampai sejajar
+   tepi kanan judul.
+6. **Diagonal tandingan memotong kolom naskah.** Batasnya lewat tepat di belakang
+   ikon sendok. Sekarang ia berhenti tegak di batas kolom, sama seperti pita.
+7. **Kantong 250 gram menutupi label tetangganya.** Anggota kedua masuk ke kotak
+   judul; digeser keluar, ia menutup setengah nama rasa anggota pertama. Kategori
+   250 gram sekarang punya susunan slotnya sendiri, yang menaruh anggota jauh ke
+   kanan jauh ke bawah juga.
