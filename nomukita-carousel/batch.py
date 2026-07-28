@@ -261,12 +261,23 @@ KEEP_GLASS_ONLY = (
 #
 # Jadi untuk kedua produk ini gelasnya tidak diwarisi. Minumannya tetap dari foto
 # pelanggan; wadahnya yang dijelaskan dari nol.
+# Percobaan pertama jalur ini masih memakai gelas BERKAKI, hanya bening. Itu
+# menyisakan tiga soal sekaligus, dan ketiganya berpangkal pada bentuk kakinya:
+#   - kubah kakinya terisi bidang pucat berbibir terang, yang di atas bone white
+#     terbaca sebagai olesan putih di lengkungan gelas;
+#   - pada slide 300 gram kakinya yang melebar terpotong tepi kotak kemasan yang
+#     digambar di depannya, sehingga gelasnya tampak patah;
+#   - pinggangnya yang mengecil membuka celah putih terhadap sisi kemasan.
+# Gelas tabung berdinding lurus tidak punya ketiganya, dan itu justru bahasa
+# wadah yang dipakai seluruh slide yang sudah disetujui - Avocado, Cappuccino,
+# Taro, Lemon Tea semuanya tabung.
 NEW_GLASS = (
     "Do NOT copy the glass from the photograph - that glass is unusable. Serve the drink in "
-    "a tall clear footed soda glass instead: plain colourless glass with nothing moulded, "
-    "smoked, tinted or patterned about it, a clean bright rim across the top, smooth walls "
-    "with visible thickness and one specular highlight, a short plain stem and a round "
-    "clear foot. Fill it with {desc}. Keep the drink appetising and thick with real texture."
+    "a tall STRAIGHT-SIDED clear glass tumbler instead: plain colourless glass, flat "
+    "straight vertical walls of even thickness from top to bottom, a clean bright rim, and "
+    "a simple thick flat base. NO stem, NO foot, NO flared or domed base, nothing moulded, "
+    "smoked, tinted or patterned, and no bright white fill anywhere in the glass. "
+    "Fill it with {desc}. Keep the drink appetising and thick with real texture."
 )
 PROP_PROMPT = (
     "Restage this as a calm studio product shot: {desc}. Keep the arrangement, the scale "

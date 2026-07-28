@@ -912,3 +912,46 @@ pembukuan, bukan cacat gambar.
 
 Varian kemasan kecil tidak diubah: celahnya diukur juga dan tidak ada yang di
 luar rentang slide yang sudah diterima.
+
+### Gelas kedua produk kakao diganti tabung lurus
+
+Pelanggan menolak lagi, dengan dua keluhan yang tepat: ada bidang putih di
+lengkungan kaki gelas, dan pada slide 300 gram gelasnya tampak terpotong.
+Keduanya, plus celah terhadap kemasan yang diperbaiki sebelumnya, berpangkal
+pada satu hal - **bentuk kakinya**.
+
+- Kubah kakinya terisi bidang pucat berbibir terang; di atas bone white itu
+  terbaca sebagai olesan putih, bukan kaca bening.
+- Kaki yang melebar itu terpotong tepi kotak 300 gram, yang memang digambar di
+  depan gelas, sehingga gelasnya tampak patah separuh.
+- Pinggangnya yang mengecil membuka celah putih terhadap sisi kemasan.
+
+Gelas tabung berdinding lurus tidak punya ketiganya, dan itu justru bahasa wadah
+yang dipakai seluruh slide yang sudah disetujui - Avocado, Cappuccino, Taro,
+Lemon Tea semuanya tabung. Jadi `NEW_GLASS` diubah: dinding lurus tegak setebal
+merata, bibir terang, alas datar sederhana, tanpa kaki dan tanpa kubah.
+
+Empat gambar, 16 kredit, di atas 16 kredit percobaan sebelumnya yang masih
+memakai gelas berkaki.
+
+## Slide 2 untuk empat produk baru
+
+Acuan `slide-2/250gr/Avocado_S2_250gr.png`, dibangun `render_s2.py` dengan naskah
+di `s2_copy.py`. Sembilan berkas: empat 1000 gram, tiga 250 gram, satu 300 gram.
+
+`render_s2.py` sekarang mengambil berkas kemasan kecilnya dari
+`bs.small_pack`, satu tempat yang sama dengan slide 1, jadi kotak 300 gram Pure
+Dark Cocoa jalan tanpa cabang baru.
+
+Naskahnya mengikuti aturan yang sudah ada: yang ditulis sifat BAHANNYA, bukan
+hasil uji atas bubuk jadinya, dan tidak satu pun klaim pengobatan. Satu judul
+sempat tumpah - "DEEP WITHOUT THE SUGAR RUSH" selebar 632 px terhadap batas 560 -
+dan diganti "ROASTED DEEPER". `fit_s2.py` menangkapnya sebelum satu berkas pun
+dibangun.
+
+**Pure Dark Cocoa masuk daftar NEEDS_OK**, tapi alasannya lain dari tiga produk
+sebelumnya: yang perlu dipastikan bukan bunyi baris penutupnya melainkan NAMA
+produknya. Kemasan 300 gramnya mencetak "PURE BELGIAN COCOA" sementara slide-nya
+berjudul PURE DARK COCOA, jadi naskahnya sengaja tidak menyebut Belgia sama
+sekali - asal geografis itu klaim yang bisa diperiksa orang lain. Yang dikutip
+hanya angka yang benar-benar tercetak di kemasan itu sendiri, "100% cocoa".

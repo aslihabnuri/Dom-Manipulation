@@ -34,6 +34,8 @@ KEY = {
     "Avocado": "avocado", "Vanilla": "vanilla",
     "MilkTea": "milktea", "LemonTea": "lemontea",
     "FrappeBase": "frappebase", "LemonGrass": "lemongrass",
+    "PureDarkCocoa": "puredarkcocoa", "DarkCocoa": "darkcocoa",
+    "Cappuccino": "cappuccino", "Taro": "taro",
 }
 
 MENU = {
@@ -132,5 +134,48 @@ MENU = {
          "an iced lemongrass tea: clear golden green with plenty of ice and one wedge of lime"),
         ("LEMONGRASS SODA", "tall", ["20g lemongrass,", "sparkling water, lime & ice"],
          "a lemongrass soda: clear pale green with fine bubbles rising, ice and one wedge of lime"),
+    ]),
+
+    # ── empat produk yang ditambahkan belakangan ─────────────────────────────
+    # Pure Dark Cocoa dan Dark Cocoa gampang sekali jadi kembar - dua-duanya
+    # cokelat pekat. Yang membedakan menunya bukan hiasan melainkan sifat
+    # produknya: kemasan Pure Dark Cocoa mencetak 100% cocoa, tanpa gula, jadi
+    # kreasinya bertumpu pada sesuatu yang PAHIT dan pemanisnya diserahkan ke
+    # peminumnya, sementara Dark Cocoa jalan menu cokelat biasa.
+    "PureDarkCocoa": ("one pure cocoa", [
+        ("HOT PURE COCOA", "mug", ["25g cocoa + 200 ml hot milk,", "sugar to taste"],
+         "a hot pure cocoa: deep dark brown, unsweetened and glossy, with a fine milk foam and a wisp of steam"),
+        ("ICED MOCHA", "tall", ["25g cocoa + one espresso shot,", "150 ml milk and ice"],
+         "an iced mocha: dark cocoa and espresso over cold milk in soft layers, with ice cubes"),
+        ("COCOA FLOAT", "tall", ["25g cocoa + 150 ml milk,", "chocolate sauce & ice cream"],
+         "a cocoa float: dark chocolate milk with chocolate sauce streaking the glass and one scoop of vanilla ice cream on the rim"),
+    ]),
+    "DarkCocoa": ("one dark cocoa", [
+        ("HOT DARK COCOA", "mug", ["30g cocoa + 200 ml hot milk,", "stirred until smooth"],
+         "a hot dark cocoa: rich milky brown with a smooth crema on top and a wisp of steam"),
+        ("ICED DARK COCOA", "tall", ["30g cocoa + 60 ml hot water,", "150 ml cold milk and ice"],
+         "an iced dark cocoa: dark cocoa poured over cold milk in distinct layers, with ice cubes"),
+        ("DARK COCOA FLOAT", "tall", ["30g cocoa + 150 ml milk,", "chocolate sauce & ice cream"],
+         "a dark cocoa float: chocolate milk with chocolate sauce streaking the glass and one scoop of vanilla ice cream on the rim"),
+    ]),
+    # Kata pendeknya "coffee", bukan "cappuccino": pada 340 px yang tersedia,
+    # "25g cappuccino + 200 ml hot water," melebar jadi 361 px dan menabrak kolom
+    # sebelah. Nama panjangnya sudah ada di sub-judul, persis alasan yang sama
+    # kenapa acuannya menulis "2g matcha" dan bukan "2g exclusive matcha".
+    "Cappuccino": ("one cappuccino", [
+        ("HOT CAPPUCCINO", "mug", ["25g coffee + 200 ml hot water,", "whisked to a foam"],
+         "a hot cappuccino: warm tan coffee under a thick white milk foam head dusted with cocoa, a wisp of steam"),
+        ("ICED CAPPUCCINO", "tall", ["25g coffee + 60 ml hot water,", "150 ml cold milk and ice"],
+         "an iced cappuccino: coffee poured over cold milk in soft layers with a pale foam collar, with ice cubes"),
+        ("CAPPUCCINO FLOAT", "tall", ["25g coffee + 150 ml milk,", "ice cream & cocoa dust"],
+         "a cappuccino float: iced coffee milk with one scoop of vanilla ice cream on the rim, dusted with cocoa"),
+    ]),
+    "Taro": ("one taro", [
+        ("HOT TARO LATTE", "mug", ["30g taro + 200 ml hot milk,", "stirred until smooth"],
+         "a hot taro latte: soft lilac purple, creamy and even, with a fine milk foam and a wisp of steam"),
+        ("ICED TARO LATTE", "tall", ["30g taro + 150 ml cold milk,", "poured over ice"],
+         "an iced taro latte: soft lilac purple, thick and creamy, with ice cubes"),
+        ("TARO FLOAT", "tall", ["30g taro + 150 ml milk,", "ice cream & taro dust"],
+         "a taro float: lilac purple taro milk with one scoop of vanilla ice cream on the rim, dusted with purple taro powder"),
     ]),
 }

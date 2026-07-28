@@ -25,7 +25,13 @@ sengaja tidak ditulis: arang aktif mengikat obat dan nutrisi, dan detoks masuk
 kategori klaim pengobatan yang dilarang Shopee untuk makanan-minuman.
 """
 
-NEEDS_OK = {"Avocado", "Vanilla", "FrappeBase"}
+# Baris yang menunggu konfirmasi pelanggan sebelum tayang.
+#
+# PureDarkCocoa masuk daftar karena alasan yang lain dari tiga lainnya: yang
+# perlu dipastikan bukan bunyi penutupnya, melainkan NAMA produknya. Kemasan 300
+# gramnya mencetak "PURE BELGIAN COCOA" sementara slide-nya berjudul PURE DARK
+# COCOA, dan sampai itu jelas, naskahnya tidak menyebut Belgia sama sekali.
+NEEDS_OK = {"Avocado", "Vanilla", "FrappeBase", "PureDarkCocoa"}
 
 # slug -> (nama baris 1, nama baris 2, [(judul, badan), (judul, badan)], penutup)
 COPY = {
@@ -112,4 +118,42 @@ COPY = {
         ("CALMING AROMA",
          "That unmistakable lemongrass scent, light on the stomach after a meal."),
     ], "The herbal option the shop next door does not have."),
+
+    # ── empat produk yang ditambahkan belakangan ─────────────────────────────
+    # Aturan yang sama berlaku: yang ditulis sifat BAHANNYA, bukan hasil uji atas
+    # bubuk jadinya, dan tidak satu pun klaim pengobatan.
+    #
+    # Pure Dark Cocoa punya satu hal yang tidak dimiliki tiga lainnya: angka
+    # kadar yang benar-benar TERCETAK pada kemasannya sendiri, "100% COCOA".
+    # Itu boleh dikutip karena bukan saya yang mengarang. Tapi lihat NEEDS_OK:
+    # kemasan itu juga mencetak nama yang lain sama sekali, PURE BELGIAN COCOA,
+    # jadi kata "Belgian" TIDAK saya pakai di naskah sampai pelanggan memastikan
+    # asal bijinya - asal geografis itu klaim yang bisa diperiksa orang lain.
+    "PureDarkCocoa": ("PURE", "DARK COCOA", [
+        ("COCOA FLAVANOL",
+         "Cocoa carries flavanols, antioxidants that come from the bean itself."),
+        ("NOTHING ADDED",
+         "The pack states 100% cocoa, so the sweetness and the milk are yours to decide."),
+    ], "Bitter on purpose. Sweeten it your way."),
+
+    "DarkCocoa": ("DARK", "COCOA", [
+        ("COCOA FLAVANOL",
+         "Cocoa carries flavanols, antioxidants that come from the bean itself."),
+        ("ROASTED DEEPER",
+         "A darker roast profile, so the cocoa still reads through milk and ice."),
+    ], "Darker than the usual chocolate drink."),
+
+    "Cappuccino": ("CAPPU", "CCINO", [
+        ("COFFEE ANTIOXIDANT",
+         "Coffee carries chlorogenic acids, the antioxidants that come from the bean."),
+        ("FOAM THAT HOLDS",
+         "Built to whip up a head of foam on the drink, hot or over ice."),
+    ], "A cafe cup without the machine."),
+
+    "Taro": ("TARO", "タロイモ", [
+        ("FROM THE ROOT",
+         "Taro is a root vegetable, and it carries the fibre and the potassium that go with one."),
+        ("NATURAL COLOUR",
+         "That soft lilac comes from the root, so the cup looks the way it tastes."),
+    ], "The purple everyone photographs."),
 }

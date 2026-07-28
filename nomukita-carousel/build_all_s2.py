@@ -12,7 +12,7 @@ import verify
 import bs
 
 OUT = "slides2"
-SIZES = ("1000", "250")
+SIZES = ("1000", "250")   # "250" berarti kemasan kecil apa pun beratnya
 
 
 def main(only=None):
@@ -30,13 +30,14 @@ def main(only=None):
             bad.append((slug, "no copy on file"))
             continue
         for size in SIZES:
-            folder = f"{OUT}/{size}gr"
+            num = "1000" if size == "1000" else bs.small_pack(prod)[1].split()[0]
+            folder = f"{OUT}/{num}gr"
             os.makedirs(folder, exist_ok=True)
-            path = f"{folder}/{slug}_S2_{size}gr.png"
+            path = f"{folder}/{slug}_S2_{num}gr.png"
             r2.build(prod, s2_copy.COPY[slug], path, size)
             problems = verify.s2(path, slug, bs)
-            (ok if not problems else bad).append((f"{slug} {size}g", problems or "PASS"))
-            print(f"{slug:20s} {size:>4s}g  {'PASS' if not problems else problems}")
+            (ok if not problems else bad).append((f"{slug} {num}g", problems or "PASS"))
+            print(f"{slug:20s} {num:>4s}g  {'PASS' if not problems else problems}")
 
     print(f"\n{len(ok)} passed, {len(bad)} need attention")
     if s2_copy.NEEDS_OK:

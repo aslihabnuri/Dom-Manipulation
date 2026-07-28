@@ -200,8 +200,12 @@ def build(product, copy, out='s2.png', size='1000'):
     # Yang 250 gram bukan versi kecil yang 1000 gram: kantong datar bening
     # berkaligrafi, bukan standing pouch hitam. `white=True` memberinya volume
     # terhadap latar bone white, jalur yang sama dengan slide 1.
-    white = size == '250'
-    bs.place(c, product['p250' if white else 'p1000'], POUCH_H, cx=POUCH_CX,
+    # Kemasan kecilnya tidak selalu sachet 250 gram: Pure Dark Cocoa datang
+    # sebagai kotak 300 gram. Berkasnya diambil dari `bs.small_pack`, satu tempat
+    # yang sama dengan slide 1, bukan ditulis ulang di sini.
+    white = size != '1000'
+    pack = bs.small_pack(product)[0] if white else product['p1000']
+    bs.place(c, pack, POUCH_H, cx=POUCH_CX,
              bottom=POUCH_BOTTOM_250 if white else POUCH_BOTTOM,
              max_w=POUCH_MAX_W_250 if white else POUCH_MAX_W, white=white)
 
