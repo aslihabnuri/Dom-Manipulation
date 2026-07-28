@@ -12,6 +12,7 @@ OUT.mkdir(exist_ok=True)
 ASSETS = Path(__file__).resolve().parent / 'assets'
 ILLUS = ASSETS / 'illus'
 ILLUS2 = ASSETS / 'illus2'
+ILLUS3 = ASSETS / 'illus3'
 WIDE_W, WIDE_H = 2000, 1000
 WIDE_M = 110
 PACK = ASSETS / 'pack'
@@ -166,11 +167,16 @@ def category():
     N.body(d, (MARGIN, 196), ['Classification'], 38, (110, 108, 103), weight=500)
     N.logo(c, y=118, width=250, align='right', x=W - MARGIN)
 
+    AMBER = (198, 150, 60)
     tiles = [
-        ('250 GRAM', 'グラム', 'tile-250.png', 'g250-chocolate.png', 0.60),
-        ('MATCHA SERIES', '抹茶', 'tile-matcha.png', 'matcha-uji.png', 0.74),
-        ('EXCLUSIVE SERIES', '特選', 'tile-exclusive.png', 'exclusive-dark-cocoa.png', 0.74),
-        ('PREMIUM SERIES', '上質', 'tile-premium.png', 'premium-lemon-grass.png', 0.74),
+        ('250 GRAM', 'グラム', 'cat-250.png', '250',
+         (110, 64, 40), ('Exclusive', 'チョコレート', 'Chocolate', '250 gram')),
+        ('MATCHA SERIES', '抹茶', 'cat-matcha.png', 'tall',
+         MATCHA, ('Pure', '抹茶', ['Pure Matcha', 'Uji Kyoto'], '500 gram')),
+        ('EXCLUSIVE SERIES', '特選', 'cat-exclusive.png', 'tall',
+         COCOA, ('Exclusive', 'ダークココア', ['Pure Dark', 'Cocoa'], '1000 gram')),
+        ('PREMIUM SERIES', '上質', 'cat-premium.png', 'tall',
+         AMBER, ('Premium', 'レモングラス', ['Lemon Grass'], '1000 gram')),
     ]
 
     gap = 26
@@ -178,24 +184,27 @@ def category():
     th = 566
     top = 300
 
-    for i, (label, kanji, bg, prod, fill_ratio) in enumerate(tiles):
+    for i, (label, kanji, bg, kind, accent, plabel) in enumerate(tiles):
         tx = MARGIN + (i % 2) * (tw + gap)
         ty = top + (i // 2) * (th + gap)
 
-        tile = N.cover(Image.open(ILLUS2 / bg), tw, th).convert('RGBA')
+        tile = N.cover(N.trim_frame(Image.open(ILLUS3 / bg)), tw, th).convert('RGBA')
         td = ImageDraw.Draw(tile)
 
-        p = N.pouch(PACK / prod, round(th * fill_ratio))
-        if p.width > tw - 80:
-            p = p.resize((tw - 80, round(p.height * (tw - 80) / p.width)), Image.LANCZOS)
-        px, py = (tw - p.width) / 2, (th - p.height) / 2 - 22
-        N.contact_shadow(tile, p, px, py, blur=14, opacity=52)
+        if kind == '250':
+            p = N.pouch250(round(th * 0.42), accent, label=plabel)
+        else:
+            p = N.pouch3d(round(th * 0.70), accent, label=plabel)
+        if p.width > tw - 90:
+            p = p.resize((tw - 90, round(p.height * (tw - 90) / p.width)), Image.LANCZOS)
+        # stand the pack low in the frame so it reads as grounded, not floating
+        px, py = (tw - p.width) / 2, th - p.height - 96
+        N.contact_shadow(tile, p, px, py, blur=15, opacity=58)
         tile.alpha_composite(p, (round(px), round(py)))
 
-        td.text((tw - 22, 26), kanji, font=N.jp(30), fill=(255, 255, 255, 190),
+        td.text((tw - 22, 26), kanji, font=N.jp(30), fill=(255, 255, 255, 205),
                 anchor='ra')
 
-        # pill label — '>' is locked in the DEMO font, so it is drawn
         fs = 25
         lw = N.text_width(label, fs, demi=True, tracking=3)
         pill_w, pill_h = lw + 34 + 22 + 22, 50

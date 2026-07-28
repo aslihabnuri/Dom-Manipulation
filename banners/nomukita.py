@@ -565,3 +565,82 @@ def pouch3d(height, accent, label=None, body=(30, 30, 30), tab=LOGO_BLUE, ss=3):
                fill=(228, 228, 228, 255))
 
     return im.resize((Wp, height), Image.LANCZOS)
+
+
+def pouch250(height, accent, label=None, ss=3):
+    """The 250 g format: a flat white stand pouch with a corded hangtag.
+
+    A different construction from the stand-up packs, so it gets its own
+    builder. The brush calligraphy is artwork, not type — it is composited
+    from the source file rather than redrawn.
+    """
+    import subprocess, tempfile, re
+
+    Wp = round(height * 1.19)
+    W_, H_ = Wp * ss, height * ss
+    im = Image.new('RGBA', (W_, H_), (0, 0, 0, 0))
+    d = ImageDraw.Draw(im)
+
+    bx0 = round(W_ * 0.155)
+    r = round(W_ * 0.055)
+    d.rounded_rectangle([bx0, 0, W_, H_], radius=r, fill=(250, 249, 246, 255))
+
+    face = Image.new('L', (W_, H_), 0)
+    ImageDraw.Draw(face).rounded_rectangle([bx0, 0, W_, H_], radius=r, fill=255)
+    shade = Image.new('RGBA', (W_, H_), (0, 0, 0, 0))
+    shade.putalpha(_hgrad((W_, H_), [(0.0, 30), (0.24, 0), (0.80, 0), (1.0, 34)]))
+    im.paste(Image.alpha_composite(im, shade), (0, 0), face)
+
+    # zip strip
+    zy = round(H_ * 0.135)
+    d.rounded_rectangle([bx0 + W_ * 0.035, zy - H_ * 0.020,
+                         W_ - W_ * 0.035, zy + H_ * 0.020],
+                        radius=round(H_ * 0.02), fill=(238, 237, 233, 255))
+    d.line([(bx0 + W_ * 0.05, zy), (W_ - W_ * 0.05, zy)],
+           fill=(214, 213, 208, 255), width=max(ss, 2))
+
+    # grommet and cord
+    gx, gy = bx0 + W_ * 0.028, H_ * 0.115
+    gr = W_ * 0.030
+    d.ellipse([gx - gr, gy - gr, gx + gr, gy + gr], fill=(236, 235, 231, 255))
+    d.ellipse([gx - gr * 0.42, gy - gr * 0.42, gx + gr * 0.42, gy + gr * 0.42],
+              fill=(120, 120, 116, 255))
+    cw = max(round(W_ * 0.014), 2)
+    knot_y = H_ * 0.70
+    d.line([(gx, gy + gr * 0.6), (gx - W_ * 0.048, H_ * 0.40), (gx - W_ * 0.030, knot_y)],
+           fill=(146, 146, 132, 255), width=cw, joint='curve')
+    d.ellipse([gx - W_ * 0.052, knot_y - W_ * 0.024,
+               gx - W_ * 0.008, knot_y + W_ * 0.024], fill=(132, 132, 118, 255))
+    for dx in (-0.062, -0.022):
+        d.line([(gx - W_ * 0.030, knot_y + W_ * 0.018),
+                (gx + W_ * dx, H_ * 0.93)],
+               fill=(146, 146, 132, 255), width=max(round(cw * 0.8), 2), joint='curve')
+
+    brush = Image.open(REPO / 'brand/logo/nomu-brush-250.png').convert('RGBA')
+    bh = round(H_ * 0.635)
+    brush = brush.resize((round(brush.width * bh / brush.height), bh), Image.LANCZOS)
+    im.alpha_composite(brush, (round(bx0 + W_ * 0.085), round(H_ * 0.245)))
+
+    if label:
+        series, kanji, name, gram = label
+        navy = (28, 52, 78, 255)
+        lx, ly = round(W_ * 0.585), round(H_ * 0.545)
+        d.text((lx, ly), series, font=comf(round(H_ * 0.044), 400), fill=navy)
+        d.text((lx, ly + H_ * 0.072), kanji, font=jp(round(H_ * 0.052)), fill=navy)
+        d.text((lx, ly + H_ * 0.152), name, font=comf(round(H_ * 0.048), 700),
+               fill=navy)
+        d.text((lx, ly + H_ * 0.238), gram, font=comf(round(H_ * 0.040), 700),
+               fill=navy)
+
+        s = (REPO / 'brand/logo/nomukita-logomark.svg').read_text()
+        s = re.sub(r'fill="#[0-9A-Fa-f]{6}"', 'fill="#%02X%02X%02X"' % accent[:3], s)
+        with tempfile.NamedTemporaryFile(suffix='.svg', mode='w', delete=False) as f:
+            f.write(s)
+            src = f.name
+        with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as t:
+            subprocess.run(['rsvg-convert', '-h', str(round(H_ * 0.085)), src,
+                            '-o', t.name], check=True)
+            dot = Image.open(t.name).convert('RGBA')
+        im.alpha_composite(dot, (round(W_ * 0.855), round(H_ * 0.470)))
+
+    return im.resize((Wp, height), Image.LANCZOS)
