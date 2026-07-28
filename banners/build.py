@@ -11,6 +11,9 @@ OUT = Path(__file__).resolve().parent / 'out'
 OUT.mkdir(exist_ok=True)
 ASSETS = Path(__file__).resolve().parent / 'assets'
 ILLUS = ASSETS / 'illus'
+ILLUS2 = ASSETS / 'illus2'
+WIDE_W, WIDE_H = 2000, 1000
+WIDE_M = 110
 PACK = ASSETS / 'pack'
 
 
@@ -26,51 +29,48 @@ def band(canvas, image_path, top, height, pouches=()):
         canvas.alpha_composite(p, (round(x), round(y)))
 
 
-# ── 1. Payday ─────────────────────────────────────────────────────────────
+# ── 1. Payday — 2:1 ───────────────────────────────────────────────────────
 def payday():
-    c = N.canvas()
+    c = N.canvas(WIDE_W, WIDE_H)
+    panel = 880
+
+    art = N.cover(N.trim_frame(Image.open(ILLUS2 / 'street.png')), WIDE_W, WIDE_H)
+    c.paste(art, (0, 0))
+
+    # bone panel carries the offer; the street runs on behind it
+    ImageDraw.Draw(c).rectangle([0, 0, panel, WIDE_H], fill=BONE + (255,))
     d = ImageDraw.Draw(c)
-    mid = W / 2
 
-    N.logo(c, y=61, width=352)
+    for path, accent, ph, cx, label in (
+        (None, MATCHA, 430, 1225, ('Pure', '抹茶', ['Pure Matcha', 'Nishio'], '500 gram')),
+        (None, (198, 150, 60), 492, 1525, ('Premium', 'レモングラス', ['Lemon Grass'], '1000 gram')),
+        (None, COCOA, 430, 1825, ('Exclusive', 'ダークココア', ['Dark Cocoa'], '1000 gram')),
+    ):
+        pouch = N.flat_pouch(ph, accent, label=label)
+        x, y = cx - pouch.width / 2, WIDE_H - ph - 8
+        N.contact_shadow(c, pouch, x, y, blur=16, opacity=70)
+        c.alpha_composite(pouch, (round(x), round(y)))
 
-    d.text((mid, 214), '給料日', font=N.jp(38), fill=STEEL, anchor='ms')
-    N.text(d, (mid, 318), 'PAYDAY SALE', 92, CHARCOAL, tracking=2, align='center')
+    N.logo(c, y=96, width=306, within=panel)
+    d.text((panel / 2, 268), '給料日', font=N.jp(38), fill=STEEL, anchor='ms')
+    N.text(d, (panel / 2, 372), 'PAYDAY SALE', 78, CHARCOAL, tracking=2, align='center')
 
-    # "55% OFF" — the DEMO font locks '%', so it is drawn as a vector
-    size, gap = 186, 40
+    size, gap = 156, 34
     w55 = N.text_width('55', size)
     cap = N.arg(size).getbbox('H')[3] - N.arg(size).getbbox('H')[1]
     wpct = cap * N.PERCENT_WIDTH
     woff = N.text_width('OFF', size, tracking=2)
-    total = w55 + wpct + gap + woff
-    x, baseline = mid - total / 2, 540
+    x, baseline = panel / 2 - (w55 + wpct + gap + woff) / 2, 570
     x += N.text(d, (x, baseline), '55', size, MATCHA)
     N.percent(c, x, baseline, cap, MATCHA)
     x += wpct + gap
     N.text(d, (x, baseline), 'OFF', size, MATCHA, tracking=2)
 
-    band(c, ILLUS / 'street.png', top=640, height=600, pouches=(
-        (PACK / 'matcha-nishio.png', 330, mid - 250, 26),
-        (PACK / 'matcha-uji.png', 392, mid, 10),
-        (PACK / 'premium-lemon-grass.png', 330, mid + 250, 26),
-    ))
+    N.rule(d, 648, x0=WIDE_M + 40, x1=panel - WIDE_M - 40)
 
-    N.rule(d, 1312)
-
-    # chips row, separated by the logomark drop instead of the locked '·'
-    a, b = 'GRATIS ONGKIR', 'VOUCHER HINGGA 20RB'
-    fs, tr, dot, pad = 34, 6, 15, 34
-    wa = N.text_width(a, fs, demi=True, tracking=tr)
-    wb = N.text_width(b, fs, demi=True, tracking=tr)
-    total = wa + pad + dot + pad + wb
-    x = mid - total / 2
-    N.text(d, (x, 1388), a, fs, CHARCOAL, demi=True, tracking=tr)
-    N.drop(c, x + wa + pad, 1388 - dot, dot, STEEL)
-    N.text(d, (x + wa + pad + dot + pad, 1388), b, fs, CHARCOAL, demi=True, tracking=tr)
-
-    N.body(d, (mid, 1442), ['grade kafe, harga tanggal muda.'], 31, CHARCOAL,
-           align='center')
+    for i, line in enumerate(('GRATIS ONGKIR', 'VOUCHER HINGGA 20RB')):
+        N.text(d, (panel / 2, 722 + i * 58), line, 32, CHARCOAL, demi=True,
+               tracking=6, align='center')
     return N.finish(c, OUT / '1-payday.png')
 
 
@@ -116,42 +116,45 @@ def terms():
     return N.finish(c, OUT / '2-syarat-ketentuan.png')
 
 
-# ── 3. Fifteen years ──────────────────────────────────────────────────────
+# ── 3. Fifteen years — 2:1 ────────────────────────────────────────────────
 def heritage():
-    c = N.canvas()
+    c = N.canvas(WIDE_W, WIDE_H)
+    panel_x = 1105
+
+    art = N.cover(N.trim_frame(Image.open(ILLUS2 / 'teahouse.png')), WIDE_W, WIDE_H)
+    c.paste(art, (0, 0))
+
+    for accent, ph, cx, label in (
+        (MATCHA, 396, 235, ('Pure', '抹茶', ['Pure Matcha', 'Uji Kyoto'], '500 gram')),
+        (COCOA, 452, 530, ('Exclusive', 'ダークココア', ['Dark Cocoa'], '1000 gram')),
+        ((198, 150, 60), 396, 825, ('Premium', 'テ・タリック', ['Teh Tarik'], '1000 gram')),
+    ):
+        pouch = N.flat_pouch(ph, accent, label=label)
+        x, y = cx - pouch.width / 2, WIDE_H - ph - 8
+        N.contact_shadow(c, pouch, x, y, blur=15, opacity=66)
+        c.alpha_composite(pouch, (round(x), round(y)))
+
     d = ImageDraw.Draw(c)
-    mid = W / 2
+    d.rectangle([panel_x, 0, WIDE_W, WIDE_H], fill=BONE + (255,))
+    span = WIDE_W - panel_x
+    mid = panel_x + span / 2
 
-    N.logo(c, y=61, width=352)
-    d.text((mid, 212), '十五年', font=N.jp(38), fill=STEEL, anchor='ms')
-
-    # the apostrophe is locked in the DEMO font; the renderer swaps it to Comfortaa
-    N.text(d, (mid, 322), "YOU'VE TASTED", 90, CHARCOAL, tracking=2, align='center')
-    N.text(d, (mid, 420), 'THIS BEFORE', 90, CHARCOAL, tracking=2, align='center')
-
-    a, b = '15 TAHUN', 'RATUSAN KAFE DI INDONESIA'
-    fs, tr, dot, pad = 30, 6, 13, 28
-    wa = N.text_width(a, fs, demi=True, tracking=tr)
-    wb = N.text_width(b, fs, demi=True, tracking=tr)
-    x = mid - (wa + pad + dot + pad + wb) / 2
-    N.text(d, (x, 492), a, fs, MATCHA, demi=True, tracking=tr)
-    N.drop(c, x + wa + pad, 492 - dot, dot, MATCHA)
-    N.text(d, (x + wa + pad + dot + pad, 492), b, fs, MATCHA, demi=True, tracking=tr)
-
-    band(c, ILLUS / 'cafe.png', top=560, height=640, pouches=(
-        (PACK / 'matcha-uji.png', 300, mid - 380, 16),
-        (PACK / 'exclusive-dark-cocoa.png', 330, mid - 190, 16),
-        (PACK / 'matcha-nishio.png', 356, mid, 16),
-        (PACK / 'exclusive-teh-tarik.png', 330, mid + 190, 16),
-        (PACK / 'premium-lemon-grass.png', 300, mid + 380, 16),
-    ))
-
-    N.rule(d, 1282)
-    N.body(d, (mid, 1330), [
-        'selama ini kami ada di balik meja bar, bukan di rak Anda.',
-        'sekarang, keduanya.',
-    ], 31, CHARCOAL, align='center')
-    N.body(d, (mid, H - MARGIN - 42), ['powdered to perfection'], 23,
+    N.logo(c, y=96, width=290, x=panel_x + (span - 290) / 2)
+    d.text((mid, 252), '十五年', font=N.jp(36), fill=STEEL, anchor='ms')
+    N.text(d, (mid, 356), "YOU'VE TASTED", 66, CHARCOAL, tracking=2, align='center')
+    N.text(d, (mid, 428), 'THIS BEFORE', 66, CHARCOAL, tracking=2, align='center')
+    N.text(d, (mid, 500), '15 TAHUN DI RATUSAN KAFE', 25, MATCHA, demi=True,
+           tracking=5, align='center')
+    N.rule(d, 552, x0=panel_x + 70, x1=WIDE_W - 70)
+    N.body(d, (mid, 606), [
+        'mungkin Anda sudah pernah minum',
+        'matcha kami di kafe langganan, tanpa',
+        'pernah lihat kemasannya.',
+    ], 27, CHARCOAL, align='center')
+    N.body(d, (mid, 760), [
+        'sekarang, bisa diseduh sendiri di rumah.',
+    ], 27, CHARCOAL, align='center')
+    N.body(d, (mid, WIDE_H - 96), ['powdered to perfection'], 21,
            (150, 148, 143), align='center')
     return N.finish(c, OUT / '3-15-tahun.png')
 
@@ -181,7 +184,7 @@ def category():
         tx = MARGIN + (i % 2) * (tw + gap)
         ty = top + (i // 2) * (th + gap)
 
-        tile = N.cover(Image.open(ILLUS / bg), tw, th).convert('RGBA')
+        tile = N.cover(Image.open(ILLUS2 / bg), tw, th).convert('RGBA')
         td = ImageDraw.Draw(tile)
 
         p = N.pouch(PACK / prod, round(th * fill_ratio))
@@ -211,8 +214,6 @@ def category():
         tile.putalpha(rounded)
         c.alpha_composite(tile, (tx, ty))
 
-    N.body(d, (W / 2, H - MARGIN - 46), ['#RacikSendiri  ·  nomukita.com'.replace(
-        '#RacikSendiri  ·  ', '')], 23, (150, 148, 143), align='center')
     return N.finish(c, OUT / '4-category.png')
 
 

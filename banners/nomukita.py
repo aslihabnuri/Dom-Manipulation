@@ -258,7 +258,8 @@ def contact_shadow(canvas, im, x, y, blur=18, opacity=64, squash=0.10, spread=1.
         layer, (round(x + im.width / 2 - layer.width / 2), round(y + im.height - h)))
 
 
-def logo(canvas, y, width=None, variant='wordmark', align='center', x=None):
+def logo(canvas, y, width=None, variant='wordmark', align='center', x=None,
+         within=None):
     """Paste the logo from the extracted source file — never redrawn."""
     import subprocess, tempfile
     width = width or round(300 * S)
@@ -268,7 +269,8 @@ def logo(canvas, y, width=None, variant='wordmark', align='center', x=None):
                        check=True)
         im = Image.open(tmp.name).convert('RGBA')
     if x is None:
-        x = (W - im.width) / 2 if align == 'center' else MARGIN
+        span = within if within is not None else W
+        x = (span - im.width) / 2 if align == 'center' else MARGIN
     elif align == 'right':
         x = x - im.width
     canvas.alpha_composite(im, (round(x), round(y)))
@@ -279,8 +281,8 @@ def rule(draw, y, x0=MARGIN, x1=W - MARGIN, fill=RULE, width=2):
     draw.line([(x0, y), (x1, y)], fill=fill, width=width)
 
 
-def canvas():
-    return Image.new('RGBA', (W, H), BONE + (255,))
+def canvas(w=None, h=None):
+    return Image.new('RGBA', (w or W, h or H), BONE + (255,))
 
 
 def finish(canvas_img, path, quality=92):
@@ -293,3 +295,114 @@ def finish(canvas_img, path, quality=92):
         flat.save(str(path).replace('.png', '.jpg'), 'JPEG',
                   quality=quality, optimize=True, subsampling=0)
     return flat
+
+
+# ── flat-illustration pouch ───────────────────────────────────────────────
+
+def flat_pouch(height, accent, label=None, wordmark_ratio=0.56,
+               body=(26, 26, 26), gusset=(15, 15, 15), seal=(42, 42, 42),
+               tab=LOGO_BLUE):
+    """A flat-vector pouch matching the real mockup's construction.
+
+    Drawn rather than generated: the vertical wordmark has to stay legible and
+    correctly formed, which is exactly what an image model gets wrong.
+    """
+    import subprocess, tempfile, re
+    ss = 3
+    w = round(height * 0.545)
+    W_, H_ = w * ss, height * ss
+    im = Image.new('RGBA', (W_, H_), (0, 0, 0, 0))
+    d = ImageDraw.Draw(im)
+
+    r = round(w * 0.055 * ss)
+    d.rounded_rectangle([0, 0, W_, H_], radius=r, fill=body + (255,))
+
+    # left gusset panel reads as the pouch's side face
+    gw = round(W_ * 0.17)
+    d.rounded_rectangle([0, 0, gw + r, H_], radius=r, fill=gusset + (255,))
+    d.rectangle([gw, 0, gw + r, H_], fill=gusset + (255,))
+
+    # top seal band
+    sh = round(H_ * 0.125)
+    d.rounded_rectangle([0, 0, W_, sh + r], radius=r, fill=seal + (255,))
+    d.rectangle([0, sh, W_, sh + r], fill=seal + (255,))
+    d.line([(0, sh), (W_, sh)], fill=(12, 12, 12, 255), width=max(ss, 2))
+
+    # cyan tab hanging over the seal, with the logomark inside it
+    tw, th = round(W_ * 0.235), round(H_ * 0.175)
+    tx = round(W_ * 0.63)
+    d.rounded_rectangle([tx, 0, tx + tw, th], radius=tw // 2,
+                        corners=(False, False, True, True), fill=tab + (255,))
+    svg = (REPO / 'brand/logo/nomukita-logomark.svg').read_text()
+    svg = re.sub(r'fill="#[0-9A-Fa-f]{6}"', 'fill="#FFFFFF"', svg)
+    with tempfile.NamedTemporaryFile(suffix='.svg', mode='w', delete=False) as s:
+        s.write(svg)
+        marksrc = s.name
+    msize = round(tw * 0.52)
+    with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as t:
+        subprocess.run(['rsvg-convert', '-h', str(msize), marksrc, '-o', t.name],
+                       check=True)
+        mark = Image.open(t.name).convert('RGBA')
+    im.alpha_composite(mark, (tx + (tw - mark.width) // 2,
+                              round(th * 0.42) - mark.height // 2))
+
+    # the wordmark, rotated to run down the face exactly as it does on the pouch
+    word_h = round(H_ * wordmark_ratio)
+    wm_svg = (REPO / 'brand/logo/nomukita-wordmark.svg').read_text()
+    # the pouch carries the letters only — the dot lives in the cyan tab
+    wm_svg = re.sub(r'<g transform="[^"]*" fill="#44B4D9"[^>]*>.*?</g>', '',
+                    wm_svg, flags=re.S)
+    wm_svg = re.sub(r'fill="#1C1C1C"', 'fill="#FFFFFF"', wm_svg)
+    with tempfile.NamedTemporaryFile(suffix='.svg', mode='w', delete=False) as s:
+        s.write(wm_svg)
+        wsrc = s.name
+    with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as t:
+        subprocess.run(['rsvg-convert', '-w', str(word_h), wsrc, '-o', t.name],
+                       check=True)
+        word = Image.open(t.name).convert('RGBA')
+    word = word.transpose(Image.ROTATE_270)          # reads top to bottom
+    im.alpha_composite(word, (round(W_ * 0.66), round(H_ * 0.235)))
+
+    # category colour dot
+    ds = round(W_ * 0.115)
+    dsvg = (REPO / 'brand/logo/nomukita-logomark.svg').read_text()
+    dsvg = re.sub(r'fill="#[0-9A-Fa-f]{6}"',
+                  'fill="#%02X%02X%02X"' % accent[:3], dsvg)
+    with tempfile.NamedTemporaryFile(suffix='.svg', mode='w', delete=False) as s:
+        s.write(dsvg)
+        dsrc = s.name
+    with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as t:
+        subprocess.run(['rsvg-convert', '-h', str(ds), dsrc, '-o', t.name], check=True)
+        dot = Image.open(t.name).convert('RGBA')
+    im.alpha_composite(dot, (round(W_ * 0.34), round(H_ * 0.55)))
+
+    sheen = Image.new('RGBA', (W_, H_), (0, 0, 0, 0))
+    grad = Image.new('L', (W_, 1))
+    for xg in range(W_):
+        t_ = xg / W_
+        grad.putpixel((xg, 0), int(26 * max(0.0, 1 - abs(t_ - 0.30) / 0.34)))
+    sheen.putalpha(grad.resize((W_, H_)))
+    sheen.paste((255, 255, 255), (0, 0, W_, H_), sheen.getchannel('A'))
+    body_mask = Image.new('L', (W_, H_), 0)
+    ImageDraw.Draw(body_mask).rounded_rectangle([0, 0, W_, H_], radius=r, fill=255)
+    im.paste(Image.alpha_composite(im, sheen), (0, 0), body_mask)
+
+    if label:
+        series, kanji, name, gram = label
+        lx = round(W_ * 0.25)
+        ly = round(H_ * 0.665)
+        d.text((lx, ly), series, font=comf(round(H_ * 0.022), 400),
+               fill=(196, 178, 150, 255))
+        d.text((lx, ly + H_ * 0.038), kanji, font=jp(round(H_ * 0.029)),
+               fill=(255, 255, 255, 255))
+        for i, ln in enumerate(name):
+            d.text((lx, ly + H_ * (0.084 + i * 0.032)), ln,
+                   font=comf(round(H_ * 0.026), 700), fill=(255, 255, 255, 255))
+        d.text((lx, ly + H_ * 0.168), gram, font=comf(round(H_ * 0.022), 400),
+               fill=(230, 230, 230, 255))
+
+    bh = round(H_ * 0.055)
+    d.rounded_rectangle([0, H_ - bh - r, W_, H_], radius=r, fill=gusset + (255,))
+    d.rectangle([0, H_ - bh - r, W_, H_ - bh], fill=gusset + (255,))
+
+    return im.resize((w, height), Image.LANCZOS)
