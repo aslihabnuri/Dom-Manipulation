@@ -9,3 +9,6 @@
 # Local artifacts
 node_modules/
 kie-out/
+
+# Font is a Fontspring DEMO — licensed copy must not be committed either
+banners/assets/fonts/

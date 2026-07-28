@@ -45,8 +45,25 @@ function fail(message) {
   process.exit(1)
 }
 
+// Concurrent calls can exhaust the local DNS/proxy and surface as a 503 with a
+// non-JSON body. Those are transient, so retry them with backoff.
+const TRANSIENT = /DNS|ECONNRESET|ETIMEDOUT|EAI_AGAIN|socket hang up|fetch failed/i
+
+async function request(url, init, attempt = 0) {
+  try {
+    const response = await fetch(url, init)
+    const text = await response.text()
+    if (response.status >= 500 && TRANSIENT.test(text) && attempt < 4) throw new Error(text)
+    return { response, text }
+  } catch (error) {
+    if (attempt >= 4) throw error
+    await new Promise((resolve) => setTimeout(resolve, 2000 * 2 ** attempt))
+    return request(url, init, attempt + 1)
+  }
+}
+
 async function api(path, { method = 'GET', body, base = BASE, headers = {} } = {}) {
-  const response = await fetch(`${base}${path}`, {
+  const { response, text } = await request(`${base}${path}`, {
     method,
     headers: {
       Authorization: `Bearer ${resolveKey()}`,
@@ -57,7 +74,6 @@ async function api(path, { method = 'GET', body, base = BASE, headers = {} } = {
     ...(body ? { body: JSON.stringify(body) } : {}),
   })
 
-  const text = await response.text()
   let payload
   try {
     payload = JSON.parse(text)
