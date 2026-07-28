@@ -106,6 +106,20 @@ PROPS = {
              "nothing scattered away from the group"),
 }
 
+# Produk yang gelasnya TIDAK diwarisi dari acuannya, dengan minuman yang harus
+# dituangkan ke gelas penggantinya.
+SWAP_GLASS = {
+    "puredarkcocoa": "a thick dark chocolate milkshake, deep even cocoa brown, under a piped "
+                     "dome of whipped cream with a thin dark chocolate drizzle over the cream "
+                     "only. Nothing runs down the outside of the glass and nothing rests on "
+                     "the foot",
+    "darkcocoa": "a thick dark chocolate milkshake, deep cocoa brown with chocolate sauce "
+                 "swirled through it against the inside wall, under a piped dome of whipped "
+                 "cream with a chocolate drizzle and one plain square of dark chocolate "
+                 "resting on the cream. Nothing runs down the outside of the glass and "
+                 "nothing rests on the foot",
+}
+
 # The two products whose prop is the shared black tea heap.
 SHARED = {"tehtarik": "blacktea", "milktea": "blacktea"}
 
@@ -122,6 +136,37 @@ WATERMARKED = {"blacktea": "Black tea_clean.png"}
 # checkerboard-nya sendiri bernilai 204, jadi pada 225 ia ikut terhitung sebagai
 # subjek dan tidak ada yang diputihkan.
 CHECKERED = {"cappuccino": ("Cappucino_ref_orig.jpg", "Cappucino_ref.jpg")}
+
+# Acuan minuman yang datang dengan checkerboard yang sama, tapi tidak bisa
+# dibersihkan dengan cara di atas: krim kocok pada foto Dark Cocoa terangnya 240
+# dan tidak jenuh, jadi ambang mana pun yang menghapus petak abu 231 ikut
+# menghapus krimnya. Jadi yang dihapus BUKAN yang mirip petak, melainkan yang
+# TERSAMBUNG ke tepi bingkai lewat piksel yang mirip petak - krim tidak
+# tersambung ke tepi, jadi ia selamat.
+CHECKERED_DRINK = {"darkcocoa": ("DarkCocoa_drink_orig.webp", "DarkCocoa_drink.webp")}
+
+
+def flood_white(src, dst, tol=8):
+    """Putihkan latar kotak-kotak lewat banjir dari tepi bingkai."""
+    import numpy as np
+    from PIL import Image
+    from scipy import ndimage as ndi
+    im = Image.open(os.path.join(REF, src)).convert("RGB")
+    a = np.array(im).astype(int)
+    edge = np.concatenate([a[0], a[-1], a[:, 0], a[:, -1]])
+    vals = [int(v) for v, _ in
+            sorted(zip(*np.unique(edge[:, 0], return_counts=True)),
+                   key=lambda t: -t[1])[:2]]
+    like = np.zeros(a.shape[:2], bool)
+    for v in vals:
+        like |= (np.abs(a - v).max(2) <= tol)
+    lab, n = ndi.label(like)
+    border = set(lab[0]) | set(lab[-1]) | set(lab[:, 0]) | set(lab[:, -1])
+    border.discard(0)
+    bg = np.isin(lab, list(border))
+    a[bg] = 255
+    Image.fromarray(a.astype(np.uint8)).save(os.path.join(REF, dst))
+    return dst
 
 
 def flatten_checker(src, dst, light=190, sat=30):
@@ -178,7 +223,24 @@ GLASSWARE = (
     "base whose glass thickness reads darker than the drink above it. The glass must be "
     "unmistakably a glass and never brighter than the background."
 )
-GLASS_NOTE = {"vanilla": GLASSWARE}
+# Kedua milkshake cokelat gagal dengan cara yang sama seperti vanilla, walaupun
+# minumannya sama sekali tidak pucat. Pure Dark Cocoa terbit tanpa bibir gelas
+# sama sekali - minumannya langsung berhenti di udara, badannya terbaca sebagai
+# balok cetak, dan ada noda sirup menggenang di atas kakinya. Dark Cocoa terbit
+# dengan kaki kelabu keruh yang lebih gelap daripada minumannya dan berbenjol,
+# lebih mirip plastik cetak daripada kaca.
+COCOA_GLASS = (
+    "The glass itself must be unmistakably clear glass and must read as glass at "
+    "every height: a bright defined rim right across the top with the drink stopping "
+    "cleanly below it, a visible wall thickness down BOTH sides with a specular "
+    "highlight on one and a soft refraction line on the other, and a clear colourless "
+    "stem and foot whose glass thickness reads LIGHTER than the drink above it, never "
+    "darker, never grey, never smoked, never lumpy. Nothing rests on the foot: no "
+    "syrup, no sauce, no stain, no crumb, no smear."
+)
+GLASS_NOTE = {"vanilla": GLASSWARE,
+              "puredarkcocoa": COCOA_GLASS,
+              "darkcocoa": COCOA_GLASS}
 KEEP_GLASS_AND_DRINK = (
     "Keep the same glass - identical shape, proportions, wall thickness and foot - and the "
     "same drink inside it, with the same colours, layers, foam and garnish."
@@ -186,6 +248,25 @@ KEEP_GLASS_AND_DRINK = (
 KEEP_GLASS_ONLY = (
     "Keep the same glass - identical shape, proportions, wall thickness and foot - but fill "
     "it with {desc}. Keep the drink appetising and thick with real texture."
+)
+# Jalur ketiga: GANTI gelasnya juga.
+#
+# Dua jalur di atas dua-duanya memerintahkan "keep the same glass ... and foot",
+# dan itulah yang membuat perbaikan pertama gagal. Gelas pada acuan Dark Cocoa
+# memang berkaki kelabu keruh berbenjol, dan pada acuan Pure Dark Cocoa memang
+# tanpa bibir yang terlihat serta ada noda sirup menggenang di kakinya. Selama
+# perintahnya menyuruh mempertahankan gelas itu, klausa "kacanya harus bening"
+# hanya bertabrakan dengannya - dan yang menang perintah mempertahankan. Delapan
+# kredit habis membuktikan itu.
+#
+# Jadi untuk kedua produk ini gelasnya tidak diwarisi. Minumannya tetap dari foto
+# pelanggan; wadahnya yang dijelaskan dari nol.
+NEW_GLASS = (
+    "Do NOT copy the glass from the photograph - that glass is unusable. Serve the drink in "
+    "a tall clear footed soda glass instead: plain colourless glass with nothing moulded, "
+    "smoked, tinted or patterned about it, a clean bright rim across the top, smooth walls "
+    "with visible thickness and one specular highlight, a short plain stem and a round "
+    "clear foot. Fill it with {desc}. Keep the drink appetising and thick with real texture."
 )
 PROP_PROMPT = (
     "Restage this as a calm studio product shot: {desc}. Keep the arrangement, the scale "
@@ -412,7 +493,12 @@ def main(only=None):
         if os.path.exists(out):
             continue
         print(slug, flush=True)
-        what = KEEP_GLASS_AND_DRINK if desc is None else KEEP_GLASS_ONLY.format(desc=desc)
+        if slug in CHECKERED_DRINK:
+            flood_white(*CHECKERED_DRINK[slug])
+        if slug in SWAP_GLASS:
+            what = NEW_GLASS.format(desc=SWAP_GLASS[slug])
+        else:
+            what = KEEP_GLASS_AND_DRINK if desc is None else KEEP_GLASS_ONLY.format(desc=desc)
         prompt = DRINK_PROMPT.format(what=what, sweep=WHITE_SWEEP,
                                      glass=GLASS_NOTE.get(slug, ""))
         run(prompt, [link(ref)], "3:4", out)

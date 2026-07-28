@@ -827,3 +827,47 @@ gram, ia datang sebagai kotak 300 gram. Gambar kategori Exclusive juga berubah
 isinya - anggotanya sekarang empat, bukan dua.
 
 Ketujuh belas berkas kategori dibangun ulang dan semuanya lolos pemeriksaan.
+
+
+### Gelas Pure Dark Cocoa dan Dark Cocoa dibangun ulang
+
+Pelanggan menolak keduanya: gelasnya tidak terbaca sebagai gelas. Yang terukur:
+
+- **Pure Dark Cocoa** terbit tanpa bibir gelas sama sekali - minumannya berhenti
+  di udara, badannya terbaca sebagai balok cetak tanpa tebal dinding, dan ada
+  noda sirup menggenang di atas kakinya.
+- **Dark Cocoa** terbit dengan kabut kelabu di atas krimnya dan kaki kelabu
+  kehitaman berbenjol yang justru lebih gelap daripada minumannya - lebih mirip
+  plastik cetak daripada kaca.
+
+Dua sebab, dua perbaikan.
+
+**Kabut kelabunya** berasal dari acuannya sendiri: latar `DarkCocoa_drink.webp`
+kotak-kotak transparansi yang sudah menyatu ke dalam piksel, petak 255
+berselang 231. Tidak bisa dibersihkan dengan ambang terang seperti acuan biji
+kopi, karena krim kocoknya juga terang 240 dan tidak jenuh - ambang mana pun yang
+menghapus petak abu ikut menghapus krimnya. `flood_white()` menghapus yang
+TERSAMBUNG ke tepi bingkai lewat piksel mirip petak; krim tidak tersambung ke
+tepi, jadi ia selamat.
+
+**Kaki dan bibirnya** ternyata salah karena perintahnya sendiri. Kedua jalur yang
+ada - `KEEP_GLASS_AND_DRINK` dan `KEEP_GLASS_ONLY` - dua-duanya berbunyi "keep the
+same glass ... and foot", dan gelas pada kedua acuan itu memang cacat: yang satu
+berkaki asap berbenjol, yang satu tanpa bibir dan bernoda sirup. Menambahkan
+klausa "kacanya harus bening" hanya bertabrakan dengan perintah mempertahankan,
+dan yang menang perintah mempertahankan. Delapan kredit habis membuktikan itu.
+
+Jadi ditambahkan jalur ketiga, `NEW_GLASS`: untuk kedua produk ini gelasnya
+TIDAK diwarisi. Minumannya tetap dari foto pelanggan; wadahnya dijelaskan dari
+nol - gelas kaki bening polos, bibir terang, dinding bertebal, kaki bening dan
+tidak ada apa pun menggenang di atasnya.
+
+Sempat dicoba juga menambahkan pemeriksa otomatis `verify.footing()`, yang
+menolak gelas berkaki lebih gelap daripada minumannya. Dibuang lagi: ia menyalakan
+alarm pada slide Vanilla yang SUDAH disetujui - kaki gelasnya memang sengaja
+dibuat lebih gelap oleh klausa dark-field - dan justru meloloskan Dark Cocoa yang
+benar-benar cacat. Pemeriksa yang salah di kedua arah lebih buruk daripada tidak
+ada; cacat ini ketahuan lewat mata, dan begitulah cara memeriksanya.
+
+Empat gambar dihasilkan dalam perbaikan ini, 16 kredit, di atas 32 kredit
+pembuatan pertamanya.
