@@ -246,6 +246,15 @@ EXPECTED = {
     "LemonTea": ("レモンティー", "LEMON TEA", "premium"),
     "FrappeBase": ("フラッペベース", "FRAPPE BASE", "premium"),
     "LemonGrass": ("レモングラス", "LEMON GRASS", "premium"),
+    # Keempat baris di bawah disalin dari label yang TERCETAK pada kemasannya,
+    # dibaca dari potongan label masing-masing, bukan dari nama berkas mockup.
+    # Ditulis ulang di sini dengan sengaja: berkas ini tidak boleh mengambil
+    # harapannya dari modul yang menggambar slide, karena pemeriksa yang membaca
+    # harapannya dari pembuatnya hanya bisa membuktikan render itu bisa diulang.
+    "PureDarkCocoa": ("ピュアダークココア", "PURE DARK COCOA", "exclusive"),
+    "DarkCocoa": ("ダークココア", "DARK COCOA", "exclusive"),
+    "Cappuccino": ("カプチーノ", "CAPPUCCINO", "premium"),
+    "Taro": ("タロイモ", "TARO", "premium"),
 }
 
 

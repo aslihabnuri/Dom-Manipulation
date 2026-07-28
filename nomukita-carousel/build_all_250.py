@@ -14,10 +14,12 @@ from build_all import MAP, NO_PROP, PROP
 OUT = "slides250"
 
 
-def main():
+def main(only=None):
     os.makedirs(OUT, exist_ok=True)
     ok, bad = [], []
     for idx, slug in MAP:
+        if only and slug not in only:
+            continue
         glass = f"gen/glass-{slug}.png"
         prop = None if slug in NO_PROP else f"gen/prop-{PROP.get(slug, slug)}.png"
         if not os.path.exists(glass) or (prop and not os.path.exists(prop)):
@@ -28,9 +30,11 @@ def main():
             problems += [f"{os.path.basename(src)}: {m}"
                          for m in (verify.frame(src, photo._SIL[src], photo._SHADOW[src])
                                    + verify.matte(src, photo._MASK[src], photo._SIL[src]))]
-        path = f'{OUT}/{bs.PRODUCTS[idx]["slug"]}_S1_250gr.png'
+        weight = bs.small_pack(bs.PRODUCTS[idx])[1]
+        num = weight.split()[0]
+        path = f'{OUT}/{bs.PRODUCTS[idx]["slug"]}_S1_{num}gr.png'
         problems += r250.build(idx, glass, prop, path, slug)[1] + verify.check(path)
-        problems += verify.text(path, bs.PRODUCTS[idx]["slug"], bs, "250 gram")
+        problems += verify.text(path, bs.PRODUCTS[idx]["slug"], bs, weight)
         (ok if not problems else bad).append((slug, problems or "PASS"))
         print(f"{slug:14s} {'PASS' if not problems else problems}", flush=True)
     print(f"\n{len(ok)} passed, {len(bad)} need attention")
@@ -38,4 +42,5 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    import sys
+    main(sys.argv[1:] or None)

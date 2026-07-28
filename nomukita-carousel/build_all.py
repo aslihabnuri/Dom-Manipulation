@@ -14,16 +14,19 @@ MAP = [
     (0, "matchalatte"), (1, "premixmatcha"), (2, "tehtarik"), (3, "chocolate"),
     (4, "cookiescream"), (5, "charcoal"), (6, "avocado"), (7, "vanilla"),
     (8, "milktea"), (9, "lemontea"), (10, "frappebase"), (11, "lemongrass"),
+    (12, "puredarkcocoa"), (13, "darkcocoa"), (14, "cappuccino"), (15, "taro"),
 ]
 NO_PROP = {"frappebase"}
 # Teh Tarik dan Milk Tea memakai gundukan daun teh yang sama - digenerate sekali.
 PROP = {"tehtarik": "blacktea", "milktea": "blacktea"}
 
 
-def main():
+def main(only=None):
     os.makedirs(OUT, exist_ok=True)
     ok, bad = [], []
     for idx, slug in MAP:
+        if only and slug not in only:
+            continue
         glass = f"gen/glass-{slug}.png"
         prop = None if slug in NO_PROP else f"gen/prop-{PROP.get(slug, slug)}.png"
         if not os.path.exists(glass) or (prop and not os.path.exists(prop)):
@@ -48,4 +51,5 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    import sys
+    main(sys.argv[1:] or None)

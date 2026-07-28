@@ -713,3 +713,95 @@ kontak di sisi kirinya terbaca**: alamat web, nomor Customer Service, nomor
 WhatsApp dan tiga akun media sosial. Shopee melarang informasi kontak di dalam
 gambar produk. Panel itu tercetak pada mockup-nya sendiri, jadi menghapusnya
 berarti mengubah kemasan pelanggan - saya tidak melakukannya tanpa persetujuan.
+
+## Empat produk baru: Pure Dark Cocoa, Dark Cocoa, Cappuccino, Taro
+
+Slide 1 untuk keempatnya, tiga varian per produk, memakai pipeline yang sudah ada.
+
+| Produk | Seri | Katakana | Kemasan kecil | Berkas |
+| --- | --- | --- | --- | --- |
+| Pure Dark Cocoa | exclusive | ピュアダークココア | 300 gram | `PureDarkCocoa_S1_{300gr,1000gr,300&1000gr}.png` |
+| Dark Cocoa | exclusive | ダークココア | 250 gram | `DarkCocoa_S1_{250gr,1000gr,250&1000gr}.png` |
+| Cappuccino | premium | カプチーノ | 250 gram | `Cappuccino_S1_{250gr,1000gr,250&1000gr}.png` |
+| Taro | premium | タロイモ | 250 gram | `Taro_S1_{250gr,1000gr,250&1000gr}.png` |
+
+Tiga gaya, sama seperti dua belas produk pertama: `slide-1/` pouch saja (ketiga
+varian, termasuk kombinasi), `slide-1-1000gr/` dan `slide-1-250gr/` dengan gelas
+berisi minuman dan prop bahan. Kombinasi hanya ada dalam gaya pouch saja, sama
+seperti sebelumnya.
+
+Seri dan katakananya dibaca dari label yang TERCETAK pada tiap kemasan, lalu
+diperiksa ulang oleh dua pembaca yang bekerja terpisah. Keduanya sepakat, dan
+kali ini nama berkas mockup-nya memang cocok dengan labelnya - tidak seperti
+empat mockup pada dua belas produk pertama yang bernama "Exclusive series"
+padahal labelnya Premium.
+
+Pelanggan menulis "Cappucino"; kemasannya mencetak "Cappuccino". Yang dipakai
+ejaan kemasannya.
+
+### Yang perlu keputusan pelanggan
+
+1. **Kemasan 300 gram itu mencetak nama yang berbeda.** Pure Dark Cocoa tidak
+   punya kemasan 250 gram; yang ada 300 gram, dan bentuknya lain sama sekali:
+   kotak karton putih, bukan pouch hitam. Yang tercetak di atasnya **"PURE
+   BELGIAN COCOA"**, dengan lencana "100% COCOA" dan "Net. 300 gr". Tidak ada
+   kata seri Premium atau Exclusive, dan tidak ada satu pun baris katakana. Kata
+   "Dark" tidak muncul di mana pun pada kemasan itu.
+
+   Slide-nya tetap saya buat seperti yang diminta - berjudul PURE DARK COCOA
+   dengan ピュアダークココア - tapi judul itu tidak sama dengan yang tercetak pada
+   kemasan yang dipajangnya. Perlu dipastikan dulu apakah keduanya SKU yang sama
+   sebelum slide ini terbit.
+
+2. **Tinggi kotak 300 gram itu tebakan mata.** Semua ukuran di slide 1 diturunkan
+   dari tinggi sebenarnya - pouch 1000 gram 24 cm, pouch 250 gram 12 cm, alpukat
+   11 cm - pada skala 18,2 px/cm. Untuk kotak 300 gram tidak ada angka yang bisa
+   saya periksa, hanya berkas artworknya. Dipakai 15 cm. Kalau ukuran
+   sebenarnya diketahui, satu angka di `build_slides.SMALL` cukup.
+
+3. **Acuan Pure Dark Cocoa dan Dark Cocoa dua-duanya milkshake cokelat** dengan
+   krim kocok dan siraman saus, jadi kedua slide tampak sangat mirip, dan
+   keduanya juga dekat dengan Chocolate Signature yang sudah ada. Pure Dark Cocoa
+   sendiri kemasannya bertuliskan 100% cocoa, yang tidak sejalan dengan sajian
+   bergula seperti itu. Keduanya acuan pilihan pelanggan, jadi tidak saya ubah.
+
+4. **Daun pada acuan Taro bukan daun talas.** Yang tampak daun sempit mengkilap
+   bertepi rata, mirip daun jeruk; daun talas besar dan berbentuk hati.
+   Dipertahankan supaya sama dengan acuannya.
+
+5. **Lisensi stok.** Acuan biji kopi dan acuan irisan talas keduanya unduhan
+   komp stok berukuran kecil (728x353 dan 626x469) tanpa cap air. Lisensinya
+   belum diperiksa - pertanyaan terbuka yang sama dengan acuan teh hitam.
+
+### Tiga hal yang muncul saat membangunnya
+
+1. **Perintah prop kakao ditolak penyaring kebijakan Google, dua kali.** Bunyinya
+   "one whole cocoa pod lying beside a second pod split open lengthways and
+   filled with cocoa beans". Ditulis ulang jadi "two cocoa pods, one whole and
+   one cut in half to show the beans inside" dan langsung lolos. Yang ditolak
+   kalimatnya, bukan gambarnya - acuannya sendiri tidak pernah bermasalah.
+2. **Acuan biji kopi berlatar kotak-kotak transparansi yang sudah menyatu ke
+   dalam piksel** - petak putih 255 berselang abu 204 di seluruh bingkai. Itu
+   bukan latar yang bisa diminta hilang; modelnya akan menyalin kotak-kotaknya.
+   Diratakan jadi putih sebelum dikirim (`flatten_checker`), dengan ambang terang
+   190, bukan 225 seperti `strip_watermark`: petak abunya sendiri bernilai 204,
+   jadi pada 225 ia ikut terhitung sebagai subjek dan tidak ada yang diputihkan.
+3. **Kemasan kecil tidak lagi selalu "250 gram".** Berkas, kata beratnya, tinggi
+   relatifnya dan tinggi fisiknya sekarang datang dari satu tempat,
+   `build_slides.small_pack`, dan `render_250.py` membacanya dari situ alih-alih
+   menulis "250 gram" langsung di badan kode.
+
+### Biaya
+
+Delapan gambar dihasilkan: empat gelas berisi minuman dan empat prop bahan,
+32 kredit. Dua percobaan prop kakao yang ditolak penyaring tidak menghasilkan
+berkas.
+
+### Menjalankan
+
+    KIE_API_KEY=... python3 batch.py puredarkcocoa darkcocoa cappuccino taro
+    python3 build_all.py puredarkcocoa darkcocoa cappuccino taro
+    python3 build_all_250.py puredarkcocoa darkcocoa cappuccino taro
+
+Kedua driver itu sekarang menerima daftar slug; tanpa argumen keduanya
+mengerjakan semua produk seperti sebelumnya.

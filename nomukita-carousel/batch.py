@@ -44,6 +44,23 @@ DRINKS = {
     "lemontea": ("Lemon tea_referensi.jpg", None),
     "frappebase": ("Frappe Base_referensi.jpg", None),
     "lemongrass": ("Lemon grass_referensi.jpg", None),
+
+    # ── empat produk yang ditambahkan belakangan ─────────────────────────────
+    # Keempatnya punya foto minumannya sendiri dari pelanggan, jadi keempatnya
+    # dipentaskan ulang apa adanya. Tiga di antaranya berstraw - Pure Dark Cocoa,
+    # Dark Cocoa dan Cappuccino - dan DRINK_PROMPT sudah menutupnya dengan
+    # ABSOLUTELY NO STRAW. Yang Taro tidak; yang harus dibersihkan di situ
+    # mangkuk bubuk ungu, karaf air, piring batu dan serbet di belakangnya.
+    #
+    # Catatan yang perlu dilihat pelanggan: acuan Pure Dark Cocoa dan acuan Dark
+    # Cocoa dua-duanya milkshake cokelat dengan krim kocok dan siraman saus, jadi
+    # kedua slide akan tampak sangat mirip. Pure Dark Cocoa sendiri kemasannya
+    # bertuliskan 100% cocoa, yang tidak sejalan dengan sajian bergula seperti
+    # itu. Acuannya pilihan pelanggan, jadi tidak saya ubah sendiri.
+    "puredarkcocoa": ("PureDarkCocoa_drink.jpg", None),
+    "darkcocoa": ("DarkCocoa_drink.webp", None),
+    "cappuccino": ("Cappucino_drink.jpg", None),
+    "taro": ("Taro_drink.jpg", None),
 }
 
 # slug -> (reference, what to build from it). Shared props are generated once.
@@ -58,6 +75,35 @@ PROPS = {
                  "a low loose heap of dried curled tea leaves with one small fresh green tea "
                  "sprig resting on top, arranged and coloured the same way as the reference. "
                  "No bowl, no dish, no container, nothing scattered away from the heap"),
+
+    # Perintah pertamanya ditolak penyaring kebijakan Google dua kali berturut-turut
+    # ("the image was filtered out"), delapan kredit hangus tanpa satu berkas pun.
+    # Yang diubah kata-katanya, bukan gambarnya: "split open lengthways and filled
+    # with cocoa beans" ditulis ulang jadi "cut in half to show the beans inside".
+    # Acuannya sendiri lolos - yang ditolak kalimatnya.
+    "puredarkcocoa": ("PureDarkCocoa_ref.jpg",
+                      "two cocoa pods, one whole and one cut in half to show the beans "
+                      "inside, with a few green cocoa leaves behind them, arranged the same "
+                      "way as the reference. No bowl, no dish, no container, nothing "
+                      "scattered away from the group"),
+    # Acuannya dipotret di atas latar gelap dengan bubuk beterbangan di udara.
+    # Keduanya harus hilang: latar gelap tidak bisa dikembangkan di atas bone
+    # white, dan bubuk melayang menjadi bintik-bintik lepas yang dibaca
+    # `verify.frame` sebagai kotoran.
+    "darkcocoa": ("DarkCocoa_ref.jpg",
+                  "a low heap of roasted cocoa beans beside a low heap of fine cocoa powder, "
+                  "the two touching along one edge, coloured the same way as the reference. "
+                  "No dust in the air, no falling or flying powder, no dark background, no "
+                  "bowl, no dish, no container, nothing scattered away from the two heaps"),
+    "cappuccino": ("Cappucino_ref.jpg",
+                   "a low loose heap of dark roasted coffee beans, arranged and coloured the "
+                   "same way as the reference. No cup, no bowl, no dish, no container, "
+                   "no grey and white checkerboard, nothing scattered away from the heap"),
+    "taro": ("Taro_ref.jpg",
+             "three round slices of taro root, pale lilac flecked with purple and rimmed with "
+             "dark purple skin, overlapping in a fan, two fresh green leaves tucked behind "
+             "them, arranged the same way as the reference. No bowl, no dish, no container, "
+             "nothing scattered away from the group"),
 }
 
 # The two products whose prop is the shared black tea heap.
@@ -65,6 +111,34 @@ SHARED = {"tehtarik": "blacktea", "milktea": "blacktea"}
 
 # References that arrive as watermarked stock comps, and where the clean copy goes.
 WATERMARKED = {"blacktea": "Black tea_clean.png"}
+
+# References whose "transparent" background is a checkerboard FLATTENED INTO THE
+# PIXELS. Acuan biji kopi datang begitu: kotak-kotak putih 255 dan abu 204 di
+# seluruh bingkai, terukur simpangan baku 25 pada petak sudutnya. Itu bukan latar
+# yang bisa diminta hilang - modelnya menyalin kotak-kotaknya. Harus diratakan
+# jadi putih sebelum dikirim, sama seperti cap air pada acuan teh hitam.
+#
+# Ambang terangnya 190, bukan 225 seperti pada strip_watermark: petak abu
+# checkerboard-nya sendiri bernilai 204, jadi pada 225 ia ikut terhitung sebagai
+# subjek dan tidak ada yang diputihkan.
+CHECKERED = {"cappuccino": ("Cappucino_ref_orig.jpg", "Cappucino_ref.jpg")}
+
+
+def flatten_checker(src, dst, light=190, sat=30):
+    """Putihkan latar kotak-kotak, sisakan subjeknya."""
+    import numpy as np
+    from PIL import Image
+    from scipy import ndimage as ndi
+    a = np.array(Image.open(os.path.join(REF, src)).convert("RGB")).astype(int)
+    subject = (a.mean(2) < light) | (a.max(2) - a.min(2) > sat)
+    subject = ndi.binary_fill_holes(ndi.binary_closing(subject, np.ones((7, 7))))
+    lab, n = ndi.label(subject, structure=np.ones((3, 3)))
+    if n:
+        subject = lab == int(np.argmax(ndi.sum(subject, lab, range(1, n + 1)))) + 1
+    subject = ndi.binary_dilation(subject, np.ones((3, 3)), iterations=3)
+    a[~subject] = 255
+    Image.fromarray(a.astype(np.uint8)).save(os.path.join(REF, dst), quality=95)
+    return dst
 
 DRINK_PROMPT = (
     "Restage this photograph as a clean studio product shot of the drink on its own. "
@@ -352,6 +426,8 @@ def main(only=None):
         print("prop", name, flush=True)
         if name in WATERMARKED:
             ref = strip_watermark(ref, WATERMARKED[name])
+        if name in CHECKERED:
+            ref = flatten_checker(*CHECKERED[name])
         run(PROP_PROMPT.format(desc=desc), [link(ref)], "4:3", out)
 
     if SPENT:

@@ -83,9 +83,14 @@ def build(idx, glass_img, prop_img, out, slug,
     marketplace produknya harus memimpin. Sekali ini keputusan dagang, bukan
     keputusan fotografi."""
     p = bs.PRODUCTS[idx]
-    ph_pouch = round(POUCH_CM * px_per_cm * pouch_boost)
+    # Kemasan kecilnya tidak selalu sachet 250 gram. Pure Dark Cocoa tidak punya
+    # 250 gram sama sekali; yang ada kotak 300 gram, bentuknya lain sama sekali
+    # dan tingginya lain pula, jadi berkas, kata beratnya dan tinggi fisiknya
+    # diambil dari satu tempat - `bs.small_pack` - bukan ditulis ulang di sini.
+    pack, weight, _ratio, pack_cm = bs.small_pack(p)
+    ph_pouch = round(pack_cm * px_per_cm * pouch_boost)
     gh = round(GLASS_CM * px_per_cm)
-    src = Image.open(f'{bs.PROD}/{p["p250"]}').convert('RGBA')
+    src = Image.open(f'{bs.PROD}/{pack}').convert('RGBA')
     src = src.crop(src.getbbox())
     pw = round(src.width * ph_pouch / src.height)
 
@@ -124,7 +129,7 @@ def build(idx, glass_img, prop_img, out, slug,
                      bs.KANJI_GREY, 512, bs.KANJI_TOP)
     h = bs.build_headline(p['head'], bs.HEAD_SIZE, bs.accent(p['head']))
     c.alpha_composite(h, ((1024 - h.width) // 2, bs.HEAD_TOP))
-    bs.draw_text_top(c, f"{p['series']} grade · 250 gram",
+    bs.draw_text_top(c, f"{p['series']} grade · {weight}",
                      ImageFont.truetype(bs.F_BODY, bs.SUB_SIZE), bs.CHARCOAL, 512, bs.SUB_TOP)
 
     halal = Image.open(f'{bs.ASSETS}/halal.png').convert('RGBA')
@@ -147,7 +152,7 @@ def build(idx, glass_img, prop_img, out, slug,
         photo.place(flat, prop_img, x0 + overlap - aw, BOTTOM, prop_h)
 
     front = Image.new('RGBA', (1024, 1024), (0, 0, 0, 0))
-    bs.place(front, p['p250'], ph_pouch, left=x0, bottom=BOTTOM, white=True)
+    bs.place(front, pack, ph_pouch, left=x0, bottom=BOTTOM, white=True)
     flat.paste(front, (0, 0), front)
 
     flat.paste(clean.crop((0, 0, 1024, r1.TOP_GUARD)), (0, 0))

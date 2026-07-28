@@ -33,6 +33,10 @@ PROP_CM = {
     "milktea": 6.0,
     "lemontea": 7.5,       # lemon utuh + belahannya
     "lemongrass": 8.5,     # ikat serai berbaring
+    "puredarkcocoa": 12.0, # buah kakao utuh dan belahannya, berbaring
+    "darkcocoa": 7.0,      # gundukan biji kakao dan gundukan bubuknya
+    "cappuccino": 6.0,     # gundukan biji kopi
+    "taro": 8.0,           # tiga irisan talas bersusun
 }
 # Prop tidak boleh melebihi lebar pouch: begitu lewat, ia tidak lagi terbaca
 # sebagai bahan di sebelah produk melainkan bersaing dengan produknya.

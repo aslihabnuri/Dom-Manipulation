@@ -113,7 +113,56 @@ PRODUCTS = [
          kanji="レモングラス",
          p250="nomukita-lemon grass 250g.png",
          p1000="Mockup nomukita-Premium series-Lemon Grass.png"),
+
+    # ── ditambahkan belakangan ───────────────────────────────────────────────
+    # Seri dan katakananya dibaca dari label yang TERCETAK pada tiap kemasan,
+    # bukan dari nama berkasnya. Di sini keduanya kebetulan cocok, tapi aturannya
+    # tetap sama seperti pada dua belas produk pertama, di mana empat nama berkas
+    # berbunyi "Exclusive series" padahal labelnya sendiri Premium.
+    #
+    # Pelanggan menulis "Cappucino"; kemasannya mencetak "Cappuccino". Yang
+    # dipakai ejaan kemasannya.
+    dict(slug="PureDarkCocoa", head="PURE DARK COCOA", series="exclusive",
+         kanji="ピュアダークココア",
+         # Tidak punya kemasan 250 gram. Yang ada 300 gram, dan bentuknya lain
+         # sama sekali: kotak putih bergambar buah kakao emas bertuliskan
+         # "PURE BELGIAN COCOA", bukan pouch hitam. Lihat catatan pada slide().
+         p300="nomukita-pure dark cocoa.png",
+         p1000="Mockup nomukita-Exclusive series-Pure Dark Cocoa.png"),
+    dict(slug="DarkCocoa", head="DARK COCOA", series="exclusive",
+         kanji="ダークココア",
+         p250="nomukita-dark cocoa.png",
+         p1000="Mockup nomukita-Exclusive series-dark cocoa.png"),
+    dict(slug="Cappuccino", head="CAPPUCCINO", series="premium",
+         kanji="カプチーノ",
+         p250="nomukita-premium cappuccino-250g.png",
+         p1000="Mockup nomukita-Premium series-Cappuccino.png"),
+    dict(slug="Taro", head="TARO", series="premium",
+         kanji="タロイモ",
+         p250="nomukita-taro-250g.png",
+         p1000="Mockup nomukita-Premium series-Taro.png"),
 ]
+
+# Kemasan kecil tiap produk dan tingginya relatif terhadap pouch 1000 gram.
+# Untuk pouch 250 gram angkanya 0,5, dari perbandingan tinggi sebenarnya kedua
+# kemasan. Kotak 300 gram Pure Dark Cocoa tidak punya angka sebenarnya yang bisa
+# saya periksa - yang ada hanya berkas artworknya - jadi 0,62 di bawah adalah
+# pilihan mata, bukan ukuran. Kotaknya lebih jangkung dan lebih ramping daripada
+# pouch 250 gram (rasio 0,52 lawan 1,24), jadi pada tinggi yang sama ia tampak
+# jauh lebih kecil. Ukuran sebenarnya perlu dikonfirmasi pelanggan.
+SMALL = {"PureDarkCocoa": ("p300", "300 gram", 0.62, 15.0)}
+
+
+def small_pack(p):
+    """(berkas, kata beratnya, tinggi relatif, tinggi sebenarnya dalam cm).
+
+    Angka cm dipakai slide 250 gram, yang menyusun grupnya pada skala fisik
+    18,2 px/cm. Untuk pouch 250 gram 12 cm itu setengah tinggi pouch 1000 gram,
+    sesuai perbandingan sebenarnya. Untuk kotak 300 gram angkanya pilihan mata,
+    seperti dicatat di atas.
+    """
+    key, weight, ratio, cm = SMALL.get(p["slug"], ("p250", "250 gram", 0.5, 12.0))
+    return p[key], weight, ratio, cm
 
 
 def accent(name):
@@ -266,31 +315,34 @@ def slide(product, variant):
         head = build_headline(product["head"], round(HEAD_SIZE * HEAD_MAX_W / head.width), col)
     c.alpha_composite(head, ((W - head.width) // 2, HEAD_TOP))
 
-    weight = {"250": "250 gram", "1000": "1000 gram", "combo": "250 gram & 1000 gram"}[variant]
+    small_file, small_weight, small_ratio, _ = small_pack(product)
+    weight = {"small": small_weight, "1000": "1000 gram",
+              "combo": f"{small_weight} & 1000 gram"}[variant]
     draw_text_top(c, f"{product['series']} grade · {weight}",
                   ImageFont.truetype(F_BODY, SUB_SIZE), CHARCOAL, W // 2, SUB_TOP)
 
     # with the criteria column and the origin badge gone the product owns the
     # full width, so it sits larger than on the Uji slide
-    if variant == "250":
-        place(c, product["p250"], PHOTO_H, cx=512, bottom=PHOTO_BOTTOM, max_w=HEAD_MAX_W, white=True)
+    if variant == "small":
+        place(c, small_file, PHOTO_H, cx=512, bottom=PHOTO_BOTTOM, max_w=HEAD_MAX_W, white=True)
     elif variant == "1000":
         place(c, product["p1000"], PHOTO_H, cx=512, bottom=PHOTO_BOTTOM)
     else:
         # bottom-aligned pair, small pouch in front on the right - the
         # arrangement used on Uji_S1_500&30, sized to the real 250 g : 1000 g
         # height ratio
-        big_h, small_h, overlap, bottom = PHOTO_H, round(PHOTO_H * 0.5), 20, PHOTO_BOTTOM
+        big_h, small_h, overlap, bottom = (PHOTO_H, round(PHOTO_H * small_ratio), 20,
+                                           PHOTO_BOTTOM)
         big = Image.open(os.path.join(PROD, product["p1000"])).convert("RGBA")
         big = big.crop(big.getbbox())
         big_w = round(big.width * big_h / big.height)
-        small = Image.open(os.path.join(PROD, product["p250"])).convert("RGBA")
+        small = Image.open(os.path.join(PROD, small_file)).convert("RGBA")
         small = small.crop(small.getbbox())
         small_w = round(small.width * small_h / small.height)
         total = big_w + small_w - overlap
         x0 = round(512 - total / 2)
         place(c, product["p1000"], big_h, left=x0, bottom=bottom)
-        place(c, product["p250"], small_h, left=x0 + big_w - overlap, bottom=bottom, white=True)
+        place(c, small_file, small_h, left=x0 + big_w - overlap, bottom=bottom, white=True)
 
     halal = Image.open(os.path.join(ASSETS, "halal.png")).convert("RGBA")
     halal = halal.crop(halal.getbbox())
@@ -307,7 +359,11 @@ def slide(product, variant):
 def main():
     os.makedirs(OUT, exist_ok=True)
     for p in PRODUCTS:
-        for variant, suffix in (("250", "250gr"), ("1000", "1000gr"), ("combo", "250&1000gr")):
+        # Angkanya saja, supaya nama berkas kedua belas produk pertama tidak
+        # berubah: "250gr" dan "250&1000gr", persis seperti yang sudah terbit.
+        num = small_pack(p)[1].split()[0]
+        for variant, suffix in ((f"small", f"{num}gr"), ("1000", "1000gr"),
+                                ("combo", f"{num}&1000gr")):
             path = os.path.join(OUT, f"{p['slug']}_S1_{suffix}.png")
             slide(p, variant).save(path)
             print("wrote", os.path.basename(path))
