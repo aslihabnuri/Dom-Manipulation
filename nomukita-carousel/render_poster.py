@@ -60,6 +60,38 @@ def mix(a, b, t):
     return tuple(round(a[i] + (b[i] - a[i]) * t) for i in range(3))
 
 
+# Jumlah anggota tiap kategori DIHITUNG dari daftar produk, tidak ditulis tangan.
+# Empat produk baru - Pure Dark Cocoa, Dark Cocoa, Cappuccino, Taro - membuat
+# angka yang tercetak di gambar kategori langsung salah: Premium jadi dua belas,
+# bukan sepuluh, dan Exclusive jadi empat, bukan dua. Angka yang ditulis tangan
+# di tiga berkas berbeda tidak punya cara untuk tahu itu.
+WORD = {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six",
+        7: "seven", 8: "eight", 9: "nine", 10: "ten", 11: "eleven",
+        12: "twelve", 13: "thirteen", 14: "fourteen", 15: "fifteen",
+        16: "sixteen", 17: "seventeen", 18: "eighteen", 19: "nineteen",
+        20: "twenty"}
+
+
+def count(kind):
+    """Berapa produk dalam satu kategori, sebagai (angka, kata).
+
+    "250" menghitung yang benar-benar punya kemasan 250 gram: Pure Dark Cocoa
+    tidak, ia datang sebagai kotak 300 gram, jadi ia tidak ikut terhitung di
+    sana walaupun ikut di 1000 gram.
+    """
+    pick = {
+        "matcha": lambda p: p["slug"] in ("MatchaLatte", "PremixMatcha"),
+        "premium": lambda p: p["series"] == "premium",
+        "exclusive": lambda p: p["series"] == "exclusive",
+        "250": lambda p: "p250" in p,
+        "1000": lambda p: "p1000" in p,
+    }[kind]
+    n = sum(1 for p in bs.PRODUCTS if pick(p))
+    if kind == "matcha":
+        n += 3          # tiga origin Pure Matcha, tidak ada di bs.PRODUCTS
+    return n, WORD.get(n, str(n))
+
+
 # Berapa banyak warna judul dilarutkan ke dalam bidang. Acuan memakai kira-kira
 # 0,27 jingga di dalam putih, tapi jingganya gelap (terang 119 lawan bidang 219,
 # selisih 100). Steel blue Nomukita jauh lebih terang, jadi larutan yang sama
@@ -104,12 +136,12 @@ SIZES = {"1024": (1024, 1024), "1080x1440": (1080, 1440)}
 # lima: tiga origin ditambah dua racikan.
 CATEGORY = {
     "matcha": dict(
-        word="MATCHA", kanji="抹茶", cap="five packs",
+        word="MATCHA", kanji="抹茶", cap=f"{count('matcha')[1]} packs",
         hero="Mockup nomukita-Pure Matcha Uji Kyoto.png",
         hue=MATCHA,
     ),
     "premium": dict(
-        word="PREMIUM", kanji="飲む", cap="ten flavours",
+        word="PREMIUM", kanji="飲む", cap=f"{count('premium')[1]} flavours",
         # Bukan matcha, atas permintaan pelanggan: Matcha Latte sudah mewakili
         # kategori matcha, dan Premium sepuluh rasa yang sebagian besar bukan
         # matcha. Cookies & Cream label seri Premium, dan katakananya benar -
@@ -118,17 +150,17 @@ CATEGORY = {
         hue=STEEL,
     ),
     "exclusive": dict(
-        word="EXCLUSIVE", kanji="飲む", cap="two flavours",
+        word="EXCLUSIVE", kanji="飲む", cap=f"{count('exclusive')[1]} flavours",
         hero="Mockup nomukita-Exclusive series-chocolate.png",
         hue=STEEL,
     ),
     "250gram": dict(
-        word="250 GRAM", kanji="飲む", cap="twelve flavours",
+        word="250 GRAM", kanji="飲む", cap=f"{count('250')[1]} flavours",
         hero="nomukita-matcha latte japanese.png",
         hue=STEEL, white=True,
     ),
     "1000gram": dict(
-        word="1000 GRAM", kanji="飲む", cap="twelve flavours",
+        word="1000 GRAM", kanji="飲む", cap=f"{count('1000')[1]} flavours",
         hero="Mockup nomukita-Exclusive series-Teh Tarik.png",
         hue=STEEL,
     ),

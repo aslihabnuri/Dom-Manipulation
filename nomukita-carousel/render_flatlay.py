@@ -94,13 +94,46 @@ DARK_ON_BONE = dict(                        # pouch putih
 
 # Mockup Avocado mencetak レモンティー, bukan アボカド. Di gambar kategori
 # kemasannya tampil cukup besar untuk terbaca, jadi produk itu tidak dipajang
-# sampai mockup-nya diperbaiki. Ia tetap ikut terhitung dalam "ten flavours".
+# sampai mockup-nya diperbaiki. Ia tetap ikut terhitung dalam jumlah rasanya.
 DISPLAY_SKIP = {"Avocado"}
+
+
+# Jumlah anggota tiap kategori DIHITUNG dari daftar produk, tidak ditulis tangan.
+# Empat produk baru - Pure Dark Cocoa, Dark Cocoa, Cappuccino, Taro - membuat
+# angka yang tercetak di gambar kategori langsung salah: Premium jadi dua belas,
+# bukan sepuluh, dan Exclusive jadi empat, bukan dua. Angka yang ditulis tangan
+# di tiga berkas berbeda tidak punya cara untuk tahu itu.
+WORD = {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six",
+        7: "seven", 8: "eight", 9: "nine", 10: "ten", 11: "eleven",
+        12: "twelve", 13: "thirteen", 14: "fourteen", 15: "fifteen",
+        16: "sixteen", 17: "seventeen", 18: "eighteen", 19: "nineteen",
+        20: "twenty"}
+
+
+def count(kind):
+    """Berapa produk dalam satu kategori, sebagai (angka, kata).
+
+    "250" menghitung yang benar-benar punya kemasan 250 gram: Pure Dark Cocoa
+    tidak, ia datang sebagai kotak 300 gram, jadi ia tidak ikut terhitung di
+    sana walaupun ikut di 1000 gram.
+    """
+    pick = {
+        "matcha": lambda p: p["slug"] in ("MatchaLatte", "PremixMatcha"),
+        "premium": lambda p: p["series"] == "premium",
+        "exclusive": lambda p: p["series"] == "exclusive",
+        "250": lambda p: "p250" in p,
+        "1000": lambda p: "p1000" in p,
+    }[kind]
+    n = sum(1 for p in bs.PRODUCTS if pick(p))
+    if kind == "matcha":
+        n += 3          # tiga origin Pure Matcha, tidak ada di bs.PRODUCTS
+    return n, WORD.get(n, str(n))
+
 
 
 CATEGORY = {
     "premium": dict(
-        head=["The", "Premium", "Line, Ten", "Flavours"],
+        head=["The", "Premium", f"Line, {count('premium')[1].title()}", "Flavours"],
         band="1000 GRAM · 250 GRAM",
         cta="See All Flavours",
         pick=lambda p: p["series"] == "premium",
@@ -110,7 +143,7 @@ CATEGORY = {
     ),
     "250gr": dict(
         head=["Every", "Flavour,", "Now in", "250 Gram"],
-        band="TWELVE FLAVOURS",
+        band=f"{count('250')[1].upper()} FLAVOURS",
         cta="See All Flavours",
         pick=lambda p: True,
         size="250",

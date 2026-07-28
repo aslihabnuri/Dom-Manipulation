@@ -805,3 +805,25 @@ berkas.
 
 Kedua driver itu sekarang menerima daftar slug; tanpa argumen keduanya
 mengerjakan semua produk seperti sebelumnya.
+
+
+### Jumlah anggota kategori sekarang dihitung, bukan ditulis tangan
+
+Menambahkan empat produk membuat angka yang tercetak pada gambar kategori
+langsung salah, dan angka itu ditulis tangan di tiga berkas berbeda
+(`render_poster.py`, `render_flatlay.py`, `render_category.py`). Semuanya
+sekarang memanggil satu fungsi `count()` yang membaca `bs.PRODUCTS`:
+
+| Kategori | Sebelum | Sekarang |
+| --- | --- | --- |
+| Matcha Series | five packs | five packs |
+| Premium | ten flavours | **twelve flavours** |
+| Exclusive | two flavours | **four flavours** |
+| 250 gram | twelve flavours | **fifteen flavours** |
+| 1000 gram | twelve flavours | **sixteen flavours** |
+
+250 gram lima belas, bukan enam belas: Pure Dark Cocoa tidak punya kemasan 250
+gram, ia datang sebagai kotak 300 gram. Gambar kategori Exclusive juga berubah
+isinya - anggotanya sekarang empat, bukan dua.
+
+Ketujuh belas berkas kategori dibangun ulang dan semuanya lolos pemeriksaan.
