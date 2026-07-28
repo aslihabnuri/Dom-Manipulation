@@ -1000,3 +1000,51 @@ pelanggan menyalakan peringatan yang sama pada besaran yang sama atau lebih
 buruk (Avocado 62 persen, Vanilla melebar 2,11 kali), jadi ini kondisi yang
 sudah diterima pada pipeline ini, bukan cacat baru. Dicatat di sini supaya
 keputusannya tetap ada pada pelanggan.
+
+## Dua revisi ukuran produk
+
+### Uji_S1_500gr: pouch-nya diperbesar seukuran Shizouka
+
+Kedua slide itu buatan pelanggan, bukan keluaran pipeline ini, dan tata letaknya
+sama persis. Yang berbeda cuma pouch-nya:
+
+| | siluet gelap | alas |
+| --- | --- | --- |
+| Uji (lama) | 228 x 374 | y 797 |
+| Shizouka | 309 x 507 | y 857 |
+
+`retouch_uji.py` tidak membangun ulang slide-nya - naskah, kolom kriteria rasa,
+lencana ORIGIN dan ketiga segelnya tidak disentuh sama sekali. Yang dikerjakan
+satu operasi gambar: pouch beserta bayangannya dipotong, dihapus, diperbesar
+1,3556 kali, lalu ditempel pada kotak yang sama persis dengan milik Shizouka.
+
+Faktornya bukan pilihan: 507/374 = 1,3556, dan diperiksa balik 228 x 1,3556 = 309,
+sama persis dengan lebar siluet Shizouka. Kedua mockup memang beresolusi identik
+(562 x 913), jadi satu faktor tinggi sudah cukup.
+
+Ditempel dengan MASKER, bukan sebagai persegi. Potongan yang diperbesar membawa
+serta latar di sekelilingnya, dan perseginya 527 x 618 px - cukup besar untuk
+menimpa tepi kiri lencana ORIGIN, ujung kolom kriteria dan puncak ketiga segel.
+Versi pertama memang menghapusnya: 2.104 px lencana, 4.773 px segel, 1.286 px
+kolom kriteria. Setelah dimasker, ketiganya 0 px berubah.
+
+### Kemasan 250 gram tidak lagi mengecil karena bahannya lebar
+
+`LemonGrass_S1_250gr` kemasannya terbit 306 px sementara `Vanilla_S1_250gr` 341
+px dan Charcoal 383 px. Sebabnya aturan lama: kalau grupnya tidak muat, SELURUH
+grup dikecilkan sekaligus. Seikat serai yang berbaring melebar membuat rentang
+Lemon Grass 1123 px terhadap batas 904, jadi semuanya dikalikan 0,801 - dan yang
+paling menderita justru barang yang dijual.
+
+Sekarang urutan mengalahnya ditetapkan: **prop dulu, lalu gelas, baru seluruh
+grup.** Prop itu bahan, gelas itu saran penyajian, kemasan itu barang yang
+dijual. Prop punya lantai di 45 persen lebar kemasan, gelas di 74 persen tinggi
+nominalnya.
+
+Hasilnya kemasan 383 px pada keenam belas slide 250 gram, tanpa kecuali - Lemon
+Grass sekarang sama persis dengan Vanilla, Teh Tarik dan yang lain.
+
+Tujuh berkas ikut berubah karena aturan ini, dan empat di antaranya sudah pernah
+terbit: **Avocado, Vanilla, Milk Tea** dan Lemon Grass, ditambah Cappuccino, Dark
+Cocoa dan Taro yang baru. Semuanya berubah ke arah yang sama - kemasannya membesar
+ke ukuran penuh, propnya atau gelasnya yang menyusut sedikit.

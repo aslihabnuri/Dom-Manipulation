@@ -120,17 +120,56 @@ def build(idx, glass_img, prop_img, out, slug,
     # badan gelas. Grupnya dipusatkan pada rentang ini, bukan pada badan-badannya
     # saja: kalau tidak, polong vanili yang menjulur ke kanan menggeser seluruh
     # komposisinya dan menembus margin kanvas.
-    rel_l = min(overlap - aw, pw - overlap_glass - over_l)
-    rel_r = max(pw, pw - overlap_glass + gw + over_r)
+    def span(aw, overlap):
+        l = min(overlap - aw, pw - overlap_glass - over_l)
+        r = max(pw, pw - overlap_glass + gw + over_r)
+        return l, r
+
+    rel_l, rel_r = span(aw, overlap)
+    room = 1024 - 2 * MARGIN
+
+    # Kalau grupnya kelebihan lebar, yang MENGALAH propnya, bukan kemasannya.
+    #
+    # Jalur lama mengecilkan seluruh grup sekaligus, dan yang paling menderita
+    # produknya sendiri: seikat serai yang berbaring melebar membuat rentang
+    # Lemon Grass 1123 px terhadap batas 904, sehingga semuanya dikalikan 0,801
+    # dan kemasannya terbit 306 px - sepersepuluh lebih kecil daripada kemasan
+    # yang sama pada slide Vanilla, dan seperlima lebih kecil daripada Charcoal.
+    # Kemasan yang ukurannya berubah-ubah tergantung selebar apa bahan di
+    # sebelahnya bukan keputusan desain, itu efek samping.
+    #
+    # Propnya punya lantai: di bawah 45 persen lebar kemasan ia berhenti terbaca
+    # sebagai bahan dan jadi hiasan kecil. Kalau menyempitkan prop saja belum
+    # cukup, barulah seluruh grup dikecilkan seperti dulu.
+    if prop_img and rel_r - rel_l > room:
+        want = aw - ((rel_r - rel_l) - room)
+        prop_h = photo.fit(prop_img, prop_h, max(round(pw * 0.45), round(want)))
+        aw = photo.size_at(prop_img, prop_h)
+        overlap = min(round(48 * px_per_cm / r1.PX_PER_CM), round(0.28 * aw))
+        rel_l, rel_r = span(aw, overlap)
+
+    # Kalau menyempitkan prop belum cukup, yang mengalah berikutnya GELASNYA -
+    # baru setelah itu seluruh grup. Urutannya sengaja: prop itu bahan, gelas itu
+    # saran penyajian, dan kemasan itu barang yang dijual. Pada Lemon Grass
+    # propnya sudah mentok di lantainya dan rentangnya masih 993 px, sisanya
+    # datang dari garnis jeruk yang menjulur ke kanan gelas.
+    for _ in range(16):
+        if rel_r - rel_l <= room or gh <= round(GLASS_CM * px_per_cm * 0.74):
+            break
+        gh -= 8
+        gw = photo.size_at(glass_img, gh, body=True)
+        over_l, over_r = _garnish(glass_img, gh)
+        rel_l, rel_r = span(aw, overlap)
+
     x0 = round(512 - (rel_l + rel_r) / 2)
     if rel_r - rel_l > 1024 - 2 * MARGIN:
         # Terlalu lebar bahkan setelah dipusatkan: kecilkan sekali, sebanyak yang
         # diperlukan. Sekali, bukan berulang - mengecilkan lalu memusatkan ulang
         # terhadap badan gelas tidak pernah konvergen, dan pernah berputar 985 kali
         # sampai kehabisan tumpukan rekursi.
-        room = (1024 - 2 * MARGIN) / (rel_r - rel_l)
+        shrink = (1024 - 2 * MARGIN) / (rel_r - rel_l)
         return build(idx, glass_img, prop_img, out, slug,
-                     px_per_cm * room * 0.995, pouch_boost)
+                     px_per_cm * shrink * 0.995, pouch_boost)
 
     c = Image.new('RGBA', (1024, 1024), bs.BG + (255,))
     c.alpha_composite(Image.open(f'{bs.ASSETS}/logo_nomukita.png').convert('RGBA'), bs.LOGO_XY)
