@@ -1,0 +1,37 @@
+/* Nomukita brand tokens — derived from "Nomukita Brand Guidelines Vol.01 / 2026".
+   Source deck: brand/nomukita-brand-guidelines-vol01.pdf */
+
+:root {
+  /* ---- Core palette (page 08) ---- */
+  --bone-white: #f5f3ee;   /* primary background */
+  --charcoal: #1c1c1c;     /* primary text */
+  --nomu-blue: #5e98bd;    /* signature accent, as documented on page 08 */
+
+  /* ---- Category accents (one per composition) ---- */
+  --matcha-green: #7a9a3f;
+  --dark-cocoa: #3b2418;
+
+  /* ---- Logo blue ----
+     The logo artwork throughout the deck is #44B4D9, not the #5E98BD documented
+     in the palette. Both are kept until the brand owner picks one; the SVGs in
+     brand/logo/ currently carry the artwork value. See BRAND.md. */
+  --nomu-blue-logo: #44b4d9;
+
+  /* ---- Typography (page 09) ---- */
+  --font-display: "All Round Gothic", "Comfortaa", system-ui, sans-serif;
+  --font-body: "Comfortaa", system-ui, sans-serif;
+  --font-jp: "Shippori Mincho", serif;
+
+  --display-min: 72px;     /* all caps, 72–168px */
+  --display-max: 168px;
+  --body-min: 24px;        /* 24–34px */
+  --body-max: 34px;
+  --body-leading: 1.55;
+
+  /* ---- Logo geometry (page 06) ----
+     Clear space on every side = 1x = the height of the blue dot. */
+  --logo-clear-space: 1;
+  --logo-min-width-digital: 120px;
+  --logo-min-width-print: 25mm;
+  --logomark-min: 16px;
+}
