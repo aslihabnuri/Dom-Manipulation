@@ -24,6 +24,14 @@ PX_PER_CM = r1.PX_PER_CM * 1.35
 POUCH_BOOST = 1.30
 BOTTOM = r1.BOTTOM
 GLASS_OVERLAP = 26
+# ...tapi hanya untuk kemasan yang lebih LEBAR daripada tinggi.
+#
+# Sachet 250 gram itu datar dan melebar (494 x 383), jadi 26 px yang menutupi
+# gelas tidak terasa. Kotak 300 gram jangkung dan ramping (248 x 479), dan
+# gelasnya sendiri cuma 170 px lebar: 26 px berarti seperenam gelasnya hilang di
+# balik kotak, dan sisanya terbaca sebagai potongan gelas, bukan gelas.
+# Kemasan jangkung berdiri bersebelahan saja.
+TALL_PACK_OVERLAP = 0
 
 
 SEAL_TOP = 875       # segelnya mulai di 881; bayangan kontak gelas berhenti sebelum ini
@@ -94,6 +102,7 @@ def build(idx, glass_img, prop_img, out, slug,
     src = src.crop(src.getbbox())
     pw = round(src.width * ph_pouch / src.height)
 
+    overlap_glass = GLASS_OVERLAP if src.width >= src.height else TALL_PACK_OVERLAP
     gw = photo.size_at(glass_img, gh, body=True)
     # Garnis yang menjulur ke samping tidak ikut terhitung saat memusatkan grup,
     # karena pemusatannya memakai badan gelas. Pada skala 250 gram yang lebih
@@ -111,8 +120,8 @@ def build(idx, glass_img, prop_img, out, slug,
     # badan gelas. Grupnya dipusatkan pada rentang ini, bukan pada badan-badannya
     # saja: kalau tidak, polong vanili yang menjulur ke kanan menggeser seluruh
     # komposisinya dan menembus margin kanvas.
-    rel_l = min(overlap - aw, pw - GLASS_OVERLAP - over_l)
-    rel_r = max(pw, pw - GLASS_OVERLAP + gw + over_r)
+    rel_l = min(overlap - aw, pw - overlap_glass - over_l)
+    rel_r = max(pw, pw - overlap_glass + gw + over_r)
     x0 = round(512 - (rel_l + rel_r) / 2)
     if rel_r - rel_l > 1024 - 2 * MARGIN:
         # Terlalu lebar bahkan setelah dipusatkan: kecilkan sekali, sebanyak yang
@@ -147,7 +156,7 @@ def build(idx, glass_img, prop_img, out, slug,
     # kalau fotonya ditaruh di atasnya, produknya - yang justru jadi hero - malah
     # terkubur di antara alpukat dan gelas. Digambar di depan, ia yang menutupi
     # keduanya dan kembali memimpin.
-    photo.place(flat, glass_img, x0 + pw - GLASS_OVERLAP, BOTTOM, gh, body=True)
+    photo.place(flat, glass_img, x0 + pw - overlap_glass, BOTTOM, gh, body=True)
     if prop_img:
         photo.place(flat, prop_img, x0 + overlap - aw, BOTTOM, prop_h)
 
@@ -160,4 +169,4 @@ def build(idx, glass_img, prop_img, out, slug,
 
     flat.save(out)
     return out, r1.layers_intact(clean, flat, [(x0, x0 + overlap),
-                                               (x0 + pw - GLASS_OVERLAP, x0 + pw)])
+                                               (x0 + pw - overlap_glass, x0 + pw)])

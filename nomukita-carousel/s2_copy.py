@@ -143,7 +143,10 @@ COPY = {
          "A darker roast profile, so the cocoa still reads through milk and ice."),
     ], "Darker than the usual chocolate drink."),
 
-    "Cappuccino": ("CAPPU", "CCINO", [
+    # Cappuccino satu kata dan tidak boleh dipenggal. Nama satu kata memakai
+    # katakana yang tercetak di kemasannya sebagai baris kedua, aturan yang sama
+    # dengan Charcoal, Vanilla dan Taro.
+    "Cappuccino": ("CAPPUCCINO", "カプチーノ", [
         ("COFFEE ANTIOXIDANT",
          "Coffee carries chlorogenic acids, the antioxidants that come from the bean."),
         ("FOAM THAT HOLDS",

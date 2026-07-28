@@ -146,11 +146,18 @@ PRODUCTS = [
 # Kemasan kecil tiap produk dan tingginya relatif terhadap pouch 1000 gram.
 # Untuk pouch 250 gram angkanya 0,5, dari perbandingan tinggi sebenarnya kedua
 # kemasan. Kotak 300 gram Pure Dark Cocoa tidak punya angka sebenarnya yang bisa
-# saya periksa - yang ada hanya berkas artworknya - jadi 0,62 di bawah adalah
-# pilihan mata, bukan ukuran. Kotaknya lebih jangkung dan lebih ramping daripada
+# saya periksa - yang ada hanya berkas artworknya - jadi angka di bawah pilihan
+# mata, bukan ukuran.
+#
+# Semula 15 cm. Pada slide 250 gram angka itu dikalikan lagi dengan POUCH_BOOST
+# 1,30 - dorongan yang ada supaya sachet datar 12 cm tidak tampak mungil - dan
+# kotaknya jadi 479 px, LEBIH TINGGI daripada gelas 442 px di sebelahnya. Kotak
+# jangkung di samping gelas ramping membuat gelasnya terbaca sebagai serpihan.
+# 12,5 cm menaruh kotaknya sedikit di bawah bibir gelas, dan keduanya terbaca
+# sebagai dua benda utuh. Kotaknya lebih jangkung dan lebih ramping daripada
 # pouch 250 gram (rasio 0,52 lawan 1,24), jadi pada tinggi yang sama ia tampak
 # jauh lebih kecil. Ukuran sebenarnya perlu dikonfirmasi pelanggan.
-SMALL = {"PureDarkCocoa": ("p300", "300 gram", 0.62, 15.0)}
+SMALL = {"PureDarkCocoa": ("p300", "300 gram", 0.62, 12.5)}
 
 
 def small_pack(p):

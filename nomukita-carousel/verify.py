@@ -327,6 +327,11 @@ S5_SUB = {
     "Avocado": "one avocado", "Vanilla": "one vanilla",
     "MilkTea": "one milk tea", "LemonTea": "one lemon tea",
     "FrappeBase": "one frappe base", "LemonGrass": "one lemongrass",
+    # Ditulis ulang di sini dengan sengaja, sama seperti EXPECTED: pemeriksa yang
+    # membaca harapannya dari modul yang menggambar slide hanya bisa membuktikan
+    # rendernya bisa diulang, bukan bahwa isinya benar.
+    "PureDarkCocoa": "one pure cocoa", "DarkCocoa": "one dark cocoa",
+    "Cappuccino": "one cappuccino", "Taro": "one taro",
 }
 
 # Jendela pengukuran keterangan. Kolom tengah turun 124 px sehingga tidak pernah

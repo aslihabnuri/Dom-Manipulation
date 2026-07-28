@@ -955,3 +955,48 @@ produknya. Kemasan 300 gramnya mencetak "PURE BELGIAN COCOA" sementara slide-nya
 berjudul PURE DARK COCOA, jadi naskahnya sengaja tidak menyebut Belgia sama
 sekali - asal geografis itu klaim yang bisa diperiksa orang lain. Yang dikutip
 hanya angka yang benar-benar tercetak di kemasan itu sendiri, "100% cocoa".
+
+### Kotak 300 gram: tinggi dan tumpang tindihnya
+
+Pelanggan: pada slide 300 gram gelasnya terpotong dan tidak proporsional. Dua
+sebab, dua-duanya milik kotak itu.
+
+**Tingginya.** `SMALL` menyimpan 15 cm untuk kotak itu. Pada slide kemasan kecil
+angka itu dikalikan lagi dengan `POUCH_BOOST` 1,30 - dorongan yang memang ada
+supaya sachet datar 12 cm tidak tampak mungil - dan kotaknya jadi 479 px, LEBIH
+TINGGI daripada gelas 442 px di sebelahnya. Kotak jangkung di samping gelas
+ramping membuat gelasnya terbaca sebagai serpihan. Sekarang 12,5 cm, yang
+menaruh kotaknya sedikit di bawah bibir gelas.
+
+**Tumpang tindihnya.** `GLASS_OVERLAP` 26 px cocok untuk sachet 250 gram yang
+datar dan melebar (494 x 383): 26 px yang tertutup tidak terasa. Kotak 300 gram
+jangkung dan ramping (248 x 479) dan gelasnya sendiri cuma 170 px lebar, jadi 26
+px berarti seperenam gelasnya hilang di balik kotak. Kemasan yang lebih tinggi
+daripada lebar sekarang berdiri bersebelahan saja, tanpa tumpang tindih. Kedua
+belas sachet datar tidak terpengaruh.
+
+**"Cappuccino" tidak dipenggal.** Naskah slide 2 sempat memecahnya jadi
+"CAPPU" / "CCINO". Nama satu kata memakai katakana yang tercetak di kemasannya
+sebagai baris kedua, aturan yang sama dengan Charcoal, Vanilla dan Taro:
+CAPPUCCINO / カプチーノ.
+
+## Slide 3 (serving suggestions) untuk empat produk baru
+
+Acuan `slide-5/Avocado_S5.png`, dibangun `render_s5.py` dengan menu di
+`s5_menu.py`. Dua belas gambar sajian, 48 kredit. `fit_s5.py` mengukur setiap
+barisnya lebih dulu dan menangkap dua baris Cappuccino yang tumpah - kata
+pendeknya jadi "coffee", bukan "cappuccino", persis alasan yang sama kenapa
+acuannya menulis "2g matcha" dan bukan "2g exclusive matcha".
+
+Menu Pure Dark Cocoa sengaja dibuat berbeda dari Dark Cocoa supaya keduanya
+tidak kembar. Yang membedakan bukan hiasan melainkan sifat produknya: kemasan
+Pure Dark Cocoa mencetak 100% cocoa tanpa gula, jadi kreasinya bertumpu pada
+rasa pahit dengan pemanis diserahkan ke peminumnya, termasuk satu iced mocha.
+
+`verify` menandai beberapa gambar sajian baru: siluet menutupi 48 sampai 64
+persen bingkai, dan melebar 1,40 sampai 1,53 kali lebar badannya di kaki -
+lempeng beige di bawah wadahnya. Kedua belas slide yang SUDAH disetujui
+pelanggan menyalakan peringatan yang sama pada besaran yang sama atau lebih
+buruk (Avocado 62 persen, Vanilla melebar 2,11 kali), jadi ini kondisi yang
+sudah diterima pada pipeline ini, bukan cacat baru. Dicatat di sini supaya
+keputusannya tetap ada pada pelanggan.
