@@ -406,3 +406,162 @@ def flat_pouch(height, accent, label=None, wordmark_ratio=0.56,
     d.rectangle([0, H_ - bh - r, W_, H_ - bh], fill=gusset + (255,))
 
     return im.resize((w, height), Image.LANCZOS)
+
+
+# ── 3D-illustration pouch ─────────────────────────────────────────────────
+
+def _hgrad(size, stops):
+    """One-pixel-tall gradient stretched to size. stops: [(t, value), ...]."""
+    w, h = size
+    strip = Image.new('L', (w, 1))
+    px = strip.load()
+    for x in range(w):
+        t = x / max(w - 1, 1)
+        for i in range(len(stops) - 1):
+            t0, v0 = stops[i]
+            t1, v1 = stops[i + 1]
+            if t0 <= t <= t1:
+                k = (t - t0) / max(t1 - t0, 1e-6)
+                px[x, 0] = int(v0 + (v1 - v0) * k)
+                break
+        else:
+            px[x, 0] = stops[-1][1]
+    return strip.resize((w, h))
+
+
+def pouch3d(height, accent, label=None, body=(30, 30, 30), tab=LOGO_BLUE, ss=3):
+    """A stand-up pouch drawn with volume: bulged silhouette, angled gusset
+    face, a top plane and form shading.
+
+    Built rather than generated — an image model cannot be trusted with the
+    vertical wordmark, and the mockups are photographs, not illustration.
+    """
+    import subprocess, tempfile, re, math
+
+    Wp = round(height * 0.60)
+    W_, H_ = Wp * ss, height * ss
+    im = Image.new('RGBA', (W_, H_), (0, 0, 0, 0))
+
+    top_y = round(H_ * 0.075)          # top plane sits above this
+    gw = W_ * 0.215                    # side gusset face
+    bulge = W_ * 0.022
+
+    def edges(t):
+        """Left and right silhouette x at vertical fraction t (0 top, 1 bottom)."""
+        swell = bulge * math.sin(math.pi * min(max(t, 0), 1) ** 0.85)
+        left = W_ * 0.035 * (1 - t) - swell
+        right = W_ - W_ * 0.035 * (1 - t) + swell
+        return left, right
+
+    steps = 160
+    left_pts, right_pts, seam_pts = [], [], []
+    for i in range(steps + 1):
+        t = i / steps
+        y = top_y + (H_ - top_y) * t
+        lx, rx = edges(t)
+        left_pts.append((lx, y))
+        right_pts.append((rx, y))
+        seam_pts.append((lx + gw, y))
+
+    silhouette = left_pts + right_pts[::-1]
+    front_poly = seam_pts + right_pts[::-1]
+    gusset_poly = left_pts + seam_pts[::-1]
+
+    d = ImageDraw.Draw(im)
+    d.polygon(silhouette, fill=body + (255,))
+
+    # form shading across the front face: light from the upper left
+    front_mask = Image.new('L', (W_, H_), 0)
+    ImageDraw.Draw(front_mask).polygon(front_poly, fill=255)
+    shade = Image.new('RGBA', (W_, H_), (255, 255, 255, 0))
+    shade.putalpha(_hgrad((W_, H_), [(0.0, 0), (0.16, 30), (0.34, 16),
+                                     (0.72, 0), (1.0, 0)]))
+    im.paste(Image.alpha_composite(im, shade), (0, 0), front_mask)
+    dark = Image.new('RGBA', (W_, H_), (0, 0, 0, 0))
+    dark.putalpha(_hgrad((W_, H_), [(0.0, 0), (0.60, 0), (1.0, 74)]))
+    im.paste(Image.alpha_composite(im, dark), (0, 0), front_mask)
+
+    # the gusset is turned away from the light
+    gm = Image.new('L', (W_, H_), 0)
+    ImageDraw.Draw(gm).polygon(gusset_poly, fill=255)
+    gshade = Image.new('RGBA', (W_, H_), (0, 0, 0, 0))
+    gshade.putalpha(_hgrad((W_, H_), [(0.0, 130), (0.6, 88), (1.0, 150)]))
+    im.paste(Image.alpha_composite(im, gshade), (0, 0), gm)
+
+    # flat sealed top edge, the way the real pack is finished
+    l0, r0 = edges(0)
+    seal_h = H_ * 0.052
+    d.rounded_rectangle([l0, top_y - seal_h, r0, top_y + seal_h * 0.35],
+                        radius=round(seal_h * 0.45), fill=(52, 52, 52, 255))
+    seal_mask = Image.new('L', (W_, H_), 0)
+    ImageDraw.Draw(seal_mask).rounded_rectangle(
+        [l0, top_y - seal_h, r0, top_y + seal_h * 0.35],
+        radius=round(seal_h * 0.45), fill=255)
+    sshade = Image.new('RGBA', (W_, H_), (0, 0, 0, 0))
+    sshade.putalpha(_hgrad((W_, H_), [(0.0, 110), (0.3, 20), (1.0, 120)]))
+    im.paste(Image.alpha_composite(im, sshade), (0, 0), seal_mask)
+
+    # zip strip below the seal
+    zip_y = top_y + H_ * 0.058
+    d.line([(l0 + gw * 0.55, zip_y), (r0 - W_ * 0.035, zip_y)],
+           fill=(78, 78, 78, 220), width=max(round(H_ * 0.009), 2))
+
+    # seam where the gusset folds away from the front face
+    d.line(seam_pts[2:], fill=(10, 10, 10, 120), width=max(round(ss * 0.9), 1))
+
+    # base band — the flat bottom the pouch stands on
+    base_t = 0.955
+    lb, rb = edges(base_t)
+    d.polygon([(lb, top_y + (H_ - top_y) * base_t), (rb, top_y + (H_ - top_y) * base_t),
+               (right_pts[-1][0], H_), (left_pts[-1][0], H_)],
+              fill=(14, 14, 14, 255))
+
+    fl, fr = seam_pts[0][0], right_pts[0][0]     # front face span at the top
+    fw = fr - fl
+
+    # cyan tab
+    tw, th = round(fw * 0.30), round(H_ * 0.155)
+    tx = round(fl + fw * 0.56)
+    d.rounded_rectangle([tx, top_y - seal_h * 0.9, tx + tw, top_y + th],
+                        radius=tw // 2, corners=(False, False, True, True),
+                        fill=tab + (255,))
+
+    def svg_png(name, colour, **kw):
+        s = (REPO / f'brand/logo/nomukita-{name}.svg').read_text()
+        if name == 'wordmark':
+            s = re.sub(r'<g transform="[^"]*" fill="#44B4D9"[^>]*>.*?</g>', '',
+                       s, flags=re.S)
+        s = re.sub(r'fill="#[0-9A-Fa-f]{6}"', f'fill="{colour}"', s)
+        with tempfile.NamedTemporaryFile(suffix='.svg', mode='w', delete=False) as f:
+            f.write(s)
+            src = f.name
+        with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as t:
+            arg_ = ['-w', str(kw['w'])] if 'w' in kw else ['-h', str(kw['h'])]
+            subprocess.run(['rsvg-convert', *arg_, src, '-o', t.name], check=True)
+            return Image.open(t.name).convert('RGBA')
+
+    mark = svg_png('logomark', '#FFFFFF', h=round(tw * 0.52))
+    im.alpha_composite(mark, (tx + (tw - mark.width) // 2,
+                              round(top_y + th * 0.40) - mark.height // 2))
+
+    word = svg_png('wordmark', '#FFFFFF', w=round(H_ * 0.56))
+    word = word.transpose(Image.ROTATE_270)
+    im.alpha_composite(word, (round(fl + fw * 0.60), round(H_ * 0.255)))
+
+    dot = svg_png('logomark', '#%02X%02X%02X' % accent[:3], h=round(fw * 0.145))
+    im.alpha_composite(dot, (round(fl + fw * 0.20), round(H_ * 0.545)))
+
+    if label:
+        series, kanji, name, gram = label
+        lx, ly = round(fl + fw * 0.12), round(H_ * 0.665)
+        d.text((lx, ly), series, font=comf(round(H_ * 0.022), 400),
+               fill=(198, 180, 152, 255))
+        d.text((lx, ly + H_ * 0.038), kanji, font=jp(round(H_ * 0.029)),
+               fill=(255, 255, 255, 255))
+        for i, ln in enumerate(name):
+            d.text((lx, ly + H_ * (0.084 + i * 0.032)), ln,
+                   font=comf(round(H_ * 0.026), 700), fill=(255, 255, 255, 255))
+        d.text((lx, ly + H_ * 0.168), gram, font=comf(round(H_ * 0.022), 400),
+               fill=(228, 228, 228, 255))
+
+    return im.resize((Wp, height), Image.LANCZOS)

@@ -46,9 +46,9 @@ def payday():
         (None, (198, 150, 60), 492, 1525, ('Premium', 'レモングラス', ['Lemon Grass'], '1000 gram')),
         (None, COCOA, 430, 1825, ('Exclusive', 'ダークココア', ['Dark Cocoa'], '1000 gram')),
     ):
-        pouch = N.flat_pouch(ph, accent, label=label)
+        pouch = N.pouch3d(ph, accent, label=label)
         x, y = cx - pouch.width / 2, WIDE_H - ph - 8
-        N.contact_shadow(c, pouch, x, y, blur=16, opacity=70)
+        N.contact_shadow(c, pouch, x, y, blur=18, opacity=76)
         c.alpha_composite(pouch, (round(x), round(y)))
 
     N.logo(c, y=96, width=306, within=panel)
@@ -96,7 +96,7 @@ def terms():
          'tanpa video, barang tidak bisa diretur.'),
         ('02', 'BARANG RUSAK ATAU TIDAK SESUAI',
          'jika pesanan diterima dalam keadaan rusak, cacat, atau tidak sesuai, '
-         'hubungi customer service kami dengan menyertakan keluhan dan video unboxing.'),
+         'hubungi customer service nomukita dengan menyertakan keluhan dan video unboxing.'),
         ('03', 'KENDALA PENGIRIMAN',
          'untuk masalah pada proses kirim, hubungi CS ekspedisi terkait.'),
     ]
@@ -119,42 +119,40 @@ def terms():
 # ── 3. Fifteen years — 2:1 ────────────────────────────────────────────────
 def heritage():
     c = N.canvas(WIDE_W, WIDE_H)
-    panel_x = 1105
+    panel = 880
 
-    art = N.cover(N.trim_frame(Image.open(ILLUS2 / 'teahouse.png')), WIDE_W, WIDE_H)
+    art = N.cover(N.trim_frame(Image.open(ILLUS2 / 'teahouse2.png')), WIDE_W, WIDE_H)
     c.paste(art, (0, 0))
 
     for accent, ph, cx, label in (
-        (MATCHA, 396, 235, ('Pure', '抹茶', ['Pure Matcha', 'Uji Kyoto'], '500 gram')),
-        (COCOA, 452, 530, ('Exclusive', 'ダークココア', ['Dark Cocoa'], '1000 gram')),
-        ((198, 150, 60), 396, 825, ('Premium', 'テ・タリック', ['Teh Tarik'], '1000 gram')),
+        (MATCHA, 424, 1215, ('Pure', '抹茶', ['Pure Matcha', 'Uji Kyoto'], '500 gram')),
+        (COCOA, 488, 1520, ('Exclusive', 'ダークココア', ['Dark Cocoa'], '1000 gram')),
+        ((198, 150, 60), 424, 1825, ('Premium', 'テ・タリック', ['Teh Tarik'], '1000 gram')),
     ):
-        pouch = N.flat_pouch(ph, accent, label=label)
+        pouch = N.pouch3d(ph, accent, label=label)
         x, y = cx - pouch.width / 2, WIDE_H - ph - 8
-        N.contact_shadow(c, pouch, x, y, blur=15, opacity=66)
+        N.contact_shadow(c, pouch, x, y, blur=18, opacity=76)
         c.alpha_composite(pouch, (round(x), round(y)))
 
     d = ImageDraw.Draw(c)
-    d.rectangle([panel_x, 0, WIDE_W, WIDE_H], fill=BONE + (255,))
-    span = WIDE_W - panel_x
-    mid = panel_x + span / 2
+    d.rectangle([0, 0, panel, WIDE_H], fill=BONE + (255,))
+    mid = panel / 2
 
-    N.logo(c, y=96, width=290, x=panel_x + (span - 290) / 2)
-    d.text((mid, 252), '十五年', font=N.jp(36), fill=STEEL, anchor='ms')
-    N.text(d, (mid, 356), "YOU'VE TASTED", 66, CHARCOAL, tracking=2, align='center')
-    N.text(d, (mid, 428), 'THIS BEFORE', 66, CHARCOAL, tracking=2, align='center')
-    N.text(d, (mid, 500), '15 TAHUN DI RATUSAN KAFE', 25, MATCHA, demi=True,
-           tracking=5, align='center')
-    N.rule(d, 552, x0=panel_x + 70, x1=WIDE_W - 70)
-    N.body(d, (mid, 606), [
-        'mungkin Anda sudah pernah minum',
-        'matcha kami di kafe langganan, tanpa',
-        'pernah lihat kemasannya.',
-    ], 27, CHARCOAL, align='center')
-    N.body(d, (mid, 760), [
-        'sekarang, bisa diseduh sendiri di rumah.',
-    ], 27, CHARCOAL, align='center')
-    N.body(d, (mid, WIDE_H - 96), ['powdered to perfection'], 21,
+    N.logo(c, y=96, width=306, within=panel)
+    d.text((mid, 268), '十五年', font=N.jp(38), fill=STEEL, anchor='ms')
+    N.text(d, (mid, 380), 'FIFTEEN YEARS', 72, CHARCOAL, tracking=2, align='center')
+    N.text(d, (mid, 458), 'IN THE CUP', 72, CHARCOAL, tracking=2, align='center')
+    N.text(d, (mid, 534), '15 TAHUN DI RATUSAN KAFE', 26, MATCHA, demi=True,
+           tracking=6, align='center')
+    N.rule(d, 596, x0=WIDE_M + 30, x1=panel - WIDE_M - 30)
+    N.body(d, (mid, 648), [
+        'rasa yang sudah lama akrab',
+        'di cangkir kafe langganan.',
+    ], 29, CHARCOAL, align='center')
+    N.body(d, (mid, 782), [
+        'kini tinggal diseduh sendiri di rumah.',
+    ], 29, CHARCOAL, align='center')
+    N.body(d, (mid, WIDE_H - 108), ['powdered to perfection'], 21,
            (150, 148, 143), align='center')
     return N.finish(c, OUT / '3-15-tahun.png')
 
