@@ -871,3 +871,44 @@ ada; cacat ini ketahuan lewat mata, dan begitulah cara memeriksanya.
 
 Empat gambar dihasilkan dalam perbaikan ini, 16 kredit, di atas 32 kredit
 pembuatan pertamanya.
+
+
+### Posisi gelas terhadap kemasan
+
+Pelanggan: gelasnya tidak menempel sempurna dengan kemasannya. Benar, dan
+terukur.
+
+`GLASS_OVERLAP` 26 px diambil dari acuan Matchamu, dan di sana gelasnya tabung
+berdinding lurus: tepi kirinya berada di tempat yang sama pada setiap
+ketinggian, jadi 26 px itu benar-benar 26 px sentuhan dari mulut sampai alas.
+Gelas berkaki tidak begitu. Badannya mengecil ke pinggang sementara tepi kanan
+pouch tetap di tempatnya, dan sepotong latar bone white menyelinap di antara
+keduanya pada sepertiga bawah - 15 px pada Dark Cocoa, 20 px pada Pure Dark
+Cocoa. Gelasnya lalu terbaca melayang di sebelah kemasan, bukan bersandar
+padanya.
+
+Diukur pada 100 px terbawah kemasan, celah terlebar antara sisi kanan kemasan
+dan sisi kiri gelas:
+
+| | celah |
+| --- | --- |
+| Matcha Latte, Premix Matcha, Cookies & Cream | 0 px |
+| Chocolate 9 · Cappuccino 15 · Milk Tea 17 · Teh Tarik 18 | 9-18 px |
+| Frappe Base 26 · Taro 27 · Lemon Tea 28 · Charcoal 29 | 26-29 px |
+| Vanilla 29 · **Avocado 35** · Lemon Grass 36 | sampai 36 px |
+| **Pure Dark Cocoa 50 · Dark Cocoa 41** | di luar rentang |
+
+Batasnya tidak dikarang: 36 px adalah celah terlebar di antara dua belas slide
+yang sudah diterima pelanggan, dan Avocado - slide yang dijadikan acuan - ada di
+35. Yang melewati batas itu digeser ke kiri sebanyak kelebihannya saja. Menurut
+konstruksinya kedua belas slide lama tidak bergeser satu piksel pun, dan itu
+diperiksa dengan membandingkan md5-nya.
+
+Satu jebakan pembukuan ikut terbuka: `layers_intact` hanya mengizinkan lapisan
+foto MEMBUAT TERANG di dalam kolom tempat gelas memang berdiri di depan pouch.
+Kolom itu harus ikut bergeser bersama gelasnya; kalau tidak, piksel gelas yang
+sah dilaporkan sebagai "pale patch of 692 px painted over the pouch" - cacat
+pembukuan, bukan cacat gambar.
+
+Varian kemasan kecil tidak diubah: celahnya diukur juga dan tidak ada yang di
+luar rentang slide yang sudah diterima.

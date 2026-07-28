@@ -47,10 +47,54 @@ def prop_height(slug):
     return round(PROP_CM[slug] * PX_PER_CM)
 
 
+# Celah terlebar yang masih boleh terbuka antara sisi kanan kemasan dan sisi kiri
+# gelas, diukur pada 100 px terbawah kemasan - bagian tempat gelas berkaki mulai
+# menjauh karena pinggangnya mengecil sementara tepi pouch tetap di tempatnya.
+#
+# Angkanya bukan selera: 36 px adalah celah TERLEBAR di antara dua belas slide
+# yang sudah disetujui pelanggan (Lemon Grass 36, Avocado 35 - dan Avocado justru
+# slide yang dijadikan acuan). Jadi batas ini diambil dari pekerjaan yang sudah
+# diterima, bukan dikarang, dan menurut konstruksinya kedua belas slide itu tidak
+# berubah sedikit pun.
+#
+# Yang melewatinya cuma dua: Pure Dark Cocoa 50 px dan Dark Cocoa 41 px, keduanya
+# bergelas kaki. Itu yang terbaca sebagai gelas melayang di sebelah kemasan.
+GAP_MAX = 36
+GAP_BAND = 120          # setinggi apa pita ukurnya, dari alas kemasan ke atas
+
+
+def _mask(im):
+    import numpy as np
+    return np.abs(np.asarray(im.convert('RGB')).astype(int) - np.array(bs.BG)).max(2) > 18
+
+
+def glass_gap(pouch_path, glass_img, gh, overlap):
+    """Celah terlebar antara kemasan dan gelas pada pita bawah, dalam piksel."""
+    import numpy as np
+    pw = round(POUCH_H * 0.695)
+    x0 = 200                                  # sembarang; yang diukur selisihnya
+    cp = Image.new('RGBA', (1024, 1024), bs.BG + (255,))
+    bs.place(cp, pouch_path, POUCH_H, left=x0, bottom=POUCH_BOTTOM)
+    P = _mask(cp)
+    fg = Image.new('RGB', (1024, 1024), bs.BG)
+    photo.place(fg, glass_img, x0 + pw - overlap, BOTTOM, gh, body=True)
+    G = _mask(fg)
+    worst = 0
+    for y in range(POUCH_BOTTOM - GAP_BAND, POUCH_BOTTOM - 20):
+        px = np.nonzero(P[y])[0]
+        gx = np.nonzero(G[y])[0]
+        if len(px) and len(gx):
+            worst = max(worst, int(gx.min()) - int(px.max()) - 1)
+    return worst
+
+
 def build(idx, glass_img, prop_img=None, out='slide.png', slug=None):
     p = bs.PRODUCTS[idx]
     pw = round(POUCH_H * 0.695)
     gw = photo.size_at(glass_img, GLASS_H, body=True)
+    # Gelas digeser ke kiri hanya sebanyak yang diperlukan untuk membawa celahnya
+    # kembali ke dalam batas yang sudah diterima. Nol untuk kedua belas produk lama.
+    nudge = max(0, glass_gap(p['p1000'], glass_img, GLASS_H, GLASS_OVERLAP) - GAP_MAX)
     if prop_img:
         ph = photo.fit(prop_img, prop_height(slug), PROP_MAX_W)
         aw = photo.size_at(prop_img, ph)
@@ -59,7 +103,7 @@ def build(idx, glass_img, prop_img=None, out='slide.png', slug=None):
         overlap = min(48, round(0.28 * aw))
     else:
         ph = aw = overlap = 0
-    x0 = round(512 - (pw + gw - GLASS_OVERLAP - aw + overlap) / 2)
+    x0 = round(512 - (pw + gw - GLASS_OVERLAP - nudge - aw + overlap) / 2)
 
     c = Image.new('RGBA', (1024, 1024), bs.BG + (255,))
     c.alpha_composite(Image.open(f'{bs.ASSETS}/logo_nomukita.png').convert('RGBA'), bs.LOGO_XY)
@@ -82,15 +126,19 @@ def build(idx, glass_img, prop_img=None, out='slide.png', slug=None):
     flat.paste(c, (0, 0), c)
     clean = flat.copy()
 
-    photo.place(flat, glass_img, x0 + pw - GLASS_OVERLAP, BOTTOM, GLASS_H, body=True)
+    photo.place(flat, glass_img, x0 + pw - GLASS_OVERLAP - nudge, BOTTOM, GLASS_H, body=True)
     if prop_img:
         photo.place(flat, prop_img, x0 + overlap - aw, BOTTOM, ph)
 
     flat.paste(clean.crop((0, 0, 1024, TOP_GUARD)), (0, 0))
 
     flat.save(out)
+    # Jendela yang boleh menjadi lebih terang ikut bergeser bersama gelasnya.
+    # Tanpa itu, `nudge` piksel gelas yang memang berdiri DI DEPAN kemasan jatuh
+    # di luar jendela dan dilaporkan sebagai "pale patch" - cacat pembukuan,
+    # bukan cacat gambar.
     return out, layers_intact(clean, flat, [(x0, x0 + overlap),
-                                            (x0 + pw - GLASS_OVERLAP, x0 + pw)])
+                                            (x0 + pw - GLASS_OVERLAP - nudge, x0 + pw)])
 
 
 def layers_intact(clean, final, allowed, margin=6, tol=14):
