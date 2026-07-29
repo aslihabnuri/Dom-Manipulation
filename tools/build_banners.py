@@ -426,40 +426,37 @@ FEATURES = [
 
 def banner5():
     W, H, M = 1600, 2000, 120
-    PHOTO_H = 1240
-    HAIR = (222, 222, 222)
-    c = Image.new("RGB", (W, H), WHITE)
-    c.paste(cover(grade(Image.open(f"{GEN}/still-life.png").convert("RGB"), 1.03),
-                  W, PHOTO_H, ycrop=0.72), (0, 0))
+    # No panel. The still-life is shot with an empty top third and bottom sixth,
+    # so the type sits straight on the photograph's own ground — measured at 228
+    # at its darkest, which black type clears comfortably.
+    c = cover(grade(Image.open(f"{GEN}/still-life.png").convert("RGB"), 1.03), W, H)
     d = ImageDraw.Draw(c)
-    d.line([(0, PHOTO_H), (W, PHOTO_H)], fill=HAIR, width=2)
+    cx = W // 2
 
     lg = logo("logo-horizontal-black", 380)
-    c.paste(lg, ((W - lg.width) // 2, 1292), lg)
+    c.paste(lg, ((W - lg.width) // 2, 118), lg)
 
-    hf = zal(800, 60)
+    hf = zal(800, 62)
     for i, line in enumerate(["BUILT FOR EVERYDAY", "PERFORMANCE"]):
-        tracked(d, (W // 2, 1400 + i * 68), line, hf, BLACK, tr=2, centre=True)
+        tracked(d, (cx, 272 + i * 72), line, hf, BLACK, tr=2, centre=True)
 
     sf = ari(400, 34)
     for i, line in enumerate(["Refined for lasting comfort.",
-                              "Available from XS to 5XL."]):
-        tracked(d, (W // 2, 1578 + i * 46), line, sf, DAVIS, centre=True)
+                              "Available in M, L and XL."]):
+        tracked(d, (cx, 452 + i * 46), line, sf, DAVIS, centre=True)
 
     colw = (W - 2 * M) // len(FEATURES)
     lf = zal(600, 24)
     for i, (icon, label) in enumerate(FEATURES):
-        cx = M + colw * i + colw // 2
-        # Match the icons on height, not on a bounding box: the waistband glyph
-        # is wide and short, so box-fitting made it read smaller than the rest.
+        ix = M + colw * i + colw // 2
         im = Image.open(f"{SCR}/icons/{icon}.png")
-        r = 96 / im.height
-        if im.width * r > 190:
-            r = 190 / im.width
+        r = 96 / im.height                    # match on height, not bounding box:
+        if im.width * r > 190:                # the waistband glyph is wide and
+            r = 190 / im.width                # short and reads small otherwise
         im = im.resize((round(im.width * r), round(im.height * r)), Image.LANCZOS)
-        c.paste(im, (cx - im.width // 2, 1746 + (96 - im.height) // 2), im)
+        c.paste(im, (ix - im.width // 2, 1568 + (96 - im.height) // 2), im)
         for j, line in enumerate(label):
-            tracked(d, (cx, 1878 + j * 32), line, lf, BLACK, tr=3, centre=True)
+            tracked(d, (ix, 1704 + j * 32), line, lf, BLACK, tr=3, centre=True)
 
     save(c, "5-product-value")
 

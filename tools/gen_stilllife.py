@@ -12,25 +12,27 @@ refs = [kie.upload(f"{SCR}/src/boxer_men_grey.png"),
         kie.upload(f"{SCR}/src/brief_men_grey.png")]
 
 prompt = (
-    "Bright, clean commercial still-life photograph for a men's underwear brand, "
-    "vertical 4:5. Three folded garments are staged on pale grey plinths of "
-    "different heights against a seamless off-white studio background: at the "
-    "back a folded pair of men's boxer briefs, in the middle a second pair shown "
-    "front-on with its wide flat elasticated waistband facing the camera, and at "
-    "the front a pair of men's briefs. Reproduce the cut, panel seams and "
-    "waistband of the garments in reference images 1 and 2 exactly, but render "
-    "every garment in solid BLACK. "
-    "One small prop only: a low stack of pale hardcover books on a plinth to the "
-    "left. No plants, no cameras, no clutter. Soft, even, directional daylight "
-    "from the upper left, gentle natural drop shadows on the plinths, no harsh "
-    "highlights. Shot slightly above eye level at a three-quarter angle. "
-    "Black and white photograph, no colour at all: black garments, pale grey "
-    "plinths, off-white ground. Calm, premium, understated. "
-    "IMPORTANT COMPOSITION: the arrangement sits in the lower two thirds of the "
-    "frame with clean empty background above it. The photograph bleeds to all "
-    "four edges: no bars, no borders, no letterboxing. "
-    "Photorealistic, high detail, sharp fabric texture, professional product "
-    "photography.")
+    "Bright, clean commercial product photograph for a men's underwear brand, "
+    "vertical 4:5. Three black garments are displayed as if worn, with no body "
+    "and no mannequin visible — a ghost mannequin effect — so each one holds its "
+    "full three-dimensional shape, filled and rounded rather than folded flat. "
+    "In the centre and slightly larger stands a pair of boxer briefs seen "
+    "front-on; a pair of briefs stands to its left and a second pair of boxer "
+    "briefs to its right, each raised on a slim pale grey cylindrical plinth of a "
+    "different height, arranged in a shallow arc. The wide flat elasticated "
+    "waistbands face the camera and read crisply. Reproduce the cut, panel seams "
+    "and waistband of the garments in the reference images exactly, rendered in "
+    "solid black. "
+    "No props of any kind: no books, no plants, no boxes, nothing but the "
+    "garments and their plinths. Seamless off-white studio background, soft even "
+    "light from the upper left, delicate natural contact shadows on the ground. "
+    "IMPORTANT COMPOSITION: the top third of the frame and the bottom sixth are "
+    "completely empty background with nothing in them, reserved for text. The "
+    "garments occupy only the middle band. The photograph bleeds to all four "
+    "edges: no bars, no borders, no letterboxing. "
+    "Black and white photograph, no colour at all. Calm, premium, understated. "
+    "Photorealistic, high detail, sharp fabric texture, professional e-commerce "
+    "product photography.")
 
 tid = kie.create("nano-banana-pro", {"prompt": prompt, "image_input": refs,
                                      "aspect_ratio": "4:5", "resolution": "2K",

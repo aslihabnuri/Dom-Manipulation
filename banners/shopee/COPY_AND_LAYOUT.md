@@ -72,28 +72,34 @@ Jadi keduanya dipindah ke kolom kiri. Area x 100–700 sudah diukur: nilai terge
 
 `5-product-value.jpg` — 1600 × 2000, ukuran sama dengan slide 1.
 
-Mengikuti referensi `Banner Product Value_Referensi`: still-life produk di atas plinth, lalu panel berisi logo, klaim, dan baris ikon fitur. Referensinya landscape, jadi panelnya dipindah ke **bawah** foto, bukan di sampingnya.
+Mengikuti referensi `Banner Product Value_Referensi`, tapi **tanpa blok panel**. Teks duduk langsung di atas latar foto sendiri.
 
 | Slot | Teks | Sumber |
 |---|---|---|
-| Logo | lockup horizontal hitam, tengah | aset asli |
+| Logo | lockup horizontal hitam, tengah atas | aset asli |
 | Headline | `BUILT FOR EVERYDAY` / `PERFORMANCE` | hal. 29 (daftar CTA) |
-| Sub-copy | `Refined for lasting comfort.` / `Available from XS to 5XL.` | hal. 35 kosakata + hal. 45 size chart |
+| Sub-copy | `Refined for lasting comfort.` / `Available in M, L and XL.` | hal. 35 kosakata |
 | Ikon fitur | `BREATHABLE` · `TAGLESS` · `DURABLE WAISTBAND` · `4-WAY STRETCH` | hal. 15 |
+
+### Kenapa tidak butuh blok putih
+
+Fotonya sengaja digenerate dengan **sepertiga atas dan seperenam bawah kosong**. Zona itu diukur: titik tergelapnya 228 dan 239 dari 255, jadi teks hitam kontrasnya jauh melebihi cukup. Blok putih hanya diperlukan kalau latar fotonya ramai — di sini tidak.
+
+### Penataan produk
+
+Versi pertama menumpuk garmen dalam lipatan datar, yang membuatnya terbaca sebagai tumpukan kain, bukan produk. Sekarang ketiganya ditampilkan **berbentuk tiga dimensi seperti sedang dipakai** (efek ghost mannequin, tanpa tubuh maupun manekin terlihat), berdiri di atas plinth bundar dengan tinggi berbeda dalam susunan busur, hero di tengah dan sedikit lebih besar. Waistband menghadap kamera sehingga tulisan `TONI BLACK` terbaca. Tanpa properti sama sekali.
 
 ### Ikonnya bukan gambar baru
 
-Keempat ikon **diambil langsung dari icon set resmi di guideline hal. 15**, bukan digambar ulang atau digenerate. Diekstrak sebagai PNG transparan memakai geometri vektor halaman itu sendiri, jadi bentuknya identik dengan aslinya.
+Keempat ikon **diambil langsung dari icon set resmi guideline hal. 15**, bukan digambar ulang atau digenerate. Diekstrak sebagai PNG transparan memakai geometri vektor halaman itu sendiri.
 
-Referensi memakai Breathable / Tagless Design / No-roll Waistband / Strong & Durable — keempatnya punya padanan persis di icon set Toni Black.
-
-Ukurannya disamakan berdasarkan **tinggi**, bukan kotak pembatas. Ikon waistband bentuknya lebar dan pendek, jadi kalau dipaskan ke kotak ia terlihat lebih kecil dari yang lain.
+Ukurannya disamakan berdasarkan **tinggi**, bukan kotak pembatas — ikon waistband bentuknya lebar dan pendek, jadi kalau dipaskan ke kotak ia terlihat lebih kecil dari yang lain.
 
 ### Yang sengaja tidak diikuti dari referensi
 
-1. **Pita sudut "NEW ELASTIC WAIST".** Guideline hal. 35 melarang gaya promosi hiperbolik, dan pita diagonal di sudut adalah bentuk paling khas dari itu. Kalau Anda tetap mau, bisa ditambahkan.
-2. **Tiga titik warna produk.** Referensi menampilkan hitam, abu, navy. Underwear Toni Black hanya hitam, jadi baris swatch itu tidak ada gunanya. Diganti informasi ukuran XS–5XL yang benar-benar berguna di Shopee.
-3. **Kode produk** (`FM 3056 N` di referensi) belum ada karena saya belum punya kode aslinya. Kirim daftarnya kalau mau ditambahkan.
+1. **Pita sudut "NEW ELASTIC WAIST".** Guideline hal. 35 melarang gaya promosi hiperbolik. Bisa ditambahkan kalau Anda mau.
+2. **Tiga titik warna produk.** Underwear Toni Black hanya hitam, jadi swatch tiga warna akan menyesatkan. Ruangnya diisi informasi ukuran.
+3. **Kode produk** (`FM 3056 N` di referensi) belum ada karena kode aslinya belum saya terima.
 
 ---
 
