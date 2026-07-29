@@ -101,6 +101,38 @@ Warna: underwear hitam, crewneck dan tanktop putih.
 
 ---
 
+## 2b. VERSI ALL-IN-ONE (opsional, pengganti carousel)
+
+`4-value-all-in-one.jpg` — 2000 × 2000, 690 KB.
+
+Menempel keempat slide jadi satu grid tidak bisa dipakai. Banner Shopee tampil sekitar 430 px di layar HP, jadi:
+
+| Susunan | Tinggi huruf label di HP | |
+|---|---|---|
+| 1 slide carousel | 8,1 px | terbaca |
+| 4 produk di-tile 2×2 | 4,1 px | tidak terbaca |
+| 4 produk berjajar | 2,1 px | tidak terbaca |
+| **1 banner, value ditulis sekali** | **7,7 px** | **terbaca** |
+
+Jadi versi all-in-one disusun ulang, bukan ditempel:
+
+- **Kelima brand value ditulis sekali** di atas satu foto hero yang memakai full look (crewneck putih + boxer hitam). Ukuran labelnya setara satu slide carousel, jadi tetap terbaca.
+- **Keempat produk berjajar di bawah** sebagai line-up dengan namanya masing-masing.
+
+Bagian atas foto sengaja dilebur ke hitam. Frame sumbernya mulai dari dagu model, jadi kalau dipotong begitu saja akan menyisakan potongan dagu di tepi.
+
+**Kapan pakai yang mana:**
+
+| | Carousel 4 slide | All-in-one |
+|---|---|---|
+| Detail per produk | tiap produk dapat 5 value yang menunjuk ke bagiannya sendiri | value hanya ditunjukkan di satu produk |
+| Slot Shopee | butuh 4 | butuh 1 |
+| Paling cocok untuk | halaman produk, konten yang di-scroll | banner utama toko |
+
+Keduanya bisa dipakai bersamaan: all-in-one untuk banner toko, carousel untuk halaman produk.
+
+---
+
 ## 3. BANNER TOKO — 2 AREA KLIK
 
 **Blok hitam di header dihapus.** Sekarang header putih bersih dengan logo hitam dan garis rambut `#DCDCDC` di bawahnya. Bar label bawah juga putih dengan teks hitam, plus garis rambut di atasnya. Satu garis vertikal tipis memisahkan dua area klik.

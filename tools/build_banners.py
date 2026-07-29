@@ -273,9 +273,91 @@ def banner3():
     save(c, "3-banner-toko")
 
 
+# ───────────────── BANNER 4 — ALL-IN-ONE (pengganti carousel) ────────────────
+# Tiling the four slides would shrink the call-out labels to about 4px on a
+# phone. Instead the five brand values are stated once against the full look,
+# and the four garments run along the bottom as a line-up.
+HERO_CALLS = [
+    ("AUTHENTIC SIMPLICITY",  "Tagless collar",     0, 218,  (0.425, 0.128)),
+    ("PRECISION & FIT",       "Tailored cut",       0, 618,  (0.405, 0.300)),
+    ("MODERN MASCULINITY",    "Clean silhouette",   0, 978,  (0.415, 0.448)),
+    ("CONFIDENCE",            "Shape retention",    1, 448,  (0.620, 0.232)),
+    ("CONTINUOUS INNOVATION", "Breathable cotton",  1, 728,  (0.520, 0.345)),
+]
+LINEUP = [                       # (source, product, centre x/y, crop height frac)
+    ("value-boxer",    "BOXER",    0.505, 0.545, 0.30),
+    ("value-brief",    "BRIEF",    0.510, 0.525, 0.26),
+    ("value-crewneck", "CREWNECK", 0.520, 0.300, 0.50),
+    ("value-tanktop",  "TANKTOP",  0.520, 0.330, 0.52),
+]
+
+
+def tile_crop(im, cx, cy, hfrac, aspect):
+    h = im.height * hfrac
+    w = h * aspect
+    x, y = im.width * cx, im.height * cy
+    return im.crop((round(x - w / 2), round(y - h / 2),
+                    round(x + w / 2), round(y + h / 2)))
+
+
+def banner4():
+    W, H, M = 2000, 2000, 110
+    HERO, STRIP = 1400, 600
+    SRC_H = 2483.0                      # source height once scaled to W
+    START = 58.0                        # top of the hero crop within that
+
+    c = Image.new("RGB", (W, H), (14, 14, 14))
+    hero = cover(grade(Image.open(f"{GEN}/value-crewneck.png").convert("RGB"), 1.04),
+                 W, HERO, ycrop=START / (SRC_H - HERO))
+
+    # The source frame starts at the model's jaw, so the crop clips it. Fade the
+    # top hard into black instead of leaving a severed chin at the edge.
+    v = np.asarray(vignette((W, HERO), side=0.26, topbot=0.06, peak=165)).astype(np.float32)
+    yy = np.arange(HERO, dtype=np.float32)[:, None]
+    t = np.clip(yy / (HERO * 0.22), 0, 1)
+    v = np.maximum(v, 255.0 * (1.0 - (t * t * (3.0 - 2.0 * t))))
+    mask = Image.fromarray(v.clip(0, 255).astype(np.uint8), "L")
+    hero = Image.composite(Image.new("RGB", (W, HERO), (14, 14, 14)), hero, mask)
+    c.paste(hero, (0, 0))
+
+    d = ImageDraw.Draw(c)
+    lg = logo("logo-horizontal-white", 520)
+    c.paste(lg, ((W - lg.width) // 2, 74), lg)
+
+    lf, df = zal(700, 36), ari(400, 31)
+    for label, desc, side, row, (fx, fy) in HERO_CALLS:
+        right = side == 1
+        tx = W - M if right else M
+        wl = max(tw(d, label, lf, 3), d.textlength(desc, font=df))
+        ux0, ux1 = (tx - wl, tx) if right else (tx, tx + wl)
+        mx = round(fx * W)
+        my = round(fy * SRC_H - START)
+        hairline(d, (ux0, row + 100), (ux1, row + 100))
+        hairline(d, (ux0 if right else ux1, row + 100), (mx, my))
+        cased_dot(d, mx, my, 6)
+        tracked(d, (tx, row), label, lf, WHITE, tr=3, right=right, stroke=3)
+        tracked(d, (tx, row + 52), desc, df, STEEL, right=right, stroke=3)
+
+    # product line-up
+    top = HERO
+    d.line([(M, top + 40), (W - M, top + 40)], fill=(70, 70, 70), width=2)
+    gap, side_m = 24, 60
+    tw_ = (W - 2 * side_m - 3 * gap) // 4
+    th_ = 400
+    for i, (src, name, cx, cy, hf) in enumerate(LINEUP):
+        im = grade(Image.open(f"{GEN}/{src}.png").convert("RGB"), 1.04)
+        x0 = side_m + i * (tw_ + gap)
+        c.paste(tile_crop(im, cx, cy, hf, tw_ / th_).resize((tw_, th_), Image.LANCZOS),
+                (x0, top + 80))
+        tracked(d, (x0 + tw_ // 2, top + 505), name, zal(800, 38), WHITE, tr=5, centre=True)
+
+    save(c, "4-value-all-in-one")
+
+
 if __name__ == "__main__":
     check_calls()
     banner1()
     for k in VARIANTS:
         banner2(k)
     banner3()
+    banner4()
