@@ -158,14 +158,31 @@ def banner1():
     # Supporting copy sits in the clean left column instead. Centred under the
     # headline it would cross the model's legs and the stool, where the ground is
     # mid-grey and neither black nor white type holds up.
-    y = 1250
-    for line in ["Defined by originality, driven by innovation.",
-                 "Every detail is created with purpose."]:
-        d.text((M, y), line, font=sf, fill=BLACK); y += 56
+    #
+    # Set as one narrow measured column under a single hairline: four short lines
+    # of even length plus the call to action read as one block, where two loose
+    # lines and a separate CTA floated apart with an unexplained gap between them.
+    RULE_X, IND, TOP = M, 40, 1400
+    body = ["Defined by originality,", "driven by innovation.",
+            "Every detail is created", "with purpose."]
+    y = TOP
+    for line in body:
+        d.text((RULE_X + IND, y), line, font=sf, fill=BLACK); y += 52
 
-    d.line([(M, H - 300), (M + 140, H - 300)], fill=BLACK, width=4)
-    d.text((M, H - 258), "Discover Toni Black", font=cf, fill=BLACK)
-    arrow(d, M + d.textlength("Discover Toni Black", font=cf) + 30, H - 234, 42, BLACK, 4)
+    cta_y = y + 62
+    d.text((RULE_X + IND, cta_y), "Discover Toni Black", font=cf, fill=BLACK)
+    arrow(d, RULE_X + IND + d.textlength("Discover Toni Black", font=cf) + 30,
+          cta_y + 24, 42, BLACK, 4)
+    d.line([(RULE_X, TOP - 6), (RULE_X, cta_y + 52)], fill=BLACK, width=3)
+
+    # The clean part of the backdrop runs to x=760; past that the model's leg
+    # comes in and solid black type stops holding. Fail loudly rather than ship
+    # copy that has quietly outgrown the column.
+    widest = max([d.textlength(l, font=sf) for l in body]
+                 + [d.textlength("Discover Toni Black", font=cf) + 72])
+    if RULE_X + IND + widest > 760:
+        raise SystemExit(f"brand story column runs to "
+                         f"x={RULE_X + IND + widest:.0f}, past the clean zone at 760")
 
     lg = logo("logo-horizontal-black", 400)     # top-left sits on plain backdrop
     c.paste(lg, (M, 110), lg)
