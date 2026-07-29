@@ -82,6 +82,17 @@ Framing seragam: bahu sampai atas lutut, model di tengah, ruang gelap di kiri-ka
 
 Gradasi tepi lama memakai kurva yang dipotong, jadi ada garis mendatar yang kelihatan di dekat atas. Sekarang memakai **smoothstep** — kemiringannya nol di kedua ujung — plus blur halus, jadi gradasinya habis tanpa batas yang terlihat.
 
+### QA otomatis
+
+Ada dua cacat yang lolos sampai slide jadi, keduanya sekarang dicek otomatis tiap build:
+
+1. **Garis penunjuk menembus tulisannya sendiri.** `CONTINUOUS INNOVATION` adalah label terpanjang, jadi blok teksnya melebar sampai x=934 sementara titik anchor-nya ada di x=915–976 — di dalam blok itu sendiri. Akibatnya garis diagonal naik memotong huruf C. Terjadi di **keempat slide**, bukan cuma slide 1.
+2. **Garis penunjuk menembus logo.** Di slide crewneck, titik `Tagless collar` justru berada persis di belakang logo.
+
+`check_calls()` di `tools/build_banners.py` sekarang menolak build kalau ada garis yang memotong blok teksnya sendiri atau melewati kotak logo. Kalau nanti ada value atau produk baru, cacat yang sama tidak bisa lolos lagi.
+
+Selain itu semua titik anchor dicek ulang satu per satu supaya mendarat di garmen yang disebut — sebelumnya ada yang jatuh di paha telanjang pada slide brief.
+
 ### Layout
 
 Logo di tengah atas, nama produk di tengah bawah. Tiga value di kolom kiri, dua di kanan, diselang-seling supaya ritmenya rapi. Garis penunjuk setipis mungkin, titik kecil, semua dengan casing gelap agar terbaca di atas garmen putih maupun latar gelap.

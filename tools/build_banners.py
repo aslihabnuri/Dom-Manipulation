@@ -145,34 +145,73 @@ VARIANTS = {
         ("PRECISION & FIT",       "Ergonomic cut",      0, 1, (0.400, 0.545)),
         ("MODERN MASCULINITY",    "Refined silhouette", 0, 2, (0.425, 0.602)),
         ("AUTHENTIC SIMPLICITY",  "Tagless finish",     1, 0, (0.538, 0.468)),
-        ("CONTINUOUS INNOVATION", "4-way stretch",      1, 1, (0.610, 0.558)),
+        ("CONTINUOUS INNOVATION", "4-way stretch",      1, 1, (0.520, 0.570)),
     ]),
     "brief": dict(title="BRIEF", src="value-brief", calls=[
         ("CONFIDENCE",            "Durable waistband",  0, 0, (0.450, 0.476)),
-        ("PRECISION & FIT",       "Ergonomic fit",      0, 1, (0.420, 0.545)),
-        ("MODERN MASCULINITY",    "Refined silhouette", 0, 2, (0.440, 0.596)),
+        ("PRECISION & FIT",       "Ergonomic fit",      0, 1, (0.415, 0.515)),
+        ("MODERN MASCULINITY",    "Refined silhouette", 0, 2, (0.470, 0.560)),
         ("AUTHENTIC SIMPLICITY",  "Tagless finish",     1, 0, (0.578, 0.476)),
-        ("CONTINUOUS INNOVATION", "Shape retention",    1, 1, (0.572, 0.542)),
+        ("CONTINUOUS INNOVATION", "Shape retention",    1, 1, (0.545, 0.520)),
     ]),
     "crewneck": dict(title="CREWNECK", src="value-crewneck", calls=[
-        ("AUTHENTIC SIMPLICITY",  "Tagless collar",     0, 0, (0.487, 0.082)),
+        ("AUTHENTIC SIMPLICITY",  "Tagless collar",     0, 0, (0.425, 0.128)),
         ("PRECISION & FIT",       "Tailored cut",       0, 1, (0.405, 0.300)),
         ("MODERN MASCULINITY",    "Clean silhouette",   0, 2, (0.415, 0.448)),
         ("CONFIDENCE",            "Shape retention",    1, 0, (0.620, 0.232)),
-        ("CONTINUOUS INNOVATION", "Breathable cotton",  1, 1, (0.578, 0.322)),
+        ("CONTINUOUS INNOVATION", "Breathable cotton",  1, 1, (0.520, 0.345)),
     ]),
     "tanktop": dict(title="TANKTOP", src="value-tanktop", calls=[
         ("AUTHENTIC SIMPLICITY",  "Clean seams",        0, 0, (0.450, 0.140)),
         ("PRECISION & FIT",       "Ergonomic cut",      0, 1, (0.432, 0.318)),
         ("MODERN MASCULINITY",    "Refined silhouette", 0, 2, (0.442, 0.478)),
         ("CONFIDENCE",            "Shape retention",    1, 0, (0.598, 0.222)),
-        ("CONTINUOUS INNOVATION", "Moisture wicking",   1, 1, (0.596, 0.420)),
+        ("CONTINUOUS INNOVATION", "Moisture wicking",   1, 1, (0.520, 0.430)),
     ]),
 }
 
 LABEL, DESC = 30, 26                 # one size for every slide in the carousel
 ROWS_L = [660, 1030, 1400]
 ROWS_R = [845, 1215]
+
+
+def _crosses(a, b, box):
+    """Does segment a-b touch the rectangle box (x0, y0, x1, y1)?"""
+    x0, y0, x1, y1 = box
+    for t in range(0, 101):
+        x = a[0] + (b[0] - a[0]) * t / 100
+        y = a[1] + (b[1] - a[1]) * t / 100
+        if x0 <= x <= x1 and y0 <= y <= y1:
+            return True
+    return False
+
+
+def check_calls():
+    """A leader line has to leave the underline heading away from its own label,
+    otherwise the diagonal cuts straight through the lettering. Longest labels are
+    the ones that bite, so this is checked on every build rather than by eye."""
+    d = ImageDraw.Draw(Image.new("RGB", (1600, 2000)))
+    lf, df = zal(700, LABEL), ari(400, DESC)
+    W, M, CLEAR = 1600, 100, 45
+    bad = []
+    for key, v in VARIANTS.items():
+        for label, desc, side, row, (fx, fy) in v["calls"]:
+            right = side == 1
+            wl = max(tw(d, label, lf, 3), d.textlength(desc, font=df))
+            tx = W - M if right else M
+            ux0, ux1 = (tx - wl, tx) if right else (tx, tx + wl)
+            ax = fx * W
+            if (ax >= ux0 - CLEAR) if right else (ax <= ux1 + CLEAR):
+                bad.append(f"{key}/{label}: anchor x={ax:.0f} collides with label "
+                           f"span {ux0:.0f}-{ux1:.0f}")
+            lg = logo("logo-horizontal-white", 420)
+            box = ((W - lg.width) / 2 - 30, 108 - 30,
+                   (W + lg.width) / 2 + 30, 108 + lg.height + 30)
+            if _crosses((ux0 if right else ux1, (ROWS_R if right else ROWS_L)[row] + 84),
+                        (ax, fy * 2000), box):
+                bad.append(f"{key}/{label}: leader line runs through the logo")
+    if bad:
+        raise SystemExit("leader line would cross its own label:\n  " + "\n  ".join(bad))
 
 
 def banner2(key):
@@ -235,6 +274,7 @@ def banner3():
 
 
 if __name__ == "__main__":
+    check_calls()
     banner1()
     for k in VARIANTS:
         banner2(k)
