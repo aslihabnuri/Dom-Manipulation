@@ -93,11 +93,15 @@ Sekarang **tidak ada foto produk yang digenerate sama sekali**. Ketiganya adalah
 
 | Posisi | File asli | Bentuk |
 |---|---|---|
-| Kiri | `Brief dewasa/6.png` | brief klasik |
-| Tengah (hero) | `Boxer dewasa/6a.png` | boxer ketat, **kaki pendek** |
-| Kanan | `Brief dewasa B/1.png` | boxer longgar berkancing |
+| Kiri | `Brief dewasa/6.png` | brief dewasa |
+| Tengah (hero) | `Boxer dewasa/6a.png` | boxer dewasa, **kaki pendek** |
+| Kanan | `Boxer anak/6.png` | boxer anak |
 
-Tersimpan di `brand/assets/products/`. Latar, bayangan, dan penataannya dibuat oleh `tools/compose_stilllife.py` — gradasi off-white yang sangat halus, bayangan elips lembut di bawah tiap produk, disusun dalam busur dengan hero di tengah dan paling depan.
+Tersimpan di `brand/assets/products/`. Ketiganya menampilkan lini Men dan Kids sekaligus, sejalan dengan dua kategori di banner toko.
+
+Panggungnya digambar oleh `tools/compose_stilllife.py`: silinder pucat dengan permukaan atas, badan berbayang (cahaya dari kiri atas), dan lengkung depan alasnya. Tinggi panggung berbeda-beda, hero di tengah paling tinggi dan paling depan. Garmen didudukkan sedikit melewati garis tengah elips — kalau tepat di garis tengah, ia terbaca melayang di atas bagian belakang panggung, bukan bertumpu di atasnya.
+
+Boxer anak sengaja jauh lebih kecil karena memang ukurannya begitu; skalanya bukan disamakan.
 
 Skalanya disamakan berdasarkan **lebar terlebar (pinggul)**. Waistband sebenarnya datum yang lebih tepat karena ketiganya satu ukuran pinggang, tapi brief-nya difoto menyudut sehingga waistband-nya memendek secara perspektif dan brief jadi terlalu kecil.
 
