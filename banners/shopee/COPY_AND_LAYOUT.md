@@ -4,65 +4,59 @@ Hasil akhir ada di `banners/shopee/final/`. Semua dalam batas Shopee: **maks. 20
 
 | Banner | File | Ukuran | Berkas |
 |---|---|---|---|
-| 1. Brand Story | `1-brand-story.jpg` | 1600 × 2000 (4:5) | 477 KB |
-| 2. Value Product | `2-value-product.jpg` | 1600 × 2000 (4:5) | 608 KB |
-| 3. Banner Toko 2 Area Klik | `3-banner-toko.jpg` | 2000 × 2000 (1:1) | 617 KB |
+| Brand Story | `1-brand-story.jpg` | 1600 × 2000 | 475 KB |
+| Value — Boxer | `2-value-boxer.jpg` | 1600 × 2000 | 535 KB |
+| Value — Brief | `2-value-brief.jpg` | 1600 × 2000 | 559 KB |
+| Value — Crewneck | `2-value-crewneck.jpg` | 1600 × 2000 | 685 KB |
+| Value — Tanktop | `2-value-tanktop.jpg` | 1600 × 2000 | 682 KB |
+| Banner Toko 2 Area Klik | `3-banner-toko.jpg` | 2000 × 2000 | 513 KB |
 
-Prinsip produksi: **logo dan seluruh teks ditempel dari aset brand asli** (`brand/assets/`), tidak pernah digenerate AI — jadi bentuk logo dan tipografinya 100 % akurat. Kie hanya dipakai untuk fotografinya.
+**Prinsip produksi:** logo dan seluruh teks ditempel dari aset brand asli (`brand/assets/`), tidak pernah digenerate AI. Kie hanya dipakai untuk fotografinya.
+
+**Arah fotografi** mengikuti gaya asli di **toni.black**: hitam-putih penuh, latar studio abu polos, pose rileks dan candid — bukan berdiri simetris ala katalog. Foto kategori resmi mereka (pria bersandar di kursi lipat, anak memegang balon sambil tertawa) dipakai sebagai referensi gaya saat generasi.
+
+**Warna produk:** semua underwear hitam; crewneck dan tanktop putih.
 
 ---
 
 ## 1. BANNER BRAND STORY
 
-Copy diambil **persis dari brand guideline hal. 27**, seluruhnya bahasa Inggris. Tanpa URL dan tanpa handle Instagram.
+Copy diambil **persis dari brand guideline hal. 27**, seluruhnya bahasa Inggris. Tanpa URL, tanpa handle Instagram, tanpa em dash.
 
-| Slot | Teks | Font |
-|---|---|---|
-| Logo | lockup horizontal hitam, kiri atas | aset asli |
-| Eyebrow | `WE ARE` | Zalando Sans Expanded 600, tracking lebar |
-| Headline | `MADE TO` / `MOVE` | Zalando Sans Expanded 800 |
-| Sub-copy | `Simplicity meets performance — maximum comfort in an elegant and understated design.` | Arimo 400 |
-| CTA | `Discover Toni Black →` | Zalando Sans Expanded 700 |
+| Slot | Teks |
+|---|---|
+| Logo | lockup horizontal hitam, kiri atas |
+| Eyebrow | `WE ARE` |
+| Headline | `MADE TO` / `MOVE` |
+| Sub-copy | `Simplicity meets performance. Maximum comfort in an elegant and understated design.` |
+| CTA | `Discover Toni Black →` |
 
-**Foto:** dibuat ulang mengikuti referensi Anda — pria duduk di kursi bar kayu gelap sambil menarik crewneck ke atas kepala, mengenakan boxer Toni Black. Latar studio abu polos, monokrom, kontras tajam.
+Em dash pada kalimat asli guideline ("performance — maximum comfort") diganti titik, jadi dua kalimat pendek. Artinya tidak berubah dan iramanya justru lebih tegas.
 
-**Layout:** figur di sepertiga kanan, kolom teks di kiri di atas latar bersih (rule of thirds sesuai guideline). Latar studio diperpanjang ke kiri secara mulus karena latarnya polos.
+**Foto:** pria duduk di kursi bar kayu sambil melepas **crewneck putih Toni Black**, mengenakan **boxer hitam** — waistband `TONI BLACK` terbaca jelas. Pose mengikuti referensi: satu kaki bertumpu di palang kursi, kaki lain menjulur, badan memuntir, tertangkap di tengah gerakan.
 
-> Catatan: crewneck di foto dibuat charcoal-hitam, bukan putih. Crewneck putih (produk yang fotonya ada di Drive) ditolak filter keamanan Kie, dan versi gelap juga lebih kontras terhadap latar abu terang — sekaligus lebih dekat ke referensi Anda. Kalau Anda tetap mau versi putih, bisa saya coba lagi dengan susunan prompt berbeda.
+**Layout:** figur di sepertiga kanan, kolom teks di kiri. Latar studio diperpanjang ke kiri secara mulus.
 
 ---
 
-## 2. BANNER VALUE PRODUCT
+## 2. BANNER VALUE PRODUCT — 4 VARIAN
 
-Sesuai revisi: **tanpa** teks "Value Per Product", **tanpa** baris "Men · Cotton–Spandex · …", **tanpa** garis pemisah header/footer. **Logo di tengah atas.**
+Tanpa kata "Series". Tanpa eyebrow "Value Per Product", tanpa baris material/warna, tanpa garis pemisah header-footer. **Logo di tengah atas**, nama produk di tengah bawah.
 
-Seluruh value diambil **langsung dari icon set resmi Toni Black** (guideline hal. 15) — tanpa deskripsi tambahan, sama bersihnya dengan referensi Anda.
+Semua value diambil **langsung dari icon set resmi Toni Black** (guideline hal. 15).
 
-| Posisi | Value |
-|---|---|
-| Kiri atas | `DURABLE WAISTBAND` |
-| Kiri tengah | `SOFT FABRIC` |
-| Kiri bawah | `ANTI RIDE-UP` |
-| Kanan atas | `TAGLESS` |
-| Kanan tengah | `4-WAY STRETCH` |
-| Kanan bawah | `BREATHABLE` |
+| Produk | Kiri (atas → bawah) | Kanan (atas → bawah) |
+|---|---|---|
+| **BOXER** | DURABLE WAISTBAND · SOFT FABRIC · ANTI RIDE-UP | TAGLESS · 4-WAY STRETCH · BREATHABLE |
+| **BRIEF** | DURABLE WAISTBAND · SOFT FABRIC · ERGONOMIC FIT | TAGLESS · BREATHABLE · SHAPE RETENTION |
+| **CREWNECK** | SOFT FABRIC · BREATHABLE · EASY CARE | TAGLESS · SHAPE RETENTION · COLOR RETENTION |
+| **TANKTOP** | SOFT FABRIC · BREATHABLE · LIGHTWEIGHT | MOISTURE WICKING · SHAPE RETENTION · EASY CARE |
 
-Nama produk di bawah tengah: `BOXER SERIES`
+**Foto:** model atletis dengan pose dinamis tertangkap di tengah gerakan, latar beton gelap, pencahayaan directional keras yang memahat otot — mengikuti mood referensi. Foto produk asli dikirim sebagai referensi generasi supaya potongan, jahitan, dan waistband akurat.
 
-**Foto:** pria mengenakan boxer Toni Black, dibingkai dari dada sampai bawah lutut, boxer sebagai fokus utama. Latar beton gelap, pencahayaan directional keras — mengikuti mood referensi. Foto produk asli dipakai sebagai referensi generasi supaya potongan dan waistband-nya akurat.
+**Layout:** foto full-bleed, gradasi gelap di tepi dan atas-bawah. Enam label dengan garis penunjuk ke titik spesifik di garmen.
 
-**Layout:** foto full-bleed, gradasi gelap di tepi kiri-kanan dan atas supaya label dan logo tetap terbaca. Enam label dengan garis penunjuk tipis ke titik spesifik di boxer.
-
-### Value untuk produk lain (template siap pakai)
-
-Layout-nya sama, tinggal ganti foto dan enam label ini:
-
-| Produk | 6 Value |
-|---|---|
-| **BRIEF SERIES** | DURABLE WAISTBAND · SOFT FABRIC · TAGLESS · BREATHABLE · ERGONOMIC FIT · SHAPE RETENTION |
-| **SINGLET SERIES** | SOFT FABRIC · MOISTURE WICKING · LIGHTWEIGHT · SHAPE RETENTION · BREATHABLE · EASY CARE |
-| **CREWNECK SERIES** | SOFT FABRIC · BREATHABLE · SHAPE RETENTION · COLOR RETENTION · TAGLESS · EASY CARE |
-| **KIDS SERIES** | SOFT FABRIC · TAGLESS · BREATHABLE · ANTI RIDE-UP · EASY CARE · MADE FOR MOVEMENT |
+> Detail teknis: label, garis, dan titik penunjuk diberi *casing* gelap. Tanpa ini, elemen putih hilang total di atas crewneck dan tanktop yang juga putih.
 
 ---
 
@@ -74,7 +68,7 @@ Layout-nya sama, tinggal ganti foto dan enam label ini:
 | Panel kiri | `MEN` · `Brief · Boxer · Singlet` · `Explore The Collection →` |
 | Panel kanan | `KIDS` · `Brief · Boxer` · `Explore The Collection →` |
 
-**Foto:** kedua foto dibuat ulang agar lebih berkarakter — model pria dengan ekspresi tenang dan percaya diri, pencahayaan kontras; model anak dengan senyum natural dan pose santai. Keduanya dibingkai kepala sampai paha supaya skalanya setara.
+**Foto:** mengikuti gaya kategori di toni.black. Pria bersandar santai di kursi lipat, kaki menyilang, senyum tipis — mengenakan tanktop putih dan boxer hitam. Anak tertangkap sedang tertawa dengan tangan terangkat, mengenakan kaos putih dan boxer hitam. Keduanya hitam-putih.
 
 ### Koordinat area klik
 
@@ -88,15 +82,18 @@ Layout-nya sama, tinggal ganti foto dan enam label ini:
 ## Cara membuat ulang
 
 ```bash
-python3 tools/gen_photos.py     # generate fotografi via Kie (butuh KIE_API_KEY di .env)
-python3 tools/build_banners.py  # susun banner final
+python3 tools/gen_photos.py                 # semua foto
+python3 tools/gen_photos.py value-brief     # satu foto saja
+python3 tools/build_banners.py              # susun banner final
 ```
 
 `tools/kie.py` — klien Kie (upload → createTask → poll → download).
-Model: `nano-banana-pro`, resolusi 2K, foto produk asli dikirim sebagai `image_input`.
+Model `nano-banana-pro`, resolusi 2K. Foto produk asli dan foto kategori toni.black dikirim sebagai `image_input`.
+
+Catatan: filter keamanan Kie kadang menolak prompt underwear secara acak. Kalau sebuah job gagal dengan *"flagged as sensitive"*, jalankan ulang job itu saja — biasanya lolos pada percobaan berikutnya.
 
 ## Yang masih terbuka
 
-1. **Harga / promo** belum ada di banner manapun. Kalau perlu, saya tambahkan sebagai elemen sekunder yang bersih memakai CTA resmi (mis. `Save 20% This Weekend`) — bukan badge merah menyala.
-2. **Nama produk** masih memakai pola "BOXER SERIES". Kirim daftar nama resmi di Shopee kalau berbeda.
-3. **Varian value product lain** (Brief, Singlet, Crewneck, Kids) tinggal dijalankan — copy-nya sudah siap di tabel di atas.
+1. **Harga / promo** belum ada di banner manapun. Kalau perlu, saya tambahkan sebagai elemen sekunder yang bersih memakai CTA resmi (mis. `Save 20% This Weekend`).
+2. **Nama produk** memakai `BOXER`, `BRIEF`, `CREWNECK`, `TANKTOP`. Kirim daftar nama resmi di Shopee kalau berbeda.
+3. **Varian Kids** untuk banner value product belum dibuat — copy-nya siap: SOFT FABRIC · TAGLESS · BREATHABLE · ANTI RIDE-UP · EASY CARE · MADE FOR MOVEMENT.
