@@ -89,6 +89,14 @@ Fotonya sengaja digenerate dengan **sepertiga atas dan seperenam bawah kosong**.
 
 Versi pertama menumpuk garmen dalam lipatan datar, yang membuatnya terbaca sebagai tumpukan kain, bukan produk. Sekarang ketiganya ditampilkan **berbentuk tiga dimensi seperti sedang dipakai** (efek ghost mannequin, tanpa tubuh maupun manekin terlihat), berdiri di atas plinth bundar dengan tinggi berbeda dalam susunan busur, hero di tengah dan sedikit lebih besar. Waistband menghadap kamera sehingga tulisan `TONI BLACK` terbaca. Tanpa properti sama sekali.
 
+**Tiga produk berbeda, bukan satu produk diulang.** Versi sebelumnya menampilkan boxer yang sama dua kali. Sekarang ketiganya adalah tiga kategori underwear yang memang ada di icon set guideline hal. 15, dibedakan lewat siluetnya:
+
+| Posisi | Produk | Siluet |
+|---|---|---|
+| Kiri | **Brief** | tanpa kaki, potongan paling ringkas |
+| Tengah (hero) | **Boxer** | kaki panjang sampai paha |
+| Kanan | **Trunk** | kaki pendek, berhenti tinggi di paha |
+
 ### Ikonnya bukan gambar baru
 
 Keempat ikon **diambil langsung dari icon set resmi guideline hal. 15**, bukan digambar ulang atau digenerate. Diekstrak sebagai PNG transparan memakai geometri vektor halaman itu sendiri.
