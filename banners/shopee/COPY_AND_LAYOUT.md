@@ -38,18 +38,33 @@ Seluruh copy bersumber dari brand guideline, tidak ada yang dikarang:
 
 ## 1. BANNER BRAND STORY
 
-**Tanpa eyebrow.** `WE ARE` dihapus karena kalimatnya menggantung, lalu `OUR STORY` juga dihapus. Barisnya memang tidak menambah apa pun: logo di atas sudah menyatakan siapa yang bicara, dan guideline meminta *clarity over decoration*. Ruangnya dibiarkan kosong sebagai napas, hierarkinya tetap utuh — logo, headline, sub-copy, CTA.
+**Layout mengikuti referensi.** Sebelumnya hanya posenya yang sama; sekarang susunannya juga: foto full-bleed, headline besar melintang **menimpa model**, dan hurufnya berganti hitam-putih mengikuti apa yang ada di belakangnya.
+
+**Tanpa eyebrow.** `WE ARE` dihapus karena menggantung, `OUR STORY` juga dihapus karena tidak menambah apa pun.
 
 | Slot | Teks | Sumber |
 |---|---|---|
 | Logo | lockup horizontal hitam, kiri atas | aset asli |
-| Headline | `TAILORED FOR` / `COMFORT.` | hal. 33 |
+| Headline | `TAILORED FOR` / `COMFORT.` (di tengah, menimpa model) | hal. 33 |
 | Sub-copy | `Defined by originality, driven by innovation.` / `Every detail is created with purpose.` | hal. 33 |
 | CTA | `Discover Toni Black →` | hal. 27 |
 
-Kalimat lengkap hal. 33 berbunyi *"Tailored for comfort, defined by originality, driven by innovation."* Dipecah jadi headline dan sub-copy supaya tetap satu kalimat utuh saat dibaca berurutan, tapi punya hierarki visual.
+### Cara teks dua warna itu bekerja
 
-**Foto:** pria duduk di kursi bar melepas **crewneck putih Toni Black**, mengenakan **boxer hitam** dengan waistband `TONI BLACK` terbaca. Figur di sepertiga kanan, kolom teks di kiri.
+Warna tiap huruf ditentukan dari **luminansi foto di belakang huruf itu sendiri**, bukan disetel manual. Boxer hitam terbaca 26–99, latar studio 195, jadi ambang 132 memisahkannya dengan bersih.
+
+Dua hal yang perlu dibereskan supaya hasilnya tidak terlihat seperti cacat cetak:
+
+1. **Keputusan diambil per huruf, bukan per piksel.** Kalau per piksel, satu huruf bisa terbelah separuh hitam separuh putih — terbaca sebagai salah cetak, bukan desain.
+2. **Kotak sampelnya setinggi huruf kapital saja.** Memakai seluruh kotak ascender ikut merata-ratakan ruang kosong di atas huruf, dan hasilnya condong ke warna latar.
+
+### Kenapa sub-copy dan CTA tidak ikut menimpa model
+
+Kalau ditaruh di tengah seperti headline, keduanya melintasi kaki model dan kaki kursi yang bernilai abu tengah — di situ teks hitam maupun putih sama-sama lemah kontrasnya. Kata "Black" pada CTA sempat nyaris hilang di atas kaki kursi.
+
+Jadi keduanya dipindah ke kolom kiri. Area x 100–700 sudah diukur: nilai tergelapnya 148, jadi teks hitam aman terbaca di semua ketinggian. Headline tetap dapat perlakuan dramatis, teks pendukung tetap terbaca.
+
+**Foto:** pria duduk di kursi bar melepas crewneck putih Toni Black, mengenakan boxer hitam dengan waistband `TONI BLACK` terbaca.
 
 ---
 

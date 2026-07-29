@@ -94,41 +94,81 @@ def save(im, name):
 
 
 # ───────────────── BANNER 1 — BRAND STORY ────────────────────────────────────
-# Copy from the Story page (guideline p.33).
-def banner1():
-    W, H, M = 1600, 2000, 120
-    photo = grade(Image.open(f"{GEN}/hero-brandstory.png").convert("RGB"), 1.06)
+# Copy from the Story page (guideline p.33), laid out like the supplied
+# reference: full-bleed model, headline sitting across him, and lettering that
+# switches between black and white according to what is behind it.
+def duotone(canvas, blocks, thresh=132, blur=8):
+    """Draw text that flips between black and white to stay legible over whatever
+    it crosses, the way the supplied reference does.
 
-    ph_h = 1900                       # figure right, plain studio backdrop extended left
-    ph = photo.resize((round(photo.width * ph_h / photo.height), ph_h), Image.LANCZOS)
-    c = Image.new("RGB", (W, H), (238, 238, 238))
-    ox, oy = 380, H - ph_h
-    c.paste(ph, (ox, oy))
-    c.paste(ph.crop((0, 0, 3, ph_h)).resize((ox, ph_h), Image.LANCZOS), (0, oy))
-    c.paste(c.crop((0, oy, W, oy + 3)).resize((W, oy), Image.LANCZOS), (0, 0))
+    The choice is made once per glyph, from the mean luminance of the photograph
+    behind that glyph. Deciding per pixel instead would split single letters down
+    the middle, which reads as a printing fault rather than a design."""
+    # Two readings of the same photograph. Display type switches on a tight blur
+    # so it tracks the real edge of the garment; small type reads a much softer
+    # blur, otherwise a stool leg a few pixels wide flips single letters and the
+    # line looks broken rather than deliberate.
+    base = canvas.convert("L")
+    sharp = np.asarray(base.filter(ImageFilter.GaussianBlur(blur))).astype(np.float32)
+    soft = np.asarray(base.filter(ImageFilter.GaussianBlur(46))).astype(np.float32)
+    H, W = sharp.shape
+    d = ImageDraw.Draw(canvas)
+    asc_cache = {}
+    for xy, text, font, tr, centre in blocks:
+        x, y = xy
+        if centre:
+            x -= tw(d, text, font, tr) / 2
+        asc = asc_cache.setdefault(id(font), font.getmetrics()[0])
+        lum = sharp if font.size >= 80 else soft
+        for ch in text:
+            w = d.textlength(ch, font=font)
+            if ch.strip():
+                # sample the cap-height band only. Using the full ascent box
+                # averages in empty space above the letter and washes the
+                # reading out toward the background.
+                x0, x1 = int(max(0, x)), int(min(W, x + w))
+                y0 = int(max(0, y + asc * 0.22))
+                y1 = int(min(H, y + asc * 0.92))
+                m = lum[y0:y1, x0:x1].mean() if (x1 > x0 and y1 > y0) else 255.0
+                d.text((x, y), ch, font=font,
+                       fill=WHITE if m < thresh else BLACK)
+            x += w + tr
+
+
+def banner1():
+    W, H, M = 1600, 2000, 100
+    photo = grade(Image.open(f"{GEN}/hero-brandstory.png").convert("RGB"), 1.06)
+    c = cover(photo, W, H)                      # full bleed, figure left where it is
 
     d = ImageDraw.Draw(c)
-    c.paste(lg := logo("logo-horizontal-black", 430), (M, 120), lg)
+    cx = W // 2
 
-    # No eyebrow. The logo already says who is speaking, and the guideline asks
-    # for clarity over decoration, so the line is dropped rather than replaced.
-    TEXTW, y = 780, 880
-    size = 132
-    while size > 60 and max(tw(d, l, zal(800, size)) for l in ["TAILORED FOR", "COMFORT."]) > TEXTW:
-        size -= 2
-    hf = zal(800, size)
-    for line in ["TAILORED FOR", "COMFORT."]:
-        d.text((M, y), line, font=hf, fill=BLACK); y += round(size * 1.08)
+    hf = zal(800, 132)
+    while max(tw(d, l, hf) for l in ["TAILORED FOR", "COMFORT."]) > W - 2 * M:
+        hf = zal(800, hf.size - 2)
+    sf, cf = ari(400, 38), zal(700, 46)
 
-    y += 54
-    for line in ["Defined by originality,", "driven by innovation.",
+    # Headline runs across the model and flips colour on him, as in the reference.
+    blocks = [
+        ((cx, 858), "TAILORED FOR", hf, 0, True),
+        ((cx, 858 + round(hf.size * 1.06)), "COMFORT.", hf, 0, True),
+    ]
+    duotone(c, blocks)
+
+    # Supporting copy sits in the clean left column instead. Centred under the
+    # headline it would cross the model's legs and the stool, where the ground is
+    # mid-grey and neither black nor white type holds up.
+    y = 1250
+    for line in ["Defined by originality, driven by innovation.",
                  "Every detail is created with purpose."]:
-        d.text((M, y), line, font=ari(400, 37), fill=DAVIS); y += 53
+        d.text((M, y), line, font=sf, fill=BLACK); y += 56
 
-    d.line([(M, H - 250), (M + 140, H - 250)], fill=BLACK, width=4)
-    cf = zal(700, 46)
-    d.text((M, H - 205), "Discover Toni Black", font=cf, fill=BLACK)
-    arrow(d, M + d.textlength("Discover Toni Black", font=cf) + 32, H - 181, 44, BLACK, 4)
+    d.line([(M, H - 300), (M + 140, H - 300)], fill=BLACK, width=4)
+    d.text((M, H - 258), "Discover Toni Black", font=cf, fill=BLACK)
+    arrow(d, M + d.textlength("Discover Toni Black", font=cf) + 30, H - 234, 42, BLACK, 4)
+
+    lg = logo("logo-horizontal-black", 400)     # top-left sits on plain backdrop
+    c.paste(lg, (M, 110), lg)
     save(c, "1-brand-story")
 
 
