@@ -110,9 +110,9 @@ def banner1():
     d = ImageDraw.Draw(c)
     c.paste(lg := logo("logo-horizontal-black", 430), (M, 120), lg)
 
-    TEXTW, y = 780, 840
-    tracked(d, (M, y), "OUR STORY", zal(600, 32), DAVIS, tr=10)
-    y += 92
+    # No eyebrow. The logo already says who is speaking, and the guideline asks
+    # for clarity over decoration, so the line is dropped rather than replaced.
+    TEXTW, y = 780, 880
     size = 132
     while size > 60 and max(tw(d, l, zal(800, size)) for l in ["TAILORED FOR", "COMFORT."]) > TEXTW:
         size -= 2

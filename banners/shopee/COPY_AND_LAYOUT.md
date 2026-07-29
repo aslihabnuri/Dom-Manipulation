@@ -38,12 +38,11 @@ Seluruh copy bersumber dari brand guideline, tidak ada yang dikarang:
 
 ## 1. BANNER BRAND STORY
 
-Eyebrow `WE ARE` dihapus. Kalimatnya menggantung dan tidak terbaca sebagai unit yang utuh — kalau dibaca cepat, orang bertanya "we are apa?" Diganti `OUR STORY`, yang lengkap sebagai label dan langsung menandai isinya.
+**Tanpa eyebrow.** `WE ARE` dihapus karena kalimatnya menggantung, lalu `OUR STORY` juga dihapus. Barisnya memang tidak menambah apa pun: logo di atas sudah menyatakan siapa yang bicara, dan guideline meminta *clarity over decoration*. Ruangnya dibiarkan kosong sebagai napas, hierarkinya tetap utuh — logo, headline, sub-copy, CTA.
 
 | Slot | Teks | Sumber |
 |---|---|---|
 | Logo | lockup horizontal hitam, kiri atas | aset asli |
-| Eyebrow | `OUR STORY` | — |
 | Headline | `TAILORED FOR` / `COMFORT.` | hal. 33 |
 | Sub-copy | `Defined by originality, driven by innovation.` / `Every detail is created with purpose.` | hal. 33 |
 | CTA | `Discover Toni Black →` | hal. 27 |
