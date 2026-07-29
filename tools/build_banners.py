@@ -411,6 +411,59 @@ def banner4():
     save(c, "4-value-all-in-one")
 
 
+# ───────────────── BANNER 5 — PRODUCT VALUE (slide 2) ────────────────────────
+# Follows the Flyman reference the client supplied: staged product still-life,
+# then a panel carrying the mark, a claim, and a row of feature icons. Portrait
+# instead of landscape, so the panel sits under the photograph rather than beside
+# it. Icons are the brand's own, lifted from the guideline icon set (p.15).
+FEATURES = [
+    ("breathable",        ["BREATHABLE"]),
+    ("tagless",           ["TAGLESS"]),
+    ("durable-waistband", ["DURABLE", "WAISTBAND"]),
+    ("4-way-stretch",     ["4-WAY", "STRETCH"]),
+]
+
+
+def banner5():
+    W, H, M = 1600, 2000, 120
+    PHOTO_H = 1240
+    HAIR = (222, 222, 222)
+    c = Image.new("RGB", (W, H), WHITE)
+    c.paste(cover(grade(Image.open(f"{GEN}/still-life.png").convert("RGB"), 1.03),
+                  W, PHOTO_H, ycrop=0.72), (0, 0))
+    d = ImageDraw.Draw(c)
+    d.line([(0, PHOTO_H), (W, PHOTO_H)], fill=HAIR, width=2)
+
+    lg = logo("logo-horizontal-black", 380)
+    c.paste(lg, ((W - lg.width) // 2, 1292), lg)
+
+    hf = zal(800, 60)
+    for i, line in enumerate(["BUILT FOR EVERYDAY", "PERFORMANCE"]):
+        tracked(d, (W // 2, 1400 + i * 68), line, hf, BLACK, tr=2, centre=True)
+
+    sf = ari(400, 34)
+    for i, line in enumerate(["Refined for lasting comfort.",
+                              "Available from XS to 5XL."]):
+        tracked(d, (W // 2, 1578 + i * 46), line, sf, DAVIS, centre=True)
+
+    colw = (W - 2 * M) // len(FEATURES)
+    lf = zal(600, 24)
+    for i, (icon, label) in enumerate(FEATURES):
+        cx = M + colw * i + colw // 2
+        # Match the icons on height, not on a bounding box: the waistband glyph
+        # is wide and short, so box-fitting made it read smaller than the rest.
+        im = Image.open(f"{SCR}/icons/{icon}.png")
+        r = 96 / im.height
+        if im.width * r > 190:
+            r = 190 / im.width
+        im = im.resize((round(im.width * r), round(im.height * r)), Image.LANCZOS)
+        c.paste(im, (cx - im.width // 2, 1746 + (96 - im.height) // 2), im)
+        for j, line in enumerate(label):
+            tracked(d, (cx, 1878 + j * 32), line, lf, BLACK, tr=3, centre=True)
+
+    save(c, "5-product-value")
+
+
 if __name__ == "__main__":
     check_calls()
     banner1()
@@ -418,3 +471,4 @@ if __name__ == "__main__":
         banner2(k)
     banner3()
     banner4()
+    banner5()

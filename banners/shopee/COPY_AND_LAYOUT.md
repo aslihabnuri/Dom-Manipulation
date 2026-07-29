@@ -68,6 +68,35 @@ Jadi keduanya dipindah ke kolom kiri. Area x 100–700 sudah diukur: nilai terge
 
 ---
 
+## 1b. SLIDE 2 — PRODUCT VALUE
+
+`5-product-value.jpg` — 1600 × 2000, ukuran sama dengan slide 1.
+
+Mengikuti referensi `Banner Product Value_Referensi`: still-life produk di atas plinth, lalu panel berisi logo, klaim, dan baris ikon fitur. Referensinya landscape, jadi panelnya dipindah ke **bawah** foto, bukan di sampingnya.
+
+| Slot | Teks | Sumber |
+|---|---|---|
+| Logo | lockup horizontal hitam, tengah | aset asli |
+| Headline | `BUILT FOR EVERYDAY` / `PERFORMANCE` | hal. 29 (daftar CTA) |
+| Sub-copy | `Refined for lasting comfort.` / `Available from XS to 5XL.` | hal. 35 kosakata + hal. 45 size chart |
+| Ikon fitur | `BREATHABLE` · `TAGLESS` · `DURABLE WAISTBAND` · `4-WAY STRETCH` | hal. 15 |
+
+### Ikonnya bukan gambar baru
+
+Keempat ikon **diambil langsung dari icon set resmi di guideline hal. 15**, bukan digambar ulang atau digenerate. Diekstrak sebagai PNG transparan memakai geometri vektor halaman itu sendiri, jadi bentuknya identik dengan aslinya.
+
+Referensi memakai Breathable / Tagless Design / No-roll Waistband / Strong & Durable — keempatnya punya padanan persis di icon set Toni Black.
+
+Ukurannya disamakan berdasarkan **tinggi**, bukan kotak pembatas. Ikon waistband bentuknya lebar dan pendek, jadi kalau dipaskan ke kotak ia terlihat lebih kecil dari yang lain.
+
+### Yang sengaja tidak diikuti dari referensi
+
+1. **Pita sudut "NEW ELASTIC WAIST".** Guideline hal. 35 melarang gaya promosi hiperbolik, dan pita diagonal di sudut adalah bentuk paling khas dari itu. Kalau Anda tetap mau, bisa ditambahkan.
+2. **Tiga titik warna produk.** Referensi menampilkan hitam, abu, navy. Underwear Toni Black hanya hitam, jadi baris swatch itu tidak ada gunanya. Diganti informasi ukuran XS–5XL yang benar-benar berguna di Shopee.
+3. **Kode produk** (`FM 3056 N` di referensi) belum ada karena saya belum punya kode aslinya. Kirim daftarnya kalau mau ditambahkan.
+
+---
+
 ## 2. BANNER VALUE PRODUCT — CAROUSEL 4 SLIDE
 
 ### Values sebagai acuan point (hal. 34)
