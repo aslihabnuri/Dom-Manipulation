@@ -85,17 +85,21 @@ Mengikuti referensi `Banner Product Value_Referensi`, tapi **tanpa blok panel**.
 
 Fotonya sengaja digenerate dengan **sepertiga atas dan seperenam bawah kosong**. Zona itu diukur: titik tergelapnya 228 dan 239 dari 255, jadi teks hitam kontrasnya jauh melebihi cukup. Blok putih hanya diperlukan kalau latar fotonya ramai — di sini tidak.
 
-### Penataan produk
+### Penataan produk: cutout asli, bukan hasil generate
 
-Versi pertama menumpuk garmen dalam lipatan datar, yang membuatnya terbaca sebagai tumpukan kain, bukan produk. Sekarang ketiganya ditampilkan **berbentuk tiga dimensi seperti sedang dipakai** (efek ghost mannequin, tanpa tubuh maupun manekin terlihat), berdiri di atas plinth bundar dengan tinggi berbeda dalam susunan busur, hero di tengah dan sedikit lebih besar. Waistband menghadap kamera sehingga tulisan `TONI BLACK` terbaca. Tanpa properti sama sekali.
+Versi generate sempat mengarang produk yang tidak ada. Saya menyimpulkan lini produknya dari icon set guideline hal. 15 (yang mencantumkan Trunks), bukan dari foto produk Anda — hasilnya muncul trunk yang tidak Anda jual, dan boxer berkaki panjang padahal boxer Anda berkaki pendek.
 
-**Tiga produk berbeda, bukan satu produk diulang.** Versi sebelumnya menampilkan boxer yang sama dua kali. Sekarang ketiganya adalah tiga kategori underwear yang memang ada di icon set guideline hal. 15, dibedakan lewat siluetnya:
+Sekarang **tidak ada foto produk yang digenerate sama sekali**. Ketiganya adalah file ghost mannequin asli dari Drive, PNG berlatar transparan, disusun langsung:
 
-| Posisi | Produk | Siluet |
+| Posisi | File asli | Bentuk |
 |---|---|---|
-| Kiri | **Brief** | tanpa kaki, potongan paling ringkas |
-| Tengah (hero) | **Boxer** | kaki panjang sampai paha |
-| Kanan | **Trunk** | kaki pendek, berhenti tinggi di paha |
+| Kiri | `Brief dewasa/6.png` | brief klasik |
+| Tengah (hero) | `Boxer dewasa/6a.png` | boxer ketat, **kaki pendek** |
+| Kanan | `Brief dewasa B/1.png` | boxer longgar berkancing |
+
+Tersimpan di `brand/assets/products/`. Latar, bayangan, dan penataannya dibuat oleh `tools/compose_stilllife.py` — gradasi off-white yang sangat halus, bayangan elips lembut di bawah tiap produk, disusun dalam busur dengan hero di tengah dan paling depan.
+
+Skalanya disamakan berdasarkan **lebar terlebar (pinggul)**. Waistband sebenarnya datum yang lebih tepat karena ketiganya satu ukuran pinggang, tapi brief-nya difoto menyudut sehingga waistband-nya memendek secara perspektif dan brief jadi terlalu kecil.
 
 ### Ikonnya bukan gambar baru
 
