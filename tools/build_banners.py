@@ -3,6 +3,10 @@
 
 Logo and typography are composited from the real brand assets — never generated —
 so the mark and the type stay exact. Kie only produces the photography.
+
+Copy is sourced from the brand guideline: story p.33, values p.34, tone of voice
+p.35, call-out vocabulary from the icon set p.15.
+Type: Zalando Sans Expanded (titles) + Arimo (body), official files from Drive.
 """
 from PIL import Image, ImageDraw, ImageFont, ImageEnhance
 import os
@@ -18,15 +22,20 @@ BLACK, WHITE = (40, 40, 40), (255, 255, 255)
 DAVIS, GREY, STEEL = (79, 80, 82), (129, 130, 132), (204, 204, 204)
 CASING = (22, 22, 22)          # dark casing so light marks survive light garments
 
-def zal(w, s): return ImageFont.truetype(f"{F}/ZalandoSansExpanded-{w}.ttf", s)
-def ari(w, s): return ImageFont.truetype(f"{F}/Arimo-{w}.ttf", s)
+# Official brand faces. Weight number -> the file that actually ships that weight.
+ZAL = {400: "Regular", 600: "SemiBold", 700: "Bold", 800: "ExtraBold", 900: "Black"}
+ARI = {400: "Regular", 500: "Medium", 700: "Bold"}
+
+def zal(w, s): return ImageFont.truetype(f"{F}/ZalandoSansExpanded-{ZAL[w]}.ttf", s)
+def ari(w, s): return ImageFont.truetype(f"{F}/Arimo-{ARI[w]}.ttf", s)
 
 def tw(d, t, f, tr=0):
     return d.textlength(t, font=f) if tr == 0 else sum(d.textlength(c, font=f) + tr for c in t) - tr
 
-def tracked(d, xy, t, f, fill, tr=0, right=False, stroke=0, stroke_fill=CASING):
+def tracked(d, xy, t, f, fill, tr=0, right=False, centre=False, stroke=0, stroke_fill=CASING):
     x, y = xy
-    if right: x -= tw(d, t, f, tr)
+    if right:  x -= tw(d, t, f, tr)
+    if centre: x -= tw(d, t, f, tr) / 2
     kw = dict(stroke_width=stroke, stroke_fill=stroke_fill) if stroke else {}
     if tr == 0:
         d.text((x, y), t, font=f, fill=fill, **kw); return
@@ -73,6 +82,7 @@ def save(im, name):
 
 
 # ───────────────── BANNER 1 — BRAND STORY ────────────────────────────────────
+# Copy taken from the Story page (guideline p.33).
 def banner1():
     W, H, M = 1600, 2000, 120
     photo = grade(Image.open(f"{GEN}/hero-brandstory.png").convert("RGB"), 1.06)
@@ -80,7 +90,7 @@ def banner1():
     ph_h = 1900                       # figure right, plain studio backdrop extended left
     ph = photo.resize((round(photo.width * ph_h / photo.height), ph_h), Image.LANCZOS)
     c = Image.new("RGB", (W, H), (238, 238, 238))
-    ox, oy = 300, H - ph_h
+    ox, oy = 380, H - ph_h
     c.paste(ph, (ox, oy))
     c.paste(ph.crop((0, 0, 3, ph_h)).resize((ox, ph_h), Image.LANCZOS), (0, oy))
     c.paste(c.crop((0, oy, W, oy + 3)).resize((W, oy), Image.LANCZOS), (0, 0))
@@ -88,19 +98,19 @@ def banner1():
     d = ImageDraw.Draw(c)
     c.paste(lg := logo("logo-horizontal-black", 430), (M, 120), lg)
 
-    TEXTW, y = 660, 880
-    tracked(d, (M, y), "WE ARE", zal(600, 34), DAVIS, tr=10)
+    TEXTW, y = 780, 840
+    tracked(d, (M, y), "OUR STORY", zal(600, 32), DAVIS, tr=10)
     y += 92
-    size = 152
-    while size > 60 and max(tw(d, l, zal(800, size)) for l in ["MADE TO", "MOVE"]) > TEXTW:
+    size = 132
+    while size > 60 and max(tw(d, l, zal(800, size)) for l in ["TAILORED FOR", "COMFORT."]) > TEXTW:
         size -= 2
     hf = zal(800, size)
-    for line in ["MADE TO", "MOVE"]:
-        d.text((M, y), line, font=hf, fill=BLACK); y += round(size * 1.06)
+    for line in ["TAILORED FOR", "COMFORT."]:
+        d.text((M, y), line, font=hf, fill=BLACK); y += round(size * 1.08)
 
-    y += 52
-    for line in ["Simplicity meets performance.", "Maximum comfort in an elegant",
-                 "and understated design."]:
+    y += 54
+    for line in ["Defined by originality,", "driven by innovation.",
+                 "Every detail is created with purpose."]:
         d.text((M, y), line, font=ari(400, 37), fill=DAVIS); y += 53
 
     d.line([(M, H - 250), (M + 140, H - 250)], fill=BLACK, width=4)
@@ -111,10 +121,10 @@ def banner1():
 
 
 # ───────────────── BANNER 2 — VALUE PER PRODUCT ──────────────────────────────
-# Six values per product, taken straight from the brand's own icon set.
-# Anchors are fractions of the canvas, pointing at a spot on the garment.
+# Call-out vocabulary from the icon set (p.15); the kicker under the product
+# name is the brand value that product carries (p.34).
 VARIANTS = {
-    "boxer": dict(title="BOXER", src="value-boxer", maxlabel=430, calls=[
+    "boxer": dict(title="BOXER", value="PRECISION & FIT", src="value-boxer", maxlabel=455, calls=[
         ("DURABLE WAISTBAND", 0, 0, (0.44, 0.395)),
         ("SOFT FABRIC",       0, 1, (0.40, 0.480)),
         ("ANTI RIDE-UP",      0, 2, (0.42, 0.570)),
@@ -122,7 +132,7 @@ VARIANTS = {
         ("4-WAY STRETCH",     1, 1, (0.61, 0.480)),
         ("BREATHABLE",        1, 2, (0.59, 0.560)),
     ]),
-    "brief": dict(title="BRIEF", src="value-brief", maxlabel=430, calls=[
+    "brief": dict(title="BRIEF", value="PRECISION & FIT", src="value-brief", maxlabel=455, calls=[
         ("DURABLE WAISTBAND", 0, 0, (0.42, 0.455)),
         ("SOFT FABRIC",       0, 1, (0.38, 0.530)),
         ("ERGONOMIC FIT",     0, 2, (0.42, 0.600)),
@@ -130,7 +140,8 @@ VARIANTS = {
         ("BREATHABLE",        1, 1, (0.63, 0.530)),
         ("SHAPE RETENTION",   1, 2, (0.60, 0.595)),
     ]),
-    "crewneck": dict(title="CREWNECK", src="value-crewneck", maxlabel=390, calls=[
+    "crewneck": dict(title="CREWNECK", value="AUTHENTIC SIMPLICITY", src="value-crewneck",
+                     maxlabel=450, calls=[
         ("SOFT FABRIC",      0, 0, (0.42, 0.365)),
         ("BREATHABLE",       0, 1, (0.40, 0.560)),
         ("EASY CARE",        0, 2, (0.42, 0.755)),
@@ -138,7 +149,8 @@ VARIANTS = {
         ("SHAPE RETENTION",  1, 1, (0.66, 0.510)),
         ("COLOR RETENTION",  1, 2, (0.61, 0.730)),
     ]),
-    "tanktop": dict(title="TANKTOP", src="value-tanktop", maxlabel=350, calls=[
+    "tanktop": dict(title="TANKTOP", value="CONTINUOUS INNOVATION", src="value-tanktop",
+                    maxlabel=450, calls=[
         ("SOFT FABRIC",       0, 0, (0.36, 0.320)),
         ("BREATHABLE",        0, 1, (0.34, 0.520)),
         ("LIGHTWEIGHT",       0, 2, (0.36, 0.740)),
@@ -147,6 +159,22 @@ VARIANTS = {
         ("EASY CARE",         1, 2, (0.60, 0.720)),
     ]),
 }
+
+
+def label_size():
+    """One label size for every call-out on every variant, so the typography
+    stays even. Driven by the tightest variant's longest label."""
+    probe = ImageDraw.Draw(Image.new("RGB", (10, 10)))
+    size = 34
+    while size > 20:
+        if all(tw(probe, lab, zal(700, size), 3) <= v["maxlabel"]
+               for v in VARIANTS.values() for lab, *_ in v["calls"]):
+            return size
+        size -= 1
+    return 20
+
+
+LABEL_SIZE = label_size()
 
 
 def banner2(key):
@@ -162,9 +190,9 @@ def banner2(key):
     for y in range(round(H * 0.17)):
         sd.line([(0, y), (W, y)],
                 fill=max(int(175 * (1 - y / (H * 0.17)) ** 1.4), scrim.getpixel((W // 2, y))))
-    for y in range(round(H * 0.87), H):
+    for y in range(round(H * 0.86), H):
         sd.line([(0, y), (W, y)],
-                fill=max(int(185 * ((y - H * 0.87) / (H * 0.13)) ** 1.2), scrim.getpixel((W // 2, y))))
+                fill=max(int(190 * ((y - H * 0.86) / (H * 0.14)) ** 1.2), scrim.getpixel((W // 2, y))))
     c = Image.composite(Image.new("RGB", (W, H), (16, 16, 16)), c, scrim)
 
     d = ImageDraw.Draw(c)
@@ -172,11 +200,8 @@ def banner2(key):
     c.paste(lg, ((W - lg.width) // 2, 100), lg)
 
     ROWS = [700, 1020, 1340]
+    lf = zal(700, LABEL_SIZE)
     for label, side, row, (fx, fy) in v["calls"]:
-        size = 34                                  # shrink so labels stay off the garment
-        while size > 24 and tw(d, label, zal(700, size), 3) > v["maxlabel"]:
-            size -= 1
-        lf = zal(700, size)
         y, right = ROWS[row], side == 1
         tx = M if not right else W - M
         wl = tw(d, label, lf, 3)
@@ -187,41 +212,44 @@ def banner2(key):
         cased_dot(d, mx, my)
         tracked(d, (tx, y), label, lf, WHITE, tr=3, right=right, stroke=3)
 
-    tf = zal(800, 62)
-    tracked(d, (W // 2 - tw(d, v["title"], tf, 6) // 2, H - 190), v["title"], tf, WHITE,
-            tr=6, stroke=4)
+    tracked(d, (W // 2, H - 245), v["value"], zal(600, 28), STEEL, tr=9, centre=True, stroke=3)
+    tracked(d, (W // 2, H - 190), v["title"], zal(800, 62), WHITE, tr=6, centre=True, stroke=4)
     save(c, f"2-value-{key}")
 
 
 # ───────────────── BANNER 3 — SHOP BANNER, 2 CLICKABLE AREAS ─────────────────
 def banner3():
     W, H = 2000, 2000
-    HEAD, GAP, BAR = 250, 12, 240
+    HEAD, GAP, BAR = 230, 14, 230
+    HAIR = (220, 220, 220)
     c = Image.new("RGB", (W, H), WHITE)
     d = ImageDraw.Draw(c)
-    d.rectangle([0, 0, W, HEAD], fill=BLACK)
-    lg = logo("logo-horizontal-white", 520)
-    c.paste(lg, ((W - lg.width) // 2, (HEAD - lg.height) // 2 - 10), lg)
 
-    pw, ph = (W - GAP) // 2, H - HEAD
+    lg = logo("logo-horizontal-black", 470)          # clean white header, no heavy block
+    c.paste(lg, ((W - lg.width) // 2, (HEAD - lg.height) // 2), lg)
+    d.line([(0, HEAD - 1), (W, HEAD - 1)], fill=HAIR, width=2)
+
+    pw, ph = (W - GAP) // 2, H - HEAD - BAR
     for x0, src, title, sub in [
         (0,        f"{GEN}/cat-men.png",  "MEN",  "Brief  ·  Boxer  ·  Singlet"),
         (pw + GAP, f"{GEN}/cat-kids.png", "KIDS", "Brief  ·  Boxer"),
     ]:
         c.paste(cover(grade(Image.open(src).convert("RGB"), 1.04), pw, ph, ycrop=0.0), (x0, HEAD))
-        bar = Image.new("RGBA", (pw, BAR), (40, 40, 40, 232))
-        c.paste(bar, (x0, H - BAR), bar)
         dd = ImageDraw.Draw(c)
-        tracked(dd, (x0 + 70, H - BAR + 46), title, zal(900, 80), WHITE, tr=6)
-        tracked(dd, (x0 + 70, H - BAR + 152), sub, ari(400, 31), STEEL)
-        cf = zal(700, 31)
-        tracked(dd, (x0 + pw - 108, H - BAR + 78), "Explore The Collection", cf, WHITE, tr=1, right=True)
-        arrow(dd, x0 + pw - 90, H - BAR + 93, 34, WHITE, 3)
+        by = H - BAR
+        dd.line([(x0, by), (x0 + pw, by)], fill=HAIR, width=2)
+        tracked(dd, (x0 + 70, by + 52), title, zal(900, 76), BLACK, tr=6)
+        tracked(dd, (x0 + 70, by + 152), sub, ari(400, 30), GREY)
+        cf = zal(700, 30)
+        tracked(dd, (x0 + pw - 106, by + 78), "Explore The Collection", cf, BLACK, tr=1, right=True)
+        arrow(dd, x0 + pw - 88, by + 92, 32, BLACK, 3)
 
+    d.line([(pw + GAP // 2, HEAD), (pw + GAP // 2, H)], fill=HAIR, width=2)
     save(c, "3-banner-toko")
 
 
 if __name__ == "__main__":
+    print(f"  label size: {LABEL_SIZE}px (uniform across all value banners)")
     banner1()
     for k in VARIANTS:
         banner2(k)

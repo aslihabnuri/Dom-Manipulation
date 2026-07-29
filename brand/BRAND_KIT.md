@@ -108,7 +108,7 @@ Clear space di sekeliling logo = **tinggi 1 huruf wordmark (X)** di keempat sisi
 | **Zalando Sans Expanded** | Headline / Title | *assertive & edgy* |
 | **Arimo** | Body / deskripsi / caption | *clear, easy to read* |
 
-File siap pakai di `assets/fonts/` (variable + static: Arimo 400/700, Zalando Sans Expanded 400/600/700/800/900).
+File resmi dari folder `Font` di Drive klien terpasang di `assets/fonts/`: Zalando Sans Expanded (Regular, SemiBold, Bold, ExtraBold, Black) dan Arimo (Regular, Medium, Bold).
 
 Aturan praktis untuk banner:
 - Headline: Zalando Sans Expanded **700–900, UPPERCASE**.
