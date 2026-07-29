@@ -54,24 +54,39 @@ Kalimat lengkap hal. 33 berbunyi *"Tailored for comfort, defined by originality,
 
 ---
 
-## 2. BANNER VALUE PRODUCT — 4 VARIAN
+## 2. BANNER VALUE PRODUCT — CAROUSEL 4 SLIDE
 
-**Tipografi label sekarang seragam: 28px untuk keenam label di keempat banner.** Sebelumnya tiap label dikecilkan sendiri-sendiri agar muat, jadi ukurannya tidak rata. Sekarang satu ukuran dihitung sekali untuk semua, dari label terpanjang di varian tersempit.
+### Values sebagai acuan point (hal. 34)
 
-Di bawah nama produk ditambahkan **brand value dari hal. 34**:
+Kelima brand value **menjadi point-nya**, bukan hiasan di atas nama produk. Kicker di atas nama produk sudah dihapus.
 
-| Produk | Brand value (hal. 34) | Kiri | Kanan |
-|---|---|---|---|
-| **BOXER** | `PRECISION & FIT` | Durable Waistband · Soft Fabric · Anti Ride-Up | Tagless · 4-Way Stretch · Breathable |
-| **BRIEF** | `PRECISION & FIT` | Durable Waistband · Soft Fabric · Ergonomic Fit | Tagless · Breathable · Shape Retention |
-| **CREWNECK** | `AUTHENTIC SIMPLICITY` | Soft Fabric · Breathable · Easy Care | Tagless · Shape Retention · Color Retention |
-| **TANKTOP** | `CONTINUOUS INNOVATION` | Soft Fabric · Breathable · Lightweight | Moisture Wicking · Shape Retention · Easy Care |
+Setiap slide membawa **lima value yang sama, di posisi yang sama**. Yang berubah cuma bukti fisiknya di garmen itu — inilah yang membuat carousel terasa satu rangkaian, bukan empat gambar terpisah.
 
-Enam label tetap memakai kosakata icon set hal. 15, karena label-label inilah yang ditunjuk garis penunjuk ke bagian fisik garmen. Brand value hal. 34 bersifat abstrak (*Confidence*, *Modern Masculinity*), jadi tidak bisa menunjuk ke waistband atau jahitan — makanya ditempatkan sebagai kicker di bawah, bukan sebagai callout.
+| Brand value (hal. 34) | Boxer | Brief | Crewneck | Tanktop |
+|---|---|---|---|---|
+| CONFIDENCE | Durable waistband | Durable waistband | Shape retention | Shape retention |
+| PRECISION & FIT | Ergonomic cut | Ergonomic fit | Tailored cut | Ergonomic cut |
+| MODERN MASCULINITY | Refined silhouette | Refined silhouette | Clean silhouette | Refined silhouette |
+| AUTHENTIC SIMPLICITY | Tagless finish | Tagless finish | Tagless collar | Clean seams |
+| CONTINUOUS INNOVATION | 4-way stretch | Shape retention | Breathable cotton | Moisture wicking |
 
-Kalau Anda memang ingin kelima brand value hal. 34 yang jadi callout utama menggantikan fitur produk, bilang saja — tinggal ditukar.
+Baris pendukung di bawah tiap value memakai kosakata icon set hal. 15, jadi value yang abstrak tetap punya bukti yang bisa ditunjuk garis ke bagian fisik garmen.
 
-Warna: semua underwear hitam, crewneck dan tanktop putih.
+### Foto: satu pemotretan, empat slide
+
+Keempat foto digenerate sebagai **satu seri berkelanjutan**. Foto boxer dibuat lebih dulu, lalu dipakai sebagai referensi untuk tiga sisanya — hasilnya model, studio, arah cahaya, jarak kamera, dan framing identik di keempat slide. Di slide crewneck dan tanktop, model tetap memakai boxer hitam yang sama, jadi carousel terbaca sebagai satu look yang berkembang.
+
+Framing seragam: bahu sampai atas lutut, model di tengah, ruang gelap di kiri-kanan untuk anotasi.
+
+### Filter
+
+Gradasi tepi lama memakai kurva yang dipotong, jadi ada garis mendatar yang kelihatan di dekat atas. Sekarang memakai **smoothstep** — kemiringannya nol di kedua ujung — plus blur halus, jadi gradasinya habis tanpa batas yang terlihat.
+
+### Layout
+
+Logo di tengah atas, nama produk di tengah bawah. Tiga value di kolom kiri, dua di kanan, diselang-seling supaya ritmenya rapi. Garis penunjuk setipis mungkin, titik kecil, semua dengan casing gelap agar terbaca di atas garmen putih maupun latar gelap.
+
+Warna: underwear hitam, crewneck dan tanktop putih.
 
 ---
 

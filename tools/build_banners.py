@@ -4,11 +4,12 @@
 Logo and typography are composited from the real brand assets — never generated —
 so the mark and the type stay exact. Kie only produces the photography.
 
-Copy is sourced from the brand guideline: story p.33, values p.34, tone of voice
-p.35, call-out vocabulary from the icon set p.15.
+Copy sources: story p.33, values p.34, tone of voice p.35, feature vocabulary
+from the icon set p.15, CTA list p.29.
 Type: Zalando Sans Expanded (titles) + Arimo (body), official files from Drive.
 """
-from PIL import Image, ImageDraw, ImageFont, ImageEnhance
+from PIL import Image, ImageDraw, ImageFont, ImageEnhance, ImageFilter
+import numpy as np
 import os
 
 REPO = "/home/user/Dom-Manipulation"
@@ -20,9 +21,8 @@ os.makedirs(OUT, exist_ok=True)
 
 BLACK, WHITE = (40, 40, 40), (255, 255, 255)
 DAVIS, GREY, STEEL = (79, 80, 82), (129, 130, 132), (204, 204, 204)
-CASING = (22, 22, 22)          # dark casing so light marks survive light garments
+CASING = (20, 20, 20)          # dark casing so light marks survive light garments
 
-# Official brand faces. Weight number -> the file that actually ships that weight.
 ZAL = {400: "Regular", 600: "SemiBold", 700: "Bold", 800: "ExtraBold", 900: "Black"}
 ARI = {400: "Regular", 500: "Medium", 700: "Bold"}
 
@@ -42,13 +42,13 @@ def tracked(d, xy, t, f, fill, tr=0, right=False, centre=False, stroke=0, stroke
     for c in t:
         d.text((x, y), c, font=f, fill=fill, **kw); x += d.textlength(c, font=f) + tr
 
-def cased_line(d, a, b):
-    """Leader line that reads on both dark background and white fabric."""
-    d.line([a, b], fill=CASING, width=6)
-    d.line([a, b], fill=(238, 238, 238), width=2)
+def hairline(d, a, b, core=1):
+    """Rule that reads on both dark background and white fabric."""
+    d.line([a, b], fill=CASING, width=core + 4)
+    d.line([a, b], fill=(235, 235, 235), width=core)
 
-def cased_dot(d, x, y, r=7):
-    d.ellipse([x - r, y - r, x + r, y + r], fill=(238, 238, 238), outline=CASING, width=3)
+def cased_dot(d, x, y, r=5):
+    d.ellipse([x - r, y - r, x + r, y + r], fill=(235, 235, 235), outline=CASING, width=3)
 
 def logo(name, width):
     im = Image.open(f"{L}/{name}.png")
@@ -71,6 +71,18 @@ def grade(im, contrast=1.10, sat=0.0, bright=1.0):
     im = ImageEnhance.Contrast(im).enhance(contrast)
     return ImageEnhance.Brightness(im).enhance(bright)
 
+def vignette(size, side=0.30, topbot=0.16, peak=175):
+    """Smooth edge falloff. Uses smoothstep, whose slope is zero at both ends, so
+    the gradient never terminates on a visible line the way a clipped curve does."""
+    W, H = size
+    yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
+    fx = np.minimum(xx / (W * side), (W - 1 - xx) / (W * side))
+    fy = np.minimum(yy / (H * topbot), (H - 1 - yy) / (H * topbot))
+    f = np.clip(np.minimum(fx, fy), 0.0, 1.0)
+    s = 1.0 - (f * f * (3.0 - 2.0 * f))            # smoothstep, inverted
+    a = Image.fromarray((s * peak).astype(np.uint8), "L")
+    return a.filter(ImageFilter.GaussianBlur(6))
+
 def save(im, name):
     path = f"{OUT}/{name}.jpg"
     q = 95
@@ -82,7 +94,7 @@ def save(im, name):
 
 
 # ───────────────── BANNER 1 — BRAND STORY ────────────────────────────────────
-# Copy taken from the Story page (guideline p.33).
+# Copy from the Story page (guideline p.33).
 def banner1():
     W, H, M = 1600, 2000, 120
     photo = grade(Image.open(f"{GEN}/hero-brandstory.png").convert("RGB"), 1.06)
@@ -120,100 +132,74 @@ def banner1():
     save(c, "1-brand-story")
 
 
-# ───────────────── BANNER 2 — VALUE PER PRODUCT ──────────────────────────────
-# Call-out vocabulary from the icon set (p.15); the kicker under the product
-# name is the brand value that product carries (p.34).
+# ───────────────── BANNER 2 — VALUE CAROUSEL ─────────────────────────────────
+# Every slide carries the same five brand values (guideline p.34). What changes
+# per slide is how each value shows up on that garment, and where it points.
+# Left column takes three, right column takes two, staggered between them.
+VALUES = ["CONFIDENCE", "PRECISION & FIT", "MODERN MASCULINITY",
+          "AUTHENTIC SIMPLICITY", "CONTINUOUS INNOVATION"]
+
 VARIANTS = {
-    "boxer": dict(title="BOXER", value="PRECISION & FIT", src="value-boxer", maxlabel=455, calls=[
-        ("DURABLE WAISTBAND", 0, 0, (0.44, 0.395)),
-        ("SOFT FABRIC",       0, 1, (0.40, 0.480)),
-        ("ANTI RIDE-UP",      0, 2, (0.42, 0.570)),
-        ("TAGLESS",           1, 0, (0.58, 0.395)),
-        ("4-WAY STRETCH",     1, 1, (0.61, 0.480)),
-        ("BREATHABLE",        1, 2, (0.59, 0.560)),
+    "boxer": dict(title="BOXER", src="value-boxer", calls=[
+        ("CONFIDENCE",            "Durable waistband",  0, 0, (0.440, 0.472)),
+        ("PRECISION & FIT",       "Ergonomic cut",      0, 1, (0.400, 0.545)),
+        ("MODERN MASCULINITY",    "Refined silhouette", 0, 2, (0.425, 0.602)),
+        ("AUTHENTIC SIMPLICITY",  "Tagless finish",     1, 0, (0.538, 0.468)),
+        ("CONTINUOUS INNOVATION", "4-way stretch",      1, 1, (0.610, 0.558)),
     ]),
-    "brief": dict(title="BRIEF", value="PRECISION & FIT", src="value-brief", maxlabel=455, calls=[
-        ("DURABLE WAISTBAND", 0, 0, (0.42, 0.455)),
-        ("SOFT FABRIC",       0, 1, (0.38, 0.530)),
-        ("ERGONOMIC FIT",     0, 2, (0.42, 0.600)),
-        ("TAGLESS",           1, 0, (0.60, 0.450)),
-        ("BREATHABLE",        1, 1, (0.63, 0.530)),
-        ("SHAPE RETENTION",   1, 2, (0.60, 0.595)),
+    "brief": dict(title="BRIEF", src="value-brief", calls=[
+        ("CONFIDENCE",            "Durable waistband",  0, 0, (0.450, 0.476)),
+        ("PRECISION & FIT",       "Ergonomic fit",      0, 1, (0.420, 0.545)),
+        ("MODERN MASCULINITY",    "Refined silhouette", 0, 2, (0.440, 0.596)),
+        ("AUTHENTIC SIMPLICITY",  "Tagless finish",     1, 0, (0.578, 0.476)),
+        ("CONTINUOUS INNOVATION", "Shape retention",    1, 1, (0.572, 0.542)),
     ]),
-    "crewneck": dict(title="CREWNECK", value="AUTHENTIC SIMPLICITY", src="value-crewneck",
-                     maxlabel=450, calls=[
-        ("SOFT FABRIC",      0, 0, (0.42, 0.365)),
-        ("BREATHABLE",       0, 1, (0.40, 0.560)),
-        ("EASY CARE",        0, 2, (0.42, 0.755)),
-        ("TAGLESS",          1, 0, (0.53, 0.295)),
-        ("SHAPE RETENTION",  1, 1, (0.66, 0.510)),
-        ("COLOR RETENTION",  1, 2, (0.61, 0.730)),
+    "crewneck": dict(title="CREWNECK", src="value-crewneck", calls=[
+        ("AUTHENTIC SIMPLICITY",  "Tagless collar",     0, 0, (0.487, 0.082)),
+        ("PRECISION & FIT",       "Tailored cut",       0, 1, (0.405, 0.300)),
+        ("MODERN MASCULINITY",    "Clean silhouette",   0, 2, (0.415, 0.448)),
+        ("CONFIDENCE",            "Shape retention",    1, 0, (0.620, 0.232)),
+        ("CONTINUOUS INNOVATION", "Breathable cotton",  1, 1, (0.578, 0.322)),
     ]),
-    "tanktop": dict(title="TANKTOP", value="CONTINUOUS INNOVATION", src="value-tanktop",
-                    maxlabel=450, calls=[
-        ("SOFT FABRIC",       0, 0, (0.36, 0.320)),
-        ("BREATHABLE",        0, 1, (0.34, 0.520)),
-        ("LIGHTWEIGHT",       0, 2, (0.36, 0.740)),
-        ("MOISTURE WICKING",  1, 0, (0.58, 0.300)),
-        ("SHAPE RETENTION",   1, 1, (0.62, 0.500)),
-        ("EASY CARE",         1, 2, (0.60, 0.720)),
+    "tanktop": dict(title="TANKTOP", src="value-tanktop", calls=[
+        ("AUTHENTIC SIMPLICITY",  "Clean seams",        0, 0, (0.450, 0.140)),
+        ("PRECISION & FIT",       "Ergonomic cut",      0, 1, (0.432, 0.318)),
+        ("MODERN MASCULINITY",    "Refined silhouette", 0, 2, (0.442, 0.478)),
+        ("CONFIDENCE",            "Shape retention",    1, 0, (0.598, 0.222)),
+        ("CONTINUOUS INNOVATION", "Moisture wicking",   1, 1, (0.596, 0.420)),
     ]),
 }
 
-
-def label_size():
-    """One label size for every call-out on every variant, so the typography
-    stays even. Driven by the tightest variant's longest label."""
-    probe = ImageDraw.Draw(Image.new("RGB", (10, 10)))
-    size = 34
-    while size > 20:
-        if all(tw(probe, lab, zal(700, size), 3) <= v["maxlabel"]
-               for v in VARIANTS.values() for lab, *_ in v["calls"]):
-            return size
-        size -= 1
-    return 20
-
-
-LABEL_SIZE = label_size()
+LABEL, DESC = 30, 26                 # one size for every slide in the carousel
+ROWS_L = [660, 1030, 1400]
+ROWS_R = [845, 1215]
 
 
 def banner2(key):
     v = VARIANTS[key]
     W, H, M = 1600, 2000, 100
     c = cover(grade(Image.open(f"{GEN}/{v['src']}.png").convert("RGB"), 1.04), W, H)
-
-    scrim = Image.new("L", (W, H), 0)
-    sd = ImageDraw.Draw(scrim)
-    for x in range(W):
-        e = max(max(0.0, 1 - x / (W * 0.34)), max(0.0, 1 - (W - x) / (W * 0.34))) ** 1.4
-        sd.line([(x, 0), (x, H)], fill=int(185 * e))
-    for y in range(round(H * 0.17)):
-        sd.line([(0, y), (W, y)],
-                fill=max(int(175 * (1 - y / (H * 0.17)) ** 1.4), scrim.getpixel((W // 2, y))))
-    for y in range(round(H * 0.86), H):
-        sd.line([(0, y), (W, y)],
-                fill=max(int(190 * ((y - H * 0.86) / (H * 0.14)) ** 1.2), scrim.getpixel((W // 2, y))))
-    c = Image.composite(Image.new("RGB", (W, H), (16, 16, 16)), c, scrim)
+    c = Image.composite(Image.new("RGB", (W, H), (14, 14, 14)), c, vignette((W, H)))
 
     d = ImageDraw.Draw(c)
-    lg = logo("logo-horizontal-white", 440)
-    c.paste(lg, ((W - lg.width) // 2, 100), lg)
+    lg = logo("logo-horizontal-white", 420)
+    c.paste(lg, ((W - lg.width) // 2, 108), lg)
 
-    ROWS = [700, 1020, 1340]
-    lf = zal(700, LABEL_SIZE)
-    for label, side, row, (fx, fy) in v["calls"]:
-        y, right = ROWS[row], side == 1
-        tx = M if not right else W - M
-        wl = tw(d, label, lf, 3)
-        ux0, ux1 = (tx, tx + wl) if not right else (tx - wl, tx)
+    lf, df = zal(700, LABEL), ari(400, DESC)
+    for label, desc, side, row, (fx, fy) in v["calls"]:
+        right = side == 1
+        y = (ROWS_R if right else ROWS_L)[row]
+        tx = W - M if right else M
+        wl = max(tw(d, label, lf, 3), d.textlength(desc, font=df))
+        ux0, ux1 = (tx - wl, tx) if right else (tx, tx + wl)
         mx, my = round(fx * W), round(fy * H)
-        cased_line(d, (ux0, y + 54), (ux1, y + 54))
-        cased_line(d, (ux1 if not right else ux0, y + 54), (mx, my))
+        hairline(d, (ux0, y + 84), (ux1, y + 84))
+        hairline(d, (ux0 if right else ux1, y + 84), (mx, my))
         cased_dot(d, mx, my)
         tracked(d, (tx, y), label, lf, WHITE, tr=3, right=right, stroke=3)
+        tracked(d, (tx, y + 44), desc, df, STEEL, right=right, stroke=3)
 
-    tracked(d, (W // 2, H - 245), v["value"], zal(600, 28), STEEL, tr=9, centre=True, stroke=3)
-    tracked(d, (W // 2, H - 190), v["title"], zal(800, 62), WHITE, tr=6, centre=True, stroke=4)
+    tracked(d, (W // 2, H - 200), v["title"], zal(800, 64), WHITE, tr=7, centre=True, stroke=4)
     save(c, f"2-value-{key}")
 
 
@@ -225,7 +211,7 @@ def banner3():
     c = Image.new("RGB", (W, H), WHITE)
     d = ImageDraw.Draw(c)
 
-    lg = logo("logo-horizontal-black", 470)          # clean white header, no heavy block
+    lg = logo("logo-horizontal-black", 470)
     c.paste(lg, ((W - lg.width) // 2, (HEAD - lg.height) // 2), lg)
     d.line([(0, HEAD - 1), (W, HEAD - 1)], fill=HAIR, width=2)
 
@@ -249,7 +235,6 @@ def banner3():
 
 
 if __name__ == "__main__":
-    print(f"  label size: {LABEL_SIZE}px (uniform across all value banners)")
     banner1()
     for k in VARIANTS:
         banner2(k)
