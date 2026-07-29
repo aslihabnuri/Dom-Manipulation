@@ -1,0 +1,11 @@
+# Kredensial — jangan pernah di-commit
+.env
+*.key
+
+# Output kerja
+output/
+tmp/
+
+__pycache__/
+*.pyc
+.DS_Store
