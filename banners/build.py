@@ -436,10 +436,19 @@ def category_walk():
 
 
 # ── 7. Syarat dan Ketentuan — on the client's street corner ──────────────
-# The reference is 736 by 1308; filling 1200 wide scales it 1.63 to 2132 tall and
-# the window takes 1600 from y 300, which keeps the shopfront and its awning and
-# drops the empty road below. The copy is the client's existing terms banner.
-TNC_CROP = (0, 300, 1200, 1900)
+# The reference is 736 by 1308; filling 1200 wide scales it 1.63 to a 2133-tall
+# image. The shop's face — awning, sign, storefront, the pavement it stands on —
+# runs y 910 to 1690 there, and this window is all but its last ten pixels of
+# pavement: 770 tall, the whole shop and nothing of the empty road. The ten go
+# to the bottom margin, which the copy had left at 16 pixels.
+#
+# It is a band across the top rather than a full-bleed background because the
+# copy will not fit over it. Three items wrap to six lines and need 668 pixels
+# of card; the shop's face occupies the middle 800 of any full-height crop, so
+# a card deep enough to hold the terms lands squarely on the storefront. Cutting
+# the photograph at a frame edge reads as framing; a card sitting on the shop
+# reads as covering it.
+TNC_BAND = (0, 910, 1200, 1680)
 
 TERMS = [
     ('01', 'REKAM SEBELUM DIBUKA',
@@ -467,41 +476,24 @@ def terms_street():
     c = N.canvas()
     ref = Image.open(ILLUS3 / 'tnc-bg.jpg').convert('RGB')
     ref = ref.resize((1200, round(ref.height * 1200 / ref.width)), Image.LANCZOS)
-    c.paste(ref.crop(TNC_CROP), (0, 0))
+    band = ref.crop(TNC_BAND)
+    c.paste(band, (0, 0))
     d = ImageDraw.Draw(c)
 
-    # The card is measured to its copy, not given a fixed depth. Run to the
-    # bottom margin and it stands half empty, which is what a fixed depth gave;
-    # sized to the wrapped lines it sits as a block with the photograph showing
-    # above and below it.
-    LEFT, PAD, GAP = 56, 46, 64
-    x0 = LEFT + 108
-    width = W - LEFT - 56 - x0
+    N.logo(c, y=band.height + 54, width=290)
+    N.text(d, (W / 2, band.height + 184), 'SYARAT DAN KETENTUAN', 56, CHARCOAL,
+           tracking=2, align='center')
+
+    LEFT, GAP = MARGIN, 50
+    x0 = LEFT + 100
+    width = W - LEFT - x0
     wrapped = [(n, t, N.wrap_rich(cp, 25, width)) for n, t, cp in TERMS]
-    body_h = sum(62 + len(ln) * 25 * 1.55 for _, _, ln in wrapped)
-    depth = round(body_h + GAP * (len(wrapped) - 1) + PAD * 2 + 30)
-    top = round((H + 260 - depth) / 2)
-    card = (LEFT, top, W - LEFT, top + depth)
 
-    panel = Image.new('RGBA', (card[2] - card[0], depth), (0, 0, 0, 0))
-    ImageDraw.Draw(panel).rounded_rectangle(
-        [0, 0, panel.width - 1, depth - 1], radius=28, fill=BONE + (250,))
-    c.alpha_composite(panel, (card[0], card[1]))
-
-    N.logo(c, y=96, width=300, colour='#FFFFFF')
-    head = Image.new('RGBA', c.size, (0, 0, 0, 0))
-    # Baseline 250 rather than 300: across the title's own span the ground there
-    # reads median 58 against 71, and its 90th percentile 114 against 131, so the
-    # halo has less to cover and leaves less of a smudge on the shopfront.
-    N.text(ImageDraw.Draw(head), (W / 2, 250), 'SYARAT DAN KETENTUAN', 58,
-           (255, 255, 255), tracking=2, align='center')
-    N.halo(c, head, strength=0.7, blur=16)
-
-    y = card[1] + PAD + 20
+    y = band.height + 244
     for i, (num, title, lines) in enumerate(wrapped):
         if i:
-            N.rule(d, y - GAP / 2 - 10, x0=card[0] + PAD, x1=card[2] - PAD)
-        N.text(d, (card[0] + PAD, y + 34), num, 46, STEEL, demi=True)
+            N.rule(d, y - GAP / 2 - 8, x0=LEFT, x1=W - LEFT)
+        N.text(d, (LEFT, y + 34), num, 46, STEEL, demi=True)
         N.text(d, (x0, y + 30), title, 30, CHARCOAL, demi=True, tracking=4)
         N.body_rich(d, (x0, y + 62), lines, 25, CHARCOAL)
         y += 62 + len(lines) * 25 * 1.55 + GAP
