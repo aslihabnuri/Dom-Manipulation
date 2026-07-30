@@ -257,7 +257,9 @@ def discount():
     # brand, the headline, and the offer group — label tight over its number,
     # the button after it — with the gaps opened to a steady rhythm.
     N.logo(c, y=44, width=230, x=WIDE_M, colour='#FFFFFF')
-    N.text(d, (WIDE_M, 182), 'MATCHA DAYS', 60, MATCHA, tracking=4)
+    # 56 rather than 60: DAILY MATCHA runs 491 at 60 and the dark ground ends
+    # at x 600, so one size down keeps the headline off the lit shoji screen.
+    N.text(d, (WIDE_M, 182), 'DAILY MATCHA', 56, MATCHA, tracking=4)
     N.text(d, (WIDE_M, 266), 'HEMAT HINGGA', 22, white, demi=True, tracking=7)
 
     size = 132
