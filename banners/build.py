@@ -314,18 +314,18 @@ def discount():
     N.text(d, (WIDE_M + 48, 732 + 70), label, fs, white, demi=True, tracking=tr)
     N.chevron(d, WIDE_M + 48 + lw + 22, 732 + ph / 2, 27, white, width=3)
 
-    # Two lines rather than one: as a single line at this size the pill would
-    # reach back under the numeral. Its base lines up with the button's at y 840,
-    # which is what keeps the two bottom blocks reading as one row.
-    lines = ('GRATIS ONGKIR', 'VOUCHER HINGGA 15RB')
-    lw2 = max(N.text_width(t, 36, demi=True, tracking=5) for t in lines)
-    opw, oph = lw2 + 2 * 48, 190
-    ox, oy = WIDE_W - WIDE_M, 840 - oph
-    d.rounded_rectangle([ox - opw, oy, ox, oy + oph], radius=48,
-                        fill=(24, 23, 21, 232))
-    for i, t in enumerate(lines):
-        N.text(d, (ox - opw + 48, oy + 70 + i * 68), t, 36, white, demi=True,
-               tracking=5)
+    # The offers lose their pill and join the button's row. Beside it, over the
+    # scale and its tray, the ground measures median 40 with the 90th percentile
+    # at 76 — darker than the bottom-right corner the pill was covering — so the
+    # type needs no box, only a light halo. That removes the one element that sat
+    # on top of the product instead of in the frame, and it fills the empty
+    # lower middle. Baselines straddle the button's centre at y 786 so the three
+    # blocks read as one row.
+    off = Image.new('RGBA', c.size, (0, 0, 0, 0))
+    od = ImageDraw.Draw(off)
+    for i, t in enumerate(('GRATIS ONGKIR', 'VOUCHER HINGGA 15RB')):
+        N.text(od, (660, 776 + i * 52), t, 38, white, demi=True, tracking=5)
+    halo(off, strength=0.7, blur=16)
 
     return N.finish(c, OUT / '7-diskon.png')
 
