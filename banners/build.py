@@ -256,11 +256,11 @@ def discount():
     # budget read as clutter no matter how they are spaced. What remains is the
     # brand, the headline, and the offer group — label tight over its number,
     # the button after it — with the gaps opened to a steady rhythm.
-    N.logo(c, y=44, width=230, x=WIDE_M, colour='#FFFFFF')
-    # 56 rather than 60: DAILY MATCHA runs 491 at 60 and the dark ground ends
-    # at x 600, so one size down keeps the headline off the lit shoji screen.
-    N.text(d, (WIDE_M, 176), 'DAILY MATCHA', 56, MATCHA, tracking=4)
-    N.text(d, (WIDE_M, 238), 'HEMAT HINGGA', 22, white, demi=True, tracking=7)
+    N.logo(c, y=40, width=280, x=WIDE_M, colour='#FFFFFF')
+    # 58 is the headline's own ceiling: it runs 478 there and the dark ground
+    # ends at x 600, so one size up would put its tail on the lit shoji screen.
+    N.text(d, (WIDE_M, 190), 'DAILY MATCHA', 58, MATCHA, tracking=4)
+    N.text(d, (WIDE_M, 252), 'HEMAT HINGGA', 26, white, demi=True, tracking=7)
 
     # 188 is the ceiling the ground sets, not a taste choice: the number spans
     # x 110-411 and y 263-392 at this size, where the shadow still peaks at 97;
@@ -270,22 +270,22 @@ def discount():
     x = WIDE_M + N.text(d, (WIDE_M, 392), '25', size, white)
     N.percent(c, x, 392, cap, white)
 
-    label, fs, tr = 'SHOP NOW', 26, 6
+    label, fs, tr = 'SHOP NOW', 30, 6
     lw = N.text_width(label, fs, demi=True, tracking=tr)
-    pw, ph = lw + 32 + 28 + 32, 70
-    d.rounded_rectangle([WIDE_M, 452, WIDE_M + pw, 452 + ph], radius=ph // 2,
+    pw, ph = lw + 38 + 32 + 38, 82
+    d.rounded_rectangle([WIDE_M, 448, WIDE_M + pw, 448 + ph], radius=ph // 2,
                         fill=MATCHA + (255,))
-    N.text(d, (WIDE_M + 32, 452 + 45), label, fs, white, demi=True, tracking=tr)
-    N.chevron(d, WIDE_M + 32 + lw + 16, 452 + ph / 2, 18, white, width=3)
+    N.text(d, (WIDE_M + 38, 448 + 53), label, fs, white, demi=True, tracking=tr)
+    N.chevron(d, WIDE_M + 38 + lw + 18, 448 + ph / 2, 21, white, width=3)
 
     # both smaller offers on one charcoal pill at the bottom centre
     offer = 'GRATIS ONGKIR  ·  VOUCHER HINGGA 15RB'
-    ow = N.text_width(offer, 24, demi=True, tracking=5)
-    opw, oph = ow + 2 * 36, 64
+    ow = N.text_width(offer, 28, demi=True, tracking=5)
+    opw, oph = ow + 2 * 40, 74
     ox = round(1000 - opw / 2)
-    d.rounded_rectangle([ox, 902, ox + opw, 902 + oph], radius=oph // 2,
+    d.rounded_rectangle([ox, 894, ox + opw, 894 + oph], radius=oph // 2,
                         fill=(24, 23, 21, 235))
-    N.text(d, (ox + 36, 902 + 42), offer, 24, white, demi=True, tracking=5)
+    N.text(d, (ox + 40, 894 + 49), offer, 28, white, demi=True, tracking=5)
 
     return N.finish(c, OUT / '7-diskon.png')
 
