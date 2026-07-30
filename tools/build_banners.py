@@ -25,7 +25,7 @@ CASING = (20, 20, 20)          # dark casing so light marks survive light garmen
 
 ZAL = {400: "Regular", 600: "SemiBold", 700: "Bold", 800: "ExtraBold", 900: "Black"}
 ARI = {400: "Regular", 500: "Medium", 600: "SemiBold", 700: "Bold",
-       "i": "Italic", "bi": "BoldItalic"}
+       "i": "Italic", "bi": "SemiBoldItalic"}
 
 def zal(w, s): return ImageFont.truetype(f"{F}/ZalandoSansExpanded-{ZAL[w]}.ttf", s)
 def ari(w, s): return ImageFont.truetype(f"{F}/Arimo-{ARI[w]}.ttf", s)
@@ -586,40 +586,57 @@ def check_ground(plate, boxes, pad=6):
 # grey eyebrow. And the body is Indonesian, unlike every other banner in this set:
 # a returns policy has to be understood by the person it binds, and a buyer who
 # misreads it opens a dispute. Clarity outranks language consistency here.
-INK = {"": 400, "b": 700, "i": "i", "bi": "bi"}
+INK = {"": 400, "b": 600, "i": "i", "bi": "bi"}
 
 # Policy wording follows the reference's clauses, which are standard Indonesian
-# marketplace returns terms, cleaned up and set in Toni Black's voice. Every clause
-# is a commercial commitment: the client has to confirm each one before this goes
-# live. Flagged in COPY_AND_LAYOUT.md rather than left to be discovered.
+# marketplace returns terms. Every clause is a commercial commitment: the client has
+# to confirm each one before this goes live. Flagged in COPY_AND_LAYOUT.md rather
+# than left to be discovered.
+#
+# The first pass borrowed the reference's phrasing along with its structure, and
+# that phrasing is not Toni Black's. p.35 asks for calm confidence and quiet
+# strength, and rules out being commanding or defensive. Five things were wrong:
+#
+#   WAJIB VIDEO UNBOXING          -> VIDEO UNBOXING. An order barked in a tag.
+#   "Video harus direkam"         -> "Rekam". p.26 asks for an active verb; "harus"
+#                                    is a command, and the imperative is shorter.
+#   "Tanpa video, komplain tidak  -> "Kami memproses komplain setelah menerima
+#    dapat diproses"                 video ini." Same rule, stated as what we do
+#                                    rather than as what will be withheld.
+#   "oleh pihak penjual"          -> "kami". Third-person bureaucracy, twice, in a
+#                                    brand whose voice is first person and direct.
+#                                    "Kesalahan pengiriman dari kami" also owns the
+#                                    mistake, which is the honest register p.35 asks
+#                                    for; "dari pihak penjual" holds it at arm's
+#                                    length.
+#   "ulasan bintang 1"            -> "ulasan". Naming the one-star review reads as
+#                                    pleading. Quiet strength does not beg.
 SECTIONS = [
-    ("WAJIB VIDEO UNBOXING", "p", [
-        "Video harus direkam dalam **satu kali pengambilan tanpa jeda**, mulai dari "
-        "**paket masih tersegel dari segala sisi** hingga **seluruh isi paket "
-        "terlihat jelas**. Tanpa video *unboxing*, komplain tidak dapat diproses."]),
+    ("VIDEO UNBOXING", "p", [
+        "Rekam dalam **satu kali pengambilan tanpa jeda**, dari paket yang masih "
+        "tersegel di segala sisi hingga seluruh isinya terlihat. Kami memproses "
+        "komplain setelah menerima video ini."]),
 
-    ("RETUR & REFUND DAPAT DIAJUKAN JIKA", "ul", [
-        "Produk yang diterima **tidak sesuai pesanan** (salah ukuran, warna, jenis, "
-        "atau jumlah).",
-        "Terjadi **kesalahan pengiriman dari pihak penjual**.",
-        "Produk mengalami **cacat produksi**."]),
+    ("YANG KAMI TERIMA", "ul", [
+        "Produk tidak sesuai pesanan: ukuran, warna, jenis, atau jumlah.",
+        "Kesalahan pengiriman dari kami.",
+        "Cacat produksi."]),
 
-    ("RETUR & REFUND TIDAK BERLAKU JIKA", "ul", [
-        "Ukuran yang diterima **sudah sesuai pesanan** tetapi tidak muat atau "
-        "kekecilan.",
+    ("YANG TIDAK KAMI TERIMA", "ul", [
+        "Ukuran sesuai pesanan, tetapi tidak muat.",
         "Salah memilih ukuran saat *checkout*.",
-        "Produk **sudah digunakan, dicuci, atau rusak akibat pemakaian**."]),
+        "Produk sudah dipakai, dicuci, atau rusak karena pemakaian."]),
 
-    ("SYARAT PENGEMBALIAN BARANG", "ul", [
-        "Produk dalam **kondisi asli**.",
-        "**Label, tag, kemasan, dan aksesoris masih lengkap**."]),
+    ("SYARAT PENGEMBALIAN", "ul", [
+        "Produk dalam kondisi asli.",
+        "Label, tag, kemasan, dan aksesoris lengkap."]),
 ]
 
-CLOSING = ("Seluruh proses **retur dan *refund*** wajib melalui fitur resmi "
-           "*marketplace*, dan akan diproses setelah diverifikasi oleh pihak penjual.")
+CLOSING = ("Seluruh proses berjalan melalui fitur resmi *marketplace*. "
+           "Kami verifikasi setiap pengajuan sebelum menyetujuinya.")
 
-REMINDER = ("Silakan **chat kami terlebih dahulu** sebelum mengajukan "
-            "**komplain, retur, *refund*, atau memberikan ulasan bintang 1**.")
+REMINDER = ("**Hubungi kami lebih dulu** sebelum mengajukan komplain, retur, "
+            "*refund*, atau ulasan. Setiap kendala kami selesaikan.")
 
 
 def rich(text):
@@ -697,52 +714,61 @@ def flow(d, cl, x, y, width, size, lead, fill=BLACK, centre_in=None):
     return y
 
 
-def tag(d, x, y, label, size=26, pad=(24, 13)):
-    """Section header: white uppercase on a brand-black block, sized to its text."""
+def section_label(d, x, y, label, width, size=23, tr=6):
+    """Section marker: a Steel Grey hairline across the column, then tracked caps
+    beneath it. Replaces the reference's filled block.
+
+    Four solid black blocks down a white page is the single thing that made this
+    read as a marketplace infographic. They also carry real function — a buyer
+    scanning for "can I return this" needs to find the section fast — so they are
+    replaced rather than deleted: one hairline per section keeps the scanning
+    anchor and spends almost no ink doing it."""
+    d.line([(x, y), (x + width, y)], fill=STEEL, width=2)
     f = zal(600, size)
     bb = d.textbbox((0, 0), label, font=f)
-    w = tw(d, label, f, 2)
-    h = (bb[3] - bb[1]) + pad[1] * 2
-    d.rounded_rectangle([x, y, x + w + pad[0] * 2, y + h], radius=6, fill=BLACK)
-    tracked(d, (x + pad[0], y + pad[1] - bb[1]), label, f, WHITE, tr=2)
-    return y + h
+    tracked(d, (x, y + 30 - bb[1]), label, f, BLACK, tr=tr)
+    return y + 30 + (bb[3] - bb[1])
 
 
 def banner7():
-    W, H, M = 1600, 2000, 140
-    TW = W - 2 * M                       # measure of the text column
+    W, H, M = 1600, 2000, 170          # wider margin than the other banners: a
+    TW = W - 2 * M                     # document wants a narrower measure
     c = Image.new("RGB", (W, H), WHITE)
     d = ImageDraw.Draw(c)
     cx = W // 2
 
-    c.paste(lg := logo("logo-horizontal-black", 400), (cx - 200, 140), lg)
+    c.paste(lg := logo("logo-horizontal-black", 330), (cx - 165, 150), lg)
 
-    tracked(d, (cx, 290), "SYARAT", zal(600, 34), GREY, tr=14, centre=True)
-    tf = zal(900, 92)
-    tracked(d, (cx, 342), "RETUR & REFUND", tf, BLACK, centre=True)
+    # Title at Bold 62 tracked, not Black 92. The heavy setting filled the column
+    # edge to edge and shouted; the guideline's own headline rule allows 700, and
+    # letting the letters breathe is what reads as expensive.
+    tracked(d, (cx, 306), "SYARAT & KETENTUAN", zal(600, 25), GREY, tr=13, centre=True)
+    tracked(d, (cx, 356), "RETUR & REFUND", zal(700, 62), BLACK, tr=5, centre=True)
 
-    BODY, LEAD = 33, 45
-    y = 524
+    # 30/48 rather than 33/45: smaller type carrying more leading. The ratio is what
+    # separates an editorial page from a notice board.
+    BODY, LEAD = 30, 48
+    y = 556
     for label, kind, lines in SECTIONS:
-        y = tag(d, M, y, label) + 26
+        y = section_label(d, M, y, label, TW) + 24
         if kind == "p":
             y = flow(d, rich(lines[0]), M, y, TW, BODY, LEAD)
         else:
             for item in lines:
-                d.ellipse([M + 10, y + 18, M + 18, y + 26], fill=BLACK)
-                y = flow(d, rich(item), M + 44, y, TW - 44, BODY, LEAD)
-                y += 6
-        y += 50
+                d.ellipse([M + 4, y + 17, M + 11, y + 24], fill=BLACK)
+                y = flow(d, rich(item), M + 36, y, TW - 36, BODY, LEAD)
+                y += 4
+        y += 48
 
-    y = flow(d, rich(CLOSING), M, y + 4, TW, BODY, LEAD) + 54
+    y = flow(d, rich(CLOSING), M, y - 6, TW, BODY, LEAD) + 54
 
-    # boxed reminder, centred text, hairline outline as in the reference. Height
-    # comes from the wrapped row count so the box always fits its own text.
+    # Closing reminder inside a Steel Grey hairline frame. The old 3 px black box
+    # was the second heaviest mark on the page after the tags.
     faces = {k: ari(v, BODY) for k, v in INK.items()}
-    rows = wrap(d, rich(REMINDER), TW - 150, faces, d.textlength(" ", font=faces[""]))
-    bh = len(rows) * LEAD + 62
-    d.rounded_rectangle([M, y, W - M, y + bh], radius=10, outline=BLACK, width=3)
-    flow(d, rich(REMINDER), M, y + 31, TW - 150, BODY, LEAD, centre_in=cx)
+    rows = wrap(d, rich(REMINDER), TW - 180, faces, d.textlength(" ", font=faces[""]))
+    bh = len(rows) * LEAD + 74
+    d.rounded_rectangle([M, y, W - M, y + bh], radius=8, outline=STEEL, width=2)
+    flow(d, rich(REMINDER), M, y + 37, TW - 180, BODY, LEAD, centre_in=cx)
 
     bottom = y + bh
     if bottom > H - 90:

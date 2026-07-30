@@ -13,7 +13,7 @@ Hasil akhir ada di `banners/shopee/final/`. Semua dalam batas Shopee: **maks. 20
 | Value — versi all-in-one | `4-value-all-in-one.jpg` | 2000 × 2000 | 690 KB |
 | Banner Toko 2 Area Klik | `3-banner-toko.jpg` | 2000 × 2000 | 511 KB |
 | Banner Diskon / Voucher (2:1) | `6-voucher.jpg` | 2000 × 1000 | 454 KB |
-| Syarat Retur & Refund (TnC) | `7-terms-conditions.jpg` | 1600 × 2000 | 352 KB |
+| Syarat Retur & Refund (TnC) | `7-terms-conditions.jpg` | 1600 × 2000 | 258 KB |
 
 ---
 
@@ -35,7 +35,7 @@ Seluruh copy bersumber dari brand guideline, tidak ada yang dikarang:
 |---|---|---|
 | Headline & label | Zalando Sans Expanded | Regular · SemiBold · Bold · ExtraBold · Black |
 | Body & deskripsi | Arimo | Regular · Medium · SemiBold · Bold |
-| Kata serapan di banner TnC | Arimo | Italic · Bold Italic |
+| Kata serapan di banner TnC | Arimo | Italic · SemiBold Italic |
 
 **Audit tone of voice (hal. 35):** tidak ada satu pun kata terlarang (*best, amazing, super, ultimate, trendy, bold, sexy, wild, bro, vibe, passion, soul, dream, heart*). Semua kalimat ringkas, aktif, langsung ke poin. Tanpa em dash.
 
@@ -325,37 +325,76 @@ Peta luminansi plate ini: kolom logo bersih sampai `y 122`; kolom kanan (angka d
 
 ## 5. BANNER SYARAT RETUR & REFUND (TnC)
 
-`7-terms-conditions.jpg` · **1600 × 2000** · 352 KB · acuan: `Referensi Banner TnC`
+`7-terms-conditions.jpg` · **1600 × 2000** · 258 KB · acuan: `Referensi Banner TnC`
 
-Struktur mengikuti referensi persis: logo di tengah atas, judul dua bagian, empat seksi bertag, satu paragraf penutup, lalu satu kotak pengingat. Ukurannya 1600 × 2000 supaya seragam dengan slide brand story dan product value.
+Struktur mengikuti referensi: logo di tengah atas, judul dua bagian, empat seksi, satu paragraf penutup, lalu satu kotak pengingat. Ukurannya 1600 × 2000 supaya seragam dengan slide brand story dan product value.
+
+### Copy diperbaiki ke tone of voice (hal. 35)
+
+Versi pertama saya meminjam **cara bicara** referensi bersama strukturnya, dan cara bicara itu bukan cara bicara Toni Black. Hal. 35 minta *calm confidence, quiet strength*, dan melarang nada memerintah maupun defensif. Lima hal yang salah:
+
+| Sebelum | Sesudah | Kenapa |
+|---|---|---|
+| `WAJIB VIDEO UNBOXING` | `VIDEO UNBOXING` | Perintah yang dibentak di dalam tag. Hal. 35: jangan agresif. |
+| `Video harus direkam` | `Rekam` | Hal. 26 minta dibuka dengan kata kerja aktif. `harus` itu perintah, dan bentuk imperatifnya lebih pendek. |
+| `Tanpa video unboxing, komplain tidak dapat diproses.` | `Kami memproses komplain setelah menerima video ini.` | Aturan yang sama, dinyatakan sebagai apa yang **kami lakukan**, bukan sebagai apa yang akan **ditahan**. |
+| `diverifikasi oleh pihak penjual` · `kesalahan pengiriman dari pihak penjual` | `Kami verifikasi` · `Kesalahan pengiriman dari kami` | Birokrasi orang ketiga, dua kali, di brand yang bicaranya orang pertama dan langsung. `dari kami` juga **mengakui** kesalahannya — itu register *honest* yang diminta hal. 35; `dari pihak penjual` menjauhkannya. |
+| `memberikan ulasan bintang 1` | `atau ulasan` | Menyebut bintang 1 terbaca memohon. *Quiet strength* tidak mengemis. |
+
+Audit otomatis atas seluruh copy banner ini: **nol kata terlarang** hal. 35, nol em dash, nol tanda seru. Satu-satunya huruf kapital penuh adalah label seksi, yang memang diminta aturan tipografi brand.
+
+> **Catatan `bintang 1`:** menyebutnya punya fungsi komersial nyata — penjual ingin pembeli bicara dulu sebelum menulis ulasan buruk. Versi baru menyebut `ulasan` secara umum, jadi fungsinya tetap ada tanpa nada memohon. Kalau Anda mau versi eksplisitnya kembali, bilang saja.
 
 ### ⚠️ Semua klausul ini perlu konfirmasi Anda
 
-Ini yang paling penting dari banner ini: **setiap baris di sini adalah komitmen komersial**, bukan copy kreatif. Klausulnya saya ambil dari referensi (isinya syarat retur standar marketplace Indonesia) dan saya rapikan, tapi saya tidak tahu kebijakan Toni Black yang sebenarnya. Tolong periksa satu per satu sebelum dipasang:
+**Setiap baris di sini adalah komitmen komersial**, bukan copy kreatif. Klausulnya saya ambil dari referensi (isinya syarat retur standar marketplace Indonesia), tapi saya tidak tahu kebijakan Toni Black yang sebenarnya. Tolong periksa satu per satu sebelum dipasang:
 
 | Klausul | Yang saya asumsikan |
 |---|---|
-| Video unboxing | **Wajib**, satu take tanpa jeda, dari paket tersegel sampai isi terlihat. Tanpa itu komplain tidak diproses. |
-| Alasan yang diterima | Salah kirim, tidak sesuai pesanan, cacat produksi. |
-| Alasan yang ditolak | Salah pilih ukuran sendiri, tidak muat padahal ukuran sesuai, produk sudah dipakai/dicuci. |
+| Video unboxing | Satu take tanpa jeda, dari paket tersegel sampai isi terlihat. Komplain diproses setelah video diterima. |
+| Yang diterima | Salah kirim, tidak sesuai pesanan, cacat produksi. |
+| Yang tidak diterima | Salah pilih ukuran sendiri, tidak muat padahal ukuran sesuai, produk sudah dipakai/dicuci. |
 | Syarat barang | Kondisi asli, label dan tag lengkap. |
 | Jalur pengajuan | Wajib lewat fitur resmi marketplace, diverifikasi penjual. |
 | Batas waktu | **Belum ada.** Referensi juga tidak menyebut. Biasanya Shopee memberi 3 hari sejak barang diterima — kalau Anda mau angka itu tertulis, kirim ke saya. |
 | Biaya kirim retur | **Belum ada.** Perlu disebut siapa yang menanggung. |
 
-Satu tambahan yang saya **sarankan tapi tidak saya masukkan sendiri**: Toni Black jual underwear, dan produk higienis biasanya punya klausul khusus (tidak bisa diretur setelah segel/kemasan dibuka, kecuali cacat produksi). Klausul `sudah digunakan, dicuci, atau rusak akibat pemakaian` sudah menutup sebagian, tapi kalau Anda mau aturan higienis yang eksplisit, itu keputusan Anda, bukan saya.
+Satu tambahan yang saya **sarankan tapi tidak saya masukkan sendiri**: Toni Black jual underwear, dan produk higienis biasanya punya klausul khusus (tidak bisa diretur setelah segel atau kemasan dibuka, kecuali cacat produksi). Klausul `sudah dipakai, dicuci, atau rusak karena pemakaian` sudah menutup sebagian, tapi aturan higienis yang eksplisit itu keputusan Anda, bukan saya.
 
 ### Kenapa banner ini berbahasa Indonesia
 
-Satu-satunya banner di set ini yang tidak berbahasa Inggris, dan itu disengaja. Kebijakan retur harus dimengerti oleh orang yang terikat olehnya; pembeli yang salah paham akan membuka dispute dan menulis ulasan bintang 1 — persis yang banner ini coba cegah. Untuk teks fungsional seperti ini, kejelasan menang atas konsistensi bahasa. Referensi Anda juga berbahasa Indonesia.
+Satu-satunya banner di set ini yang tidak berbahasa Inggris, dan itu disengaja. Kebijakan retur harus dimengerti oleh orang yang terikat olehnya; pembeli yang salah paham akan membuka dispute dan menulis ulasan buruk, persis yang banner ini coba cegah. Untuk teks fungsional seperti ini, kejelasan menang atas konsistensi bahasa. Referensi Anda juga berbahasa Indonesia.
+
+### Dibuat lebih clean: apa yang dikurangi
+
+Yang membuat versi pertama terbaca sebagai infografis marketplace, bukan dokumen brand premium, adalah **berat tintanya**. Enam hal dikurangi:
+
+| Elemen | Sebelum | Sesudah |
+|---|---|---|
+| Label seksi | 4 blok **hitam pekat** dengan teks putih | Garis rambut Steel Grey `#CCCCCC` melintang kolom, lalu huruf kapital ber-tracking di bawahnya |
+| Judul | Zalando **Black 92** | Zalando **Bold 62**, tracking 5 |
+| Body | Arimo 33 / leading 45 | Arimo **30 / leading 48** — huruf lebih kecil, udaranya lebih banyak |
+| Penebalan | ±40 % kata di halaman ini tebal | **Dua** penekanan di seluruh halaman, dan pakai **SemiBold**, bukan Bold |
+| Kotak pengingat | Garis **hitam 3 px** | Garis Steel Grey **2 px** |
+| Margin | 140 px | **170 px** |
+
+Label seksi **diganti, bukan dihapus.** Blok hitamnya berlebihan, tapi fungsinya nyata: pembeli yang mencari "produk saya bisa diretur atau tidak" perlu menemukan seksinya cepat. Satu garis rambut per seksi mempertahankan jangkar pencarian itu dengan tinta yang hampir tidak ada.
+
+Garis di bawah judul juga dihapus — posisinya hanya 70 px di atas garis seksi pertama, jadi dua garis rambut bertumpuk tanpa guna. Ruang kosong yang mengerjakan pemisahan itu sekarang.
+
+**Penebalan tinggal dua:** `satu kali pengambilan tanpa jeda` (satu-satunya syarat operasional di seluruh kebijakan) dan `Hubungi kami lebih dulu` (aksinya). Penebalan di dalam daftar dihapus seluruhnya — label seksinya sudah menyatakan daftar itu apa, jadi menebalkan isinya cuma dekorasi. Itu juga memperbaiki ketidakseimbangan yang terlihat: seksi kedua tadinya penuh tebal sementara seksi ketiga tidak ada satu pun.
+
+Margin atas 150 px, bawah 146 px — diukur dari ink sebenarnya, bukan dari kotak elemen.
 
 ### Palet: hanya hitam-putih
 
-Referensi memakai kertas bertekstur hangat dengan tinta teal dan terracotta. Itu palet Flyman Nathalie. Toni Black monokrom di atas Clean White, jadi tag seksinya hitam brand `#282828` dengan teks putih, judulnya hitam di atas eyebrow abu `#818284`. Tanpa tekstur, tanpa pattern — hal. 27 aturan 3.
+Referensi memakai kertas bertekstur hangat dengan tinta teal dan terracotta. Itu palet Flyman Nathalie. Toni Black monokrom di atas Clean White: teks `#282828`, eyebrow `#818284`, garis `#CCCCCC`. Tanpa tekstur, tanpa pattern — hal. 27 aturan 3.
 
 ### Italic-nya pakai file Anda sendiri
 
 Referensi memiringkan kata serapan (*unboxing*, *checkout*, *refund*, *marketplace*). Saya sempat menyangka tidak bisa karena `brand/assets/fonts/` hanya berisi Arimo Regular, Medium, Bold. Ternyata `Arimo.zip` di Drive Anda **memang berisi** `Arimo-Italic`, `Arimo-BoldItalic`, `Arimo-MediumItalic`, dan `Arimo-SemiBoldItalic` — saya hanya belum mengekstraknya. Sekarang terpasang, jadi italic-nya tetap dari kit resmi Anda, bukan font pengganti dari luar.
+
+Penekanan di banner ini memakai **SemiBold**, jadi pasangan miringnya `Arimo-SemiBoldItalic` — bukan BoldItalic, supaya bobotnya konsisten.
 
 ### `rich()` — dua bug yang sempat terlihat
 
