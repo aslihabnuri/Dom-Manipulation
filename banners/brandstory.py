@@ -113,8 +113,12 @@ def proof():
     right = W - MARGIN
     N.text(d, (right, 912), 'BEHIND', 76, WHITE, tracking=2, align='right')
     N.text(d, (right, 996), 'THE TASTE', 76, WHITE, tracking=2, align='right')
-    N.body(d, (right, 1060), ['empat hal di balik rasanya.'], 27,
-           (232, 231, 226), align='right')
+    # Broken over two lines on purpose. Set as one line it runs 564 pixels, wide
+    # enough to stick out past the headline above it and leave the right-aligned
+    # block looking bottom-heavy; split at the comma both lines land inside the
+    # headline's 405.
+    N.body(d, (right, 1052), ['dari kebun teh di jepang,', 'sampai ke cangkir.'],
+           27, (232, 231, 226), leading=1.48, align='right')
 
     # The certificates are named rather than badged: the brief asks for USDA and
     # JAS, and two seals on the marble would undo the clean layout. Line three is
