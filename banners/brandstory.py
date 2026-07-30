@@ -34,7 +34,7 @@ def story():
     ], 29, WHITE, leading=1.45)
 
     right = W - MARGIN
-    label, fs, tr = 'BELANJA SEKARANG', 28, 5
+    label, fs, tr = 'SHOP NOW', 28, 6
     lw = N.text_width(label, fs, demi=True, tracking=tr)
     pw, ph = lw + 34 + 30 + 34, 74
     px, py = right - pw, 1400
