@@ -256,14 +256,7 @@ def discount():
     # budget read as clutter no matter how they are spaced. What remains is the
     # brand, the headline, and the offer group — label tight over its number,
     # the button after it — with the gaps opened to a steady rhythm.
-    def halo(layer, strength=0.62, blur=28):
-        """Darken the ground immediately under a glyph layer, struck from its own
-        shapes, so display type can cross the counter's lit wood."""
-        sh = Image.new('RGBA', c.size, (0, 0, 0, 0))
-        sh.paste((8, 7, 6, 255), (0, 0),
-                 layer.split()[3].point(lambda v: round(v * strength)))
-        c.alpha_composite(sh.filter(ImageFilter.GaussianBlur(blur)))
-        c.alpha_composite(layer)
+    halo = lambda layer, strength=0.62, blur=28: N.halo(c, layer, strength, blur)
 
     # Sizes come off the client's BAU reference, measured rather than guessed.
     # On its 800-wide canvas the headline caps at 45 pixels, the qualifier at 19
@@ -333,7 +326,70 @@ def discount():
     return N.finish(c, OUT / '7-diskon.png')
 
 
+# ── 6. Category — walking packs ──────────────────────────────────────────
+# After the client's reference, which stands its products on a zebra crossing
+# and gives them legs. The street is generated; the packs are the client's own
+# mockup photographs; the legs, arms and labels are drawn. Nothing in the frame
+# is an image model's idea of a Nomukita product.
+CATEGORIES = [
+    ('uji-500', 'MATCHA SERIES', 1),
+    ('taro', 'PREMIUM SERIES', 0),
+    ('cocoa', 'EXCLUSIVE SERIES', 1),
+    ('tarik', '250 GRAM SERIES', 0),
+]
+
+
+def category_walk():
+    """Four packs crossing a Japanese street, one per category.
+
+    The labels arc over each pack rather than sitting flat above it, which is
+    the writing style of the second reference — type bent to the object it
+    names. The radius is tied to pack width so all four arcs read as one curve.
+    """
+    c = N.canvas()
+    street = Image.open(ILLUS3 / 'street-crossing.png').convert('RGB')
+    c.paste(N.cover(street, W, H), (0, 0))
+    d = ImageDraw.Draw(c)
+
+    # Charcoal, not white: the sky behind the header measures median 173 to 188,
+    # so the brand's primary text colour is the one that reads there.
+    N.logo(c, y=96, width=300)
+    # No subline: the tree canopy reaches x 480 at that height, so a centred
+    # line of body copy loses its first word into the leaves, and the four arc
+    # labels already name what the categories are. The reference carries no
+    # subline either.
+    N.text(d, (W / 2, 272), 'CATEGORY', 76, CHARCOAL, tracking=2, align='center')
+
+    ph = 380                      # pack height, four across a 1200 canvas
+    hip = 1284                    # legs start here; the feet land on the stripes
+    for i, (name, label, phase) in enumerate(CATEGORIES):
+        pack = Image.open(PACK / f'{name}.png').convert('RGBA')
+        pack = pack.crop(pack.getbbox())
+        pack = pack.resize((round(ph * pack.width / pack.height), ph),
+                           Image.LANCZOS)
+        cx = 168 + i * 288
+
+        legs, ox, oy = N.walker(152, pack.width, phase=phase)
+        c.alpha_composite(legs, (round(cx - ox), round(hip - oy)))
+        top = hip - pack.height + 8
+        c.alpha_composite(pack, (round(cx - pack.width / 2), top))
+
+        # Radius 1.6 times the pack width: at 0.95 the arc dived so steeply that
+        # its ends read as a diagonal rather than a curve. The label rides 62
+        # pixels clear of the pack's shoulder, over the tree line, which is dark
+        # at median 64 but carries leaf highlights to 255 — hence the halo. At 26
+        # the longest label left an 18-pixel gap to its neighbour; 24 opens it
+        # to 61.
+        radius = pack.width * 1.6
+        lab = Image.new('RGBA', c.size, (0, 0, 0, 0))
+        N.arc_text(lab, (cx, top - 78 + radius), label, 24, (255, 255, 255),
+                   radius, demi=True, tracking=2)
+        N.halo(c, lab, strength=0.7, blur=16)
+
+    return N.finish(c, OUT / '8-kategori.png')
+
+
 if __name__ == '__main__':
-    for fn in (payday, terms, heritage, category, discount):
+    for fn in (payday, terms, heritage, category, discount, category_walk):
         img = fn()
         print(f'{fn.__name__:10s} {img.size}')

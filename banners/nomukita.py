@@ -745,3 +745,107 @@ def tin(height, accent=MATCHA, label=None, ss=3):
                fill=(255, 255, 255, 222), anchor='ms')
 
     return im.resize((Wt, height), Image.LANCZOS)
+
+
+def arc_text(canvas, centre, string, size, fill, radius, mid_deg=-90,
+             demi=False, tracking=0, ss=3):
+    """Set a line of type along a circular arc, after the client's reference.
+
+    Each glyph is rendered on its own and rotated to the tangent, so the line
+    curves around an object rather than sitting flat beside it. Supersampled,
+    because rotating type at final size shreds the stems.
+    """
+    import math
+
+    cx, cy = centre
+    widths = [text_width(ch, size, demi=demi) + tracking for ch in string]
+    total = sum(widths)
+    ang = math.radians(mid_deg) - total / radius / 2
+
+    for ch, w in zip(string, widths):
+        step = w / radius
+        a = ang + step / 2
+        if ch != ' ':
+            box = round(size * 2.2) * ss
+            layer = Image.new('RGBA', (box, box), (0, 0, 0, 0))
+            text(ImageDraw.Draw(layer), (box / 2 - w * ss / 2, box / 2 + size * 0.33 * ss),
+                 ch, size * ss, fill, demi=demi)
+            layer = layer.rotate(-math.degrees(a) - 90, Image.BICUBIC)
+            layer = layer.resize((box // ss, box // ss), Image.LANCZOS)
+            px = cx + radius * math.cos(a)
+            py = cy + radius * math.sin(a)
+            canvas.alpha_composite(layer, (round(px - layer.width / 2),
+                                           round(py - layer.height / 2)))
+        ang += step
+
+
+def walker(height, body_w, phase=0, colour=(22, 22, 22), ss=3):
+    """The cartoon legs and arms the client's reference puts under its cups.
+
+    Drawn rather than generated: they are four rounded strokes and two shoes,
+    and an image model asked to add them would redraw the pack above as well.
+    One leg plants and the other steps, which is what reads as walking from the
+    front; swinging both symmetrically just crosses them into a V. Arms hang off
+    the pack's own width rather than off the leg length, or they float clear of
+    a wide pack and clip a narrow one.
+
+    Returns the layer and the hip point inside it, so the caller can hang it
+    under a pack without knowing the padding.
+    """
+    W_ = round(max(body_w * 1.9, height * 2.6))
+    H_ = round(height * 2.6)
+    layer = Image.new('RGBA', (W_ * ss, H_ * ss), (0, 0, 0, 0))
+    d = ImageDraw.Draw(layer)
+    ox, oy = W_ / 2, H_ - height * 1.05     # hips
+    fill = colour + (255,)
+
+    def limb(pts, w):
+        pts = [(round(x * ss), round(y * ss)) for x, y in pts]
+        w = round(w * ss)
+        d.line(pts, fill=fill, width=w, joint='curve')
+        for x, y in pts:
+            d.ellipse([x - w / 2, y - w / 2, x + w / 2, y + w / 2], fill=fill)
+
+    def shoe(ankle, toe):
+        sw, sh = height * 0.34 * ss, height * 0.16 * ss
+        s = Image.new('RGBA', (round(sw), round(sh)), (0, 0, 0, 0))
+        ImageDraw.Draw(s).rounded_rectangle([0, 0, sw - 1, sh - 1],
+                                            radius=sh / 2, fill=fill)
+        layer.alpha_composite(s, (round(ankle[0] * ss + toe * sw * 0.24 - sw / 2),
+                                  round(ankle[1] * ss - sh * 0.42)))
+
+    step = 1 if phase else -1
+    plant = (ox - step * height * 0.17, oy)
+    limb([plant, (plant[0], oy + height * 0.46), (plant[0], oy + height * 0.90)],
+         height * 0.135)
+    shoe((plant[0], oy + height * 0.90), -step)
+
+    hipb = ox + step * height * 0.17
+    knee = (hipb + step * height * 0.13, oy + height * 0.44)
+    ankle = (hipb + step * height * 0.26, oy + height * 0.80)
+    limb([(hipb, oy), knee, ankle], height * 0.135)
+    shoe(ankle, step)
+
+    # Swung clear of the pack before they drop, or the whole forearm hides
+    # behind a silhouette wider than the shoulder it hangs from.
+    for side in (-1, 1):
+        sx = ox + side * body_w * 0.44
+        sy = oy - height * 0.72
+        limb([(sx, sy), (sx + side * height * 0.30, sy + height * 0.22),
+              (sx + side * height * 0.34, sy + height * 0.54)], height * 0.115)
+
+    return layer.resize((W_, H_), Image.LANCZOS), ox, oy
+
+
+def halo(canvas, layer, strength=0.62, blur=28):
+    """Darken the ground immediately under a glyph layer, struck from its own
+    shapes, so display type can cross a lit or patchy background.
+
+    Shared by the banners that set type straight onto a photograph.
+    """
+    from PIL import ImageFilter
+    sh = Image.new('RGBA', canvas.size, (0, 0, 0, 0))
+    sh.paste((8, 7, 6, 255), (0, 0),
+             layer.split()[3].point(lambda v: round(v * strength)))
+    canvas.alpha_composite(sh.filter(ImageFilter.GaussianBlur(blur)))
+    canvas.alpha_composite(layer)
