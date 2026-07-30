@@ -849,3 +849,74 @@ def halo(canvas, layer, strength=0.62, blur=28):
              layer.split()[3].point(lambda v: round(v * strength)))
     canvas.alpha_composite(sh.filter(ImageFilter.GaussianBlur(blur)))
     canvas.alpha_composite(layer)
+
+
+def _tokens(markup):
+    """Split marked-up copy into whitespace-delimited tokens.
+
+    Each token is a list of (text, bold) runs rather than a single string, so
+    punctuation stays welded to the word it follows — splitting on the asterisk
+    alone turns "*tersegel*." into two tokens and prints "tersegel ." with a
+    space before the stop.
+    """
+    runs, bold = [], False
+    for part in markup.split('*'):
+        if part:
+            runs.append((part, bold))
+        bold = not bold
+    tokens, cur = [], []
+    for text, b in runs:
+        for i, piece in enumerate(text.split(' ')):
+            if i:
+                if cur:
+                    tokens.append(cur)
+                cur = []
+            if piece:
+                cur.append((piece, b))
+    if cur:
+        tokens.append(cur)
+    return tokens
+
+
+def _token_width(token, size, weight, bold):
+    return sum(comf(size, bold if b else weight).getlength(t) for t, b in token)
+
+
+def wrap_rich(markup, size, max_width, weight=400, bold=700):
+    """Wrap marked-up copy, measuring every word at its own weight.
+
+    Wrapping on the light weight alone overruns, because the bold words are
+    wider than the text they replace.
+    """
+    space = comf(size, weight).getlength(' ')
+    lines, cur, run = [], [], 0
+    for token in _tokens(markup):
+        w = _token_width(token, size, weight, bold)
+        add = w if not cur else space + w
+        if cur and run + add > max_width:
+            lines.append(cur)
+            cur, run = [token], w
+        else:
+            cur.append(token)
+            run += add
+    if cur:
+        lines.append(cur)
+    return lines
+
+
+def body_rich(draw, xy, lines, size, fill, leading=1.55, weight=400, bold=700):
+    """Body copy with individual words set bold, for the terms that carry an
+    obligation. Takes the output of wrap_rich."""
+    x0, y = xy
+    space = comf(size, weight).getlength(' ')
+    step = size * leading
+    for i, line in enumerate(lines):
+        x = x0
+        for j, token in enumerate(line):
+            if j:
+                x += space
+            for text, b in token:
+                f = comf(size, bold if b else weight)
+                draw.text((x, y + i * step), text, font=f, fill=fill, anchor='la')
+                x += f.getlength(text)
+    return len(lines) * step

@@ -435,7 +435,82 @@ def category_walk():
     return N.finish(c, OUT / '8-kategori.png')
 
 
+# ── 7. Syarat dan Ketentuan — on the client's street corner ──────────────
+# The reference is 736 by 1308; filling 1200 wide scales it 1.63 to 2132 tall and
+# the window takes 1600 from y 300, which keeps the shopfront and its awning and
+# drops the empty road below. The copy is the client's existing terms banner.
+TNC_CROP = (0, 300, 1200, 1900)
+
+TERMS = [
+    ('01', 'REKAM SEBELUM DIBUKA',
+     'video unboxing *wajib* diambil saat paket masih *tersegel*. '
+     'tanpa video, barang *tidak bisa diretur*.'),
+    ('02', 'BARANG RUSAK ATAU TIDAK SESUAI',
+     'jika pesanan diterima dalam keadaan *rusak, cacat, atau tidak sesuai*, '
+     'hubungi *customer service nomukita* dengan menyertakan keluhan dan '
+     'video unboxing.'),
+    ('03', 'KENDALA PENGIRIMAN',
+     'untuk masalah pada proses kirim, hubungi *CS ekspedisi terkait*.'),
+]
+
+
+def terms_street():
+    """The terms, set on a bone card over the client's street photograph.
+
+    Three numbered items at this length will not sit on a photograph however it
+    is graded — the copy runs to eleven lines of 25px body, and the shopfront
+    behind it is busy at every tone. So the photograph frames rather than
+    carries: it keeps the top third, where the logo and title sit against sky,
+    and a card takes the rest. The words carrying the obligation are set bold,
+    which is what the client asked for and what a terms panel wants anyway.
+    """
+    c = N.canvas()
+    ref = Image.open(ILLUS3 / 'tnc-bg.jpg').convert('RGB')
+    ref = ref.resize((1200, round(ref.height * 1200 / ref.width)), Image.LANCZOS)
+    c.paste(ref.crop(TNC_CROP), (0, 0))
+    d = ImageDraw.Draw(c)
+
+    # The card is measured to its copy, not given a fixed depth. Run to the
+    # bottom margin and it stands half empty, which is what a fixed depth gave;
+    # sized to the wrapped lines it sits as a block with the photograph showing
+    # above and below it.
+    LEFT, PAD, GAP = 56, 46, 64
+    x0 = LEFT + 108
+    width = W - LEFT - 56 - x0
+    wrapped = [(n, t, N.wrap_rich(cp, 25, width)) for n, t, cp in TERMS]
+    body_h = sum(62 + len(ln) * 25 * 1.55 for _, _, ln in wrapped)
+    depth = round(body_h + GAP * (len(wrapped) - 1) + PAD * 2 + 30)
+    top = round((H + 260 - depth) / 2)
+    card = (LEFT, top, W - LEFT, top + depth)
+
+    panel = Image.new('RGBA', (card[2] - card[0], depth), (0, 0, 0, 0))
+    ImageDraw.Draw(panel).rounded_rectangle(
+        [0, 0, panel.width - 1, depth - 1], radius=28, fill=BONE + (250,))
+    c.alpha_composite(panel, (card[0], card[1]))
+
+    N.logo(c, y=96, width=300, colour='#FFFFFF')
+    head = Image.new('RGBA', c.size, (0, 0, 0, 0))
+    # Baseline 250 rather than 300: across the title's own span the ground there
+    # reads median 58 against 71, and its 90th percentile 114 against 131, so the
+    # halo has less to cover and leaves less of a smudge on the shopfront.
+    N.text(ImageDraw.Draw(head), (W / 2, 250), 'SYARAT DAN KETENTUAN', 58,
+           (255, 255, 255), tracking=2, align='center')
+    N.halo(c, head, strength=0.7, blur=16)
+
+    y = card[1] + PAD + 20
+    for i, (num, title, lines) in enumerate(wrapped):
+        if i:
+            N.rule(d, y - GAP / 2 - 10, x0=card[0] + PAD, x1=card[2] - PAD)
+        N.text(d, (card[0] + PAD, y + 34), num, 46, STEEL, demi=True)
+        N.text(d, (x0, y + 30), title, 30, CHARCOAL, demi=True, tracking=4)
+        N.body_rich(d, (x0, y + 62), lines, 25, CHARCOAL)
+        y += 62 + len(lines) * 25 * 1.55 + GAP
+
+    return N.finish(c, OUT / '9-syarat-ketentuan.png')
+
+
 if __name__ == '__main__':
-    for fn in (payday, terms, heritage, category, discount, category_walk):
+    for fn in (payday, terms, heritage, category, discount, category_walk,
+               terms_street):
         img = fn()
         print(f'{fn.__name__:10s} {img.size}')
