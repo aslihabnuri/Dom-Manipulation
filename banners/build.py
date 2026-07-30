@@ -436,19 +436,21 @@ def category_walk():
 
 
 # ── 7. Syarat dan Ketentuan — on the client's street corner ──────────────
-# The reference is 736 by 1308; filling 1200 wide scales it 1.63 to a 2133-tall
-# image. The shop's face — awning, sign, storefront, the pavement it stands on —
-# runs y 910 to 1690 there, and this window is all but its last ten pixels of
-# pavement: 770 tall, the whole shop and nothing of the empty road. The ten go
-# to the bottom margin, which the copy had left at 16 pixels.
+# Full bleed, no panel. The reference is 736 by 1308; filling 1200 wide scales it
+# 1.63 to 2133 tall and this window takes the bottom 1600, which is the shop from
+# its upper facade down to the road it stands on.
+TNC_CROP = (0, 533, 1200, 2133)
+
+# What makes white copy readable here is the grade, not a block behind it. These
+# points map the photograph into 5-80, so no pixel comes near the 120 at which
+# 25px white type starts to break up, and the terms need neither a card nor a
+# halo — nothing sits on the banner that the photograph did not put there.
 #
-# It is a band across the top rather than a full-bleed background because the
-# copy will not fit over it. Three items wrap to six lines and need 668 pixels
-# of card; the shop's face occupies the middle 800 of any full-height crop, so
-# a card deep enough to hold the terms lands squarely on the storefront. Cutting
-# the photograph at a frame edge reads as framing; a card sitting on the shop
-# reads as covering it.
-TNC_BAND = (0, 910, 1200, 1680)
+# A lighter grade to 112 also cleared that threshold on contrast alone, but the
+# storefront behind the copy stayed detailed enough to read as clutter. What the
+# extra depth buys is quiet, not legibility: the shop is still plainly the
+# background, just no longer competing with the words over it.
+TNC_DUSK = [(0, 5), (80, 30), (160, 52), (220, 68), (255, 80)]
 
 TERMS = [
     ('01', 'REKAM SEBELUM DIBUKA',
@@ -464,38 +466,38 @@ TERMS = [
 
 
 def terms_street():
-    """The terms, set on a bone card over the client's street photograph.
+    """The terms set straight onto the client's street corner.
 
-    Three numbered items at this length will not sit on a photograph however it
-    is graded — the copy runs to eleven lines of 25px body, and the shopfront
-    behind it is busy at every tone. So the photograph frames rather than
-    carries: it keeps the top third, where the logo and title sit against sky,
-    and a card takes the rest. The words carrying the obligation are set bold,
-    which is what the client asked for and what a terms panel wants anyway.
+    The words carrying the obligation are bold — wajib, tersegel, tidak bisa
+    diretur, the fault conditions, who to contact — which is what the client
+    asked for and what a terms panel wants anyway.
     """
     c = N.canvas()
     ref = Image.open(ILLUS3 / 'tnc-bg.jpg').convert('RGB')
     ref = ref.resize((1200, round(ref.height * 1200 / ref.width)), Image.LANCZOS)
-    band = ref.crop(TNC_BAND)
-    c.paste(band, (0, 0))
+    lut = _curve(TNC_DUSK)
+    c.paste(Image.merge('RGB', [ch.point(lut)
+                                for ch in ref.crop(TNC_CROP).split()]), (0, 0))
     d = ImageDraw.Draw(c)
+    white = (255, 255, 255)
 
-    N.logo(c, y=band.height + 54, width=290)
-    N.text(d, (W / 2, band.height + 184), 'SYARAT DAN KETENTUAN', 56, CHARCOAL,
-           tracking=2, align='center')
+    N.logo(c, y=104, width=290, colour='#FFFFFF')
+    N.text(d, (W / 2, 268), 'SYARAT DAN KETENTUAN', 56, white, tracking=2,
+           align='center')
 
-    LEFT, GAP = MARGIN, 50
+    # The block sits low so the shop's face reads above it, and the rules run
+    # full width rather than boxing anything in.
+    LEFT, GAP = MARGIN, 92
     x0 = LEFT + 100
     width = W - LEFT - x0
-    wrapped = [(n, t, N.wrap_rich(cp, 25, width)) for n, t, cp in TERMS]
-
-    y = band.height + 244
-    for i, (num, title, lines) in enumerate(wrapped):
+    y = 736
+    for i, (num, title, copy) in enumerate(TERMS):
         if i:
-            N.rule(d, y - GAP / 2 - 8, x0=LEFT, x1=W - LEFT)
-        N.text(d, (LEFT, y + 34), num, 46, STEEL, demi=True)
-        N.text(d, (x0, y + 30), title, 30, CHARCOAL, demi=True, tracking=4)
-        N.body_rich(d, (x0, y + 62), lines, 25, CHARCOAL)
+            N.rule(d, y - GAP / 2, x0=LEFT, x1=W - LEFT, fill=(255, 255, 255, 64))
+        N.text(d, (LEFT, y + 34), num, 46, white, demi=True)
+        N.text(d, (x0, y + 30), title, 30, white, demi=True, tracking=4)
+        lines = N.wrap_rich(copy, 25, width)
+        N.body_rich(d, (x0, y + 62), lines, 25, (238, 237, 232))
         y += 62 + len(lines) * 25 * 1.55 + GAP
 
     return N.finish(c, OUT / '9-syarat-ketentuan.png')
