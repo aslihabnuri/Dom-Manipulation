@@ -121,17 +121,23 @@ def proof():
            27, (232, 231, 226), leading=1.48, align='right')
 
     # Set flush left rather than stepped, which is a change forced by the copy.
-    # Two of these lines run 361 and 383 pixels against a mouth whose widest row
-    # is 447, so once the rim padding is taken off there are 10 pixels of lateral
+    # Two of these lines run 347 and 368 pixels against a mouth whose widest row
+    # is 447, so once the rim padding is taken off there are 8 pixels of lateral
     # freedom for the whole block — a rightward step needs roughly 120. Every
     # ordering was tried; the best any of them yields is 6 pixels a line, which
     # reads as a ragged edge rather than a cascade, so a clean flush edge is the
     # better of the two. The step comes back the moment a line drops under about
     # 300 pixels, near 21 characters at this size.
+    #
+    # The 52-pixel gap is what makes four claims read as four rather than as a
+    # paragraph, and it is also what sets the size. Spreading the lines pushes
+    # the first and last into the narrowing ends of the ellipse, where both of
+    # the long ones stop fitting: at 25 the gap cannot pass 40, at 24 it reaches
+    # 52. One point of size buys twelve of air, which is the right trade.
     lines = ['Origin: Uji, Nishio, Shizuoka.', '100% Pure Matcha.',
              'Halal, USDA, JAS.', 'Trusted by hundreds of cafes.']
     for i, line in enumerate(lines):
-        N.body(d, (174, 284 + i * 38), [line], 25, WHITE)
+        N.body(d, (173, 284 + i * 52), [line], 24, WHITE)
 
     N.text(d, (W / 2, 1512), 'POWDERED TO PERFECTION', 24, WHITE, demi=True,
            tracking=7, align='center')
