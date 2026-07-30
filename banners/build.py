@@ -256,36 +256,47 @@ def discount():
     # budget read as clutter no matter how they are spaced. What remains is the
     # brand, the headline, and the offer group — label tight over its number,
     # the button after it — with the gaps opened to a steady rhythm.
-    N.logo(c, y=40, width=280, x=WIDE_M, colour='#FFFFFF')
-    # 58 is the headline's own ceiling: it runs 478 there and the dark ground
-    # ends at x 600, so one size up would put its tail on the lit shoji screen.
-    N.text(d, (WIDE_M, 190), 'DAILY MATCHA', 58, MATCHA, tracking=4)
-    N.text(d, (WIDE_M, 252), 'HEMAT HINGGA', 26, white, demi=True, tracking=7)
+    N.logo(c, y=36, width=300, x=WIDE_M, colour='#FFFFFF')
+    # 60 is the headline's ceiling: it runs 491 there against a dark field that
+    # ends at x 620, and 64 puts its tail on the lit shoji screen at 178.
+    N.text(d, (WIDE_M, 152), 'DAILY MATCHA', 60, MATCHA, tracking=4)
+    N.text(d, (WIDE_M, 212), 'HEMAT HINGGA', 32, white, demi=True, tracking=7)
 
-    # 188 is the ceiling the ground sets, not a taste choice: the number spans
-    # x 110-411 and y 263-392 at this size, where the shadow still peaks at 97;
-    # one step up to 198 reaches x 426 and the lit screen edge at 143.
-    size = 188
+    # 320, up from 188. The 120-luminance limit that held the number to 188 is
+    # calibrated for 24-30px body copy, and display type at this size does not
+    # need it — inside x 110-622, y 261-470 the ground reads median 56 with the
+    # 90th percentile at 153, so the numeral is dark-backed almost everywhere
+    # and only its lower left crosses the counter's lit wood. A soft dark halo,
+    # struck from the glyph shapes themselves, carries it across that crossing;
+    # this is the same trade the client's own BAU reference makes with its white
+    # percentage over the model's leg.
+    size = 320
     cap = N.arg(size).getbbox('H')[3] - N.arg(size).getbbox('H')[1]
-    x = WIDE_M + N.text(d, (WIDE_M, 392), '25', size, white)
-    N.percent(c, x, 392, cap, white)
+    num = Image.new('RGBA', c.size, (0, 0, 0, 0))
+    nd = ImageDraw.Draw(num)
+    x = WIDE_M + N.text(nd, (WIDE_M, 470), '25', size, white)
+    N.percent(num, x, 470, cap, white)
+    halo = Image.new('RGBA', c.size, (0, 0, 0, 0))
+    halo.paste((8, 7, 6, 255), (0, 0), num.split()[3].point(lambda v: round(v * 0.62)))
+    c.alpha_composite(halo.filter(ImageFilter.GaussianBlur(28)))
+    c.alpha_composite(num)
 
-    label, fs, tr = 'SHOP NOW', 30, 6
+    label, fs, tr = 'SHOP NOW', 32, 6
     lw = N.text_width(label, fs, demi=True, tracking=tr)
-    pw, ph = lw + 38 + 32 + 38, 82
-    d.rounded_rectangle([WIDE_M, 448, WIDE_M + pw, 448 + ph], radius=ph // 2,
+    pw, ph = lw + 42 + 34 + 42, 90
+    d.rounded_rectangle([WIDE_M, 536, WIDE_M + pw, 536 + ph], radius=ph // 2,
                         fill=MATCHA + (255,))
-    N.text(d, (WIDE_M + 38, 448 + 53), label, fs, white, demi=True, tracking=tr)
-    N.chevron(d, WIDE_M + 38 + lw + 18, 448 + ph / 2, 21, white, width=3)
+    N.text(d, (WIDE_M + 42, 536 + 58), label, fs, white, demi=True, tracking=tr)
+    N.chevron(d, WIDE_M + 42 + lw + 19, 536 + ph / 2, 23, white, width=3)
 
     # both smaller offers on one charcoal pill at the bottom centre
     offer = 'GRATIS ONGKIR  ·  VOUCHER HINGGA 15RB'
-    ow = N.text_width(offer, 28, demi=True, tracking=5)
-    opw, oph = ow + 2 * 40, 74
+    ow = N.text_width(offer, 32, demi=True, tracking=5)
+    opw, oph = ow + 2 * 46, 86
     ox = round(1000 - opw / 2)
-    d.rounded_rectangle([ox, 894, ox + opw, 894 + oph], radius=oph // 2,
+    d.rounded_rectangle([ox, 876, ox + opw, 876 + oph], radius=oph // 2,
                         fill=(24, 23, 21, 235))
-    N.text(d, (ox + 40, 894 + 49), offer, 28, white, demi=True, tracking=5)
+    N.text(d, (ox + 46, 876 + 57), offer, 32, white, demi=True, tracking=5)
 
     return N.finish(c, OUT / '7-diskon.png')
 
