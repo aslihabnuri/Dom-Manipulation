@@ -20,23 +20,30 @@ def story():
     c.paste(scene, (0, 0))
     d = ImageDraw.Draw(c)
 
-    # The sky reads clean down to roughly a third of the frame on the left,
-    # which is where the type block sits.
-    N.logo(c, y=96, width=300, x=MARGIN, colour='#FFFFFF')
+    # Placement is measured off the photograph rather than guessed. The sky from
+    # y 300 to 530 on the left reads 104-113 luminance, uniform enough for white
+    # type; the paving at the lower right reads 188-195, so the green button
+    # holds there. The walker's legs own the centre, which stays clear.
+    N.logo(c, y=84, width=280, colour='#FFFFFF')
 
-    N.text(d, (MARGIN, 320), 'BRING THE', 88, WHITE, tracking=1)
-    N.text(d, (MARGIN, 412), 'CAFE HOME', 88, WHITE, tracking=1)
+    N.text(d, (MARGIN, 296), 'BRING THE', 88, WHITE, tracking=1)
+    N.text(d, (MARGIN, 386), 'CAFE HOME', 88, WHITE, tracking=1)
+    N.body(d, (MARGIN, 428), [
+        'biasanya cuma ada di kafe.',
+        'sekarang bisa dibawa pulang.',
+    ], 29, WHITE, leading=1.45)
 
-    d.text((MARGIN, 468), '飲む', font=N.jp(34), fill=WHITE, anchor='la')
-    N.drop(c, MARGIN + 88, 484, 14, (255, 255, 255))
-    d.text((MARGIN + 124, 474), 'kita', font=N.comf(28, 500), fill=WHITE, anchor='la')
+    right = W - MARGIN
+    label, fs, tr = 'BELANJA SEKARANG', 28, 5
+    lw = N.text_width(label, fs, demi=True, tracking=tr)
+    pw, ph = lw + 34 + 30 + 34, 74
+    px, py = right - pw, 1400
+    d.rounded_rectangle([px, py, px + pw, py + ph], radius=ph // 2,
+                        fill=MATCHA + (255,))
+    N.text(d, (px + 34, py + 48), label, fs, WHITE, demi=True, tracking=tr)
+    N.chevron(d, px + 34 + lw + 18, py + ph / 2, 19, WHITE, width=3)
 
-    # Body copy sits on the empty paving at the bottom left, so it goes charcoal.
-    N.body(d, (MARGIN, H - 246), [
-        'mutu kafe yang selama ini tinggal',
-        'di balik meja bar.',
-    ], 30, CHARCOAL)
-    N.body(d, (MARGIN, H - 138), ['sekarang, cukup dibawa pulang.'], 30, CHARCOAL)
+    N.body(d, (MARGIN, 1478), ['powdered to perfection'], 22, (84, 82, 78))
     return N.finish(c, OUT / '5-brand-story-1.png')
 
 
