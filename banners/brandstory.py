@@ -92,7 +92,7 @@ def proof():
     # bright, so the certification list is the tight one and the long line about
     # cafes went right, where there is room out to x 669.
     _value(c, d, MARGIN, 448, 'Three Gardens', 'uji, nishio, shizouka')
-    _value(c, d, right, 448, 'Only the Leaf', 'manisnya menyusul', align='right')
+    _value(c, d, right, 448, 'Pure, Nothing Else', 'manisnya menyusul', align='right')
     _value(c, d, MARGIN, 596, 'Papers In Order', 'halal, USDA, JAS organic')
     _value(c, d, right, 596, 'Still on the Menu',
            'di ratusan kafe, lima belas tahun', align='right')
