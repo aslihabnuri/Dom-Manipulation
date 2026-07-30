@@ -97,20 +97,26 @@ def save(im, name):
 # Copy from the Story page (guideline p.33), laid out like the supplied
 # reference: full-bleed model, headline sitting across him, and lettering that
 # switches between black and white according to what is behind it.
-def duotone(canvas, blocks, thresh=132, blur=8):
+def duotone(canvas, blocks, thresh=148, blur=8):
     """Draw text that flips between black and white to stay legible over whatever
     it crosses, the way the supplied reference does.
 
     The choice is made once per glyph, from the mean luminance of the photograph
     behind that glyph. Deciding per pixel instead would split single letters down
-    the middle, which reads as a printing fault rather than a design."""
-    # Two readings of the same photograph. Display type switches on a tight blur
-    # so it tracks the real edge of the garment; small type reads a much softer
-    # blur, otherwise a stool leg a few pixels wide flips single letters and the
-    # line looks broken rather than deliberate.
+    the middle, which reads as a printing fault rather than a design.
+
+    The switch sits at the midpoint of the two inks, (40 + 255) / 2, not lower.
+    That is the point that maximises the weaker of the two contrasts: below it
+    white separates further from the ground, above it black does. A lower
+    threshold handed mid-grey ground to black where white would have read
+    better."""
+    # One reading for every size. A much softer blur was used for small type at
+    # first, to stop a thin stool leg flipping single letters — but softening it
+    # also meant a glyph straddling the leg's edge averaged out to the wrong
+    # colour and vanished into it. Tracking the real edge keeps every letter a
+    # solid fill, which is what the reference does.
     base = canvas.convert("L")
     sharp = np.asarray(base.filter(ImageFilter.GaussianBlur(blur))).astype(np.float32)
-    soft = np.asarray(base.filter(ImageFilter.GaussianBlur(46))).astype(np.float32)
     H, W = sharp.shape
     d = ImageDraw.Draw(canvas)
     asc_cache = {}
@@ -121,7 +127,7 @@ def duotone(canvas, blocks, thresh=132, blur=8):
         if centre:
             x -= tw(d, text, font, tr) / 2
         asc = asc_cache.setdefault(id(font), font.getmetrics()[0])
-        lum = sharp if font.size >= 80 else soft
+        lum = sharp
         for ch in text:
             w = d.textlength(ch, font=font)
             if ch.strip():
@@ -132,16 +138,10 @@ def duotone(canvas, blocks, thresh=132, blur=8):
                 y0 = int(max(0, y + asc * 0.22))
                 y1 = int(min(H, y + asc * 0.92))
                 m = lum[y0:y1, x0:x1].mean() if (x1 > x0 and y1 > y0) else 255.0
-                fg, bg = (WHITE, BLACK) if m < thresh else (BLACK, WHITE)
-                # Halo only where the ground sits near the switch point, which is
-                # exactly where either colour is weak — a shin, a stool leg. On
-                # clean light or clean dark ground it would just look embossed, so
-                # it is skipped there.
-                if halo and abs(m - thresh) < 58:
-                    d.text((x, y), ch, font=font, fill=fg,
-                           stroke_width=halo, stroke_fill=bg)
-                else:
-                    d.text((x, y), ch, font=font, fill=fg)
+                # Solid fill, always. An outline in the opposite colour would
+                # rescue the mid-grey cases but reads as outlined type rather than
+                # the clean two-tone the reference uses.
+                d.text((x, y), ch, font=font, fill=WHITE if m < thresh else BLACK)
             x += w + tr
 
 
@@ -168,7 +168,7 @@ def banner1():
     y = 858 + round(hf.size * 1.06) * 2 + 44
     for line in ["Defined by originality, driven by innovation.",
                  "Every detail is created with purpose."]:
-        blocks.append(((cx, y), line, sf, 0, True, 3))
+        blocks.append(((cx, y), line, sf, 0, True))
         y += 52
     duotone(c, blocks)
 

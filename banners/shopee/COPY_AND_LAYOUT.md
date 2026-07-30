@@ -51,20 +51,19 @@ Seluruh copy bersumber dari brand guideline, tidak ada yang dikarang:
 
 ### Cara teks dua warna itu bekerja
 
-Warna tiap huruf ditentukan dari **luminansi foto di belakang huruf itu sendiri**, bukan disetel manual. Boxer hitam terbaca 26–99, latar studio 195, jadi ambang 132 memisahkannya dengan bersih.
+Warna tiap huruf ditentukan dari **luminansi foto di belakang huruf itu sendiri**, bukan disetel manual.
 
-Dua hal yang perlu dibereskan supaya hasilnya tidak terlihat seperti cacat cetak:
+Tiga hal yang menentukan hasilnya terbaca sebagai desain atau sebagai cacat:
 
-1. **Keputusan diambil per huruf, bukan per piksel.** Kalau per piksel, satu huruf bisa terbelah separuh hitam separuh putih — terbaca sebagai salah cetak, bukan desain.
+1. **Keputusan per huruf, bukan per piksel.** Kalau per piksel, satu huruf bisa terbelah separuh hitam separuh putih — terbaca sebagai salah cetak.
 2. **Kotak sampelnya setinggi huruf kapital saja.** Memakai seluruh kotak ascender ikut merata-ratakan ruang kosong di atas huruf, dan hasilnya condong ke warna latar.
+3. **Ambangnya di titik tengah kedua tinta, (40+255)/2 = 148.** Ini titik yang memaksimalkan kontras terlemah: di bawahnya putih lebih jauh jaraknya dari latar, di atasnya hitam. Ambang yang lebih rendah menyerahkan latar abu tengah ke hitam padahal putih lebih terbaca di situ.
 
-### Sub-copy di tengah, persis di bawah headline
+### Isian penuh, bukan garis luar
 
-Sesuai referensi, sub-copy duduk di tengah tepat di bawah headline dan ikut mendapat perlakuan dua warna.
+Sempat saya pasang halo berwarna kebalikan untuk menolong huruf di atas latar abu tengah. Hasilnya salah: hurufnya jadi terbaca sebagai **teks outline** — bagian putihnya cuma garis tepi, bukan isian. Itu bahasa visual yang berbeda dari referensi, yang memakai isian solid tegas.
 
-Ada satu masalah nyata di situ: ujung kanan kedua baris melintasi tulang kering model dan kaki kursi, yang bernilai abu tengah. Di ground seperti itu, teks hitam maupun putih dua-duanya lemah — kata "purpose." sempat nyaris hilang.
-
-Solusinya **halo tipis berwarna kebalikan**, dan yang penting: halo itu hanya muncul di huruf yang latarnya dekat titik ambang. Di ground yang jelas terang atau jelas gelap, halo dilewati — kalau dipasang rata, teks di area terang jadi terlihat seperti timbul. Jadi separuh kiri kalimat tetap teks hitam bersih tanpa halo, dan hanya ujung kanannya yang dibantu.
+Halo dihapus. Akar masalahnya ternyata di tempat lain: teks kecil dulu memakai blur yang jauh lebih lembut untuk mencegah kaki kursi tipis membalik huruf satu-satu. Tapi pelembutan itu juga membuat huruf yang menumpuk tepat di tepi kaki kursi merata-rata ke warna yang salah, lalu hilang di dalamnya. Sekarang semua ukuran memakai blur yang sama sehingga mengikuti tepi sebenarnya, dan setiap huruf jadi satu warna solid.
 
 **CTA tetap di kiri bawah.** Kalau ikut ditaruh di tengah paling bawah, ia mendarat di kaki kursi dan tulang kering — persis ground abu tengah yang sama, tapi tanpa cukup ruang bersih di sekitarnya untuk diselamatkan.
 
