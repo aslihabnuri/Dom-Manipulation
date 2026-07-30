@@ -251,11 +251,14 @@ def discount():
     d = ImageDraw.Draw(c)
     white = (255, 255, 255)
 
-    N.logo(c, y=46, width=230, x=WIDE_M, colour='#FFFFFF')
-    N.text(d, (WIDE_M, 170), 'MATCHA DAYS', 60, MATCHA, tracking=4)
-    N.body(d, (WIDE_M, 210), ['buat yang cangkirnya jarang kosong.'], 26,
-           (232, 231, 226))
-    N.text(d, (WIDE_M, 268), 'HEMAT HINGGA', 22, white, demi=True, tracking=7)
+    # Five elements, two groups. The subline came out: the column runs from the
+    # logo to the white-text floor at y 400, and seven stacked pieces in that
+    # budget read as clutter no matter how they are spaced. What remains is the
+    # brand, the headline, and the offer group — label tight over its number,
+    # the button after it — with the gaps opened to a steady rhythm.
+    N.logo(c, y=44, width=230, x=WIDE_M, colour='#FFFFFF')
+    N.text(d, (WIDE_M, 182), 'MATCHA DAYS', 60, MATCHA, tracking=4)
+    N.text(d, (WIDE_M, 266), 'HEMAT HINGGA', 22, white, demi=True, tracking=7)
 
     size = 132
     cap = N.arg(size).getbbox('H')[3] - N.arg(size).getbbox('H')[1]
