@@ -114,7 +114,9 @@ def duotone(canvas, blocks, thresh=132, blur=8):
     H, W = sharp.shape
     d = ImageDraw.Draw(canvas)
     asc_cache = {}
-    for xy, text, font, tr, centre in blocks:
+    for block in blocks:
+        xy, text, font, tr, centre = block[:5]
+        halo = block[5] if len(block) > 5 else 0
         x, y = xy
         if centre:
             x -= tw(d, text, font, tr) / 2
@@ -130,8 +132,16 @@ def duotone(canvas, blocks, thresh=132, blur=8):
                 y0 = int(max(0, y + asc * 0.22))
                 y1 = int(min(H, y + asc * 0.92))
                 m = lum[y0:y1, x0:x1].mean() if (x1 > x0 and y1 > y0) else 255.0
-                d.text((x, y), ch, font=font,
-                       fill=WHITE if m < thresh else BLACK)
+                fg, bg = (WHITE, BLACK) if m < thresh else (BLACK, WHITE)
+                # Halo only where the ground sits near the switch point, which is
+                # exactly where either colour is weak — a shin, a stool leg. On
+                # clean light or clean dark ground it would just look embossed, so
+                # it is skipped there.
+                if halo and abs(m - thresh) < 58:
+                    d.text((x, y), ch, font=font, fill=fg,
+                           stroke_width=halo, stroke_fill=bg)
+                else:
+                    d.text((x, y), ch, font=font, fill=fg)
             x += w + tr
 
 
@@ -146,43 +156,28 @@ def banner1():
     hf = zal(800, 132)
     while max(tw(d, l, hf) for l in ["TAILORED FOR", "COMFORT."]) > W - 2 * M:
         hf = zal(800, hf.size - 2)
-    sf, cf = ari(400, 38), zal(700, 46)
+    sf, cf = ari(400, 36), zal(700, 46)
 
     # Headline runs across the model and flips colour on him, as in the reference.
+    # The supporting line sits centred directly beneath it, also as in the
+    # reference, so both get the black/white switch as they cross the garment.
     blocks = [
         ((cx, 858), "TAILORED FOR", hf, 0, True),
         ((cx, 858 + round(hf.size * 1.06)), "COMFORT.", hf, 0, True),
     ]
+    y = 858 + round(hf.size * 1.06) * 2 + 44
+    for line in ["Defined by originality, driven by innovation.",
+                 "Every detail is created with purpose."]:
+        blocks.append(((cx, y), line, sf, 0, True, 3))
+        y += 52
     duotone(c, blocks)
 
-    # Supporting copy sits in the clean left column instead. Centred under the
-    # headline it would cross the model's legs and the stool, where the ground is
-    # mid-grey and neither black nor white type holds up.
-    #
-    # Set as one narrow measured column under a single hairline: four short lines
-    # of even length plus the call to action read as one block, where two loose
-    # lines and a separate CTA floated apart with an unexplained gap between them.
-    RULE_X, IND, TOP = M, 40, 1400
-    body = ["Defined by originality,", "driven by innovation.",
-            "Every detail is created", "with purpose."]
-    y = TOP
-    for line in body:
-        d.text((RULE_X + IND, y), line, font=sf, fill=BLACK); y += 52
-
-    cta_y = y + 62
-    d.text((RULE_X + IND, cta_y), "Discover Toni Black", font=cf, fill=BLACK)
-    arrow(d, RULE_X + IND + d.textlength("Discover Toni Black", font=cf) + 30,
-          cta_y + 24, 42, BLACK, 4)
-    d.line([(RULE_X, TOP - 6), (RULE_X, cta_y + 52)], fill=BLACK, width=3)
-
-    # The clean part of the backdrop runs to x=760; past that the model's leg
-    # comes in and solid black type stops holding. Fail loudly rather than ship
-    # copy that has quietly outgrown the column.
-    widest = max([d.textlength(l, font=sf) for l in body]
-                 + [d.textlength("Discover Toni Black", font=cf) + 72])
-    if RULE_X + IND + widest > 760:
-        raise SystemExit(f"brand story column runs to "
-                         f"x={RULE_X + IND + widest:.0f}, past the clean zone at 760")
+    # Call to action stays in the clean lower-left. Centred at the foot of the
+    # frame it would sit on the stool and the model's shin, which are mid-grey —
+    # ground where neither black nor white type holds up.
+    d.line([(M, H - 300), (M + 140, H - 300)], fill=BLACK, width=4)
+    d.text((M, H - 258), "Discover Toni Black", font=cf, fill=BLACK)
+    arrow(d, M + d.textlength("Discover Toni Black", font=cf) + 30, H - 234, 42, BLACK, 4)
 
     lg = logo("logo-horizontal-black", 400)     # top-left sits on plain backdrop
     c.paste(lg, (M, 110), lg)

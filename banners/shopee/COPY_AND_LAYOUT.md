@@ -58,11 +58,15 @@ Dua hal yang perlu dibereskan supaya hasilnya tidak terlihat seperti cacat cetak
 1. **Keputusan diambil per huruf, bukan per piksel.** Kalau per piksel, satu huruf bisa terbelah separuh hitam separuh putih — terbaca sebagai salah cetak, bukan desain.
 2. **Kotak sampelnya setinggi huruf kapital saja.** Memakai seluruh kotak ascender ikut merata-ratakan ruang kosong di atas huruf, dan hasilnya condong ke warna latar.
 
-### Kenapa sub-copy dan CTA tidak ikut menimpa model
+### Sub-copy di tengah, persis di bawah headline
 
-Kalau ditaruh di tengah seperti headline, keduanya melintasi kaki model dan kaki kursi yang bernilai abu tengah — di situ teks hitam maupun putih sama-sama lemah kontrasnya. Kata "Black" pada CTA sempat nyaris hilang di atas kaki kursi.
+Sesuai referensi, sub-copy duduk di tengah tepat di bawah headline dan ikut mendapat perlakuan dua warna.
 
-Jadi keduanya dipindah ke kolom kiri. Area x 100–700 sudah diukur: nilai tergelapnya 148, jadi teks hitam aman terbaca di semua ketinggian. Headline tetap dapat perlakuan dramatis, teks pendukung tetap terbaca.
+Ada satu masalah nyata di situ: ujung kanan kedua baris melintasi tulang kering model dan kaki kursi, yang bernilai abu tengah. Di ground seperti itu, teks hitam maupun putih dua-duanya lemah — kata "purpose." sempat nyaris hilang.
+
+Solusinya **halo tipis berwarna kebalikan**, dan yang penting: halo itu hanya muncul di huruf yang latarnya dekat titik ambang. Di ground yang jelas terang atau jelas gelap, halo dilewati — kalau dipasang rata, teks di area terang jadi terlihat seperti timbul. Jadi separuh kiri kalimat tetap teks hitam bersih tanpa halo, dan hanya ujung kanannya yang dibantu.
+
+**CTA tetap di kiri bawah.** Kalau ikut ditaruh di tengah paling bawah, ia mendarat di kaki kursi dan tulang kering — persis ground abu tengah yang sama, tapi tanpa cukup ruang bersih di sekitarnya untuk diselamatkan.
 
 **Foto:** pria duduk di kursi bar melepas crewneck putih Toni Black, mengenakan boxer hitam dengan waistband `TONI BLACK` terbaca.
 
