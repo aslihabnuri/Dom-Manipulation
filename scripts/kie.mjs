@@ -130,7 +130,48 @@ function resultUrls(record) {
   }
 }
 
+const UPLOAD = 'https://kieai.redpandaai.co/api/file-base64-upload'
+
 const commands = {
+  // Upload a local image and print its hosted URL, for models that take
+  // `image_input` — they need a URL, not file content.
+  async upload(positional, flags) {
+    const [file] = positional
+    if (!file) fail('Usage: kie upload <file> [--path images/nomukita]')
+
+    const { readFileSync } = await import('node:fs')
+    const { basename, extname } = await import('node:path')
+    const mime = { '.png': 'image/png', '.jpg': 'image/jpeg',
+                   '.jpeg': 'image/jpeg', '.webp': 'image/webp' }[extname(file).toLowerCase()]
+    if (!mime) fail(`Unsupported type: ${extname(file)} (png, jpg or webp only)`)
+
+    const { response, text } = await request(UPLOAD, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${resolveKey()}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        base64Data: `data:${mime};base64,${readFileSync(file).toString('base64')}`,
+        uploadPath: flags.path || 'images/nomukita',
+        fileName: basename(file),
+      }),
+    })
+    let payload
+    try {
+      payload = JSON.parse(text)
+    } catch {
+      fail(`HTTP ${response.status}: ${text.slice(0, 300)}`)
+    }
+    if (payload.success === false || (payload.code != null && payload.code !== 200)) {
+      fail(`Upload failed: ${payload.msg || payload.message || text.slice(0, 300)}`)
+    }
+    if (flags.json) return console.log(JSON.stringify(payload, null, 2))
+    const url = payload.data?.downloadUrl || payload.data?.fileUrl || payload.data?.url
+    if (!url) fail(`No URL in response: ${text.slice(0, 300)}`)
+    console.log(url)
+  },
+
   async credit(_positional, flags) {
     const payload = await api('/api/v1/chat/credit')
     if (flags.json) return console.log(JSON.stringify(payload, null, 2))

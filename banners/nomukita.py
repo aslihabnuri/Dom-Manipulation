@@ -259,11 +259,18 @@ def contact_shadow(canvas, im, x, y, blur=18, opacity=64, squash=0.10, spread=1.
 
 
 def logo(canvas, y, width=None, variant='wordmark', align='center', x=None,
-         within=None):
+         within=None, colour=None):
     """Paste the logo from the extracted source file — never redrawn."""
     import subprocess, tempfile
     width = width or round(300 * S)
     src = REPO / f'brand/logo/nomukita-{variant}.svg'
+    if colour is not None:
+        import re
+        svg = src.read_text()
+        svg = re.sub(r'fill="#[0-9A-Fa-f]{6}"', f'fill="{colour}"', svg)
+        with tempfile.NamedTemporaryFile(suffix='.svg', mode='w', delete=False) as f:
+            f.write(svg)
+            src = f.name
     with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as tmp:
         subprocess.run(['rsvg-convert', '-w', str(width), str(src), '-o', tmp.name],
                        check=True)
@@ -285,15 +292,32 @@ def canvas(w=None, h=None):
     return Image.new('RGBA', (w or W, h or H), BONE + (255,))
 
 
-def finish(canvas_img, path, quality=92):
-    """Design system §7.5: normalise the background, then write the file."""
+MAX_BYTES = 2 * 1_048_576            # marketplace ceiling
+
+
+def finish(canvas_img, path, quality=94):
+    """Design system §7.5: normalise the background, then write the file.
+
+    Flat artwork stays PNG. Photographic slides blow past the 2 MB marketplace
+    ceiling as PNG, so those fall back to JPEG and the oversized PNG is removed
+    rather than left behind for someone to upload by mistake.
+    """
+    path = Path(path)
     flat = Image.new('RGB', canvas_img.size, BONE)
     flat.paste(canvas_img, (0, 0), canvas_img)
     flat.save(path, 'PNG', optimize=True)
-    size_mb = Path(path).stat().st_size / 1_048_576
-    if size_mb > 2:                      # marketplace ceiling is 2 MB
-        flat.save(str(path).replace('.png', '.jpg'), 'JPEG',
-                  quality=quality, optimize=True, subsampling=0)
+    if path.stat().st_size <= MAX_BYTES:
+        return flat
+
+    jpg = path.with_suffix('.jpg')
+    q = quality
+    while q >= 70:
+        flat.save(jpg, 'JPEG', quality=q, optimize=True, progressive=True,
+                  subsampling=0)
+        if jpg.stat().st_size <= MAX_BYTES:
+            break
+        q -= 4
+    path.unlink()
     return flat
 
 
