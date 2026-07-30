@@ -3,6 +3,12 @@
 
 The client's own pose reference goes in as an image_input alongside the product
 cutouts, so the reclining pose comes from their file rather than a description.
+
+Composed for the layout rather than the other way round. The first version put the
+figure in the right 58 percent with the left 40 percent empty, which left exactly
+one place to put type and is why the copy ended up stacked down the left edge.
+This one keeps him compact and centred so there is a clean plane on BOTH sides —
+the offer can sit left, the action right, the logo above him.
 """
 import os, sys
 sys.path.insert(0, os.path.dirname(__file__))
@@ -30,14 +36,25 @@ prompt = (
     "him. Light the white t-shirt with clear directional modelling so it separates "
     "from the pale bedding rather than merging into it: visible folds, soft shadow "
     "along the near side. "
-    "IMPORTANT COMPOSITION: the figure lies in the RIGHT 58 percent of the frame, "
-    "his head roughly 45 percent across. The LEFT 40 percent must be completely "
-    "clean and empty — plain smooth pale bedding and a plain pale wall behind it, "
-    "with NO window, NO window frame, NO grid or mullion pattern, no headboard, no "
-    "furniture, no pillows, no folds of note. Put the window and any daylight "
-    "source off-frame to the right, behind him. That empty left area is reserved "
-    "for text and must stay flat and uncluttered. The photograph bleeds to all "
-    "four edges: no bars, no borders, no letterboxing. "
+    "IMPORTANT COMPOSITION — he is CENTRED and LARGE in the frame but horizontally "
+    "COMPACT. Vertically he commands the picture: the top of his head sits just below "
+    "the top of the frame and his hip and folded legs reach down into the lower third, "
+    "so he reads clearly and the black boxer briefs are unmistakable. Horizontally he "
+    "is contained: knees drawn up and feet tucked in behind him, no limb, foot, elbow "
+    "or pillow reaching out sideways, his whole body from crown to feet held within "
+    "the middle two fifths of the picture width. To his left lies a broad sweep of "
+    "plain empty bedding, to his right another, and plain empty wall stands above and "
+    "behind his head. "
+    "The bed and the wall are ONE CONTINUOUS SURFACE filling the entire picture from "
+    "the far left edge to the far right edge and from top to bottom. This is a single "
+    "uninterrupted photograph of one room: there must be no panel, no band, no "
+    "border, no inset, no vignette, no seam and no change of tone along any vertical "
+    "line. The bedding sweeps unbroken right off both side edges of the picture. "
+    "That surrounding bedding and wall must stay smooth, flat and featureless: NO "
+    "window, NO window frame, NO grid or mullion pattern, no headboard, no furniture, "
+    "no spare pillows, no strong creases, no cast shadows. Put the window and any "
+    "daylight source off-frame. The photograph bleeds to all four edges: no bars, no "
+    "borders, no letterboxing, no framing device of any kind. "
     "Black and white photograph, no colour at all. Calm, premium, understated, "
     "the same register as an editorial menswear campaign. Photorealistic, high "
     "detail, natural skin texture, sharp fabric texture.")

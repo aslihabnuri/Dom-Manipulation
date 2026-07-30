@@ -12,7 +12,7 @@ Hasil akhir ada di `banners/shopee/final/`. Semua dalam batas Shopee: **maks. 20
 | Value — Tanktop | `2-value-tanktop.jpg` | 1600 × 2000 | 557 KB |
 | Value — versi all-in-one | `4-value-all-in-one.jpg` | 2000 × 2000 | 690 KB |
 | Banner Toko 2 Area Klik | `3-banner-toko.jpg` | 2000 × 2000 | 511 KB |
-| Banner Diskon / Voucher (2:1) | `6-voucher.jpg` | 2000 × 1000 | 415 KB |
+| Banner Diskon / Voucher (2:1) | `6-voucher.jpg` | 2000 × 1000 | 394 KB |
 
 ---
 
@@ -227,21 +227,21 @@ Hasilnya jauh lebih ringan dan sesuai karakter brand: *Clean White* adalah warna
 
 ## 4. BANNER DISKON / VOUCHER — 2:1
 
-`6-voucher.jpg` · **2000 × 1000** · 415 KB
+`6-voucher.jpg` · **2000 × 1000** · 394 KB · acuan distribusi: `Referensi_Banner Diskon BAU`
 
-Shopee tidak punya rasio 2:1 di daftar Kie, jadi fotonya dipesan 16:9 lalu dipotong ke 2:1 pada `ycrop=0.45` — memotong dari atas supaya ranjang bagian bawah yang kosong ikut terbuang dan modelnya tetap di tempat.
+Shopee tidak punya rasio 2:1 di daftar Kie, jadi fotonya dipesan 16:9 lalu dipotong ke 2:1 pada `ycrop=0.70` — memotong lebih banyak dari atas, menukar pita atas yang tidak dibutuhkan logo dengan pita bawah tempat dua baris penawaran dan tombol harus muat.
 
 ### Copy
 
-| Slot | Teks | Font |
-|---|---|---|
-| Logo | logo horizontal hitam | — |
-| Eyebrow | `SAVE UP TO` | Zalando SemiBold 38, tracking 10, `#4F5052` |
-| Angka | `25%` | Zalando Black 190, `#282828` |
-| Penawaran 1 | `Extra Rp5.000 voucher for new buyers` | Arimo Regular 38, `#282828` |
-| Penawaran 2 | `Free shipping` | Arimo Regular 38, `#282828` |
-| CTA | `SHOP NOW` — pill hitam, teks putih | Zalando Bold 32 |
-| Small print | `*Terms & conditions apply` | Arimo Regular 22, `#818284` |
+| Slot | Posisi | Teks | Font |
+|---|---|---|---|
+| Logo | kiri atas | logo horizontal hitam, 270 px | — |
+| Eyebrow | kanan atas | `SAVE UP TO` | Zalando SemiBold 38, tracking 10, `#4F5052` |
+| Angka | kanan atas | `25%` | Zalando Black 200, `#282828` |
+| Penawaran 1 | kiri bawah | `Extra Rp5.000 voucher for new buyers` | Arimo Regular 38, `#282828` |
+| Penawaran 2 | kiri bawah | `Free shipping` | Arimo Regular 38, `#282828` |
+| Small print | kiri bawah | `*Terms & conditions apply` | Arimo Regular 22, `#818284` |
+| CTA | kanan bawah | `SHOP NOW` — pill hitam, teks putih | Zalando Bold 32 |
 
 ### Copy diselaraskan ke tone of voice (hal. 35)
 
@@ -254,30 +254,57 @@ Versi pertama saya memakai bahasa marketplace, bukan bahasa Toni Black. Empat ha
 | `FREE ONGKIR` | `Free shipping` | Satu bahasa dalam satu banner. Semua banner lain berbahasa Inggris. |
 | Penawaran dalam **huruf kapital ber-tracking** | **Arimo sentence case** | Aturan tipografi brand: deskripsi memakai Arimo sentence case. Kapital ber-tracking bikin info sekunder ikut berteriak dan bersaing dengan angka — persis yang dilarang **hal. 27 aturan 5** ("tanpa terkesan shouty"). |
 
-`SHOP NOW` tetap dari daftar CTA resmi hal. 29, huruf kapital di dalam pill sesuai hal. 26. Nada promo dibangun lewat hierarki ukuran (angka 190 px lawan small print 22 px), bukan lewat kata hiperbolik yang dilarang hal. 35.
+`SHOP NOW` tetap dari daftar CTA resmi hal. 29, huruf kapital di dalam pill sesuai hal. 26. Nada promo dibangun lewat hierarki ukuran (angka 200 px lawan small print 22 px), bukan lewat kata hiperbolik yang dilarang hal. 35.
 
 **Satu koreksi pada copy Anda:** `*Terms & condition apply` → `*Terms & conditions apply`. Bentuk pluralnya yang benar. Kalau Anda tetap ingin versi aslinya, tinggal ganti satu string di `banner6()`.
 
 > **Catatan `Free shipping` vs `Free Ongkir`:** `Free Ongkir` adalah istilah yang dicari pembeli Shopee dan lebih cepat dikenali. Saya pilih `Free shipping` supaya satu banner tidak campur dua bahasa. Kalau prioritasnya keterbacaan di marketplace, tukar satu string itu saja.
 
-### Layout dibersihkan
+### Layout: empat sudut, bukan satu kolom
 
-Yang dihapus, semuanya demi **hal. 27 aturan 3** — *"hindari elemen berlebihan, clarity di atas dekorasi"*:
+Mengikuti distribusi `Referensi_Banner Diskon BAU` — logo di satu sudut atas, diskon besar berdiri sendiri, penawaran sekunder dan tombol ditaruh terpisah darinya, tidak ada yang dikumpulkan jadi satu kolom.
 
-- **Garis pemisah** di bawah angka. Lompatan ukuran 190 px → 38 px sudah memisahkan dua grup; garisnya tidak mengerjakan apa pun.
-- **Dua bullet kotak.** Dua baris tidak perlu bullet.
+```
+┌──────────────────────────────────────────────────────────────┐
+│ [LOGO]                                       SAVE UP TO      │
+│                                                  2 5 %       │
+│                    ..... model .....                         │
+│                                                              │
+│  Extra Rp5.000 voucher for new buyers        ▐ SHOP NOW ▌     │
+│  Free shipping                                               │
+│  *Terms & conditions apply                                   │
+└──────────────────────────────────────────────────────────────┘
+```
 
-Sisanya jadi **dua grup** saja — penawaran (eyebrow + angka) dan detail (dua baris + CTA + small print) — dipisah oleh jeda 91 px. Jeda itu yang menggantikan garis.
+Alignment yang mengerjakan pekerjaan garis: elemen kiri berbagi satu tepi di `x = 120`, elemen kanan berbagi satu tepi di `x = 1880`. Tanpa garis, tanpa bullet, tanpa scrim — **hal. 27 aturan 3**, *clarity di atas dekorasi*.
 
-**Satu tepi kiri, tanpa tebak-tebakan.** Semua elemen mulai tepat di `x = 120`. Versi lama memaksa angka ke `M - 8` sebagai koreksi optis; setelah diukur, ink semua font ini memang mulai di `bbox x0 = 0`, jadi fudge itu justru yang membuatnya tidak sejajar. Fungsi `ink()` baru juga menempatkan teks berdasarkan **puncak ink**, bukan garis ascender font, sehingga jarak antar elemen sama dengan jarak yang benar-benar terlihat.
+Blok kiri bawah dan tombol kanan bawah **dipusatkan optis satu terhadap yang lain**, jadi dua sudut bawah terbaca sebagai satu baris melintang, bukan dua potongan lepas.
+
+Small print ikut ke kiri bawah, bukan menggantung di bawah tombol: tanda bintangnya menerangkan dua penawaran itu dan angka diskonnya, jadi tempatnya bersama mereka — dan sudut kanan jadi bersih, hanya satu tombol.
+
+### Fotonya di-shoot ulang untuk layout ini
+
+Ini akar masalahnya, dan tidak bisa diperbaiki dari sisi layout. Hero pertama saya art-direct **terbalik** — brief-nya meminta *"figure lies in the RIGHT 58 percent, the LEFT 40 percent must be completely clean and empty"*. Fotonya menuruti dengan benar, hasilnya cuma **ada satu tempat** yang bisa ditaruhi teks, dan di situlah semuanya menumpuk. Layoutnya numpuk di kiri karena fotonya dipesan untuk numpuk di kiri.
+
+Hero baru: model **compact dan centred**, lutut ditarik ke dada, kaki tidak menjulur ke samping. Hasilnya tanah bersih berupa pita penuh lebar di atas dan di bawah, plus sudut kanan atas yang lapang — persis empat tempat yang dibutuhkan layout di atas.
+
+Dua percobaan sebelum dapat: brief *"the LEFT 25 percent and the RIGHT 25 percent must be clean and empty"* dibaca sebagai perintah layout, dan hasilnya foto **dipillarbox** — dua panel rata di kiri dan kanan dengan garis sambungan terlihat di 25 % dan 76 %. Diperbaiki dengan mendeskripsikan ruangannya, bukan bidang gambarnya: *"the bed and the wall are ONE CONTINUOUS SURFACE filling the entire picture… no panel, no band, no border, no seam and no change of tone along any vertical line."* Percobaan berikutnya *"shoot WIDE and pulled back, so he is small"* terlalu jauh — modelnya kekecilan; diganti *"CENTRED and LARGE… but horizontally COMPACT."*
+
+### Teks putih dipertimbangkan, dan tidak bisa
+
+Referensi menaruh `50% OFF` putih di atas paha model. Di frame ini itu tidak mungkin: fotonya **high-key**, luminansi maksimum di kulit dan kaosnya mencapai **255**, jadi teks putih akan lenyap. Sudah diukur, bukan dikira. Karena itu semua tipografi hitam brand di atas tanah pucat.
+
+**Satu tepi per sisi, tanpa tebak-tebakan.** Versi lama memaksa angka ke `M - 8` sebagai koreksi optis; setelah diukur, ink semua font ini memang mulai di `bbox x0 = 0`, jadi fudge itu justru yang membuatnya tidak sejajar. Fungsi `ink()` menempatkan teks berdasarkan **puncak ink**, bukan garis ascender font, sehingga jarak antar elemen sama dengan jarak yang benar-benar terlihat; `right=True` memakai tepi kanan sebagai patokan.
 
 **Ukuran disesuaikan tempat tayang.** Shopee menampilkan banner toko sekitar 430 px di ponsel — skala 0,215. Body 32 px jatuh jadi 6,9 px dan tidak terbaca; 38 px jadi 8,2 px dan masih aman. Sudah diverifikasi dengan render 430 px.
 
 ### QA otomatis: `check_ground()`
 
-Kaki model dan bayangan di bawah ranjang masuk ke separuh bawah frame, jadi area aman **bukan persegi** dan tidak cukup dikira-kira. `check_ground()` membaca foto mentahnya (bukan kanvas yang sudah ada teksnya — itu cuma mengukur gelapnya tinta sendiri), lalu membatalkan build kalau ada satu kotak teks pun yang duduk di atas piksel lebih gelap dari **140**.
+Tumit dan bayangan model masuk ke pita bawah, jadi area aman **bukan persegi** dan tidak cukup dikira-kira. `check_ground()` membaca foto mentahnya (bukan kanvas yang sudah ada teksnya — itu cuma mengukur gelapnya tinta sendiri), lalu membatalkan build kalau ada satu kotak teks pun yang duduk di atas piksel lebih gelap dari **140**.
 
-Peta luminansi frame ini: aman di `x 60–840, y 40–690`, plus kolom sempit `x 60–460` yang bersih sampai `y 950`. Small print memakai kolom sempit itu.
+Guard ini langsung bekerja: tombol `SHOP NOW` pertama saya taruh di `y 812`, dan build gagal dengan `'cta' sits on ground as dark as 5`. Tumit kanan model sampai `y 820` di kolom itu. Batas paling atas yang aman ternyata `y 830` — diukur, lalu dipakai, dan alasannya dicatat di komentar kode supaya tidak digeser lagi tanpa sengaja.
+
+Peta luminansi frame ini: pita atas `y 0–119` dan pita bawah `y 809–1000` bersih penuh lebar; sudut kanan atas `x 1280–1960, y 0–369` lapang; kolom kiri `x 60–360` bersih hampir penuh tinggi.
 
 ### Pill yang mengukur dirinya sendiri
 
