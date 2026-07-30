@@ -237,18 +237,22 @@ DISCOUNT_CROP = (0, 60, 2752, 1436)
 def discount():
     """The discount banner, set on the counter scene rather than a bone panel.
 
-    The packs are the client's own mockup photographs, pulled from the Drive
-    product folders (Packaging Can and Packaging 500) — not drawn, not generated.
-    Both arrive as transparent cutouts, so they stand on the counter with only a
-    warm tint and a contact shadow to tie them to the scene's light.
+    The packs are the client's own mockup photographs from the Drive product
+    folders. What sells them as standing in the scene rather than pasted on it
+    is scale, position and shadow, in that order. The chasen in the photograph
+    are 330 pixels for an 11 cm object, so the scene runs at 30 px/cm: the 500 g
+    pouch gets 615 px for its 20.5 cm and the 30 g tin 285 px for its 9.5 cm —
+    the earlier 430 px pouch was a 14 cm miniature, which is exactly what reads
+    as a sticker. They stand at the counter's front edge, where the visible
+    tabletop behind their bases is thinnest and the straight-on mockup angle
+    matches the camera, and each casts two shadows: a tight dark pool at the
+    base for weight and a soft wide one thrown slightly right, opposite the
+    window light.
 
-    The type sits straight on the photograph and the photograph decides where.
-    Three fields carry it, which is what keeps the copy off a single edge: the
-    panelling on the left holds 7 to 34 luminance behind the headline, the
-    pocket of panelling on the right stays under 73 above the whisks and takes
-    the percentage, and the stone under the counter runs under 114 the whole way
-    across, carrying the smaller offers at one end and the button at the other.
-    The products fill the counter between the two dark fields.
+    The counter wood left of the packs then takes a small charcoal caption —
+    name and the two formats — so the empty stretch beside the products carries
+    information instead of nothing. It reads 134-197 luminance there, plenty
+    for charcoal.
     """
     c = N.canvas(WIDE_W, WIDE_H)
     scene = Image.open(ILLUS3 / 'counter-2to1.png').convert('RGB')
@@ -270,13 +274,18 @@ def discount():
         img = warm(img.resize((round(height * img.width / img.height), height),
                               Image.LANCZOS))
         x, y = cx - img.width / 2, base - img.height
-        N.contact_shadow(c, img, x, y, blur=22, opacity=88)
+        N.contact_shadow(c, img, x + 14, y, blur=30, opacity=64, spread=1.18)
+        N.contact_shadow(c, img, x + 4, y, blur=9, opacity=112, spread=1.02)
         c.alpha_composite(img, (round(x), round(y)))
 
-    # The pouch behind, the tin in front and lower — the overlap is what makes
-    # two cutouts read as one group standing in the same place.
-    place(Image.open(PACK / 'uji-500.png').convert('RGBA'), 430, 1095, 822)
-    place(Image.open(PACK / 'uji-can.png').convert('RGBA'), 245, 1300, 842)
+    place(Image.open(PACK / 'uji-500.png').convert('RGBA'), 615, 1010, 830)
+    place(Image.open(PACK / 'uji-can.png').convert('RGBA'), 285, 1245, 848)
+
+    # caption on the wood, hugging the packs it names
+    N.text(d, (770, 668), 'UJI MATCHA', 24, CHARCOAL, demi=True, tracking=4,
+           align='right')
+    N.body(d, (770, 708), ['500 gram  ·  kaleng 30 gram'], 23, (62, 52, 40),
+           align='right')
 
     # left field — who it is and what the moment is
     N.logo(c, y=142, width=272, x=WIDE_M, colour='#FFFFFF')
@@ -284,8 +293,9 @@ def discount():
     N.body(d, (WIDE_M, 372), ['buat yang cangkirnya jarang kosong.'], 28,
            (230, 229, 224))
 
-    # right field — the offer, flush right in the pocket above the whisks
-    N.text(d, (right, 170), 'DISKON HINGGA', 24, white, demi=True, tracking=7,
+    # right field — the offer. "Hemat" rather than "diskon": same promise,
+    # without the bargain-bin register the client flagged.
+    N.text(d, (right, 170), 'HEMAT HINGGA', 24, white, demi=True, tracking=7,
            align='right')
     size = 156
     cap = N.arg(size).getbbox('H')[3] - N.arg(size).getbbox('H')[1]
