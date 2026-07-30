@@ -82,20 +82,20 @@ def proof():
     # whisks run bright there (up to 180) and no scrim fixes that without
     # muddying the picture. The scrim only serves the footer.
     N.logo(c, y=84, width=280, colour='#FFFFFF')
-    N.text(d, (W / 2, 248), 'CHECK THE LABEL', 78, WHITE, tracking=2,
+    N.text(d, (W / 2, 248), 'BEHIND THE TASTE', 74, WHITE, tracking=2,
            align='center')
-    N.body(d, (W / 2, 278), ['semua bisa dicek, nggak cuma janji.'], 27,
+    N.body(d, (W / 2, 280), ['empat hal yang sudah beres sebelum diseduh.'], 27,
            (232, 231, 226), align='center')
 
     right = W - MARGIN
     # Row 2 on the left has a hard ceiling near x 420 before the bamboo turns
     # bright, so the certification list is the tight one and the long line about
     # cafes went right, where there is room out to x 669.
-    _value(c, d, MARGIN, 448, 'Named Gardens', 'uji, nishio, shizouka')
-    _value(c, d, right, 448, 'Just Matcha', 'manisnya atur sendiri', align='right')
-    _value(c, d, MARGIN, 596, 'Checked, Not Claimed', 'halal, USDA, JAS organic')
-    _value(c, d, right, 596, '15 Years in Cafes',
-           'kalau kurang, udah lama diganti', align='right')
+    _value(c, d, MARGIN, 448, 'Three Gardens', 'uji, nishio, shizouka')
+    _value(c, d, right, 448, 'Only the Leaf', 'manisnya menyusul', align='right')
+    _value(c, d, MARGIN, 596, 'Papers In Order', 'halal, USDA, JAS organic')
+    _value(c, d, right, 596, 'Still on the Menu',
+           'di ratusan kafe, lima belas tahun', align='right')
 
     N.drop(c, W / 2 - 7, 1416, 15, N.LOGO_BLUE)
     N.text(d, (W / 2, 1494), 'POWDERED TO PERFECTION', 26, WHITE, demi=True,
