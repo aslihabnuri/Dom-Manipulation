@@ -60,13 +60,16 @@ def _scrim(canvas, top, bottom, strength):
 
 
 def _value(canvas, d, x, y, head, sub, align='left'):
-    """A claim marked by the logomark drop, mirroring the Nishio slide."""
-    dot = 15
+    """A claim marked by the logomark drop, mirroring the Nishio slide.
+
+    Kept tight on purpose: the mark, the head and the line under it have to
+    read as one object, or four claims look like eight loose pieces.
+    """
+    dot = 14
     dx = x if align == 'left' else x - dot
     N.drop(canvas, dx, y, dot, N.LOGO_BLUE)
-    anchor_x = x
-    N.body(d, (anchor_x, y + 34), [head], 28, WHITE, align=align, weight=600)
-    N.body(d, (anchor_x, y + 74), [sub], 26, (232, 231, 226), align=align)
+    N.body(d, (x, y + 28), [head], 28, WHITE, align=align, weight=600)
+    N.body(d, (x, y + 68), [sub], 26, (228, 227, 222), align=align)
 
 
 def proof():
@@ -91,14 +94,13 @@ def proof():
     # Row 2 on the left has a hard ceiling near x 420 before the bamboo turns
     # bright, so the certification list is the tight one and the long line about
     # cafes went right, where there is room out to x 669.
-    _value(c, d, MARGIN, 448, 'Three Gardens', 'uji, nishio, shizouka')
-    _value(c, d, right, 448, 'Pure, Nothing Else', 'manisnya menyusul', align='right')
-    _value(c, d, MARGIN, 596, 'Papers In Order', 'halal, USDA, JAS organic')
-    _value(c, d, right, 596, 'Still on the Menu',
+    _value(c, d, MARGIN, 452, 'Three Gardens', 'uji, nishio, shizouka')
+    _value(c, d, right, 452, 'Pure, Nothing Else', 'manisnya menyusul', align='right')
+    _value(c, d, MARGIN, 620, 'Papers In Order', 'halal, USDA, JAS organic')
+    _value(c, d, right, 620, 'Still on the Menu',
            'di ratusan kafe, lima belas tahun', align='right')
 
-    N.drop(c, W / 2 - 7, 1416, 15, N.LOGO_BLUE)
-    N.text(d, (W / 2, 1494), 'POWDERED TO PERFECTION', 26, WHITE, demi=True,
+    N.text(d, (W / 2, 1500), 'POWDERED TO PERFECTION', 26, WHITE, demi=True,
            tracking=7, align='center')
     return N.finish(c, OUT / '6-brand-story-2.png')
 
