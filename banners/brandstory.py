@@ -74,16 +74,15 @@ def _value(canvas, d, x, y, head, sub, align='left'):
 
 def proof():
     c = N.canvas()
-    scene = N.cover(Image.open(ASSETS / 'illus3/matcha-ritual.png'), W, H)
+    scene = N.cover(Image.open(ASSETS / 'illus3/matcha-ritual-2.png'), W, H)
     c.paste(scene, (0, 0))
-    _scrim(c, 1010, H, 140)
     d = ImageDraw.Draw(c)
 
-    # Every text footprint was measured on the photograph before being placed.
-    # The four claims sit in two rows, left and right of the arm, on ground that
-    # peaks at 66-91 luminance. The lower left is deliberately empty: the bamboo
-    # whisks run bright there (up to 180) and no scrim fixes that without
-    # muddying the picture. The scrim only serves the footer.
+    # The scene was reshot to hold every object in the upper two thirds, which
+    # frees the counter below. That lets the claims sit in two bands framing the
+    # photograph instead of stacking above it: the only ground that stays dark
+    # for a full block is y 390-480 and y 1180 down, and both are used. No scrim
+    # is needed now — the lower counter already falls to 23-45 luminance.
     N.logo(c, y=84, width=280, colour='#FFFFFF')
     N.text(d, (W / 2, 248), 'BEHIND THE TASTE', 74, WHITE, tracking=2,
            align='center')
@@ -91,13 +90,10 @@ def proof():
            (232, 231, 226), align='center')
 
     right = W - MARGIN
-    # Row 2 on the left has a hard ceiling near x 420 before the bamboo turns
-    # bright, so the certification list is the tight one and the long line about
-    # cafes went right, where there is room out to x 669.
-    _value(c, d, MARGIN, 452, 'Three Gardens', 'uji, nishio, shizouka')
-    _value(c, d, right, 452, 'Pure, Nothing Else', 'manisnya menyusul', align='right')
-    _value(c, d, MARGIN, 620, 'Papers In Order', 'halal, USDA, JAS organic')
-    _value(c, d, right, 620, 'Still on the Menu',
+    _value(c, d, MARGIN, 410, 'Three Gardens', 'uji, nishio, shizouka')
+    _value(c, d, right, 410, 'Pure, Nothing Else', 'manisnya menyusul', align='right')
+    _value(c, d, MARGIN, 1240, 'Papers In Order', 'halal, USDA, JAS organic')
+    _value(c, d, right, 1240, 'Still on the Menu',
            'di ratusan kafe, lima belas tahun', align='right')
 
     N.text(d, (W / 2, 1500), 'POWDERED TO PERFECTION', 26, WHITE, demi=True,
