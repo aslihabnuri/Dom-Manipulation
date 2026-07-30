@@ -2,7 +2,7 @@
 """Build the Nomukita store banners."""
 
 from pathlib import Path
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageFilter
 
 import nomukita as N
 from nomukita import W, H, MARGIN, BONE, CHARCOAL, MATCHA, COCOA, STEEL, RULE
@@ -225,96 +225,59 @@ def category():
 
 
 # ── 5. Discount — 2:1 ────────────────────────────────────────────────────
-# Cut from the generated frame. The model refuses 2:1, so the scene comes back
-# 16:9 at 2752 by 1536 and the height is trimmed to 1376 rather than the width
-# narrowed — the bowl and whisks sit hard right and cropping the sides would
-# crowd them. Trimming 60 from the top and 100 from the bottom keeps the window
-# in the corner and the counter's front edge in frame, and the result downsamples
-# to 2000 by 1000 instead of being enlarged.
-DISCOUNT_CROP = (0, 60, 2752, 1436)
+# The background is the client's Discount_Referensi file, by instruction, used
+# as shot — no products composited over it, no scrim, no regeneration. The 2:1
+# window is its y 530-1130 band, the only full-width strip clear of the slide's
+# typeset text. Known and accepted: the tin held in the frame's right hand is
+# the AI-generated one whose label misspells the product; the client chose this
+# background with the products removed, so it shows. Flagged in delivery.
+REF_BAND = (0, 530, 1200, 1130)
 
 
 def discount():
-    """The discount banner, set on the counter scene rather than a bone panel.
+    """The discount banner: the client's background and the copy, nothing else.
 
-    The packs are the client's own mockup photographs from the Drive product
-    folders. What sells them as standing in the scene rather than pasted on it
-    is scale, position and shadow, in that order. The chasen in the photograph
-    are 330 pixels for an 11 cm object, so the scene runs at 30 px/cm: the 500 g
-    pouch gets 615 px for its 20.5 cm and the 30 g tin 285 px for its 9.5 cm —
-    the earlier 430 px pouch was a 14 cm miniature, which is exactly what reads
-    as a sticker. They stand at the counter's front edge, where the visible
-    tabletop behind their bases is thinnest and the straight-on mockup angle
-    matches the camera, and each casts two shadows: a tight dark pool at the
-    base for weight and a soft wide one thrown slightly right, opposite the
-    window light.
-
-    The counter wood left of the packs then takes a small charcoal caption —
-    name and the two formats — so the empty stretch beside the products carries
-    information instead of nothing. It reads 134-197 luminance there, plenty
-    for charcoal.
+    Type only sits where the photograph was measured to hold it. The tea-room
+    shadow in the top-left corner reads 45-101 luminance down to y 400, which
+    is the full column — logo, headline, subline, offer and button. The two
+    smaller offers ride a charcoal pill at the bottom centre, bringing their
+    own ground, so the copy is not all on one side and nothing rests on
+    unmeasured wood. The right half belongs to the photograph's own subject,
+    the hands at work.
     """
     c = N.canvas(WIDE_W, WIDE_H)
-    scene = Image.open(ILLUS3 / 'counter-2to1.png').convert('RGB')
-    c.paste(scene.crop(DISCOUNT_CROP).resize((WIDE_W, WIDE_H), Image.LANCZOS), (0, 0))
+    ref = Image.open(ASSETS / 'ref-discount.png').convert('RGB')
+    c.paste(ref.crop(REF_BAND).resize((WIDE_W, WIDE_H), Image.LANCZOS), (0, 0))
     d = ImageDraw.Draw(c)
     white = (255, 255, 255)
-    right = WIDE_W - WIDE_M
 
-    def warm(img):
-        """Sit the studio-lit cutout into the scene's warm dim light."""
-        r, g, b, a = img.split()
-        r = r.point(lambda v: round(v * 0.97))
-        g = g.point(lambda v: round(v * 0.94))
-        b = b.point(lambda v: round(v * 0.86))
-        return Image.merge('RGBA', (r, g, b, a))
+    N.logo(c, y=46, width=230, x=WIDE_M, colour='#FFFFFF')
+    N.text(d, (WIDE_M, 170), 'MATCHA DAYS', 60, MATCHA, tracking=4)
+    N.body(d, (WIDE_M, 210), ['buat yang cangkirnya jarang kosong.'], 26,
+           (232, 231, 226))
+    N.text(d, (WIDE_M, 268), 'HEMAT HINGGA', 22, white, demi=True, tracking=7)
 
-    def place(img, height, cx, base):
-        img = img.crop(img.getbbox())
-        img = warm(img.resize((round(height * img.width / img.height), height),
-                              Image.LANCZOS))
-        x, y = cx - img.width / 2, base - img.height
-        N.contact_shadow(c, img, x + 14, y, blur=30, opacity=64, spread=1.18)
-        N.contact_shadow(c, img, x + 4, y, blur=9, opacity=112, spread=1.02)
-        c.alpha_composite(img, (round(x), round(y)))
-
-    place(Image.open(PACK / 'uji-500.png').convert('RGBA'), 615, 1010, 830)
-    place(Image.open(PACK / 'uji-can.png').convert('RGBA'), 285, 1245, 848)
-
-    # caption on the wood, hugging the packs it names
-    N.text(d, (770, 668), 'UJI MATCHA', 24, CHARCOAL, demi=True, tracking=4,
-           align='right')
-    N.body(d, (770, 708), ['500 gram  ·  kaleng 30 gram'], 23, (62, 52, 40),
-           align='right')
-
-    # left field — who it is and what the moment is
-    N.logo(c, y=142, width=272, x=WIDE_M, colour='#FFFFFF')
-    N.text(d, (WIDE_M, 318), 'MATCHA DAYS', 72, MATCHA, tracking=5)
-    N.body(d, (WIDE_M, 372), ['buat yang cangkirnya jarang kosong.'], 28,
-           (230, 229, 224))
-
-    # right field — the offer. "Hemat" rather than "diskon": same promise,
-    # without the bargain-bin register the client flagged.
-    N.text(d, (right, 170), 'HEMAT HINGGA', 24, white, demi=True, tracking=7,
-           align='right')
-    size = 156
+    size = 132
     cap = N.arg(size).getbbox('H')[3] - N.arg(size).getbbox('H')[1]
-    total = N.text_width('25', size) + cap * N.PERCENT_WIDTH
-    x = right - total + N.text(d, (right - total, 300), '25', size, white)
-    N.percent(c, x, 300, cap, white)
+    x = WIDE_M + N.text(d, (WIDE_M, 390), '25', size, white)
+    N.percent(c, x, 390, cap, white)
 
-    # stone field — the two smaller offers at one end, the button at the other
-    N.text(d, (WIDE_M, 915), 'GRATIS ONGKIR  ·  VOUCHER HINGGA 15RB', 26, white,
-           demi=True, tracking=5)
-
-    label, fs, tr = 'SHOP NOW', 28, 6
+    label, fs, tr = 'SHOP NOW', 26, 6
     lw = N.text_width(label, fs, demi=True, tracking=tr)
-    pw, ph = lw + 34 + 30 + 34, 74
-    bx, by = right - pw, 872
-    d.rounded_rectangle([bx, by, bx + pw, by + ph], radius=ph // 2,
+    pw, ph = lw + 32 + 28 + 32, 70
+    d.rounded_rectangle([WIDE_M, 452, WIDE_M + pw, 452 + ph], radius=ph // 2,
                         fill=MATCHA + (255,))
-    N.text(d, (bx + 34, by + 48), label, fs, white, demi=True, tracking=tr)
-    N.chevron(d, bx + 34 + lw + 18, by + ph / 2, 19, white, width=3)
+    N.text(d, (WIDE_M + 32, 452 + 45), label, fs, white, demi=True, tracking=tr)
+    N.chevron(d, WIDE_M + 32 + lw + 16, 452 + ph / 2, 18, white, width=3)
+
+    # both smaller offers on one charcoal pill at the bottom centre
+    offer = 'GRATIS ONGKIR  ·  VOUCHER HINGGA 15RB'
+    ow = N.text_width(offer, 24, demi=True, tracking=5)
+    opw, oph = ow + 2 * 36, 64
+    ox = round(1000 - opw / 2)
+    d.rounded_rectangle([ox, 902, ox + opw, 902 + oph], radius=oph // 2,
+                        fill=(24, 23, 21, 235))
+    N.text(d, (ox + 36, 902 + 42), offer, 24, white, demi=True, tracking=5)
 
     return N.finish(c, OUT / '7-diskon.png')
 

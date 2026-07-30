@@ -268,8 +268,20 @@ const commands = {
       mkdirSync(flags.out, { recursive: true })
       for (const url of urls) {
         const name = basename(new URL(url).pathname) || `${taskId}.bin`
-        const response = await fetch(url)
-        writeFileSync(join(flags.out, name), Buffer.from(await response.arrayBuffer()))
+        // The artifact fetch must retry like API calls do — a transient proxy
+        // DNS failure here otherwise writes the error text as the "image".
+        let buffer
+        for (let attempt = 0; ; attempt++) {
+          const response = await fetch(url)
+          buffer = Buffer.from(await response.arrayBuffer())
+          const ok = response.ok && buffer.length > 1024
+          if (ok || attempt >= 4) {
+            if (!ok) fail(`Artifact fetch failed for ${url}: ${buffer.toString('utf8').slice(0, 200)}`)
+            break
+          }
+          await new Promise((resolve) => setTimeout(resolve, 2000 * 2 ** attempt))
+        }
+        writeFileSync(join(flags.out, name), buffer)
         console.log(join(flags.out, name))
       }
       return
