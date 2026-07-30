@@ -43,7 +43,6 @@ def story():
     N.text(d, (px + 34, py + 48), label, fs, WHITE, demi=True, tracking=tr)
     N.chevron(d, px + 34 + lw + 18, py + ph / 2, 19, WHITE, width=3)
 
-    N.body(d, (MARGIN, 1478), ['powdered to perfection'], 22, (84, 82, 78))
     return N.finish(c, OUT / '5-brand-story-1.png')
 
 
@@ -140,8 +139,6 @@ def proof():
     for i, line in enumerate(lines):
         N.body(d, (364, 258 + i * 52), [line], 24, WHITE, align='center')
 
-    N.text(d, (W / 2, 1512), 'POWDERED TO PERFECTION', 24, WHITE, demi=True,
-           tracking=7, align='center')
     return N.finish(c, OUT / '6-brand-story-2.png')
 
 

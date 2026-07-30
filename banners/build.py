@@ -265,20 +265,28 @@ def discount():
         c.alpha_composite(sh.filter(ImageFilter.GaussianBlur(blur)))
         c.alpha_composite(layer)
 
-    N.logo(c, y=28, width=380, x=WIDE_M, colour='#FFFFFF')
+    # Sizes come off the client's BAU reference, measured rather than guessed.
+    # On its 800-wide canvas the headline caps at 45 pixels, the qualifier at 19
+    # and the percentage at 78 — 5.6, 2.4 and 9.8 per cent of the width. Scaled
+    # to 2000 that asks for caps of 112, 48 and 195. The percentage was already
+    # past its target at 320; the headline at 84 was less than half of its, which
+    # is why it kept reading small. It goes to 156 on two lines, the only way to
+    # reach that cap and still start inside the dark field.
+    N.logo(c, y=30, width=380, x=WIDE_M, colour='#FFFFFF')
 
-    # 84, up from 60. Two lines at 106 measured better still — median 41 with
-    # nothing above 68, since both words stay inside the dark field's x 620 —
-    # but stacking them leaves only 21 pixels of gap for everything above the
-    # numeral, so the single line wins on room. At 84 it runs to x 780 with
-    # median 45 and the 90th percentile at 109, dark enough that the halo only
-    # has to cover its tail.
     head = Image.new('RGBA', c.size, (0, 0, 0, 0))
-    N.text(ImageDraw.Draw(head), (WIDE_M, 160), 'DAILY MATCHA', 84, MATCHA,
-           tracking=4)
-    halo(head, strength=0.5, blur=22)
+    hd = ImageDraw.Draw(head)
+    N.text(hd, (WIDE_M, 232), 'DAILY', 156, white, tracking=4)
+    N.text(hd, (WIDE_M, 356), 'MATCHA', 156, white, tracking=4)
+    halo(head, strength=0.55, blur=24)
 
-    N.text(d, (WIDE_M, 222), 'HEMAT HINGGA', 44, white, demi=True, tracking=7)
+    # White, not matcha. Below the dark field the wood sits at median 94-106 and
+    # matcha green measures 134 — the two are the same tone, so the label
+    # vanished. The accent stays on the button, where a solid fill carries it.
+    lab = Image.new('RGBA', c.size, (0, 0, 0, 0))
+    N.text(ImageDraw.Draw(lab), (WIDE_M, 442), 'HEMAT HINGGA', 56, white,
+           demi=True, tracking=7)
+    halo(lab, strength=0.75, blur=16)
 
     # 320, up from 188. The 120-luminance limit that held the number to 188 is
     # calibrated for 24-30px body copy, and display type at this size does not
@@ -288,29 +296,39 @@ def discount():
     # struck from the glyph shapes themselves, carries it across that crossing;
     # this is the same trade the client's own BAU reference makes with its white
     # percentage over the model's leg.
+    # Below the dark field the counter is uniformly mid-tone — median 105 to 126
+    # from y 400 to 900, with no darker pocket to aim for — so the numeral takes
+    # a tighter, stronger halo than the lines above it. Hugging the glyphs rather
+    # than spreading keeps it reading as a shadow instead of a grey cloud.
     size = 320
     cap = N.arg(size).getbbox('H')[3] - N.arg(size).getbbox('H')[1]
     num = Image.new('RGBA', c.size, (0, 0, 0, 0))
-    x = WIDE_M + N.text(ImageDraw.Draw(num), (WIDE_M, 470), '25', size, white)
-    N.percent(num, x, 470, cap, white)
-    halo(num)
+    x = WIDE_M + N.text(ImageDraw.Draw(num), (WIDE_M, 700), '25', size, white)
+    N.percent(num, x, 700, cap, white)
+    halo(num, strength=0.85, blur=20)
 
-    label, fs, tr = 'SHOP NOW', 38, 6
+    label, fs, tr = 'SHOP NOW', 44, 6
     lw = N.text_width(label, fs, demi=True, tracking=tr)
-    pw, ph = lw + 48 + 40 + 48, 104
-    d.rounded_rectangle([WIDE_M, 524, WIDE_M + pw, 524 + ph], radius=ph // 2,
+    pw, ph = lw + 54 + 44 + 54, 118
+    d.rounded_rectangle([WIDE_M, 762, WIDE_M + pw, 762 + ph], radius=ph // 2,
                         fill=MATCHA + (255,))
-    N.text(d, (WIDE_M + 48, 524 + 67), label, fs, white, demi=True, tracking=tr)
-    N.chevron(d, WIDE_M + 48 + lw + 22, 524 + ph / 2, 27, white, width=3)
+    N.text(d, (WIDE_M + 54, 762 + 76), label, fs, white, demi=True, tracking=tr)
+    N.chevron(d, WIDE_M + 54 + lw + 24, 762 + ph / 2, 31, white, width=3)
 
-    # both smaller offers on one charcoal pill at the bottom centre
-    offer = 'GRATIS ONGKIR  ·  VOUCHER HINGGA 15RB'
-    ow = N.text_width(offer, 38, demi=True, tracking=5)
-    opw, oph = ow + 2 * 52, 100
-    ox = round(1000 - opw / 2)
-    d.rounded_rectangle([ox, 856, ox + opw, 856 + oph], radius=oph // 2,
-                        fill=(24, 23, 21, 235))
-    N.text(d, (ox + 52, 856 + 67), offer, 38, white, demi=True, tracking=5)
+    # The offers move off the bottom centre to the bottom right, clear of the
+    # button. Two lines rather than one now that they are this size: as a single
+    # 1400-pixel line the pill would reach back under the numeral.
+    # Its base lines up with the button's at y 880, which is what keeps the two
+    # bottom blocks reading as one row rather than two loose objects.
+    lines = ('GRATIS ONGKIR', 'VOUCHER HINGGA 15RB')
+    lw2 = max(N.text_width(t, 40, demi=True, tracking=5) for t in lines)
+    opw, oph = lw2 + 2 * 54, 208
+    ox, oy = 1890, 880 - oph
+    d.rounded_rectangle([ox - opw, oy, ox, oy + oph], radius=54,
+                        fill=(24, 23, 21, 232))
+    for i, t in enumerate(lines):
+        N.text(d, (ox - opw + 54, oy + 76 + i * 74), t, 40, white, demi=True,
+               tracking=5)
 
     return N.finish(c, OUT / '7-diskon.png')
 
