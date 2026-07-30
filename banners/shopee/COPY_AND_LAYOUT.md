@@ -12,7 +12,7 @@ Hasil akhir ada di `banners/shopee/final/`. Semua dalam batas Shopee: **maks. 20
 | Value — Tanktop | `2-value-tanktop.jpg` | 1600 × 2000 | 557 KB |
 | Value — versi all-in-one | `4-value-all-in-one.jpg` | 2000 × 2000 | 690 KB |
 | Banner Toko 2 Area Klik | `3-banner-toko.jpg` | 2000 × 2000 | 511 KB |
-| Banner Diskon / Voucher (2:1) | `6-voucher.jpg` | 2000 × 1000 | 414 KB |
+| Banner Diskon / Voucher (2:1) | `6-voucher.jpg` | 2000 × 1000 | 415 KB |
 
 ---
 
@@ -227,7 +227,7 @@ Hasilnya jauh lebih ringan dan sesuai karakter brand: *Clean White* adalah warna
 
 ## 4. BANNER DISKON / VOUCHER — 2:1
 
-`6-voucher.jpg` · **2000 × 1000** · 414 KB
+`6-voucher.jpg` · **2000 × 1000** · 415 KB
 
 Shopee tidak punya rasio 2:1 di daftar Kie, jadi fotonya dipesan 16:9 lalu dipotong ke 2:1 pada `ycrop=0.45` — memotong dari atas supaya ranjang bagian bawah yang kosong ikut terbuang dan modelnya tetap di tempat.
 
@@ -236,30 +236,52 @@ Shopee tidak punya rasio 2:1 di daftar Kie, jadi fotonya dipesan 16:9 lalu dipot
 | Slot | Teks | Font |
 |---|---|---|
 | Logo | logo horizontal hitam | — |
-| Kicker | `DISC. UP TO` | Zalando SemiBold 40, tracking 9 |
-| Angka | `25%` | Zalando Black 178 |
-| Penawaran 1 | `EXTRA VOUCHER NEW BUYER 5.000` | Zalando SemiBold 26 |
-| Penawaran 2 | `FREE ONGKIR` | Zalando SemiBold 26 |
-| CTA | `SHOP NOW` — pill hitam, teks putih | Zalando Bold 30 |
+| Eyebrow | `SAVE UP TO` | Zalando SemiBold 38, tracking 10, `#4F5052` |
+| Angka | `25%` | Zalando Black 190, `#282828` |
+| Penawaran 1 | `Extra Rp5.000 voucher for new buyers` | Arimo Regular 38, `#282828` |
+| Penawaran 2 | `Free shipping` | Arimo Regular 38, `#282828` |
+| CTA | `SHOP NOW` — pill hitam, teks putih | Zalando Bold 32 |
 | Small print | `*Terms & conditions apply` | Arimo Regular 22, `#818284` |
 
-**Satu koreksi pada copy Anda:** `*Terms & condition apply` → `*Terms & conditions apply`. Bentuk pluralnya yang benar, dan hal. 35 meminta bahasa yang tepat. Kalau Anda tetap ingin versi aslinya, tinggal ganti satu string di `banner6()`.
+### Copy diselaraskan ke tone of voice (hal. 35)
 
-`SHOP NOW` diambil dari daftar CTA resmi hal. 29 — bukan karangan, dan bukan gaya marketplace yang berteriak. Nada promo dibangun lewat hierarki ukuran (`25%` sepuluh kali lebih besar dari small print), bukan lewat kata-kata hiperbolik yang dilarang hal. 35.
+Versi pertama saya memakai bahasa marketplace, bukan bahasa Toni Black. Empat hal diperbaiki, masing-masing dengan dasar di guideline:
 
-### Kenapa semua teks di kiri
+| Sebelum | Sesudah | Dasar |
+|---|---|---|
+| `DISC. UP TO` | `SAVE UP TO` | CTA promo resmi di **hal. 29** berbunyi *"Save 20% This Weekend"* — jadi **Save** adalah kata yang brand ini sendiri pakai untuk diskon. **Hal. 26** juga meminta headline dibuka dengan kata kerja aktif. Singkatan `Disc.` tidak ada di guideline mana pun. |
+| `EXTRA VOUCHER NEW BUYER 5.000` | `Extra Rp5.000 voucher for new buyers` | **Hal. 35** meminta kalimat aktif dan lugas. Versi lama bukan kalimat, dan `5.000` tanpa `Rp` ambigu. |
+| `FREE ONGKIR` | `Free shipping` | Satu bahasa dalam satu banner. Semua banner lain berbahasa Inggris. |
+| Penawaran dalam **huruf kapital ber-tracking** | **Arimo sentence case** | Aturan tipografi brand: deskripsi memakai Arimo sentence case. Kapital ber-tracking bikin info sekunder ikut berteriak dan bersaing dengan angka — persis yang dilarang **hal. 27 aturan 5** ("tanpa terkesan shouty"). |
 
-Zona bersih diukur dulu, bukan dikira-kira: pada foto hasil crop, area `y 60–700, x 110–880` seragam terang (latar tembok dan seprai pucat). Di bawah `y 700` kaki model masuk dan luminansi tanah jatuh ke 54, jadi tidak ada teks yang boleh turun ke sana. Seluruh tumpukan teks berhenti di `y 738`.
+`SHOP NOW` tetap dari daftar CTA resmi hal. 29, huruf kapital di dalam pill sesuai hal. 26. Nada promo dibangun lewat hierarki ukuran (angka 190 px lawan small print 22 px), bukan lewat kata hiperbolik yang dilarang hal. 35.
 
-Generate pertama menaruh jendela berkisi di sepertiga kiri, tepat di belakang angka `25%`. Prompt diulang dengan larangan eksplisit — "NO window, NO window frame, NO grid or mullion pattern" pada 40 % kiri frame — supaya bidang teks benar-benar rata.
+**Satu koreksi pada copy Anda:** `*Terms & condition apply` → `*Terms & conditions apply`. Bentuk pluralnya yang benar. Kalau Anda tetap ingin versi aslinya, tinggal ganti satu string di `banner6()`.
 
-### Bullet kotak
+> **Catatan `Free shipping` vs `Free Ongkir`:** `Free Ongkir` adalah istilah yang dicari pembeli Shopee dan lebih cepat dikenali. Saya pilih `Free shipping` supaya satu banner tidak campur dua bahasa. Kalau prioritasnya keterbacaan di marketplace, tukar satu string itu saja.
 
-Dua penawaran tambahan dibuat sebagai daftar, bukan dua baris lepas, dengan bullet kotak isi penuh 11 × 11 px. Itu motif pattern brand pada ukuran glyph, jadi tidak ada elemen dekoratif baru yang diperkenalkan.
+### Layout dibersihkan
+
+Yang dihapus, semuanya demi **hal. 27 aturan 3** — *"hindari elemen berlebihan, clarity di atas dekorasi"*:
+
+- **Garis pemisah** di bawah angka. Lompatan ukuran 190 px → 38 px sudah memisahkan dua grup; garisnya tidak mengerjakan apa pun.
+- **Dua bullet kotak.** Dua baris tidak perlu bullet.
+
+Sisanya jadi **dua grup** saja — penawaran (eyebrow + angka) dan detail (dua baris + CTA + small print) — dipisah oleh jeda 91 px. Jeda itu yang menggantikan garis.
+
+**Satu tepi kiri, tanpa tebak-tebakan.** Semua elemen mulai tepat di `x = 120`. Versi lama memaksa angka ke `M - 8` sebagai koreksi optis; setelah diukur, ink semua font ini memang mulai di `bbox x0 = 0`, jadi fudge itu justru yang membuatnya tidak sejajar. Fungsi `ink()` baru juga menempatkan teks berdasarkan **puncak ink**, bukan garis ascender font, sehingga jarak antar elemen sama dengan jarak yang benar-benar terlihat.
+
+**Ukuran disesuaikan tempat tayang.** Shopee menampilkan banner toko sekitar 430 px di ponsel — skala 0,215. Body 32 px jatuh jadi 6,9 px dan tidak terbaca; 38 px jadi 8,2 px dan masih aman. Sudah diverifikasi dengan render 430 px.
+
+### QA otomatis: `check_ground()`
+
+Kaki model dan bayangan di bawah ranjang masuk ke separuh bawah frame, jadi area aman **bukan persegi** dan tidak cukup dikira-kira. `check_ground()` membaca foto mentahnya (bukan kanvas yang sudah ada teksnya — itu cuma mengukur gelapnya tinta sendiri), lalu membatalkan build kalau ada satu kotak teks pun yang duduk di atas piksel lebih gelap dari **140**.
+
+Peta luminansi frame ini: aman di `x 60–840, y 40–690`, plus kolom sempit `x 60–460` yang bersih sampai `y 950`. Small print memakai kolom sempit itu.
 
 ### Pill yang mengukur dirinya sendiri
 
-`pill()` menghitung lebarnya dari lebar labelnya sendiri (`tw()` + padding), tidak di-hardcode. Versi hard-coded sebelumnya membuat panah tumpang tindih dengan huruf `W` di `SHOP NOW`; panahnya sekarang dihapus dan lebarnya selalu mengikuti teks apa pun yang dipasang.
+`pill()` menghitung lebarnya dari lebar labelnya sendiri (`tw()` + padding), tidak di-hardcode. Versi hard-coded sebelumnya membuat panah tumpang tindih dengan huruf `W` di `SHOP NOW`; panahnya sekarang dihapus dan lebarnya selalu mengikuti teks apa pun yang dipasang. Labelnya juga dipusatkan secara optis dari cap height, bukan dari `font.size`.
 
 ---
 

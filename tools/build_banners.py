@@ -457,41 +457,90 @@ def banner5():
 
 
 # ───────────────── BANNER 6 — DISCOUNT / VOUCHER (2:1) ───────────────────────
-# Pose comes from the client's Referensi_Pose_banner Voucher file. The clean band
-# on the photograph was measured at y 60-700, x 110-880 — below y 700 the model's
-# foot comes in and the ground drops to 54, so the whole stack stays above it.
-def pill(d, x, y, label, font, pad_x=52, h=76):
+# Pose comes from the client's Referensi_Pose_banner Voucher file.
+#
+# Copy is the brand's own promotional language, not marketplace shorthand. The
+# approved promotional CTA on p.29 is "Save 20% This Weekend", so SAVE is the word
+# the guideline itself uses for a discount, and p.26 asks a headline to open on an
+# active verb. "Disc. Up To" is an abbreviation that appears nowhere in the
+# guideline. The two secondary offers are full sentences in Arimo sentence case,
+# which is what p.31 specifies for description text — setting them as tracked
+# uppercase made them compete with the number and is the "shouty" reading p.27
+# rule 5 warns against.
+#
+# Nothing decorative survives: the rule and the bullet squares are gone, and the
+# rest between the two groups does their separating (p.27 rule 3, clarity over
+# decoration). Every element shares one left edge at x = M, with no optical fudge
+# — the ink of all four faces starts at bbox x0 = 0, verified by measurement.
+CLEAN_MIN = 140          # black type needs the ground behind it no darker than this
+
+
+def ink(d, xy, t, f, fill, tr=0, weight=None):
+    """Draw text positioned by the TOP OF ITS INK rather than by the font's
+    ascender line, so the gaps between elements are the gaps you actually see.
+    Returns the ink box, which the QA pass then checks against the photograph."""
+    x, top = xy
+    bb = d.textbbox((0, 0), t, font=f)
+    tracked(d, (x, top - bb[1]), t, f, fill, tr=tr)
+    return (x, top, x + tw(d, t, f, tr), top + bb[3] - bb[1])
+
+
+def pill(d, x, top, label, font, pad_x=52, h=76):
     """Button sized from its own label. Fixing the width by hand is what put the
     arrow through the last letter."""
+    bb = d.textbbox((0, 0), label, font=font)
     w = tw(d, label, font, 2) + pad_x * 2
-    d.rounded_rectangle([x, y, x + w, y + h], radius=h // 2, fill=BLACK)
-    tracked(d, (x + pad_x, y + (h - font.size) / 2 - 6), label, font, WHITE, tr=2)
-    return w
+    d.rounded_rectangle([x, top, x + w, top + h], radius=h // 2, fill=BLACK)
+    cap = bb[3] - bb[1]
+    tracked(d, (x + pad_x, top + (h - cap) / 2 - bb[1]), label, font, WHITE, tr=2)
+    return (x, top, x + w, top + h)
 
 
 def banner6():
-    W, H, M = 2000, 1000, 110
+    W, H, M = 2000, 1000, 120
     src = grade(Image.open(f"{GEN}/voucher-hero.png").convert("RGB"), 1.04)
     c = cover(src, W, H, ycrop=0.45)
+    plate = c.copy()            # the bare photograph, for the QA pass to read
     d = ImageDraw.Draw(c)
+    boxes = []
 
-    c.paste(lg := logo("logo-horizontal-black", 290), (M, 78), lg)
+    c.paste(lg := logo("logo-horizontal-black", 290), (M, 80), lg)
+    boxes.append(("logo", (M, 80, M + 290, 80 + lg.height)))
 
-    tracked(d, (M, 198), "DISC. UP TO", zal(600, 40), DAVIS, tr=9)
-    d.text((M - 8, 248), "25%", font=zal(900, 178), fill=BLACK)
+    # group one — the offer
+    boxes.append(("eyebrow", ink(d, (M, 217), "SAVE UP TO", zal(600, 38), DAVIS, tr=10)))
+    boxes.append(("number",  ink(d, (M, 285), "25%", zal(900, 190), BLACK)))
 
-    # The two extra offers read as a list rather than two loose lines. The square
-    # bullet is the brand's own pattern motif at glyph size.
-    d.line([(M, 474), (M + 540, 474)], fill=BLACK, width=3)
-    of, y = zal(600, 26), 504
-    for line in ["EXTRA VOUCHER NEW BUYER 5.000", "FREE ONGKIR"]:
-        d.rectangle([M, y + 9, M + 11, y + 20], fill=BLACK)
-        tracked(d, (M + 30, y), line, of, BLACK, tr=3)
-        y += 46
+    # group two — the detail, separated from the number by rest alone.
+    # Sized for where this actually gets seen: Shopee renders a shop banner about
+    # 430 px wide on a phone, a 0.215 scale, so 32 px body came out at 6.9 px and
+    # was unreadable. 38 px lands at 8.2 px, which holds.
+    of, y = ari(400, 38), 517
+    for line in ["Extra Rp5.000 voucher for new buyers", "Free shipping"]:
+        boxes.append((line, ink(d, (M, y), line, of, BLACK)))
+        y += 56
 
-    pill(d, M, 608, "SHOP NOW", zal(700, 30))
-    d.text((M, 716), "*Terms & conditions apply", font=ari(400, 22), fill=GREY)
+    boxes.append(("cta", pill(d, M, 651, "SHOP NOW", zal(700, 32), h=82)))
+    boxes.append(("fine", ink(d, (M, 775), "*Terms & conditions apply", ari(400, 22), GREY)))
+
+    check_ground(plate, boxes)
     save(c, "6-voucher")
+
+
+def check_ground(plate, boxes, pad=6):
+    """Refuse to ship dark type sitting on dark photograph. The model's foot and
+    the shadow under the bed both intrude into the lower half of this frame, so
+    the safe area is not a rectangle and eyeballing it is not good enough.
+
+    Reads the bare photograph, not the finished canvas — measuring after the fact
+    just finds the ink's own darkness and fails on every element."""
+    a = np.asarray(plate.convert("L")).astype(np.float32)
+    for name, (x0, y0, x1, y1) in boxes:
+        r = a[max(0, int(y0) - pad):int(y1) + pad, max(0, int(x0) - pad):int(x1) + pad]
+        if r.size and r.min() < CLEAN_MIN:
+            raise SystemExit(
+                f"banner6: '{name}' sits on ground as dark as {r.min():.0f} "
+                f"(floor {CLEAN_MIN}) at box {(int(x0), int(y0), int(x1), int(y1))}")
 
 
 if __name__ == "__main__":
