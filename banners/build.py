@@ -326,6 +326,30 @@ def discount():
     return N.finish(c, OUT / '7-diskon.png')
 
 
+def _curve(pts):
+    """Piecewise-linear 256-entry LUT from a handful of control points."""
+    lut, (x0, y0) = [], pts[0]
+    for x1, y1 in pts[1:]:
+        for x in range(x0, x1):
+            lut.append(y0 + (y1 - y0) * (x - x0) / (x1 - x0))
+        x0, y0 = x1, y1
+    lut.append(y0)
+    return [max(0, min(255, round(v))) for v in lut]
+
+
+# Dusk to daylight. The reference photograph and the brand story banner already
+# share a mean of 123 against 122; what separates them is the shadows, at the
+# 10th percentile 24 against 65, which is what reads as dim. These three curves
+# lift that to 62 and hold the highlights at 202 against the target's 197. Red
+# runs lower than green and blue through the top of the range, which turns the
+# dusk sky from lavender towards the daylight blue of the brand story frame.
+DAYLIGHT = tuple(_curve(p) for p in (
+    [(0, 24), (24, 62), (64, 90), (115, 112), (170, 152), (228, 182), (255, 208)],
+    [(0, 26), (24, 66), (64, 96), (115, 120), (170, 168), (228, 206), (255, 240)],
+    [(0, 28), (24, 70), (64, 102), (115, 128), (170, 178), (228, 220), (255, 252)],
+))
+
+
 # ── 6. Category — walking packs ──────────────────────────────────────────
 # After the client's two references: one stands products on a zebra crossing and
 # gives them legs, the other writes its labels along the curve of the object they
@@ -351,10 +375,10 @@ CROSSING = 1480                   # where every pack's feet meet the stripes
 
 #   file, label, stride, pack height, leg length
 CATEGORIES = [
-    ('matcha-1000', 'MATCHA SERIES', 1, 380, 152),
-    ('taro', 'PREMIUM SERIES', 0, 380, 152),
-    ('cocoa', 'EXCLUSIVE SERIES', 1, 380, 152),
-    ('tarik-250', '250 GRAM SERIES', 0, 213, 108),
+    ('matcha-1000', 'MATCHA SERIES', 1, 380, 100),
+    ('taro', 'PREMIUM SERIES', 0, 380, 100),
+    ('cocoa', 'EXCLUSIVE SERIES', 1, 380, 100),
+    ('tarik-250', '250 GRAM SERIES', 0, 213, 72),
 ]
 
 
@@ -369,13 +393,17 @@ def category_walk():
     street = Image.open(ILLUS3 / 'street-ref.jpg').convert('RGB')
     street = street.resize((1200, round(street.height * 1200 / street.width)),
                            Image.LANCZOS)
-    c.paste(street.crop(STREET_CROP), (0, 0))
+    street = street.crop(STREET_CROP)
+    c.paste(Image.merge('RGB', [ch.point(lut) for ch, lut
+                                in zip(street.split(), DAYLIGHT)]), (0, 0))
     d = ImageDraw.Draw(c)
 
     # Charcoal, not white: the sky behind the header is the palest part of the
     # photograph, so the brand's primary text colour is the one that reads there.
     N.logo(c, y=96, width=300)
     N.text(d, (W / 2, 272), 'CATEGORY', 76, CHARCOAL, tracking=2, align='center')
+    N.body(d, (W / 2, 322), ['Classification'], 36, (74, 74, 72), weight=500,
+           align='center')
 
     pw = 264                      # one rendered width for all four
     for i, (name, label, phase, ph, leg) in enumerate(CATEGORIES):
@@ -393,15 +421,16 @@ def category_walk():
         # Radius 1.6 times the pack width: at 0.95 the arc dived steeply enough
         # to read as a diagonal. 24 rather than 26 keeps 61 pixels between
         # neighbouring labels instead of 18.
-        # The halo is tighter and stronger here than on the discount banner: the
-        # third pack stands in front of a lit shop sign where the label band runs
-        # median 122 and reaches 212, against 78 for the two beside it. Hugging
-        # the glyphs carries them over that without spreading a grey cloud.
+        # The halo runs at full strength and tight here, tighter than on the
+        # discount banner. Lifting the photograph to daylight took the label
+        # bands from median 78 up to 84-133 with the 90th percentile at 171, so
+        # white type needs its own ground; hugging the glyphs supplies it without
+        # spreading a grey cloud over the shopfronts.
         radius = pack.width * 1.6
         lab = Image.new('RGBA', c.size, (0, 0, 0, 0))
         N.arc_text(lab, (cx, top - 62 + radius), label, 24, (255, 255, 255),
                    radius, demi=True, tracking=2)
-        N.halo(c, lab, strength=0.9, blur=13)
+        N.halo(c, lab, strength=1.0, blur=12)
 
     return N.finish(c, OUT / '8-kategori.png')
 
