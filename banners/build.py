@@ -259,13 +259,16 @@ def discount():
     N.logo(c, y=44, width=230, x=WIDE_M, colour='#FFFFFF')
     # 56 rather than 60: DAILY MATCHA runs 491 at 60 and the dark ground ends
     # at x 600, so one size down keeps the headline off the lit shoji screen.
-    N.text(d, (WIDE_M, 182), 'DAILY MATCHA', 56, MATCHA, tracking=4)
-    N.text(d, (WIDE_M, 266), 'HEMAT HINGGA', 22, white, demi=True, tracking=7)
+    N.text(d, (WIDE_M, 176), 'DAILY MATCHA', 56, MATCHA, tracking=4)
+    N.text(d, (WIDE_M, 238), 'HEMAT HINGGA', 22, white, demi=True, tracking=7)
 
-    size = 132
+    # 188 is the ceiling the ground sets, not a taste choice: the number spans
+    # x 110-411 and y 263-392 at this size, where the shadow still peaks at 97;
+    # one step up to 198 reaches x 426 and the lit screen edge at 143.
+    size = 188
     cap = N.arg(size).getbbox('H')[3] - N.arg(size).getbbox('H')[1]
-    x = WIDE_M + N.text(d, (WIDE_M, 390), '25', size, white)
-    N.percent(c, x, 390, cap, white)
+    x = WIDE_M + N.text(d, (WIDE_M, 392), '25', size, white)
+    N.percent(c, x, 392, cap, white)
 
     label, fs, tr = 'SHOP NOW', 26, 6
     lw = N.text_width(label, fs, demi=True, tracking=tr)
