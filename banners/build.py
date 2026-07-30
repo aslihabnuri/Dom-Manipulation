@@ -545,8 +545,95 @@ def terms_grid():
     return N.finish(c, OUT / '9b-syarat-ketentuan-grid.png')
 
 
+def terms_featured():
+    """The terms ranked rather than listed: one lead, then a pair.
+
+    Item one is the condition the other two depend on — no unboxing video and
+    nothing else applies — so it takes the full 1054 width at 28, and the two
+    that follow share the row beneath at 23. That gives the block a hierarchy
+    instead of three equal steps, which is the point of not listing them.
+    """
+    c = N.canvas()
+    ref = Image.open(ILLUS3 / 'tnc-bg.jpg').convert('RGB')
+    ref = ref.resize((1200, round(ref.height * 1200 / ref.width)), Image.LANCZOS)
+    lut = _curve(TNC_DUSK)
+    c.paste(Image.merge('RGB', [ch.point(lut)
+                                for ch in ref.crop(TNC_CROP).split()]), (0, 0))
+    d = ImageDraw.Draw(c)
+    white = (255, 255, 255)
+
+    N.logo(c, y=104, width=290, colour='#FFFFFF')
+    N.text(d, (W / 2, 268), 'SYARAT DAN KETENTUAN', 56, white, tracking=2,
+           align='center')
+
+    lead_num, lead_title, lead_copy = TERMS[0]
+    full = W - 2 * MARGIN
+    y = 700
+    N.rule(d, y, x0=MARGIN, x1=W - MARGIN, fill=(255, 255, 255, 90))
+    N.text(d, (MARGIN, y + 78), lead_num, 54, STEEL, demi=True)
+    N.text(d, (MARGIN + 106, y + 74), lead_title, 32, white, demi=True, tracking=4)
+    lead_lines = N.wrap_rich(lead_copy, 28, full - 106)
+    N.body_rich(d, (MARGIN + 106, y + 112), lead_lines, 28, (240, 239, 234))
+
+    y += 112 + len(lead_lines) * 28 * 1.55 + 92
+    col = (full - 60) // 2
+    for (num, title, copy), x in zip(TERMS[1:], (MARGIN, MARGIN + col + 60)):
+        N.rule(d, y, x0=x, x1=x + 56, fill=(255, 255, 255, 90))
+        N.text(d, (x, y + 64), num, 42, STEEL, demi=True)
+        N.text(d, (x, y + 112), title, 24, white, demi=True, tracking=3)
+        N.body_rich(d, (x, y + 142), N.wrap_rich(copy, 23, col), 23,
+                    (236, 235, 230))
+
+    return N.finish(c, OUT / '9c-syarat-ketentuan-featured.png')
+
+
+def terms_stagger():
+    """The terms as annotations placed around the shop rather than stacked.
+
+    Each block takes 620 — a little over half the width — and they alternate
+    left, right, left down the frame, so the eye crosses the photograph between
+    them instead of running straight down one edge. The right-hand block is set
+    right-aligned so its own edge follows the frame.
+    """
+    c = N.canvas()
+    ref = Image.open(ILLUS3 / 'tnc-bg.jpg').convert('RGB')
+    ref = ref.resize((1200, round(ref.height * 1200 / ref.width)), Image.LANCZOS)
+    lut = _curve(TNC_DUSK)
+    c.paste(Image.merge('RGB', [ch.point(lut)
+                                for ch in ref.crop(TNC_CROP).split()]), (0, 0))
+    d = ImageDraw.Draw(c)
+    white = (255, 255, 255)
+
+    N.logo(c, y=104, width=290, colour='#FFFFFF')
+    N.text(d, (W / 2, 268), 'SYARAT DAN KETENTUAN', 56, white, tracking=2,
+           align='center')
+
+    block = 620
+    slots = [(MARGIN, 560, 'left'),
+             (W - MARGIN, 900, 'right'),
+             (MARGIN, 1268, 'left')]
+    for (num, title, copy), (x, y, align) in zip(TERMS, slots):
+        left = x if align == 'left' else x - block
+        N.rule(d, y, x0=left if align == 'left' else x - 56,
+               x1=left + 56 if align == 'left' else x, fill=(255, 255, 255, 90))
+        N.text(d, (x, y + 64), num, 42, STEEL, demi=True, align=align)
+        N.text(d, (x, y + 112), title, 26, white, demi=True, tracking=3,
+               align=align)
+        lines = N.wrap_rich(copy, 24, block)
+        if align == 'right':
+            for k, line in enumerate(lines):
+                w = sum(N._token_width(t, 24, 400, 700) for t in line) \
+                    + N.comf(24, 400).getlength(' ') * (len(line) - 1)
+                N.body_rich(d, (x - w, y + 142 + k * 24 * 1.55), [line], 24,
+                            (236, 235, 230))
+        else:
+            N.body_rich(d, (x, y + 142), lines, 24, (236, 235, 230))
+
+    return N.finish(c, OUT / '9d-syarat-ketentuan-stagger.png')
+
+
 if __name__ == '__main__':
     for fn in (payday, terms, heritage, category, discount, category_walk,
-               terms_street, terms_grid):
+               terms_street, terms_grid, terms_featured, terms_stagger):
         img = fn()
         print(f'{fn.__name__:10s} {img.size}')
