@@ -503,8 +503,50 @@ def terms_street():
     return N.finish(c, OUT / '9-syarat-ketentuan.png')
 
 
+def terms_grid():
+    """The terms as a quadrant grid rather than a column.
+
+    Same photograph, same grade, same bold obligations — only the arrangement
+    changes. Three items sit in three quadrants and the fourth is left to the
+    shop, which both breaks the top-to-bottom reading the client wanted away
+    from and gives the photograph somewhere to be seen.
+
+    The column is 497 wide, which is what sets the type: item two's heading runs
+    526 at 26 and fits only at 24, and its body wraps to five lines at 23. Row
+    one is measured to the taller of the two items in it so the second row
+    starts level — hanging it off the left column alone left the two columns
+    ending 71 pixels apart.
+    """
+    c = N.canvas()
+    ref = Image.open(ILLUS3 / 'tnc-bg.jpg').convert('RGB')
+    ref = ref.resize((1200, round(ref.height * 1200 / ref.width)), Image.LANCZOS)
+    lut = _curve(TNC_DUSK)
+    c.paste(Image.merge('RGB', [ch.point(lut)
+                                for ch in ref.crop(TNC_CROP).split()]), (0, 0))
+    d = ImageDraw.Draw(c)
+    white = (255, 255, 255)
+
+    N.logo(c, y=104, width=290, colour='#FFFFFF')
+    N.text(d, (W / 2, 268), 'SYARAT DAN KETENTUAN', 56, white, tracking=2,
+           align='center')
+
+    col = (W - 2 * MARGIN - 60) // 2
+    top = 740
+    row2 = top + max(146 + len(N.wrap_rich(cp, 23, col)) * 23 * 1.55
+                     for _, _, cp in TERMS[:2]) + 80
+    cells = [(MARGIN, top), (MARGIN + col + 60, top), (MARGIN, round(row2))]
+    for (num, title, copy), (x, y) in zip(TERMS, cells):
+        N.rule(d, y, x0=x, x1=x + 56, fill=(255, 255, 255, 90))
+        N.text(d, (x, y + 66), num, 44, STEEL, demi=True)
+        N.text(d, (x, y + 116), title, 24, white, demi=True, tracking=3)
+        N.body_rich(d, (x, y + 146), N.wrap_rich(copy, 23, col), 23,
+                    (236, 235, 230))
+
+    return N.finish(c, OUT / '9b-syarat-ketentuan-grid.png')
+
+
 if __name__ == '__main__':
     for fn in (payday, terms, heritage, category, discount, category_walk,
-               terms_street):
+               terms_street, terms_grid):
         img = fn()
         print(f'{fn.__name__:10s} {img.size}')
