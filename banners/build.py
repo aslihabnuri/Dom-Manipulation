@@ -237,20 +237,18 @@ DISCOUNT_CROP = (0, 60, 2752, 1436)
 def discount():
     """The discount banner, set on the counter scene rather than a bone panel.
 
-    The reference the client pointed at puts type straight onto the photograph,
-    so this does too, and the photograph decides where each block can go. Three
-    fields carry it, which is also what keeps the copy off a single edge: the
-    panelling on the left holds 7 to 37 luminance behind the headline; a 330-wide
-    pocket of panelling on the right stays under 83 above the whisks, which start
-    burning to 214 at y 240, and takes the percentage; and the stone under the
-    counter runs under 114 the whole way across, so the smaller offers sit at one
-    end of it and the button at the other. The window in the top corner is what
-    sets the logo's height — 222 at y 100, 27 by y 140.
+    The packs are the client's own mockup photographs, pulled from the Drive
+    product folders (Packaging Can and Packaging 500) — not drawn, not generated.
+    Both arrive as transparent cutouts, so they stand on the counter with only a
+    warm tint and a contact shadow to tie them to the scene's light.
 
-    The counter between them is where the products stand, which is the one place
-    a pack can sit and look like it is resting on something. Both are drawn: the
-    tin especially, since the generated tins in this project came back reading
-    "Pore Organic Ceremenial Grade" over invented kanji.
+    The type sits straight on the photograph and the photograph decides where.
+    Three fields carry it, which is what keeps the copy off a single edge: the
+    panelling on the left holds 7 to 34 luminance behind the headline, the
+    pocket of panelling on the right stays under 73 above the whisks and takes
+    the percentage, and the stone under the counter runs under 114 the whole way
+    across, carrying the smaller offers at one end and the button at the other.
+    The products fill the counter between the two dark fields.
     """
     c = N.canvas(WIDE_W, WIDE_H)
     scene = Image.open(ILLUS3 / 'counter-2to1.png').convert('RGB')
@@ -259,18 +257,26 @@ def discount():
     white = (255, 255, 255)
     right = WIDE_W - WIDE_M
 
-    # Products first, so the type composites over them rather than under.
-    # Both packs are the same product in two formats, so both read Uji Matcha.
-    pouch = N.pouch3d(400, MATCHA,
-                      label=('Pure', '抹茶', ['Uji Matcha', 'Kyoto'], '500 gram'))
-    px, py = 830 - pouch.width / 2, 790 - pouch.height
-    N.contact_shadow(c, pouch, px, py, blur=22, opacity=84)
-    c.alpha_composite(pouch, (round(px), round(py)))
+    def warm(img):
+        """Sit the studio-lit cutout into the scene's warm dim light."""
+        r, g, b, a = img.split()
+        r = r.point(lambda v: round(v * 0.97))
+        g = g.point(lambda v: round(v * 0.94))
+        b = b.point(lambda v: round(v * 0.86))
+        return Image.merge('RGBA', (r, g, b, a))
 
-    tin = N.tin(250, label=('抹茶', 'Uji Matcha'))
-    tx, ty = 1065 - tin.width / 2, 806 - tin.height
-    N.contact_shadow(c, tin, tx, ty, blur=20, opacity=80)
-    c.alpha_composite(tin, (round(tx), round(ty)))
+    def place(img, height, cx, base):
+        img = img.crop(img.getbbox())
+        img = warm(img.resize((round(height * img.width / img.height), height),
+                              Image.LANCZOS))
+        x, y = cx - img.width / 2, base - img.height
+        N.contact_shadow(c, img, x, y, blur=22, opacity=88)
+        c.alpha_composite(img, (round(x), round(y)))
+
+    # The pouch behind, the tin in front and lower — the overlap is what makes
+    # two cutouts read as one group standing in the same place.
+    place(Image.open(PACK / 'uji-500.png').convert('RGBA'), 430, 1095, 822)
+    place(Image.open(PACK / 'uji-can.png').convert('RGBA'), 245, 1300, 842)
 
     # left field — who it is and what the moment is
     N.logo(c, y=142, width=272, x=WIDE_M, colour='#FFFFFF')
@@ -278,7 +284,7 @@ def discount():
     N.body(d, (WIDE_M, 372), ['buat yang cangkirnya jarang kosong.'], 28,
            (230, 229, 224))
 
-    # right field — the offer, right-aligned into the pocket above the whisks
+    # right field — the offer, flush right in the pocket above the whisks
     N.text(d, (right, 170), 'DISKON HINGGA', 24, white, demi=True, tracking=7,
            align='right')
     size = 156
