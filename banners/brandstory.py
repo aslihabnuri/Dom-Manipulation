@@ -47,64 +47,55 @@ def story():
     return N.finish(c, OUT / '5-brand-story-1.png')
 
 
-# ── slide 2 — why this matcha ─────────────────────────────────────────────
+# ── slide 2 — why our matcha ──────────────────────────────────────────────
+def _scrim(canvas, top, bottom, strength):
+    """Soft vertical darkening so white type holds over the lighter counter."""
+    h = bottom - top
+    grad = Image.new('L', (1, h))
+    for i in range(h):
+        grad.putpixel((0, i), round(strength * (i / max(h - 1, 1)) ** 1.4))
+    layer = Image.new('RGBA', (canvas.width, h), (18, 16, 14, 0))
+    layer.putalpha(grad.resize((canvas.width, h)))
+    canvas.alpha_composite(layer, (0, top))
+
+
+def _value(canvas, d, x, y, head, sub, align='left'):
+    """A claim marked by the logomark drop, mirroring the Nishio slide."""
+    dot = 15
+    dx = x if align == 'left' else x - dot
+    N.drop(canvas, dx, y, dot, N.LOGO_BLUE)
+    anchor_x = x
+    N.body(d, (anchor_x, y + 34), [head], 28, WHITE, align=align, weight=600)
+    N.body(d, (anchor_x, y + 74), [sub], 26, (232, 231, 226), align=align)
+
+
 def proof():
     c = N.canvas()
+    scene = N.cover(Image.open(ASSETS / 'illus3/matcha-ritual.png'), W, H)
+    c.paste(scene, (0, 0))
+    _scrim(c, 1010, H, 140)
     d = ImageDraw.Draw(c)
-    mid = W / 2
 
-    # a very thin oversized kanji watermark, per design system §3
-    d.text((mid, 560), '抹茶', font=N.jp(470), fill=(236, 235, 230), anchor='mm')
+    # Every text footprint was measured on the photograph before being placed.
+    # The four claims sit in two rows, left and right of the arm, on ground that
+    # peaks at 66-91 luminance. The lower left is deliberately empty: the bamboo
+    # whisks run bright there (up to 180) and no scrim fixes that without
+    # muddying the picture. The scrim only serves the footer.
+    N.logo(c, y=84, width=280, colour='#FFFFFF')
+    N.text(d, (W / 2, 246), 'WHY OUR MATCHA?', 68, WHITE, tracking=2,
+           align='center')
+    N.body(d, (W / 2, 274), ["from japan's finest tea regions to your cup"], 27,
+           (232, 231, 226), align='center')
 
-    N.logo(c, y=61, width=352)
-    d.text((mid, 214), '抹茶の強み', font=N.jp(34), fill=STEEL, anchor='ms')
-    N.text(d, (mid, 314), 'WHY THIS MATCHA', 76, CHARCOAL, tracking=2, align='center')
+    right = W - MARGIN
+    _value(c, d, MARGIN, 448, 'Single Origin', 'Uji, Nishio & Shizouka')
+    _value(c, d, right, 448, '100% Pure', 'No Sugar No Creamer', align='right')
+    _value(c, d, MARGIN, 596, 'Certified Halal', 'USDA & JAS Organic')
+    _value(c, d, right, 596, 'Trusted by Cafes', 'for 15+ Years', align='right')
 
-    can = Image.open(ASSETS / 'pack/can-uji.png').convert('RGBA')
-    can = can.crop(can.getbbox())
-    can = can.resize((round(can.width * 330 / can.height), 330), Image.LANCZOS)
-    cx, cy = mid - can.width / 2, 386
-    N.contact_shadow(c, can, cx, cy, blur=20, opacity=54)
-    c.alpha_composite(can, (round(cx), round(cy)))
-
-    N.rule(d, 772)
-
-    items = [
-        ('01', 'ASAL TERCANTUM',
-         'uji, nishio, shizouka. daerahnya disebut di kemasan, '
-         'bukan sekadar japanese matcha.'),
-        ('02', 'CEREMONIAL GRADE',
-         'pure organic ceremonial grade. kelas tertinggi, murni, tanpa campuran.'),
-        ('03', 'TERUJI DI RATUSAN KAFE',
-         '15 tahun dipakai di balik meja bar sebelum sampai ke rak dapur.'),
-    ]
-    y = 818
-    num_x, text_x = MARGIN, MARGIN + 92
-    for num, head, copy in items:
-        N.text(d, (num_x, y + 24), num, 40, STEEL, demi=True)
-        N.text(d, (text_x, y + 20), head, 29, CHARCOAL, demi=True, tracking=4)
-        lines = N.wrap(copy, 24, W - MARGIN - text_x)
-        N.body(d, (text_x, y + 48), lines, 24, CHARCOAL)
-        y += 54 + len(lines) * 24 * 1.55 + 38
-
-    N.rule(d, y - 6)
-
-    # Certification marks are pasted from the original files, never redrawn.
-    N.text(d, (mid, y + 62), 'ORGANIK BERSERTIFIKAT', 26, MATCHA, demi=True,
-           tracking=6, align='center')
-    marks = [Image.open(ASSETS / f'cert/{n}.png').convert('RGBA')
-             for n in ('usda-organic', 'jas-organic')]
-    marks = [m.resize((round(m.width * 92 / m.height), 92), Image.LANCZOS)
-             for m in marks]
-    gap = 64
-    total = sum(m.width for m in marks) + gap * (len(marks) - 1)
-    x = mid - total / 2
-    for m in marks:
-        c.alpha_composite(m, (round(x), round(y) + 92))
-        x += m.width + gap
-
-    N.body(d, (mid, H - MARGIN - 38), ['powdered to perfection'], 22,
-           (150, 148, 143), align='center')
+    N.drop(c, W / 2 - 7, 1416, 15, N.LOGO_BLUE)
+    N.text(d, (W / 2, 1494), 'POWDERED TO PERFECTION', 26, WHITE, demi=True,
+           tracking=7, align='center')
     return N.finish(c, OUT / '6-brand-story-2.png')
 
 
