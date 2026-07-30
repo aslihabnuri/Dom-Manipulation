@@ -51,7 +51,7 @@ def probe(path):
         return dict(width=int(v["width"]), height=int(v["height"]),
                     vcodec=v["codec_name"], acodec=a["codec_name"] if a else None,
                     duration=float(data["format"]["duration"]),
-                    fmt=data["format"]["format_name"],
+                    brand=data["format"].get("tags", {}).get("major_brand", "?"),
                     size=int(data["format"]["size"]))
 
     err = subprocess.run([FFMPEG, "-hide_banner", "-i", path],
@@ -60,12 +60,29 @@ def probe(path):
     v = re.search(r"Stream #\d+:\d+.*Video: (\w+).*?, (\d+)x(\d+)", err, re.S)
     a = re.search(r"Stream #\d+:\d+.*Audio: (\w+)", err)
     dur = re.search(r"Duration: (\d+):(\d+):([\d.]+)", err)
+    brand = re.search(r"major_brand\s*:\s*(\S+)", err)
     h, m, s = (dur.group(1), dur.group(2), dur.group(3)) if dur else (0, 0, 0)
     return dict(width=int(v.group(2)), height=int(v.group(3)), vcodec=v.group(1),
                 acodec=a.group(1) if a else None,
                 duration=int(h) * 3600 + int(m) * 60 + float(s),
-                fmt=os.path.splitext(path)[1].lstrip("."),
+                brand=brand.group(1) if brand else "?",
                 size=os.path.getsize(path))
+
+
+def end_frame_flatness(path, duration):
+    """Standard deviation of the final frame's luminance. Near zero means the clip
+    ends on a flat field (a fade to black or white), which is safe to hold."""
+    import tempfile
+    from PIL import Image
+    import numpy as np
+    with tempfile.TemporaryDirectory() as td:
+        shot = os.path.join(td, "end.png")
+        subprocess.run([FFMPEG, "-y", "-hide_banner", "-loglevel", "error",
+                        "-ss", f"{max(0, duration - 0.08):.3f}", "-i", path,
+                        "-frames:v", "1", shot], capture_output=True)
+        if not os.path.exists(shot):
+            return 999.0                        # unreadable: fall back to looping
+        return float(np.asarray(Image.open(shot).convert("L")).std())
 
 
 def check(path):
@@ -78,7 +95,13 @@ def check(path):
          f"tiap sisi maks. {MAX_SIDE} px"),
         ("Durasi", f"{p['duration']:.1f} detik",
          MIN_SECS <= p["duration"] <= MAX_SECS, "10 sampai 60 detik"),
-        ("Container", p["fmt"], "mp4" in p["fmt"], "MP4"),
+        # Read major_brand, NOT ffmpeg's format_name. format_name for anything in
+        # this family is the shared demuxer list "mov,mp4,m4a,3gp,3g2,mj2", which
+        # contains the substring "mp4" for every file it opens — so testing it could
+        # never fail, and it passed a QuickTime file branded `qt  ` as valid MP4.
+        ("Container", f"brand '{p['brand'].strip()}'",
+         p["brand"].strip() in ("mp42", "mp41", "isom", "iso2", "avc1", "M4V", "dash"),
+         "MP4 (brand isom/mp42), bukan QuickTime"),
         ("Codec video", p["vcodec"], p["vcodec"] in ("h264", "avc1"),
          "H.264 (yang diterima Shopee)"),
         ("Trek audio", p["acodec"] or "tidak ada", p["acodec"] is not None,
@@ -101,20 +124,38 @@ def fix(src, dst, trim=None):
     # the AUDIO, leaving the video its full length. That is exactly what happened
     # first time: the run reported trimming to 12 s and wrote a 14 s file. Duration
     # belongs with the output.
-    pre, dur = [], []
+    pre, dur, pad = [], [], ""
 
-    # Under the 10 second floor, loop the clip. Looping keeps every frame the client
-    # shot; slowing the footage down instead would change the pace they signed off.
+    # Under the 10 second floor there are two ways to buy seconds, and which one is
+    # right depends on how the clip ENDS — so measure it rather than assume.
+    #
+    # If the last frame is essentially flat, the film fades out, and holding that
+    # frame is invisible: the viewer sees the film once, then it rests. If the last
+    # frame is busy, a freeze reads as a stall, so the clip loops instead.
+    #
+    # Looping was the only branch at first, and on this footage it was the wrong
+    # call: the hero fades to black at 9.5 s, so doubling it made the viewer watch
+    # the entire film twice to cover a half-second shortfall.
     if p["duration"] < MIN_SECS and not trim:
-        reps = int(MIN_SECS // p["duration"]) + 1
-        target = round(p["duration"] * (reps + 1), 2)
-        while target - p["duration"] >= MIN_SECS:      # no more loops than needed
-            reps -= 1
+        flat = end_frame_flatness(src, p["duration"])
+        target = MIN_SECS + 1.0                # 1 s of margin against rounding at 10.0
+        if flat < 14:
+            pad = f"tpad=stop_mode=clone:stop_duration={round(target - p['duration'], 2)},"
+            dur = ["-t", str(target)]
+            print(f"  durasi {p['duration']:.1f}s di bawah batas bawah. Frame "
+                  f"terakhir rata (sebaran {flat:.1f}) jadi videonya memudar ke "
+                  f"gelap — frame itu ditahan sampai {target:.0f}s, bukan diulang.")
+        else:
+            reps = int(MIN_SECS // p["duration"]) + 1
             target = round(p["duration"] * (reps + 1), 2)
-        pre += ["-stream_loop", str(reps)]
-        dur = ["-t", str(target)]
-        print(f"  durasi {p['duration']:.1f}s di bawah batas bawah — diputar "
-              f"{reps + 1}x jadi {target:.1f}s")
+            while target - p["duration"] >= MIN_SECS:   # no more loops than needed
+                reps -= 1
+                target = round(p["duration"] * (reps + 1), 2)
+            pre += ["-stream_loop", str(reps)]
+            dur = ["-t", str(target)]
+            print(f"  durasi {p['duration']:.1f}s di bawah batas bawah. Frame "
+                  f"terakhir masih berisi (sebaran {flat:.1f}) jadi menahannya akan "
+                  f"terlihat macet — diputar {reps + 1}x jadi {target:.1f}s.")
     elif trim:
         pre += ["-ss", str(trim[0])]
         dur = ["-t", str(round(float(trim[1]) - float(trim[0]), 2))]
@@ -141,7 +182,7 @@ def fix(src, dst, trim=None):
         # softening the picture. Clamping the request to the source size first means a
         # video already inside the limit passes through untouched.
         # force_divisible_by keeps both sides even, which H.264 yuv420p requires.
-        a += ["-vf", f"scale='min({MAX_SIDE},iw)':'min({MAX_SIDE},ih)'"
+        a += ["-vf", pad + f"scale='min({MAX_SIDE},iw)':'min({MAX_SIDE},ih)'"
                      ":force_original_aspect_ratio=decrease:force_divisible_by=2",
               "-c:v", "libx264", "-profile:v", "high", "-pix_fmt", "yuv420p",
               "-crf", str(crf), "-preset", "slow",
@@ -152,7 +193,12 @@ def fix(src, dst, trim=None):
             a += ["-shortest"]
         return a + [dst]
 
-    crf = 23
+    # Start at high quality and only compress harder if the 30 MB cap is breached.
+    # crf 23 came out at 2.8 MB against a 30 MB allowance — throwing away detail
+    # with nine tenths of the budget unspent, on footage whose whole job is showing
+    # fabric. The cap is the constraint; quality should run up to it, not sit far
+    # below it.
+    crf = 18
     while True:
         r = subprocess.run(build(crf), capture_output=True, text=True)
         if r.returncode:

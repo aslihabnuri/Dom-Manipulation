@@ -14,6 +14,7 @@ Hasil akhir ada di `banners/shopee/final/`. Semua dalam batas Shopee: **maks. 20
 | Banner Toko 2 Area Klik | `3-banner-toko.jpg` | 2000 × 2000 | 511 KB |
 | Banner Diskon / Voucher (2:1) | `6-voucher.jpg` | 2000 × 1000 | 454 KB |
 | Syarat Retur & Refund (TnC) | `7-terms-conditions.jpg` | 1600 × 2000 | 258 KB |
+| Video hero | `video/shopee-hero.mp4` | 1280 × 720 · 11,0 s | 2,9 MB |
 
 ---
 
@@ -409,6 +410,57 @@ Kotak pengingat di bawah memakai penata baris yang sama, jadi tingginya dihitung
 
 ---
 
+## 6. VIDEO HERO — kenapa ditolak Shopee
+
+`final/video/shopee-hero.mp4` · **1280 × 720** · 11,0 detik · 2,9 MB · dari `Shopify Hero Banner.mp4`
+
+File aslinya diukur, bukan ditebak. **Tiga syarat dilanggar, tiga lolos:**
+
+| Syarat Shopee | File asli | Status |
+|---|---|---|
+| Ukuran maks. 30 MB | 23,8 MB | lolos |
+| Resolusi maks. 1280 × 1280 | **2560 × 1440** | **gagal** — lebarnya tepat 2× batas |
+| Durasi 10–60 detik | **9,5 detik** | **gagal** — kurang 0,5 detik dari batas bawah |
+| Jenis file MP4 | **brand `qt  `** (QuickTime) | **gagal** — ekstensinya `.mp4`, containernya QuickTime |
+| Codec (tidak Shopee tulis) | H.264 High | lolos |
+| Trek audio (tidak Shopee tulis) | AAC 44,1 kHz stereo | lolos |
+
+Yang menarik: **ketiganya harus diperbaiki**, jadi memperbaiki satu saja tetap ditolak.
+
+`2560 × 1440` itu resolusi hero website, konsisten dengan nama filenya (`**Shopify** Hero Banner`). Batas Shopee "maks. 1280 x 1280" berarti **tidak boleh ada satu sisi pun melebihi 1280**, bukan batas luas area — jadi 2560 gagal di lebarnya walaupun 1440 juga lewat.
+
+Container-nya `qt  ` artinya ini file **QuickTime** yang diberi ekstensi `.mp4`. Biasanya hasil export Final Cut atau QuickTime. Extension bukan container; Shopee memeriksa containernya.
+
+### Durasi: ditahan, bukan diulang
+
+Kekurangannya cuma 0,5 detik. Frame terakhir video ini saya ukur sebaran luminansinya: **0,0** — hitam rata, artinya videonya memudar ke gelap. Jadi frame hitam itu ditahan sampai **11 detik** (1 detik margin terhadap pembulatan di 10,0). Hasilnya tidak terlihat sama sekali: filmnya jalan sekali, lalu berhenti di hitam.
+
+Versi pertama alat ini cuma bisa **mengulang** klip, dan di footage ini itu keputusan yang salah — mengulang 2× berarti penonton menonton seluruh film dua kali hanya untuk menutup kekurangan setengah detik. Sekarang alatnya mengukur frame terakhir dulu: rata → tahan, masih berisi → ulang (karena menahan frame berisi terlihat macet).
+
+### Kualitas tidak dikorbankan
+
+`crf 18`, bukan 23. Pada 23 hasilnya 2,8 MB dari kuota 30 MB — membuang detail dengan sembilan persepuluh kuota tidak terpakai, pada footage yang justru pekerjaannya memperlihatkan tekstur kain.
+
+Diverifikasi dengan membandingkan crop panel mesh boxer, sumber diturunkan ke 1280 lawan hasil encode: sebaran **6,33 lawan 6,38**, selisih rata-rata **1,5 dari 255**. Teksturnya utuh.
+
+60 fps aslinya dipertahankan. Shopee tidak membatasi fps, dan menurunkannya akan mengubah karakter gerak yang sudah Anda setujui.
+
+### `tools/shopee_video.py`
+
+```bash
+python3 tools/shopee_video.py check VIDEO.mp4
+python3 tools/shopee_video.py fix   VIDEO.mp4 OUT.mp4 [--trim MULAI SELESAI]
+```
+
+Dua bug di alat ini ketemu justru karena dipakai ke file nyata, bukan dari membaca kode:
+
+1. **Cek container tidak pernah bisa gagal.** Saya periksa `format_name` ffmpeg, yang untuk keluarga ini selalu `mov,mp4,m4a,3gp,3g2,mj2` — selalu mengandung substring `mp4`. Akibatnya file QuickTime Anda **dinyatakan lolos**. Sekarang yang dibaca `major_brand`.
+2. **Filter scale justru memperbesar.** `force_original_aspect_ratio=decrease` mengecilkan **kotak yang diminta** untuk menjaga rasio, bukan mencegah ffmpeg membesarkan sumbernya. Klip 640 × 360 keluar jadi 1280 × 720 — menghabiskan bitrate tanpa menambah detail. Sekarang kotaknya dibatasi `min(1280, sumber)`.
+
+Kalau durasinya lebih dari 60 detik, alatnya **menolak** dan minta `--trim`: memilih detik mana yang dibuang itu keputusan Anda, bukan saya.
+
+---
+
 ## Cara membuat ulang
 
 ```bash
@@ -418,6 +470,8 @@ python3 tools/gen_carousel.py               # 4 foto carousel sebagai satu pemot
 python3 tools/gen_voucher.py                # foto banner voucher
 python3 tools/compose_stilllife.py          # still-life slide 2 dari cutout asli
 python3 tools/build_banners.py              # susun banner final
+python3 tools/shopee_video.py check V.mp4   # uji video ke syarat Shopee
+python3 tools/shopee_video.py fix V.mp4 O.mp4   # dan konformkan
 ```
 
 `tools/kie.py` — klien Kie (upload → createTask → poll → download).
