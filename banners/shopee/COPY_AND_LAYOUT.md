@@ -13,6 +13,7 @@ Hasil akhir ada di `banners/shopee/final/`. Semua dalam batas Shopee: **maks. 20
 | Value — versi all-in-one | `4-value-all-in-one.jpg` | 2000 × 2000 | 690 KB |
 | Banner Toko 2 Area Klik | `3-banner-toko.jpg` | 2000 × 2000 | 511 KB |
 | Banner Diskon / Voucher (2:1) | `6-voucher.jpg` | 2000 × 1000 | 454 KB |
+| Syarat Retur & Refund (TnC) | `7-terms-conditions.jpg` | 1600 × 2000 | 352 KB |
 
 ---
 
@@ -33,7 +34,8 @@ Seluruh copy bersumber dari brand guideline, tidak ada yang dikarang:
 | Peran | Font | Weight yang dipakai |
 |---|---|---|
 | Headline & label | Zalando Sans Expanded | Regular · SemiBold · Bold · ExtraBold · Black |
-| Body & deskripsi | Arimo | Regular · Medium · Bold |
+| Body & deskripsi | Arimo | Regular · Medium · SemiBold · Bold |
+| Kata serapan di banner TnC | Arimo | Italic · Bold Italic |
 
 **Audit tone of voice (hal. 35):** tidak ada satu pun kata terlarang (*best, amazing, super, ultimate, trendy, bold, sexy, wild, bro, vibe, passion, soul, dream, heart*). Semua kalimat ringkas, aktif, langsung ke poin. Tanpa em dash.
 
@@ -318,6 +320,53 @@ Peta luminansi plate ini: kolom logo bersih sampai `y 122`; kolom kanan (angka d
 ### Pill yang mengukur dirinya sendiri
 
 `pill()` menghitung lebarnya dari lebar labelnya sendiri (`tw()` + padding), tidak di-hardcode. Versi hard-coded sebelumnya membuat panah tumpang tindih dengan huruf `W` di `SHOP NOW`; panahnya sekarang dihapus dan lebarnya selalu mengikuti teks apa pun yang dipasang. Labelnya juga dipusatkan secara optis dari cap height, bukan dari `font.size`.
+
+---
+
+## 5. BANNER SYARAT RETUR & REFUND (TnC)
+
+`7-terms-conditions.jpg` · **1600 × 2000** · 352 KB · acuan: `Referensi Banner TnC`
+
+Struktur mengikuti referensi persis: logo di tengah atas, judul dua bagian, empat seksi bertag, satu paragraf penutup, lalu satu kotak pengingat. Ukurannya 1600 × 2000 supaya seragam dengan slide brand story dan product value.
+
+### ⚠️ Semua klausul ini perlu konfirmasi Anda
+
+Ini yang paling penting dari banner ini: **setiap baris di sini adalah komitmen komersial**, bukan copy kreatif. Klausulnya saya ambil dari referensi (isinya syarat retur standar marketplace Indonesia) dan saya rapikan, tapi saya tidak tahu kebijakan Toni Black yang sebenarnya. Tolong periksa satu per satu sebelum dipasang:
+
+| Klausul | Yang saya asumsikan |
+|---|---|
+| Video unboxing | **Wajib**, satu take tanpa jeda, dari paket tersegel sampai isi terlihat. Tanpa itu komplain tidak diproses. |
+| Alasan yang diterima | Salah kirim, tidak sesuai pesanan, cacat produksi. |
+| Alasan yang ditolak | Salah pilih ukuran sendiri, tidak muat padahal ukuran sesuai, produk sudah dipakai/dicuci. |
+| Syarat barang | Kondisi asli, label dan tag lengkap. |
+| Jalur pengajuan | Wajib lewat fitur resmi marketplace, diverifikasi penjual. |
+| Batas waktu | **Belum ada.** Referensi juga tidak menyebut. Biasanya Shopee memberi 3 hari sejak barang diterima — kalau Anda mau angka itu tertulis, kirim ke saya. |
+| Biaya kirim retur | **Belum ada.** Perlu disebut siapa yang menanggung. |
+
+Satu tambahan yang saya **sarankan tapi tidak saya masukkan sendiri**: Toni Black jual underwear, dan produk higienis biasanya punya klausul khusus (tidak bisa diretur setelah segel/kemasan dibuka, kecuali cacat produksi). Klausul `sudah digunakan, dicuci, atau rusak akibat pemakaian` sudah menutup sebagian, tapi kalau Anda mau aturan higienis yang eksplisit, itu keputusan Anda, bukan saya.
+
+### Kenapa banner ini berbahasa Indonesia
+
+Satu-satunya banner di set ini yang tidak berbahasa Inggris, dan itu disengaja. Kebijakan retur harus dimengerti oleh orang yang terikat olehnya; pembeli yang salah paham akan membuka dispute dan menulis ulasan bintang 1 — persis yang banner ini coba cegah. Untuk teks fungsional seperti ini, kejelasan menang atas konsistensi bahasa. Referensi Anda juga berbahasa Indonesia.
+
+### Palet: hanya hitam-putih
+
+Referensi memakai kertas bertekstur hangat dengan tinta teal dan terracotta. Itu palet Flyman Nathalie. Toni Black monokrom di atas Clean White, jadi tag seksinya hitam brand `#282828` dengan teks putih, judulnya hitam di atas eyebrow abu `#818284`. Tanpa tekstur, tanpa pattern — hal. 27 aturan 3.
+
+### Italic-nya pakai file Anda sendiri
+
+Referensi memiringkan kata serapan (*unboxing*, *checkout*, *refund*, *marketplace*). Saya sempat menyangka tidak bisa karena `brand/assets/fonts/` hanya berisi Arimo Regular, Medium, Bold. Ternyata `Arimo.zip` di Drive Anda **memang berisi** `Arimo-Italic`, `Arimo-BoldItalic`, `Arimo-MediumItalic`, dan `Arimo-SemiBoldItalic` — saya hanya belum mengekstraknya. Sekarang terpasang, jadi italic-nya tetap dari kit resmi Anda, bukan font pengganti dari luar.
+
+### `rich()` — dua bug yang sempat terlihat
+
+Teks berjalan di referensi mencampur tebal dan miring di dalam satu baris, yang tidak bisa dilakukan fungsi teks lain di file ini. Versi pertama `rich()` punya dua cacat yang langsung kelihatan di render:
+
+1. **Tanda baca terlepas dari katanya** — `**tanpa jeda**, mulai` tampil sebagai `tanpa jeda , mulai`. Penyebabnya: koma jadi kata terpisah setelah penanda gaya ditutup, lalu penata baris menyisipkan spasi di antara setiap kata. Diperbaiki dengan mengambil spasi **dari teks sumbernya**, dan mengelompokkan potongan tanpa spasi menjadi satu *cluster* yang tidak boleh dipisah — itu juga yang menjaga tanda baca tidak jatuh ke baris berikutnya.
+2. **Miring di dalam tebal merusak semua kata sesudahnya** — `**retur dan *refund***` membuat "wajib melalui fitur resmi" ikut tebal-miring padahal seharusnya biasa. Penyebabnya: gaya disimpan sebagai satu variabel, jadi saat italic ditutup, bold-nya ikut hilang. Diperbaiki dengan menyimpan bold dan italic sebagai **dua flag terpisah**.
+
+Kotak pengingat di bawah memakai penata baris yang sama, jadi tingginya dihitung dari jumlah baris hasil wrap — kotaknya selalu pas dengan isinya sendiri.
+
+`banner7()` juga membatalkan build kalau isinya melewati `y = 1910`, supaya penambahan klausul nanti tidak diam-diam tertabrak tepi bawah.
 
 ---
 

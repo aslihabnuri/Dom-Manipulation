@@ -24,7 +24,8 @@ DAVIS, GREY, STEEL = (79, 80, 82), (129, 130, 132), (204, 204, 204)
 CASING = (20, 20, 20)          # dark casing so light marks survive light garments
 
 ZAL = {400: "Regular", 600: "SemiBold", 700: "Bold", 800: "ExtraBold", 900: "Black"}
-ARI = {400: "Regular", 500: "Medium", 700: "Bold"}
+ARI = {400: "Regular", 500: "Medium", 600: "SemiBold", 700: "Bold",
+       "i": "Italic", "bi": "BoldItalic"}
 
 def zal(w, s): return ImageFont.truetype(f"{F}/ZalandoSansExpanded-{ZAL[w]}.ttf", s)
 def ari(w, s): return ImageFont.truetype(f"{F}/Arimo-{ARI[w]}.ttf", s)
@@ -568,6 +569,188 @@ def check_ground(plate, boxes, pad=6):
                 f"(floor {CLEAN_MIN}) at box {(int(x0), int(y0), int(x1), int(y1))}")
 
 
+# ───────────────── BANNER 7 — TERMS & CONDITIONS ─────────────────────────────
+# Follows the client's Referensi Banner TnC: logo centred, two-part title, then
+# tagged sections of policy text, a closing paragraph and a boxed reminder.
+#
+# The reference marks up its running text — key phrases bold, loan words italic.
+# That needs mixed faces inside a single wrapped line, which the flat text calls
+# used everywhere else in this file cannot do, hence rich() below. The italics are
+# the client's own Arimo-Italic from their Drive font folder, not a substitute:
+# the zip ships Italic, BoldItalic, MediumItalic and SemiBoldItalic alongside the
+# uprights, so the reference's treatment is reproducible from their kit.
+#
+# Two departures from the reference, both deliberate. Its warm paper texture and
+# its teal and terracotta inks are Flyman Nathalie's; Toni Black is monochrome on
+# Clean White, so the section tags are brand black and the title is black over a
+# grey eyebrow. And the body is Indonesian, unlike every other banner in this set:
+# a returns policy has to be understood by the person it binds, and a buyer who
+# misreads it opens a dispute. Clarity outranks language consistency here.
+INK = {"": 400, "b": 700, "i": "i", "bi": "bi"}
+
+# Policy wording follows the reference's clauses, which are standard Indonesian
+# marketplace returns terms, cleaned up and set in Toni Black's voice. Every clause
+# is a commercial commitment: the client has to confirm each one before this goes
+# live. Flagged in COPY_AND_LAYOUT.md rather than left to be discovered.
+SECTIONS = [
+    ("WAJIB VIDEO UNBOXING", "p", [
+        "Video harus direkam dalam **satu kali pengambilan tanpa jeda**, mulai dari "
+        "**paket masih tersegel dari segala sisi** hingga **seluruh isi paket "
+        "terlihat jelas**. Tanpa video *unboxing*, komplain tidak dapat diproses."]),
+
+    ("RETUR & REFUND DAPAT DIAJUKAN JIKA", "ul", [
+        "Produk yang diterima **tidak sesuai pesanan** (salah ukuran, warna, jenis, "
+        "atau jumlah).",
+        "Terjadi **kesalahan pengiriman dari pihak penjual**.",
+        "Produk mengalami **cacat produksi**."]),
+
+    ("RETUR & REFUND TIDAK BERLAKU JIKA", "ul", [
+        "Ukuran yang diterima **sudah sesuai pesanan** tetapi tidak muat atau "
+        "kekecilan.",
+        "Salah memilih ukuran saat *checkout*.",
+        "Produk **sudah digunakan, dicuci, atau rusak akibat pemakaian**."]),
+
+    ("SYARAT PENGEMBALIAN BARANG", "ul", [
+        "Produk dalam **kondisi asli**.",
+        "**Label, tag, kemasan, dan aksesoris masih lengkap**."]),
+]
+
+CLOSING = ("Seluruh proses **retur dan *refund*** wajib melalui fitur resmi "
+           "*marketplace*, dan akan diproses setelah diverifikasi oleh pihak penjual.")
+
+REMINDER = ("Silakan **chat kami terlebih dahulu** sebelum mengajukan "
+            "**komplain, retur, *refund*, atau memberikan ulasan bintang 1**.")
+
+
+def rich(text):
+    """Parse **bold** and *italic* into clusters of styled pieces.
+
+    Bold and italic are tracked as independent FLAGS, not as one current style.
+    A single style variable cannot represent `**retur dan *refund***`: it drops
+    bold when the inner italic closes, so every following word inherits the wrong
+    face until the next marker.
+
+    Output is grouped into clusters rather than words. A cluster is a run of pieces
+    that must be drawn with no space between them and must never be split across a
+    line — which is what keeps a comma attached to the bold phrase it follows. The
+    space is taken from the source text, so a marker boundary alone never invents
+    one; `**tanpa jeda**, mulai` used to render as `tanpa jeda , mulai`."""
+    pieces, bold, ital, buf, sp = [], False, False, "", False
+
+    def flush():
+        nonlocal buf, sp
+        if buf:
+            pieces.append((buf, ("b" if bold else "") + ("i" if ital else ""), sp))
+            buf, sp = "", False
+
+    i = 0
+    while i < len(text):
+        if text.startswith("**", i):
+            flush(); bold = not bold; i += 2
+        elif text[i] == "*":
+            flush(); ital = not ital; i += 1
+        elif text[i] == " ":
+            flush(); sp = True; i += 1
+        else:
+            buf += text[i]; i += 1
+    flush()
+
+    out = []
+    for w, st, space_before in pieces:
+        if out and not space_before:
+            out[-1].append((w, st))
+        else:
+            out.append([(w, st)])
+    return out
+
+
+def measure(d, cluster, faces):
+    return sum(d.textlength(w, font=faces[st]) for w, st in cluster)
+
+
+def wrap(d, cl, width, faces, space):
+    """Greedy wrap of clusters. Returns rows of (clusters, row width)."""
+    rows, line, run = [], [], 0.0
+    for cluster in cl:
+        wl = measure(d, cluster, faces)
+        if line and run + space + wl > width:
+            rows.append((line, run)); line, run = [], 0.0
+        run += (space if line else 0) + wl
+        line.append(cluster)
+    if line:
+        rows.append((line, run))
+    return rows
+
+
+def flow(d, cl, x, y, width, size, lead, fill=BLACK, centre_in=None):
+    """Wrap styled clusters to `width` and draw them. Returns the y after the block."""
+    faces = {k: ari(v, size) for k, v in INK.items()}
+    space = d.textlength(" ", font=faces[""])
+    for line, run in wrap(d, cl, width, faces, space):
+        px = (centre_in - run / 2) if centre_in else x
+        for cluster in line:
+            for w, st in cluster:
+                d.text((px, y), w, font=faces[st], fill=fill)
+                px += d.textlength(w, font=faces[st])
+            px += space
+        y += lead
+    return y
+
+
+def tag(d, x, y, label, size=26, pad=(24, 13)):
+    """Section header: white uppercase on a brand-black block, sized to its text."""
+    f = zal(600, size)
+    bb = d.textbbox((0, 0), label, font=f)
+    w = tw(d, label, f, 2)
+    h = (bb[3] - bb[1]) + pad[1] * 2
+    d.rounded_rectangle([x, y, x + w + pad[0] * 2, y + h], radius=6, fill=BLACK)
+    tracked(d, (x + pad[0], y + pad[1] - bb[1]), label, f, WHITE, tr=2)
+    return y + h
+
+
+def banner7():
+    W, H, M = 1600, 2000, 140
+    TW = W - 2 * M                       # measure of the text column
+    c = Image.new("RGB", (W, H), WHITE)
+    d = ImageDraw.Draw(c)
+    cx = W // 2
+
+    c.paste(lg := logo("logo-horizontal-black", 400), (cx - 200, 140), lg)
+
+    tracked(d, (cx, 290), "SYARAT", zal(600, 34), GREY, tr=14, centre=True)
+    tf = zal(900, 92)
+    tracked(d, (cx, 342), "RETUR & REFUND", tf, BLACK, centre=True)
+
+    BODY, LEAD = 33, 45
+    y = 524
+    for label, kind, lines in SECTIONS:
+        y = tag(d, M, y, label) + 26
+        if kind == "p":
+            y = flow(d, rich(lines[0]), M, y, TW, BODY, LEAD)
+        else:
+            for item in lines:
+                d.ellipse([M + 10, y + 18, M + 18, y + 26], fill=BLACK)
+                y = flow(d, rich(item), M + 44, y, TW - 44, BODY, LEAD)
+                y += 6
+        y += 50
+
+    y = flow(d, rich(CLOSING), M, y + 4, TW, BODY, LEAD) + 54
+
+    # boxed reminder, centred text, hairline outline as in the reference. Height
+    # comes from the wrapped row count so the box always fits its own text.
+    faces = {k: ari(v, BODY) for k, v in INK.items()}
+    rows = wrap(d, rich(REMINDER), TW - 150, faces, d.textlength(" ", font=faces[""]))
+    bh = len(rows) * LEAD + 62
+    d.rounded_rectangle([M, y, W - M, y + bh], radius=10, outline=BLACK, width=3)
+    flow(d, rich(REMINDER), M, y + 31, TW - 150, BODY, LEAD, centre_in=cx)
+
+    bottom = y + bh
+    if bottom > H - 90:
+        raise SystemExit(f"banner7: content runs to y {bottom:.0f}, past the "
+                         f"{H - 90} px floor — reduce BODY or trim copy")
+    save(c, "7-terms-conditions")
+
+
 if __name__ == "__main__":
     check_calls()
     banner1()
@@ -577,3 +760,4 @@ if __name__ == "__main__":
     banner4()
     banner5()
     banner6()
+    banner7()
