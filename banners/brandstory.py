@@ -120,22 +120,18 @@ def proof():
     N.body(d, (right, 1052), ['dari kebun teh di jepang,', 'sampai ke cangkir.'],
            27, (232, 231, 226), leading=1.48, align='right')
 
-    # Two of these four claims are too long for the mouth on one line — "No
-    # sugar, no creamer, 100% pure matcha" alone runs 542 pixels against an
-    # interior of 447 — so the copy is set as four units rather than four lines,
-    # and the step moves per unit. Wrapped lines share their unit's indent, which
-    # is what keeps six lines reading as four claims. The certificates are named
-    # rather than badged: two seals on the marble would undo the clean layout.
-    units = [
-        (179, ['Origin: Uji, Nishio, Shizuoka.']),
-        (208, ['No sugar, no creamer,', '100% pure matcha.']),
-        (237, ['Halal, USDA, JAS.']),
-        (265, ['In hundreds of cafes,', 'for over 15 years.']),
-    ]
-    y = 264
-    for x, lines in units:
-        N.body(d, (x, y), lines, 26, WHITE, leading=32 / 26)
-        y += len(lines) * 32 + 14          # the extra 14 keeps pairs paired
+    # Set flush left rather than stepped, which is a change forced by the copy.
+    # Two of these lines run 361 and 383 pixels against a mouth whose widest row
+    # is 447, so once the rim padding is taken off there are 10 pixels of lateral
+    # freedom for the whole block — a rightward step needs roughly 120. Every
+    # ordering was tried; the best any of them yields is 6 pixels a line, which
+    # reads as a ragged edge rather than a cascade, so a clean flush edge is the
+    # better of the two. The step comes back the moment a line drops under about
+    # 300 pixels, near 21 characters at this size.
+    lines = ['Origin: Uji, Nishio, Shizuoka.', '100% Pure Matcha.',
+             'Halal, USDA, JAS.', 'Trusted by hundreds of cafes.']
+    for i, line in enumerate(lines):
+        N.body(d, (174, 284 + i * 38), [line], 25, WHITE)
 
     N.text(d, (W / 2, 1512), 'POWDERED TO PERFECTION', 24, WHITE, demi=True,
            tracking=7, align='center')
