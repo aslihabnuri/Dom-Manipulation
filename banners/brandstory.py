@@ -5,7 +5,7 @@ from pathlib import Path
 from PIL import Image, ImageDraw
 
 import nomukita as N
-from nomukita import W, H, MARGIN, BONE, CHARCOAL, MATCHA, STEEL, RULE, KANJI_WM
+from nomukita import W, H, MARGIN, MATCHA
 
 OUT = Path(__file__).resolve().parent / 'out'
 OUT.mkdir(exist_ok=True)
@@ -100,17 +100,21 @@ def proof():
     _scrim(c, 1290, H, 120)          # only to hold the footer over the marble
     d = ImageDraw.Draw(c)
 
-    # Stands on the marble to the right of the glass, clear of both the pitcher
-    # above (which bottoms out at y 740) and the cascade.
-    pouch = N.pouch3d(430, MATCHA,
-                      label=('Pure', '抹茶', ['Pure Matcha', 'Nishio'], '500 gram'))
-    px, py = 880 - pouch.width / 2, 1380 - pouch.height
-    N.contact_shadow(c, pouch, px, py, blur=20, opacity=78)
-    c.alpha_composite(pouch, (round(px), round(py)))
-
     # The room behind the hand is the only part of the top strip that stays dark
     # — the pitcher rim runs through the centre at 243 and the left at 255.
     N.logo(c, y=92, width=248, align='right', x=W - MARGIN, colour='#FFFFFF')
+
+    # The header goes on the marble because that is the one block big enough to
+    # hold it: the top strip is dark only in the 267 pixels behind the hand, too
+    # narrow for display type, while the marble holds under 110 luminance from
+    # y 820 to y 1290 and falls to 71 where these two lines sit. Right-aligning
+    # it under the logo also puts weight back on the side the pouch used to
+    # occupy, so the cascade on the left is not left carrying the frame alone.
+    right = W - MARGIN
+    N.text(d, (right, 912), 'BEHIND', 76, WHITE, tracking=2, align='right')
+    N.text(d, (right, 996), 'THE TASTE', 76, WHITE, tracking=2, align='right')
+    N.body(d, (right, 1060), ['empat hal di balik rasanya.'], 27,
+           (232, 231, 226), align='right')
 
     # The certificates are named rather than badged: the brief asks for USDA and
     # JAS, and two seals on the marble would undo the clean layout. Line three is
