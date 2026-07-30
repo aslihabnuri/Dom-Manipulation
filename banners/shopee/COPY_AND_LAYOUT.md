@@ -4,12 +4,15 @@ Hasil akhir ada di `banners/shopee/final/`. Semua dalam batas Shopee: **maks. 20
 
 | Banner | File | Ukuran | Berkas |
 |---|---|---|---|
-| Brand Story | `1-brand-story.jpg` | 1600 × 2000 | 464 KB |
-| Value — Boxer | `2-value-boxer.jpg` | 1600 × 2000 | 535 KB |
-| Value — Brief | `2-value-brief.jpg` | 1600 × 2000 | 559 KB |
-| Value — Crewneck | `2-value-crewneck.jpg` | 1600 × 2000 | 686 KB |
-| Value — Tanktop | `2-value-tanktop.jpg` | 1600 × 2000 | 685 KB |
+| Brand Story — slide 1 | `1-brand-story.jpg` | 1600 × 2000 | 516 KB |
+| Brand Story — slide 2 (Product Value) | `5-product-value.jpg` | 1600 × 2000 | 237 KB |
+| Value — Boxer | `2-value-boxer.jpg` | 1600 × 2000 | 549 KB |
+| Value — Brief | `2-value-brief.jpg` | 1600 × 2000 | 564 KB |
+| Value — Crewneck | `2-value-crewneck.jpg` | 1600 × 2000 | 541 KB |
+| Value — Tanktop | `2-value-tanktop.jpg` | 1600 × 2000 | 557 KB |
+| Value — versi all-in-one | `4-value-all-in-one.jpg` | 2000 × 2000 | 690 KB |
 | Banner Toko 2 Area Klik | `3-banner-toko.jpg` | 2000 × 2000 | 511 KB |
+| Banner Diskon / Voucher (2:1) | `6-voucher.jpg` | 2000 × 1000 | 414 KB |
 
 ---
 
@@ -222,11 +225,52 @@ Hasilnya jauh lebih ringan dan sesuai karakter brand: *Clean White* adalah warna
 
 ---
 
+## 4. BANNER DISKON / VOUCHER — 2:1
+
+`6-voucher.jpg` · **2000 × 1000** · 414 KB
+
+Shopee tidak punya rasio 2:1 di daftar Kie, jadi fotonya dipesan 16:9 lalu dipotong ke 2:1 pada `ycrop=0.45` — memotong dari atas supaya ranjang bagian bawah yang kosong ikut terbuang dan modelnya tetap di tempat.
+
+### Copy
+
+| Slot | Teks | Font |
+|---|---|---|
+| Logo | logo horizontal hitam | — |
+| Kicker | `DISC. UP TO` | Zalando SemiBold 40, tracking 9 |
+| Angka | `25%` | Zalando Black 178 |
+| Penawaran 1 | `EXTRA VOUCHER NEW BUYER 5.000` | Zalando SemiBold 26 |
+| Penawaran 2 | `FREE ONGKIR` | Zalando SemiBold 26 |
+| CTA | `SHOP NOW` — pill hitam, teks putih | Zalando Bold 30 |
+| Small print | `*Terms & conditions apply` | Arimo Regular 22, `#818284` |
+
+**Satu koreksi pada copy Anda:** `*Terms & condition apply` → `*Terms & conditions apply`. Bentuk pluralnya yang benar, dan hal. 35 meminta bahasa yang tepat. Kalau Anda tetap ingin versi aslinya, tinggal ganti satu string di `banner6()`.
+
+`SHOP NOW` diambil dari daftar CTA resmi hal. 29 — bukan karangan, dan bukan gaya marketplace yang berteriak. Nada promo dibangun lewat hierarki ukuran (`25%` sepuluh kali lebih besar dari small print), bukan lewat kata-kata hiperbolik yang dilarang hal. 35.
+
+### Kenapa semua teks di kiri
+
+Zona bersih diukur dulu, bukan dikira-kira: pada foto hasil crop, area `y 60–700, x 110–880` seragam terang (latar tembok dan seprai pucat). Di bawah `y 700` kaki model masuk dan luminansi tanah jatuh ke 54, jadi tidak ada teks yang boleh turun ke sana. Seluruh tumpukan teks berhenti di `y 738`.
+
+Generate pertama menaruh jendela berkisi di sepertiga kiri, tepat di belakang angka `25%`. Prompt diulang dengan larangan eksplisit — "NO window, NO window frame, NO grid or mullion pattern" pada 40 % kiri frame — supaya bidang teks benar-benar rata.
+
+### Bullet kotak
+
+Dua penawaran tambahan dibuat sebagai daftar, bukan dua baris lepas, dengan bullet kotak isi penuh 11 × 11 px. Itu motif pattern brand pada ukuran glyph, jadi tidak ada elemen dekoratif baru yang diperkenalkan.
+
+### Pill yang mengukur dirinya sendiri
+
+`pill()` menghitung lebarnya dari lebar labelnya sendiri (`tw()` + padding), tidak di-hardcode. Versi hard-coded sebelumnya membuat panah tumpang tindih dengan huruf `W` di `SHOP NOW`; panahnya sekarang dihapus dan lebarnya selalu mengikuti teks apa pun yang dipasang.
+
+---
+
 ## Cara membuat ulang
 
 ```bash
 python3 tools/gen_photos.py                 # semua foto
 python3 tools/gen_photos.py value-brief     # satu foto saja
+python3 tools/gen_carousel.py               # 4 foto carousel sebagai satu pemotretan
+python3 tools/gen_voucher.py                # foto banner voucher
+python3 tools/compose_stilllife.py          # still-life slide 2 dari cutout asli
 python3 tools/build_banners.py              # susun banner final
 ```
 
@@ -237,6 +281,8 @@ Catatan: filter keamanan Kie kadang menolak prompt underwear secara acak. Kalau 
 
 ## Yang masih terbuka
 
-1. **Harga / promo** belum ada di banner manapun.
-2. **Nama produk** memakai `BOXER`, `BRIEF`, `CREWNECK`, `TANKTOP`. Kirim daftar nama resmi di Shopee kalau berbeda.
-3. **Varian Kids** untuk banner value product belum dibuat — copy-nya siap: Soft Fabric · Tagless · Breathable · Anti Ride-Up · Easy Care · Made For Movement.
+1. **Nama produk** memakai `BOXER`, `BRIEF`, `CREWNECK`, `TANKTOP`. Kirim daftar nama resmi di Shopee kalau berbeda.
+2. **Varian Kids** untuk banner value product belum dibuat — copy-nya siap: Soft Fabric · Tagless · Breathable · Anti Ride-Up · Easy Care · Made For Movement.
+3. **Slide 2** masih menulis `Available in M, L and XL`. Sekarang ada boxer anak di foto itu, dan ukuran anak tentu bukan M/L/XL — kirim ukuran Kids kalau baris itu perlu diubah.
+4. **Masa berlaku promo** di banner voucher belum ada. Kalau diskonnya berbatas waktu, tanggalnya sebaiknya masuk ke banner.
+5. **Banner TikTok** disebut di pesan pertama tapi belum pernah diminta. Rasio dan aset TikTok bisa disusun dari kit yang sama.

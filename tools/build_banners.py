@@ -456,6 +456,44 @@ def banner5():
     save(c, "5-product-value")
 
 
+# ───────────────── BANNER 6 — DISCOUNT / VOUCHER (2:1) ───────────────────────
+# Pose comes from the client's Referensi_Pose_banner Voucher file. The clean band
+# on the photograph was measured at y 60-700, x 110-880 — below y 700 the model's
+# foot comes in and the ground drops to 54, so the whole stack stays above it.
+def pill(d, x, y, label, font, pad_x=52, h=76):
+    """Button sized from its own label. Fixing the width by hand is what put the
+    arrow through the last letter."""
+    w = tw(d, label, font, 2) + pad_x * 2
+    d.rounded_rectangle([x, y, x + w, y + h], radius=h // 2, fill=BLACK)
+    tracked(d, (x + pad_x, y + (h - font.size) / 2 - 6), label, font, WHITE, tr=2)
+    return w
+
+
+def banner6():
+    W, H, M = 2000, 1000, 110
+    src = grade(Image.open(f"{GEN}/voucher-hero.png").convert("RGB"), 1.04)
+    c = cover(src, W, H, ycrop=0.45)
+    d = ImageDraw.Draw(c)
+
+    c.paste(lg := logo("logo-horizontal-black", 290), (M, 78), lg)
+
+    tracked(d, (M, 198), "DISC. UP TO", zal(600, 40), DAVIS, tr=9)
+    d.text((M - 8, 248), "25%", font=zal(900, 178), fill=BLACK)
+
+    # The two extra offers read as a list rather than two loose lines. The square
+    # bullet is the brand's own pattern motif at glyph size.
+    d.line([(M, 474), (M + 540, 474)], fill=BLACK, width=3)
+    of, y = zal(600, 26), 504
+    for line in ["EXTRA VOUCHER NEW BUYER 5.000", "FREE ONGKIR"]:
+        d.rectangle([M, y + 9, M + 11, y + 20], fill=BLACK)
+        tracked(d, (M + 30, y), line, of, BLACK, tr=3)
+        y += 46
+
+    pill(d, M, 608, "SHOP NOW", zal(700, 30))
+    d.text((M, 716), "*Terms & conditions apply", font=ari(400, 22), fill=GREY)
+    save(c, "6-voucher")
+
+
 if __name__ == "__main__":
     check_calls()
     banner1()
@@ -464,3 +502,4 @@ if __name__ == "__main__":
     banner3()
     banner4()
     banner5()
+    banner6()
