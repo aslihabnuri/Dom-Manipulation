@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the four Nomukita store banners."""
+"""Build the Nomukita store banners."""
 
 from pathlib import Path
 from PIL import Image, ImageDraw
@@ -224,7 +224,66 @@ def category():
     return N.finish(c, OUT / '4-category.png')
 
 
+# ── 5. Discount — 2:1 ────────────────────────────────────────────────────
+# Cut from the generated frame. The model refuses 2:1, so the scene comes back
+# 16:9 at 2752 by 1536 and the height is trimmed to 1376 rather than the width
+# narrowed — the bowl and whisks sit hard right and cropping the sides would
+# crowd them. Trimming 60 from the top and 100 from the bottom keeps the window
+# in the corner and the counter's front edge in frame, and the result downsamples
+# to 2000 by 1000 instead of being enlarged.
+DISCOUNT_CROP = (0, 60, 2752, 1436)
+
+
+def discount():
+    """The discount banner, set on the counter scene rather than a bone panel.
+
+    The reference the client pointed at puts type straight onto the photograph,
+    so this does too, and the photograph's own structure decides where: the wood
+    panelling behind the counter holds between 22 and 54 luminance across
+    x 110-1050 and y 140-585, which is the only block here big enough for the
+    offer, while the counter surface below it burns to 208. The window in the top
+    corner is what sets the logo's height — it reads 222 at y 100 and 27 by y 140.
+
+    The two smaller offers sit on the counter in charcoal rather than under the
+    number in white, which fixes two things at once: it frees the room the
+    percentage needs to be the largest thing here, and it puts something on a
+    surface that was otherwise a wide empty stretch beside a crowded corner. That
+    band runs 119 to 208 luminance, nowhere dark enough to swallow charcoal.
+    """
+    c = N.canvas(WIDE_W, WIDE_H)
+    scene = Image.open(ILLUS3 / 'counter-2to1.png').convert('RGB')
+    c.paste(scene.crop(DISCOUNT_CROP).resize((WIDE_W, WIDE_H), Image.LANCZOS), (0, 0))
+    d = ImageDraw.Draw(c)
+    white = (255, 255, 255)
+
+    N.logo(c, y=142, width=272, x=WIDE_M, colour='#FFFFFF')
+
+    # Matcha green is the composition's one accent and it carries the headline
+    # rather than the number: at 72 it has the area to hold #7A9A3F against wood
+    # this dark, where the percentage would trade contrast for it. The percentage
+    # stays white and takes the top of the display range instead.
+    N.text(d, (WIDE_M, 318), 'MATCHA SALE', 72, MATCHA, tracking=5)
+    N.body(d, (WIDE_M, 372), ['harga turun, rasa tetap.'], 28, (230, 229, 224))
+
+    # The label belongs to the number, not to the line above it, so it sits 30
+    # pixels off the numeral's cap and 78 off the body. At 168 the numeral's cap
+    # reached y 472 and left the label nowhere to go; 156 is also what the payday
+    # banner uses, which keeps the two offers the same size across the set.
+    N.text(d, (WIDE_M, 450), 'DISKON HINGGA', 24, white, demi=True, tracking=7)
+
+    size = 156
+    cap = N.arg(size).getbbox('H')[3] - N.arg(size).getbbox('H')[1]
+    x = WIDE_M + N.text(d, (WIDE_M, 582), '25', size, white)
+    N.percent(c, x, 582, cap, white)
+
+    for i, line in enumerate(('GRATIS ONGKIR', 'VOUCHER HINGGA 15RB')):
+        N.text(d, (WIDE_M, 722 + i * 56), line, 28, CHARCOAL, demi=True, tracking=6)
+
+    N.body(d, (WIDE_M, 946), ['powdered to perfection'], 22, (214, 212, 206))
+    return N.finish(c, OUT / '7-diskon.png')
+
+
 if __name__ == '__main__':
-    for fn in (payday, terms, heritage, category):
+    for fn in (payday, terms, heritage, category, discount):
         img = fn()
         print(f'{fn.__name__:10s} {img.size}')
