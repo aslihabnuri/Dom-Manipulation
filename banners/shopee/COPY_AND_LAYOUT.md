@@ -12,7 +12,7 @@ Hasil akhir ada di `banners/shopee/final/`. Semua dalam batas Shopee: **maks. 20
 | Value — Tanktop | `2-value-tanktop.jpg` | 1600 × 2000 | 557 KB |
 | Value — versi all-in-one | `4-value-all-in-one.jpg` | 2000 × 2000 | 690 KB |
 | Banner Toko 2 Area Klik | `3-banner-toko.jpg` | 2000 × 2000 | 511 KB |
-| Banner Diskon / Voucher (2:1) | `6-voucher.jpg` | 2000 × 1000 | 394 KB |
+| Banner Diskon / Voucher (2:1) | `6-voucher.jpg` | 2000 × 1000 | 454 KB |
 
 ---
 
@@ -227,9 +227,9 @@ Hasilnya jauh lebih ringan dan sesuai karakter brand: *Clean White* adalah warna
 
 ## 4. BANNER DISKON / VOUCHER — 2:1
 
-`6-voucher.jpg` · **2000 × 1000** · 394 KB · acuan distribusi: `Referensi_Banner Diskon BAU`
+`6-voucher.jpg` · **2000 × 1000** · 454 KB · acuan distribusi: `Referensi_Banner Diskon BAU`
 
-Shopee tidak punya rasio 2:1 di daftar Kie, jadi fotonya dipesan 16:9 lalu dipotong ke 2:1 pada `ycrop=0.70` — memotong lebih banyak dari atas, menukar pita atas yang tidak dibutuhkan logo dengan pita bawah tempat dua baris penawaran dan tombol harus muat.
+Shopee tidak punya rasio 2:1 di daftar Kie, jadi fotonya dipesan 16:9 lalu dipotong ke 2:1 pada `ycrop=0.75` — membeli kedalaman di pita bawah tempat tiga baris harus muat, dengan menukar pita atas yang tidak dibutuhkan logo. Tembok di atas kepalanya bersih sampai `y 122`; logonya cuma sampai `y 86`.
 
 ### Copy
 
@@ -238,10 +238,22 @@ Shopee tidak punya rasio 2:1 di daftar Kie, jadi fotonya dipesan 16:9 lalu dipot
 | Logo | kiri atas | logo horizontal hitam, 270 px | — |
 | Eyebrow | kanan atas | `SAVE UP TO` | Zalando SemiBold 38, tracking 10, `#4F5052` |
 | Angka | kanan atas | `25%` | Zalando Black 200, `#282828` |
+| CTA | kanan, di bawah angka | `SHOP NOW` — pill hitam, teks putih | Zalando Bold 32 |
 | Penawaran 1 | kiri bawah | `Extra Rp5.000 voucher for new buyers` | Arimo Regular 38, `#282828` |
 | Penawaran 2 | kiri bawah | `Free shipping` | Arimo Regular 38, `#282828` |
 | Small print | kiri bawah | `*Terms & conditions apply` | Arimo Regular 22, `#818284` |
-| CTA | kanan bawah | `SHOP NOW` — pill hitam, teks putih | Zalando Bold 32 |
+
+### Produknya dijadikan hero — dan biayanya
+
+Keluhan Anda benar: di versi sebelumnya kaos putihnya jatuh menutupi pinggul dan boxer-nya cuma terbaca sebagai bercak hitam kecil, bukan sebagai produk. Brief foto diperbaiki: kaos **digulung tinggi sampai tulang rusuk bawah**, pinggul **diputar ke arah kamera** sehingga bagian depan boxer menghadap lensa, waistband terbaca penuh dengan wordmark `TONI BLACK`, dan kaos secara eksplisit diturunkan statusnya — *"keep the t-shirt secondary… it should not become the largest or brightest mass in the picture."*
+
+Itu berhasil, tapi ada konsekuensi geometris yang jujur harus dicatat: **memutar pinggul ke kamera membuat kakinya memanjang.** Tiga percobaan berturut-turut modelnya melebar mengisi hampir seluruh lebar frame, sekali bahkan kakinya terpotong tepi. Instruksi penahan sudah dinaikkan sampai bentuk paling mekanis — *"his silhouette BEGINS about 30 percent of the way across and ENDS about 72 percent"* — dan tetap tidak menempel penuh.
+
+Kesimpulannya struktural, bukan soal prompt: di frame 2:1, **pria berbaring yang cukup besar agar boxer-nya terbaca jelas akan mengisi hampir seluruh lebar.** Tidak bisa punya produk besar dan margin samping lega sekaligus di satu foto. Jadi saya berhenti membayar undian dan mendesain ke zona bersih yang benar-benar ada di plate terbaik.
+
+Akibatnya satu perubahan layout: **kaki model menguasai sudut kanan bawah**, jadi tombolnya pindah ke atas, di bawah angka. Hero dan aksinya jadi satu grup di kanan — memang berpasangan — sementara logo dan detail tetap di sudut lain.
+
+Semua take sekarang disimpan bernomor (`voucher-hero-v1.png`, `-v2`, …). Sebelumnya satu nama file ditimpa terus, dan satu plate yang komposisinya lebih baik dari penggantinya hilang — satu-satunya jalan kembali adalah bayar generate lagi.
 
 ### Copy diselaraskan ke tone of voice (hal. 35)
 
@@ -260,17 +272,18 @@ Versi pertama saya memakai bahasa marketplace, bukan bahasa Toni Black. Empat ha
 
 > **Catatan `Free shipping` vs `Free Ongkir`:** `Free Ongkir` adalah istilah yang dicari pembeli Shopee dan lebih cepat dikenali. Saya pilih `Free shipping` supaya satu banner tidak campur dua bahasa. Kalau prioritasnya keterbacaan di marketplace, tukar satu string itu saja.
 
-### Layout: empat sudut, bukan satu kolom
+### Layout: tersebar, bukan satu kolom
 
-Mengikuti distribusi `Referensi_Banner Diskon BAU` — logo di satu sudut atas, diskon besar berdiri sendiri, penawaran sekunder dan tombol ditaruh terpisah darinya, tidak ada yang dikumpulkan jadi satu kolom.
+Mengikuti distribusi `Referensi_Banner Diskon BAU` — logo di satu sudut atas, diskon besar berdiri sendiri, detail penawaran ditaruh terpisah darinya, tidak ada yang dikumpulkan jadi satu kolom.
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
 │ [LOGO]                                       SAVE UP TO      │
 │                                                  2 5 %       │
+│                                              ▐ SHOP NOW ▌     │
 │                    ..... model .....                         │
 │                                                              │
-│  Extra Rp5.000 voucher for new buyers        ▐ SHOP NOW ▌     │
+│  Extra Rp5.000 voucher for new buyers                        │
 │  Free shipping                                               │
 │  *Terms & conditions apply                                   │
 └──────────────────────────────────────────────────────────────┘
@@ -278,17 +291,13 @@ Mengikuti distribusi `Referensi_Banner Diskon BAU` — logo di satu sudut atas, 
 
 Alignment yang mengerjakan pekerjaan garis: elemen kiri berbagi satu tepi di `x = 120`, elemen kanan berbagi satu tepi di `x = 1880`. Tanpa garis, tanpa bullet, tanpa scrim — **hal. 27 aturan 3**, *clarity di atas dekorasi*.
 
-Blok kiri bawah dan tombol kanan bawah **dipusatkan optis satu terhadap yang lain**, jadi dua sudut bawah terbaca sebagai satu baris melintang, bukan dua potongan lepas.
-
-Small print ikut ke kiri bawah, bukan menggantung di bawah tombol: tanda bintangnya menerangkan dua penawaran itu dan angka diskonnya, jadi tempatnya bersama mereka — dan sudut kanan jadi bersih, hanya satu tombol.
+Small print ikut ke kiri bawah bersama dua penawaran yang diterangkannya, bukan digantung sendiri.
 
 ### Fotonya di-shoot ulang untuk layout ini
 
-Ini akar masalahnya, dan tidak bisa diperbaiki dari sisi layout. Hero pertama saya art-direct **terbalik** — brief-nya meminta *"figure lies in the RIGHT 58 percent, the LEFT 40 percent must be completely clean and empty"*. Fotonya menuruti dengan benar, hasilnya cuma **ada satu tempat** yang bisa ditaruhi teks, dan di situlah semuanya menumpuk. Layoutnya numpuk di kiri karena fotonya dipesan untuk numpuk di kiri.
+Ini akar masalah numpuk-di-kiri, dan tidak bisa diperbaiki dari sisi layout. Hero pertama saya art-direct **terbalik** — brief-nya meminta *"figure lies in the RIGHT 58 percent, the LEFT 40 percent must be completely clean and empty"*. Fotonya menuruti dengan benar, hasilnya cuma **ada satu tempat** yang bisa ditaruhi teks, dan di situlah semuanya menumpuk.
 
-Hero baru: model **compact dan centred**, lutut ditarik ke dada, kaki tidak menjulur ke samping. Hasilnya tanah bersih berupa pita penuh lebar di atas dan di bawah, plus sudut kanan atas yang lapang — persis empat tempat yang dibutuhkan layout di atas.
-
-Dua percobaan sebelum dapat: brief *"the LEFT 25 percent and the RIGHT 25 percent must be clean and empty"* dibaca sebagai perintah layout, dan hasilnya foto **dipillarbox** — dua panel rata di kiri dan kanan dengan garis sambungan terlihat di 25 % dan 76 %. Diperbaiki dengan mendeskripsikan ruangannya, bukan bidang gambarnya: *"the bed and the wall are ONE CONTINUOUS SURFACE filling the entire picture… no panel, no band, no border, no seam and no change of tone along any vertical line."* Percobaan berikutnya *"shoot WIDE and pulled back, so he is small"* terlalu jauh — modelnya kekecilan; diganti *"CENTRED and LARGE… but horizontally COMPACT."*
+Dua percobaan pertama gagal dengan cara yang berbeda-beda. Brief *"the LEFT 25 percent and the RIGHT 25 percent must be clean and empty"* dibaca sebagai perintah layout, dan hasilnya foto **dipillarbox** — dua panel rata dengan garis sambungan terlihat di 25 % dan 76 %. Diperbaiki dengan mendeskripsikan ruangannya, bukan bidang gambarnya: *"the bed and the wall are ONE CONTINUOUS SURFACE filling the entire picture… no panel, no band, no border, no seam and no change of tone along any vertical line."* Percobaan berikutnya *"shoot WIDE and pulled back, so he is small"* terlalu jauh — modelnya kekecilan; diganti *"CENTRED and LARGE… but horizontally COMPACT."*
 
 ### Teks putih dipertimbangkan, dan tidak bisa
 
@@ -302,9 +311,9 @@ Referensi menaruh `50% OFF` putih di atas paha model. Di frame ini itu tidak mun
 
 Tumit dan bayangan model masuk ke pita bawah, jadi area aman **bukan persegi** dan tidak cukup dikira-kira. `check_ground()` membaca foto mentahnya (bukan kanvas yang sudah ada teksnya — itu cuma mengukur gelapnya tinta sendiri), lalu membatalkan build kalau ada satu kotak teks pun yang duduk di atas piksel lebih gelap dari **140**.
 
-Guard ini langsung bekerja: tombol `SHOP NOW` pertama saya taruh di `y 812`, dan build gagal dengan `'cta' sits on ground as dark as 5`. Tumit kanan model sampai `y 820` di kolom itu. Batas paling atas yang aman ternyata `y 830` — diukur, lalu dipakai, dan alasannya dicatat di komentar kode supaya tidak digeser lagi tanpa sengaja.
+Guard ini sudah dua kali menangkap kesalahan nyata. Sekali tombol `SHOP NOW` di `y 812` gagal dengan `'cta' sits on ground as dark as 5` — tumit model sampai `y 820` di kolom itu. Sekali lagi baris penawaran di `y 823` gagal dengan `ground as dark as 76`. Dua-duanya diperbaiki dengan mengukur baris bersih pertama, bukan menggeser sampai kebetulan lolos.
 
-Peta luminansi frame ini: pita atas `y 0–119` dan pita bawah `y 809–1000` bersih penuh lebar; sudut kanan atas `x 1280–1960, y 0–369` lapang; kolom kiri `x 60–360` bersih hampir penuh tinggi.
+Peta luminansi plate ini: kolom logo bersih sampai `y 122`; kolom kanan (angka dan tombol) bersih `y 40–414`; kolom kiri bawah bersih dari `y 794` sampai tepi bawah. Angka `140` itu ambang untuk teks hitam; di bawah itu kontrasnya tidak cukup.
 
 ### Pill yang mengukur dirinya sendiri
 

@@ -519,9 +519,10 @@ def banner6():
     W, H, M = 2000, 1000, 120
     R = W - M                                  # the right-hand alignment edge
     src = grade(Image.open(f"{GEN}/voucher-hero.png").convert("RGB"), 1.04)
-    # 0.70 rather than centred: it trades top band the logo does not need for
-    # bottom band, where the offer lines and the button both have to fit.
-    c = cover(src, W, H, ycrop=0.70)
+    # 0.75 buys depth in the bottom band, where three lines have to fit, at the
+    # expense of top band the logo does not need: the wall above him stays clean to
+    # y 122 here, and the logo only reaches y 86.
+    c = cover(src, W, H, ycrop=0.75)
     plate = c.copy()            # the bare photograph, for the QA pass to read
     d = ImageDraw.Draw(c)
     boxes = []
@@ -530,27 +531,22 @@ def banner6():
     c.paste(lg := logo("logo-horizontal-black", 270), (M, 48), lg)
     boxes.append(("logo", (M, 48, M + 270, 48 + lg.height)))
 
-    # ── upper right: the offer, alone in the open corner so it carries the frame
-    boxes.append(("eyebrow", ink(d, (R, 150), "SAVE UP TO", zal(600, 38), DAVIS,
+    # ── right: the offer and the action, in the open wall beyond his shoulder. His
+    # feet own the bottom right corner on this plate, so the button lives up here
+    # under the number rather than opposite the copy.
+    boxes.append(("eyebrow", ink(d, (R, 70), "SAVE UP TO", zal(600, 38), DAVIS,
                                  tr=10, right=True)))
-    boxes.append(("number",  ink(d, (R, 205), "25%", zal(900, 200), BLACK, right=True)))
+    boxes.append(("number",  ink(d, (R, 128), "25%", zal(900, 200), BLACK, right=True)))
+    boxes.append(("cta", pill(d, R, 318, "SHOP NOW", zal(700, 32), h=82, right=True)))
 
     # ── bottom left: the detail. Sized for where this actually gets seen — Shopee
     # renders a shop banner about 430 px wide on a phone, a 0.215 scale, so 32 px
     # body came out at 6.9 px and was unreadable. 38 px lands at 8.2 px.
-    # The small print joins them rather than hanging off the button: the asterisk
-    # qualifies these two offers and the discount, so it belongs with them, and it
-    # leaves the opposite corner as one clean button.
-    of, y = ari(400, 38), 800
+    of, y = ari(400, 38), 802
     for line in ["Extra Rp5.000 voucher for new buyers", "Free shipping"]:
         boxes.append((line, ink(d, (M, y), line, of, BLACK)))
         y += 56
     boxes.append(("fine", ink(d, (M, 920), "*Terms & conditions apply", ari(400, 22), GREY)))
-
-    # ── bottom right: the action, optically centred on the block opposite it so the
-    # two bottom corners read as one line across the frame, not two loose bits.
-    # 830 is the earliest it can sit: his heel reaches y 820 in this column.
-    boxes.append(("cta", pill(d, R, 830, "SHOP NOW", zal(700, 32), h=82, right=True)))
 
     check_ground(plate, boxes)
     save(c, "6-voucher")
