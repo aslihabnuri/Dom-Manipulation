@@ -72,7 +72,7 @@ def _value(canvas, d, x, y, head, sub, align='left'):
     N.body(d, (x, y + 68), [sub], 26, (228, 227, 222), align=align)
 
 
-def proof():
+def proof_framed():
     c = N.canvas()
     scene = N.cover(Image.open(ASSETS / 'illus3/matcha-ritual-2.png'), W, H)
     c.paste(scene, (0, 0))
@@ -98,10 +98,37 @@ def proof():
 
     N.text(d, (W / 2, 1500), 'POWDERED TO PERFECTION', 26, WHITE, demi=True,
            tracking=7, align='center')
+    return N.finish(c, OUT / '6-brand-story-2-framed.png')
+
+
+def proof():
+    """Product value on the cinematic pour, after the supplied reference.
+
+    The reference carries its whole message in four small stepped lines over a
+    dark frame, so this follows that rather than a headline and a grid. Each
+    step was measured: the cascade runs from y 210 down and 70 across per line,
+    which keeps all four clear of the hand and the pitcher at 21 to 102
+    luminance. A step of 60 or a start at y 250 both walked line four onto the
+    pitcher at 165.
+    """
+    c = N.canvas()
+    c.paste(N.cover(Image.open(ASSETS / 'illus3/matcha-pour.png'), W, H), (0, 0))
+    _scrim(c, 1200, H, 140)          # only to hold the footer over the marble
+    d = ImageDraw.Draw(c)
+
+    N.logo(c, y=84, width=240, colour='#FFFFFF')
+
+    lines = ['Three gardens in Japan.', 'Nothing added after.',
+             'Halal and organic certified.', 'Fifteen years on the menu.']
+    for i, line in enumerate(lines):
+        N.body(d, (MARGIN + i * 70, 210 + i * 54), [line], 34, WHITE)
+
+    N.text(d, (W / 2, 1508), 'POWDERED TO PERFECTION', 24, WHITE, demi=True,
+           tracking=7, align='center')
     return N.finish(c, OUT / '6-brand-story-2.png')
 
 
 if __name__ == '__main__':
-    for fn in (story, proof):
+    for fn in (story, proof, proof_framed):
         img = fn()
         print(f'{fn.__name__:8s} {img.size}')
