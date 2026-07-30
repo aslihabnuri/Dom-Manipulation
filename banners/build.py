@@ -320,11 +320,14 @@ def discount():
     # type needs no box, only a light halo. That removes the one element that sat
     # on top of the product instead of in the frame, and it fills the empty
     # lower middle. Baselines straddle the button's centre at y 786 so the three
-    # blocks read as one row.
+    # blocks read as one row. Set on one line at the client's request: it runs
+    # x 660-1624 there, still clear of the tin above at y 616 and of the hand at
+    # x 1650, on ground of median 39 with the 90th percentile at 101 — so the
+    # size holds at 38 rather than having to shrink to fit the width.
     off = Image.new('RGBA', c.size, (0, 0, 0, 0))
-    od = ImageDraw.Draw(off)
-    for i, t in enumerate(('GRATIS ONGKIR', 'VOUCHER HINGGA 15RB')):
-        N.text(od, (660, 776 + i * 52), t, 38, white, demi=True, tracking=5)
+    N.text(ImageDraw.Draw(off), (660, 800),
+           'GRATIS ONGKIR   ·   VOUCHER HINGGA 15RB', 38, white, demi=True,
+           tracking=5)
     halo(off, strength=0.7, blur=16)
 
     return N.finish(c, OUT / '7-diskon.png')
