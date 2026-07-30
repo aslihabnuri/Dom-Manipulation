@@ -59,76 +59,74 @@ def _scrim(canvas, top, bottom, strength):
     canvas.alpha_composite(layer, (0, top))
 
 
-def _value(canvas, d, x, y, head, sub, align='left'):
-    """A claim marked by the logomark drop, mirroring the Nishio slide.
-
-    Kept tight on purpose: the mark, the head and the line under it have to
-    read as one object, or four claims look like eight loose pieces.
-    """
-    dot = 14
-    dx = x if align == 'left' else x - dot
-    N.drop(canvas, dx, y, dot, N.LOGO_BLUE)
-    N.body(d, (x, y + 28), [head], 28, WHITE, align=align, weight=600)
-    N.body(d, (x, y + 68), [sub], 26, (228, 227, 222), align=align)
+# An earlier four-corner layout for this slide has been dropped along with its
+# scene. It stood on a photograph whose tin carried invented label text — "Pue
+# Organis Ceremoertia" over three fabricated kanji — and that cannot be repaired
+# in place, only reshot. Any revival of that layout needs a fresh scene with no
+# product text in it at all.
 
 
-def proof_framed():
-    c = N.canvas()
-    scene = N.cover(Image.open(ASSETS / 'illus3/matcha-ritual-2.png'), W, H)
-    c.paste(scene, (0, 0))
-    d = ImageDraw.Draw(c)
-
-    # The scene was reshot to hold every object in the upper two thirds, which
-    # frees the counter below. That lets the claims sit in two bands framing the
-    # photograph instead of stacking above it: the only ground that stays dark
-    # for a full block is y 390-480 and y 1180 down, and both are used. No scrim
-    # is needed now — the lower counter already falls to 23-45 luminance.
-    N.logo(c, y=84, width=280, colour='#FFFFFF')
-    N.text(d, (W / 2, 248), 'BEHIND THE TASTE', 74, WHITE, tracking=2,
-           align='center')
-    N.body(d, (W / 2, 280), ['empat hal yang sudah beres sebelum diseduh.'], 27,
-           (232, 231, 226), align='center')
-
-    right = W - MARGIN
-    _value(c, d, MARGIN, 410, 'Three Gardens', 'uji, nishio, shizouka')
-    _value(c, d, right, 410, 'Pure, Nothing Else', 'manisnya menyusul', align='right')
-    _value(c, d, MARGIN, 1240, 'Papers In Order', 'halal, USDA, JAS organic')
-    _value(c, d, right, 1240, 'Still on the Menu',
-           'di ratusan kafe, lima belas tahun', align='right')
-
-    N.text(d, (W / 2, 1500), 'POWDERED TO PERFECTION', 26, WHITE, demi=True,
-           tracking=7, align='center')
-    return N.finish(c, OUT / '6-brand-story-2-framed.png')
+# Cut from the generated frame before scaling. The reference frames its pitcher
+# large — the mouth spans about 41 per cent of the width — and drops the cascade
+# onto the shadow inside it, so the crop matters as much as the type. Centring
+# the square frame left the mouth at 28 per cent and an interior only 335 across,
+# too narrow for four lines with any visible step. This window brings it to 37
+# per cent and 447 across. Its bounds are set by what has to stay whole: the rim
+# tops out at y 455 and the glass foot bottoms at y 1790, so the height cannot go
+# below about 1360, which fixes the width at 1150 for 3:4.
+POUR_CROP = (600, 400, 1750, 1933)
 
 
 def proof():
-    """Product value on the cinematic pour, after the supplied reference.
+    """Product value after the supplied reference: four stepped lines set inside
+    the vessel itself.
 
-    The reference carries its whole message in four small stepped lines over a
-    dark frame, so this follows that rather than a headline and a grid. Each
-    step was measured: the cascade runs from y 210 down and 70 across per line,
-    which keeps all four clear of the hand and the pitcher at 21 to 102
-    luminance. A step of 60 or a start at y 250 both walked line four onto the
-    pitcher at 165.
+    Nothing here is placed by eye. The rim is walked inward row by row to find
+    where the interior actually starts — it burns past 200 luminance while the
+    shadow inside holds under 40 — and the four lines are then spread from the
+    leftmost the top line allows to the rightmost the bottom line allows. That
+    yields the 39-pixel step rather than a guessed indent, and it is why the
+    step is even: the mouth is an ellipse, so the top and bottom lines are the
+    constrained ones and the middle two have room to spare.
+
+    The pouch is drawn, not generated. The scene this replaced carried an AI tin
+    whose label read "Pore Organic Ceremenial Grade" under three lines of
+    invented kanji, which is the failure the design system warns about and the
+    reason no Nomukita product is ever left to the model.
     """
     c = N.canvas()
-    c.paste(N.cover(Image.open(ASSETS / 'illus3/matcha-pour.png'), W, H), (0, 0))
-    _scrim(c, 1200, H, 140)          # only to hold the footer over the marble
+    frame = Image.open(ASSETS / 'illus3/matcha-pour-3.png').convert('RGB')
+    c.paste(frame.crop(POUR_CROP).resize((W, H), Image.LANCZOS), (0, 0))
+    _scrim(c, 1290, H, 120)          # only to hold the footer over the marble
     d = ImageDraw.Draw(c)
 
-    N.logo(c, y=84, width=240, colour='#FFFFFF')
+    # Stands on the marble to the right of the glass, clear of both the pitcher
+    # above (which bottoms out at y 740) and the cascade.
+    pouch = N.pouch3d(430, MATCHA,
+                      label=('Pure', '抹茶', ['Pure Matcha', 'Nishio'], '500 gram'))
+    px, py = 880 - pouch.width / 2, 1380 - pouch.height
+    N.contact_shadow(c, pouch, px, py, blur=20, opacity=78)
+    c.alpha_composite(pouch, (round(px), round(py)))
 
-    lines = ['Three gardens in Japan.', 'Nothing added after.',
-             'Halal and organic certified.', 'Fifteen years on the menu.']
-    for i, line in enumerate(lines):
-        N.body(d, (MARGIN + i * 70, 210 + i * 54), [line], 34, WHITE)
+    # The room behind the hand is the only part of the top strip that stays dark
+    # — the pitcher rim runs through the centre at 243 and the left at 255.
+    N.logo(c, y=92, width=248, align='right', x=W - MARGIN, colour='#FFFFFF')
 
-    N.text(d, (W / 2, 1508), 'POWDERED TO PERFECTION', 24, WHITE, demi=True,
+    # The certificates are named rather than badged: the brief asks for USDA and
+    # JAS, and two seals on the marble would undo the clean layout. Line three is
+    # not what constrains the block anyway — the ellipse pinches the first and
+    # last lines, so the middle two are free to say more.
+    lines = ['From three gardens.', 'Nothing added after.',
+             'Halal, USDA, JAS.', 'Still on cafe menus.']
+    for i, (line, x) in enumerate(zip(lines, (172, 212, 251, 291))):
+        N.body(d, (x, 280 + i * 48), [line], 26, WHITE)
+
+    N.text(d, (W / 2, 1512), 'POWDERED TO PERFECTION', 24, WHITE, demi=True,
            tracking=7, align='center')
     return N.finish(c, OUT / '6-brand-story-2.png')
 
 
 if __name__ == '__main__':
-    for fn in (story, proof, proof_framed):
+    for fn in (story, proof):
         img = fn()
         print(f'{fn.__name__:8s} {img.size}')

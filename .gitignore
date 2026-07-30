@@ -12,3 +12,5 @@ kie-out/
 
 # Font is a Fontspring DEMO — licensed copy must not be committed either
 banners/assets/fonts/
+__pycache__/
+*.pyc
