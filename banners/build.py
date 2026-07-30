@@ -327,64 +327,81 @@ def discount():
 
 
 # ── 6. Category — walking packs ──────────────────────────────────────────
-# After the client's reference, which stands its products on a zebra crossing
-# and gives them legs. The street is generated; the packs are the client's own
-# mockup photographs; the legs, arms and labels are drawn. Nothing in the frame
-# is an image model's idea of a Nomukita product.
+# After the client's two references: one stands products on a zebra crossing and
+# gives them legs, the other writes its labels along the curve of the object they
+# name. The street is the client's own Referensi Background photograph; the packs
+# are their mockups; the legs, arms and labels are drawn. Nothing in the frame is
+# a model's idea of a Nomukita product.
+#
+# Matcha, Premium and Exclusive now come from one template — 730 by 1051 each —
+# rather than being scaled to look alike. The 500 g Uji pouch used before is a
+# different template at 562 by 913, and at equal height it renders 30 pixels
+# narrower, which is the mismatch the client spotted. The 250 g pack keeps its
+# own shape and a smaller size because it is a smaller product; matching it to
+# the others would misrepresent it.
+#
+# Crop: the reference is 736 by 1472, so filling 1200 wide scales it 1.63 to a
+# 2400-tall image, of which the window takes 1600. The stripes sit at y 2210-2340
+# there — measured off the pixels, not guessed from the thumbnail, where an
+# earlier read put them 350 pixels high and left the packs standing on the
+# shopfronts. Starting at y 800 is the lowest the window can go while keeping
+# Fuji's peak in frame, and it brings the stripes to y 1455-1500.
+STREET_CROP = (0, 800, 1200, 2400)
+CROSSING = 1480                   # where every pack's feet meet the stripes
+
+#   file, label, stride, pack height, leg length
 CATEGORIES = [
-    ('uji-500', 'MATCHA SERIES', 1),
-    ('taro', 'PREMIUM SERIES', 0),
-    ('cocoa', 'EXCLUSIVE SERIES', 1),
-    ('tarik', '250 GRAM SERIES', 0),
+    ('matcha-1000', 'MATCHA SERIES', 1, 380, 152),
+    ('taro', 'PREMIUM SERIES', 0, 380, 152),
+    ('cocoa', 'EXCLUSIVE SERIES', 1, 380, 152),
+    ('tarik-250', '250 GRAM SERIES', 0, 213, 108),
 ]
 
 
 def category_walk():
     """Four packs crossing a Japanese street, one per category.
 
-    The labels arc over each pack rather than sitting flat above it, which is
-    the writing style of the second reference — type bent to the object it
-    names. The radius is tied to pack width so all four arcs read as one curve.
+    Every pack is sized to the same rendered width so the row reads as a set,
+    and every pack's feet land on CROSSING so they share one ground line rather
+    than floating at their own heights.
     """
     c = N.canvas()
-    street = Image.open(ILLUS3 / 'street-crossing.png').convert('RGB')
-    c.paste(N.cover(street, W, H), (0, 0))
+    street = Image.open(ILLUS3 / 'street-ref.jpg').convert('RGB')
+    street = street.resize((1200, round(street.height * 1200 / street.width)),
+                           Image.LANCZOS)
+    c.paste(street.crop(STREET_CROP), (0, 0))
     d = ImageDraw.Draw(c)
 
-    # Charcoal, not white: the sky behind the header measures median 173 to 188,
-    # so the brand's primary text colour is the one that reads there.
+    # Charcoal, not white: the sky behind the header is the palest part of the
+    # photograph, so the brand's primary text colour is the one that reads there.
     N.logo(c, y=96, width=300)
-    # No subline: the tree canopy reaches x 480 at that height, so a centred
-    # line of body copy loses its first word into the leaves, and the four arc
-    # labels already name what the categories are. The reference carries no
-    # subline either.
     N.text(d, (W / 2, 272), 'CATEGORY', 76, CHARCOAL, tracking=2, align='center')
 
-    ph = 380                      # pack height, four across a 1200 canvas
-    hip = 1284                    # legs start here; the feet land on the stripes
-    for i, (name, label, phase) in enumerate(CATEGORIES):
+    pw = 264                      # one rendered width for all four
+    for i, (name, label, phase, ph, leg) in enumerate(CATEGORIES):
         pack = Image.open(PACK / f'{name}.png').convert('RGBA')
         pack = pack.crop(pack.getbbox())
-        pack = pack.resize((round(ph * pack.width / pack.height), ph),
-                           Image.LANCZOS)
+        pack = pack.resize((pw, round(pw * pack.height / pack.width)), Image.LANCZOS)
         cx = 168 + i * 288
 
-        legs, ox, oy = N.walker(152, pack.width, phase=phase)
+        hip = CROSSING - round(leg * 0.90)
+        legs, ox, oy = N.walker(leg, pack.width, phase=phase)
         c.alpha_composite(legs, (round(cx - ox), round(hip - oy)))
         top = hip - pack.height + 8
         c.alpha_composite(pack, (round(cx - pack.width / 2), top))
 
-        # Radius 1.6 times the pack width: at 0.95 the arc dived so steeply that
-        # its ends read as a diagonal rather than a curve. The label rides 62
-        # pixels clear of the pack's shoulder, over the tree line, which is dark
-        # at median 64 but carries leaf highlights to 255 — hence the halo. At 26
-        # the longest label left an 18-pixel gap to its neighbour; 24 opens it
-        # to 61.
+        # Radius 1.6 times the pack width: at 0.95 the arc dived steeply enough
+        # to read as a diagonal. 24 rather than 26 keeps 61 pixels between
+        # neighbouring labels instead of 18.
+        # The halo is tighter and stronger here than on the discount banner: the
+        # third pack stands in front of a lit shop sign where the label band runs
+        # median 122 and reaches 212, against 78 for the two beside it. Hugging
+        # the glyphs carries them over that without spreading a grey cloud.
         radius = pack.width * 1.6
         lab = Image.new('RGBA', c.size, (0, 0, 0, 0))
-        N.arc_text(lab, (cx, top - 78 + radius), label, 24, (255, 255, 255),
+        N.arc_text(lab, (cx, top - 62 + radius), label, 24, (255, 255, 255),
                    radius, demi=True, tracking=2)
-        N.halo(c, lab, strength=0.7, blur=16)
+        N.halo(c, lab, strength=0.9, blur=13)
 
     return N.finish(c, OUT / '8-kategori.png')
 
