@@ -84,19 +84,18 @@ def proof():
     N.logo(c, y=84, width=280, colour='#FFFFFF')
     N.text(d, (W / 2, 248), 'CHECK THE LABEL', 78, WHITE, tracking=2,
            align='center')
-    N.body(d, (W / 2, 278), ['empat hal yang bisa dicek, bukan dijanjikan.'], 27,
+    N.body(d, (W / 2, 278), ['semua bisa dicek, nggak cuma janji.'], 27,
            (232, 231, 226), align='center')
 
     right = W - MARGIN
     # Row 2 on the left has a hard ceiling near x 420 before the bamboo turns
     # bright, so the certification list is the tight one and the long line about
     # cafes went right, where there is room out to x 669.
-    _value(c, d, MARGIN, 448, 'Kebunnya Ada Namanya', 'Uji, Nishio, Shizouka')
-    _value(c, d, right, 448, 'Isinya Cuma Matcha', 'manisnya diatur sendiri',
-           align='right')
-    _value(c, d, MARGIN, 596, 'Bukan Klaim Sendiri', 'halal, USDA, JAS Organic')
-    _value(c, d, right, 596, 'Bertahan 15 Tahun di Kafe',
-           'kalau kurang, sudah lama diganti', align='right')
+    _value(c, d, MARGIN, 448, 'Named Gardens', 'uji, nishio, shizouka')
+    _value(c, d, right, 448, 'Just Matcha', 'manisnya atur sendiri', align='right')
+    _value(c, d, MARGIN, 596, 'Checked, Not Claimed', 'halal, USDA, JAS organic')
+    _value(c, d, right, 596, '15 Years in Cafes',
+           'kalau kurang, udah lama diganti', align='right')
 
     N.drop(c, W / 2 - 7, 1416, 15, N.LOGO_BLUE)
     N.text(d, (W / 2, 1494), 'POWDERED TO PERFECTION', 26, WHITE, demi=True,
