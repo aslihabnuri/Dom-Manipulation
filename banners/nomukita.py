@@ -668,3 +668,80 @@ def pouch250(height, accent, label=None, ss=3):
         im.alpha_composite(dot, (round(W_ * 0.855), round(H_ * 0.470)))
 
     return im.resize((Wp, height), Image.LANCZOS)
+
+
+def tin(height, accent=MATCHA, label=None, ss=3):
+    """A cylindrical matcha tin, drawn rather than generated.
+
+    Same reason as the pouches: asked for a labelled tin, the image models
+    returned "Pore Organic Ceremenial Grade" over three invented kanji. Built
+    here, the wordmark comes from the source SVG and the label is real type.
+
+    Drawn back to front — the body runs full height under the lid, then the lid
+    skirt covers its top. Starting the body below the skirt instead leaves an
+    unfilled ring between the two.
+    """
+    import subprocess, tempfile, re
+
+    Wt = round(height * 0.92)
+    W_, H_ = Wt * ss, height * ss
+    im = Image.new('RGBA', (W_, H_), (0, 0, 0, 0))
+    d = ImageDraw.Draw(im)
+
+    ry = W_ * 0.112                      # ellipse half-height: a shallow eye level
+    lid_h = H_ * 0.085
+    body_bot = H_ - ry
+    dark = tuple(round(v * 0.78) for v in accent)
+
+    def cyl(top, bottom, fill):
+        d.rectangle([0, top, W_, bottom], fill=fill + (255,))
+        d.ellipse([0, bottom - ry, W_, bottom + ry], fill=fill + (255,))
+
+    cyl(ry, body_bot, accent)                            # body, full height
+    cyl(ry, ry + lid_h, dark)                            # lid skirt over its top
+    d.ellipse([0, 0, W_, ry * 2], fill=accent + (255,))  # lid face
+
+    # One horizontal gradient over the whole silhouette turns the flat shapes
+    # into a cylinder: bright at 18% across, falling away to both edges.
+    sil = Image.new('L', (W_, H_), 0)
+    sd = ImageDraw.Draw(sil)
+    sd.rectangle([0, ry, W_, body_bot], fill=255)
+    sd.ellipse([0, 0, W_, ry * 2], fill=255)
+    sd.ellipse([0, body_bot - ry, W_, body_bot + ry], fill=255)
+    lit = Image.new('RGBA', (W_, H_), (255, 255, 255, 0))
+    lit.putalpha(_hgrad((W_, H_), [(0.0, 20), (0.18, 58), (0.42, 16), (0.7, 0), (1.0, 0)]))
+    im.paste(Image.alpha_composite(im, lit), (0, 0), sil)
+    shd = Image.new('RGBA', (W_, H_), (0, 0, 0, 0))
+    shd.putalpha(_hgrad((W_, H_), [(0.0, 92), (0.14, 0), (0.60, 0), (1.0, 118)]))
+    im.paste(Image.alpha_composite(im, shd), (0, 0), sil)
+
+    # the seam where the lid sits down over the body
+    d.line([(0, ry + lid_h), (W_, ry + lid_h)], fill=(0, 0, 0, 70),
+           width=max(round(ss * 0.7), 1))
+
+    def svg_png(name, colour, w):
+        s = (REPO / f'brand/logo/nomukita-{name}.svg').read_text()
+        if name == 'wordmark':
+            s = re.sub(r'<g transform="[^"]*" fill="#44B4D9"[^>]*>.*?</g>', '',
+                       s, flags=re.S)
+        s = re.sub(r'fill="#[0-9A-Fa-f]{6}"', f'fill="{colour}"', s)
+        with tempfile.NamedTemporaryFile(suffix='.svg', mode='w', delete=False) as f:
+            f.write(s)
+            src_ = f.name
+        with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as t:
+            subprocess.run(['rsvg-convert', '-w', str(round(w)), src_, '-o', t.name],
+                           check=True)
+            return Image.open(t.name).convert('RGBA')
+
+    word = svg_png('wordmark', '#FFFFFF', W_ * 0.60)
+    im.alpha_composite(word, ((W_ - word.width) // 2, round(H_ * 0.46)))
+
+    if label:
+        kanji, name = label
+        cx = W_ / 2
+        d.text((cx, H_ * 0.645), kanji, font=jp(round(H_ * 0.055)),
+               fill=(255, 255, 255, 232), anchor='ms')
+        d.text((cx, H_ * 0.725), name, font=comf(round(H_ * 0.044), 500),
+               fill=(255, 255, 255, 222), anchor='ms')
+
+    return im.resize((Wt, height), Image.LANCZOS)

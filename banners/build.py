@@ -238,48 +238,68 @@ def discount():
     """The discount banner, set on the counter scene rather than a bone panel.
 
     The reference the client pointed at puts type straight onto the photograph,
-    so this does too, and the photograph's own structure decides where: the wood
-    panelling behind the counter holds between 22 and 54 luminance across
-    x 110-1050 and y 140-585, which is the only block here big enough for the
-    offer, while the counter surface below it burns to 208. The window in the top
-    corner is what sets the logo's height — it reads 222 at y 100 and 27 by y 140.
+    so this does too, and the photograph decides where each block can go. Three
+    fields carry it, which is also what keeps the copy off a single edge: the
+    panelling on the left holds 7 to 37 luminance behind the headline; a 330-wide
+    pocket of panelling on the right stays under 83 above the whisks, which start
+    burning to 214 at y 240, and takes the percentage; and the stone under the
+    counter runs under 114 the whole way across, so the smaller offers sit at one
+    end of it and the button at the other. The window in the top corner is what
+    sets the logo's height — 222 at y 100, 27 by y 140.
 
-    The two smaller offers sit on the counter in charcoal rather than under the
-    number in white, which fixes two things at once: it frees the room the
-    percentage needs to be the largest thing here, and it puts something on a
-    surface that was otherwise a wide empty stretch beside a crowded corner. That
-    band runs 119 to 208 luminance, nowhere dark enough to swallow charcoal.
+    The counter between them is where the products stand, which is the one place
+    a pack can sit and look like it is resting on something. Both are drawn: the
+    tin especially, since the generated tins in this project came back reading
+    "Pore Organic Ceremenial Grade" over invented kanji.
     """
     c = N.canvas(WIDE_W, WIDE_H)
     scene = Image.open(ILLUS3 / 'counter-2to1.png').convert('RGB')
     c.paste(scene.crop(DISCOUNT_CROP).resize((WIDE_W, WIDE_H), Image.LANCZOS), (0, 0))
     d = ImageDraw.Draw(c)
     white = (255, 255, 255)
+    right = WIDE_W - WIDE_M
 
+    # Products first, so the type composites over them rather than under.
+    # Both packs are the same product in two formats, so both read Uji Matcha.
+    pouch = N.pouch3d(400, MATCHA,
+                      label=('Pure', '抹茶', ['Uji Matcha', 'Kyoto'], '500 gram'))
+    px, py = 830 - pouch.width / 2, 790 - pouch.height
+    N.contact_shadow(c, pouch, px, py, blur=22, opacity=84)
+    c.alpha_composite(pouch, (round(px), round(py)))
+
+    tin = N.tin(250, label=('抹茶', 'Uji Matcha'))
+    tx, ty = 1065 - tin.width / 2, 806 - tin.height
+    N.contact_shadow(c, tin, tx, ty, blur=20, opacity=80)
+    c.alpha_composite(tin, (round(tx), round(ty)))
+
+    # left field — who it is and what the moment is
     N.logo(c, y=142, width=272, x=WIDE_M, colour='#FFFFFF')
+    N.text(d, (WIDE_M, 318), 'MATCHA DAYS', 72, MATCHA, tracking=5)
+    N.body(d, (WIDE_M, 372), ['buat yang cangkirnya jarang kosong.'], 28,
+           (230, 229, 224))
 
-    # Matcha green is the composition's one accent and it carries the headline
-    # rather than the number: at 72 it has the area to hold #7A9A3F against wood
-    # this dark, where the percentage would trade contrast for it. The percentage
-    # stays white and takes the top of the display range instead.
-    N.text(d, (WIDE_M, 318), 'MATCHA SALE', 72, MATCHA, tracking=5)
-    N.body(d, (WIDE_M, 372), ['harga turun, rasa tetap.'], 28, (230, 229, 224))
-
-    # The label belongs to the number, not to the line above it, so it sits 30
-    # pixels off the numeral's cap and 78 off the body. At 168 the numeral's cap
-    # reached y 472 and left the label nowhere to go; 156 is also what the payday
-    # banner uses, which keeps the two offers the same size across the set.
-    N.text(d, (WIDE_M, 450), 'DISKON HINGGA', 24, white, demi=True, tracking=7)
-
+    # right field — the offer, right-aligned into the pocket above the whisks
+    N.text(d, (right, 170), 'DISKON HINGGA', 24, white, demi=True, tracking=7,
+           align='right')
     size = 156
     cap = N.arg(size).getbbox('H')[3] - N.arg(size).getbbox('H')[1]
-    x = WIDE_M + N.text(d, (WIDE_M, 582), '25', size, white)
-    N.percent(c, x, 582, cap, white)
+    total = N.text_width('25', size) + cap * N.PERCENT_WIDTH
+    x = right - total + N.text(d, (right - total, 300), '25', size, white)
+    N.percent(c, x, 300, cap, white)
 
-    for i, line in enumerate(('GRATIS ONGKIR', 'VOUCHER HINGGA 15RB')):
-        N.text(d, (WIDE_M, 722 + i * 56), line, 28, CHARCOAL, demi=True, tracking=6)
+    # stone field — the two smaller offers at one end, the button at the other
+    N.text(d, (WIDE_M, 915), 'GRATIS ONGKIR  ·  VOUCHER HINGGA 15RB', 26, white,
+           demi=True, tracking=5)
 
-    N.body(d, (WIDE_M, 946), ['powdered to perfection'], 22, (214, 212, 206))
+    label, fs, tr = 'SHOP NOW', 28, 6
+    lw = N.text_width(label, fs, demi=True, tracking=tr)
+    pw, ph = lw + 34 + 30 + 34, 74
+    bx, by = right - pw, 872
+    d.rounded_rectangle([bx, by, bx + pw, by + ph], radius=ph // 2,
+                        fill=MATCHA + (255,))
+    N.text(d, (bx + 34, by + 48), label, fs, white, demi=True, tracking=tr)
+    N.chevron(d, bx + 34 + lw + 18, by + ph / 2, 19, white, width=3)
+
     return N.finish(c, OUT / '7-diskon.png')
 
 
