@@ -82,16 +82,18 @@ def proof():
     # whisks run bright there (up to 180) and no scrim fixes that without
     # muddying the picture. The scrim only serves the footer.
     N.logo(c, y=84, width=280, colour='#FFFFFF')
-    N.text(d, (W / 2, 246), 'WHY OUR MATCHA?', 68, WHITE, tracking=2,
+    N.text(d, (W / 2, 248), 'INSIDE THE TIN', 78, WHITE, tracking=2,
            align='center')
-    N.body(d, (W / 2, 274), ["from japan's finest tea regions to your cup"], 27,
+    N.body(d, (W / 2, 278), ['dari kebun teh di jepang sampai ke cangkir.'], 27,
            (232, 231, 226), align='center')
 
     right = W - MARGIN
-    _value(c, d, MARGIN, 448, 'Single Origin', 'Uji, Nishio & Shizouka')
-    _value(c, d, right, 448, '100% Pure', 'No Sugar No Creamer', align='right')
-    _value(c, d, MARGIN, 596, 'Certified Halal', 'USDA & JAS Organic')
-    _value(c, d, right, 596, 'Trusted by Cafes', 'for 15+ Years', align='right')
+    _value(c, d, MARGIN, 448, 'Asalnya Disebut', 'Uji, Nishio, Shizouka')
+    _value(c, d, right, 448, 'Murni Tanpa Campuran', 'tanpa gula, tanpa krimer',
+           align='right')
+    _value(c, d, MARGIN, 596, 'Halal dan Organik', 'tersertifikasi USDA & JAS')
+    _value(c, d, right, 596, 'Dipakai Ratusan Kafe', 'lebih dari 15 tahun',
+           align='right')
 
     N.drop(c, W / 2 - 7, 1416, 15, N.LOGO_BLUE)
     N.text(d, (W / 2, 1494), 'POWDERED TO PERFECTION', 26, WHITE, demi=True,
