@@ -120,24 +120,25 @@ def proof():
     N.body(d, (right, 1052), ['dari kebun teh di jepang,', 'sampai ke cangkir.'],
            27, (232, 231, 226), leading=1.48, align='right')
 
-    # Set flush left rather than stepped, which is a change forced by the copy.
-    # Two of these lines run 347 and 368 pixels against a mouth whose widest row
-    # is 447, so once the rim padding is taken off there are 8 pixels of lateral
-    # freedom for the whole block — a rightward step needs roughly 120. Every
-    # ordering was tried; the best any of them yields is 6 pixels a line, which
-    # reads as a ragged edge rather than a cascade, so a clean flush edge is the
-    # better of the two. The step comes back the moment a line drops under about
-    # 300 pixels, near 21 characters at this size.
+    # Centred on the mouth rather than on the frame: the ellipse's own axis sits
+    # at x 364, not 600, and hanging the block off the frame's centre would push
+    # the two long lines straight through the rim. Centring is also the roomiest
+    # of the three arrangements tried here — 19 pixels of lateral freedom against
+    # 8 flush left — because a centred line spends its slack on both sides of the
+    # axis instead of all of it on the right. The stepped cascade of the reference
+    # is not among the options at this copy length: the best step any ordering
+    # allows is 6 pixels a line, which reads as a ragged edge, and it only comes
+    # back once a line drops under about 300 pixels, near 21 characters.
     #
     # The 52-pixel gap is what makes four claims read as four rather than as a
     # paragraph, and it is also what sets the size. Spreading the lines pushes
     # the first and last into the narrowing ends of the ellipse, where both of
-    # the long ones stop fitting: at 25 the gap cannot pass 40, at 24 it reaches
-    # 52. One point of size buys twelve of air, which is the right trade.
+    # the long ones stop fitting: at 25 the gap cannot pass 48, at 24 it reaches
+    # 64. One point of size buys the air, which is the right trade.
     lines = ['Origin: Uji, Nishio, Shizuoka.', '100% Pure Matcha.',
              'Halal, USDA, JAS.', 'Trusted by hundreds of cafes.']
     for i, line in enumerate(lines):
-        N.body(d, (173, 284 + i * 52), [line], 24, WHITE)
+        N.body(d, (364, 258 + i * 52), [line], 24, WHITE, align='center')
 
     N.text(d, (W / 2, 1512), 'POWDERED TO PERFECTION', 24, WHITE, demi=True,
            tracking=7, align='center')
