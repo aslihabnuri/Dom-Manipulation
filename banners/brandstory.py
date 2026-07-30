@@ -120,14 +120,22 @@ def proof():
     N.body(d, (right, 1052), ['dari kebun teh di jepang,', 'sampai ke cangkir.'],
            27, (232, 231, 226), leading=1.48, align='right')
 
-    # The certificates are named rather than badged: the brief asks for USDA and
-    # JAS, and two seals on the marble would undo the clean layout. Line three is
-    # not what constrains the block anyway — the ellipse pinches the first and
-    # last lines, so the middle two are free to say more.
-    lines = ['From three gardens.', 'Nothing added after.',
-             'Halal, USDA, JAS.', 'Still on cafe menus.']
-    for i, (line, x) in enumerate(zip(lines, (172, 212, 251, 291))):
-        N.body(d, (x, 280 + i * 48), [line], 26, WHITE)
+    # Two of these four claims are too long for the mouth on one line — "No
+    # sugar, no creamer, 100% pure matcha" alone runs 542 pixels against an
+    # interior of 447 — so the copy is set as four units rather than four lines,
+    # and the step moves per unit. Wrapped lines share their unit's indent, which
+    # is what keeps six lines reading as four claims. The certificates are named
+    # rather than badged: two seals on the marble would undo the clean layout.
+    units = [
+        (179, ['Origin: Uji, Nishio, Shizuoka.']),
+        (208, ['No sugar, no creamer,', '100% pure matcha.']),
+        (237, ['Halal, USDA, JAS.']),
+        (265, ['In hundreds of cafes,', 'for over 15 years.']),
+    ]
+    y = 264
+    for x, lines in units:
+        N.body(d, (x, y), lines, 26, WHITE, leading=32 / 26)
+        y += len(lines) * 32 + 14          # the extra 14 keeps pairs paired
 
     N.text(d, (W / 2, 1512), 'POWDERED TO PERFECTION', 24, WHITE, demi=True,
            tracking=7, align='center')
