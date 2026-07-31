@@ -39,7 +39,7 @@ const pcolor = p => getComputedStyle(document.documentElement).getPropertyValue(
 /* ---------- channel defs ---------- */
 const CH_ORDER = ['tt_live_smo','tt_live_sid','tt_live_smv','tt_live_aff','tt_live_all','tt_vsa','tt_vsa_ns','tt_psa','tt_psa_ns','tt_vsa_psa',
   'tt_ci_smv','tt_bc_ext','tt_aw_ext',
-  'meta_cpas','meta_reg','meta_aw','meta_traffic','sp_live','sp_sba','sp_pc','sp_pc_new','sp_store','lz_store','lz_product'];
+  'meta_cpas','meta_reg','meta_web_sales','meta_aw','meta_traffic','sp_live','sp_sba','sp_pc','sp_pc_new','sp_store','lz_store','lz_product'];
 const CH_DEF = RAW.channels.slice().sort((a,b)=>{
   const ia=CH_ORDER.indexOf(a.id), ib=CH_ORDER.indexOf(b.id);
   return (ia<0?99:ia)-(ib<0?99:ib);
@@ -58,7 +58,7 @@ const platAllIds = p => CH_DEF.filter(c=>c.platform===p).map(c=>c.id);
 const DEFAULT_TARGETS = {
   tt_vsa:10, tt_vsa_ns:6, tt_psa:15, tt_psa_ns:10, tt_vsa_psa:12,
   tt_live_smo:8, tt_live_sid:8, tt_live_smv:8, tt_live_aff:8, tt_live_all:8,
-  meta_cpas:20, meta_reg:8, sp_live:8, sp_sba:4, sp_pc:10, sp_pc_new:8, sp_store:8,
+  meta_cpas:20, meta_reg:8, meta_web_sales:2, sp_live:8, sp_sba:4, sp_pc:10, sp_pc_new:8, sp_store:8,
   lz_store:6, lz_product:6,
 };
 const LS_T='smoAdsTargets', LS_O='smoAdsOverlayV3', LS_TH='smoAdsTheme', LS_MASK='smoAdsMaskMonths',
@@ -209,14 +209,11 @@ const momRow=(y,name)=>((RAW.mom[y]||{})[name]||Array(12).fill(null));
    Bulan sebelum ini SELALU memakai angka resmi dari sheet dan tidak pernah diubah,
    walau ada unggahan. */
 const MOM_LIVE_FROM='2026-07';
-/* untuk bulan >= MOM_LIVE_FROM: bila ada unggahan (overlay) atau di-mask, dihitung
-   ulang dari data harian supaya tabel MoM ikut terupdate tiap data ditambahkan,
-   konsisten dengan tab Daily/Platform. */
+/* bulan >= MOM_LIVE_FROM selalu dihitung dari data harian (data dasar + unggahan),
+   sehingga tabel MoM ikut terupdate tiap data ditambahkan dan konsisten dengan tab
+   Daily/Platform, termasuk bagi pemegang link yang belum pernah mengunggah. */
 function momMonthLive(mk){
-  if(mk<MOM_LIVE_FROM)return false;
-  if(maskMonths&&maskMonths[mk])return true;
-  for(const cid in overlay){const mm=overlay[cid];for(const k in mm){for(const iso in mm[k]){if(mkOf(iso)===mk)return true;}}}
-  return false;
+  return mk>=MOM_LIVE_FROM;
 }
 function momPack(y){
   const r=n=>momRow(y,n).slice();

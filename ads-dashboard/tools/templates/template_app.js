@@ -19,8 +19,9 @@ const CH_LABEL={
   tt_aw_ext:['Awareness TikTok','TikTok Awareness'],
   meta_cpas:['Meta CPAS (Penjualan)','Meta CPAS (Sales)'],
   meta_reg:['Meta Reguler (Penjualan)','Meta Regular (Sales)'],
-  meta_aw:['Awareness Meta Reguler','Meta Regular Awareness'],
-  meta_traffic:['Traffic Meta Reguler','Meta Regular Traffic'],
+  meta_aw:['Awareness (Branding Ads)','Awareness (Branding Ads)'],
+  meta_traffic:['Traffic (Branding Ads)','Traffic (Branding Ads)'],
+  meta_web_sales:['Sales Website','Website Sales'],
   sp_live:['Shopee Live','Shopee Live'],
   sp_sba:['Banner Ads','Banner Ads'],
   sp_pc:['Iklan Produk Shopee','Shopee Product Ads'],
@@ -652,6 +653,7 @@ const METRIC_DEFS=()=>[
   ['cost',L('Biaya Iklan','Ads Cost'),fmtRp],['gmv',L('GMV (Nilai Pembelian)','GMV (Purchase Value)'),fmtRp],['orders',L('Pesanan dari Iklan','Orders from Ads'),fmtN],
   ['impressions',L('Impresi','Impressions'),fmtN],['clicks',L('Klik Produk','Product Clicks'),fmtN],
   ['liveViews',L('Penayangan Live','Live Views'),fmtN],['reach',L('Jangkauan','Reach'),fmtN],['follows',L('Pengikut Berbayar','Paid Follows'),fmtN],
+  ['lpv','Landing Page Views',fmtN],
   ['consideration','Consideration Size',fmtN],['atc',L('Tambah ke Keranjang','Add to Cart'),fmtN],['atcValue',L('Nilai Keranjang','ATC Value'),fmtRp],
 ];
 function renderDaily(){
@@ -727,6 +729,20 @@ function renderDailyChannel(root){
     if(sum(o)>0&&sum(cl)>0)mk2('CTOR',i=>cl[i]?100*(o[i]||0)/cl[i]:null,fmtPct,()=>100*sum(o)/sum(cl));
     if(sum(o)>0)mk2(L('Biaya per Pesanan','Cost per Order'),i=>o[i]?(c[i]||0)/o[i]:null,fmtRpC,()=>div(sum(c),sum(o)));
     if(sum(o)>0&&sum(g)>0)mk2('AOV',i=>o[i]?(g[i]||0)/o[i]:null,fmtRpC,()=>div(sum(g),sum(o)));
+  }
+  /* metrik turunan Branding / Website: Frequency, CPM, Cost per LPV, CTR & CTOR berbasis LPV */
+  {
+    const c=seriesRange(S.ids,'cost',from,to),im=seriesRange(S.ids,'impressions',from,to),
+          re=seriesRange(S.ids,'reach',from,to),lp=seriesRange(S.ids,'lpv',from,to),
+          o=seriesRange(S.ids,'orders',from,to),cl=seriesRange(S.ids,'clicks',from,to);
+    const mk3=(label,fn,f,totFn)=>der.push({label,vals:showSeq.map((_,i)=>fn(i)),f,tot:totFn(),derived:true});
+    if(sum(re)>0&&sum(im)>0)mk3(L('Frekuensi','Frequency'),i=>re[i]?(im[i]||0)/re[i]:null,v=>nf2.format(v),()=>div(sum(im),sum(re)));
+    if(!S.sales&&sum(im)>0&&sum(c)>0)mk3('CPM',i=>im[i]?1000*(c[i]||0)/im[i]:null,fmtRpC,()=>1000*sum(c)/sum(im));
+    if(sum(lp)>0){
+      mk3(L('Biaya per LPV','Cost per LPV'),i=>lp[i]?(c[i]||0)/lp[i]:null,fmtRpC,()=>div(sum(c),sum(lp)));
+      if(S.sales&&sum(cl)===0&&sum(im)>0)mk3('CTR (LPV)',i=>im[i]?100*(lp[i]||0)/im[i]:null,fmtPct,()=>100*sum(lp)/sum(im));
+      if(S.sales&&sum(cl)===0&&sum(o)>0)mk3('CTOR (LPV)',i=>lp[i]?100*(o[i]||0)/lp[i]:null,fmtPct,()=>100*sum(o)/sum(lp));
+    }
   }
   const tbl=root.querySelector('#dailyTbl');
   tbl.innerHTML=`<thead><tr><th>${L('Metrik','Metric')}</th>${showSeq.map(iso=>`<th class="dayh" data-iso="${iso}" style="cursor:pointer" title="${L('Lihat semua channel tanggal ini','View all channels on this date')}">${isoLabel(iso)}</th>`).join('')}<th>Total</th></tr></thead>
@@ -969,10 +985,10 @@ function renderPlatforms(){
       }).join(''):''}</tbody></table></div>`:''}
       ${uppers.length?`<div style="font-size:11.5px;font-weight:700;letter-spacing:.04em;color:var(--muted);margin:12px 0 2px">BRANDING ADS <span style="font-weight:400;letter-spacing:0">· Awareness / Brand Consideration / Community Interaction</span></div>
       <div class="tbl-wrap" style="border:0;border-radius:0"><table><thead><tr>
-        <th>Channel</th><th>${L('Anggaran','Budget')}</th><th>Spent</th><th>Pacing</th><th>${L('Jangkauan','Reach')}</th><th>${L('Impresi','Impressions')}</th><th>CPM</th><th>${L('Klik Produk','Product Clicks')}*</th><th>${L('Pengikut Berbayar','Paid Followers')}</th><th>${L('Biaya per Pengikut','Cost per Follower')}</th><th>${L('Data hingga','Data through')}</th>
+        <th>Channel</th><th>${L('Anggaran','Budget')}</th><th>Spent</th><th>Pacing</th><th>${L('Jangkauan','Reach')}</th><th>${L('Impresi','Impressions')}</th><th>CPM</th><th>LPV</th><th>${L('Biaya per LPV','Cost per LPV')}</th><th>${L('Klik Produk','Product Clicks')}*</th><th>${L('Pengikut Berbayar','Paid Followers')}</th><th>${L('Biaya per Pengikut','Cost per Follower')}</th><th>${L('Data hingga','Data through')}</th>
       </tr></thead><tbody>
       ${uppers.map(c=>{
-        const reach=sum(c.days.reach||[]),imp=c.tot.imp,clk=c.tot.clk,fol=sum(c.days.follows||[]);
+        const reach=sum(c.days.reach||[]),imp=c.tot.imp,clk=c.tot.clk,fol=sum(c.days.follows||[]),lpv=sum(c.days.lpv||[]);
         const pct=c.budget?Math.min(100,100*c.tot.cost/c.budget):0;
         const pace=(c.budget&&c.last)?c.tot.cost/(c.budget*c.last/DIMm):null;
         const pcCol=pace==null?'var(--axis)':pace>1.2?'var(--serious)':pace<0.6?'var(--warning)':'var(--good)';
@@ -983,6 +999,8 @@ function renderPlatforms(){
             <span style="font-size:11px;color:var(--muted);width:34px;text-align:right">${c.budget?nf0.format(100*c.tot.cost/c.budget)+'%':'–'}</span></div></td>
           <td class="num">${reach?fmtNC(reach):'–'}</td><td class="num">${imp?fmtNC(imp):'–'}</td>
           <td class="num">${imp&&c.tot.cost?fmtRpC(1000*c.tot.cost/imp):'–'}</td>
+          <td class="num">${lpv?fmtNC(lpv):'–'}</td>
+          <td class="num">${lpv&&c.tot.cost?fmtRpC(c.tot.cost/lpv):'–'}</td>
           <td class="num">${clk?fmtNC(clk):'–'}</td>
           <td class="num">${fol?fmtN(fol):'–'}</td>
           <td class="num">${fol&&c.tot.cost?fmtRpC(c.tot.cost/fol):'–'}</td>
@@ -1325,6 +1343,71 @@ function detectRows(rows,filename){
         return {type:'branding',needsDate:true,date:fnDate,entriesNoDate,
           label:`${L('Iklan Branding','Branding Ads')} · ${chIds.map(c=>chName(c)).join(', ')} · ${fmtRpC(sum(chIds.map(c=>agg[c].cost)))} spend${zeroDropped?` · ${zeroDropped} ${L('campaign 0 dibuang','zero campaigns dropped')}`:''}${unknown?` · ${unknown} ${L('tak dikenal','unrecognized')}`:''}`,
           hint:L('Consideration Size dicatat sebagai Product Clicks (masuk ke Ringkasan dan tabel MoM). Pilih tanggal data bila belum terisi otomatis.','Consideration Size is recorded as Product Clicks (feeds the Summary and MoM table). Choose the data date if it is not filled automatically.')};
+      }
+    }
+  }
+  /* --- Meta Ads Website (Awareness / Traffic / Sales): ekspor Ads Manager dengan kolom
+     Landing page views / Website purchases. Objective dibaca dari awalan Campaign name:
+     "Awareness ..." → meta_aw, "Traffic ..." → meta_traffic, "Sales ..." → meta_web_sales.
+     Harus dicek SEBELUM detektor Meta umum karena kolomnya sama-sama Campaign name + Day. --- */
+  {
+    let whi=findHeader(rows,['Campaign name','Day']);
+    if(whi<0)whi=findHeader(rows,['Day','Campaign name']);
+    if(whi>=0){
+      const H=H_at(whi);
+      const cLpv=H.findIndex(h=>/landing page views/i.test(h)),
+            cWPur=H.findIndex(h=>/^website purchases$/i.test(h)),
+            cWVal=H.findIndex(h=>/website purchases conversion value/i.test(h)),
+            cAtc=H.findIndex(h=>/^website adds to cart$/i.test(h)),
+            cAtcV=H.findIndex(h=>/website adds to cart conversion value/i.test(h));
+      if(cLpv>=0||cWPur>=0){
+        const cName=colIdxOf(H,'Campaign name'),cDay=colIdxOf(H,'Day'),
+              cSpent=H.findIndex(h=>/amount spent/i.test(h)),
+              cReach=colIdxOf(H,'Reach'),cImp=colIdxOf(H,'Impressions');
+        const chOf=n=>{n=String(n||'').toLowerCase().trim();
+          if(n.startsWith('awareness'))return 'meta_aw';
+          if(n.startsWith('traffic'))return 'meta_traffic';
+          if(n.startsWith('sales'))return 'meta_web_sales';
+          return null;};
+        const agg={};let skipped=0,unknown=0;
+        for(const r of rows.slice(whi+1)){
+          const iso=anyDateToIso(r[cDay]);
+          if(iso==null){if(String(r[cDay]||'').trim())skipped++;continue;}
+          const chId=chOf(r[cName]);
+          if(!chId){unknown++;continue;}
+          const o=agg[chId+'|'+iso]??={chId,iso,m:{cost:0,reach:0,impressions:0,lpv:0,gmv:0,orders:0,atc:0,atcValue:0}};
+          o.m.cost+=plainnum(r[cSpent])||0;
+          o.m.reach+=cReach>=0?(plainnum(r[cReach])||0):0;
+          o.m.impressions+=cImp>=0?(plainnum(r[cImp])||0):0;
+          o.m.lpv+=cLpv>=0?(plainnum(r[cLpv])||0):0;
+          o.m.gmv+=cWVal>=0?(plainnum(r[cWVal])||0):0;
+          o.m.orders+=cWPur>=0?(plainnum(r[cWPur])||0):0;
+          o.m.atc+=cAtc>=0?(plainnum(r[cAtc])||0):0;
+          o.m.atcValue+=cAtcV>=0?(plainnum(r[cAtcV])||0):0;
+        }
+        const ents=Object.values(agg);
+        if(ents.length){
+          /* metrik per objective mengikuti definisi database:
+             Awareness: cost/reach/impressions; Traffic: + LPV;
+             Sales: cost/gmv/orders/impressions/LPV/ATC/nilai ATC */
+          const entries=ents.map(e=>{
+            const m={cost:e.m.cost};
+            if(e.chId!=='meta_web_sales'&&e.m.reach)m.reach=e.m.reach;
+            if(e.m.impressions)m.impressions=e.m.impressions;
+            if(e.chId!=='meta_aw'&&e.m.lpv)m.lpv=e.m.lpv;
+            if(e.chId==='meta_web_sales'){
+              if(e.m.gmv)m.gmv=e.m.gmv; if(e.m.orders)m.orders=e.m.orders;
+              if(e.m.atc)m.atc=e.m.atc; if(e.m.atcValue)m.atcValue=e.m.atcValue;
+            }
+            return {chId:e.chId,iso:e.iso,metrics:m};
+          });
+          const chs=[...new Set(entries.map(e=>chName(e.chId)))].join(', ');
+          const isos=entries.map(e=>e.iso).sort();
+          return {type:'meta_web',
+            label:`Meta Ads Website · ${chs} · ${fmtRpC(sum(entries.map(e=>e.metrics.cost)))} spend (${isoLabel(isos[0])} - ${isoLabelY(isos[isos.length-1])})${unknown?` · ${unknown} ${L('baris kampanye tak dikenal dilewati','unrecognized campaign rows skipped')}`:''}${skipped?` · ${skipped} ${L('baris di luar rentang dilewati','rows outside range skipped')}`:''}`,
+            entries,
+            hint:L('Objective dibaca dari awalan Campaign name (Awareness / Traffic / Sales). Awareness dan Traffic masuk Branding Ads, Sales Website masuk channel penjualan.','The objective is read from the Campaign name prefix (Awareness / Traffic / Sales). Awareness and Traffic go to Branding Ads, Website Sales goes to the sales channels.')};
+        }
       }
     }
   }
