@@ -80,6 +80,37 @@ horizontal, jadi artwork dikecilkan sampai berhenti sebelum kolom tag.
   lalu ditaruh di tab putih, close button dipertahankan utuh, output PNG transparan.
 - **Ukuran file ditekan otomatis** sampai di bawah batas tiap format.
 
+## Soal "background putih" di Skinny App
+
+Ada dua area terang yang berbeda asalnya:
+
+1. **Frame luar (`#F1F1F1`) + garis putih membulat** — ini datang dari template resmi
+   Shopee, bukan tambahan. Guideline mencantumkan *"There is no white outline"* sebagai
+   contoh yang **di-reject**, jadi outline ini wajib dan tidak boleh dihapus. Di aplikasi
+   Shopee, area `#F1F1F1` menyatu dengan background halaman.
+2. **Panel cream di kiri-kanan artwork** — ini konsekuensi artwork dikecilkan supaya
+   bebas dari tag.
+
+Kenapa artwork tidak bisa full-bleed? Karena tiga hal ini tidak bisa terpenuhi sekaligus:
+
+| | tanpa background tambahan | wajah terlihat | tas (SKU) utuh |
+|---|:---:|:---:|:---:|
+| `--layout fullbleed` | ✅ | ❌ tertutup tag | ❌ terpotong di y302 |
+| `--layout reflow` (default) | ❌ | ✅ | ✅ |
+
+Model berada di tengah-atas KV (x600–750, y5–105) sedangkan tag ada di x392–807, y24–92 —
+persis bertumpuk. Panning horizontal tidak menolong: agar kepala lolos ke kanan tag
+dibutuhkan geser >680px, sedangkan slack yang tersedia hanya 178px. Tas ada di y255–352,
+sementara full-bleed sudah memotong di y302.
+
+Script memakai skala **maksimum** yang masih menjaga wajah dan tas: artwork 778x233
+(bukan 727x218), panel cream 330px (bukan 381px). Itu batas matematisnya untuk KV ini.
+
+**Solusi sebenarnya:** minta desainer me-layout ulang KV di dalam safe area — kanvas
+1200x360, window aman x46–1153/y39–317, dan **zona larangan x392–807/y24–92** yang harus
+bersih dari subjek. Model cukup digeser keluar dari tengah-atas, artwork langsung bisa
+full-bleed tanpa kehilangan apa pun.
+
 ## Yang tetap butuh file berlapis dari desainer
 
 - **Jumlah KSP.** KV memuat 3 blok teks — tagline "FREE TO BE Me", "Free Shipping |

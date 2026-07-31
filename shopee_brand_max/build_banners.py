@@ -196,6 +196,20 @@ def place_seamless(
     return base.convert("RGBA")
 
 
+def content_bounds(im: Image.Image, tol: int = 14) -> tuple[int, int]:
+    """
+    First and last row that actually carries artwork, ignoring the flat background
+    margins. Used to fit as much of the key visual as possible into the space the
+    Shopee Mall tag leaves free — fitting the raw canvas instead would waste the
+    empty margins and shrink the artwork more than necessary.
+    """
+    a = np.array(im.convert("RGB")).astype(int)
+    bg = np.array(edge_colour(im))
+    diff = np.sqrt(((a - bg) ** 2).sum(2))
+    rows = np.where((diff > tol).sum(1) > im.width * 0.01)[0]
+    return (int(rows.min()), int(rows.max())) if len(rows) else (0, im.height - 1)
+
+
 def overlay_geometry(tpl: Image.Image) -> dict:
     """Measure where the template's red Shopee Mall tag and clear window sit."""
     t = np.array(tpl.convert("RGBA")).astype(int)
@@ -251,7 +265,8 @@ def save_within_budget(im: Image.Image, dest: Path, spec: Spec) -> int:
 # ------------------------------------------------------------------ per-format build
 
 
-def build_framed(spec: Spec, kv: Image.Image, tpl: Image.Image) -> Image.Image:
+def build_framed(spec: Spec, kv: Image.Image, tpl: Image.Image,
+                 layout: str = "reflow") -> Image.Image:
     """
     Banner Card / Skinny App / Skinny Web.
 
@@ -270,20 +285,26 @@ def build_framed(spec: Spec, kv: Image.Image, tpl: Image.Image) -> Image.Image:
         canvas.alpha_composite(tpl)
         return canvas
 
-    if tag is None:
-        return framed(kv.resize((ww, wh), Image.LANCZOS), wx0, wy0)
+    if layout == "fullbleed" or tag is None:
+        # Fill the window edge to edge, adding no background at all. Whatever the
+        # tag lands on stays hidden, and the artwork's bottom is cropped to fit.
+        s = max(ww / kv.width, wh / kv.height)
+        big = kv.resize((round(kv.width * s), round(kv.height * s)), Image.LANCZOS)
+        return framed(big.crop((0, 0, ww, wh)), wx0, wy0)
 
     tx0, ty0, tx1, ty1 = tag
     tag_w = tx1 - tx0 + 1
     # A tag spanning most of the width can only be cleared vertically; a narrow
     # one parked in a corner is cheaper to clear horizontally.
     if tag_w > spec.width * 0.25:
-        band = max(0, ty1 - wy0 + 8)  # push artwork below the tag
-        h = wh - band
-        w = round(kv.width * h / kv.height)
-        if w > ww:
-            w, h = ww, round(kv.height * ww / kv.width)
-        return framed(kv.resize((w, h), Image.LANCZOS), wx0 + (ww - w) // 2, wy0 + band)
+        # Largest scale that still clears the tag and keeps the artwork inside the
+        # window. Measured from real content bounds rather than the raw canvas, so
+        # empty margins in the key visual do not shrink the artwork needlessly.
+        top, bot = content_bounds(kv)
+        s = min((wy1 - (ty1 + 4)) / max(1, bot - top), ww / kv.width)
+        w, h = round(kv.width * s), round(kv.height * s)
+        return framed(kv.resize((w, h), Image.LANCZOS),
+                      wx0 + (ww - w) // 2, round(ty1 + 4 - top * s))
 
     # Narrow tag: shrink the artwork so it stops before the tag's column.
     if tx0 > spec.width / 2:
@@ -435,8 +456,8 @@ def cmd_build(args: argparse.Namespace) -> int:
                 tuple(fl.get("tab_box", [133, 17, 226, 97])),
             )
         else:
-            result = build_framed(spec, kv, tpl)
-            result = result.convert("RGB")
+            layout = cfg.get("layout", {}).get(spec.key, args.layout)
+            result = build_framed(spec, kv, tpl, layout).convert("RGB")
 
         ext = "png" if spec.fmt == "PNG" else "jpg"
         dest = out / f"{spec.key}_{spec.width}x{spec.height}.{ext}"
@@ -458,6 +479,10 @@ def main() -> int:
     b.add_argument("--assets", default="./assets")
     b.add_argument("--out", default="./out")
     b.add_argument("--config", default="config.json")
+    b.add_argument("--layout", choices=["reflow", "fullbleed"], default="reflow",
+                   help="reflow: artwork dikecilkan agar bebas dari tag (default). "
+                        "fullbleed: artwork penuh tanpa background tambahan, "
+                        "tapi tag menutupi artwork dan bagian bawah terpotong.")
     b.set_defaults(func=cmd_build)
     return parser.parse_args().func(parser.parse_args())
 
