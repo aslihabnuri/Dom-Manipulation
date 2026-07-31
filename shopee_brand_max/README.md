@@ -128,6 +128,39 @@ kontras-tinggi yang tidak terpasang di sistem ini, dan tidak ada serif lokal yan
 (kecocokan bentuk terbaik hanya 0,71 IoU terhadap digit asli). Memakai piksel aslinya
 menjaga huruf yang benar alih-alih menirunya.
 
+## Revisi copy pada KV 9:16 dan 1:1 (`retext_kv.py`)
+
+```bash
+python3 retext_kv.py --new ./assets_v2 --old ./assets --out ./kv_revised
+```
+
+Menghasilkan `kv_revised/square_1x1.jpg` (1080x1080) dan `kv_revised/igs_9x16.jpg`
+(1080x1920) dengan dua perubahan: **45% → 60%** dan **"Free Shipping | Voucher Up to
+20RB" → "Disc Product 15RB"**.
+
+### Soal font
+
+Font yang disertakan di brief, **Milden Serif, bukan font yang dipakai di KV.**
+Terverifikasi:
+
+| Elemen KV | Font sebenarnya | Milden cocok? |
+|---|---|:---:|
+| Angka diskon "45" | didone kontras-tinggi | ❌ IoU 0,33 (digit 4) / 0,61 (digit 5) |
+| Copy di dalam pill | sans geometris | ❌ Milden serif |
+| Headline "FREE TO BE" | didone condensed | ❌ Milden lebih lebar & ringan |
+
+Karena itu angka diskonnya **tidak** di-render ulang dengan font pengganti:
+
+- Angka **"6" diambil dari revisi KV sebelumnya** yang berbunyi "65%" — face, ukuran,
+  warna, dan rasterisasinya identik, jadi hasilnya sempurna.
+- Angka **"0" dikonstruksi** sebagai cincin elips memakai bobot goresan yang diukur
+  dari "6" itu sendiri (sisi 23px / atas-bawah 7px untuk 1:1; 32px / 9px untuk 9:16).
+  Itulah sebabnya ia duduk serasi di sebelahnya.
+
+Hanya copy pill yang memakai font pengganti (**FreeSans**, sans lokal terdekat), dan
+script mencetak peringatan setiap dijalankan. Kalau kamu punya file font sans aslinya,
+ganti `SANS_REGULAR`/`SANS_BOLD` di `retext_kv.py` dan hasilnya jadi presisi.
+
 ## Ketajaman
 
 Dua hal yang bikin hasil terlihat blur, keduanya sudah diperbaiki:
