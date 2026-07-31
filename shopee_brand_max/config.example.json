@@ -1,0 +1,10 @@
+{
+  "_comment": "Salin ke config.json lalu isi dengan copy kampanye Sophie Martin yang asli.",
+  "_ksp_rules": "Maksimal 2 KSP. Banner Card min 25pt, Skinny App ~47pt, Skinny Web ~40pt. Floating Banner TIDAK BOLEH ada teks promo.",
+  "ksp": [
+    "DISKON s/d 70%",
+    "GRATIS ONGKIR"
+  ],
+  "ksp_color": [255, 255, 255],
+  "logo": "assets/sophie-martin-logo.png"
+}
