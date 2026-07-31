@@ -41,6 +41,35 @@ def maroon(a: np.ndarray) -> np.ndarray:
     return (a[..., 0] > 50) & (a[..., 0] < 180) & (a[..., 1] < 85) & (a[..., 2] < 90)
 
 
+def find_digits(img: Image.Image, region, keep: float = 0.4) -> list[tuple]:
+    """
+    Locate the discount digits as connected components, left to right.
+
+    Measuring them by row/column profile inside a hand-picked window is what
+    clipped the 9:16 '6': its tail sweeps up and right past the rows the window
+    started at, so the tapered tip was cut and the glyph read blunt. A component
+    is the whole glyph by definition, tail included.
+
+    `keep` drops components smaller than that fraction of the largest, which
+    removes the '%' (three small parts) without needing a fixed pixel threshold.
+    """
+    x0, y0, x1, y1 = region
+    a = np.array(img.convert("RGB")).astype(int)
+    m = maroon(a).astype(np.uint8)[y0:y1, x0:x1]
+    m = cv2.morphologyEx(m, cv2.MORPH_CLOSE, np.ones((3, 3), np.uint8))
+    n, _, stats, _ = cv2.connectedComponentsWithStats(m, 8)
+    if n < 2:
+        return []
+    areas = stats[1:, cv2.CC_STAT_AREA]
+    cutoff = areas.max() * keep
+    boxes = [
+        (x0 + stats[i, 0], y0 + stats[i, 1],
+         x0 + stats[i, 0] + stats[i, 2], y0 + stats[i, 1] + stats[i, 3])
+        for i in range(1, n) if stats[i, cv2.CC_STAT_AREA] >= cutoff
+    ]
+    return sorted(boxes, key=lambda b: b[0])
+
+
 def inpaint(img: Image.Image, mask: np.ndarray, radius: int = 6) -> Image.Image:
     a = np.array(img.convert("RGB"))
     m = cv2.dilate(mask.astype(np.uint8) * 255, np.ones((5, 5), np.uint8), iterations=2)
@@ -138,12 +167,10 @@ def replace_pill(img: Image.Image, pill, cap_h: int, pad: int,
 # Measured off the two key visuals. Boxes are (x0, y0, x1, y1).
 JOBS = [
     dict(name="square_1x1", ratio="1:1", file="KV Banner_square",
-         digit_a=(757, 623, 847, 730), digit_b=(858, 623, 943, 731),
-         digit_six=(759, 622, 846, 731), side=23, cap=7,
+         digit_region=(740, 605, 960, 745), side=23, cap=7,
          pill=(328, 420, 750, 459), pill_cap=22, pill_pad=30),
     dict(name="igs_9x16", ratio="9:16", file="KV Banner_IGS",
-         digit_a=(357, 785, 482, 930), digit_b=(498, 785, 617, 932),
-         digit_six=(360, 785, 481, 932), side=32, cap=9,
+         digit_region=(340, 760, 630, 950), side=32, cap=9,
          pill=(243, 586, 837, 641), pill_cap=29, pill_pad=43),
 ]
 
@@ -177,8 +204,14 @@ def main() -> int:
             print(f"-- {job['name']}: SKIP (aset tidak lengkap)")
             continue
         new, old = Image.open(pn).convert("RGB"), Image.open(po).convert("RGB")
-        img = replace_digits(new, old, job["digit_a"], job["digit_b"],
-                             job["digit_six"], job["side"], job["cap"])
+        d_new = find_digits(new, job["digit_region"])
+        d_old = find_digits(old, job["digit_region"])
+        if len(d_new) < 2 or len(d_old) < 1:
+            print(f"-- {job['name']}: SKIP (digit tidak terdeteksi)")
+            continue
+        print(f"   {job['name']}: digit lama '6' {d_old[0]}  digit baru {d_new[0]} {d_new[1]}")
+        img = replace_digits(new, old, d_new[0], d_new[1], d_old[0],
+                             job["side"], job["cap"])
         img = replace_pill(img, job["pill"], job["pill_cap"], job["pill_pad"],
                            args.head, args.tail)
         dest = out / f"{job['name']}.jpg"
