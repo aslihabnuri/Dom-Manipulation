@@ -46,24 +46,47 @@ Template resmi Shopee — dari Drive `Sophie Martin / Banner / Banner Guideline`
 
 Opsional: `sophie-martin-logo.png` (PNG transparan) untuk penempatan logo di atas.
 
+## Masalah utamanya bukan resize
+
+KV Agustus dibuat tanpa memperhitungkan frame Shopee, jadi Shopee Mall tag yang
+wajib itu jatuh persis di atas artwork:
+
+| Format | Zona tag | Yang tertimpa |
+|---|---|---|
+| Skinny App | x392–807, y24–92 | wajah model + tas hitam di meja |
+| Banner Card | x87–443, y0–56 | logo Sophie Martin |
+| Skinny Web | x1078–1190, y14–64 | logo Sophie Martin |
+
+Script menangani ini dengan menyediakan *clearance band* untuk tag lalu mengalirkan
+ulang KV di bawah/di sampingnya. Karena background KV berupa gradasi cream yang halus,
+area sisa diisi dengan **meregangkan pixel tepi KV itu sendiri** (`place_seamless`) —
+bukan warna solid — sehingga pergeserannya tidak meninggalkan seam.
+
+Tag lebar (Skinny App, Banner Card) hanya bisa dihindari secara vertikal, jadi artwork
+digeser ke bawah. Tag sempit di pojok (Skinny Web) lebih murah dihindari secara
+horizontal, jadi artwork dikecilkan sampai berhenti sebelum kolom tag.
+
 ## Yang otomatis dikerjakan script
 
-- **Resize + center-crop** KV ke dimensi persis tiap format, tanpa merusak aspect ratio.
-- **Pasang template resmi Shopee** di atas KV — jadi masking, white outline, dan
-  Shopee Mall tag otomatis benar dan berada di posisi yang seharusnya.
-- **Pilih warna Shopee Mall tag otomatis** — versi PUTIH kalau background merah/gelap,
-  versi MERAH kalau background terang. Ini kesalahan yang paling sering kena reject.
-- **Tolak background terlarang** — kalau background mendekati `#FFFFFF` atau `#F1F1F1`,
-  gambar digelapkan sedikit supaya lolos aturan kontras.
-- **Logo brand ditempatkan di atas**, sesuai alur baca yang diminta guideline.
-- **KSP dibatasi maksimal 2** dan dirender di ukuran font yang diminta tiap format
-  (25pt / 47pt / 40pt).
-- **Floating Banner dibuat tanpa teks promo sama sekali** dan tetap transparan, dengan
-  close button dari template dipertahankan utuh.
+- **Ukur geometri template** — posisi tag merah dan window transparan dibaca langsung
+  dari file PNG resmi, tidak di-hardcode.
+- **Pasang template resmi Shopee** di atas KV — masking, white outline, dan Shopee Mall
+  tag otomatis benar dan di posisi yang seharusnya.
+- **Pilih warna tag otomatis** — versi PUTIH kalau background merah/gelap, MERAH kalau
+  terang. Ini kesalahan yang paling sering kena reject.
+- **Tolak background terlarang** — kalau mendekati `#FFFFFF`/`#F1F1F1`, digelapkan sedikit.
+- **Floating Banner dirombak total**: di-mask ke siluet lingkaran + tab, diisi **SKU saja**
+  (model dibuang sesuai aturan), **tanpa teks promo**, logo di-key dari background cream
+  lalu ditaruh di tab putih, close button dipertahankan utuh, output PNG transparan.
 - **Ukuran file ditekan otomatis** sampai di bawah batas tiap format.
 
-## Yang tetap harus dicek manual
+## Yang tetap butuh file berlapis dari desainer
 
-- SKU produk harus terlihat jelas dan tidak tertutup masking/teks.
-- Konsistensi key visual, pesan, dan arah desain antar keempat format.
+- **Jumlah KSP.** KV memuat 3 blok teks — tagline "FREE TO BE Me", "Free Shipping |
+  Voucher Up to 20RB", dan "Disc Up To 65% OFF". Guideline membatasi **maksimal 2 KSP**.
+  Teks ini sudah menyatu di JPEG, jadi tidak bisa dikurangi tanpa file sumbernya.
+- **Ukuran font KSP.** Karena artwork digeser untuk memberi ruang tag, teks pada Skinny
+  App jadi lebih kecil dari rekomendasi ±47pt. Kalau ingin teks tetap penuh, KV perlu
+  di-layout ulang di dalam safe area template.
+- Konsistensi key visual dan messaging antar keempat format.
 - Copy KSP tidak menyentuh restricted content (lihat `SYARAT_KETENTUAN.md`).
