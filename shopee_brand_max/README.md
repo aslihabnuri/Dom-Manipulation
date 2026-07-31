@@ -111,6 +111,29 @@ Script memakai skala **maksimum** yang masih menjaga wajah dan tas: artwork 778x
 bersih dari subjek. Model cukup digeser keluar dari tengah-atas, artwork langsung bisa
 full-bleed tanpa kehilangan apa pun.
 
+## Floating Banner: dua versi
+
+| File | Isi | Status guideline |
+|---|---|---|
+| `out/floating_banner_360x360.png` | SKU + **"Disc Up To 45% OFF"** | ⚠️ berisiko di-reject |
+| `out/alt-no-promo/floating_banner_360x360.png` | SKU saja | ✅ aman |
+
+Guideline mencantumkan **"Do not use promotional messages"** sebagai contoh Floating
+Banner yang di-reject, sejajar dengan larangan menghapus close button dan menampilkan
+brand ambassador. Versi promo karena itu **opt-in** — dihasilkan dengan `--promo`, dan
+script mencetak peringatan setiap kali dipakai.
+
+Teks diskonnya **diambil langsung dari KV**, bukan di-render ulang. Fontnya didone
+kontras-tinggi yang tidak terpasang di sistem ini, dan tidak ada serif lokal yang mendekati
+(kecocokan bentuk terbaik hanya 0,71 IoU terhadap digit asli). Memakai piksel aslinya
+menjaga huruf yang benar alih-alih menirunya.
+
+Crop SKU diposisikan manual, bukan auto-fit, karena area KV yang bisa dipakai terkepung
+tiga sisi: rok model di kiri, angka diskon di atas, frame di bawah. Offsetnya menempatkan
+model di luar masking lingkaran sambil menjaga tas tetap terpusat. Batas cropnya juga
+dipilih pada baris/kolom yang bersih — kalau memotong di tengah handle tas, peregangan
+tepi akan menyeretnya jadi garis vertikal.
+
 ## Yang tetap butuh file berlapis dari desainer
 
 - **Jumlah KSP.** KV memuat 3 blok teks — tagline "FREE TO BE Me", "Free Shipping |

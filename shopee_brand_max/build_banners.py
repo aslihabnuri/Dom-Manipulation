@@ -319,33 +319,58 @@ def build_framed(spec: Spec, kv: Image.Image, tpl: Image.Image,
     return framed(kv.resize((w, h), Image.LANCZOS), ox, wy0 + (wh - h) // 2)
 
 
+def keyed_text(src: Image.Image, box) -> Image.Image:
+    """
+    Lift dark copy off its light background, keeping the brand's own typeface.
+
+    The key visual's discount block is set in a high-contrast didone that is not
+    installed here, and no local serif comes close (best shape match scored 0.71
+    IoU against the original digits). Reusing the rendered pixels keeps the real
+    lettering instead of substituting an approximation.
+    """
+    c = np.array(src.convert("RGB").crop(box)).astype(float)
+    alpha = np.clip((170 - c.mean(2)) / 70, 0, 1)
+    return Image.fromarray(
+        np.dstack([c.astype(np.uint8), (alpha * 255).astype(np.uint8)]), "RGBA"
+    )
+
+
 def build_floating(
     spec: Spec, tpl: Image.Image, sku_src: Image.Image, sku_box, logo_src: Image.Image,
-    logo_box, tab_box,
+    logo_box, tab_box, sku_width: int, sku_pos, promo: dict | None = None,
 ) -> Image.Image:
     """
     Floating Banner: transparent PNG, masked to the template silhouette, SKU only
-    (no brand ambassador), no promotional copy, close button untouched.
+    (no brand ambassador), close button untouched.
+
+    The SKU crop is placed at an explicit size and offset rather than auto-fitted,
+    because the usable region of the key visual is bounded on three sides: the
+    model's skirt to the left, the discount type above, and the frame below. The
+    offsets park the model outside the circle mask while keeping the bags centred.
+    Crop edges are chosen on clean rows/columns so extending them outwards cannot
+    smear a bag handle into a streak.
+
+    `promo` overlays the discount block. The guideline lists promotional messages
+    as a reject reason for this format, so it is opt-in and off by default.
     """
     geo = overlay_geometry(tpl)
     sil = silhouette_from_outline(geo["red_mask"])
 
-    # circle area = silhouette below the logo tab
-    ys, xs = np.where(sil[tab_box[3] :])
-    cx0, cy0 = int(xs.min()), tab_box[3] + int(ys.min())
-    cx1, cy1 = int(xs.max()), tab_box[3] + int(ys.max())
-    cw, ch = cx1 - cx0 + 1, cy1 - cy0 + 1
-
     sku = sku_src.crop(sku_box)
-    scale = max(cw / sku.width, ch / sku.height) * 1.02
-    sku = sku.resize((round(sku.width * scale), round(sku.height * scale)), Image.LANCZOS)
-
-    content = place_seamless(
-        spec.size, sku, cx0 - (sku.width - cw) // 2, cy0 - (sku.height - ch) // 2
-    )
+    sku_h = round(sku.height * sku_width / sku.width)
+    sku = sku.resize((sku_width, sku_h), Image.LANCZOS)
+    content = place_seamless(spec.size, sku, int(sku_pos[0]), int(sku_pos[1]))
 
     out = Image.new("RGBA", spec.size, (0, 0, 0, 0))
     out.paste(content.convert("RGB"), (0, 0), Image.fromarray((sil * 255).astype(np.uint8)))
+
+    if promo:
+        text = keyed_text(sku_src, tuple(promo["box"]))
+        tw = int(promo["width"])
+        text = text.resize((tw, round(text.height * tw / text.width)), Image.LANCZOS)
+        out.alpha_composite(text, (spec.width // 2 - tw // 2,
+                                   int(promo["cy"]) - text.height // 2))
+
     out.alpha_composite(tpl)
 
     # Brand logo, keyed off its cream background, dropped into the white tab.
@@ -450,11 +475,19 @@ def cmd_build(args: argparse.Namespace) -> int:
             fl = cfg.get("floating", {})
             src_path = find_asset(assets, fl.get("sku_from", "KV Banner_Halaman Rekomendasi Banner"))
             src = Image.open(src_path).convert("RGB")
+            promo = fl.get("promo") if (args.promo or fl.get("promo_enabled")) else None
+            variant = fl.get("promo_layout" if promo else "clean_layout", {})
             result = build_floating(
-                spec, tpl, src, tuple(fl.get("sku_box", [330, 612, 525, 792])),
+                spec, tpl, src, tuple(fl.get("sku_box", [240, 604, 531, 792])),
                 src, tuple(fl.get("logo_box", [210, 22, 325, 88])),
                 tuple(fl.get("tab_box", [133, 17, 226, 97])),
+                int(variant.get("sku_width", 384)),
+                variant.get("sku_pos", [-78, 78]),
+                promo,
             )
+            if promo:
+                print("   floating_banner: teks promo AKTIF — guideline melarang "
+                      "pesan promosi di format ini, berisiko di-reject")
         else:
             layout = cfg.get("layout", {}).get(spec.key, args.layout)
             result = build_framed(spec, kv, tpl, layout).convert("RGB")
@@ -479,6 +512,9 @@ def main() -> int:
     b.add_argument("--assets", default="./assets")
     b.add_argument("--out", default="./out")
     b.add_argument("--config", default="config.json")
+    b.add_argument("--promo", action="store_true",
+                   help="tampilkan 'Disc Up To 45%% OFF' di Floating Banner. "
+                        "PERINGATAN: guideline melarang pesan promosi di format ini.")
     b.add_argument("--layout", choices=["reflow", "fullbleed"], default="reflow",
                    help="reflow: artwork dikecilkan agar bebas dari tag (default). "
                         "fullbleed: artwork penuh tanpa background tambahan, "

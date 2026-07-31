@@ -1,8 +1,19 @@
 {
   "floating": {
     "sku_from": "KV Banner_Halaman Rekomendasi Banner",
-    "sku_box": [330, 612, 525, 792],
+    "sku_box": [240, 604, 531, 792],
     "logo_box": [210, 22, 325, 88],
-    "tab_box": [133, 17, 226, 97]
+    "tab_box": [133, 17, 226, 97],
+
+    "_clean_layout": "Default, sesuai guideline: SKU saja, tanpa teks promo.",
+    "clean_layout": { "sku_width": 384, "sku_pos": [-78, 78] },
+
+    "_promo_layout": "Dipakai kalau --promo aktif. Tas dikecilkan agar ada ruang teks.",
+    "promo_layout": { "sku_width": 300, "sku_pos": [-34, 168] },
+
+    "_promo": "Blok 'Disc Up To 45% OFF' diambil dari KV supaya fontnya asli.",
+    "promo": { "box": [165, 450, 375, 632], "width": 150, "cy": 160 },
+
+    "_warning": "Guideline Brand Max mencantumkan 'Do not use promotional messages' sebagai contoh Floating Banner yang di-reject. Aktifkan --promo hanya kalau kamu menerima risikonya."
   }
 }
