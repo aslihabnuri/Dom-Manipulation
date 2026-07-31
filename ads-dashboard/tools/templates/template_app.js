@@ -930,6 +930,10 @@ function renderPlatforms(){
     const upAll=stats.filter(c=>c.platform===p&&c.objective==='upper');
     const cost=sum(sales.map(c=>c.tot.cost)),gmv=sum(sales.map(c=>c.tot.gmv)),ord=sum(sales.map(c=>c.tot.orders));
     const upCost=sum(upAll.map(c=>c.tot.cost));
+    /* kolom tabel Branding menyesuaikan platform: Followers hanya bila ada datanya
+       (TikTok Community Interaction), LPV hanya bila ada datanya (Meta Website) */
+    const upFol=uppers.some(c=>sum(c.days.follows||[])>0);
+    const upLpv=uppers.some(c=>sum(c.days.lpv||[])>0);
     const sec=document.createElement('div');
     sec.innerHTML=`
     <div class="card" style="margin-bottom:14px">
@@ -983,9 +987,9 @@ function renderPlatforms(){
           <td class="num">${t.imp?fmtPct(100*t.clk/t.imp):'–'}</td><td class="num">${t.clk?fmtPct(100*t.orders/t.clk):'–'}</td>
           <td class="num">${L('hari ','day ')+last}</td></tr>`;
       }).join(''):''}</tbody></table></div>`:''}
-      ${uppers.length?`<div style="font-size:11.5px;font-weight:700;letter-spacing:.04em;color:var(--muted);margin:12px 0 2px">BRANDING ADS <span style="font-weight:400;letter-spacing:0">· Awareness / Brand Consideration / Community Interaction</span></div>
+      ${uppers.length?`<div style="font-size:11.5px;font-weight:700;letter-spacing:.04em;color:var(--muted);margin:12px 0 2px">BRANDING ADS${p==='tiktok'?` <span style="font-weight:400;letter-spacing:0">· Awareness / Brand Consideration / Community Interaction</span>`:''}</div>
       <div class="tbl-wrap" style="border:0;border-radius:0"><table><thead><tr>
-        <th>Channel</th><th>${L('Anggaran','Budget')}</th><th>Spent</th><th>Pacing</th><th>${L('Jangkauan','Reach')}</th><th>${L('Impresi','Impressions')}</th><th>CPM</th><th>LPV</th><th>${L('Biaya per LPV','Cost per LPV')}</th><th>${L('Klik Produk','Product Clicks')}*</th><th>${L('Pengikut Berbayar','Paid Followers')}</th><th>${L('Biaya per Pengikut','Cost per Follower')}</th><th>${L('Data hingga','Data through')}</th>
+        <th>Channel</th><th>${L('Anggaran','Budget')}</th><th>Spent</th><th>Pacing</th><th>${L('Jangkauan','Reach')}</th><th>${L('Impresi','Impressions')}</th><th>CPM</th>${upLpv?`<th>LPV</th><th>${L('Biaya per LPV','Cost per LPV')}</th>`:''}<th>${L('Klik Produk','Product Clicks')}*</th>${upFol?`<th>${L('Pengikut Berbayar','Paid Followers')}</th><th>${L('Biaya per Pengikut','Cost per Follower')}</th>`:''}<th>${L('Data hingga','Data through')}</th>
       </tr></thead><tbody>
       ${uppers.map(c=>{
         const reach=sum(c.days.reach||[]),imp=c.tot.imp,clk=c.tot.clk,fol=sum(c.days.follows||[]),lpv=sum(c.days.lpv||[]);
@@ -999,14 +1003,16 @@ function renderPlatforms(){
             <span style="font-size:11px;color:var(--muted);width:34px;text-align:right">${c.budget?nf0.format(100*c.tot.cost/c.budget)+'%':'–'}</span></div></td>
           <td class="num">${reach?fmtNC(reach):'–'}</td><td class="num">${imp?fmtNC(imp):'–'}</td>
           <td class="num">${imp&&c.tot.cost?fmtRpC(1000*c.tot.cost/imp):'–'}</td>
-          <td class="num">${lpv?fmtNC(lpv):'–'}</td>
-          <td class="num">${lpv&&c.tot.cost?fmtRpC(c.tot.cost/lpv):'–'}</td>
+          ${upLpv?`<td class="num">${lpv?fmtNC(lpv):'–'}</td>
+          <td class="num">${lpv&&c.tot.cost?fmtRpC(c.tot.cost/lpv):'–'}</td>`:''}
           <td class="num">${clk?fmtNC(clk):'–'}</td>
-          <td class="num">${fol?fmtN(fol):'–'}</td>
-          <td class="num">${fol&&c.tot.cost?fmtRpC(c.tot.cost/fol):'–'}</td>
+          ${upFol?`<td class="num">${fol?fmtN(fol):'–'}</td>
+          <td class="num">${fol&&c.tot.cost?fmtRpC(c.tot.cost/fol):'–'}</td>`:''}
           <td class="num">${c.last?(L('hari ','day ')+c.last):`<span style="color:var(--muted)">${L('kosong','empty')}</span>`}</td></tr>`;
       }).join('')}</tbody></table></div>
-      <p class="note" style="margin-top:4px">${L('*Klik Produk pada Brand Consideration adalah Consideration Size sesuai definisi database Anda. Biaya Branding Ads ikut dihitung pada Total Spend (Semua Iklan) di tab Ringkasan.','*Product Clicks on Brand Consideration equals Consideration Size per your database definition. Branding Ads spend is included in Total Spend (All Ads) on the Summary tab.')}</p>`:''}
+      <p class="note" style="margin-top:4px">${p==='tiktok'
+        ?L('*Klik Produk pada Brand Consideration adalah Consideration Size sesuai definisi database Anda. Biaya Branding Ads ikut dihitung pada Total Spend (Semua Iklan) di tab Ringkasan.','*Product Clicks on Brand Consideration equals Consideration Size per your database definition. Branding Ads spend is included in Total Spend (All Ads) on the Summary tab.')
+        :L('*Klik Produk pada channel Website adalah Landing Page Views sesuai definisi database Anda. Biaya Branding Ads ikut dihitung pada Total Spend (Semua Iklan) di tab Ringkasan.','*Product Clicks on Website channels equal Landing Page Views per your database definition. Branding Ads spend is included in Total Spend (All Ads) on the Summary tab.')}</p>`:''}
     </div>`;
     wrap.appendChild(sec);
   }
@@ -1389,12 +1395,14 @@ function detectRows(rows,filename){
         if(ents.length){
           /* metrik per objective mengikuti definisi database:
              Awareness: cost/reach/impressions; Traffic: + LPV;
-             Sales: cost/gmv/orders/impressions/LPV/ATC/nilai ATC */
+             Sales: cost/gmv/orders/impressions/LPV/ATC/nilai ATC.
+             LPV juga dicatat sebagai Product Clicks (masuk Ringkasan, ringkasan
+             per platform, dan tabel MoM), sesuai definisi database Anda. */
           const entries=ents.map(e=>{
             const m={cost:e.m.cost};
             if(e.chId!=='meta_web_sales'&&e.m.reach)m.reach=e.m.reach;
             if(e.m.impressions)m.impressions=e.m.impressions;
-            if(e.chId!=='meta_aw'&&e.m.lpv)m.lpv=e.m.lpv;
+            if(e.chId!=='meta_aw'&&e.m.lpv){m.lpv=e.m.lpv;m.clicks=e.m.lpv;}
             if(e.chId==='meta_web_sales'){
               if(e.m.gmv)m.gmv=e.m.gmv; if(e.m.orders)m.orders=e.m.orders;
               if(e.m.atc)m.atc=e.m.atc; if(e.m.atcValue)m.atcValue=e.m.atcValue;
