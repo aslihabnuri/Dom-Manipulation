@@ -1,0 +1,1742 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>Monster Padel — Payment Flow (Cards: Visa, Mastercard, JCB, Amex)</title>
+<link rel="stylesheet" href="assets/doc.css">
+</head>
+<body>
+
+<!-- ============================ ICON SPRITE ============================ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <g id="s" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></g>
+  </defs>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-chevd" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-chevu" viewBox="0 0 24 24"><path d="M18 15l-6-6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7.5V12l3 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 10h18M8 3v4M16 3v4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 10V7a4 4 0 018 0v3" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v5.5c0 4.4-2.9 8.2-7 9.5-4.1-1.3-7-5.1-7-9.5V6l7-3z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 16.5V11M12 7.8h.01" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 4l9 16H3l9-16z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M12 10v4M12 17.2h.01" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6" fill="none" stroke="currentColor" stroke-width="2"/><path d="M4.5 20c1.2-3.8 4-5.6 7.5-5.6s6.3 1.8 7.5 5.6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M4 10.5L12 4l8 6.5V20a1 1 0 01-1 1h-4v-6H9v6H5a1 1 0 01-1-1v-9.5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 16l4.5 4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-ticket" viewBox="0 0 24 24"><path d="M3 8.5A2 2 0 015 6.5h14a2 2 0 012 2v1.2a2.3 2.3 0 000 4.6v1.2a2 2 0 01-2 2H5a2 2 0 01-2-2v-1.2a2.3 2.3 0 000-4.6V8.5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-wifi" viewBox="0 0 24 18"><path d="M2 5.6a15 15 0 0120 0M5.4 9.4a10 10 0 0113.2 0M8.8 13.1a5 5 0 016.4 0" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><circle cx="12" cy="16.2" r="1.2" fill="currentColor"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2.4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3.6 7l8.4 6 8.4-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+  <symbol id="i-arrleft" viewBox="0 0 24 24"><path d="M20 12H4M10 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3.5v11M7.5 10.5l4.5 4.5 4.5-4.5M4.5 20h15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 10-1.6 5.6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M20 4.5V11h-6.2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-racket" viewBox="0 0 24 24"><ellipse cx="12" cy="8.6" rx="6.2" ry="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M10.2 15.2L8.4 21M13.8 15.2L15.6 21M8.4 21h7.2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-map" viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11a7 7 0 10-14 0c0 4.8 7 11 7 11z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="10" r="2.6" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+  <symbol id="i-card" viewBox="0 0 24 24"><rect x="2.5" y="5" width="19" height="14" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M2.5 9.6h19" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+  <symbol id="i-wallet" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 10h18M16.5 14.5h1.6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-bank" viewBox="0 0 24 24"><path d="M3.5 9.5L12 4l8.5 5.5M5.5 10v8M10 10v8M14 10v8M18.5 10v8M3 20.5h18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-qr" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="6.5" height="6.5" rx="1.4" fill="none" stroke="currentColor" stroke-width="2"/><rect x="14" y="3.5" width="6.5" height="6.5" rx="1.4" fill="none" stroke="currentColor" stroke-width="2"/><rect x="3.5" y="14" width="6.5" height="6.5" rx="1.4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M14 14h3v3h-3zM20.5 14v3M17.5 20.5h3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-court" viewBox="-6 -6 212 112">
+    <rect x="0" y="0" width="200" height="100" rx="2" fill="none" stroke="currentColor" stroke-width="3"/>
+    <path d="M30 0V100M170 0V100M30 50H170" fill="none" stroke="currentColor" stroke-width="2"/>
+    <path d="M100 -5V105" fill="none" stroke="currentColor" stroke-width="3.6"/>
+  </symbol>
+</svg>
+
+<!-- ===================================================================== -->
+<!-- PAGE 1 — COVER                                                        -->
+<!-- ===================================================================== -->
+<section class="page cover">
+  <div class="glow"></div>
+  <svg class="courtbg" viewBox="-6 -6 212 112"><use href="#i-court" style="color:#d4af37"/></svg>
+  <div class="inner">
+    <div class="flex aic gap12">
+      <img src="assets/logo-white.png" alt="Monster Padel" style="height:26px">
+      <span style="width:1px;height:22px;background:rgba(255,255,255,.2)"></span>
+      <span style="font-size:10px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:#d4af37">
+        Bali&rsquo;s Premier Padel &amp; Lifestyle Club
+      </span>
+    </div>
+
+    <div style="margin-top:64px">
+      <div style="font-size:11px;font-weight:700;letter-spacing:2.2px;text-transform:uppercase;color:#d4af37;margin-bottom:16px">
+        Dokumen Alur Pembayaran &middot; Payment Flow
+      </div>
+      <h1>Booking Lapangan Padel<br><span class="display" style="color:#d4af37">&amp; Alur Pembayaran Kartu</span></h1>
+      <p class="lede">
+        Dokumen ini memetakan seluruh perjalanan pelanggan Monster Padel — dari memilih lapangan
+        dan slot waktu, checkout, pembayaran kartu melalui Xendit dengan autentikasi 3D&nbsp;Secure,
+        sampai penerbitan e-ticket, pembatalan, dan pengembalian dana.
+        Disusun untuk proses aktivasi kanal pembayaran <b style="color:#fff">Cards</b> di Xendit.
+      </p>
+
+      <div class="channel-strip">
+        <span style="font-size:9.5px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:#8f8f8f;margin-right:5px">Kanal yang diajukan</span>
+        <span class="brandmark bm-visa">VISA</span>
+        <span class="brandmark bm-mc"><i></i><i></i></span>
+        <span class="brandmark bm-jcb">JCB</span>
+        <span class="brandmark bm-amex">AMEX</span>
+        <span style="font-size:10px;color:#8f8f8f;margin-left:6px">Kartu kredit &amp; debit, domestik dan internasional</span>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0 26px;margin-top:40px;max-width:830px">
+        <div>
+          <div style="font-size:8.5px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#d4af37;padding-bottom:7px;border-bottom:1px solid rgba(255,255,255,.14)">Isi Dokumen</div>
+          <div style="font-size:10.5px;line-height:1.85;color:#c8c8c8;margin-top:8px">
+            <div><span style="color:#7c7c7c">Hal. 2</span> &nbsp;Peta alur end-to-end</div>
+            <div><span style="color:#7c7c7c">Hal. 3</span> &nbsp;Memilih lapangan &amp; slot</div>
+            <div><span style="color:#7c7c7c">Hal. 4</span> &nbsp;Checkout &amp; ringkasan biaya</div>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:8.5px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#d4af37;padding-bottom:7px;border-bottom:1px solid rgba(255,255,255,.14)">Inti Pembayaran</div>
+          <div style="font-size:10.5px;line-height:1.85;color:#c8c8c8;margin-top:8px">
+            <div><span style="color:#7c7c7c">Hal. 5</span> &nbsp;Kartu &amp; 3D Secure</div>
+            <div><span style="color:#7c7c7c">Hal. 6</span> &nbsp;Status berhasil &amp; gagal</div>
+            <div><span style="color:#7c7c7c">Hal. 7</span> &nbsp;Bukti bayar &amp; e-ticket</div>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:8.5px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#d4af37;padding-bottom:7px;border-bottom:1px solid rgba(255,255,255,.14)">Kebijakan &amp; Teknis</div>
+          <div style="font-size:10.5px;line-height:1.85;color:#c8c8c8;margin-top:8px">
+            <div><span style="color:#7c7c7c">Hal. 8</span> &nbsp;Pembatalan &amp; refund</div>
+            <div><span style="color:#7c7c7c">Hal. 9</span> &nbsp;Integrasi &amp; keamanan</div>
+            <div><span style="color:#7c7c7c">Hal. 10</span> &nbsp;Kebijakan &amp; ringkasan</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="meta-grid">
+      <div class="m">
+        <div class="k">Merchant</div>
+        <div class="v"><b>Monster Padel</b><br>monsterpadel.id<br>Penyewaan lapangan padel &amp; keanggotaan klub</div>
+      </div>
+      <div class="m">
+        <div class="k">Lokasi Usaha</div>
+        <div class="v">Belimbing Sari I, Pecatu<br>Kuta Selatan, Badung<br>Bali 80361, Indonesia</div>
+      </div>
+      <div class="m">
+        <div class="k">Kontak</div>
+        <div class="v">contact@padelmonster.id<br>+62 813-5359-9939<br>Operasional 07.00–22.00 WITA</div>
+      </div>
+      <div class="m">
+        <div class="k">Dokumen</div>
+        <div class="v">Versi <b>1.0</b><br>31 Juli 2026<br>18 layar &middot; 10 halaman</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== -->
+<!-- PAGE 2 — SWIMLANE DIAGRAM                                             -->
+<!-- ===================================================================== -->
+<section class="page">
+  <div class="p-head">
+    <div class="l">
+      <img src="assets/logo-black.png" alt="Monster Padel">
+      <span class="sep"></span>
+      <h2>Peta Alur Pembayaran End-to-End</h2>
+    </div>
+    <div class="r">Kanal: Cards &middot; Halaman 2</div>
+  </div>
+
+  <div class="diagram">
+    <div class="stephead">
+      <div class="sh-l"></div>
+      <div class="sh-r">
+        <div>Tahap 1<b>Pilih Slot</b></div>
+        <div>Tahap 2<b>Checkout</b></div>
+        <div>Tahap 3<b>Pilih Metode</b></div>
+        <div>Tahap 4<b>Input Kartu</b></div>
+        <div>Tahap 5<b>3D Secure</b></div>
+        <div>Tahap 6<b>Otorisasi</b></div>
+        <div>Tahap 7<b>Konfirmasi</b></div>
+      </div>
+    </div>
+
+    <!-- Lane: Customer -->
+    <div class="lane">
+      <div class="lname"><span>Pelanggan</span></div>
+      <div class="lsteps">
+        <div class="node chain"><div class="nn">LAYAR 01–03</div><div class="nt">Pilih tanggal, lapangan &amp; jam</div><div class="nd">Melihat slot tersedia beserta tarif</div></div>
+        <div class="node chain"><div class="nn">LAYAR 04–06</div><div class="nt">Isi data &amp; setujui S&amp;K</div><div class="nd">Nama, email, no. HP, add-on</div></div>
+        <div class="node chain"><div class="nn">LAYAR 07</div><div class="nt">Pilih Kartu Kredit / Debit</div><div class="nd">Visa, Mastercard, JCB, Amex</div></div>
+        <div class="node chain"><div class="nn">LAYAR 08</div><div class="nt">Isi data kartu</div><div class="nd">Nomor, masa berlaku, CVN</div></div>
+        <div class="node chain"><div class="nn">LAYAR 09</div><div class="nt">Masukkan OTP dari bank</div><div class="nd">Halaman resmi penerbit kartu</div></div>
+        <div class="node soft chain"><div class="nn">LAYAR 10</div><div class="nt">Menunggu hasil</div><div class="nd">Layar &ldquo;memproses pembayaran&rdquo;</div></div>
+        <div class="node ok"><div class="nn">LAYAR 11 · 13–15</div><div class="nt">Terima e-ticket &amp; email</div><div class="nd">QR check-in di klub</div></div>
+      </div>
+    </div>
+
+    <!-- Lane: Merchant -->
+    <div class="lane">
+      <div class="lname"><span>Monster Padel<br>(Sistem Booking)</span></div>
+      <div class="lsteps">
+        <div class="node chain"><div class="nn">BACKEND</div><div class="nt">Cek ketersediaan slot</div><div class="nd">Kalender lapangan real-time</div></div>
+        <div class="node chain"><div class="nn">BACKEND</div><div class="nt">Buat order &amp; kunci slot</div><div class="nd">Slot ditahan 15 menit &middot; status <b>PENDING</b></div></div>
+        <div class="node acc chain" style="grid-column:3 / span 2"><div class="nn">API XENDIT</div><div class="nt">POST /v3/payment_requests</div><div class="nd">channel_code CARDS &middot; amount 835000 IDR &middot; reference_id MP-BK-20260808-4821</div></div>
+        <div class="node soft" style="grid-column:5"><div class="nn">REDIRECT</div><div class="nt">Arahkan ke halaman 3DS</div><div class="nd">URL dari <code>actions[]</code></div></div>
+        <div class="node acc chain" style="grid-column:6"><div class="nn">WEBHOOK</div><div class="nt">Terima payment.succeeded</div><div class="nd">Verifikasi x-callback-token</div></div>
+        <div class="node ok"><div class="nn">BACKEND</div><div class="nt">Booking CONFIRMED</div><div class="nd">Terbitkan e-ticket + kirim email</div></div>
+      </div>
+    </div>
+
+    <!-- Lane: Xendit -->
+    <div class="lane">
+      <div class="lname"><span>Xendit</span></div>
+      <div class="lsteps">
+        <div class="node acc chain" style="grid-column:4"><div class="nn">PCI DSS</div><div class="nt">Tokenisasi data kartu</div><div class="nd">Nomor kartu tidak pernah menyentuh server merchant</div></div>
+        <div class="node acc chain"><div class="nn">3DS 2.x</div><div class="nt">Minta autentikasi ke penerbit</div><div class="nd">Frictionless atau challenge</div></div>
+        <div class="node acc chain"><div class="nn">AUTH</div><div class="nt">Otorisasi &amp; capture</div><div class="nd">Melalui jaringan kartu</div></div>
+        <div class="node acc"><div class="nn">CALLBACK</div><div class="nt">Kirim webhook &amp; settlement</div><div class="nd">Dana masuk ke rekening merchant</div></div>
+      </div>
+    </div>
+
+    <!-- Lane: Issuer -->
+    <div class="lane">
+      <div class="lname"><span>Penerbit Kartu<br>&amp; Jaringan</span></div>
+      <div class="lsteps">
+        <div class="node chain" style="grid-column:5"><div class="nn">ISSUER</div><div class="nt">Kirim &amp; validasi OTP</div><div class="nd">SMS / aplikasi mobile banking</div></div>
+        <div class="node chain"><div class="nn">ISSUER</div><div class="nt">Setujui atau tolak</div><div class="nd">Cek limit, risiko, saldo</div></div>
+        <div class="node"><div class="nn">JARINGAN</div><div class="nt">Settlement H+2</div><div class="nd">Visa / Mastercard / JCB / Amex</div></div>
+      </div>
+    </div>
+
+    <div class="failstrip">
+      <div class="ft">Jalur Gagal</div>
+      <div class="fb">
+        Jika OTP salah, kartu ditolak penerbit, atau pelanggan menutup halaman 3DS &rarr;
+        status pembayaran menjadi <b>FAILED</b>, order tetap <b>PENDING</b>, dan slot masih terkunci selama sisa waktu 15 menit.
+        Pelanggan diarahkan ke <b>Layar 12</b> untuk mencoba lagi atau mengganti metode pembayaran.
+        Jika waktu habis, order menjadi <b>EXPIRED</b>, slot otomatis dilepas dan kembali dapat dipesan orang lain.
+        Tidak ada dana yang ditahan pada skenario ini.
+      </div>
+    </div>
+
+    <div class="statusbar">
+      <div class="statecard"><div class="sh"><span class="sd" style="background:#f0a92f"></span>PENDING</div>Order dibuat, slot dikunci 15 menit, menunggu pembayaran.</div>
+      <div class="statecard"><div class="sh"><span class="sd" style="background:#29c26a"></span>PAID</div>Webhook <code>payment.succeeded</code> diterima &amp; diverifikasi.</div>
+      <div class="statecard"><div class="sh"><span class="sd" style="background:#f0533f"></span>FAILED</div>Otorisasi ditolak. Pelanggan dapat mengulang pembayaran.</div>
+      <div class="statecard"><div class="sh"><span class="sd" style="background:#9a9a9a"></span>EXPIRED</div>Batas 15 menit terlampaui, slot dilepas otomatis.</div>
+      <div class="statecard"><div class="sh"><span class="sd" style="background:#4a8cff"></span>REFUNDED</div>Dana dikembalikan penuh atau sebagian sesuai kebijakan.</div>
+    </div>
+  </div>
+
+  <div class="p-foot">
+    <span>Monster Padel &mdash; Dokumen Alur Pembayaran v1.0</span>
+    <span><b>2</b> / 10</span>
+  </div>
+</section>
+
+<!-- ===================================================================== -->
+<!-- PAGE 3 — SCREENS 01-03                                                -->
+<!-- ===================================================================== -->
+<section class="page">
+  <div class="p-head">
+    <div class="l">
+      <img src="assets/logo-black.png" alt="Monster Padel">
+      <span class="sep"></span>
+      <h2>Tahap 1 &mdash; Menemukan Lapangan &amp; Memilih Slot</h2>
+    </div>
+    <div class="r">Layar 01–03 &middot; Halaman 3</div>
+  </div>
+
+  <div class="row">
+    <!-- 01 -->
+    <div>
+      <div class="cap"><div class="num">01</div><div><div class="n">TAHAP 1 &middot; WEBSITE</div><div class="t">Halaman Beranda &amp; Ajakan Booking</div></div></div>
+      <div class="phone"><div class="screen-wrap"><div class="screen">
+        <div class="sbar"><span>19.24</span><span class="icons"><span class="bar"><i></i><i></i><i></i><i></i></span><svg width="13" height="10"><use href="#i-wifi"/></svg><span class="batt"><span></span></span></span></div>
+        <div class="abar">
+          <img src="assets/logo-white.png" style="height:14px" alt="Monster Padel">
+          <span class="spacer"></span>
+          <svg width="21" height="21"><use href="#i-menu"/></svg>
+        </div>
+        <div class="body flush">
+          <div class="hero">
+            <svg class="courtwrap" viewBox="-6 -6 212 112"><use href="#i-court" style="color:#d4af37"/></svg>
+            <div class="eyebrow">Pecatu &middot; Bali</div>
+            <div class="h1 mt6" style="max-width:250px">Bali&rsquo;s Premier<br><span class="display gold">Padel &amp; Lifestyle</span> Club</div>
+            <div class="sm muted mt8" style="max-width:250px">4 lapangan berstandar internasional, buka setiap hari 07.00&ndash;22.00 WITA.</div>
+          </div>
+          <div style="padding:14px 16px 0">
+            <div class="btn gold">Booking Lapangan <svg width="15" height="15"><use href="#i-chev"/></svg></div>
+            <div class="btn ghost mt8">Booking dengan Pelatih</div>
+
+            <div class="sec">Fasilitas Klub</div>
+            <div class="stack gap8">
+              <div class="card tight rowb">
+                <div class="flex aic gap10">
+                  <div class="courttile"><svg viewBox="-6 -6 212 112"><use href="#i-court"/></svg></div>
+                  <div><div class="h3">4 Lapangan Panoramic</div><div class="xs muted">Kaca penuh &middot; lampu LED malam hari</div></div>
+                </div>
+                <svg width="15" height="15" class="muted2"><use href="#i-chev"/></svg>
+              </div>
+              <div class="card tight rowb">
+                <div class="flex aic gap10">
+                  <div class="courttile"><svg viewBox="0 0 24 24" style="width:22px"><use href="#i-racket"/></svg></div>
+                  <div><div class="h3">Sewa Raket &amp; Bola</div><div class="xs muted">Tersedia di lokasi saat check-in</div></div>
+                </div>
+                <svg width="15" height="15" class="muted2"><use href="#i-chev"/></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tabs">
+          <div class="tab on"><svg width="18" height="18"><use href="#i-home"/></svg>Beranda</div>
+          <div class="tab"><svg width="18" height="18"><use href="#i-cal"/></svg>Booking</div>
+          <div class="tab"><svg width="18" height="18"><use href="#i-ticket"/></svg>Tiket Saya</div>
+          <div class="tab"><svg width="18" height="18"><use href="#i-user"/></svg>Akun</div>
+        </div>
+        <div class="homebar"><span></span></div>
+      </div></div></div>
+      <div class="note">Pelanggan membuka <b>monsterpadel.id</b>. Harga, jam operasional, dan lokasi klub tampil sejak awal.</div>
+    </div>
+
+    <!-- 02 -->
+    <div>
+      <div class="cap"><div class="num">02</div><div><div class="n">TAHAP 1 &middot; PILIH LAYANAN</div><div class="t">Jenis Booking &amp; Durasi Bermain</div></div></div>
+      <div class="phone"><div class="screen-wrap"><div class="screen">
+        <div class="sbar"><span>19.25</span><span class="icons"><span class="bar"><i></i><i></i><i></i><i></i></span><svg width="13" height="10"><use href="#i-wifi"/></svg><span class="batt"><span></span></span></span></div>
+        <div class="abar">
+          <span class="back"><svg width="19" height="19"><use href="#i-back"/></svg></span>
+          <div><div class="ttl">Booking</div><div class="sub">Langkah 1 dari 4</div></div>
+        </div>
+        <div class="body pad-t">
+          <div class="prog mt4"><i style="width:25%"></i></div>
+
+          <div class="sec">Jenis Booking</div>
+          <div class="card sel rowb">
+            <div class="flex aic gap10">
+              <div class="courttile" style="border-color:rgba(212,175,55,.4)"><svg viewBox="-6 -6 212 112"><use href="#i-court"/></svg></div>
+              <div>
+                <div class="h3">Sewa Lapangan</div>
+                <div class="xs muted mt4">Mulai Rp 350.000 / jam</div>
+              </div>
+            </div>
+            <span class="radio on"></span>
+          </div>
+          <div class="card tight rowb mt8">
+            <div class="flex aic gap10">
+              <div class="courttile"><svg viewBox="0 0 24 24" style="width:22px"><use href="#i-racket"/></svg></div>
+              <div>
+                <div class="h3">Sewa Lapangan + Pelatih</div>
+                <div class="xs muted mt4">Mulai Rp 650.000 / jam</div>
+              </div>
+            </div>
+            <span class="radio"></span>
+          </div>
+
+          <div class="sec">Durasi Bermain</div>
+          <div class="slots">
+            <div class="chip">60 menit</div>
+            <div class="chip on">90 menit</div>
+            <div class="chip">120 menit</div>
+          </div>
+
+          <div class="sec">Jumlah Pemain</div>
+          <div class="card tight rowb">
+            <div><div class="h3">4 pemain</div><div class="xs muted mt4">Kapasitas maksimum per lapangan</div></div>
+            <div class="flex aic gap10">
+              <span class="chip" style="width:26px;height:26px">&minus;</span>
+              <span class="w7">4</span>
+              <span class="chip" style="width:26px;height:26px">+</span>
+            </div>
+          </div>
+
+          <div class="card tight mt12" style="background:var(--surface-2);border-style:dashed">
+            <div class="flex gap8">
+              <svg width="14" height="14" class="gold" style="flex-shrink:0;margin-top:1px"><use href="#i-info"/></svg>
+              <div class="xs muted">Tarif <b class="gold">peak hour</b> (17.00&ndash;22.00) berlaku Rp 450.000/jam. Member Bronze ke atas mendapat tarif khusus Rp 300.000/jam.</div>
+            </div>
+          </div>
+
+          <div class="sec">Sudah Termasuk</div>
+          <div class="card">
+            <div class="flex aic gap8"><svg width="13" height="13" class="green"><use href="#i-check"/></svg><span class="xs muted">Akses ruang ganti &amp; loker</span></div>
+            <div class="flex aic gap8 mt8"><svg width="13" height="13" class="green"><use href="#i-check"/></svg><span class="xs muted">Air mineral gratis di lapangan</span></div>
+            <div class="flex aic gap8 mt8"><svg width="13" height="13" class="green"><use href="#i-check"/></svg><span class="xs muted">Parkir &amp; akses area klub</span></div>
+            <div class="flex aic gap8 mt8"><svg width="13" height="13" class="green"><use href="#i-check"/></svg><span class="xs muted">Lampu LED untuk sesi malam</span></div>
+          </div>
+        </div>
+        <div class="cta"><div class="btn gold">Pilih Tanggal &amp; Jam</div></div>
+        <div class="homebar"><span></span></div>
+      </div></div></div>
+      <div class="note">Pelanggan memilih jenis booking dan durasi. <b>Tarif ditampilkan transparan</b> sebelum melanjutkan, termasuk keterangan tarif jam sibuk.</div>
+    </div>
+
+    <!-- 03 -->
+    <div>
+      <div class="cap"><div class="num">03</div><div><div class="n">TAHAP 1 &middot; KETERSEDIAAN</div><div class="t">Pilih Tanggal, Lapangan &amp; Jam</div></div></div>
+      <div class="phone"><div class="screen-wrap"><div class="screen">
+        <div class="sbar"><span>19.26</span><span class="icons"><span class="bar"><i></i><i></i><i></i><i></i></span><svg width="13" height="10"><use href="#i-wifi"/></svg><span class="batt"><span></span></span></span></div>
+        <div class="abar">
+          <span class="back"><svg width="19" height="19"><use href="#i-back"/></svg></span>
+          <div><div class="ttl">Pilih Jadwal</div><div class="sub">Langkah 2 dari 4</div></div>
+        </div>
+        <div class="body pad-t">
+          <div class="prog mt4"><i style="width:50%"></i></div>
+
+          <div class="sec">Agustus 2026</div>
+          <div class="datestrip">
+            <div class="dcell off"><div class="dw">RAB</div><div class="dd">5</div></div>
+            <div class="dcell"><div class="dw">KAM</div><div class="dd">6</div></div>
+            <div class="dcell"><div class="dw">JUM</div><div class="dd">7</div></div>
+            <div class="dcell on"><div class="dw">SAB</div><div class="dd">8</div></div>
+            <div class="dcell"><div class="dw">MIN</div><div class="dd">9</div></div>
+            <div class="dcell"><div class="dw">SEN</div><div class="dd">10</div></div>
+          </div>
+
+          <div class="sec">Lapangan</div>
+          <div class="flex gap6">
+            <div class="chip" style="flex:1">Court 1</div>
+            <div class="chip on" style="flex:1">Court 2</div>
+            <div class="chip" style="flex:1">Court 3</div>
+            <div class="chip" style="flex:1">Court 4</div>
+          </div>
+          <div class="xs muted2 mt6">Court 2 &mdash; Panoramic, kaca penuh, tribun samping</div>
+
+          <div class="sec">Slot Tersedia &middot; Sabtu, 8 Agustus</div>
+          <div class="slots">
+            <div class="chip off">07.00</div>
+            <div class="chip">08.30</div>
+            <div class="chip">10.00</div>
+            <div class="chip off">11.30</div>
+            <div class="chip">13.00</div>
+            <div class="chip">14.30</div>
+            <div class="chip off">16.00</div>
+            <div class="chip on">18.00</div>
+            <div class="chip">19.30</div>
+          </div>
+          <div class="flex gap12 mt8">
+            <span class="xxs muted2"><span class="pill n" style="height:14px;padding:0 6px;font-size:8px">Tersedia</span></span>
+            <span class="xxs muted2"><span class="pill gold" style="height:14px;padding:0 6px;font-size:8px">Dipilih</span></span>
+            <span class="xxs muted2" style="opacity:.5">Redup = sudah terisi</span>
+          </div>
+
+          <div class="card mt12 rowb">
+            <div>
+              <div class="xxs upper muted2">Pilihan kamu</div>
+              <div class="h3 mt4">18.00 &ndash; 19.30 WITA</div>
+              <div class="xs muted mt4">Court 2 &middot; 90 menit &middot; peak hour</div>
+            </div>
+            <div class="right">
+              <div class="xxs muted2">Tarif lapangan</div>
+              <div class="h2 gold mono">Rp 675.000</div>
+            </div>
+          </div>
+
+          <div class="sec">Perlu Diketahui</div>
+          <div class="card">
+            <div class="flex gap8">
+              <svg width="13" height="13" class="gold" style="flex-shrink:0;margin-top:1px"><use href="#i-clock"/></svg>
+              <div class="xs muted">Datang 15 menit sebelum jam main untuk check-in dan pemanasan.</div>
+            </div>
+            <div class="divider"></div>
+            <div class="flex gap8">
+              <svg width="13" height="13" class="gold" style="flex-shrink:0;margin-top:1px"><use href="#i-refresh"/></svg>
+              <div class="xs muted">Pembatalan gratis hingga 24 jam sebelum jam main.</div>
+            </div>
+          </div>
+        </div>
+        <div class="cta"><div class="btn gold">Lanjut ke Detail Booking</div></div>
+        <div class="homebar"><span></span></div>
+      </div></div></div>
+      <div class="note">Ketersediaan slot real-time. Slot yang sudah terisi tidak bisa dipilih, jadi tidak ada pembayaran ganda.</div>
+    </div>
+  </div>
+
+  <div class="p-foot">
+    <span>Monster Padel &mdash; Dokumen Alur Pembayaran v1.0</span>
+    <span><b>3</b> / 10</span>
+  </div>
+</section>
+
+<!-- ===================================================================== -->
+<!-- PAGE 4 — SCREENS 04-06                                                -->
+<!-- ===================================================================== -->
+<section class="page">
+  <div class="p-head">
+    <div class="l">
+      <img src="assets/logo-black.png" alt="Monster Padel">
+      <span class="sep"></span>
+      <h2>Tahap 2 &mdash; Detail Booking, Data Pemesan &amp; Ringkasan Biaya</h2>
+    </div>
+    <div class="r">Layar 04–06 &middot; Halaman 4</div>
+  </div>
+
+  <div class="row">
+    <!-- 04 -->
+    <div>
+      <div class="cap"><div class="num">04</div><div><div class="n">TAHAP 2 &middot; DETAIL</div><div class="t">Rincian Booking &amp; Tambahan</div></div></div>
+      <div class="phone"><div class="screen-wrap"><div class="screen">
+        <div class="sbar"><span>19.27</span><span class="icons"><span class="bar"><i></i><i></i><i></i><i></i></span><svg width="13" height="10"><use href="#i-wifi"/></svg><span class="batt"><span></span></span></span></div>
+        <div class="abar">
+          <span class="back"><svg width="19" height="19"><use href="#i-back"/></svg></span>
+          <div><div class="ttl">Detail Booking</div><div class="sub">Langkah 3 dari 4</div></div>
+        </div>
+        <div class="body pad-t">
+          <div class="prog mt4"><i style="width:75%"></i></div>
+
+          <div class="card mt12">
+            <div class="flex aic gap10">
+              <div class="courttile"><svg viewBox="-6 -6 212 112"><use href="#i-court"/></svg></div>
+              <div>
+                <div class="h3">Court 2 &mdash; Panoramic</div>
+                <div class="xs muted mt4">Monster Padel, Pecatu &middot; Bali</div>
+              </div>
+            </div>
+            <div class="divider"></div>
+            <div class="rowb"><span class="sm muted">Tanggal</span><span class="sm w6">Sabtu, 8 Agustus 2026</span></div>
+            <div class="rowb mt6"><span class="sm muted">Jam main</span><span class="sm w6">18.00 &ndash; 19.30 WITA</span></div>
+            <div class="rowb mt6"><span class="sm muted">Durasi</span><span class="sm w6">90 menit</span></div>
+            <div class="rowb mt6"><span class="sm muted">Pemain</span><span class="sm w6">4 orang</span></div>
+          </div>
+
+          <div class="sec">Tambahan (opsional)</div>
+          <div class="stack gap8">
+            <div class="card tight rowb">
+              <div class="flex aic gap10">
+                <span class="check on"><svg width="10" height="10" style="color:#0a0a0a"><use href="#i-check"/></svg></span>
+                <div><div class="sm w6">Sewa raket &times; 2</div><div class="xxs muted">Rp 50.000 per raket</div></div>
+              </div>
+              <span class="sm w6 mono">Rp 100.000</span>
+            </div>
+            <div class="card tight rowb">
+              <div class="flex aic gap10">
+                <span class="check on"><svg width="10" height="10" style="color:#0a0a0a"><use href="#i-check"/></svg></span>
+                <div><div class="sm w6">Tube bola (3 pcs)</div><div class="xxs muted">Bola bertekanan, kelas turnamen</div></div>
+              </div>
+              <span class="sm w6 mono">Rp 60.000</span>
+            </div>
+            <div class="card tight rowb">
+              <div class="flex aic gap10">
+                <span class="check"></span>
+                <div><div class="sm w6">Handuk &amp; air mineral</div><div class="xxs muted">Rp 35.000 per orang</div></div>
+              </div>
+              <span class="sm w6 mono muted2">Rp 35.000</span>
+            </div>
+          </div>
+
+          <div class="divider dash mt14"></div>
+          <div class="rowb">
+            <span class="sm muted">Subtotal sementara</span>
+            <span class="h2 mono">Rp 835.000</span>
+          </div>
+        </div>
+        <div class="cta"><div class="btn gold">Lanjut Isi Data Pemesan</div></div>
+        <div class="homebar"><span></span></div>
+      </div></div></div>
+      <div class="note">Seluruh komponen biaya &mdash; tarif lapangan dan setiap item tambahan &mdash; dirinci satu per satu sebelum pelanggan melanjutkan.</div>
+    </div>
+
+    <!-- 05 -->
+    <div>
+      <div class="cap"><div class="num">05</div><div><div class="n">TAHAP 2 &middot; DATA PEMESAN</div><div class="t">Identitas Pemesan &amp; Persetujuan</div></div></div>
+      <div class="phone"><div class="screen-wrap"><div class="screen">
+        <div class="sbar"><span>19.29</span><span class="icons"><span class="bar"><i></i><i></i><i></i><i></i></span><svg width="13" height="10"><use href="#i-wifi"/></svg><span class="batt"><span></span></span></span></div>
+        <div class="abar">
+          <span class="back"><svg width="19" height="19"><use href="#i-back"/></svg></span>
+          <div><div class="ttl">Data Pemesan</div><div class="sub">Langkah 4 dari 4</div></div>
+        </div>
+        <div class="body pad-t">
+          <div class="prog mt4"><i style="width:100%"></i></div>
+
+          <div class="sec">Kontak Pemesan</div>
+          <div class="stack gap8">
+            <div class="field"><div class="lab">Nama lengkap</div><div class="val">Adit Prasetya</div></div>
+            <div class="field"><div class="lab">Email</div><div class="val">adit.prasetya@gmail.com</div></div>
+            <div class="field"><div class="lab">Nomor WhatsApp</div><div class="val">+62 812-3456-7890</div></div>
+            <div class="field"><div class="lab">Catatan untuk klub (opsional)</div><div class="val ph">Contoh: butuh 2 raket ukuran junior</div></div>
+          </div>
+
+          <div class="card tight mt12" style="background:var(--surface-2)">
+            <div class="flex gap8">
+              <svg width="14" height="14" class="gold" style="flex-shrink:0;margin-top:1px"><use href="#i-mail"/></svg>
+              <div class="xs muted">E-ticket dan bukti pembayaran akan dikirim ke email dan WhatsApp di atas setelah pembayaran berhasil.</div>
+            </div>
+          </div>
+
+          <div class="sec">Persetujuan</div>
+          <div class="flex gap8">
+            <span class="check on" style="margin-top:1px"><svg width="10" height="10" style="color:#0a0a0a"><use href="#i-check"/></svg></span>
+            <div class="xs muted" style="line-height:1.5">
+              Saya menyetujui <span class="gold w6">Syarat &amp; Ketentuan</span>,
+              <span class="gold w6">Kebijakan Privasi</span>, dan
+              <span class="gold w6">Kebijakan Pembatalan &amp; Pengembalian Dana</span> Monster Padel.
+            </div>
+          </div>
+          <div class="flex gap8 mt10">
+            <span class="check" style="margin-top:1px"></span>
+            <div class="xs muted" style="line-height:1.5">Kirimi saya informasi promo, turnamen, dan kelas padel Monster Padel.</div>
+          </div>
+        </div>
+        <div class="cta"><div class="btn gold">Lihat Ringkasan Pesanan</div></div>
+        <div class="homebar"><span></span></div>
+      </div></div></div>
+      <div class="note">Persetujuan Syarat &amp; Ketentuan dan <b>Kebijakan Pembatalan</b> wajib dicentang. Tautan kebijakan dapat dibuka langsung dari layar ini.</div>
+    </div>
+
+    <!-- 06 -->
+    <div>
+      <div class="cap"><div class="num">06</div><div><div class="n">TAHAP 2 &middot; RINGKASAN</div><div class="t">Ringkasan Pesanan &amp; Total Bayar</div></div></div>
+      <div class="phone"><div class="screen-wrap"><div class="screen">
+        <div class="sbar"><span>19.30</span><span class="icons"><span class="bar"><i></i><i></i><i></i><i></i></span><svg width="13" height="10"><use href="#i-wifi"/></svg><span class="batt"><span></span></span></span></div>
+        <div class="abar">
+          <span class="back"><svg width="19" height="19"><use href="#i-back"/></svg></span>
+          <div><div class="ttl">Ringkasan Pesanan</div><div class="sub">Periksa sebelum membayar</div></div>
+        </div>
+        <div class="body pad-t">
+          <div class="oid mt8">
+            <div class="k">Nomor Booking</div>
+            <div class="v">MP-BK-20260808-4821</div>
+          </div>
+
+          <div class="card mt12">
+            <div class="rowb">
+              <div>
+                <div class="h3">Court 2 &mdash; Panoramic</div>
+                <div class="xs muted mt4">Sab, 8 Agu 2026 &middot; 18.00&ndash;19.30 WITA</div>
+              </div>
+              <span class="pill gold">90 MENIT</span>
+            </div>
+          </div>
+
+          <div class="sec">Rincian Biaya</div>
+          <div class="card">
+            <div class="rowb"><span class="sm muted">Sewa lapangan (1,5 jam &times; Rp 450.000)</span><span class="sm w6 mono">Rp 675.000</span></div>
+            <div class="rowb mt8"><span class="sm muted">Sewa raket &times; 2</span><span class="sm w6 mono">Rp 100.000</span></div>
+            <div class="rowb mt8"><span class="sm muted">Tube bola (3 pcs)</span><span class="sm w6 mono">Rp 60.000</span></div>
+            <div class="divider"></div>
+            <div class="rowb"><span class="sm muted">Subtotal</span><span class="sm w6 mono">Rp 835.000</span></div>
+            <div class="rowb mt8">
+              <span class="sm muted">Biaya layanan pembayaran</span>
+              <span class="sm w6 green">Rp 0</span>
+            </div>
+            <div class="xxs muted2 mt4">Biaya transaksi kartu ditanggung sepenuhnya oleh Monster Padel.</div>
+            <div class="divider"></div>
+            <div class="rowb">
+              <div><div class="xxs upper muted2">Total pembayaran</div><div class="xxs muted2 mt4">Termasuk PPN</div></div>
+              <span class="h1 gold mono" style="font-size:20px">Rp 835.000</span>
+            </div>
+          </div>
+
+          <div class="card tight mt12" style="background:var(--surface-2);border-style:dashed">
+            <div class="flex gap8">
+              <svg width="14" height="14" class="amber" style="flex-shrink:0;margin-top:1px"><use href="#i-clock"/></svg>
+              <div class="xs muted">Slot ini kami kunci untuk kamu selama <b class="amber">15 menit</b>. Selesaikan pembayaran sebelum waktu habis.</div>
+            </div>
+          </div>
+        </div>
+        <div class="cta"><div class="btn gold">Pilih Metode Pembayaran</div></div>
+        <div class="homebar"><span></span></div>
+      </div></div></div>
+      <div class="note">Total akhir <b>Rp 835.000</b> tampil lengkap sebelum halaman pembayaran, identik dengan yang dibebankan ke kartu.</div>
+    </div>
+  </div>
+
+  <div class="p-foot">
+    <span>Monster Padel &mdash; Dokumen Alur Pembayaran v1.0</span>
+    <span><b>4</b> / 10</span>
+  </div>
+</section>
+
+<!-- ===================================================================== -->
+<!-- PAGE 5 — SCREENS 07-09 (THE CARD FLOW)                                -->
+<!-- ===================================================================== -->
+<section class="page">
+  <div class="p-head">
+    <div class="l">
+      <img src="assets/logo-black.png" alt="Monster Padel">
+      <span class="sep"></span>
+      <h2>Tahap 3&ndash;5 &mdash; Pemilihan Kanal, Input Kartu &amp; Autentikasi 3D Secure</h2>
+    </div>
+    <div class="r">Layar 07–09 &middot; Halaman 5</div>
+  </div>
+
+  <div class="row">
+    <!-- 07 -->
+    <div>
+      <div class="cap"><div class="num">07</div><div><div class="n">TAHAP 3 &middot; XENDIT</div><div class="t">Pilih Metode Pembayaran</div></div></div>
+      <div class="phone"><div class="screen-wrap"><div class="screen">
+        <div class="sbar"><span>19.31</span><span class="icons"><span class="bar"><i></i><i></i><i></i><i></i></span><svg width="13" height="10"><use href="#i-wifi"/></svg><span class="batt"><span></span></span></span></div>
+        <div class="abar">
+          <span class="back"><svg width="19" height="19"><use href="#i-back"/></svg></span>
+          <div><div class="ttl">Metode Pembayaran</div><div class="sub">MP-BK-20260808-4821</div></div>
+        </div>
+        <div class="body pad-t">
+          <div class="card tight rowb mt4" style="background:var(--surface-2)">
+            <div>
+              <div class="xxs upper muted2">Total tagihan</div>
+              <div class="h2 gold mono mt4">Rp 835.000</div>
+            </div>
+            <div class="right">
+              <div class="xxs muted2">Sisa waktu</div>
+              <div class="countdown mt4"><b>13</b><span class="muted2">:</span><b>42</b></div>
+            </div>
+          </div>
+
+          <div class="card tight mt8">
+            <div class="rowb">
+              <div>
+                <div class="sm w6">Court 2 &mdash; Panoramic</div>
+                <div class="xxs muted mt4">Sab, 8 Agu 2026 &middot; 18.00&ndash;19.30 WITA</div>
+              </div>
+              <span class="pill n">90 MENIT</span>
+            </div>
+          </div>
+
+          <div class="sec">Kartu Kredit / Debit</div>
+          <div class="card sel">
+            <div class="rowb">
+              <div class="flex aic gap10">
+                <span class="radio on"></span>
+                <div>
+                  <div class="h3">Kartu Kredit / Debit</div>
+                  <div class="xxs muted mt4">Diproses aman oleh Xendit</div>
+                </div>
+              </div>
+              <span class="pill gold">DIREKOMENDASI</span>
+            </div>
+            <div class="flex aic gap6 mt10" style="padding-left:26px">
+              <span class="brandmark bm-visa">VISA</span>
+              <span class="brandmark bm-mc"><i></i><i></i></span>
+              <span class="brandmark bm-jcb">JCB</span>
+              <span class="brandmark bm-amex">AMEX</span>
+              <span class="xxs muted2">Tanpa biaya tambahan</span>
+            </div>
+          </div>
+
+          <div class="sec">Metode Lainnya</div>
+          <div class="stack gap8">
+            <div class="card tight rowb">
+              <div class="flex aic gap10">
+                <span class="radio"></span>
+                <div><div class="sm w6">Virtual Account</div><div class="xxs muted mt4">BCA, Mandiri, BNI, Permata</div></div>
+              </div>
+              <div class="flex gap4">
+                <span class="brandmark bm-bca">BCA</span>
+                <span class="brandmark bm-mandiri">mandiri</span>
+              </div>
+            </div>
+            <div class="card tight rowb">
+              <div class="flex aic gap10">
+                <span class="radio"></span>
+                <div><div class="sm w6">E-Wallet</div><div class="xxs muted mt4">OVO, DANA, GoPay, ShopeePay</div></div>
+              </div>
+              <div class="flex gap4">
+                <span class="brandmark bm-dana">DANA</span>
+                <span class="brandmark bm-ovo">OVO</span>
+              </div>
+            </div>
+            <div class="card tight rowb">
+              <div class="flex aic gap10">
+                <span class="radio"></span>
+                <div><div class="sm w6">QRIS</div><div class="xxs muted mt4">Semua aplikasi pembayaran</div></div>
+              </div>
+              <span class="brandmark bm-qris">QRIS</span>
+            </div>
+            <div class="card tight rowb">
+              <div class="flex aic gap10">
+                <span class="radio"></span>
+                <div><div class="sm w6">Gerai Retail</div><div class="xxs muted mt4">Alfamart, Indomaret</div></div>
+              </div>
+              <svg width="16" height="16" class="muted2"><use href="#i-wallet"/></svg>
+            </div>
+          </div>
+
+          <div class="flex aic gap6 mt14" style="justify-content:center">
+            <svg width="12" height="12" class="muted2"><use href="#i-lock"/></svg>
+            <span class="xendit-badge">Pembayaran diamankan oleh <b>Xendit</b></span>
+          </div>
+        </div>
+        <div class="cta"><div class="btn gold">Bayar dengan Kartu</div></div>
+        <div class="homebar"><span></span></div>
+      </div></div></div>
+      <div class="note">Kanal <b>Cards</b> ditampilkan paling atas dengan keempat logo jaringan. Hitung mundur 15 menit dan total tagihan selalu terlihat di layar.</div>
+    </div>
+
+    <!-- 08 -->
+    <div>
+      <div class="cap"><div class="num">08</div><div><div class="n">TAHAP 4 &middot; INPUT KARTU</div><div class="t">Formulir Kartu (Xendit)</div></div></div>
+      <div class="phone"><div class="screen-wrap"><div class="screen">
+        <div class="sbar"><span>19.32</span><span class="icons"><span class="bar"><i></i><i></i><i></i><i></i></span><svg width="13" height="10"><use href="#i-wifi"/></svg><span class="batt"><span></span></span></span></div>
+        <div class="abar">
+          <span class="back"><svg width="19" height="19"><use href="#i-back"/></svg></span>
+          <div><div class="ttl">Kartu Kredit / Debit</div><div class="sub">Rp 835.000</div></div>
+        </div>
+        <div class="body pad-t">
+          <div class="flex aic gap6 mt4" style="justify-content:center">
+            <svg width="12" height="12" class="muted2"><use href="#i-lock"/></svg>
+            <span class="xendit-badge">checkout.xendit.co &mdash; koneksi terenkripsi</span>
+          </div>
+
+          <div class="sec">Data Kartu</div>
+          <div class="field focus">
+            <div class="lab">Nomor kartu</div>
+            <div class="rowb">
+              <div class="val mono">4811 1111 1111 1114</div>
+              <span class="brandmark bm-visa" style="height:17px">VISA</span>
+            </div>
+          </div>
+          <div class="flex gap8 mt8">
+            <div class="field" style="flex:1"><div class="lab">Masa berlaku</div><div class="val mono">09 / 28</div></div>
+            <div class="field" style="flex:1">
+              <div class="lab">CVN / CVV</div>
+              <div class="rowb"><div class="val mono">&bull;&bull;&bull;</div><svg width="13" height="13" class="muted2"><use href="#i-info"/></svg></div>
+            </div>
+          </div>
+          <div class="field mt8"><div class="lab">Nama pemegang kartu</div><div class="val">ADIT PRASETYA</div></div>
+
+          <div class="flex gap8 mt12">
+            <span class="check on" style="margin-top:1px"><svg width="10" height="10" style="color:#0a0a0a"><use href="#i-check"/></svg></span>
+            <div class="xs muted" style="line-height:1.5">Simpan kartu ini untuk booking berikutnya. Monster Padel hanya menyimpan token, bukan nomor kartu.</div>
+          </div>
+
+          <div class="card tight mt12" style="background:var(--surface-2)">
+            <div class="flex gap8">
+              <svg width="15" height="15" class="gold" style="flex-shrink:0;margin-top:1px"><use href="#i-shield"/></svg>
+              <div class="xs muted">Setelah menekan Bayar, kamu akan diarahkan ke halaman <b>3D Secure</b> milik bank penerbit untuk verifikasi OTP.</div>
+            </div>
+          </div>
+
+          <div class="divider dash mt12"></div>
+          <div class="rowb">
+            <span class="sm muted">Total dibebankan</span>
+            <span class="h2 gold mono">Rp 835.000</span>
+          </div>
+
+          <div class="card tight mt12" style="background:var(--surface-2)">
+            <div class="rowb"><span class="xs muted">Tertera di tagihan kartu</span><span class="xs w6">MONSTER PADEL</span></div>
+            <div class="divider"></div>
+            <div class="rowb"><span class="xs muted">Nomor booking</span><span class="xs w6 mono">MP-BK-20260808-4821</span></div>
+          </div>
+
+          <div class="flex aic gap6 mt12" style="justify-content:center">
+            <span class="brandmark bm-visa" style="height:16px;font-size:7px">VISA</span>
+            <span class="brandmark bm-mc" style="height:16px;width:26px"><i style="width:10px;height:10px;top:3px;left:4px"></i><i style="width:10px;height:10px;top:3px;right:4px"></i></span>
+            <span class="brandmark bm-jcb" style="height:16px;font-size:7px">JCB</span>
+            <span class="brandmark bm-amex" style="height:16px;font-size:7px">AMEX</span>
+          </div>
+        </div>
+        <div class="cta">
+          <div class="btn gold"><svg width="15" height="15"><use href="#i-lock"/></svg> Bayar Rp 835.000</div>
+          <div class="flex aic gap6 mt8" style="justify-content:center">
+            <span class="xendit-badge">Diproses oleh <b>Xendit</b> &middot; PCI DSS Level 1</span>
+          </div>
+        </div>
+        <div class="homebar"><span></span></div>
+      </div></div></div>
+      <div class="note">Formulir kartu dirender <b>Xendit</b> dan langsung ditokenisasi &mdash; nomor kartu tidak tersimpan di server merchant.</div>
+    </div>
+
+    <!-- 09 -->
+    <div>
+      <div class="cap"><div class="num">09</div><div><div class="n">TAHAP 5 &middot; 3D SECURE</div><div class="t">Verifikasi OTP Bank Penerbit</div></div></div>
+      <div class="phone"><div class="screen-wrap"><div class="screen light">
+        <div class="sbar"><span>19.33</span><span class="icons"><span class="bar"><i></i><i></i><i></i><i></i></span><svg width="13" height="10"><use href="#i-wifi"/></svg><span class="batt"><span></span></span></span></div>
+        <div class="bankbar">
+          <svg width="20" height="20"><use href="#i-bank"/></svg>
+          <div><div class="bname">Bank Penerbit Kartu</div><div class="bsub">Halaman verifikasi 3D Secure</div></div>
+        </div>
+        <div class="urlbar" style="background:#e8eaee;color:#5b606b;margin-top:9px">
+          <svg width="11" height="11"><use href="#i-lock"/></svg> secure.3dsecure-issuer.co.id
+        </div>
+        <div class="body pad-t">
+          <div class="wcard">
+            <div style="font-size:13px;font-weight:700">Verifikasi Transaksi</div>
+            <div style="font-size:10.5px;color:#6c707a;margin-top:3px;line-height:1.45">
+              Masukkan kode OTP 6 digit yang kami kirim ke nomor <b style="color:#16181d">+62 812-****-7890</b>.
+            </div>
+            <div class="wdiv"></div>
+            <div class="wrow"><span class="k">Merchant</span><span class="v">MONSTER PADEL</span></div>
+            <div class="wrow"><span class="k">Nomor kartu</span><span class="v">4811 &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; 1114</span></div>
+            <div class="wrow"><span class="k">Tanggal</span><span class="v">8 Agu 2026, 19.33 WITA</span></div>
+            <div class="wdiv"></div>
+            <div class="wrow"><span class="k" style="font-size:12px">Jumlah</span><span class="v" style="font-size:16px">Rp 835.000</span></div>
+          </div>
+
+          <div style="font-size:9px;font-weight:800;letter-spacing:1.1px;text-transform:uppercase;color:#6c707a;margin:16px 0 8px">Kode OTP</div>
+          <div class="otp">
+            <span class="filled">4</span><span class="filled">9</span><span class="filled">2</span>
+            <span class="caret">|</span><span></span><span></span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;font-size:10px;color:#6c707a">
+            <span>Kirim ulang kode dalam <b style="color:#0060af">00:47</b></span>
+            <span style="display:flex;align-items:center;gap:4px"><svg width="11" height="11"><use href="#i-clock"/></svg> Berlaku 5 menit</span>
+          </div>
+
+          <div style="margin-top:16px;padding:9px 11px;background:#eef4fa;border:1px solid #d7e4f1;border-radius:8px;font-size:9.5px;color:#3d4149;line-height:1.5">
+            Jangan berikan kode OTP kepada siapa pun, termasuk pihak yang mengaku sebagai petugas bank atau Monster Padel.
+          </div>
+
+          <div class="wcard" style="margin-top:14px;padding:11px">
+            <div style="font-size:10px;font-weight:700;color:#16181d">Tidak menerima kode OTP?</div>
+            <div style="font-size:9.5px;color:#6c707a;line-height:1.5;margin-top:3px">
+              Pastikan sinyal ponsel aktif dan nomor terdaftar di bank masih berlaku, lalu tekan kirim ulang setelah hitungan selesai.
+            </div>
+          </div>
+        </div>
+        <div class="cta" style="background:none;border-top:1px solid #e3e5ea">
+          <div class="btn bank">Konfirmasi Pembayaran</div>
+          <div class="btn bankghost sm mt8">Batalkan Transaksi</div>
+        </div>
+        <div class="homebar"><span style="background:rgba(0,0,0,.22)"></span></div>
+      </div></div></div>
+      <div class="note">Autentikasi 3DS berjalan di domain <b>bank penerbit</b>. Nominal, merchant, dan 4 digit kartu ditampilkan ulang.</div>
+    </div>
+  </div>
+
+  <div class="p-foot">
+    <span>Monster Padel &mdash; Dokumen Alur Pembayaran v1.0</span>
+    <span><b>5</b> / 10</span>
+  </div>
+</section>
+
+<!-- ===================================================================== -->
+<!-- PAGE 6 — SCREENS 10-12 (STATUS)                                       -->
+<!-- ===================================================================== -->
+<section class="page">
+  <div class="p-head">
+    <div class="l">
+      <img src="assets/logo-black.png" alt="Monster Padel">
+      <span class="sep"></span>
+      <h2>Tahap 6 &mdash; Status Pembayaran: Diproses, Berhasil, dan Gagal</h2>
+    </div>
+    <div class="r">Layar 10–12 &middot; Halaman 6</div>
+  </div>
+
+  <div class="row">
+    <!-- 10 -->
+    <div>
+      <div class="cap"><div class="num">10</div><div><div class="n">TAHAP 6 &middot; PENDING</div><div class="t">Pembayaran Sedang Diproses</div></div></div>
+      <div class="phone"><div class="screen-wrap"><div class="screen">
+        <div class="sbar"><span>19.34</span><span class="icons"><span class="bar"><i></i><i></i><i></i><i></i></span><svg width="13" height="10"><use href="#i-wifi"/></svg><span class="batt"><span></span></span></span></div>
+        <div class="abar"><div><div class="ttl">Status Pembayaran</div><div class="sub">Jangan tutup halaman ini</div></div></div>
+        <div class="body pad-t">
+          <div class="center mt14">
+            <div class="mark-lg a"><svg width="28" height="28" class="amber"><use href="#i-clock"/></svg></div>
+            <div class="h2 mt12">Memproses Pembayaran</div>
+            <div class="sm muted mt6" style="padding:0 12px">Kami sedang menunggu konfirmasi dari bank penerbit kartu kamu.</div>
+            <div class="prog mt14"><i style="width:62%"></i></div>
+          </div>
+
+          <div class="oid mt18"><div class="k">Nomor Booking</div><div class="v">MP-BK-20260808-4821</div></div>
+
+          <div class="card mt12">
+            <div class="rowb"><span class="sm muted">Status pembayaran</span><span class="pill a"><span class="dot"></span>MENUNGGU</span></div>
+            <div class="divider"></div>
+            <div class="rowb"><span class="sm muted">Metode</span><span class="sm w6">Visa &bull;&bull;&bull;&bull; 1114</span></div>
+            <div class="rowb mt6"><span class="sm muted">Nominal</span><span class="sm w6 mono">Rp 835.000</span></div>
+            <div class="rowb mt6"><span class="sm muted">Waktu order</span><span class="sm w6">8 Agu 2026, 19.30 WITA</span></div>
+            <div class="rowb mt6"><span class="sm muted">Lapangan</span><span class="sm w6">Court 2 &middot; 18.00&ndash;19.30</span></div>
+          </div>
+
+          <div class="card tight mt12" style="background:var(--surface-2);border-style:dashed">
+            <div class="flex gap8">
+              <svg width="14" height="14" class="muted" style="flex-shrink:0;margin-top:1px"><use href="#i-info"/></svg>
+              <div class="xs muted">Halaman ini akan otomatis diperbarui begitu status pembayaran diterima. Slot kamu masih terkunci selama <b class="amber">11:08</b>.</div>
+            </div>
+          </div>
+        </div>
+        <div class="cta">
+          <div class="btn ghost"><svg width="14" height="14"><use href="#i-refresh"/></svg> Cek Status Pembayaran</div>
+          <div class="btn dark sm mt8">Ganti Metode Pembayaran</div>
+        </div>
+        <div class="homebar"><span></span></div>
+      </div></div></div>
+      <div class="note">Layar sementara saat menunggu webhook Xendit. Pelanggan tetap bisa cek status atau ganti metode.</div>
+    </div>
+
+    <!-- 11 -->
+    <div>
+      <div class="cap"><div class="num">11</div><div><div class="n">TAHAP 6 &middot; BERHASIL</div><div class="t">Booking Terkonfirmasi &amp; Dibayar</div></div></div>
+      <div class="phone"><div class="screen-wrap"><div class="screen">
+        <div class="sbar"><span>19.34</span><span class="icons"><span class="bar"><i></i><i></i><i></i><i></i></span><svg width="13" height="10"><use href="#i-wifi"/></svg><span class="batt"><span></span></span></span></div>
+        <div class="abar"><div><div class="ttl">Pembayaran Berhasil</div><div class="sub">MP-BK-20260808-4821</div></div></div>
+        <div class="body pad-t">
+          <div class="center mt10">
+            <div class="mark-lg g"><svg width="30" height="30" class="green"><use href="#i-check"/></svg></div>
+            <div class="h2 mt10">Booking Terkonfirmasi</div>
+            <div class="h1 gold mono mt6" style="font-size:24px">Rp 835.000</div>
+            <div class="xs muted mt4">Dibayar 8 Agu 2026, 19.34 WITA</div>
+          </div>
+
+          <div class="card mt14">
+            <div class="rowb"><span class="sm muted">Status booking</span><span class="pill g"><span class="dot"></span>TERKONFIRMASI</span></div>
+            <div class="divider"></div>
+            <div class="rowb"><span class="sm muted">Lapangan</span><span class="sm w6">Court 2 &mdash; Panoramic</span></div>
+            <div class="rowb mt6"><span class="sm muted">Tanggal</span><span class="sm w6">Sab, 8 Agu 2026</span></div>
+            <div class="rowb mt6"><span class="sm muted">Jam main</span><span class="sm w6">18.00 &ndash; 19.30 WITA</span></div>
+            <div class="rowb mt6"><span class="sm muted">Metode</span><span class="sm w6">Visa &bull;&bull;&bull;&bull; 1114</span></div>
+            <div class="rowb mt6"><span class="sm muted">Ref. Xendit</span><span class="xs w6 mono">py-1a4e83bd&hellip;2c81</span></div>
+          </div>
+
+          <div class="card tight mt12" style="background:var(--surface-2)">
+            <div class="flex gap8">
+              <svg width="14" height="14" class="green" style="flex-shrink:0;margin-top:1px"><use href="#i-mail"/></svg>
+              <div class="xs muted">E-ticket sudah dikirim ke <b>adit.prasetya@gmail.com</b> dan WhatsApp kamu.</div>
+            </div>
+          </div>
+
+          <div class="card tight mt8" style="background:var(--surface-2)">
+            <div class="flex gap8">
+              <svg width="14" height="14" class="muted" style="flex-shrink:0;margin-top:1px"><use href="#i-map"/></svg>
+              <div class="xs muted">Datang 15 menit sebelum jam main. Belimbing Sari I, Pecatu, Badung.</div>
+            </div>
+          </div>
+        </div>
+        <div class="cta">
+          <div class="btn gold"><svg width="15" height="15"><use href="#i-ticket"/></svg> Lihat E-Ticket</div>
+          <div class="btn ghost sm mt8">Tambahkan ke Kalender</div>
+        </div>
+        <div class="homebar"><span></span></div>
+      </div></div></div>
+      <div class="note">Setelah webhook <code style="font-size:8px">payment.succeeded</code> diverifikasi, booking berubah menjadi <b>TERKONFIRMASI</b> dan e-ticket langsung diterbitkan.</div>
+    </div>
+
+    <!-- 12 -->
+    <div>
+      <div class="cap"><div class="num">12</div><div><div class="n">TAHAP 6 &middot; GAGAL</div><div class="t">Pembayaran Gagal &amp; Opsi Coba Lagi</div></div></div>
+      <div class="phone"><div class="screen-wrap"><div class="screen">
+        <div class="sbar"><span>19.35</span><span class="icons"><span class="bar"><i></i><i></i><i></i><i></i></span><svg width="13" height="10"><use href="#i-wifi"/></svg><span class="batt"><span></span></span></span></div>
+        <div class="abar"><div><div class="ttl">Pembayaran Gagal</div><div class="sub">MP-BK-20260808-4821</div></div></div>
+        <div class="body pad-t">
+          <div class="center mt10">
+            <div class="mark-lg r"><svg width="26" height="26" class="red"><use href="#i-x"/></svg></div>
+            <div class="h2 mt10">Pembayaran Tidak Berhasil</div>
+            <div class="sm muted mt6" style="padding:0 6px">Transaksi ditolak oleh bank penerbit kartu. Tidak ada dana yang terpotong.</div>
+          </div>
+
+          <div class="card mt14">
+            <div class="rowb"><span class="sm muted">Status pembayaran</span><span class="pill r"><span class="dot"></span>GAGAL</span></div>
+            <div class="divider"></div>
+            <div class="rowb"><span class="sm muted">Alasan</span><span class="sm w6 right" style="max-width:150px">Ditolak penerbit kartu</span></div>
+            <div class="rowb mt6"><span class="sm muted">Kode</span><span class="xs w6 mono">DECLINED_BY_ISSUER</span></div>
+            <div class="rowb mt6"><span class="sm muted">Metode</span><span class="sm w6">Visa &bull;&bull;&bull;&bull; 1114</span></div>
+            <div class="rowb mt6"><span class="sm muted">Nominal</span><span class="sm w6 mono">Rp 835.000</span></div>
+          </div>
+
+          <div class="sec">Yang Bisa Kamu Lakukan</div>
+          <ul style="list-style:none">
+            <li class="flex gap8 mt8"><span class="gold w7 xs" style="width:12px">1</span><span class="xs muted">Pastikan limit kartu mencukupi dan transaksi online sudah aktif.</span></li>
+            <li class="flex gap8 mt8"><span class="gold w7 xs" style="width:12px">2</span><span class="xs muted">Coba kartu lain (Visa, Mastercard, JCB, atau Amex).</span></li>
+            <li class="flex gap8 mt8"><span class="gold w7 xs" style="width:12px">3</span><span class="xs muted">Gunakan Virtual Account, e-wallet, atau QRIS sebagai alternatif.</span></li>
+          </ul>
+
+          <div class="card tight mt12" style="background:var(--surface-2);border-style:dashed">
+            <div class="flex gap8">
+              <svg width="14" height="14" class="amber" style="flex-shrink:0;margin-top:1px"><use href="#i-clock"/></svg>
+              <div class="xs muted">Slot Court 2, 18.00&ndash;19.30 masih kami tahan <b class="amber">9:12</b> lagi. Setelah itu slot dilepas otomatis.</div>
+            </div>
+          </div>
+        </div>
+        <div class="cta">
+          <div class="btn gold">Coba Bayar Lagi</div>
+          <div class="btn ghost sm mt8">Pilih Metode Pembayaran Lain</div>
+        </div>
+        <div class="homebar"><span></span></div>
+      </div></div></div>
+      <div class="note">Kegagalan dijelaskan beserta kode alasannya, ditegaskan <b>tidak ada dana terpotong</b>, dan bisa diulang.</div>
+    </div>
+  </div>
+
+  <div class="p-foot">
+    <span>Monster Padel &mdash; Dokumen Alur Pembayaran v1.0</span>
+    <span><b>6</b> / 10</span>
+  </div>
+</section>
+
+<!-- ===================================================================== -->
+<!-- PAGE 7 — SCREENS 13-15 (RECEIPT / TICKET / HISTORY)                   -->
+<!-- ===================================================================== -->
+<section class="page">
+  <div class="p-head">
+    <div class="l">
+      <img src="assets/logo-black.png" alt="Monster Padel">
+      <span class="sep"></span>
+      <h2>Tahap 7 &mdash; Bukti Pembayaran, E-Ticket &amp; Riwayat Booking</h2>
+    </div>
+    <div class="r">Layar 13–15 &middot; Halaman 7</div>
+  </div>
+
+  <div class="row">
+    <!-- 13 -->
+    <div>
+      <div class="cap"><div class="num">13</div><div><div class="n">TAHAP 7 &middot; EMAIL</div><div class="t">Email Konfirmasi &amp; Bukti Bayar</div></div></div>
+      <div class="phone"><div class="screen-wrap"><div class="screen light">
+        <div class="sbar"><span>19.35</span><span class="icons"><span class="bar"><i></i><i></i><i></i><i></i></span><svg width="13" height="10"><use href="#i-wifi"/></svg><span class="batt"><span></span></span></span></div>
+        <div class="mail">
+          <div class="mtop">
+            <svg width="17" height="17"><use href="#i-arrleft"/></svg>
+            <span style="font-size:12px;font-weight:600;color:#16181d">Kotak Masuk</span>
+            <span style="margin-left:auto;display:flex;gap:12px"><svg width="16" height="16"><use href="#i-download"/></svg><svg width="16" height="16"><use href="#i-mail"/></svg></span>
+          </div>
+          <div class="mbody">
+            <div style="font-size:13px;font-weight:700;color:#16181d;line-height:1.3">Booking kamu terkonfirmasi &mdash; Court 2, Sab 8 Agu 19.30</div>
+            <div class="from" style="margin-top:10px">
+              <div class="avatar"><img src="assets/mark-white.png" alt=""></div>
+              <div style="flex:1">
+                <div style="font-size:11px;font-weight:600;color:#16181d">Monster Padel <span style="color:#6c707a;font-weight:400">&lt;booking@monsterpadel.id&gt;</span></div>
+                <div style="font-size:9.5px;color:#6c707a">kepada saya &middot; 19.35</div>
+              </div>
+            </div>
+
+            <div style="margin-top:12px">
+              <div class="banner"><img src="assets/logo-white.png" alt="Monster Padel"></div>
+              <div class="ebox">
+                <div style="font-size:11.5px;font-weight:700;color:#16181d">Halo Adit, sampai jumpa di lapangan!</div>
+                <div style="font-size:10px;color:#5c606a;line-height:1.5;margin-top:5px">
+                  Pembayaran kamu sebesar <b style="color:#16181d">Rp 835.000</b> sudah kami terima.
+                  Booking berikut resmi terkonfirmasi.
+                </div>
+
+                <div style="height:1px;background:#eee;margin:10px 0"></div>
+                <div class="krow"><span>Nomor booking</span><span>MP-BK-20260808-4821</span></div>
+                <div class="krow"><span>Lapangan</span><span>Court 2 &mdash; Panoramic</span></div>
+                <div class="krow"><span>Tanggal</span><span>Sabtu, 8 Agustus 2026</span></div>
+                <div class="krow"><span>Jam main</span><span>18.00 &ndash; 19.30 WITA</span></div>
+                <div class="krow"><span>Metode bayar</span><span>Visa &bull;&bull;&bull;&bull; 1114</span></div>
+                <div class="krow"><span>Ref. pembayaran</span><span>py-1a4e83bd&hellip;2c81</span></div>
+                <div style="height:1px;background:#eee;margin:10px 0"></div>
+                <div class="krow" style="font-size:12px"><span style="font-weight:600;color:#16181d">Total dibayar</span><span style="font-size:13px">Rp 835.000</span></div>
+
+                <div class="ebtn" style="margin-top:11px">Buka E-Ticket &amp; QR Check-in</div>
+                <div style="font-size:8.5px;color:#8a8e98;line-height:1.5;margin-top:9px">
+                  Pembatalan gratis hingga 24 jam sebelum jam main. Baca kebijakan lengkap di monsterpadel.id.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="homebar"><span style="background:rgba(0,0,0,.22)"></span></div>
+      </div></div></div>
+      <div class="note">Bukti pembayaran terkirim otomatis ke email: nominal, metode, referensi Xendit, dan kebijakan pembatalan.</div>
+    </div>
+
+    <!-- 14 -->
+    <div>
+      <div class="cap"><div class="num">14</div><div><div class="n">TAHAP 7 &middot; E-TICKET</div><div class="t">E-Ticket &amp; QR Check-in</div></div></div>
+      <div class="phone"><div class="screen-wrap"><div class="screen">
+        <div class="sbar"><span>19.36</span><span class="icons"><span class="bar"><i></i><i></i><i></i><i></i></span><svg width="13" height="10"><use href="#i-wifi"/></svg><span class="batt"><span></span></span></span></div>
+        <div class="abar">
+          <span class="back"><svg width="19" height="19"><use href="#i-back"/></svg></span>
+          <div><div class="ttl">E-Ticket</div><div class="sub">Tunjukkan saat check-in</div></div>
+        </div>
+        <div class="body pad-t">
+          <div class="ticket mt8">
+            <div style="background:#0a0a0a;padding:11px 13px;display:flex;align-items:center;justify-content:space-between">
+              <img src="assets/logo-white.png" style="height:13px" alt="Monster Padel">
+              <span class="pill g" style="font-size:8.5px">TERKONFIRMASI</span>
+            </div>
+            <div class="qrbox">
+              <img src="assets/qr-eticket.svg" alt="QR check-in">
+              <div style="font-size:9px;color:#6b6b6b;margin-top:7px;letter-spacing:.4px">MP-BK-20260808-4821</div>
+            </div>
+            <div class="perf"></div>
+            <div style="padding:12px 14px 14px">
+              <div style="display:flex;justify-content:space-between;gap:10px">
+                <div>
+                  <div style="font-size:8px;font-weight:800;letter-spacing:1px;color:#8a8a8a">LAPANGAN</div>
+                  <div style="font-size:12px;font-weight:700;margin-top:2px">Court 2 &mdash; Panoramic</div>
+                </div>
+                <div style="text-align:right">
+                  <div style="font-size:8px;font-weight:800;letter-spacing:1px;color:#8a8a8a">DURASI</div>
+                  <div style="font-size:12px;font-weight:700;margin-top:2px">90 menit</div>
+                </div>
+              </div>
+              <div style="display:flex;justify-content:space-between;gap:10px;margin-top:10px">
+                <div>
+                  <div style="font-size:8px;font-weight:800;letter-spacing:1px;color:#8a8a8a">TANGGAL</div>
+                  <div style="font-size:12px;font-weight:700;margin-top:2px">Sab, 8 Agu 2026</div>
+                </div>
+                <div style="text-align:right">
+                  <div style="font-size:8px;font-weight:800;letter-spacing:1px;color:#8a8a8a">JAM MAIN</div>
+                  <div style="font-size:12px;font-weight:700;margin-top:2px">18.00 &ndash; 19.30</div>
+                </div>
+              </div>
+              <div style="height:1px;background:#ececec;margin:11px 0"></div>
+              <div style="display:flex;justify-content:space-between;font-size:10px">
+                <span style="color:#6b6b6b">Atas nama</span><span style="font-weight:600">Adit Prasetya &middot; 4 pemain</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;font-size:10px;margin-top:5px">
+                <span style="color:#6b6b6b">Termasuk</span><span style="font-weight:600">2 raket + 1 tube bola</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card tight mt12" style="background:var(--surface-2)">
+            <div class="flex gap8">
+              <svg width="14" height="14" class="gold" style="flex-shrink:0;margin-top:1px"><use href="#i-info"/></svg>
+              <div class="xs muted">Pindai QR di resepsionis klub. Datang 15 menit lebih awal untuk pemanasan.</div>
+            </div>
+          </div>
+        </div>
+        <div class="cta">
+          <div class="btn ghost"><svg width="14" height="14"><use href="#i-download"/></svg> Simpan / Bagikan E-Ticket</div>
+        </div>
+        <div class="homebar"><span></span></div>
+      </div></div></div>
+      <div class="note">E-ticket berisi QR unik per booking untuk check-in di klub. Barang yang dibayar (lapangan + add-on) tercantum jelas di tiket.</div>
+    </div>
+
+    <!-- 15 -->
+    <div>
+      <div class="cap"><div class="num">15</div><div><div class="n">TAHAP 7 &middot; AKUN</div><div class="t">Riwayat Booking &amp; Transaksi</div></div></div>
+      <div class="phone"><div class="screen-wrap"><div class="screen">
+        <div class="sbar"><span>19.38</span><span class="icons"><span class="bar"><i></i><i></i><i></i><i></i></span><svg width="13" height="10"><use href="#i-wifi"/></svg><span class="batt"><span></span></span></span></div>
+        <div class="abar"><div><div class="ttl">Tiket Saya</div><div class="sub">Adit Prasetya</div></div></div>
+        <div class="body pad-t">
+          <div class="flex gap6 mt4">
+            <div class="chip on" style="flex:1">Akan datang</div>
+            <div class="chip" style="flex:1">Selesai</div>
+            <div class="chip" style="flex:1">Dibatalkan</div>
+          </div>
+
+          <div class="sec">Booking Aktif</div>
+          <div class="card sel">
+            <div class="rowb">
+              <div>
+                <div class="h3">Court 2 &mdash; Panoramic</div>
+                <div class="xs muted mt4">Sab, 8 Agu 2026 &middot; 18.00&ndash;19.30</div>
+              </div>
+              <span class="pill g"><span class="dot"></span>TERKONFIRMASI</span>
+            </div>
+            <div class="divider"></div>
+            <div class="rowb">
+              <div>
+                <div class="xxs muted2">MP-BK-20260808-4821</div>
+                <div class="xs muted mt4">Visa &bull;&bull;&bull;&bull; 1114</div>
+              </div>
+              <div class="right">
+                <div class="xxs muted2">Dibayar</div>
+                <div class="h3 gold mono mt4">Rp 835.000</div>
+              </div>
+            </div>
+            <div class="flex gap8 mt12">
+              <div class="btn gold sm" style="flex:1">E-Ticket</div>
+              <div class="btn ghost sm" style="flex:1">Kelola</div>
+            </div>
+          </div>
+
+          <div class="sec">Riwayat</div>
+          <div class="stack gap8">
+            <div class="card tight rowb">
+              <div>
+                <div class="sm w6">Court 1 &mdash; Panoramic</div>
+                <div class="xxs muted mt4">Sab, 25 Jul 2026 &middot; 07.00&ndash;08.00</div>
+                <div class="xxs muted2 mt4">Mastercard &bull;&bull;&bull;&bull; 5308</div>
+              </div>
+              <div class="right">
+                <span class="pill n">SELESAI</span>
+                <div class="sm w6 mono mt6">Rp 350.000</div>
+              </div>
+            </div>
+            <div class="card tight rowb">
+              <div>
+                <div class="sm w6">Court 3 &mdash; Panoramic</div>
+                <div class="xxs muted mt4">Ming, 12 Jul 2026 &middot; 19.30&ndash;21.00</div>
+                <div class="xxs muted2 mt4">Visa &bull;&bull;&bull;&bull; 1114</div>
+              </div>
+              <div class="right">
+                <span class="pill n">SELESAI</span>
+                <div class="sm w6 mono mt6">Rp 675.000</div>
+              </div>
+            </div>
+            <div class="card tight rowb">
+              <div>
+                <div class="sm w6">Court 2 &mdash; Panoramic</div>
+                <div class="xxs muted mt4">Jum, 3 Jul 2026 &middot; 16.00&ndash;17.00</div>
+                <div class="xxs muted2 mt4">Dana dikembalikan penuh</div>
+              </div>
+              <div class="right">
+                <span class="pill n" style="color:#4a8cff">REFUND</span>
+                <div class="sm w6 mono mt6">Rp 350.000</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tabs">
+          <div class="tab"><svg width="18" height="18"><use href="#i-home"/></svg>Beranda</div>
+          <div class="tab"><svg width="18" height="18"><use href="#i-cal"/></svg>Booking</div>
+          <div class="tab on"><svg width="18" height="18"><use href="#i-ticket"/></svg>Tiket Saya</div>
+          <div class="tab"><svg width="18" height="18"><use href="#i-user"/></svg>Akun</div>
+        </div>
+        <div class="homebar"><span></span></div>
+      </div></div></div>
+      <div class="note">Pelanggan bisa menelusuri riwayat transaksi kapan saja, lengkap dengan metode bayar dan statusnya.</div>
+    </div>
+  </div>
+
+  <div class="p-foot">
+    <span>Monster Padel &mdash; Dokumen Alur Pembayaran v1.0</span>
+    <span><b>7</b> / 10</span>
+  </div>
+</section>
+
+<!-- ===================================================================== -->
+<!-- PAGE 8 — SCREENS 16-18 (CANCELLATION / REFUND)                        -->
+<!-- ===================================================================== -->
+<section class="page">
+  <div class="p-head">
+    <div class="l">
+      <img src="assets/logo-black.png" alt="Monster Padel">
+      <span class="sep"></span>
+      <h2>Alur Pembatalan &amp; Pengembalian Dana</h2>
+    </div>
+    <div class="r">Layar 16–18 &middot; Halaman 8</div>
+  </div>
+
+  <div class="row">
+    <!-- 16 -->
+    <div>
+      <div class="cap"><div class="num">16</div><div><div class="n">REFUND &middot; LANGKAH 1</div><div class="t">Kelola Booking &amp; Ajukan Pembatalan</div></div></div>
+      <div class="phone"><div class="screen-wrap"><div class="screen">
+        <div class="sbar"><span>10.12</span><span class="icons"><span class="bar"><i></i><i></i><i></i><i></i></span><svg width="13" height="10"><use href="#i-wifi"/></svg><span class="batt"><span></span></span></span></div>
+        <div class="abar">
+          <span class="back"><svg width="19" height="19"><use href="#i-back"/></svg></span>
+          <div><div class="ttl">Kelola Booking</div><div class="sub">MP-BK-20260808-4821</div></div>
+        </div>
+        <div class="body pad-t">
+          <div class="card mt8">
+            <div class="rowb">
+              <div>
+                <div class="h3">Court 2 &mdash; Panoramic</div>
+                <div class="xs muted mt4">Sab, 8 Agu 2026 &middot; 18.00&ndash;19.30 WITA</div>
+              </div>
+              <span class="pill g"><span class="dot"></span>TERKONFIRMASI</span>
+            </div>
+            <div class="divider"></div>
+            <div class="rowb"><span class="sm muted">Total dibayar</span><span class="sm w6 mono">Rp 835.000</span></div>
+            <div class="rowb mt6"><span class="sm muted">Metode</span><span class="sm w6">Visa &bull;&bull;&bull;&bull; 1114</span></div>
+          </div>
+
+          <div class="sec">Opsi yang Tersedia</div>
+          <div class="stack gap8">
+            <div class="card tight rowb">
+              <div class="flex aic gap10">
+                <svg width="17" height="17" class="gold"><use href="#i-cal"/></svg>
+                <div><div class="sm w6">Ubah jadwal</div><div class="xxs muted mt4">Gratis, maksimal 1 kali</div></div>
+              </div>
+              <svg width="14" height="14" class="muted2"><use href="#i-chev"/></svg>
+            </div>
+            <div class="card tight rowb">
+              <div class="flex aic gap10">
+                <svg width="17" height="17" class="red"><use href="#i-x"/></svg>
+                <div><div class="sm w6">Batalkan &amp; minta refund</div><div class="xxs muted mt4">Sesuai kebijakan pembatalan</div></div>
+              </div>
+              <svg width="14" height="14" class="muted2"><use href="#i-chev"/></svg>
+            </div>
+          </div>
+
+          <div class="sec">Kebijakan Pembatalan</div>
+          <div class="card">
+            <div class="rowb"><span class="xs muted">Lebih dari 24 jam sebelum main</span><span class="xs w7 green">Refund 100%</span></div>
+            <div class="divider"></div>
+            <div class="rowb"><span class="xs muted">12&ndash;24 jam sebelum main</span><span class="xs w7 amber">Refund 50%</span></div>
+            <div class="divider"></div>
+            <div class="rowb"><span class="xs muted">Kurang dari 12 jam / tidak hadir</span><span class="xs w7 red">Tidak ada refund</span></div>
+            <div class="divider"></div>
+            <div class="rowb"><span class="xs muted">Dibatalkan klub / cuaca ekstrem</span><span class="xs w7 green">Refund 100%</span></div>
+          </div>
+
+          <div class="card tight mt12" style="background:var(--surface-2);border-style:dashed">
+            <div class="flex gap8">
+              <svg width="14" height="14" class="green" style="flex-shrink:0;margin-top:1px"><use href="#i-clock"/></svg>
+              <div class="xs muted">Booking kamu masih <b class="green">lebih dari 24 jam</b> lagi, jadi berhak refund penuh.</div>
+            </div>
+          </div>
+
+          <div class="sec">Butuh Bantuan?</div>
+          <div class="card tight rowb">
+            <div class="flex aic gap10">
+              <svg width="16" height="16" class="gold"><use href="#i-mail"/></svg>
+              <div>
+                <div class="xs w6">contact@padelmonster.id</div>
+                <div class="xxs muted mt4">WhatsApp +62 813-5359-9939 &middot; 07.00&ndash;22.00</div>
+              </div>
+            </div>
+            <svg width="13" height="13" class="muted2"><use href="#i-chev"/></svg>
+          </div>
+        </div>
+        <div class="homebar"><span></span></div>
+      </div></div></div>
+      <div class="note">Kebijakan pembatalan ditampilkan berjenjang dan mudah dipahami, langsung di layar tempat pelanggan mengajukan pembatalan.</div>
+    </div>
+
+    <!-- 17 -->
+    <div>
+      <div class="cap"><div class="num">17</div><div><div class="n">REFUND &middot; LANGKAH 2</div><div class="t">Konfirmasi Pembatalan &amp; Refund</div></div></div>
+      <div class="phone"><div class="screen-wrap"><div class="screen">
+        <div class="sbar"><span>10.13</span><span class="icons"><span class="bar"><i></i><i></i><i></i><i></i></span><svg width="13" height="10"><use href="#i-wifi"/></svg><span class="batt"><span></span></span></span></div>
+        <div class="abar">
+          <span class="back"><svg width="19" height="19"><use href="#i-back"/></svg></span>
+          <div><div class="ttl">Konfirmasi Pembatalan</div><div class="sub">Langkah terakhir</div></div>
+        </div>
+        <div class="body pad-t">
+          <div class="center mt10">
+            <div class="mark-lg a"><svg width="26" height="26" class="amber"><use href="#i-alert"/></svg></div>
+            <div class="h2 mt10">Batalkan Booking Ini?</div>
+            <div class="sm muted mt6" style="padding:0 10px">Slot akan dilepas dan dapat dipesan pemain lain.</div>
+          </div>
+
+          <div class="sec">Perhitungan Refund</div>
+          <div class="card">
+            <div class="rowb"><span class="sm muted">Total dibayar</span><span class="sm w6 mono">Rp 835.000</span></div>
+            <div class="rowb mt8"><span class="sm muted">Kategori pembatalan</span><span class="xs w6 green">&gt; 24 jam &middot; 100%</span></div>
+            <div class="rowb mt8"><span class="sm muted">Potongan</span><span class="sm w6 mono">Rp 0</span></div>
+            <div class="divider"></div>
+            <div class="rowb">
+              <div><div class="xxs upper muted2">Dana dikembalikan</div><div class="xxs muted2 mt4">Ke kartu yang sama</div></div>
+              <span class="h1 green mono" style="font-size:20px">Rp 835.000</span>
+            </div>
+          </div>
+
+          <div class="card tight mt8" style="background:var(--surface-2)">
+            <div class="flex gap8">
+              <svg width="14" height="14" class="muted" style="flex-shrink:0;margin-top:1px"><use href="#i-card"/></svg>
+              <div class="xs muted">Dikirim ke kartu <b>Visa &bull;&bull;&bull;&bull; 1114</b>, estimasi <b>5&ndash;14 hari kerja</b> tergantung bank penerbit.</div>
+            </div>
+          </div>
+
+          <div class="sec">Alasan Pembatalan</div>
+          <div class="stack gap8">
+            <div class="card tight rowb"><div class="flex aic gap10"><span class="radio on"></span><span class="sm">Berhalangan hadir</span></div></div>
+            <div class="card tight rowb"><div class="flex aic gap10"><span class="radio"></span><span class="sm">Salah pilih jadwal</span></div></div>
+            <div class="card tight rowb"><div class="flex aic gap10"><span class="radio"></span><span class="sm">Alasan lainnya</span></div></div>
+          </div>
+        </div>
+        <div class="cta">
+          <div class="btn gold">Ya, Batalkan &amp; Refund</div>
+          <div class="btn ghost sm mt8">Tidak, Pertahankan Booking</div>
+        </div>
+        <div class="homebar"><span></span></div>
+      </div></div></div>
+      <div class="note">Nominal refund dihitung otomatis dan ditampilkan sebelum pelanggan mengonfirmasi, termasuk estimasi waktu dana kembali ke kartu.</div>
+    </div>
+
+    <!-- 18 -->
+    <div>
+      <div class="cap"><div class="num">18</div><div><div class="n">REFUND &middot; LANGKAH 3</div><div class="t">Status Pengembalian Dana</div></div></div>
+      <div class="phone"><div class="screen-wrap"><div class="screen">
+        <div class="sbar"><span>10.14</span><span class="icons"><span class="bar"><i></i><i></i><i></i><i></i></span><svg width="13" height="10"><use href="#i-wifi"/></svg><span class="batt"><span></span></span></span></div>
+        <div class="abar">
+          <span class="back"><svg width="19" height="19"><use href="#i-back"/></svg></span>
+          <div><div class="ttl">Status Refund</div><div class="sub">MP-RF-20260807-0917</div></div>
+        </div>
+        <div class="body pad-t">
+          <div class="center mt10">
+            <div class="mark-lg g"><svg width="28" height="28" class="green"><use href="#i-check"/></svg></div>
+            <div class="h2 mt10">Refund Sedang Diproses</div>
+            <div class="h1 green mono mt6" style="font-size:22px">Rp 835.000</div>
+            <div class="xs muted mt4">Booking sudah dibatalkan</div>
+          </div>
+
+          <div class="sec">Lini Waktu</div>
+          <div class="tl">
+            <div class="step done">
+              <div class="st">Pembatalan diterima</div>
+              <div class="sd">7 Agu 2026, 10.14 WITA</div>
+            </div>
+            <div class="step done">
+              <div class="st">Refund diajukan ke Xendit</div>
+              <div class="sd">7 Agu 2026, 10.14 WITA &middot; <span class="mono">rfd-3c81ba07&hellip;</span></div>
+            </div>
+            <div class="step now">
+              <div class="st">Diproses bank penerbit</div>
+              <div class="sd">Sedang berjalan &middot; estimasi 5&ndash;14 hari kerja</div>
+            </div>
+            <div class="step">
+              <div class="st">Dana masuk ke kartu</div>
+              <div class="sd">Visa &bull;&bull;&bull;&bull; 1114</div>
+            </div>
+          </div>
+
+          <div class="card mt14">
+            <div class="rowb"><span class="sm muted">Booking</span><span class="xs w6 mono">MP-BK-20260808-4821</span></div>
+            <div class="rowb mt6"><span class="sm muted">Status booking</span><span class="pill n">DIBATALKAN</span></div>
+            <div class="rowb mt6"><span class="sm muted">Jenis refund</span><span class="sm w6">Penuh (100%)</span></div>
+            <div class="rowb mt6"><span class="sm muted">Tujuan</span><span class="sm w6">Visa &bull;&bull;&bull;&bull; 1114</span></div>
+          </div>
+
+          <div class="card tight mt12" style="background:var(--surface-2)">
+            <div class="flex gap8">
+              <svg width="14" height="14" class="gold" style="flex-shrink:0;margin-top:1px"><use href="#i-info"/></svg>
+              <div class="xs muted">Butuh bantuan? Hubungi <b>contact@padelmonster.id</b> atau WhatsApp +62 813-5359-9939.</div>
+            </div>
+          </div>
+        </div>
+        <div class="cta"><div class="btn ghost">Unduh Bukti Pembatalan</div></div>
+        <div class="homebar"><span></span></div>
+      </div></div></div>
+      <div class="note">Status refund dapat dipantau pelanggan kapan saja, lengkap dengan nomor referensi refund Xendit dan estimasi penyelesaian.</div>
+    </div>
+  </div>
+
+  <div class="p-foot">
+    <span>Monster Padel &mdash; Dokumen Alur Pembayaran v1.0</span>
+    <span><b>8</b> / 10</span>
+  </div>
+</section>
+
+<!-- ===================================================================== -->
+<!-- PAGE 9 — TECHNICAL SPEC                                               -->
+<!-- ===================================================================== -->
+<section class="page">
+  <div class="p-head">
+    <div class="l">
+      <img src="assets/logo-black.png" alt="Monster Padel">
+      <span class="sep"></span>
+      <h2>Rincian Teknis Integrasi Xendit</h2>
+    </div>
+    <div class="r">Kanal: Cards &middot; Halaman 9</div>
+  </div>
+
+  <div class="cols2">
+    <div>
+      <div class="blk">
+        <h3>Pemetaan Layar ke <em>Endpoint</em> Xendit</h3>
+        <table class="t">
+          <thead><tr><th style="width:58px">Layar</th><th>Aksi Sistem</th><th style="width:34%">API / Event</th></tr></thead>
+          <tbody>
+            <tr><td class="b">03</td><td>Kunci slot terpilih di kalender lapangan</td><td>Internal &mdash; belum ada panggilan ke Xendit</td></tr>
+            <tr><td class="b">06</td><td>Order dibuat, status <code>PENDING</code>, slot ditahan 15 menit</td><td>Internal &mdash; <code>reference_id</code> dibuat</td></tr>
+            <tr><td class="b">07</td><td>Pelanggan memilih kanal Kartu</td><td><code>POST /v3/payment_requests</code><br><code>channel_code: CARDS</code></td></tr>
+            <tr><td class="b">08</td><td>Data kartu ditokenisasi di sisi Xendit</td><td>Xendit Cards SDK / hosted form</td></tr>
+            <tr><td class="b">09</td><td>Pelanggan diarahkan ke halaman 3DS penerbit</td><td><code>actions[].url</code> dari respons</td></tr>
+            <tr><td class="b">10</td><td>Menunggu hasil otorisasi</td><td><code>GET /v3/payment_requests/{id}</code></td></tr>
+            <tr><td class="b">11</td><td>Booking dikonfirmasi, e-ticket diterbitkan</td><td>Webhook <code>payment.succeeded</code></td></tr>
+            <tr><td class="b">12</td><td>Pembayaran gagal, order tetap <code>PENDING</code></td><td>Webhook <code>payment.failed</code></td></tr>
+            <tr><td class="b">17</td><td>Pengajuan pengembalian dana</td><td><code>POST /refunds</code></td></tr>
+            <tr><td class="b">18</td><td>Status refund diperbarui</td><td>Webhook <code>refund.succeeded</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="blk">
+        <h3>Contoh <em>Payload</em> Permintaan Pembayaran</h3>
+        <table class="t">
+          <tbody>
+            <tr><td style="width:38%">reference_id</td><td><code>MP-BK-20260808-4821</code></td></tr>
+            <tr><td>amount</td><td><code>835000</code> &middot; currency <code>IDR</code></td></tr>
+            <tr><td>channel_code</td><td><code>CARDS</code></td></tr>
+            <tr><td>description</td><td>Court 2 Panoramic &mdash; 8 Agu 2026, 18.00&ndash;19.30 WITA</td></tr>
+            <tr><td>customer</td><td>Adit Prasetya &middot; adit.prasetya@gmail.com &middot; +6281234567890</td></tr>
+            <tr><td>metadata</td><td>court_id, slot_start, slot_end, duration_minutes, add_ons</td></tr>
+            <tr><td>success_return_url</td><td><code>/booking/MP-BK-20260808-4821/success</code></td></tr>
+            <tr><td>failure_return_url</td><td><code>/booking/MP-BK-20260808-4821/failed</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="blk">
+        <h3>Rekonsiliasi &amp; <em>Settlement</em></h3>
+        <table class="t">
+          <tbody>
+            <tr><td style="width:38%">Rekonsiliasi harian</td><td>Setiap 02.00 WITA sistem membandingkan seluruh order hari sebelumnya dengan status di Xendit dan menandai selisih untuk ditinjau manual</td></tr>
+            <tr><td>Penyelesaian dana</td><td>H+2 hari kerja ke rekening bank Monster Padel</td></tr>
+            <tr><td>Sumber kebenaran</td><td>Status di Xendit &mdash; bila webhook dan status <code>GET</code> berbeda, hasil <code>GET</code> yang dipakai</td></tr>
+            <tr><td>Retensi data</td><td>Log transaksi disimpan 5 tahun sesuai ketentuan pembukuan</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div>
+      <div class="blk">
+        <h3>Penanganan <em>Webhook</em> &amp; Status</h3>
+        <table class="t">
+          <thead><tr><th style="width:38%">Event Xendit</th><th>Tindakan Monster Padel</th></tr></thead>
+          <tbody>
+            <tr><td><code>payment.succeeded</code></td><td>Verifikasi <code>x-callback-token</code> &rarr; cocokkan <code>reference_id</code> dan nominal &rarr; set booking <b>CONFIRMED</b> &rarr; terbitkan e-ticket &rarr; kirim email &amp; WhatsApp</td></tr>
+            <tr><td><code>payment.failed</code></td><td>Set pembayaran <b>FAILED</b>, order tetap <b>PENDING</b>, slot masih terkunci hingga 15 menit habis, tampilkan Layar 12</td></tr>
+            <tr><td><code>payment.awaiting_capture</code></td><td>Tahan status <b>PENDING</b>, tampilkan Layar 10 dan lakukan polling status</td></tr>
+            <tr><td><code>refund.succeeded</code></td><td>Set booking <b>REFUNDED</b>, kirim bukti pembatalan ke pelanggan</td></tr>
+            <tr><td>Tidak ada webhook (timeout)</td><td>Setelah 15 menit: order <b>EXPIRED</b>, slot dilepas otomatis, rekonsiliasi harian via <code>GET</code> status</td></tr>
+          </tbody>
+        </table>
+        <div class="callout">
+          <span class="clabel">Idempotensi</span>
+          Setiap webhook diproses idempoten berdasarkan <code>payment_id</code>. Webhook yang terkirim ulang tidak akan
+          menghasilkan booking ganda maupun e-ticket ganda.
+        </div>
+      </div>
+
+      <div class="blk">
+        <h3>Keamanan &amp; Kepatuhan</h3>
+        <ul class="li">
+          <li><b>Tanpa penyimpanan data kartu.</b> Nomor kartu, masa berlaku, dan CVN dimasukkan pada elemen milik Xendit. Server Monster Padel hanya menerima token dan 4 digit terakhir.</li>
+          <li><b>3D Secure aktif</b> untuk seluruh transaksi kartu, mengalihkan tanggung jawab <em>fraud</em> ke penerbit kartu sekaligus menekan chargeback.</li>
+          <li><b>HTTPS/TLS 1.2+</b> di seluruh halaman checkout, dengan HSTS aktif pada domain monsterpadel.id.</li>
+          <li><b>Verifikasi webhook</b> melalui pencocokan <code>x-callback-token</code> dan validasi ulang nominal terhadap order sebelum booking dikonfirmasi.</li>
+          <li><b>Pembatasan percobaan.</b> Maksimal 3 kali percobaan pembayaran per order; setelahnya pelanggan diarahkan menghubungi tim klub.</li>
+          <li><b>Jejak audit.</b> Setiap perubahan status pembayaran dan refund dicatat lengkap dengan waktu, aktor, dan referensi Xendit.</li>
+        </ul>
+      </div>
+
+      <div class="blk">
+        <h3>Penanganan Kasus Khusus</h3>
+        <table class="t">
+          <thead><tr><th style="width:40%">Kasus</th><th>Penanganan</th></tr></thead>
+          <tbody>
+            <tr><td class="b">Pelanggan menutup halaman 3DS</td><td>Order tetap <b>PENDING</b>; saat dibuka kembali, sistem menampilkan Layar 10 dan status ditarik ulang dari Xendit</td></tr>
+            <tr><td class="b">Webhook datang setelah order kedaluwarsa</td><td>Bila slot masih kosong, booking dipulihkan; bila sudah terisi orang lain, refund penuh diproses otomatis dan pelanggan dihubungi</td></tr>
+            <tr><td class="b">Dua tab checkout untuk satu order</td><td>Hanya satu <code>payment_request</code> aktif per order; percobaan kedua memakai referensi yang sama</td></tr>
+            <tr><td class="b">Tagihan ganda pada satu kartu</td><td>Terdeteksi saat rekonsiliasi harian; refund penuh maksimal 2 &times; 24 jam</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="p-foot">
+    <span>Monster Padel &mdash; Dokumen Alur Pembayaran v1.0</span>
+    <span><b>9</b> / 10</span>
+  </div>
+</section>
+
+<!-- ===================================================================== -->
+<!-- PAGE 10 — POLICY & OPERATIONS                                         -->
+<!-- ===================================================================== -->
+<section class="page">
+  <div class="p-head">
+    <div class="l">
+      <img src="assets/logo-black.png" alt="Monster Padel">
+      <span class="sep"></span>
+      <h2>Kebijakan, Layanan Pelanggan &amp; Ringkasan Pengajuan</h2>
+    </div>
+    <div class="r">Kanal: Cards &middot; Halaman 10</div>
+  </div>
+
+  <div class="cols2">
+    <div>
+      <div class="blk">
+        <h3>Barang &amp; Jasa yang Dijual</h3>
+        <table class="t">
+          <thead><tr><th>Produk</th><th style="width:34%">Harga</th><th style="width:26%">Pengiriman</th></tr></thead>
+          <tbody>
+            <tr><td class="b">Sewa lapangan &mdash; off peak (07.00&ndash;17.00)</td><td>Rp 350.000 / jam</td><td>E-ticket seketika</td></tr>
+            <tr><td class="b">Sewa lapangan &mdash; peak (17.00&ndash;22.00)</td><td>Rp 450.000 / jam</td><td>E-ticket seketika</td></tr>
+            <tr><td class="b">Sewa lapangan + pelatih</td><td>Mulai Rp 650.000 / jam</td><td>E-ticket seketika</td></tr>
+            <tr><td class="b">Daily pass</td><td>Rp 250.000</td><td>E-ticket seketika</td></tr>
+            <tr><td class="b">7 days pass</td><td>Rp 1.500.000</td><td>E-ticket seketika</td></tr>
+            <tr><td class="b">Keanggotaan Bronze &ndash; Founder Elite</td><td>Rp 2.500.000 &ndash; Rp 18.000.000</td><td>Aktivasi kartu member</td></tr>
+            <tr><td class="b">Add-on: raket, bola, handuk</td><td>Rp 35.000 &ndash; Rp 60.000</td><td>Diambil di klub</td></tr>
+          </tbody>
+        </table>
+        <div class="callout">
+          <span class="clabel">Sifat produk</span>
+          Seluruh produk berupa <b>jasa yang dikonsumsi di lokasi</b> (Pecatu, Bali) &mdash; tidak ada pengiriman barang fisik.
+          Bukti transaksi berupa e-ticket digital yang terbit seketika setelah pembayaran berhasil.
+          Nominal ditagihkan sekali per booking; tidak ada penagihan berulang otomatis pada kanal kartu.
+        </div>
+      </div>
+
+      <div class="blk">
+        <h3>Kebijakan Pembatalan &amp; Refund</h3>
+        <table class="t">
+          <thead><tr><th>Waktu Pembatalan</th><th style="width:26%">Refund</th><th style="width:32%">Proses</th></tr></thead>
+          <tbody>
+            <tr><td>Lebih dari 24 jam sebelum jam main</td><td class="b">100%</td><td>Otomatis via aplikasi</td></tr>
+            <tr><td>12&ndash;24 jam sebelum jam main</td><td class="b">50%</td><td>Otomatis via aplikasi</td></tr>
+            <tr><td>Kurang dari 12 jam atau tidak hadir</td><td class="b">Tidak ada</td><td>&mdash;</td></tr>
+            <tr><td>Dibatalkan klub atau cuaca ekstrem</td><td class="b">100%</td><td>Otomatis + notifikasi</td></tr>
+            <tr><td>Kesalahan sistem / tagihan ganda</td><td class="b">100%</td><td>Maksimal 2 &times; 24 jam</td></tr>
+          </tbody>
+        </table>
+        <div class="callout">
+          <span class="clabel">Waktu dana kembali</span>
+          Refund dikirim ke kartu yang sama melalui Xendit. Estimasi dana masuk <b>5&ndash;14 hari kerja</b>
+          bergantung pada bank penerbit. Pelanggan dapat memantau statusnya di Layar 18.
+        </div>
+      </div>
+
+      <div class="blk">
+        <h3>Dari Pembayaran ke Lapangan</h3>
+        <table class="t">
+          <thead><tr><th style="width:30%">Tahap</th><th>Yang Terjadi</th></tr></thead>
+          <tbody>
+            <tr><td class="b">Seketika</td><td>E-ticket dengan QR unik terbit dan terkirim via email serta WhatsApp</td></tr>
+            <tr><td class="b">H-1</td><td>Pengingat otomatis berisi jam main, lokasi, dan tautan e-ticket</td></tr>
+            <tr><td class="b">Hari bermain</td><td>QR dipindai di resepsionis klub; add-on (raket, bola) diserahkan saat check-in</td></tr>
+            <tr><td class="b">Setelah bermain</td><td>Booking berubah menjadi <b>SELESAI</b> di riwayat pelanggan</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div>
+      <div class="blk">
+        <h3>Layanan Pelanggan &amp; Penanganan Sengketa</h3>
+        <dl class="kv">
+          <dt>Email</dt><dd>contact@padelmonster.id &mdash; dibalas maksimal 1 &times; 24 jam</dd>
+          <dt>WhatsApp &amp; telepon</dt><dd>+62 813-5359-9939 &mdash; 07.00&ndash;22.00 WITA setiap hari</dd>
+          <dt>Alamat klub</dt><dd>Belimbing Sari I, Pecatu, Kuta Selatan, Badung, Bali 80361</dd>
+          <dt>Halaman bantuan</dt><dd>monsterpadel.id &mdash; Syarat &amp; Ketentuan, Kebijakan Privasi, Kebijakan Pengembalian Dana</dd>
+          <dt>Deskripsi di tagihan</dt><dd><code>MONSTER PADEL</code> &mdash; agar mudah dikenali pemegang kartu</dd>
+          <dt>Penanganan chargeback</dt><dd>Bukti dikumpulkan dalam 3 hari kerja: e-ticket, log check-in QR, riwayat komunikasi, dan hasil autentikasi 3DS</dd>
+        </dl>
+        <div class="callout">
+          <span class="clabel">Pencegahan sengketa</span>
+          Nama merchant pada tagihan kartu dibuat identik dengan nama merek yang dilihat pelanggan saat checkout,
+          dan bukti pembayaran dikirim seketika. Keduanya menekan sengketa akibat &ldquo;transaksi tidak dikenali&rdquo;.
+        </div>
+      </div>
+
+      <div class="blk">
+        <h3>Ringkasan Pengajuan Kanal Kartu</h3>
+        <table class="t">
+          <tbody>
+            <tr><td style="width:40%">Kanal yang diajukan</td><td class="b">Visa, Mastercard, JCB, American Express</td></tr>
+            <tr><td>Jenis kartu</td><td>Kredit dan debit, domestik &amp; internasional</td></tr>
+            <tr><td>Autentikasi</td><td>3D Secure 2.x wajib untuk seluruh transaksi</td></tr>
+            <tr><td>Mata uang</td><td>IDR</td></tr>
+            <tr><td>Rentang nilai transaksi</td><td>Rp 250.000 &ndash; Rp 18.000.000</td></tr>
+            <tr><td>Rata-rata nilai transaksi</td><td>&plusmn; Rp 600.000</td></tr>
+            <tr><td>Model penagihan</td><td>Sekali bayar per booking &mdash; tanpa langganan otomatis</td></tr>
+            <tr><td>Biaya ke pelanggan</td><td>Rp 0 &mdash; MDR ditanggung merchant</td></tr>
+            <tr><td>Batas waktu pembayaran</td><td>15 menit sejak order dibuat</td></tr>
+            <tr><td>Simpan kartu</td><td>Opsional, berbasis token Xendit (tanpa data kartu di sisi merchant)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="blk">
+        <h3>Lampiran Layar dalam Dokumen Ini</h3>
+        <ul class="li" style="column-count:2;column-gap:16px">
+          <li>01 &mdash; Beranda &amp; ajakan booking</li>
+          <li>02 &mdash; Jenis booking &amp; durasi</li>
+          <li>03 &mdash; Tanggal, lapangan &amp; jam</li>
+          <li>04 &mdash; Rincian booking &amp; add-on</li>
+          <li>05 &mdash; Data pemesan &amp; persetujuan</li>
+          <li>06 &mdash; Ringkasan pesanan</li>
+          <li>07 &mdash; Pilih metode pembayaran</li>
+          <li>08 &mdash; Formulir kartu Xendit</li>
+          <li>09 &mdash; Verifikasi 3D Secure</li>
+          <li>10 &mdash; Pembayaran diproses</li>
+          <li>11 &mdash; Pembayaran berhasil</li>
+          <li>12 &mdash; Pembayaran gagal</li>
+          <li>13 &mdash; Email konfirmasi</li>
+          <li>14 &mdash; E-ticket &amp; QR</li>
+          <li>15 &mdash; Riwayat booking</li>
+          <li>16 &mdash; Kelola booking</li>
+          <li>17 &mdash; Konfirmasi refund</li>
+          <li>18 &mdash; Status refund</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="p-foot">
+    <span>Monster Padel &mdash; Dokumen Alur Pembayaran v1.0 &middot; disusun untuk aktivasi kanal Cards di Xendit</span>
+    <span><b>10</b> / 10</span>
+  </div>
+</section>
+
+</body>
+</html>

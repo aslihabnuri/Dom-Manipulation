@@ -1,0 +1,3 @@
+# Rendered page previews — regenerate with `node build.js --preview`
+payment-flow/preview/
+node_modules/
