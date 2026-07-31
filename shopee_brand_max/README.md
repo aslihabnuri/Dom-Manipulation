@@ -128,6 +128,29 @@ kontras-tinggi yang tidak terpasang di sistem ini, dan tidak ada serif lokal yan
 (kecocokan bentuk terbaik hanya 0,71 IoU terhadap digit asli). Memakai piksel aslinya
 menjaga huruf yang benar alih-alih menirunya.
 
+## Ketajaman
+
+Dua hal yang bikin hasil terlihat blur, keduanya sudah diperbaiki:
+
+**1. Sumber Floating Banner salah pilih.** Sebelumnya tas diambil dari Banner Card
+(531px) lalu di-*upscale* 1,32x — otomatis lembek. Sekarang diambil dari **KV square
+(1080x1080)**, jadi semua penempatan menjadi *downscale*. Logo dan blok diskon juga
+diambil dari sana; teks diskonnya bahkan duduk di background bersih, bukan menimpa
+baju model, jadi hasil key-nya lebih rapi.
+
+**2. Tidak ada kompensasi resample.** Setiap resize LANCZOS menghilangkan acutance, dan
+banner ini di-resample dua kali (fitting + encode JPEG). Sekarang ada unsharp mask
+(`sharpen()`, amount 0.55 / radius 1.1) setelah setiap resample.
+
+Hasil terukur (variance of Laplacian, makin tinggi makin tajam):
+
+| Format | sebelum | sesudah |
+|---|---:|---:|
+| Skinny App | 1127 | 1856 (+65%) |
+| Banner Card | 1583 | 2566 (+62%) |
+| Skinny Web | 1594 | 2631 (+65%) |
+| Floating (dalam lingkaran) | 2482 | 4911 (+98%) |
+
 Crop SKU diposisikan manual, bukan auto-fit, karena area KV yang bisa dipakai terkepung
 tiga sisi: rok model di kiri, angka diskon di atas, frame di bawah. Offsetnya menempatkan
 model di luar masking lingkaran sambil menjaga tas tetap terpusat. Batas cropnya juga

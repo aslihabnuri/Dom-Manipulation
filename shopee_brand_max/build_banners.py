@@ -28,7 +28,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 import numpy as np
-from PIL import Image
+from PIL import Image, ImageFilter
 
 # Backgrounds Shopee rejects: too little contrast against the app UI.
 BANNED_BACKGROUNDS = [(0xFF, 0xFF, 0xFF), (0xF1, 0xF1, 0xF1)]
@@ -164,6 +164,25 @@ def needs_white_tag(rgb: tuple[int, int, int]) -> bool:
     return luminance < 140 or reddish
 
 
+def sharpen(im: Image.Image, amount: float = 0.55, radius: float = 1.1) -> Image.Image:
+    """
+    Unsharp mask, applied after every resample.
+
+    Resampling a JPEG always costs acutance, and these banners resample twice —
+    once fitting the key visual, once encoding. Restoring edge contrast afterwards
+    keeps product edges and type crisp at the size Shopee actually renders them.
+    """
+    a = np.array(im.convert("RGB")).astype(np.float32)
+    blurred = np.stack(
+        [np.array(Image.fromarray(a[..., c].astype(np.uint8)).filter(
+            ImageFilter.GaussianBlur(radius)), dtype=np.float32) for c in range(3)],
+        axis=-1,
+    )
+    return Image.fromarray(
+        np.clip(a * (1 + amount) - blurred * amount, 0, 255).astype(np.uint8)
+    )
+
+
 def place_seamless(
     canvas: tuple[int, int], inner: Image.Image, ox: int, oy: int
 ) -> Image.Image:
@@ -290,7 +309,7 @@ def build_framed(spec: Spec, kv: Image.Image, tpl: Image.Image,
         # tag lands on stays hidden, and the artwork's bottom is cropped to fit.
         s = max(ww / kv.width, wh / kv.height)
         big = kv.resize((round(kv.width * s), round(kv.height * s)), Image.LANCZOS)
-        return framed(big.crop((0, 0, ww, wh)), wx0, wy0)
+        return framed(sharpen(big.crop((0, 0, ww, wh))), wx0, wy0)
 
     tx0, ty0, tx1, ty1 = tag
     tag_w = tx1 - tx0 + 1
@@ -303,7 +322,7 @@ def build_framed(spec: Spec, kv: Image.Image, tpl: Image.Image,
         top, bot = content_bounds(kv)
         s = min((wy1 - (ty1 + 4)) / max(1, bot - top), ww / kv.width)
         w, h = round(kv.width * s), round(kv.height * s)
-        return framed(kv.resize((w, h), Image.LANCZOS),
+        return framed(sharpen(kv.resize((w, h), Image.LANCZOS)),
                       wx0 + (ww - w) // 2, round(ty1 + 4 - top * s))
 
     # Narrow tag: shrink the artwork so it stops before the tag's column.
@@ -316,7 +335,7 @@ def build_framed(spec: Spec, kv: Image.Image, tpl: Image.Image,
     h = round(kv.height * w / kv.width)
     if h > wh:
         h, w = wh, round(kv.width * wh / kv.height)
-    return framed(kv.resize((w, h), Image.LANCZOS), ox, wy0 + (wh - h) // 2)
+    return framed(sharpen(kv.resize((w, h), Image.LANCZOS)), ox, wy0 + (wh - h) // 2)
 
 
 def keyed_text(src: Image.Image, box) -> Image.Image:
@@ -329,7 +348,7 @@ def keyed_text(src: Image.Image, box) -> Image.Image:
     lettering instead of substituting an approximation.
     """
     c = np.array(src.convert("RGB").crop(box)).astype(float)
-    alpha = np.clip((170 - c.mean(2)) / 70, 0, 1)
+    alpha = np.clip((175 - c.mean(2)) / 70, 0, 1)
     return Image.fromarray(
         np.dstack([c.astype(np.uint8), (alpha * 255).astype(np.uint8)]), "RGBA"
     )
@@ -358,7 +377,7 @@ def build_floating(
 
     sku = sku_src.crop(sku_box)
     sku_h = round(sku.height * sku_width / sku.width)
-    sku = sku.resize((sku_width, sku_h), Image.LANCZOS)
+    sku = sharpen(sku.resize((sku_width, sku_h), Image.LANCZOS))
     content = place_seamless(spec.size, sku, int(sku_pos[0]), int(sku_pos[1]))
 
     out = Image.new("RGBA", spec.size, (0, 0, 0, 0))

@@ -1,18 +1,19 @@
 {
   "floating": {
-    "sku_from": "KV Banner_Halaman Rekomendasi Banner",
-    "sku_box": [240, 604, 531, 792],
-    "logo_box": [210, 22, 325, 88],
+    "_source": "Ambil dari KV square (1080x1080), bukan Banner Card (531px). Sumber besar = semua penempatan jadi downscale, bukan upscale, jadi hasilnya tajam.",
+    "sku_from": "KV Banner_square",
+    "sku_box": [555, 736, 1080, 1080],
+    "logo_box": [445, 25, 645, 132],
     "tab_box": [133, 17, 226, 97],
 
     "_clean_layout": "Default, sesuai guideline: SKU saja, tanpa teks promo.",
-    "clean_layout": { "sku_width": 384, "sku_pos": [-78, 78] },
+    "clean_layout": { "sku_width": 430, "sku_pos": [-25, 42] },
 
-    "_promo_layout": "Dipakai kalau --promo aktif. Tas dikecilkan agar ada ruang teks.",
-    "promo_layout": { "sku_width": 300, "sku_pos": [-34, 168] },
+    "_promo_layout": "Dipakai kalau --promo aktif. Tas dikecilkan dan diturunkan agar ada ruang teks.",
+    "promo_layout": { "sku_width": 300, "sku_pos": [-14, 155] },
 
-    "_promo": "Blok 'Disc Up To 45% OFF' diambil dari KV supaya fontnya asli.",
-    "promo": { "box": [165, 450, 375, 632], "width": 150, "cy": 160 },
+    "_promo": "Blok 'Disc Up To 45% OFF' diambil dari KV square supaya fontnya asli dan latarnya bersih.",
+    "promo": { "box": [655, 570, 1025, 765], "width": 150, "cy": 148 },
 
     "_warning": "Guideline Brand Max mencantumkan 'Do not use promotional messages' sebagai contoh Floating Banner yang di-reject. Aktifkan --promo hanya kalau kamu menerima risikonya."
   }
