@@ -302,6 +302,57 @@ RECIPES = {
 }
 
 
+# --------------------------------------------------------------------------
+# look kedua: "clean banner" — lebih terang, lembut, dan kalem
+# --------------------------------------------------------------------------
+
+# Warna ditarik jauh lebih rendah supaya palet foto menyatu jadi satu nada,
+# bukan tiga foto dengan hijau yang beda-beda.
+CLEAN_BANDS = {
+    "red": (0.0, 2.0, 0.90, 1.02),
+    "orange": (30.0, 3.0, 1.00, 1.06),  # kulit tetap dijaga
+    "yellow": (55.0, -2.0, 0.86, 1.04),
+    "green": (105.0, -10.0, 0.70, 1.04),
+    "aqua": (175.0, -8.0, 0.70, 1.04),
+    "blue": (225.0, 4.0, 0.90, 1.00),
+}
+
+# Nilai mutlak: menentukan karakter look, sama untuk ketiga foto.
+# Catatan: black lift dijaga tetap kecil dan white point tetap 1.0. Matte
+# tebal terbaca sebagai "pudar", bukan "clean" — clean justru butuh putih
+# yang benar-benar putih; keluasannya datang dari exposure, bukan kabut.
+CLEAN_LOOK = dict(
+    temp=0.078,  # krem, bukan amber
+    contrast=0.11,
+    black_lift=0.010,
+    white_point=1.0,
+    saturation=-0.07,
+    vibrance_amt=0.06,
+    clarity_amt=0.10,
+    sharpen_amt=40,
+    clean_shadow_amt=0.50,
+    shadow_tone=(0.47, 0.495, 0.53),
+    shadow_amt=0.07,
+    highlight_tone=(0.585, 0.545, 0.47),
+    highlight_amt=0.10,
+    bands=CLEAN_BANDS,
+)
+
+# Delta: ditambahkan ke angka per-foto supaya karakter tiap foto tidak hilang.
+CLEAN_DELTAS = dict(exposure_stops=0.13, shadows=0.06, highlights=0.12, dehaze_amt=0.10)
+
+
+def as_clean(cfg):
+    out = dict(cfg)
+    for key, delta in CLEAN_DELTAS.items():
+        out[key] = out.get(key, 0.0) + delta
+    bands = dict(out["bands"])
+    bands.update(CLEAN_LOOK["bands"])
+    out.update(CLEAN_LOOK)
+    out["bands"] = bands
+    return out
+
+
 def grade(path, cfg):
     img = Image.open(path).convert("RGB")
     rgb = np.asarray(img, np.float32) / 255.0
@@ -351,19 +402,23 @@ SOURCES = [
 ]
 
 
-def main(src_dir, out_dir):
+LOOKS = {"warm": lambda cfg: cfg, "clean": as_clean}
+
+
+def main(src_dir, out_dir, looks=("warm", "clean")):
     os.makedirs(out_dir, exist_ok=True)
     for recipe, filename, anchor in SOURCES:
         src = os.path.join(src_dir, filename)
         if not os.path.exists(src):
             print(f"lewati (tidak ada): {src}")
             continue
-        img = grade(src, RECIPES[recipe])
-        full = os.path.join(out_dir, f"{recipe}-warm.jpg")
-        img.save(full, quality=95, subsampling=0, optimize=True)
-        square = os.path.join(out_dir, f"{recipe}-warm-4x5.jpg")
-        crop_4x5(img, anchor).save(square, quality=95, subsampling=0, optimize=True)
-        print(f"{filename} -> {os.path.basename(full)}, {os.path.basename(square)}")
+        for look in looks:
+            img = grade(src, LOOKS[look](RECIPES[recipe]))
+            full = os.path.join(out_dir, f"{recipe}-{look}.jpg")
+            img.save(full, quality=95, subsampling=0, optimize=True)
+            square = os.path.join(out_dir, f"{recipe}-{look}-4x5.jpg")
+            crop_4x5(img, anchor).save(square, quality=95, subsampling=0, optimize=True)
+            print(f"{filename} -> {os.path.basename(full)}, {os.path.basename(square)}")
 
 
 if __name__ == "__main__":

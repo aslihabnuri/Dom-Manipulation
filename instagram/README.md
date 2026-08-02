@@ -10,15 +10,32 @@ pip install numpy pillow
 python3 tools/warm_clean_filter.py
 ```
 
-Hasil masuk ke `instagram/edited/`:
+Hasil masuk ke `instagram/edited/`, dua look untuk tiap foto:
 
 | File | Keterangan |
 | --- | --- |
-| `*-warm.jpg` | full frame, resolusi asli |
-| `*-warm-4x5.jpg` | 1080×1350, rasio potret terbesar yang diizinkan Instagram |
+| `*-warm.jpg` | look pertama: hangat, kontras normal |
+| `*-clean.jpg` | look kedua: lebih terang, warna lebih kalem |
+| `*-…-4x5.jpg` | 1080×1350, rasio potret terbesar yang diizinkan Instagram |
 
 Untuk foto lain: taruh di `instagram/original/`, lalu daftarkan di
 `SOURCES` pada `tools/warm_clean_filter.py` beserta resep yang dipakai.
+
+## Dua look
+
+`warm` memakai `BASE` apa adanya. `clean` menimpanya lewat `as_clean()`:
+sebagian nilai diganti mutlak (`CLEAN_LOOK`) supaya karakternya seragam di
+ketiga foto, sebagian lagi ditambahkan sebagai delta (`CLEAN_DELTAS`) supaya
+perbedaan exposure antar foto tetap terjaga.
+
+Bedanya: `clean` lebih terang, saturasi lebih rendah, kontras dan clarity
+lebih lembut, dan hijaunya ditekan lebih jauh sehingga palet ketiga foto
+menyatu jadi satu nada.
+
+Yang sengaja **tidak** dilakukan di look `clean`: menaikkan black lift dan
+menurunkan white point. Matte tebal memang terasa lembut, tapi terbacanya
+"pudar", bukan "clean" — clean justru butuh putih yang benar-benar putih.
+Kesan lapangnya diambil dari exposure dan dehaze, bukan dari kabut.
 
 ## Isi grading-nya
 
