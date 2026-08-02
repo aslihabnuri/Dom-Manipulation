@@ -277,6 +277,8 @@ RECIPES = {
         dehaze_amt=0.45,
         clarity_amt=0.15,
         bands={"blue": (225.0, 4.0, 1.00, 0.95), "green": (105.0, -12.0, 0.80, 1.00)},
+        # satu-satunya foto dengan langit luas
+        nomukita_bands={"blue": (222.0, 2.0, 1.95, 0.79)},
     ),
     # Air terjun: paling flat & berkabut, air kehijauan.
     "waterfall": merge(
@@ -353,6 +355,64 @@ def as_clean(cfg):
     return out
 
 
+# --------------------------------------------------------------------------
+# look ketiga: "nomukita" — dicocokkan ke banner brand
+# --------------------------------------------------------------------------
+
+# Dibaca dari banner Nomukita (Brand Story, Product Value, Banner Juli):
+# langit biru pekat dan tegas, hitam dalam tapi bersih, hijau ditarik ke
+# sage, netral secara keseluruhan. Krem brand-nya hanya muncul di highlight,
+# bukan sebagai cast hangat menyeluruh.
+NOMUKITA_BANDS = {
+    "red": (0.0, 2.0, 0.94, 1.00),
+    "orange": (30.0, 2.0, 1.02, 1.04),  # kulit
+    "yellow": (55.0, -4.0, 0.80, 1.00),  # tahan hijau-kuning neon
+    "green": (105.0, -8.0, 0.62, 0.98),  # sage
+    # Pusat aqua digeser ke 168 supaya tidak menarik rentang langit (~200-210).
+    # Kalau dibiarkan di 175, penurunan saturasi aqua melawan penguatan biru
+    # dan langit tetap pucat.
+    "aqua": (168.0, -6.0, 0.78, 1.00),
+    # Default ditahan sedang: penguatan biru sekuat langit akan membuat
+    # bagian gelap air terjun ikut kebiruan. Foto yang punya langit menimpa
+    # nilai ini lewat `nomukita_bands`.
+    "blue": (222.0, 2.0, 1.30, 0.88),
+}
+
+NOMUKITA_LOOK = dict(
+    temp=0.035,  # nyaris netral; kehangatan hanya lewat split tone
+    tint=0.0,
+    contrast=0.24,
+    black_lift=0.0,  # hitam benar-benar hitam
+    white_point=1.0,
+    blacks=-0.05,
+    whites=0.07,
+    saturation=0.02,
+    vibrance_amt=0.12,
+    clarity_amt=0.24,
+    sharpen_amt=60,
+    clean_shadow_amt=0.34,
+    shadow_tone=(0.455, 0.49, 0.555),  # shadow condong dingin
+    shadow_amt=0.13,
+    highlight_tone=(0.575, 0.555, 0.505),  # krem tipis
+    highlight_amt=0.10,
+    bands=NOMUKITA_BANDS,
+)
+
+NOMUKITA_DELTAS = dict(exposure_stops=0.06, shadows=-0.04, highlights=0.06, dehaze_amt=0.18)
+
+
+def as_nomukita(cfg):
+    out = dict(cfg)
+    for key, delta in NOMUKITA_DELTAS.items():
+        out[key] = out.get(key, 0.0) + delta
+    bands = dict(out["bands"])
+    bands.update(NOMUKITA_LOOK["bands"])
+    out.update(NOMUKITA_LOOK)
+    bands.update(cfg.get("nomukita_bands", {}))  # penyetelan per-foto
+    out["bands"] = bands
+    return out
+
+
 def grade(path, cfg):
     img = Image.open(path).convert("RGB")
     rgb = np.asarray(img, np.float32) / 255.0
@@ -402,10 +462,10 @@ SOURCES = [
 ]
 
 
-LOOKS = {"warm": lambda cfg: cfg, "clean": as_clean}
+LOOKS = {"warm": lambda cfg: cfg, "clean": as_clean, "nomukita": as_nomukita}
 
 
-def main(src_dir, out_dir, looks=("warm", "clean")):
+def main(src_dir, out_dir, looks=("warm", "clean", "nomukita")):
     os.makedirs(out_dir, exist_ok=True)
     for recipe, filename, anchor in SOURCES:
         src = os.path.join(src_dir, filename)

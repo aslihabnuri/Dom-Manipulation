@@ -14,8 +14,9 @@ Hasil masuk ke `instagram/edited/`, dua look untuk tiap foto:
 
 | File | Keterangan |
 | --- | --- |
-| `*-warm.jpg` | look pertama: hangat, kontras normal |
-| `*-clean.jpg` | look kedua: lebih terang, warna lebih kalem |
+| `*-warm.jpg` | hangat, kontras normal |
+| `*-clean.jpg` | lebih terang, warna lebih kalem |
+| `*-nomukita.jpg` | dicocokkan ke banner brand Nomukita |
 | `*-…-4x5.jpg` | 1080×1350, rasio potret terbesar yang diizinkan Instagram |
 
 Untuk foto lain: taruh di `instagram/original/`, lalu daftarkan di
@@ -36,6 +37,29 @@ Yang sengaja **tidak** dilakukan di look `clean`: menaikkan black lift dan
 menurunkan white point. Matte tebal memang terasa lembut, tapi terbacanya
 "pudar", bukan "clean" — clean justru butuh putih yang benar-benar putih.
 Kesan lapangnya diambil dari exposure dan dehaze, bukan dari kabut.
+
+## Look `nomukita`
+
+Dibaca langsung dari banner brand di Drive (Brand Story, Product Value,
+Banner Juli), bukan dari tebakan. Yang menentukan:
+
+- kontras kuat dengan hitam pekat — `black_lift` nol, `blacks` negatif
+- langit biru tua dan tegas
+- hijau ditarik ke sage, kuning ditahan supaya tidak neon
+- basis warnanya **netral**, bukan hangat; krem brand-nya hanya muncul di
+  highlight lewat split toning, dan shadow justru condong dingin
+- clarity dan sharpening lebih tinggi — banner-nya renyah, bukan lembut
+
+Dua penyetelan yang tidak terlihat jelas dari nilainya:
+
+Pusat band aqua digeser dari 175 ke 168. Rentang langit foto ini ada di
+sekitar 200–210, cukup dekat ke 175 sehingga penurunan saturasi aqua ikut
+kena langit dan melawan penguatan biru — langitnya tetap pucat meski biru
+sudah dinaikkan.
+
+Penguatan biru sekuat langit membuat bagian gelap air terjun ikut kebiruan,
+jadi nilai default ditahan sedang dan hanya foto hiking yang menimpanya
+lewat `nomukita_bands`.
 
 ## Isi grading-nya
 
