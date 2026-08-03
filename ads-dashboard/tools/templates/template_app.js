@@ -1720,6 +1720,7 @@ function applyEntries(entries){
   let cells=0;
   for(const en of entries){
     if(!inData(en.iso))continue;
+    ensureMonth(mkOf(en.iso));   /* bulan baru dibuka otomatis (kalender terbuka) */
     overlay[en.chId]??={};
     for(const k in en.metrics){
       const v=en.metrics[k];

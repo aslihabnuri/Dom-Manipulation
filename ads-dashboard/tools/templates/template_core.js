@@ -5,9 +5,20 @@
    upload/edit disimpan sebagai overlay di localStorage. */
 
 const RAW = JSON.parse(document.getElementById('BASE_DATA').textContent);
-const MONTH_KEYS = Object.keys(RAW.months).sort();
-const LATEST = RAW.meta.defaultMonth;                       // '2026-07'
+let MONTH_KEYS = Object.keys(RAW.months).sort();
+let LATEST = RAW.meta.defaultMonth;                         // bulan berjalan (bisa maju otomatis)
 const FIRST_ISO = MONTH_KEYS[0]+'-01';
+/* Kalender terbuka: bulan baru dibuat otomatis saat data bulan itu masuk (unggah /
+   sinkron Drive), sehingga pergantian bulan tidak perlu menunggu pembaruan dashboard. */
+const EXT_HORIZON='2027-12';
+function calDays(mk){ return new Date(+mk.slice(0,4), +mk.slice(5,7), 0).getDate(); }
+function ensureMonth(mk){
+  if(RAW.months[mk]||mk<FIRST_ISO.slice(0,7)||mk>EXT_HORIZON)return false;
+  RAW.months[mk]={days:calDays(mk),budgets:{},series:{}};
+  MONTH_KEYS=Object.keys(RAW.months).sort();
+  if(mk>LATEST)LATEST=mk;
+  return true;
+}
 
 /* ---------- bahasa (ID / EN) ---------- */
 const LS_LANG='smoAdsLang';
@@ -94,6 +105,9 @@ if(!overlay){                       // migrasi format lama (index hari Juli) →
   }}}}
   store.set(LS_O,overlay);
 }
+/* bulan yang sudah pernah diisi lewat unggahan (overlay) dibuka kembali saat boot,
+   termasuk memajukan bulan berjalan bila unggahan melewati bulan data dasar */
+for(const cid in overlay)for(const m in overlay[cid])for(const iso in overlay[cid][m])ensureMonth(String(iso).slice(0,7));
 
 /* ---------- format angka (mengikuti bahasa) ---------- */
 const SUF=()=>LANG==='id'?{b:' M',m:' jt',k:' rb'}:{b:'B',m:'M',k:'K'};
@@ -126,7 +140,9 @@ function isoShift(iso,delta){ const d=new Date(iso+'T00:00:00'); d.setDate(d.get
 function isoSeq(from,to){ const out=[]; let cur=from; let guard=0;
   while(cur<=to && guard++<800){ out.push(cur); cur=isoShift(cur,1); } return out; }
 const isoDiff=(a,b)=>Math.round((new Date(b+'T00:00:00')-new Date(a+'T00:00:00'))/86400000);
-const inData = iso => RAW.months[mkOf(iso)]!=null;
+/* valid bila bulannya sudah ada, atau masih dalam horizon kalender terbuka
+   (bulan itu akan dibuat otomatis saat datanya diterapkan) */
+const inData = iso => {const mk=mkOf(iso);return RAW.months[mk]!=null||(mk>=FIRST_ISO.slice(0,7)&&mk<=EXT_HORIZON);};
 const clampIso = iso => iso<FIRST_ISO?FIRST_ISO: iso>isoOf(LATEST,mkDays(LATEST))?isoOf(LATEST,mkDays(LATEST)):iso;
 
 /* ---------- merged series (bulan + overlay) ---------- */
