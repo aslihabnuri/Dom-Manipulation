@@ -2092,6 +2092,7 @@ function detectRows(rows,filename){
     head400.includes('Semua Laporan Iklan CPC')?'shopee_cpc':
     head400.includes('Laporan Iklan Toko')?'shopee_toko':
     head400.includes('Search Brand Ads Report')?'shopee_sba':
+    head400.includes('Search Ads Report')?'shopee_toko':
     (head400.includes('Livestream')||head400.includes('Iklan Live'))?'shopee_live':null;
   if(shopeeKind){
     const perLine=rows.find(r=>String(r[0]||'').trim()==='Periode');
@@ -3137,7 +3138,8 @@ async function runDriveSync(onStatus){
     try{list=await gdWalk(f.id,0);}
     catch(e){report.errors.push(f.name+': '+gdErrMsg(e));continue;}
     for(const file of list){
-      if(syncedIds[file.id])continue;
+      const prevMark=syncedIds[file.id];
+      if(prevMark&&prevMark!=='skip-detect'&&prevMark!=='skip-format')continue;
       const t=String(file.title||'');
       const okType=/\.(csv|xlsx|txt)$/i.test(t)||/csv|excel|spreadsheetml|text\/plain/.test(String(file.mimeType||''));
       if(!okType){report.skipped.push(t+': '+L('format tidak didukung','unsupported format'));syncedIds[file.id]='skip-format';continue;}
