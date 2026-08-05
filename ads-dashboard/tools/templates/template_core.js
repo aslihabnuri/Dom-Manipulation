@@ -108,6 +108,12 @@ if(!overlay){                       // migrasi format lama (index hari Juli) →
 /* bulan yang sudah pernah diisi lewat unggahan (overlay) dibuka kembali saat boot,
    termasuk memajukan bulan berjalan bila unggahan melewati bulan data dasar */
 for(const cid in overlay)for(const m in overlay[cid])for(const iso in overlay[cid][m])ensureMonth(String(iso).slice(0,7));
+/* pembersihan satu kali (temuan audit): file klik produk ekspor RENTANG SEBULAN pernah
+   tersinkron dan menumpuk total sebulan (sekitar 200 ribu klik) di 1 Juli 2026 pada
+   Shopee Live; nilai harian wajar channel ini di bawah 10 ribu, jadi sel hasil file
+   bulanan itu dihapus. File serupa kini ditolak oleh detektor. */
+try{const _c=((overlay.sp_live||{}).clicks||{})['2026-07-01'];
+  if(_c!=null&&_c>150000){delete overlay.sp_live.clicks['2026-07-01'];store.set(LS_O,overlay);}}catch(e){}
 
 /* ---------- format angka (mengikuti bahasa) ---------- */
 const SUF=()=>LANG==='id'?{b:' M',m:' jt',k:' rb'}:{b:'B',m:'M',k:'K'};

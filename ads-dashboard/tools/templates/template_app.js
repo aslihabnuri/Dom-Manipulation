@@ -1598,14 +1598,21 @@ function detectRows(rows,filename){
           cVal=H.findIndex(h=>/^Penjualan\(Pesanan Dibuat\)/i.test(h));
     /* nilai memakai format Indonesia: titik = pemisah ribuan, koma = desimal */
     const idnum=v=>{if(v==null)return 0;const t=String(v).replace(/[Rp\s]/g,'').replace(/\./g,'').replace(/,/g,'.');const n=parseFloat(t);return isNaN(n)?0:n;};
-    const byIso={};let skipped=0,rowsUsed=0;
+    const byIso={};let skipped=0,rowsUsed=0,rangeRows=0;
     for(const r of rows.slice(hi+1)){
-      const iso=anyDateToIso(r[cDate]);
+      const dv=String(r[cDate]||'');
+      /* ekspor rentang multi-hari (mis. "01-07-2026 - 31-07-2026"): total satu bulan
+         TIDAK boleh dibukukan ke satu tanggal; minta ekspor harian */
+      const mR=dv.match(/(\d{2})-(\d{2})-(\d{4})\s*-\s*(\d{2})-(\d{2})-(\d{4})/);
+      if(mR&&(mR[1]!==mR[4]||mR[2]!==mR[5]||mR[3]!==mR[6])){rangeRows++;continue;}
+      const iso=anyDateToIso(dv);
       if(iso==null){if(String(r[cProd]||'').trim())skipped++;continue;}
       rowsUsed++;
       const o=byIso[iso]??={clicks:0};
       o.clicks+=idnum(r[cClk]);   /* hanya kolom Klik Produk yang diambil */
     }
+    if(rangeRows&&!Object.keys(byIso).length)
+      return {error:L('File ini ekspor rentang multi-hari (total sebulan dalam satu baris), tidak bisa dibukukan harian. Ekspor ulang dari Seller Center dengan pilihan per hari.','This file is a multi-day range export (one row totals the whole month) and cannot be booked daily. Re-export from Seller Center with the per-day option.')};
     const isos=Object.keys(byIso).sort();
     if(isos.length){
       const entries=isos.map(iso=>({iso,metrics:byIso[iso]}));
