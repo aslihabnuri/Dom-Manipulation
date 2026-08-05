@@ -1237,11 +1237,27 @@ const isNS=name=>/new/i.test(String(name||''))||/\bns\b/i.test(String(name||''))
 function detectRows(rows,filename){
   const head400=rows.slice(0,6).flat().join(' ');
   const H_at=i=>rows[i].map(x=>String(x||'').trim());
-  const shopeeKind=
+  const fnKey=String(filename||'').toLowerCase().replace(/[^a-z0-9]/g,'');
+  const hiScan=rows.findIndex(r=>String(r[0]||'').trim()==='Urutan');
+  const HScan=hiScan>=0?H_at(hiScan):[];
+  const hasCol=nm=>HScan.some(h=>h.toLowerCase()===String(nm).toLowerCase());
+  let shopeeKind=
     head400.includes('Semua Laporan Iklan CPC')?'shopee_cpc':
     head400.includes('Laporan Iklan Toko')?'shopee_toko':
     head400.includes('Search Brand Ads Report')?'shopee_sba':
     (head400.includes('Livestream')||head400.includes('Iklan Live'))?'shopee_live':null;
+  /* Shopee mengganti judul laporan (mis. "Search Ads Report - Shopee Indonesia").
+     Fallback: kenali dari STRUKTUR (baris "Periode" + header "Urutan"),
+     lalu klasifikasikan lewat nama file dan kolom khas tiap jenis iklan. */
+  if(!shopeeKind && hiScan>=0 && rows.some(r=>String(r[0]||'').trim()==='Periode')){
+    shopeeKind=
+      /iklantoko|shopads|tokoads/.test(fnKey)?'shopee_toko':
+      /iklanlive|liveads|livestream/.test(fnKey)?'shopee_live':
+      /brandads|\bsba\b/.test(fnKey)?'shopee_sba':
+      hasCol('Kode Produk')?'shopee_cpc':
+      (hasCol('SOV')||hasCol('Jumlah Produk Dilihat'))?'shopee_toko':
+      'shopee_cpc';
+  }
   if(shopeeKind){
     const perLine=rows.find(r=>String(r[0]||'').trim()==='Periode');
     let date=null;
