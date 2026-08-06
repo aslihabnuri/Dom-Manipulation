@@ -632,8 +632,114 @@ def terms_stagger():
     return N.finish(c, OUT / '9d-syarat-ketentuan-stagger.png')
 
 
+# ── 8. 8.8 campaign ──────────────────────────────────────────────────────
+# The background is the client's tea-terrace reference, which arrived with its
+# own headline burnt into it — "MATCHA MATCHA" over a caption line, white, across
+# y 554-768 of the 736-wide original. There is no crop that avoids it: the clean
+# field above runs 554 pixels and below 539, and filling 1200 wide needs 982. So
+# it is healed out, by cloning from 80 across and 300 down, an offset chosen by
+# scoring candidates against the ring of pixels just outside the mask so the
+# terrace rows line up rather than being guessed at. The caption's strokes are
+# too thin to threshold, so its line is masked as a feathered shape instead.
+E88_CROP = (0, 300, 1200, 1900)
+
+
+def eight_eight():
+    """The 8.8 banner, on the typographic structure of the client's reference.
+
+    That reference runs date pill, two-line display headline, subline, a small
+    "up to", then an enormous numeral with product laid over it. Everything here
+    follows that order; what changes is the register — matcha and Japan-minimal
+    in place of the original's beauty-pink, so the type is bone white on the
+    terrace rather than glittered, and the products over the numeral are the
+    client's own pouches.
+
+    The photograph splits the work: its forest canopy holds median 52 down to
+    y 420 and carries the headline unaided, while the terraces below run 88 to
+    117 and take a halo under the numeral.
+    """
+    c = N.canvas()
+    ref = Image.open(ILLUS3 / 'e88-bg.jpg').convert('RGB')
+    ref = ref.resize((1200, round(ref.height * 1200 / ref.width)), Image.LANCZOS)
+    c.paste(ref.crop(E88_CROP), (0, 0))
+    d = ImageDraw.Draw(c)
+    white = (255, 255, 255)
+
+    N.logo(c, y=88, width=250, colour='#FFFFFF')
+
+    # date pill, as the reference opens
+    lab, fs, tr = '08 . 08', 34, 8
+    lw = N.text_width(lab, fs, demi=True, tracking=tr)
+    pw, ph = lw + 2 * 46, 76
+    px_, py = (W - pw) / 2, 176
+    d.rounded_rectangle([px_, py, px_ + pw, py + ph], radius=ph // 2,
+                        outline=white, width=3)
+    N.text(d, (W / 2, py + 50), lab, fs, white, demi=True, tracking=tr,
+           align='center')
+
+    # MATCHA clears the canopy at a 90th percentile of 76 and needs nothing.
+    # Everything below it crosses the terrace edge, where that figure runs 132
+    # to 160, so those three carry halos scaled to what each actually sits on.
+    N.text(d, (W / 2, 396), 'MATCHA', 110, white, tracking=3, align='center')
+
+    head2 = Image.new('RGBA', c.size, (0, 0, 0, 0))
+    hd2 = ImageDraw.Draw(head2)
+    N.text(hd2, (W / 2, 508), 'DAY', 110, white, tracking=3, align='center')
+    N.body(hd2, (W / 2, 556), ['sehari buat isi ulang stok matcha.'], 27,
+           (240, 239, 234), align='center')
+    N.text(hd2, (W / 2, 672), 'DISC UP TO', 30, white, demi=True, tracking=8,
+           align='center')
+    N.halo(c, head2, strength=0.85, blur=18)
+
+    # The numeral is the hero, as it is in the reference, where the products sit
+    # over roughly a third of its height and never bury it. A first pass at 400
+    # with three 300-tall packs across it left the number unreadable, so it goes
+    # to 600 — cap 392 — the packs come down to 236, and only two flank it.
+    size, ps = 600, 200
+    cap = N.arg(size).getbbox('H')[3] - N.arg(size).getbbox('H')[1]
+    pcap = N.arg(ps).getbbox('H')[3] - N.arg(ps).getbbox('H')[1]
+    total = N.text_width('55', size) + 26 + pcap * N.PERCENT_WIDTH
+    num = Image.new('RGBA', c.size, (0, 0, 0, 0))
+    nd = ImageDraw.Draw(num)
+    x0 = (W - total) / 2
+    x = x0 + N.text(nd, (x0, 1146), '55', size, white)
+    N.percent(num, x + 26, 1146 - cap + pcap, pcap, white)
+    N.halo(c, num, strength=0.85, blur=28)
+
+    for name, h, cx, base in (('matcha-1000', 236, 322, 1214),
+                              ('cocoa', 236, 892, 1214)):
+        pack = Image.open(PACK / f'{name}.png').convert('RGBA')
+        pack = pack.crop(pack.getbbox())
+        pack = pack.resize((round(h * pack.width / pack.height), h), Image.LANCZOS)
+        px2, py2 = round(cx - pack.width / 2), base - pack.height
+        sh = Image.new('RGBA', c.size, (0, 0, 0, 0))
+        sh.paste((8, 16, 8, 255), (px2 + 16, py2 + 12),
+                 pack.split()[3].point(lambda v: min(v, 104)))
+        c.alpha_composite(sh.filter(ImageFilter.GaussianBlur(20)))
+        c.alpha_composite(pack, (px2, py2))
+
+    # the two smaller offers, on one line as on the discount banner
+    offers = Image.new('RGBA', c.size, (0, 0, 0, 0))
+    N.text(ImageDraw.Draw(offers), (W / 2, 1400),
+           'GRATIS ONGKIR   ·   VOUCHER HINGGA 15RB', 30, white, demi=True,
+           tracking=5, align='center')
+    N.halo(c, offers, strength=0.75, blur=16)
+
+    label, fs2, tr2 = 'SHOP NOW', 30, 6
+    lw2 = N.text_width(label, fs2, demi=True, tracking=tr2)
+    pw2, ph2 = lw2 + 40 + 32 + 40, 88
+    bx, by = (W - pw2) / 2, 1462
+    d.rounded_rectangle([bx, by, bx + pw2, by + ph2], radius=ph2 // 2,
+                        fill=MATCHA + (255,))
+    N.text(d, (bx + 40, by + 57), label, fs2, white, demi=True, tracking=tr2)
+    N.chevron(d, bx + 40 + lw2 + 20, by + ph2 / 2, 22, white, width=3)
+
+    return N.finish(c, OUT / '10-banner-88.png')
+
+
 if __name__ == '__main__':
     for fn in (payday, terms, heritage, category, discount, category_walk,
-               terms_street, terms_grid, terms_featured, terms_stagger):
+               terms_street, terms_grid, terms_featured, terms_stagger,
+               eight_eight):
         img = fn()
         print(f'{fn.__name__:10s} {img.size}')
