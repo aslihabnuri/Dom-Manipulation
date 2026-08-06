@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>nomukita 8.8</title>
+<style>
+  :root{
+    --green:#4C7C2F;
+    --green-dk:#3A6224;
+    --green-lt:#7BAA45;
+    --cream:#FFFDF4;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1080px;height:1350px;overflow:hidden}
+  body{font-family:"Baloo 2","Fredoka",sans-serif;-webkit-font-smoothing:antialiased}
+  .canvas{position:relative;width:1080px;height:1350px;overflow:hidden;background:#EAF3DF}
+  .scene{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+
+  /* ── wordmark ── */
+  .wordmark{position:absolute;left:60px;top:44px;z-index:9;
+    font-family:"Poppins",sans-serif;font-weight:700;font-size:34px;letter-spacing:-.5px;
+    color:var(--green-dk);line-height:1;
+    text-shadow:0 2px 0 rgba(255,255,255,.9)}
+  .wordmark span{color:var(--green-lt)}
+
+  /* ── date pill ── */
+  .pill{position:absolute;left:50%;top:52px;transform:translateX(-50%);z-index:9;
+    display:inline-flex;align-items:center;gap:14px;padding:11px 40px 13px;
+    border-radius:999px;background:var(--cream);
+    border:3.5px solid var(--green);
+    box-shadow:0 0 0 5px rgba(255,255,255,.85),0 8px 18px rgba(70,110,45,.20)}
+  .pill b{font-weight:700;font-size:31px;letter-spacing:3px;color:var(--green);line-height:1.15}
+  .pill i{font-style:normal;font-family:"IPAGothic",sans-serif;font-size:19px;
+    letter-spacing:2px;color:var(--green-lt);line-height:1}
+
+  /* ── headline: three stacked copies give the reference's
+        green outline → white outline → filled-face build-up ── */
+  .head{position:absolute;left:0;right:0;top:132px;z-index:8;text-align:center}
+  .line{position:relative;height:158px}
+  .line.two{height:158px;margin-top:-4px}
+  .line span{position:absolute;left:0;right:0;top:0;
+    font-weight:800;font-size:158px;line-height:1.16;letter-spacing:-1px;white-space:nowrap}
+  .l-shadow{color:rgba(58,98,36,.30);-webkit-text-stroke:34px rgba(58,98,36,.30);
+    transform:translateY(11px)}
+  .l-out{color:var(--green-dk);-webkit-text-stroke:32px var(--green-dk)}
+  .l-mid{color:#fff;-webkit-text-stroke:19px #fff}
+  .l-fill{color:var(--green-lt);
+    background:linear-gradient(180deg,#9BC95A 0%,#6FA23A 62%,#5B8C2C 100%);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .line.one{transform:rotate(-1.6deg)}
+  .line.two{transform:rotate(1.2deg)}
+
+  /* leaf doodle beside "Day", mirroring the reference's heart outline */
+  .doodle{position:absolute;left:712px;top:330px;z-index:9;transform:rotate(-14deg)}
+
+  /* ── subheadline ── */
+  .sub{position:absolute;left:0;right:0;top:452px;z-index:8;text-align:center;
+    font-weight:600;font-size:33px;color:var(--green);letter-spacing:.2px;
+    text-shadow:0 2px 0 rgba(255,255,255,.92),0 3px 10px rgba(255,255,255,.7)}
+
+  /* ── offer ── */
+  .upto{position:absolute;left:96px;top:556px;z-index:9;transform:rotate(-13deg);
+    font-weight:800;font-size:37px;letter-spacing:5px;color:var(--green);line-height:1;
+    text-shadow:0 3px 0 rgba(255,255,255,.95)}
+  .num{position:absolute;left:50%;top:600px;transform:translateX(-50%);width:880px;z-index:6;
+    filter:drop-shadow(0 24px 26px rgba(70,110,45,.30))}
+
+  .prod{position:absolute;z-index:7}
+  .tin  {left:52px; top:792px;width:150px;filter:drop-shadow(0 16px 20px rgba(70,110,45,.38))}
+  .latte{left:404px;top:846px;width:136px;filter:drop-shadow(0 16px 20px rgba(70,110,45,.38))}
+  .bowl {left:700px;top:880px;width:224px;filter:drop-shadow(0 16px 20px rgba(70,110,45,.38))}
+
+  /* ── free shipping badge ── */
+  .ongkir{position:absolute;left:50%;bottom:74px;transform:translateX(-50%);z-index:9;
+    display:inline-flex;align-items:center;gap:15px;padding:17px 46px 19px;
+    border-radius:999px;background:var(--green);
+    border:3.5px solid var(--cream);
+    box-shadow:0 0 0 4px rgba(76,124,47,.35),0 10px 22px rgba(70,110,45,.30)}
+  .ongkir b{font-weight:700;font-size:33px;letter-spacing:2.4px;color:var(--cream);line-height:1.15}
+</style>
+</head>
+<body>
+<div class="canvas">
+  <img class="scene" src="assets/scene.jpg" alt="">
+
+  <div class="wordmark">nomukita<span>.</span></div>
+  <div class="pill"><b>08 . 08</b><i>八月八日</i></div>
+
+  <div class="head">
+    <div class="line one">
+      <span class="l-shadow">Matcha-Full</span>
+      <span class="l-out">Matcha-Full</span>
+      <span class="l-mid">Matcha-Full</span>
+      <span class="l-fill">Matcha-Full</span>
+    </div>
+    <div class="line two">
+      <span class="l-shadow">Day</span>
+      <span class="l-out">Day</span>
+      <span class="l-mid">Day</span>
+      <span class="l-fill">Day</span>
+    </div>
+  </div>
+
+  <svg class="doodle" width="96" height="86" viewBox="0 0 96 86" fill="none">
+    <path d="M48 79C25 63 8 49 8 31 8 18 18 9 30 9c8 0 14 4 18 10 4-6 10-10 18-10 12 0 22 9 22 22 0 18-17 32-40 48Z"
+          stroke="#4C7C2F" stroke-width="7" stroke-linejoin="round"/>
+  </svg>
+
+  <p class="sub">nikmati setiap detik matcha-full day-mu</p>
+
+  <div class="upto">DISC UP TO</div>
+  <img class="num" src="assets/num35.png" alt="">
+
+  <img class="prod tin"   src="assets/tin.png"   alt="">
+  <img class="prod latte" src="assets/latte.png" alt="">
+  <img class="prod bowl"  src="assets/bowl.png"  alt="">
+
+  <div class="ongkir"><b>GRATIS ONGKIR</b></div>
+</div>
+</body>
+</html>
