@@ -920,3 +920,70 @@ def body_rich(draw, xy, lines, size, fill, leading=1.55, weight=400, bold=700):
                 draw.text((x, y + i * step), text, font=f, fill=fill, anchor='la')
                 x += f.getlength(text)
     return len(lines) * step
+
+
+def puff(mask, colour, steps=46, light=(-0.55, -0.72), ambient=0.60,
+         spec=0.9, shine=9, relief=2.6):
+    """Inflate a flat glyph mask into the soft 3D form the client's reference
+    uses for its numerals.
+
+    The height comes from a distance transform — the mask eroded a pixel at a
+    time, each pass adding to an accumulator — mapped through a dome profile.
+    Blurring the mask instead is the obvious shortcut and it fails: the blur
+    saturates anywhere further from an edge than its radius, so the middle of a
+    stroke comes out flat and the glyph reads as embossed rather than inflated.
+    Steps should reach about half the stroke width.
+
+    Normals are taken from that field, and the shading is Lambert plus a tight
+    specular.
+    """
+    from PIL import ImageChops, ImageFilter
+    import math
+
+    bbox = mask.getbbox()
+    if bbox is None:
+        return Image.new('RGBA', mask.size, (0, 0, 0, 0))
+    pad = 4
+    box = (max(0, bbox[0] - pad), max(0, bbox[1] - pad),
+           min(mask.width, bbox[2] + pad), min(mask.height, bbox[3] + pad))
+    a = mask.crop(box)
+    w, h_ = a.size
+
+    inc = max(1, 255 // steps)
+    dist = Image.new('L', (w, h_), 0)
+    cur = a
+    for _ in range(steps):
+        cur = cur.filter(ImageFilter.MinFilter(3))
+        dist = ImageChops.add(dist, cur.point(lambda v: inc if v > 127 else 0))
+
+    # dome: steep at the rim, flattening toward the crown
+    dome = dist.point(lambda v: round(255 * math.sqrt(max(0.0, 1 - (1 - v / 255) ** 2))))
+    dome = dome.filter(ImageFilter.GaussianBlur(2.5))
+    hp, ap = dome.load(), a.load()
+
+    lx, ly = light
+    lz = math.sqrt(max(0.0, 1 - lx * lx - ly * ly))
+    out = Image.new('RGBA', (w, h_), (0, 0, 0, 0))
+    op = out.load()
+    r0, g0, b0 = colour[:3]
+
+    for y in range(1, h_ - 1):
+        for x in range(1, w - 1):
+            alpha = ap[x, y]
+            if not alpha:
+                continue
+            gx = (hp[x - 1, y] - hp[x + 1, y]) / 255.0
+            gy = (hp[x, y - 1] - hp[x, y + 1]) / 255.0
+            nx, ny = gx * relief, gy * relief
+            inv = 1.0 / math.sqrt(nx * nx + ny * ny + 1.0)
+            nx, ny, nz = nx * inv, ny * inv, inv
+            lam = max(0.0, nx * lx + ny * ly + nz * lz)
+            shade = ambient + (1 - ambient) * lam
+            hl = spec * lam ** shine
+            op[x, y] = (min(255, round(r0 * shade + 255 * hl)),
+                        min(255, round(g0 * shade + 255 * hl)),
+                        min(255, round(b0 * shade + 255 * hl)), alpha)
+
+    full = Image.new('RGBA', mask.size, (0, 0, 0, 0))
+    full.paste(out, (box[0], box[1]))
+    return full

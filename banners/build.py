@@ -2,7 +2,7 @@
 """Build the Nomukita store banners."""
 
 from pathlib import Path
-from PIL import Image, ImageDraw, ImageFilter
+from PIL import Image, ImageChops, ImageDraw, ImageFilter
 
 import nomukita as N
 from nomukita import W, H, MARGIN, BONE, CHARCOAL, MATCHA, COCOA, STEEL, RULE
@@ -647,16 +647,9 @@ E88_CROP = (0, 300, 1200, 1900)
 def eight_eight():
     """The 8.8 banner, on the typographic structure of the client's reference.
 
-    That reference runs date pill, two-line display headline, subline, a small
-    "up to", then an enormous numeral with product laid over it. Everything here
-    follows that order; what changes is the register — matcha and Japan-minimal
-    in place of the original's beauty-pink, so the type is bone white on the
-    terrace rather than glittered, and the products over the numeral are the
-    client's own pouches.
-
-    The photograph splits the work: its forest canopy holds median 52 down to
-    y 420 and carries the headline unaided, while the terraces below run 88 to
-    117 and take a halo under the numeral.
+    Hierarchy runs percentage, then date, then headline — the client's order.
+    The numeral is inflated rather than flat, as the reference's is; the headline
+    arcs, as the reference's does; and both packs are matcha.
     """
     c = N.canvas()
     ref = Image.open(ILLUS3 / 'e88-bg.jpg').convert('RGB')
@@ -665,49 +658,47 @@ def eight_eight():
     d = ImageDraw.Draw(c)
     white = (255, 255, 255)
 
-    N.logo(c, y=88, width=250, colour='#FFFFFF')
+    N.logo(c, y=84, width=240, colour='#FFFFFF')
 
-    # date pill, as the reference opens
-    lab, fs, tr = '08 . 08', 34, 8
-    lw = N.text_width(lab, fs, demi=True, tracking=tr)
-    pw, ph = lw + 2 * 46, 76
-    px_, py = (W - pw) / 2, 176
-    d.rounded_rectangle([px_, py, px_ + pw, py + ph], radius=ph // 2,
-                        outline=white, width=3)
-    N.text(d, (W / 2, py + 50), lab, fs, white, demi=True, tracking=tr,
+    # The headline curves over the date, which is the reference's device and the
+    # reason it needs no rule or box to group the two. "Double" earns the 8.8
+    # rather than restating it.
+    head = Image.new('RGBA', c.size, (0, 0, 0, 0))
+    N.arc_text(head, (W / 2, 232 + 660), 'DOUBLE MATCHA', 56, white, 660,
+               demi=True, tracking=4)
+    N.halo(c, head, strength=0.7, blur=16)
+
+    date = Image.new('RGBA', c.size, (0, 0, 0, 0))
+    N.text(ImageDraw.Draw(date), (W / 2, 470), '8.8', 210, white, tracking=2,
            align='center')
+    N.halo(c, date, strength=0.8, blur=22)
 
-    # MATCHA clears the canopy at a 90th percentile of 76 and needs nothing.
-    # Everything below it crosses the terrace edge, where that figure runs 132
-    # to 160, so those three carry halos scaled to what each actually sits on.
-    N.text(d, (W / 2, 396), 'MATCHA', 110, white, tracking=3, align='center')
+    lab = Image.new('RGBA', c.size, (0, 0, 0, 0))
+    N.text(ImageDraw.Draw(lab), (W / 2, 572), 'DISC UP TO', 28, white,
+           demi=True, tracking=8, align='center')
+    N.halo(c, lab, strength=0.8, blur=14)
 
-    head2 = Image.new('RGBA', c.size, (0, 0, 0, 0))
-    hd2 = ImageDraw.Draw(head2)
-    N.text(hd2, (W / 2, 508), 'DAY', 110, white, tracking=3, align='center')
-    N.body(hd2, (W / 2, 556), ['sehari buat isi ulang stok matcha.'], 27,
-           (240, 239, 234), align='center')
-    N.text(hd2, (W / 2, 672), 'DISC UP TO', 30, white, demi=True, tracking=8,
-           align='center')
-    N.halo(c, head2, strength=0.85, blur=18)
-
-    # The numeral is the hero, as it is in the reference, where the products sit
-    # over roughly a third of its height and never bury it. A first pass at 400
-    # with three 300-tall packs across it left the number unreadable, so it goes
-    # to 600 — cap 392 — the packs come down to 236, and only two flank it.
+    # The numeral is inflated with a distance-transform dome and dropped onto its
+    # own shadow, which is what the reference's puffed figures do.
     size, ps = 600, 200
     cap = N.arg(size).getbbox('H')[3] - N.arg(size).getbbox('H')[1]
     pcap = N.arg(ps).getbbox('H')[3] - N.arg(ps).getbbox('H')[1]
-    total = N.text_width('55', size) + 26 + pcap * N.PERCENT_WIDTH
-    num = Image.new('RGBA', c.size, (0, 0, 0, 0))
-    nd = ImageDraw.Draw(num)
+    total = N.text_width('55', size) + 30 + pcap * N.PERCENT_WIDTH
+    flat = Image.new('L', c.size, 0)
+    fd = ImageDraw.Draw(flat)
     x0 = (W - total) / 2
-    x = x0 + N.text(nd, (x0, 1146), '55', size, white)
-    N.percent(num, x + 26, 1146 - cap + pcap, pcap, white)
-    N.halo(c, num, strength=0.85, blur=28)
+    x = x0 + N.text(fd, (x0, 1046), '55', size, 255)
+    pc = Image.new('RGBA', c.size, (0, 0, 0, 0))
+    N.percent(pc, x + 30, 1046 - cap + pcap, pcap, (255, 255, 255))
+    flat = ImageChops.lighter(flat, pc.split()[3])
 
-    for name, h, cx, base in (('matcha-1000', 236, 322, 1214),
-                              ('cocoa', 236, 892, 1214)):
+    shadow = Image.new('RGBA', c.size, (0, 0, 0, 0))
+    shadow.paste((10, 22, 8, 255), (18, 22), flat.point(lambda v: min(v, 132)))
+    c.alpha_composite(shadow.filter(ImageFilter.GaussianBlur(26)))
+    c.alpha_composite(N.puff(flat, (250, 248, 242)))
+
+    for name, h, cx, base in (('matcha-1000', 250, 318, 1206),
+                              ('uji-500', 250, 894, 1206)):
         pack = Image.open(PACK / f'{name}.png').convert('RGBA')
         pack = pack.crop(pack.getbbox())
         pack = pack.resize((round(h * pack.width / pack.height), h), Image.LANCZOS)
@@ -718,9 +709,8 @@ def eight_eight():
         c.alpha_composite(sh.filter(ImageFilter.GaussianBlur(20)))
         c.alpha_composite(pack, (px2, py2))
 
-    # the two smaller offers, on one line as on the discount banner
     offers = Image.new('RGBA', c.size, (0, 0, 0, 0))
-    N.text(ImageDraw.Draw(offers), (W / 2, 1400),
+    N.text(ImageDraw.Draw(offers), (W / 2, 1362),
            'GRATIS ONGKIR   ·   VOUCHER HINGGA 15RB', 30, white, demi=True,
            tracking=5, align='center')
     N.halo(c, offers, strength=0.75, blur=16)
@@ -728,7 +718,7 @@ def eight_eight():
     label, fs2, tr2 = 'SHOP NOW', 30, 6
     lw2 = N.text_width(label, fs2, demi=True, tracking=tr2)
     pw2, ph2 = lw2 + 40 + 32 + 40, 88
-    bx, by = (W - pw2) / 2, 1462
+    bx, by = (W - pw2) / 2, 1424
     d.rounded_rectangle([bx, by, bx + pw2, by + ph2], radius=ph2 // 2,
                         fill=MATCHA + (255,))
     N.text(d, (bx + 40, by + 57), label, fs2, white, demi=True, tracking=tr2)
