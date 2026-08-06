@@ -64,8 +64,8 @@ Design system §6: tanpa kata promosi berlebihan, tanpa tanda seru, tanpa klaim
 kesehatan. Headline & info teknis Inggris, boleh campur Indonesia.
 
 Copy di banner ini memakai frasa brand yang sudah ada: **"HEMAT HINGGA"** (dari
-`Diskon Banner_BAU`), **"GRATIS ONGKIR"**, dan tagline resmi
-**"bring the cafe home"** (design system §8 slide 9).
+`Diskon Banner_BAU`) dan **"GRATIS ONGKIR"**. Tagline "bring the cafe home"
+sempat dipakai lalu dihapus atas permintaan — kanvas jadi lebih lega.
 
 ## Aset
 
@@ -88,6 +88,23 @@ Diperbaiki dengan pass kedua yang mengirim foto hasil *dan* mockup asli sekaligu
 | Gratis ongkir, tagline | `.foot`, `.tagline` |
 | Posisi doodle | `.girl`, `.cat`, dan `svg.doodle` |
 
-Posisi doodle dipilih dengan mengukur kecerahan foto (garis hitam hilang di area
-bayangan). Titik terang yang terukur: sekitar `x 560–600, y 1080–1120` dan
-`x 280–320, y 1020–1060`.
+## Doodle
+
+Skalanya diambil dari referensi: figur mengisi **~41% tinggi kanvas** (554 px di
+kanvas 1350) dan tangannya menyentuh produk. Ukuran awal 24% terlalu kecil dan
+tidak terbaca.
+
+Posisi tangan dihitung, bukan dikira-kira. Ujung jari pada `assets/girl.png` ada
+di **62,3% lebar** dan **47,3% tinggi** artwork, jadi pada tinggi 554 px:
+
+```
+left = x_target − 0,623 × lebar     top = y_target − 0,473 × tinggi
+```
+
+Dengan target ujung jari di tepi kiri-atas kaleng, hasilnya `left:97 top:583
+width:446`. Kaki dan badannya berhenti di 57,7% lebar, jadi tidak menutupi
+kaleng — hanya lengannya yang melintas.
+
+Warna garisnya hitam, jadi posisinya harus jatuh di beton terang. Kecerahan yang
+terukur: `x 596–732, y 1016` bernilai ~222 (aman untuk kucing), sedangkan
+`x 120, y 1078` hanya ~150 — di situ kucing sempat hilang.
