@@ -85,7 +85,7 @@ Diperbaiki dengan pass kedua yang mengirim foto hasil *dan* mockup asli sekaligu
 |---|---|
 | `8.8`, `MATCHA DAY` | `.top` |
 | Label & angka diskon | `.save` dan `.pct` |
-| Gratis ongkir, tagline | `.foot`, `.tagline` |
+| Gratis ongkir | `.foot` |
 | Posisi doodle | `.girl`, `.cat`, dan `svg.doodle` |
 
 ## Doodle
