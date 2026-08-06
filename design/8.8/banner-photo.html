@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>nomukita 8.8</title>
+<style>
+  :root{
+    --cream:#F4F1E8;
+    --matcha:#8CB43C;
+    --matcha-deep:#5E8230;
+    --ink:#1C2A18;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1080px;height:1350px;overflow:hidden}
+  body{font-family:"Poppins",sans-serif;-webkit-font-smoothing:antialiased}
+
+  .canvas{position:relative;width:1080px;height:1350px;overflow:hidden;background:#20301c}
+  .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+
+  /* Legibility scrims: strong at the top for the headline, soft lift at the
+     bottom so the CTA row separates from the tea rows. */
+  .scrim-top{position:absolute;inset:0 0 auto 0;height:58%;
+    background:linear-gradient(180deg,rgba(14,26,12,.74) 0%,rgba(14,26,12,.54) 36%,rgba(14,26,12,.14) 76%,rgba(14,26,12,0) 100%)}
+  .scrim-bot{position:absolute;inset:auto 0 0 0;height:52%;
+    background:linear-gradient(0deg,rgba(14,26,12,.72) 0%,rgba(14,26,12,.26) 52%,rgba(14,26,12,0) 100%)}
+  .vignette{position:absolute;inset:0;
+    background:radial-gradient(122% 80% at 50% 46%,rgba(0,0,0,0) 46%,rgba(0,0,0,.28) 100%)}
+
+  .wrap{position:absolute;inset:0;padding:64px 72px 72px;display:flex;flex-direction:column;align-items:center}
+
+  /* ── top row ── */
+  .top{width:100%;display:flex;align-items:flex-start;justify-content:space-between}
+  .wordmark{font-weight:700;font-size:40px;letter-spacing:-.5px;color:#fff;line-height:1}
+  .wordmark span{color:var(--matcha)}
+  .jp{font-family:"IPAGothic","IPAPGothic",sans-serif;font-size:19px;letter-spacing:7px;
+      color:rgba(255,255,255,.82);writing-mode:vertical-rl;line-height:1;margin-top:2px}
+
+  /* ── date pill ── */
+  .pill-date{margin-top:46px;display:inline-flex;align-items:center;gap:16px;
+    padding:15px 40px;border-radius:999px;background:rgba(255,255,255,.10);
+    border:1.5px solid rgba(255,255,255,.55);backdrop-filter:blur(7px)}
+  .pill-date b{font-weight:600;font-size:27px;letter-spacing:6px;color:#fff;line-height:1}
+  .pill-date i{font-style:normal;font-family:"IPAGothic",sans-serif;font-size:19px;
+    letter-spacing:3px;color:rgba(255,255,255,.72);line-height:1}
+
+  /* ── headline ── */
+  .head{margin-top:22px;text-align:center;color:#fff;font-weight:800;
+    font-size:196px;line-height:.83;letter-spacing:-6px;
+    text-shadow:0 10px 44px rgba(8,18,6,.42)}
+  .head em{display:block;font-style:normal;font-weight:500;font-size:196px;letter-spacing:-4px}
+  .rule{margin:20px auto 0;width:78px;height:2px;background:rgba(255,255,255,.55)}
+  .sub{margin-top:16px;text-align:center;color:rgba(255,255,255,.94);
+    font-weight:400;font-size:29px;letter-spacing:.6px}
+
+  /* ── offer block ──
+     Type is anchored bottom-left, product bottom-right, so the still life
+     overlaps only the lower-right shoulder of the number the way the layout
+     reference stacks products over its hero digits. */
+  .offer{position:relative;width:100%;flex:1;margin-top:4px}
+  .offer-type{position:absolute;left:4px;bottom:4px;z-index:5}
+  .disc{font-weight:600;font-size:26px;letter-spacing:9px;color:#fff;line-height:1;
+    display:flex;align-items:center;gap:14px;margin-bottom:8px}
+  .disc::after{content:"";width:58px;height:1.5px;background:rgba(255,255,255,.6)}
+  .num{display:flex;align-items:flex-start;color:#fff;font-weight:900;
+    font-size:318px;line-height:.78;letter-spacing:-13px;
+    text-shadow:0 16px 54px rgba(8,18,6,.55)}
+  .num u{text-decoration:none;font-size:112px;letter-spacing:-3px;margin-left:16px;margin-top:14px}
+
+  .product{position:absolute;right:-46px;bottom:44px;width:566px;z-index:4;
+    filter:drop-shadow(0 30px 44px rgba(8,20,6,.55))}
+
+  /* ── bottom ── */
+  .bottom{position:relative;z-index:5;width:100%;margin-top:30px;display:flex;align-items:center;gap:20px}
+  .cta{display:inline-flex;align-items:center;gap:14px;padding:23px 50px;border-radius:999px;
+    background:var(--matcha);color:#12210C;font-weight:700;font-size:29px;letter-spacing:2.4px;
+    line-height:1;box-shadow:0 14px 34px rgba(10,24,6,.42)}
+  .ongkir{display:inline-flex;align-items:center;gap:13px;padding:21px 38px;border-radius:999px;
+    background:rgba(255,255,255,.13);border:1.5px solid rgba(255,255,255,.62);
+    color:#fff;font-weight:600;font-size:26px;letter-spacing:2.4px;line-height:1;
+    backdrop-filter:blur(7px)}
+  .ongkir svg{flex:none}
+</style>
+</head>
+<body>
+<div class="canvas">
+  <img class="bg" src="assets/bg.jpg" alt="">
+  <div class="scrim-top"></div>
+  <div class="scrim-bot"></div>
+  <div class="vignette"></div>
+
+  <div class="wrap">
+    <div class="top">
+      <div class="wordmark">nomukita<span>.</span></div>
+      <div class="jp">抹茶の日</div>
+    </div>
+
+    <div class="pill-date"><b>08 . 08</b><i>八月八日</i></div>
+
+    <h1 class="head">MATCHA<em>DAY</em></h1>
+    <div class="rule"></div>
+    <p class="sub">rayakan hari matcha-mu.</p>
+
+    <div class="offer">
+      <div class="offer-type">
+        <div class="disc">DISC UP TO</div>
+        <div class="num">35<u>%</u></div>
+      </div>
+      <img class="product" src="assets/product.png" alt="">
+    </div>
+
+    <div class="bottom">
+      <div class="cta">SHOP NOW
+        <svg width="22" height="16" viewBox="0 0 22 16" fill="none">
+          <path d="M1 8h19M14 1.5 20.5 8 14 14.5" stroke="#12210C" stroke-width="2.6"
+                stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="ongkir">
+        <svg width="30" height="22" viewBox="0 0 30 22" fill="none">
+          <path d="M1.6 4.2h14.2v11.4H1.6zM15.8 8.1h5.4l3.6 3.7v3.8h-9z"
+                stroke="#fff" stroke-width="2" stroke-linejoin="round"/>
+          <circle cx="8" cy="17.6" r="2.6" stroke="#fff" stroke-width="2"/>
+          <circle cx="21.4" cy="17.6" r="2.6" stroke="#fff" stroke-width="2"/>
+        </svg>
+        GRATIS ONGKIR
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
