@@ -645,12 +645,24 @@ E88_CROP = (0, 300, 1200, 1900)
 
 
 def eight_eight():
-    """The 8.8 banner, on the typographic structure of the client's reference.
+    """The 8.8 banner, rebuilt to the reference's own recipe.
 
-    Hierarchy runs percentage, then date, then headline — the client's order.
-    The numeral is inflated rather than flat, as the reference's is; the headline
-    arcs, as the reference's does; and both packs are matcha.
+    The reference is a system, not a mood: an outlined date pill; a two-line
+    sticker headline — theme-colour fill inside a white stroke inside a darker
+    outer stroke, each line slightly tilted, a doodle beside line two; a
+    subline; a small tilted UP TO; then two plush numerals set staggered and
+    counter-tilted, with the products leaning on them and small soft accents
+    stuck to their faces. Every one of those devices is reproduced here in the
+    matcha register: green for pink, bone for white, leaves for hearts, the
+    client's packs for the cosmetics. The date-range pill becomes "hanya satu
+    hari" because 8.8 has no range — the date itself is headline line two,
+    which also keeps it the second-loudest thing on the banner.
     """
+    GREEN = (128, 164, 66)
+    BONE_S = (247, 246, 241)
+    DEEP = (44, 62, 28)
+    LEAF = (146, 178, 84)
+
     c = N.canvas()
     ref = Image.open(ILLUS3 / 'e88-bg.jpg').convert('RGB')
     ref = ref.resize((1200, round(ref.height * 1200 / ref.width)), Image.LANCZOS)
@@ -658,59 +670,128 @@ def eight_eight():
     d = ImageDraw.Draw(c)
     white = (255, 255, 255)
 
-    N.logo(c, y=84, width=240, colour='#FFFFFF')
+    def sticker(text_, size, tilt, sw, ow):
+        """Fill + white stroke + dark outer stroke, tilted — the headline
+        treatment, built with PIL's native text stroking."""
+        f = N.arg(size)
+        w_ = round(N.text_width(text_, size)) + 2 * (sw + ow) + 30
+        h_ = round(size * 1.05) + 2 * (sw + ow) + 30
+        lay = Image.new('RGBA', (w_, h_), (0, 0, 0, 0))
+        ld = ImageDraw.Draw(lay)
+        pos = (w_ / 2, h_ - (sw + ow) - 18)
+        ld.text(pos, text_, font=f, anchor='ms', fill=DEEP,
+                stroke_width=sw + ow, stroke_fill=DEEP)
+        ld.text(pos, text_, font=f, anchor='ms', fill=BONE_S,
+                stroke_width=sw, stroke_fill=BONE_S)
+        ld.text(pos, text_, font=f, anchor='ms', fill=GREEN)
+        lay = lay.rotate(tilt, Image.BICUBIC, expand=True)
+        return lay.crop(lay.getbbox())
 
-    # The headline curves over the date, which is the reference's device and the
-    # reason it needs no rule or box to group the two. "Double" earns the 8.8
-    # rather than restating it.
-    head = Image.new('RGBA', c.size, (0, 0, 0, 0))
-    N.arc_text(head, (W / 2, 232 + 660), 'DOUBLE MATCHA', 56, white, 660,
-               demi=True, tracking=4)
-    N.halo(c, head, strength=0.7, blur=16)
+    def drop(layer, cx, cy, dx=12, dy=16, blur=16, a=120):
+        """Place a layer by its centre with a soft shadow under it."""
+        x, y = round(cx - layer.width / 2), round(cy - layer.height / 2)
+        sh = Image.new('RGBA', c.size, (0, 0, 0, 0))
+        sh.paste((10, 20, 8, 255), (x + dx, y + dy),
+                 layer.split()[3].point(lambda v: min(v, a)))
+        c.alpha_composite(sh.filter(ImageFilter.GaussianBlur(blur)))
+        c.alpha_composite(layer, (x, y))
 
-    date = Image.new('RGBA', c.size, (0, 0, 0, 0))
-    N.text(ImageDraw.Draw(date), (W / 2, 470), '8.8', 210, white, tracking=2,
+    def leaf(size, tilt=40):
+        """A plush leaf — the matcha stand-in for the reference's hearts. The
+        vesica comes from intersecting two circles, then puff() inflates it."""
+        m = Image.new('L', (150, 150), 0)
+        c1 = Image.new('L', (150, 150), 0)
+        ImageDraw.Draw(c1).ellipse([-25, 15, 95, 135], fill=255)
+        c2 = Image.new('L', (150, 150), 0)
+        ImageDraw.Draw(c2).ellipse([55, 15, 175, 135], fill=255)
+        m = ImageChops.multiply(c1, c2)
+        rim_m = m.filter(ImageFilter.GaussianBlur(7)).point(lambda v: 255 if v > 60 else 0)
+        p = Image.new('RGBA', (150, 150), (0, 0, 0, 0))
+        p.paste(BONE_S + (255,), (0, 0), rim_m)
+        p.alpha_composite(N.puff(m, LEAF, steps=22))
+        p = p.rotate(tilt, Image.BICUBIC, expand=True)
+        p = p.crop(p.getbbox())
+        p.thumbnail((size, size), Image.LANCZOS)
+        return p
+
+    N.logo(c, y=80, width=240, colour='#FFFFFF')
+
+    # outlined pill, as the reference opens
+    lab, fs, tr = 'HANYA SATU HARI', 28, 6
+    lw = N.text_width(lab, fs, demi=True, tracking=tr)
+    pw, ph = lw + 2 * 42, 64
+    px_, py = (W - pw) / 2, 156
+    d.rounded_rectangle([px_, py, px_ + pw, py + ph], radius=ph // 2,
+                        outline=white, width=3)
+    N.text(d, (W / 2, py + 43), lab, fs, white, demi=True, tracking=tr,
            align='center')
-    N.halo(c, date, strength=0.8, blur=22)
 
-    lab = Image.new('RGBA', c.size, (0, 0, 0, 0))
-    N.text(ImageDraw.Draw(lab), (W / 2, 572), 'DISC UP TO', 28, white,
-           demi=True, tracking=8, align='center')
-    N.halo(c, lab, strength=0.8, blur=14)
+    # two-line sticker headline; the leaf sits beside line two as the
+    # reference's heart sits beside "Day"
+    drop(sticker('DOUBLE MATCHA', 96, 2.5, 7, 6), W / 2, 318)
+    drop(sticker('8.8', 310, -4, 11, 9), W / 2, 528, dy=20, blur=20)
+    drop(leaf(92, 34), 908, 492, dx=6, dy=8, blur=10, a=90)
 
-    # The numeral is inflated with a distance-transform dome and dropped onto its
-    # own shadow, which is what the reference's puffed figures do.
-    size, ps = 600, 200
-    cap = N.arg(size).getbbox('H')[3] - N.arg(size).getbbox('H')[1]
-    pcap = N.arg(ps).getbbox('H')[3] - N.arg(ps).getbbox('H')[1]
-    total = N.text_width('55', size) + 30 + pcap * N.PERCENT_WIDTH
-    flat = Image.new('L', c.size, 0)
-    fd = ImageDraw.Draw(flat)
-    x0 = (W - total) / 2
-    x = x0 + N.text(fd, (x0, 1046), '55', size, 255)
+    sub = Image.new('RGBA', c.size, (0, 0, 0, 0))
+    N.body(ImageDraw.Draw(sub), (W / 2, 700),
+           ['sehari buat puas-puasin stok matcha.'], 27, (240, 239, 234),
+           align='center')
+    N.halo(c, sub, strength=0.7, blur=14)
+
+    # Just "UP TO", as the reference has it — the longer "DISC UP TO" ran its
+    # tail into the subline at every tilt that kept it off the numeral.
+    up = Image.new('RGBA', (210, 92), (0, 0, 0, 0))
+    N.text(ImageDraw.Draw(up), (16, 60), 'UP TO', 38, white, demi=True,
+           tracking=6)
+    up = up.rotate(14, Image.BICUBIC, expand=True)
+    up = up.crop(up.getbbox())
+    upl = Image.new('RGBA', c.size, (0, 0, 0, 0))
+    upl.alpha_composite(up, (160, 664))
+    N.halo(c, upl, strength=0.8, blur=14)
+
+    # the plush numerals: staggered and counter-tilted as in the reference,
+    # inflated in one pass so the light is one light
+    f560 = N.arg(560)
+    g = Image.new('L', (400, 470), 0)
+    ImageDraw.Draw(g).text((52, 420), '5', font=f560, fill=255, anchor='ls')
+    mask = Image.new('L', c.size, 0)
+    fa = g.rotate(-6, Image.BICUBIC, expand=True)
+    fa = fa.crop(fa.getbbox())
+    fb = g.rotate(6, Image.BICUBIC, expand=True)
+    fb = fb.crop(fb.getbbox())
+    mask.paste(fa, (215, 760), fa)
+    mask.paste(fb, (520, 840), fb)
     pc = Image.new('RGBA', c.size, (0, 0, 0, 0))
-    N.percent(pc, x + 30, 1046 - cap + pcap, pcap, (255, 255, 255))
-    flat = ImageChops.lighter(flat, pc.split()[3])
+    N.percent(pc, 842, 1004, 150, (255, 255, 255))
+    mask = ImageChops.lighter(mask, pc.split()[3])
 
-    shadow = Image.new('RGBA', c.size, (0, 0, 0, 0))
-    shadow.paste((10, 22, 8, 255), (18, 22), flat.point(lambda v: min(v, 132)))
-    c.alpha_composite(shadow.filter(ImageFilter.GaussianBlur(26)))
-    c.alpha_composite(N.puff(flat, (250, 248, 242)))
+    nsh = Image.new('RGBA', c.size, (0, 0, 0, 0))
+    nsh.paste((10, 20, 8, 255), (24, 32), mask.point(lambda v: min(v, 152)))
+    c.alpha_composite(nsh.filter(ImageFilter.GaussianBlur(28)))
+    c.alpha_composite(N.puff(mask, (250, 248, 242)))
 
-    for name, h, cx, base in (('matcha-1000', 250, 318, 1206),
-                              ('uji-500', 250, 894, 1206)):
+    # soft leaves stuck to the numerals, as the hearts are
+    drop(leaf(74, 18), 452, 905, dx=5, dy=6, blur=8, a=80)
+    drop(leaf(60, 64), 706, 1082, dx=5, dy=6, blur=8, a=80)
+
+    # the packs lean on the numerals; the tin lies at their foot, as the
+    # reference lays its palette flat
+    for name, h, tilt, cx, base in (('matcha-1000', 315, -8, 296, 1252),
+                                    ('uji-500', 292, 7, 800, 1315)):
         pack = Image.open(PACK / f'{name}.png').convert('RGBA')
         pack = pack.crop(pack.getbbox())
         pack = pack.resize((round(h * pack.width / pack.height), h), Image.LANCZOS)
-        px2, py2 = round(cx - pack.width / 2), base - pack.height
-        sh = Image.new('RGBA', c.size, (0, 0, 0, 0))
-        sh.paste((8, 16, 8, 255), (px2 + 16, py2 + 12),
-                 pack.split()[3].point(lambda v: min(v, 104)))
-        c.alpha_composite(sh.filter(ImageFilter.GaussianBlur(20)))
-        c.alpha_composite(pack, (px2, py2))
+        pack = pack.rotate(tilt, Image.BICUBIC, expand=True)
+        drop(pack, cx, base - pack.height / 2, dx=16, dy=14, blur=18, a=110)
+
+    tin = Image.open(PACK / 'uji-can.png').convert('RGBA')
+    tin = tin.crop(tin.getbbox())
+    tin = tin.resize((round(150 * tin.width / tin.height), 150), Image.LANCZOS)
+    tin = tin.rotate(82, Image.BICUBIC, expand=True)
+    drop(tin, 540, 1258, dx=12, dy=12, blur=14, a=110)
 
     offers = Image.new('RGBA', c.size, (0, 0, 0, 0))
-    N.text(ImageDraw.Draw(offers), (W / 2, 1362),
+    N.text(ImageDraw.Draw(offers), (W / 2, 1408),
            'GRATIS ONGKIR   ·   VOUCHER HINGGA 15RB', 30, white, demi=True,
            tracking=5, align='center')
     N.halo(c, offers, strength=0.75, blur=16)
@@ -718,7 +799,7 @@ def eight_eight():
     label, fs2, tr2 = 'SHOP NOW', 30, 6
     lw2 = N.text_width(label, fs2, demi=True, tracking=tr2)
     pw2, ph2 = lw2 + 40 + 32 + 40, 88
-    bx, by = (W - pw2) / 2, 1424
+    bx, by = (W - pw2) / 2, 1462
     d.rounded_rectangle([bx, by, bx + pw2, by + ph2], radius=ph2 // 2,
                         fill=MATCHA + (255,))
     N.text(d, (bx + 40, by + 57), label, fs2, white, demi=True, tracking=tr2)
