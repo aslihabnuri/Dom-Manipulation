@@ -24,6 +24,18 @@ Full reference: **[docs/kie.md](docs/kie.md)**.
 | `.claude/skills/kie/` | skill so Claude Code sessions can use KIE directly |
 | `test/` | registry and validation tests (`npm test`) |
 
+## Banner 8.8
+
+`design/8.8/` holds the nomukita 8.8 promo banner (1080×1350). Photography comes
+from KIE; all type is rendered by the browser, so the discount number and copy
+are editable without regenerating anything.
+
+```bash
+node design/8.8/render.mjs
+```
+
+See [design/8.8/README.md](design/8.8/README.md).
+
 Node 18+. No dependencies to install.
 
 ### Credentials

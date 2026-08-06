@@ -11,3 +11,6 @@ kie-out/
 node_modules/
 npm-debug.log*
 .DS_Store
+
+# Regenerable @2x render (run design/8.8/render.mjs)
+design/**/*@2x.png

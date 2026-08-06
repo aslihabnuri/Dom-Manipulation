@@ -34,6 +34,21 @@ examples
   kie chat /gemini-3-pro/v1/chat/completions --message="summarise DOM event delegation"
 `;
 
+// Flags that take a value, so `--out DIR` works as well as `--out=DIR`.
+const VALUE_FLAGS = new Set([
+  "json-input",
+  "prompt",
+  "out",
+  "callback",
+  "timeout",
+  "kind",
+  "message",
+  "system",
+  "model",
+  "max-tokens",
+  "path",
+]);
+
 function parseArgs(argv) {
   const flags = {};
   const positional = [];
@@ -47,8 +62,20 @@ function parseArgs(argv) {
       inputs[pair.slice(0, eq)] = coerce(pair.slice(eq + 1));
     } else if (arg.startsWith("--")) {
       const eq = arg.indexOf("=");
-      if (eq === -1) flags[arg.slice(2)] = true;
-      else flags[arg.slice(2, eq)] = arg.slice(eq + 1);
+      if (eq !== -1) {
+        flags[arg.slice(2, eq)] = arg.slice(eq + 1);
+        continue;
+      }
+      const name = arg.slice(2);
+      const next = argv[i + 1];
+      // Only swallow the next token for known value flags, so bare booleans
+      // like `--json run` keep working.
+      if (VALUE_FLAGS.has(name) && next !== undefined && !next.startsWith("--")) {
+        flags[name] = next;
+        i++;
+      } else {
+        flags[name] = true;
+      }
     } else {
       positional.push(arg);
     }
