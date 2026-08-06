@@ -1,0 +1,13 @@
+# Secrets — the KIE API key must never be committed.
+.env
+.env.local
+.env.*.local
+*.pem
+credentials.json
+
+# Generated media from KIE jobs
+kie-out/
+
+node_modules/
+npm-debug.log*
+.DS_Store

@@ -1,0 +1,21 @@
+{
+  "name": "dom-manipulation",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "DOM manipulation workspace with a KIE.ai integration for generating image, video and audio assets.",
+  "bin": {
+    "kie": "./bin/kie.mjs"
+  },
+  "exports": {
+    "./kie": "./src/kie/index.mjs"
+  },
+  "scripts": {
+    "kie": "node ./bin/kie.mjs",
+    "kie:doctor": "node ./bin/kie.mjs doctor",
+    "test": "node --test test/*.test.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
