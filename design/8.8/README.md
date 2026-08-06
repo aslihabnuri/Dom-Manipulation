@@ -1,85 +1,93 @@
 # Banner 8.8 — nomukita.
 
-Banner promo 8.8: **8.8**, **Disc up to 50%**, **Gratis Ongkir**. Format 1080×1350 (4:5).
+Banner promo 8.8: **8.8**, **Hemat hingga 50%**, **Gratis Ongkir**. Format 1080×1350 (4:5).
 
 | File | Konsep | Output |
 |---|---|---|
-| `banner.html` | **Versi aktif.** Fotografi bayangan daun di beton, packaging can asli + matcha latte & matcha strawberry, doodle garis minimal — mengikuti `Banner 8.8` di Drive | `nomukita-88.*` |
-| `banner-plush50.html` | Angka plush 50%, ornamen Jepang 3D | `nomukita-88-plush50.*` |
-| `banner-plush35.html` | Angka plush 35%, ornamen umum | `nomukita-88-plush35.*` |
-| `banner-photo.html` | Fotografi kebun teh, tipografi flat | `nomukita-88-photo.*` |
+| `banner.html` | **Versi aktif.** Font brand asli, diskon sebagai elemen terbesar, doodle garis (orang + kucing), fotografi bayangan daun | `nomukita-88.*` |
+| `banner-55.html` | Identik, angka 55% | — |
+| `banner-serif.html` | Versi sebelumnya, tipografi Poppins + Cormorant | `nomukita-88-serif.*` |
+| `banner-plush50.html` · `banner-plush35.html` · `banner-photo.html` | Arah ilustrasi 3D dan fotografi awal | `nomukita-88-plush50.*` dll |
 
 ```bash
 npm i
-node design/8.8/render.mjs                    # versi aktif
-node design/8.8/render.mjs design/8.8/banner-plush50.html design/8.8/nomukita-88-plush50
+./design/8.8/install-fonts.sh     # sekali saja, lihat "Font" di bawah
+node design/8.8/render.mjs
 ```
 
-## Konsep aktif
+## Font — baca ini dulu
 
-Diambil dari `Banner 8.8` (Drive → Banner Referensi/Agustus): fotografi tenang,
-cahaya matahari tersaring daun di permukaan beton, satu kelompok produk di
-kolam cahaya, doodle garis putih tipis, tipografi minim.
-
-Hierarki highlight: **8.8** paling besar → **50%** → **Gratis Ongkir** paling
-tenang. Ketiganya tetap terbaca tanpa badge berwarna, memakai tonalitas foto —
-teks krem di area teduh atas, teks gelap di beton terang bawah.
-
-## Font
+Mengikuti **"NOMUKITA - DESIGN SYSTEM CAROUSEL MARKETPLACE"** (dikunci 24 Juli 2026,
+ada di Drive root folder Nomukita):
 
 | Peran | Font |
 |---|---|
-| Wordmark | file logo asli (`assets/logo.png`) |
-| Angka & judul | **Poppins** |
-| Tagline | **Cormorant Garamond Italic** |
-| Aksara Jepang | **IPAGothic** |
+| Headline / angka | All Round Gothic **Bold** |
+| Label letterspaced | All Round Gothic **Demi**, tracking 5–7 |
+| Body | **Comfortaa**, huruf kecil |
+| Kanji | **Shippori Mincho** |
 
-Poppins adalah **pendekatan** terhadap huruf wordmark nomukita yang custom,
-bukan font brand sebenarnya. Kalau file font brand-nya ada, tinggal ganti
-`font-family` di `body` — layout tidak perlu diubah.
+File fontnya **tidak ada di repo ini**. All Round Gothic beredar sebagai
+Fontspring DEMO dan lisensinya per-seat, jadi tidak boleh ikut di-commit.
+Ambil `All Round Gothic.zip` dan `Comforta.zip` dari Drive, taruh di
+`design/8.8/fonts/`, lalu jalankan `install-fonts.sh`.
 
-```bash
-mkdir -p ~/.fonts/nomukita
-for n in Regular Medium SemiBold Bold ExtraBold Black; do
-  curl -sSL -o ~/.fonts/nomukita/Poppins-$n.ttf \
-    https://raw.githubusercontent.com/google/fonts/main/ofl/poppins/Poppins-$n.ttf
-done
-curl -sSL -o ~/.fonts/nomukita/CormorantGaramond-Italic.ttf \
-  'https://raw.githubusercontent.com/google/fonts/main/ofl/cormorantgaramond/CormorantGaramond-Italic%5Bwght%5D.ttf'
-fc-cache -f
-```
+### Karakter yang terkunci di font DEMO
 
-## Cara ubah isi
+Design system mencatat `-`, `–`, `°`, dan angka `4` terkunci. **Pengujian
+menunjukkan `%` juga terkunci** — ini belum tercatat di dokumen. Semua karakter
+itu muncul sebagai tanda daun "DEMO" saat dirender.
 
-Semua teks dirender browser, jadi bisa diganti tanpa generate ulang.
+Karena itu `%` pada banner ini **digambar sebagai vektor SVG**, bukan teks, dengan
+`stroke-width` disamakan dengan bobot angkanya. Lihat `.pct svg` di `banner.html`.
 
-| Yang diubah | Di mana |
-|---|---|
-| `8.8`, `MATCHA DAY`, tagline | `.top` |
-| Diskon | `.offer` |
-| Gratis ongkir | `.foot` |
-| Doodle (pita, sparkle) | `svg.doodle` — inline SVG, bebas digeser |
-| Kepekatan bayangan atas | `.scrim` |
+Konsekuensi untuk banner berikutnya: **hindari angka diskon yang mengandung 4**
+(45%, 40%, 24%…) selama masih memakai font DEMO, atau gambar digit itu sebagai
+vektor juga. Beli lisensi resmi sebelum produksi massal.
+
+Setelah lisensi dibeli, ganti `--brand-display` dan `--brand-label` di `:root` —
+tidak ada bagian lain yang perlu diubah, dan `%` bisa dikembalikan jadi teks.
+
+## Warna
+
+Dari design system: matcha `#7A9A3F`, charcoal `#1C1C1C`, bone white `#F1F0EB`,
+Nomu Blue `#A8C4D8`.
+
+Di banner ini teks memakai bone white di area teduh atas dan charcoal di beton
+terang bawah — kontras diambil dari tonalitas fotonya. Aturan "headline warna
+kategori (matcha)" berlaku untuk slide carousel berlatar bone white; di atas
+foto, matcha green tidak cukup terbaca.
+
+## Copy
+
+Design system §6: tanpa kata promosi berlebihan, tanpa tanda seru, tanpa klaim
+kesehatan. Headline & info teknis Inggris, boleh campur Indonesia.
+
+Copy di banner ini memakai frasa brand yang sudah ada: **"HEMAT HINGGA"** (dari
+`Diskon Banner_BAU`), **"GRATIS ONGKIR"**, dan tagline resmi
+**"bring the cafe home"** (design system §8 slide 9).
 
 ## Aset
 
-`assets/photo.jpg` digenerate `nano-banana-pro` lewat `bin/kie.mjs`, dengan
-mockup kaleng asli (`Mockup nomukita-Pure Matcha Uji_Can.png` dari Drive)
-sebagai `image_input`.
+| File | Asal |
+|---|---|
+| `assets/photo.jpg` | `nano-banana-pro`, dengan mockup kaleng asli sebagai `image_input` |
+| `assets/girl.png`, `cat.png` | `nano-banana-pro` line art, latar putih dikeykan jadi transparan |
+| `assets/logo.png` | file logo brand asli |
 
-**Label kaleng perlu satu pass perbaikan.** Hasil generate pertama merusak
-aksara Jepangnya — tertulis `銘有錄・むレモニアルグレード`, seharusnya
-`純有機・セレモニアルグレード`. Diperbaiki dengan pass kedua yang mengirim foto
-hasil *dan* mockup asli sekaligus, dengan instruksi hanya mengubah label. Kalau
-foto ini digenerate ulang, **periksa label kalengnya di ukuran penuh** sebelum
-dipakai.
+**Label kaleng wajib diperiksa kalau foto digenerate ulang.** Generate pertama
+menulis `銘有錄・むレモニアルグレード`; yang benar `純有機・セレモニアルグレード`.
+Diperbaiki dengan pass kedua yang mengirim foto hasil *dan* mockup asli sekaligus.
 
-Aset versi lama: `scene-jp.jpg`, `num50.png`, `pack.png` (plush50);
-`scene.jpg`, `num35.png`, `tin.png`, `latte.png`, `bowl.png` (plush35);
-`bg.jpg`, `product.png` (photo).
+## Cara ubah isi
 
-## Catatan
+| Yang diubah | Di mana |
+|---|---|
+| `8.8`, `MATCHA DAY` | `.top` |
+| Label & angka diskon | `.save` dan `.pct` |
+| Gratis ongkir, tagline | `.foot`, `.tagline` |
+| Posisi doodle | `.girl`, `.cat`, dan `svg.doodle` |
 
-Teks dirender browser, bukan model gambar. Model generatif masih sering merusak
-huruf kecil — sebagaimana terbukti pada label kaleng di atas — dan angka diskon
-tidak boleh salah. Model hanya dipakai untuk fotografinya.
+Posisi doodle dipilih dengan mengukur kecerahan foto (garis hitam hilang di area
+bayangan). Titik terang yang terukur: sekitar `x 560–600, y 1080–1120` dan
+`x 280–320, y 1020–1060`.

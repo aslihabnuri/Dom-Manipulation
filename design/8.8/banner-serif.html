@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>nomukita 8.8</title>
+<style>
+  :root{
+    --cream:#F7F4EA;
+    --ink:#2B3125;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1080px;height:1350px;overflow:hidden}
+  /* Brand face: geometric sans, matching the nomukita wordmark. */
+  body{font-family:"Poppins",sans-serif;-webkit-font-smoothing:antialiased}
+  .canvas{position:relative;width:1080px;height:1350px;overflow:hidden;background:#8E9384}
+  .photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+
+  /* Just enough shading for cream type to hold over the brightest dapples —
+     the photograph should still read as untouched. */
+  .scrim{position:absolute;inset:0 0 auto 0;height:52%;
+    background:linear-gradient(180deg,rgba(38,44,32,.42) 0%,rgba(38,44,32,.26) 46%,rgba(38,44,32,0) 100%)}
+
+  .logo{position:absolute;left:62px;top:52px;width:178px;z-index:9;
+    filter:brightness(0) invert(1) opacity(.94)}
+  .jp-v{position:absolute;right:64px;top:52px;z-index:9;
+    font-family:"IPAGothic","IPAPGothic",sans-serif;font-size:19px;letter-spacing:6px;
+    color:rgba(247,244,234,.82);writing-mode:vertical-rl;line-height:1}
+
+  .top{position:absolute;left:0;right:0;top:104px;z-index:8;text-align:center;color:var(--cream)}
+  .eight{font-weight:700;font-size:168px;line-height:.98;letter-spacing:-4px;
+    text-shadow:0 6px 30px rgba(20,26,16,.42)}
+  .day{margin-top:14px;font-weight:500;font-size:31px;letter-spacing:13px;
+    text-indent:13px;text-shadow:0 3px 14px rgba(20,26,16,.5)}
+  .squiggle{display:block;margin:20px auto 0}
+  .tag{margin-top:16px;font-family:"Cormorant Garamond",serif;font-style:italic;
+    font-size:35px;letter-spacing:4.5px;color:rgba(247,244,234,.94);
+    text-shadow:0 3px 14px rgba(20,26,16,.5)}
+
+  /* ── discount, the loudest thing after 8.8 ── */
+  .offer{position:absolute;left:0;right:0;top:470px;z-index:8;
+    display:flex;align-items:baseline;justify-content:center;gap:20px;color:var(--cream)}
+  .offer small{font-weight:600;font-size:25px;letter-spacing:6px;text-indent:6px;
+    text-shadow:0 3px 14px rgba(20,26,16,.5)}
+  .offer b{font-weight:700;font-size:104px;line-height:1;letter-spacing:-2px;
+    text-shadow:0 6px 24px rgba(20,26,16,.45)}
+
+  /* ── free shipping, set into the lit concrete at the foot ── */
+  .foot{position:absolute;left:0;right:0;bottom:64px;z-index:9;
+    display:flex;align-items:center;justify-content:center;gap:26px}
+  .foot i{display:block;width:132px;height:1.5px;background:rgba(43,49,37,.42)}
+  .foot b{font-weight:600;font-size:29px;letter-spacing:8px;text-indent:8px;color:var(--ink)}
+
+  .doodle{position:absolute;z-index:9;pointer-events:none}
+</style>
+</head>
+<body>
+<div class="canvas">
+  <img class="photo" src="assets/photo.jpg" alt="">
+  <div class="scrim"></div>
+
+  <img class="logo" src="assets/logo.png" alt="nomukita">
+  <div class="jp-v">八月八日</div>
+
+  <div class="top">
+    <div class="eight">8.8</div>
+    <div class="day">MATCHA DAY</div>
+    <svg class="squiggle" width="96" height="20" viewBox="0 0 96 20" fill="none">
+      <path d="M3 12c9-13 20 8 29-2s20 10 29 0 12-3 12-3" stroke="#F7F4EA"
+            stroke-width="3.4" stroke-linecap="round" opacity=".9"/>
+    </svg>
+    <div class="tag">rayakan hari matcha&#8209;mu</div>
+  </div>
+
+  <div class="offer"><small>DISC UP TO</small><b>50%</b></div>
+
+  <!-- hand-drawn marks, kept to a minimum: a bow on the strawberry glass and
+       three small sparkles -->
+  <svg class="doodle" style="left:718px;top:836px" width="150" height="104" viewBox="0 0 150 104" fill="none">
+    <path d="M74 44c-10-15-31-24-42-14-9 8-2 24 12 26 13 2 26-6 30-12Z" stroke="#fff" stroke-width="2.6" stroke-linejoin="round" opacity=".9"/>
+    <path d="M76 44c10-15 31-24 42-14 9 8 2 24-12 26-13 2-26-6-30-12Z" stroke="#fff" stroke-width="2.6" stroke-linejoin="round" opacity=".9"/>
+    <path d="M75 46c-4 14-9 30-14 44M75 46c5 14 12 28 19 41" stroke="#fff" stroke-width="2.6" stroke-linecap="round" opacity=".9"/>
+    <circle cx="75" cy="44" r="5" stroke="#fff" stroke-width="2.6" opacity=".9"/>
+  </svg>
+
+  <svg class="doodle" style="left:296px;top:752px" width="120" height="70" viewBox="0 0 120 70" fill="none" opacity=".85">
+    <path d="M20 34c8-2 12-6 14-14 2 8 6 12 14 14-8 2-12 6-14 14-2-8-6-12-14-14Z" stroke="#fff" stroke-width="2.4" stroke-linejoin="round"/>
+    <path d="M72 16c5-1 8-4 9-9 1 5 4 8 9 9-5 1-8 4-9 9-1-5-4-8-9-9Z" stroke="#fff" stroke-width="2.2" stroke-linejoin="round"/>
+    <path d="M84 50c4-1 6-3 7-7 1 4 3 6 7 7-4 1-6 3-7 7-1-4-3-6-7-7Z" stroke="#fff" stroke-width="2" stroke-linejoin="round"/>
+  </svg>
+
+  <div class="foot"><i></i><b>GRATIS ONGKIR</b><i></i></div>
+</div>
+</body>
+</html>

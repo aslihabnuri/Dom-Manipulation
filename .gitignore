@@ -14,3 +14,6 @@ npm-debug.log*
 
 # Regenerable @2x render (run design/8.8/render.mjs)
 design/**/*@2x.png
+
+# Brand fonts are licensed separately — install from Drive, never commit
+design/**/fonts/
