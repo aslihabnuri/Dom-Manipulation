@@ -64,15 +64,21 @@ Design system §6: tanpa kata promosi berlebihan, tanpa tanda seru, tanpa klaim
 kesehatan. Headline & info teknis Inggris, boleh campur Indonesia.
 
 Copy di banner ini memakai frasa brand yang sudah ada: **"HEMAT HINGGA"** (dari
-`Diskon Banner_BAU`) dan **"GRATIS ONGKIR"**. Tagline "bring the cafe home"
-sempat dipakai lalu dihapus atas permintaan — kanvas jadi lebih lega.
+`Diskon Banner_BAU`) dan **"GRATIS ONGKIR"**, ditambah satu baris pendukung
+**"ceremonial grade untuk hari matcha-mu"** — memakai istilah produk mereka
+sendiri, tanpa kata promosi berlebihan. Tagline "bring the cafe home" sempat
+dipakai lalu dihapus atas permintaan.
+
+**Gratis Ongkir memakai pill hijau matcha** (`#7A9A3F`, warna headline design
+system) dengan teks bone white. Sebelumnya berupa teks charcoal bergaris tipis
+dan kurang menonjol; pill berlatar solid terbaca di bagian foto mana pun.
 
 ## Aset
 
 | File | Asal |
 |---|---|
 | `assets/photo.jpg` | `nano-banana-pro`, dengan mockup kaleng asli sebagai `image_input` |
-| `assets/girl.png`, `cat.png` | `nano-banana-pro` line art, latar putih dikeykan jadi transparan |
+| `assets/girl.png`, `cat-reach.png` | `nano-banana-pro` line art, latar putih dikeykan jadi transparan |
 | `assets/logo.png` | file logo brand asli |
 
 **Label kaleng wajib diperiksa kalau foto digenerate ulang.** Generate pertama
@@ -105,6 +111,20 @@ Dengan target ujung jari di tepi kiri-atas kaleng, hasilnya `left:97 top:583
 width:446`. Kaki dan badannya berhenti di 57,7% lebar, jadi tidak menutupi
 kaleng — hanya lengannya yang melintas.
 
-Warna garisnya hitam, jadi posisinya harus jatuh di beton terang. Kecerahan yang
-terukur: `x 596–732, y 1016` bernilai ~222 (aman untuk kucing), sedangkan
-`x 120, y 1078` hanya ~150 — di situ kucing sempat hilang.
+Kucingnya memakai rumus yang sama. Cakar terangkatnya ada di **33,8% lebar** dan
+**9,4% tinggi** artwork, jadi jarak cakar-ke-kaki adalah 90,6% tingginya. Supaya
+kakinya menapak garis tanah gelas (y 1075) dan cakarnya menyentuh bibir gelas
+strawberry (y 700), tingginya harus 414 px:
+
+```
+tinggi = (y_kaki − y_cakar) / 0,906     left = x_cakar − 0,338 × lebar
+```
+
+Hasilnya `left:752 top:661 width:334`. Pose berdiri-menggapai ini digenerate
+khusus — pose berjalan sebelumnya hanya bisa diperbesar, tidak bisa berinteraksi
+dengan produk seperti pada referensi.
+
+Warna garisnya hitam, jadi posisinya harus jatuh di beton terang. Untuk kotak
+sebesar kucing ini seluruh area bawah setara (rata-rata ~176–182), jadi posisi
+dipilih berdasarkan komposisi. Untuk elemen kecil bedanya nyata: `x 596, y 1016`
+bernilai ~222 sedangkan `x 120, y 1078` hanya ~150 — di situ kucing sempat hilang.

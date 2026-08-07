@@ -33,34 +33,38 @@
   .logo{position:absolute;left:50%;top:52px;transform:translateX(-50%);width:300px;z-index:9;
     filter:brightness(0) invert(1) opacity(.95)}
 
-  .top{position:absolute;left:0;right:0;top:138px;z-index:8;text-align:center;color:var(--bone)}
-  .eight{font-family:var(--brand-display);font-size:112px;line-height:1;
+  .top{position:absolute;left:0;right:0;top:120px;z-index:8;text-align:center;color:var(--bone)}
+  .eight{font-family:var(--brand-display);font-size:108px;line-height:1;
     text-shadow:0 5px 24px rgba(18,24,14,.45)}
-  .day{margin-top:16px;font-family:var(--brand-label);font-size:26px;letter-spacing:7px;
+  .day{margin-top:14px;font-family:var(--brand-label);font-size:26px;letter-spacing:7px;
     text-indent:7px;text-shadow:0 3px 14px rgba(18,24,14,.5)}
 
+  /* Supporting line, Comfortaa lowercase per design system §3. */
+  .lede{margin-top:16px;font-family:var(--brand-body);font-size:24px;letter-spacing:.6px;
+    color:rgba(241,240,235,.90);text-shadow:0 3px 12px rgba(18,24,14,.55)}
+
   /* ── the discount: the loudest element on the banner ── */
-  .save{position:absolute;left:0;right:0;top:334px;z-index:8;text-align:center;color:var(--bone);
+  .save{position:absolute;left:0;right:0;top:350px;z-index:8;text-align:center;color:var(--bone);
     font-family:var(--brand-label);font-size:30px;letter-spacing:7px;text-indent:7px;
     text-shadow:0 3px 14px rgba(18,24,14,.5)}
-  .pct{position:absolute;left:0;right:0;top:370px;z-index:8;
+  .pct{position:absolute;left:0;right:0;top:386px;z-index:8;
     display:flex;align-items:flex-start;justify-content:center;gap:10px;color:var(--bone)}
-  .pct b{font-family:var(--brand-display);font-size:222px;line-height:1;
+  .pct b{font-family:var(--brand-display);font-size:212px;line-height:1;
     text-shadow:0 8px 30px rgba(18,24,14,.45)}
   /* The DEMO cut locks '%', '-', '°' and the digit 4 behind a watermark, so the
      percent is drawn as a vector with its stroke matched to the digits. */
   .pct svg{margin-top:24px;filter:drop-shadow(0 8px 30px rgba(18,24,14,.45))}
 
   /* ── foot, set into the lit concrete ── */
-  .foot{position:absolute;left:0;right:0;bottom:62px;z-index:9;
-    display:flex;align-items:center;justify-content:center;gap:26px}
-  .foot i{display:block;width:128px;height:1.5px;background:rgba(28,28,28,.36)}
-  .foot b{font-family:var(--brand-label);font-size:30px;letter-spacing:7px;text-indent:7px;
-    color:var(--charcoal)}
+  .foot{position:absolute;left:50%;bottom:64px;transform:translateX(-50%);z-index:9;
+    display:inline-flex;align-items:center;padding:21px 54px 23px;border-radius:999px;
+    background:var(--matcha);box-shadow:0 10px 26px rgba(30,46,18,.34)}
+  .foot b{font-family:var(--brand-label);font-size:33px;letter-spacing:7px;text-indent:7px;
+    color:var(--bone);line-height:1}
 
   .doodle{position:absolute;z-index:7;pointer-events:none}
   .girl{left:97px;top:583px;width:446px;opacity:.92}
-  .cat{left:596px;top:1016px;width:136px;opacity:.92}
+  .cat{left:752px;top:661px;width:334px;opacity:.92}
 </style>
 </head>
 <body>
@@ -73,12 +77,13 @@
   <div class="top">
     <div class="eight">8.8</div>
     <div class="day">MATCHA DAY</div>
+    <div class="lede">ceremonial grade untuk hari matcha-mu</div>
   </div>
 
   <div class="save">HEMAT HINGGA</div>
   <div class="pct">
     <b>50</b>
-    <svg width="114" height="170" viewBox="0 0 64 96" fill="none" aria-label="persen">
+    <svg width="109" height="162" viewBox="0 0 64 96" fill="none" aria-label="persen">
       <g stroke="#F1F0EB" stroke-width="11.5" fill="none">
         <circle cx="16.5" cy="28" r="10.5"/>
         <circle cx="47.5" cy="68" r="10.5"/>
@@ -88,17 +93,17 @@
   </div>
 
   <img class="doodle girl" src="assets/girl.png" alt="">
-  <img class="doodle cat"  src="assets/cat.png"  alt="">
+  <img class="doodle cat"  src="assets/cat-reach.png"  alt="">
 
   <!-- ribbon on the strawberry glass, as in the concept reference -->
-  <svg class="doodle" style="left:730px;top:846px;z-index:9" width="140" height="98" viewBox="0 0 150 104" fill="none">
+  <svg class="doodle" style="left:536px;top:790px;z-index:9" width="140" height="98" viewBox="0 0 150 104" fill="none">
     <path d="M74 44c-10-15-31-24-42-14-9 8-2 24 12 26 13 2 26-6 30-12Z" stroke="#fff" stroke-width="2.6" stroke-linejoin="round" opacity=".92"/>
     <path d="M76 44c10-15 31-24 42-14 9 8 2 24-12 26-13 2-26-6-30-12Z" stroke="#fff" stroke-width="2.6" stroke-linejoin="round" opacity=".92"/>
     <path d="M75 46c-4 14-9 30-14 44M75 46c5 14 12 28 19 41" stroke="#fff" stroke-width="2.6" stroke-linecap="round" opacity=".92"/>
     <circle cx="75" cy="44" r="5" stroke="#fff" stroke-width="2.6" opacity=".92"/>
   </svg>
 
-  <div class="foot"><i></i><b>GRATIS ONGKIR</b><i></i></div>
+  <div class="foot"><b>GRATIS ONGKIR</b></div>
 </div>
 </body>
 </html>
