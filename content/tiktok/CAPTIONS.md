@@ -5,11 +5,13 @@ Urutannya: logo → `COMING SOON` → boxer longgar → logo → singlet putih d
 
 Tiga garmen terlihat: **boxer woven longgar**, **singlet putih**, **boxer brief hitam**.
 
+Bahasa Inggris, mengikuti kosakata hal. 35. (Versi bahasa Indonesia ada di riwayat git kalau sewaktu-waktu dibutuhkan.)
+
 ---
 
 ## Ketegangan yang harus diselesaikan dulu
 
-TikTok memberi imbalan pada caption yang ramai: slang, huruf kapital, emoji, tanda seru. Hal. 35 melarang semua itu — *jangan sombong, jangan agresif, **jangan sok muda***. Daftar kata terlarangnya persis kosakata TikTok: *best, coolest, super, trendy, sexy, bold, wild, vibe*.
+TikTok memberi imbalan pada caption yang ramai: slang, huruf kapital, emoji, tanda seru. Hal. 35 melarang semua itu, dan daftar kata terlarangnya persis kosakata TikTok: *best, coolest, super, trendy, sexy, bold, wild, vibe*. Aturannya juga tegas: **jangan sok muda**.
 
 Jadi caption ini tidak dibuat dengan cara TikTok biasa. Yang dipakai adalah satu hal yang diminta kedua belah pihak: **kalimat pendek dan langsung**. Hal. 35 menyebutnya *ringkas, lugas, kalimat aktif*; TikTok menyebutnya hook di baris pertama. Itu titik temunya.
 
@@ -17,42 +19,36 @@ Sisanya justru menguntungkan. Kalimat kunci brand di hal. 28 berbunyi *"It's not
 
 ---
 
-## Bahasa: Indonesia, dengan baris brand tetap Inggris
-
-Kanalnya `@toniblack.id` dan penontonnya Indonesia, jadi bodinya bahasa Indonesia supaya kolom komentar hidup dan caption ikut terbaca mesin pencari TikTok. Tapi tagline dan istilah brand **tidak diterjemahkan** — brand premium tidak menerjemahkan taglinenya sendiri. Set bahasa Inggris penuh ada di bawah kalau Anda mau seragam dengan banner.
-
----
-
 ## Pilihan caption
 
-Baris pertama adalah yang terlihat sebelum "selengkapnya". Semua opsi menaruh hook di sana.
+Baris pertama adalah yang terlihat sebelum "selengkapnya". Semua hook di bawah 40 karakter jadi tidak ada yang terpotong.
 
 ### 1. Understatement — paling dekat ke nada brand
 
 ```
-Tidak diumumkan keras-keras.
-Cukup dikerjakan dengan benar.
-Segera.
+Not made to be loud.
+Made to be right.
+Coming soon.
 
 Tailored. Original. Innovation.
 ```
 
-Baris pertamanya mengambil langsung kalimat kunci brand di hal. 28.
+Baris pertamanya mengambil langsung kalimat kunci hal. 28: *"It's not about standing out loudly."*
 
 ### 2. Palet — cocok dengan videonya yang monokrom
 
 ```
-Hitam. Putih. Tidak ada yang lain.
-Tiga essential yang kami rapikan ulang, dari potongan sampai jahitannya.
-Segera.
+Black. White. Nothing else.
+Three essentials, refined to the seam.
+Coming soon.
 ```
 
 ### 3. Craft, dengan tanggal
 
 ```
-Setiap detail dibuat dengan tujuan.
-Yang berikutnya hampir siap.
-[TANGGAL] di Toni Black.
+Every detail is created with purpose.
+The next one is nearly here.
+[DATE].
 ```
 
 Baris pertamanya dari narasi brand hal. 33.
@@ -60,54 +56,64 @@ Baris pertamanya dari narasi brand hal. 33.
 ### 4. Product-forward — paling kuat untuk jangkauan
 
 ```
-Singlet, boxer, dan celana dalam pria.
-Satu standar potongan dan bahan.
-Segera di Toni Black.
+Singlet. Boxer. Boxer brief.
+One standard for cut, fabric and fit.
+Coming soon to Toni Black.
 ```
 
-Caption TikTok itu terindeks pencarian. Opsi ini satu-satunya yang memuat kata yang benar-benar diketik orang: *singlet pria*, *boxer pria*, *celana dalam pria*.
+Satu-satunya opsi yang menyebut produknya. Caption TikTok terindeks pencarian, jadi ini yang paling mudah ditemukan.
 
-### 5. Langsung, dengan ajakan menandai tanggal
+### 5. Redefined Essentials — frasa resmi dari daftar CTA hal. 29
 
 ```
-Yang mendasar, dikerjakan ulang.
-Tandai tanggalnya: [TANGGAL]
+Redefined essentials.
+Cut, fabric and fit, reconsidered.
+Coming soon.
+```
+
+### 6. Ajakan menandai tanggal
+
+```
+The next one is nearly here.
+Mark the date: [DATE]
 
 Tailored. Original. Innovation.
 ```
 
-### Versi bahasa Inggris
+---
 
-```
-Black. White. Nothing else.
-Three essentials, refined from the cut up.
-Coming soon.
-```
+## Kosakata yang dipakai, dan dari mana
 
-```
-Every detail is created with purpose.
-The next one is nearly ready.
-Coming soon.
-```
+Semua kata bertumpu pada daftar hal. 35, bukan dikarang:
+
+| Kata | Kolom hal. 35 |
+|---|---|
+| `refined`, `detail`, `fit`, `crafted` | Comfort & Precision |
+| `essentials`, `redefined` | Innovation & Modernity |
+| `purpose`, `right`, `standard` | register *honest* di Character & Authenticity |
+
+`Redefined Essentials` diambil utuh dari daftar CTA resmi hal. 29 (Product/Collection). `Tailored. Original. Innovation.` adalah tagline resmi.
+
+**Audit:** nol kata terlarang hal. 35, nol em dash, nol tanda seru, nol emoji, nol kapital berteriak.
 
 ---
 
 ## Hashtag
 
-Inti, lima cukup. TikTok tidak memberi imbalan pada tumpukan tag:
+Captionnya Inggris, tapi hashtagnya sebaiknya campur. Hashtag itu label, bukan kalimat, jadi mencampur bahasa tidak melanggar nada brand, sementara istilah Indonesia yang membawa jangkauan lokal:
 
 ```
-#toniblack #comingsoon #underwearpria #singletpria #menswearindonesia
+#toniblack #comingsoon #menswearindonesia #underwearpria #singletpria
 ```
 
-Tambahan kalau mau menyasar pencarian produk: `#boxerpria` `#celanadalampria` `#basicpria`
+Lima cukup. TikTok tidak memberi imbalan pada tumpukan tag.
 
 ---
 
 ## Dua hal yang perlu Anda isi
 
-1. **Tanggalnya belum ada.** Videonya cuma bilang `COMING SOON`, dan captionnya juga tidak menyebut kapan. Postingan coming soon tanpa tanggal tidak memberi penonton alasan untuk kembali. Kirim tanggalnya, atau minimal pakai opsi 5 yang mengajak menandai tanggal.
-2. **Nama produknya.** Garmen pertama di detik 1,8 adalah **boxer woven longgar**, jelas berbeda dari boxer brief di detik 5,8. Kalau itu produk baru dalam peluncuran ini, namanya layak masuk caption. Saya sengaja tidak menyebutkannya karena belum tahu nama resminya di katalog Anda.
+1. **Tanggalnya belum ada.** Videonya cuma bilang `COMING SOON`, dan captionnya juga tidak menyebut kapan. Postingan coming soon tanpa tanggal tidak memberi penonton alasan untuk kembali. Kirim tanggalnya, atau pakai opsi 3 atau 6 yang sudah menyediakan tempatnya.
+2. **Nama produknya.** Garmen pertama di detik 1,8 adalah **boxer woven longgar**, jelas berbeda dari boxer brief di detik 5,8. Kalau itu produk baru dalam peluncuran ini, namanya layak masuk caption, terutama di opsi 4. Saya sengaja tidak menyebutkannya karena belum tahu nama resminya di katalog Anda.
 
 ## Catatan teknis
 
