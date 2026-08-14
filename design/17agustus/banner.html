@@ -78,8 +78,16 @@
   /* ── products on the track ── */
   .prod{position:absolute;z-index:6;filter:drop-shadow(0 18px 22px rgba(120,25,30,.35))}
   .p-shz{left:352px;top:590px;width:360px;z-index:7;transform:rotate(-3deg)}
-  .p-pre{left:34px; top:906px;width:350px;transform:rotate(-8deg)}
-  .p-tar{right:34px;top:889px;width:350px;transform:rotate(7deg)}
+  .p-pre{left:52px; top:766px;width:302px;transform:rotate(-8deg)}
+  .p-tar{right:52px;top:728px;width:302px;transform:rotate(7deg)}
+  /* lane numbers painted on the rubber, perspective-faked in CSS so the
+     digits stay programmatic text (production rule: no AI text) */
+  .lane{position:absolute;z-index:5;font-family:var(--brand-body);font-weight:700;
+    color:rgba(255,255,255,.5);line-height:1;pointer-events:none}
+  .lane.n2{left:118px;top:1000px;font-size:200px;
+    transform:rotate(-13deg) skewX(-26deg) scaleY(.62)}
+  .lane.n3{left:874px;top:1008px;font-size:158px;
+    transform:rotate(-11deg) skewX(-24deg) scaleY(.6)}
   /* finish-line tape breaking across the leader's lane, in front of everything */
   .tape{position:absolute;left:-70px;top:1192px;width:1220px;z-index:8;
     transform:rotate(-1.6deg);
@@ -126,8 +134,10 @@
   </div>
 
   <div class="gshadow" style="left:338px;top:1196px;width:400px;height:58px"></div>
-  <div class="gshadow" style="left:24px;top:1162px;width:362px;height:50px"></div>
-  <div class="gshadow" style="right:24px;top:1145px;width:362px;height:50px"></div>
+  <div class="gshadow" style="left:44px;top:978px;width:318px;height:46px"></div>
+  <div class="gshadow" style="right:44px;top:940px;width:318px;height:46px"></div>
+  <div class="lane n2">2</div>
+  <div class="lane n3">3</div>
 
   <img class="prod p-pre" src="assets/premix.png" alt="Matcha Premix 250 gram">
   <img class="prod p-tar" src="assets/taro.png" alt="Taro 250 gram">

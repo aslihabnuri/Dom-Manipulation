@@ -39,6 +39,16 @@ tanpa produk dan tanpa teks.
 
 ## Penataan lomba lari
 
+**Lintasan mengisi ~60% frame dilihat dari sudut atas** (generate kedua —
+versi pertama hanya strip tipis di dasar frame, produk terbaca "dipajang di
+depan langit", bukan balapan). Lajur melengkung dari kiri-bawah ke kanan,
+produk berdiri *di tengah* permukaan merah, dikelilingi lajur.
+
+**Angka lajur ("2", "3") bukan bagian background** — dilukis via CSS
+(`.lane`, Comfortaa Bold putih 50%, `rotate + skewX + scaleY` untuk meniru
+perspektif cat di karet) supaya teks tetap programatik sesuai aturan produksi
+design system. Kalau background digenerate ulang, angka lajur tidak ikut hilang.
+
 Produk ditata sebagai pelari di lintasan:
 
 - **Pose balapan referensi**: miring dinamis — Shizouka `-3°`, Premix `-8°`,
