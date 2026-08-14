@@ -179,6 +179,24 @@ window.OTM_DATA = {
             (termasuk <em>operational hedging</em>), (3) memperbaiki operasi (belajar dari negara lain), (4) memahami pasar,
             (5) memperbaiki produk (aliansi R&D, mis. Toyota–BMW), (6) menarik & mempertahankan talenta global.
             Perhatikan juga isu budaya & etika: ketepatan waktu, kekayaan intelektual, suap, pekerja anak, dsb.</p>`
+        },
+        {
+          heading: "Pendalaman dari Buku HRM Bab 1",
+          body: `<p>Tambahan dari buku <strong>Heizer, Render & Munson bab 1</strong> yang tidak dibahas mendalam di slide:</p>
+            <p><strong>Perbedaan barang (goods) vs jasa (services):</strong> jasa bersifat intangible (kursi pesawat vs
+            pengalaman terbangnya), diproduksi & dikonsumsi bersamaan (potong rambut), unik per pelanggan, interaksi pelanggan
+            tinggi, definisi produknya tidak konsisten (asuransi berubah sesuai usia), berbasis pengetahuan (hukum, pendidikan,
+            medis — sulit diotomasi), tersebar lokasinya, kualitasnya sulit dievaluasi, dan tidak bisa dijual kembali —
+            kebalikan dari barang yang tangible, bisa disimpan sebagai persediaan, terstandardisasi, dan mudah diotomasi.</p>
+            <p><strong>Tiga variabel produktivitas</strong> — kenaikan produktivitas bergantung pada:</p>
+            <ul>
+              <li><strong>Labor</strong> — menyumbang ±10% kenaikan tahunan;</li>
+              <li><strong>Capital</strong> — menyumbang ±38%;</li>
+              <li><strong>Management</strong> — menyumbang ±52% (kontributor terbesar!).</li>
+            </ul>
+            <p>Ketiganya adalah area luas tempat manajer bisa bertindak untuk memperbaiki produktivitas. Latihan dari buku
+            (lanjutan contoh Collins Title): jika overhead naik ke $960 (bukan $800), multifactor productivity = 14 ÷ (640+960)
+            = <strong>0,00875</strong> — coba hitung sendiri di menu Kalkulator!</p>`
         }
       ]
     },
@@ -187,7 +205,98 @@ window.OTM_DATA = {
       topic: "Operations Strategy",
       subtopics: ["Operations Strategy (lanjutan & pendalaman)"],
       readings: ["SBB bab 3", "HRM bab 2"],
-      caseStudy: null, summary: null
+      caseStudy: null,
+      summary: [
+        {
+          heading: "Operations Strategy dalam Lingkungan Global (HRM Bab 2)",
+          body: `<p>Rangkuman ini disusun dari buku <strong>Heizer, Render & Munson bab 2 — "Operations Strategy in a
+            Global Environment"</strong> (bacaan wajib sesi ini) sebagai persiapan sebelum kuliah.</p>
+            <p>Profil pembuka: <strong>Boeing 787 Dreamliner</strong>. Strategi Boeing unik karena desain produk canggih
+            dipadukan <em>global supply chain</em> — komponen datang dari puluhan mitra di berbagai negara (kolaborasi dengan
+            General Electric, mitra Jepang, Italia, dll.) lalu dirakit final di Everett. Rantai pasok global inilah yang
+            menjadi sumber competitive advantage Boeing: penjualan dan rantai pasoknya mendunia.</p>
+            <p>Contoh lain perusahaan multinasional (<strong>MNC</strong> — perusahaan dengan keterlibatan bisnis internasional
+            ekstensif): <strong>IBM</strong> mengimpor komponen dari 50+ negara, mengekspor ke 130+ negara, punya fasilitas di
+            45 negara, dan lebih dari separuh penjualan & labanya dari luar negeri.</p>`
+        },
+        {
+          heading: "Mission & Strategy",
+          body: `<p><strong>Mission</strong> = tujuan/alasan keberadaan organisasi — apa kontribusinya bagi masyarakat.
+            Mission memberi batasan & fokus, dan menjadi konsep pemersatu perusahaan. Setelah mission perusahaan ditetapkan,
+            tiap area fungsional (marketing, keuangan, operasi) menyusun <em>supporting mission</em>-nya sendiri secara hierarkis.</p>
+            <p><strong>Strategy</strong> = rencana aksi organisasi untuk mencapai mission. Strategi mengeksploitasi peluang &
+            kekuatan, menetralkan ancaman, dan menghindari kelemahan.</p>
+            <p>Perusahaan mencapai mission melalui tiga jalan konseptual: <strong>(1) Differentiation</strong> (lebih baik/berbeda),
+            <strong>(2) Cost leadership</strong> (lebih murah), <strong>(3) Response</strong> (lebih responsif).
+            <strong>Competitive advantage</strong> = penciptaan sistem yang punya keunggulan unik atas kompetitor — menciptakan
+            nilai pelanggan secara efisien dan berkelanjutan, biasanya lewat kombinasi ketiganya.</p>`
+        },
+        {
+          heading: "Issues in Operations Strategy",
+          body: `<p>Sebelum menetapkan dan menjalankan strategi, beberapa sudut pandang membantu:</p>
+            <ul>
+              <li><strong>Resources view</strong> — memastikan strategi kompatibel dengan sumber daya finansial, fisik, manusia,
+                dan teknologi yang tersedia.</li>
+              <li><strong>Value-chain analysis (Porter)</strong> — mengidentifikasi aktivitas yang menjadi kekuatan unik penambah
+                nilai: riset produk, desain, SDM, supply chain, inovasi proses, manajemen kualitas.</li>
+              <li><strong>Five forces model (Porter)</strong> — menganalisis lima kekuatan kompetitif: rival langsung, pendatang
+                potensial, pelanggan, pemasok, dan produk substitusi.</li>
+            </ul>
+            <p>Strategi juga harus <strong>dinamis</strong>: lingkungan eksternal (ekonomi, hukum, budaya) dan internal
+            (sumber daya, teknologi, product life cycle) terus berubah. Posisi produk pada siklus hidup
+            (introduction → growth → maturity → decline) mengubah prioritas strategi operasi — mis. fase introduction:
+            desain produk & perubahan proses masih sering, biaya produksi tinggi; fase maturity: kontrol biaya jadi kritis,
+            mempertahankan posisi pasar. Contoh: strategi Microsoft bergeser dari operating system → office products →
+            layanan internet → integrator cloud seiring perubahan teknologi.</p>`
+        },
+        {
+          heading: "Strategy Development & Implementation",
+          body: `<p><strong>SWOT analysis</strong> = tinjauan formal atas kekuatan & kelemahan internal serta peluang & ancaman
+            eksternal. Dari SWOT, organisasi memposisikan diri untuk meraih competitive advantage; mission dan strategi
+            dievaluasi ulang agar konsisten.</p>
+            <p><strong>Key Success Factors (KSFs)</strong> = aktivitas yang <em>harus</em> dilakukan dengan baik agar perusahaan
+            mencapai tujuannya. <strong>Core competencies</strong> = hal-hal yang dilakukan perusahaan setara atau lebih baik
+            dari kompetitornya. Karena tidak ada perusahaan yang unggul di semua hal, strategi sukses menuntut identifikasi
+            keduanya.</p>
+            <p><strong>Activity mapping</strong> menghubungkan competitive advantage dengan KSF dan aktivitas pendukung.
+            Contoh klasik: <strong>Southwest Airlines</strong> — keunggulan biaya rendah dibangun dari aktivitas yang saling
+            menguatkan: rute pendek point-to-point ke bandara sekunder, armada seragam Boeing 737, utilisasi pesawat tinggi,
+            karyawan lean & berdaya, layanan penumpang terbatas tapi ramah, tanpa nomor kursi, "bags fly free".</p>`
+        },
+        {
+          heading: "Outsourcing & Theory of Comparative Advantage",
+          body: `<p><strong>Outsourcing</strong> = memindahkan aktivitas yang biasanya internal ke pemasok eksternal. Kandidat
+            terbaiknya adalah <em>non-core activities</em>; core competencies sebaiknya dipertahankan. Landasan ekonominya:
+            <strong>theory of comparative advantage</strong> — negara diuntungkan bila berspesialisasi (dan mengekspor)
+            barang/jasa yang keunggulan relatifnya tinggi, dan mengimpor yang keunggulan relatifnya rendah.</p>
+            <p><strong>Risiko outsourcing:</strong> sekitar <strong>separuh perjanjian outsourcing gagal</strong> karena
+            perencanaan & analisis yang kurang; masalah umum: ketepatan pengiriman, standar kualitas, serta biaya persediaan
+            & logistik yang diremehkan. Outsourcing ke luar negeri menambah isu: daya tarik finansial, ketersediaan keterampilan,
+            lingkungan bisnis, hingga reaksi politik atas hilangnya lapangan kerja → memicu <strong>reshoring</strong>
+            (kembalinya aktivitas bisnis ke negara asal).</p>
+            <p>Untuk memilih penyedia outsourcing secara objektif dipakai <strong>factor-rating method</strong>: beri bobot
+            tiap kriteria, skor tiap kandidat, kalikan lalu jumlahkan (contoh buku: National Architects memilih provider IT).</p>`
+        },
+        {
+          heading: "Empat Opsi Strategi Operasi Global",
+          body: `<p>Manajer operasi memposisikan perusahaan pada matriks dua sumbu: <strong>cost reduction</strong> (vertikal)
+            × <strong>local responsiveness</strong> (horizontal):</p>
+            <ul>
+              <li><strong>International strategy</strong> — penetrasi pasar global lewat ekspor & lisensi. Paling mudah tapi
+                paling tidak menguntungkan: responsivitas lokal rendah, keunggulan biaya kecil.</li>
+              <li><strong>Multidomestic strategy</strong> — wewenang terdesentralisasi (anak perusahaan, waralaba, joint venture
+                yang otonom). Memaksimalkan respons pasar lokal, tapi hampir tanpa keunggulan biaya. Contoh: Heinz menyesuaikan
+                selera lokal. Konsepnya: "ekspor talenta manajemen & proses, bukan produknya".</li>
+              <li><strong>Global strategy</strong> — sentralisasi tinggi; kantor pusat mengoordinasi standardisasi & pembelajaran
+                antar-pabrik → skala ekonomi. Cocok saat fokusnya penekanan biaya dan produk seragam di seluruh dunia.
+                Contoh: Caterpillar, Texas Instruments ("alat berat di Nigeria sama dengan di Iowa").</li>
+              <li><strong>Transnational strategy</strong> — menggabungkan efisiensi skala global <em>dan</em> responsivitas lokal
+                sekaligus.</li>
+            </ul>
+            <p>Ilustrasi persaingan global: Komatsu vs Caterpillar saling berekspansi lintas benua, memindahkan produksi
+            mengikuti pasar, risiko, dan nilai tukar.</p>`
+        }
+      ]
     },
     {
       id: 3, date: "2026-08-29", dateLabel: "29 Agustus 2026",
@@ -288,7 +397,33 @@ window.OTM_DATA = {
     { session: 1, front: "Empat zona pada importance–performance matrix?", back: "Appropriate (memuaskan), Improve (di bawah batas layak), Urgent-action (penting bagi pelanggan tapi kalah dari kompetitor), Excess? (kinerja tinggi tapi tidak penting bagi pelanggan)." },
     { session: 1, front: "Tiga strategi mencapai competitive advantage melalui operasi?", back: "Differentiation (lebih baik/berbeda), Cost leadership (lebih murah — bukan kualitas rendah), Response (respons cepat: flexibility, reliability, timeliness)." },
     { session: 1, front: "Enam alasan perusahaan melakukan globalisasi operasi?", back: "1) Memperbaiki supply chain, 2) menekan biaya & risiko kurs, 3) memperbaiki operasi, 4) memahami pasar, 5) memperbaiki produk, 6) menarik & mempertahankan talenta global." },
-    { session: 1, front: "Apa itu operational hedging?", back: "Mempertahankan kapasitas berlebih di beberapa negara dan menggeser level produksi antarnegara saat biaya dan nilai tukar berubah." }
+    { session: 1, front: "Apa itu operational hedging?", back: "Mempertahankan kapasitas berlebih di beberapa negara dan menggeser level produksi antarnegara saat biaya dan nilai tukar berubah." },
+    { session: 1, front: "Tiga variabel produktivitas menurut HRM dan kontribusinya terhadap kenaikan tahunan?", back: "Labor ±10%, Capital ±38%, Management ±52%. Management adalah kontributor terbesar — area utama tempat manajer bisa bertindak memperbaiki produktivitas." },
+    { session: 1, front: "Sebutkan minimal 4 karakteristik jasa (services) yang membedakannya dari barang (goods).", back: "Intangible; diproduksi & dikonsumsi bersamaan; unik per pelanggan; interaksi pelanggan tinggi; definisi produk tidak konsisten; berbasis pengetahuan (sulit diotomasi); lokasi tersebar; kualitas sulit dievaluasi; tidak bisa dijual kembali; tidak bisa disimpan sebagai persediaan." },
+    { session: 1, front: "Mengapa barang (goods) lebih mudah diotomasi daripada jasa?", back: "Karena barang berupa produk tangible yang terstandardisasi (mis. iPhone) dan diproduksi di fasilitas tetap, sedangkan jasa sering berbasis pengetahuan, unik per pelanggan, dan butuh interaksi tinggi (hukum, pendidikan, medis)." },
+
+    { session: 2, front: "Apa definisi mission sebuah organisasi?", back: "Tujuan atau alasan keberadaan organisasi — apa yang akan dikontribusikannya bagi masyarakat. Mission memberi batasan, fokus, dan konsep pemersatu perusahaan." },
+    { session: 2, front: "Apa definisi strategy?", back: "Rencana aksi (action plan) organisasi untuk mencapai mission-nya. Strategi mengeksploitasi peluang & kekuatan, menetralkan ancaman, dan menghindari kelemahan." },
+    { session: 2, front: "Bagaimana hierarki mission dalam perusahaan?", back: "Mission perusahaan → supporting mission tiap area fungsional (marketing, keuangan, operasi) → mission pendukung level bawah untuk fungsi-fungsi OM. Semuanya saling mendukung." },
+    { session: 2, front: "Tiga cara konseptual perusahaan mencapai mission-nya?", back: "1) Differentiation (lebih baik/berbeda), 2) Cost leadership (lebih murah), 3) Response (lebih responsif). Ketiganya bisa dikombinasikan untuk menghasilkan competitive advantage." },
+    { session: 2, front: "Apa itu resources view dalam operations strategy?", back: "Cara pandang yang memastikan strategi kompatibel dengan sumber daya yang tersedia: finansial, fisik, manusia, dan teknologi." },
+    { session: 2, front: "Apa itu value-chain analysis (Porter)?", back: "Cara mengidentifikasi aktivitas dalam rantai produk/jasa yang menambah nilai secara unik — mis. riset produk, desain, SDM, supply chain, inovasi proses, manajemen kualitas — sebagai peluang membangun competitive advantage." },
+    { session: 2, front: "Sebutkan lima kekuatan dalam five forces model Porter.", back: "1) Rival langsung (immediate rivals), 2) pendatang potensial, 3) pelanggan, 4) pemasok, 5) produk substitusi." },
+    { session: 2, front: "Bagaimana product life cycle memengaruhi strategi operasi?", back: "Introduction: desain produk/proses sering berubah, biaya produksi tinggi. Growth: peramalan & reliabilitas kritis, tambah kapasitas. Maturity: kontrol biaya kritis, pertahankan posisi pasar. Decline: efisiensi. Strategi harus dinamis mengikuti fase produk." },
+    { session: 2, front: "Apa itu SWOT analysis?", back: "Tinjauan formal atas Strengths & Weaknesses internal serta Opportunities & Threats eksternal, sebagai dasar memposisikan perusahaan untuk meraih competitive advantage." },
+    { session: 2, front: "Bedakan Key Success Factors (KSFs) dan core competencies.", back: "KSFs: aktivitas/faktor yang menjadi kunci meraih competitive advantage — harus dilakukan dengan baik. Core competencies: hal yang dilakukan perusahaan setara atau lebih baik dari kompetitor (kekuatan uniknya)." },
+    { session: 2, front: "Apa itu activity mapping? Beri contohnya.", back: "Menghubungkan competitive advantage dengan KSF & aktivitas pendukung yang saling menguatkan. Contoh Southwest Airlines (low-cost): rute pendek point-to-point ke bandara sekunder, armada seragam B737, utilisasi tinggi, karyawan lean & berdaya, layanan terbatas, tanpa nomor kursi." },
+    { session: 2, front: "Apa itu outsourcing dan aktivitas apa yang cocok di-outsource?", back: "Memindahkan aktivitas yang tradisinya internal ke pemasok eksternal. Kandidat terbaik: non-core activities — sementara core competencies dipertahankan di dalam." },
+    { session: 2, front: "Apa isi theory of comparative advantage?", back: "Negara diuntungkan bila berspesialisasi dan mengekspor barang/jasa yang keunggulan relatifnya tinggi, serta mengimpor barang/jasa yang keunggulan relatifnya rendah. Ini landasan ekonomi outsourcing internasional." },
+    { session: 2, front: "Sebutkan risiko-risiko outsourcing.", back: "±Separuh perjanjian outsourcing gagal karena perencanaan/analisis kurang; masalah ketepatan pengiriman & kualitas; biaya persediaan-logistik diremehkan; penurunan kepuasan pelanggan; untuk luar negeri: isu finansial, keterampilan, lingkungan bisnis, dan reaksi politik." },
+    { session: 2, front: "Apa itu reshoring?", back: "Kembalinya aktivitas bisnis ke negara asal — antara lain dipicu reaksi politik terhadap hilangnya lapangan kerja akibat outsourcing ke luar negeri." },
+    { session: 2, front: "Apa itu factor-rating method dalam memilih penyedia outsourcing?", back: "Metode penilaian objektif: tentukan kriteria, beri bobot tiap kriteria, skor tiap kandidat provider, kalikan bobot × skor lalu jumlahkan — kandidat dengan total tertinggi dipilih (contoh buku: National Architects memilih provider IT)." },
+    { session: 2, front: "Bedakan international business dan multinational corporation (MNC).", back: "International business: perusahaan yang terlibat perdagangan/investasi lintas negara. MNC: keterlibatan internasionalnya ekstensif — membeli sumber daya, berproduksi, dan menjual di banyak negara (mis. IBM: fasilitas di 45 negara, ekspor ke 130+ negara)." },
+    { session: 2, front: "Dua sumbu matriks empat strategi operasi global?", back: "Sumbu vertikal: cost reduction. Sumbu horizontal: local responsiveness (respons cepat dan/atau diferensiasi untuk pasar lokal)." },
+    { session: 2, front: "Jelaskan international strategy.", back: "Penetrasi pasar global lewat ekspor & lisensi. Paling mudah (sedikit perubahan operasi, risiko lisensi di pihak licensee) tapi paling tidak menguntungkan: responsivitas lokal rendah dan keunggulan biaya kecil." },
+    { session: 2, front: "Jelaskan multidomestic strategy dan contohnya.", back: "Wewenang terdesentralisasi ke tiap negara (anak perusahaan, waralaba, joint venture otonom) demi memaksimalkan respons pasar lokal; hampir tanpa keunggulan biaya. Contoh: Heinz menyesuaikan selera lokal. 'Ekspor talenta manajemen & proses, bukan produknya.'" },
+    { session: 2, front: "Jelaskan global strategy dan contohnya.", back: "Sentralisasi tinggi: kantor pusat mengoordinasi standardisasi & pembelajaran antar-pabrik demi skala ekonomi. Cocok saat fokus pada penekanan biaya dan produk seragam sedunia. Contoh: Caterpillar & Texas Instruments." },
+    { session: 2, front: "Jelaskan transnational strategy.", back: "Strategi yang menggabungkan keunggulan efisiensi skala global dengan keunggulan responsivitas lokal sekaligus — cost reduction tinggi dan local responsiveness tinggi." }
   ],
 
   /* ---------- Kuis (field session = nomor sesi) ---------- */
@@ -382,6 +517,119 @@ window.OTM_DATA = {
           options: ["Mass customization", "Operational hedging", "Supply-chain partnering", "Offshoring"],
           answer: 1,
           explain: "Operational hedging adalah salah satu cara menekan biaya dan risiko nilai tukar dalam operasi global."
+        },
+        {
+          q: "(Latihan HRM bab 1) Collins Title memproses 14 titel/hari dengan payroll $640/hari. Jika overhead-nya $960/hari (bukan $800), multifactor productivity-nya adalah…",
+          options: ["0,0097 titel per dolar", "0,00875 titel per dolar", "0,0077 titel per dolar", "0,4375 titel per dolar"],
+          answer: 1,
+          explain: "Multifactor productivity = 14 ÷ (640 + 960) = 14 ÷ 1600 = 0,00875 titel per dolar. Ini learning exercise resmi dari buku HRM bab 1."
+        }
+      ]
+    },
+    {
+      session: 2,
+      questions: [
+        {
+          q: "Mission sebuah organisasi didefinisikan sebagai…",
+          options: [
+            "Rencana aksi untuk mengalahkan kompetitor",
+            "Tujuan atau alasan keberadaan organisasi — kontribusinya bagi masyarakat",
+            "Target laba tahunan yang ditetapkan pemegang saham",
+            "Daftar produk yang akan diluncurkan perusahaan"
+          ],
+          answer: 1,
+          explain: "Mission = the purpose or rationale for an organization's existence. Strategy-lah yang merupakan rencana aksi untuk mencapai mission."
+        },
+        {
+          q: "Strategy adalah…",
+          options: [
+            "Pernyataan nilai-nilai luhur perusahaan",
+            "Struktur organisasi perusahaan",
+            "Rencana aksi organisasi untuk mencapai mission-nya",
+            "Anggaran tahunan tiap area fungsional"
+          ],
+          answer: 2,
+          explain: "Strategy = action plan to achieve the mission; mengeksploitasi peluang & kekuatan, menetralkan ancaman, menghindari kelemahan."
+        },
+        {
+          q: "Manakah yang BUKAN salah satu dari tiga pendekatan strategis untuk mencapai competitive advantage?",
+          options: ["Differentiation", "Cost leadership", "Response", "Diversification"],
+          answer: 3,
+          explain: "Tiga pendekatannya: differentiation (lebih baik/berbeda), cost leadership (lebih murah), dan response (lebih responsif). Diversification bukan salah satunya."
+        },
+        {
+          q: "Lima kekuatan dalam five forces model Porter adalah rival langsung, pendatang potensial, pelanggan, pemasok, dan…",
+          options: ["Regulator pemerintah", "Produk substitusi", "Serikat pekerja", "Pemegang saham"],
+          answer: 1,
+          explain: "Five forces: immediate rivals, potential entrants, customers, suppliers, dan substitute products."
+        },
+        {
+          q: "Pada fase maturity dalam product life cycle, prioritas strategi operasi yang tepat adalah…",
+          options: [
+            "Perubahan desain produk dan proses yang sering",
+            "Kontrol biaya yang kritis dan mempertahankan posisi pasar",
+            "Produksi jangka pendek dengan biaya tinggi",
+            "Menghentikan seluruh investasi kapasitas"
+          ],
+          answer: 1,
+          explain: "Fase introduction identik dengan desain yang masih berubah-ubah dan biaya tinggi; fase maturity menuntut cost control dan pertahanan posisi pasar."
+        },
+        {
+          q: "SWOT analysis adalah tinjauan formal atas…",
+          options: [
+            "Skill, Wisdom, Opportunity, Timing",
+            "Kekuatan & kelemahan internal serta peluang & ancaman eksternal",
+            "Kinerja keuangan empat kuartal terakhir",
+            "Struktur organisasi dan pembagian wewenang"
+          ],
+          answer: 1,
+          explain: "SWOT = internal Strengths & Weaknesses + external Opportunities & Threats — model yang sangat baik untuk mengevaluasi strategi."
+        },
+        {
+          q: "Aktivitas yang dilakukan perusahaan setara atau lebih baik daripada kompetitornya disebut…",
+          options: ["Key success factors", "Core competencies", "Order qualifiers", "Non-core activities"],
+          answer: 1,
+          explain: "Core competencies = kekuatan unik perusahaan. KSF = aktivitas yang menjadi kunci meraih tujuan. Non-core activities justru kandidat outsourcing."
+        },
+        {
+          q: "Keunggulan low-cost Southwest Airlines dibangun lewat activity mapping yang mencakup hal-hal berikut, KECUALI…",
+          options: [
+            "Rute pendek point-to-point ke bandara sekunder",
+            "Armada seragam Boeing 737",
+            "Layanan premium lengkap di semua penerbangan",
+            "Utilisasi pesawat yang tinggi"
+          ],
+          answer: 2,
+          explain: "Southwest justru menawarkan layanan penumpang yang terbatas (tapi ramah) — tanpa nomor kursi, tanpa transfer bagasi — demi biaya rendah."
+        },
+        {
+          q: "Teori yang menyatakan negara diuntungkan bila berspesialisasi mengekspor barang/jasa dengan keunggulan relatif tinggi adalah…",
+          options: [
+            "Theory of comparative advantage",
+            "Five forces model",
+            "Resources view",
+            "Efficient frontier theory"
+          ],
+          answer: 0,
+          explain: "Theory of comparative advantage — landasan ekonomi outsourcing internasional."
+        },
+        {
+          q: "Menurut HRM, kira-kira berapa proporsi perjanjian outsourcing yang gagal karena perencanaan dan analisis yang kurang?",
+          options: ["Sekitar 10%", "Sekitar 25%", "Sekitar separuh", "Hampir semuanya"],
+          answer: 2,
+          explain: "Roughly half of all outsourcing agreements fail — umumnya karena inadequate planning and analysis, masalah ketepatan waktu, kualitas, serta biaya logistik yang diremehkan."
+        },
+        {
+          q: "Strategi operasi global dengan wewenang terdesentralisasi (subsidiary/franchise/joint venture otonom) demi memaksimalkan respons pasar lokal disebut…",
+          options: ["International strategy", "Multidomestic strategy", "Global strategy", "Transnational strategy"],
+          answer: 1,
+          explain: "Multidomestic (contoh: Heinz) — respons lokal maksimal, tapi hampir tanpa keunggulan biaya. 'Ekspor talenta manajemen & proses, bukan produknya.'"
+        },
+        {
+          q: "Caterpillar dan Texas Instruments — dengan sentralisasi tinggi, standardisasi, dan skala ekonomi — adalah contoh…",
+          options: ["International strategy", "Multidomestic strategy", "Global strategy", "Transnational strategy"],
+          answer: 2,
+          explain: "Global strategy: cocok saat fokusnya cost reduction dan produk seragam di seluruh dunia ('alat berat di Nigeria sama dengan di Iowa'). Transnational menggabungkan keduanya: efisiensi global + responsivitas lokal."
         }
       ]
     }

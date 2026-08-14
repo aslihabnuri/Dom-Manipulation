@@ -19,9 +19,9 @@ python3 -m http.server 8000
 |---|---|
 | **Dashboard** | Info kuliah, sesi berikutnya + hitung mundur, komponen penilaian, progres belajar, tautan ke Drive |
 | **Silabus** | Garis waktu 12 sesi lengkap dengan bacaan (SBB/HRM/TPW) & case study; tandai sesi yang sudah dipelajari |
-| **Materi** | Rangkuman terstruktur per pertemuan (Sesi 1 sudah lengkap: OM, operations performance, operations strategy) |
-| **Flashcards** | 26 kartu hafalan Sesi 1 dengan pelacakan penguasaan |
-| **Kuis** | 12 soal pilihan ganda Sesi 1 dengan pembahasan & skor terbaik |
+| **Materi** | Rangkuman terstruktur per pertemuan — Sesi 1 (OM, operations performance, operations strategy + pendalaman HRM bab 1) dan Sesi 2 (operations strategy in a global environment dari HRM bab 2) sudah lengkap |
+| **Flashcards** | 51 kartu hafalan (29 kartu Sesi 1, 22 kartu Sesi 2) dengan pelacakan penguasaan |
+| **Kuis** | 25 soal pilihan ganda (13 soal Sesi 1, 12 soal Sesi 2) dengan pembahasan & skor terbaik |
 | **Kalkulator** | Kalkulator labor & multifactor productivity (contoh Collins Title dari slide) |
 | **Catatan** | Jurnal pribadi per sesi, tersimpan otomatis |
 
