@@ -41,11 +41,14 @@ tanpa produk dan tanpa teks.
 
 Produk ditata sebagai pelari di lintasan:
 
-- **Shizouka memimpin** — terdepan (paling bawah, terbesar, `rotate(-2deg)`
-  condong ke depan), menembus **pita finis** (`assets/tape.png`) yang melintang
-  di depan kakinya pada `z-index` di atas semua produk.
-- **Premix & Taro menyusul** — lebih tinggi di lintasan (= lebih jauh), lebih
-  kecil (350px vs 420px), miring ±6° di lajur masing-masing.
+- **Semua produk tegak menghadap depan, tanpa rotasi**, dan kaki ketiganya
+  tertanam **di dalam permukaan merah lintasan** (tepi belakang lintasan ada di
+  ~y1085 kiri sampai ~y1010 kanan — kaki produk harus di bawah garis itu,
+  jangan ditaruh tepat di tepinya karena akan terbaca "di luar lintasan").
+- **Shizouka memimpin** — terdepan (kaki y1300, terbesar), menembus **pita
+  finis** (`assets/tape.png`) yang melintang di depan kakinya.
+- **Premix & Taro menyusul** — kaki y1195 / y1178, lebih kecil (350px vs
+  420px), di lajur masing-masing.
 - Pita finis digenerate terpisah (pita satin merah-putih di latar putih, lalu
   `recraft/remove-background`) supaya bisa ditaruh *di depan* produk; pita di
   background tetap di belakang sebagai lapisan kedalaman.
