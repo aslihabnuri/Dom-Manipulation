@@ -82,14 +82,11 @@
   .p-tar{right:52px;top:728px;width:302px;transform:rotate(7deg)}
   /* lane numbers painted on the rubber, perspective-faked in CSS so the
      digits stay programmatic text (production rule: no AI text) */
-  .lane{position:absolute;z-index:5;font-family:var(--brand-body);font-weight:700;
-    color:rgba(255,255,255,.48);line-height:1;pointer-events:none;transform-origin:center}
-  /* left-centre lane: line runs ~25deg from vertical → digit parallel to it */
-  .lane.n2{left:34px;top:1086px;width:180px;text-align:center;font-size:168px;
-    transform:rotate(-24deg) scaleY(.6)}
-  /* right lane fans steeper, ~45deg here */
-  .lane.n3{left:732px;top:1016px;width:180px;text-align:center;font-size:150px;
-    transform:rotate(-49deg) scaleY(.57)}
+  .lane{position:absolute;z-index:5;font-family:var(--brand-body);font-weight:800;
+    color:rgba(255,255,255,.42);line-height:1;pointer-events:none;
+    transform-origin:center center;font-size:156px;width:170px;text-align:center}
+  .lane.n2{left:70px; top:1052px;transform:perspective(760px) rotateX(62deg) rotateZ(-19deg)}
+  .lane.n3{left:812px;top:1004px;transform:perspective(760px) rotateX(62deg) rotateZ(-34deg)}
   /* finish-line tape breaking across the leader's lane, in front of everything */
   .tape{position:absolute;left:-70px;top:1192px;width:1220px;z-index:8;
     transform:rotate(-1.6deg);
