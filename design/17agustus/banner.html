@@ -77,16 +77,16 @@
 
   /* ── products on the track ── */
   .prod{position:absolute;z-index:6;filter:drop-shadow(0 18px 22px rgba(120,25,30,.35))}
-  .p-shz{left:352px;top:618px;width:386px;z-index:7}
-  .p-pre{left:8px;  top:868px;width:426px;transform:rotate(-4deg)}
-  .p-tar{right:8px; top:868px;width:426px;transform:rotate(4deg)}
+  .p-shz{left:330px;top:618px;width:420px;z-index:7;transform:rotate(-2deg)}
+  .p-pre{left:-6px; top:822px;width:350px;transform:rotate(-6deg)}
+  .p-tar{right:-6px;top:802px;width:350px;transform:rotate(6deg)}
+  /* finish-line tape breaking across the leader's lane, in front of everything */
+  .tape{position:absolute;left:-70px;top:1192px;width:1220px;z-index:8;
+    transform:rotate(-1.6deg);
+    filter:drop-shadow(0 12px 18px rgba(120,20,30,.35))}
   .gshadow{position:absolute;z-index:5;border-radius:50%;
     background:radial-gradient(ellipse at center,rgba(90,15,20,.38) 0%,rgba(90,15,20,0) 70%)}
 
-  /* ── footer line on the track ── */
-  .foot{position:absolute;left:0;right:0;bottom:44px;z-index:9;text-align:center;
-    font-family:var(--brand-label);font-size:21px;letter-spacing:6px;text-indent:6px;
-    color:rgba(241,240,235,.95)}
 </style>
 </head>
 <body>
@@ -125,15 +125,15 @@
     </div>
   </div>
 
-  <div class="gshadow" style="left:330px;top:1180px;width:430px;height:64px"></div>
-  <div class="gshadow" style="left:20px;top:1190px;width:420px;height:60px"></div>
-  <div class="gshadow" style="right:20px;top:1190px;width:420px;height:60px"></div>
+  <div class="gshadow" style="left:310px;top:1252px;width:460px;height:66px"></div>
+  <div class="gshadow" style="left:6px;top:1072px;width:346px;height:52px"></div>
+  <div class="gshadow" style="right:6px;top:1052px;width:346px;height:52px"></div>
 
   <img class="prod p-pre" src="assets/premix.png" alt="Matcha Premix 250 gram">
   <img class="prod p-tar" src="assets/taro.png" alt="Taro 250 gram">
   <img class="prod p-shz" src="assets/shizouka.png" alt="Pure Matcha Shizouka">
+  <img class="tape" src="assets/tape.png" alt="">
 
-  <div class="foot">PURE MATCHA &nbsp;&middot;&nbsp; PREMIX &nbsp;&middot;&nbsp; PREMIUM SERIES</div>
 </div>
 </body>
 </html>

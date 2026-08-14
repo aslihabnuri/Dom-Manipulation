@@ -19,8 +19,8 @@ node design/17agustus/render.mjs
 | Script "Diskon" oranye | "Diskon" merah, ARG Demi dimiringkan |
 | Headline putih "SEMANGAT 45" outline biru | Sama — dua lapis: stroke biru muda di belakang, isi putih di depan |
 | Band biru `DISC UP TO 50% + VOUCHER UP TO 45K` | Band merah `DISC UP TO 45% + VOUCHER GRATIS ONGKIR` |
-| 3 produk di lintasan lari + pita merah putih | 3 kemasan asli di lintasan, pita merah-putih di background |
-| `100% ORI + BPOM APPROVED` | Baris kategori: `PURE MATCHA · PREMIX · PREMIUM SERIES` |
+| 3 produk di lintasan lari + pita merah putih | 3 kemasan ditata sebagai lomba lari (lihat bawah) |
+| `100% ORI + BPOM APPROVED` | — (footer dihapus atas permintaan) |
 
 "Semangat 45" sekaligus pun angka diskonnya — 45%.
 
@@ -36,6 +36,22 @@ Ketiganya cutout transparan asli yang dikomposit di HTML — **label tidak melew
 model gambar sama sekali**, jadi tidak ada risiko aksara rusak dan tidak perlu
 pass perbaikan (pelajaran dari banner 8.8). Background digenerate `nano-banana-pro`
 tanpa produk dan tanpa teks.
+
+## Penataan lomba lari
+
+Produk ditata sebagai pelari di lintasan:
+
+- **Shizouka memimpin** — terdepan (paling bawah, terbesar, `rotate(-2deg)`
+  condong ke depan), menembus **pita finis** (`assets/tape.png`) yang melintang
+  di depan kakinya pada `z-index` di atas semua produk.
+- **Premix & Taro menyusul** — lebih tinggi di lintasan (= lebih jauh), lebih
+  kecil (350px vs 420px), miring ±6° di lajur masing-masing.
+- Pita finis digenerate terpisah (pita satin merah-putih di latar putih, lalu
+  `recraft/remove-background`) supaya bisa ditaruh *di depan* produk; pita di
+  background tetap di belakang sebagai lapisan kedalaman.
+- Posisi pita dijaga agar tidak menutupi teks label: `top:1192` membiarkan
+  `500 gram` pada Shizouka terbaca penuh — kalau menggeser pita ke atas,
+  periksa lagi zoom labelnya.
 
 ## Karakter terkunci (font DEMO)
 
