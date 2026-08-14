@@ -44,10 +44,18 @@ versi pertama hanya strip tipis di dasar frame, produk terbaca "dipajang di
 depan langit", bukan balapan). Lajur melengkung dari kiri-bawah ke kanan,
 produk berdiri *di tengah* permukaan merah, dikelilingi lajur.
 
-**Angka lajur ("2", "3") bukan bagian background** — dilukis via CSS
-(`.lane`, Comfortaa Bold putih 50%, `rotate + skewX + scaleY` untuk meniru
-perspektif cat di karet) supaya teks tetap programatik sesuai aturan produksi
+**Angka lajur ("2", "3") bukan bagian background** — dilukis via CSS (`.lane`,
+Comfortaa Bold putih 48%) supaya teks tetap programatik sesuai aturan produksi
 design system. Kalau background digenerate ulang, angka lajur tidak ikut hilang.
+
+Sudut & posisinya **diukur dari garis lajur asli**, bukan dikira. Scan kecerahan
+menemukan garis putih pada background: garis kiri miring **~24° dari tegak**,
+lajur melebar makin ke kanan sampai **~49°** di sisi kanan. Tiap angka `rotate`
+sesuai sudut lajurnya + `scaleY(.57–.6)` untuk foreshortening, dan ditaruh di
+**tengah channel** (bukan menindih garis): `2` di lajur terluar kiri
+(`rotate(-24deg)`), `3` di channel kanan (`rotate(-49deg)`). Kalau background
+diganti, ukur ulang sudut garisnya — percobaan pertama pakai −13° seragam dan
+melenceng dari lajur.
 
 Produk ditata sebagai pelari di lintasan:
 
