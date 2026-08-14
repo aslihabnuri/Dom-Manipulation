@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>nomukita 17 Agustus</title>
+<style>
+  /* Type follows the locked nomukita design system: All Round Gothic for
+     display, Comfortaa for body. The DEMO cut locks '4', '%', '-', '–' and
+     '°', so: the digits of "45" are set in Comfortaa Bold (the system's own
+     prescribed fallback), '%' is drawn as a vector matched to the digit
+     stroke, and the date dash is a CSS bar. */
+  :root{
+    --brand-display:"FONTSPRING DEMO - All Round Gothic Bold";
+    --brand-label:"FONTSPRING DEMO - All Round Gothic Demi";
+    --brand-body:"Comfortaa";
+
+    --bone:#F1F0EB;
+    --charcoal:#1C1C1C;
+    --merah:#C8102E;
+    --merah-dk:#A50D26;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1080px;height:1350px;overflow:hidden}
+  body{font-family:var(--brand-body),sans-serif;-webkit-font-smoothing:antialiased}
+  .canvas{position:relative;width:1080px;height:1350px;overflow:hidden;background:#CFE4EF}
+  .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+
+  /* Design system: logo 300px wide, centred, y=52. */
+  .logo{position:absolute;left:50%;top:52px;transform:translateX(-50%);width:300px;z-index:9}
+
+  /* ── period pill ── */
+  .pill{position:absolute;left:50%;top:126px;transform:translateX(-50%);z-index:9;
+    display:inline-flex;align-items:center;gap:12px;padding:12px 34px 13px;
+    border-radius:999px;background:rgba(241,240,235,.94);
+    border:2.5px solid var(--merah);box-shadow:0 6px 18px rgba(120,20,35,.18)}
+  .pill b{font-family:var(--brand-label);font-size:25px;letter-spacing:3px;
+    color:var(--merah);line-height:1.1}
+  .pill i{display:block;width:22px;height:3px;border-radius:2px;background:var(--merah)}
+
+  /* ── "Diskon" accent, oblique like the reference's script ── */
+  .diskon{position:absolute;left:132px;top:206px;z-index:9;
+    font-family:var(--brand-label);font-size:44px;letter-spacing:2px;color:var(--merah);
+    transform:rotate(-8deg) skewX(-6deg);
+    text-shadow:0 2px 0 rgba(255,255,255,.85)}
+
+  /* ── hero: SEMANGAT 45 ── */
+  .hero{position:absolute;left:0;right:0;top:236px;height:150px;z-index:8;
+    transform:skewX(-4deg)}
+  .hero .row{position:absolute;left:0;right:0;top:0;
+    display:flex;align-items:baseline;justify-content:center;gap:18px}
+  .hero .word{font-family:var(--brand-display);font-size:136px;line-height:1;letter-spacing:-2px}
+  .hero .num{font-family:var(--brand-body);font-weight:700;font-size:127px;line-height:1;letter-spacing:-3px}
+  .hero .back .word,.hero .back .num{color:#9DC4DE;-webkit-text-stroke:9px #9DC4DE;
+    text-shadow:0 14px 34px rgba(40,80,120,.4)}
+  .hero .front .word,.hero .front .num{color:#fff;
+    text-shadow:0 4px 0 rgba(200,16,46,.16)}
+
+  /* ── offer band ── */
+  .band{position:absolute;left:-20px;right:-20px;top:436px;z-index:8;
+    transform:rotate(-2.2deg);
+    background:linear-gradient(100deg,rgba(200,16,46,.94) 0%,rgba(165,13,38,.94) 100%);
+    box-shadow:0 14px 34px rgba(120,20,35,.30);
+    display:flex;align-items:center;justify-content:center;gap:34px;
+    padding:26px 40px 30px}
+  .grp{display:flex;align-items:center;gap:16px}
+  .stack{display:flex;flex-direction:column;align-items:flex-end;gap:2px}
+  .stack span{font-family:var(--brand-label);font-size:27px;letter-spacing:3px;
+    color:var(--bone);line-height:1.15}
+  .big{display:flex;align-items:flex-start;gap:6px}
+  .big b{font-family:var(--brand-body);font-weight:700;font-size:96px;line-height:.94;
+    color:#fff;letter-spacing:-2px}
+  .big svg{margin-top:8px}
+  .vg{display:flex;flex-direction:column;align-items:flex-start;gap:3px}
+  .vg small{font-family:var(--brand-label);font-size:23px;letter-spacing:5px;
+    color:rgba(241,240,235,.85);line-height:1}
+  .vg b{font-family:var(--brand-display);font-size:44px;letter-spacing:1px;color:#fff;line-height:1.1}
+
+  /* ── products on the track ── */
+  .prod{position:absolute;z-index:6;filter:drop-shadow(0 18px 22px rgba(120,25,30,.35))}
+  .p-shz{left:352px;top:618px;width:386px;z-index:7}
+  .p-pre{left:8px;  top:868px;width:426px;transform:rotate(-4deg)}
+  .p-tar{right:8px; top:868px;width:426px;transform:rotate(4deg)}
+  .gshadow{position:absolute;z-index:5;border-radius:50%;
+    background:radial-gradient(ellipse at center,rgba(90,15,20,.38) 0%,rgba(90,15,20,0) 70%)}
+
+  /* ── footer line on the track ── */
+  .foot{position:absolute;left:0;right:0;bottom:44px;z-index:9;text-align:center;
+    font-family:var(--brand-label);font-size:21px;letter-spacing:6px;text-indent:6px;
+    color:rgba(241,240,235,.95)}
+</style>
+</head>
+<body>
+<div class="canvas">
+  <img class="bg" src="assets/bg.jpg" alt="">
+
+  <img class="logo" src="assets/logo.png" alt="nomukita">
+
+  <div class="pill"><b>16</b><i></i><b>18 AGUSTUS</b></div>
+
+  <div class="diskon">Diskon</div>
+  <div class="hero">
+    <div class="row back"><span class="word">SEMANGAT</span><span class="num">45</span></div>
+    <div class="row front"><span class="word">SEMANGAT</span><span class="num">45</span></div>
+  </div>
+
+  <div class="band">
+    <div class="grp">
+      <div class="stack"><span>DISC</span><span>UP TO</span></div>
+      <div class="big">
+        <b>45</b>
+        <svg width="64" height="98" viewBox="0 0 64 96" fill="none" aria-label="persen">
+          <g stroke="#FFFFFF" stroke-width="11" fill="none">
+            <circle cx="16.5" cy="27" r="10"/>
+            <circle cx="47.5" cy="69" r="10"/>
+            <path d="M53 17 L11 79" stroke-linecap="round"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+    <svg width="42" height="42" viewBox="0 0 42 42" fill="none">
+      <path d="M21 6v30M6 21h30" stroke="#F1F0EB" stroke-width="7" stroke-linecap="round"/>
+    </svg>
+    <div class="grp">
+      <div class="vg"><small>VOUCHER</small><b>GRATIS ONGKIR</b></div>
+    </div>
+  </div>
+
+  <div class="gshadow" style="left:330px;top:1180px;width:430px;height:64px"></div>
+  <div class="gshadow" style="left:20px;top:1190px;width:420px;height:60px"></div>
+  <div class="gshadow" style="right:20px;top:1190px;width:420px;height:60px"></div>
+
+  <img class="prod p-pre" src="assets/premix.png" alt="Matcha Premix 250 gram">
+  <img class="prod p-tar" src="assets/taro.png" alt="Taro 250 gram">
+  <img class="prod p-shz" src="assets/shizouka.png" alt="Pure Matcha Shizouka">
+
+  <div class="foot">PURE MATCHA &nbsp;&middot;&nbsp; PREMIX &nbsp;&middot;&nbsp; PREMIUM SERIES</div>
+</div>
+</body>
+</html>
