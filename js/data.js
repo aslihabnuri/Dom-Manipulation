@@ -62,155 +62,464 @@ window.OTM_DATA = {
           heading: "Apa itu Operations Management?",
           source: { kind: "ppt", label: "Slide Pertemuan 1" },
           visuals: ["inputTransform"],
-          body: `<p><strong>Operations management (OM)</strong> adalah aktivitas mengelola sumber daya yang menciptakan dan
-            menyampaikan produk & jasa (Slack, Brandon-Jones & Burgess, 2022) — atau serangkaian aktivitas yang menciptakan
-            nilai dalam bentuk barang & jasa dengan <em>mentransformasi input menjadi output</em> (Heizer, Render & Munson).</p>
-            <p><strong>Mengapa belajar OM?</strong> (1) OM adalah bagian paling mahal dari organisasi, (2) OM adalah salah satu
-            fungsi utama organisasi, (3) kita perlu tahu bagaimana barang/jasa diproduksi, (4) kita perlu memahami apa yang
-            dikerjakan operations manager.</p>
-            <p>Semua operasi bekerja lewat proses <strong>input → transformation → output</strong>. Input yang ditransformasi
-            (transformed resources) bisa dominan berupa: <strong>material</strong> (manufaktur, ritel, logistik),
-            <strong>informasi</strong> (akuntan, bank, riset pasar), atau <strong>pelanggan</strong> (rumah sakit, hotel, transportasi).</p>
-            <p>Bedakan dua makna "operations": sebagai <strong>fungsi</strong> (bagian organisasi yang menciptakan produk/jasa
-            untuk pelanggan eksternal) dan sebagai <strong>aktivitas</strong> (pengelolaan proses di fungsi mana pun —
-            artinya OM relevan untuk semua bagian bisnis).</p>`
+          body: `<p>Bayangkan Anda makan di <strong>Hard Rock Cafe</strong>. Restoran yang dibuka pertama kali
+di London tahun 1971 ini kini punya 300+ venue di 70 negara. Pertanyaan sederhananya: bagaimana sebuah menu bisa sampai
+ke meja Anda? Ternyata panjang ceritanya — hidangan dirancang, diuji, lalu dianalisis biaya bahannya, kebutuhan tenaga
+kerjanya, dan kepuasan pelanggannya. Setelah disetujui, menu baru diproduksi <em>hanya jika</em> bahannya tersedia dari
+pemasok yang berkualitas. Proses produksinya — dari penerimaan bahan, penyimpanan dingin, memanggang, sampai penyajian —
+dirancang dan dijaga agar menghasilkan makanan berkualitas. Di balik itu semua ada manajer yang menyusun jadwal karyawan
+dan merancang layout dapur yang efisien. <strong>Semua aktivitas itulah yang disebut operations management.</strong></p>
+<h4 class="sub-h">Dua definisi yang perlu Anda hafal</h4>
+<p>Ada dua definisi resmi dari dua buku utama mata kuliah ini, dan keduanya sering keluar di ujian:</p>
+<ul>
+<li><strong>Versi Slack, Brandon-Jones &amp; Burgess (2022):</strong> OM adalah <em>aktivitas mengelola sumber daya yang
+menciptakan dan menyampaikan (create and deliver) produk dan jasa</em>. Kata kuncinya: mengelola sumber daya.</li>
+<li><strong>Versi Heizer, Render &amp; Munson:</strong> OM adalah <em>serangkaian aktivitas yang menciptakan nilai dalam
+bentuk barang dan jasa dengan mentransformasi input menjadi output</em>. Kata kuncinya: transformasi input → output.</li>
+</ul>
+<p>Dua definisi ini sebenarnya bicara hal yang sama dari sudut berbeda: yang satu menyorot <em>sumber dayanya</em>,
+yang satu menyorot <em>prosesnya</em>. Orang yang bertanggung jawab mengelola sebagian atau seluruh sumber daya operasi
+disebut <strong>operations manager</strong>.</p>
+<h4 class="sub-h">Mengapa mata kuliah ini penting untuk Anda?</h4>
+<p>Ada empat alasan mengapa mahasiswa MBA wajib mempelajari OM. <strong>Pertama</strong>, OM adalah bagian yang paling
+mahal dari organisasi — sebagian besar biaya perusahaan ada di operasi, sehingga perbaikan kecil di operasi berdampak
+besar pada laba. <strong>Kedua</strong>, OM adalah salah satu dari tiga fungsi utama organisasi (bersama marketing dan
+keuangan) — kita perlu tahu bagaimana orang mengorganisasi diri untuk usaha yang produktif. <strong>Ketiga</strong>,
+kita perlu tahu bagaimana barang dan jasa benar-benar diproduksi — bukan sekadar teori. <strong>Keempat</strong>,
+kita perlu memahami apa yang sesungguhnya dikerjakan seorang operations manager, karena apa pun karier Anda nanti,
+Anda akan bekerja dengan (atau menjadi) salah satunya.</p>
+<h4 class="sub-h">Model dasar: input → transformasi → output</h4>
+<p>Semua operasi — pabrik, rumah sakit, bank, warung kopi — bekerja dengan pola yang sama: mengambil <strong>input</strong>,
+<strong>mentransformasikannya</strong>, dan menghasilkan <strong>output</strong> berupa produk atau jasa. Input yang
+ditransformasi (<em>transformed resources</em>) bisa dikelompokkan menjadi tiga, dan setiap operasi biasanya dominan
+memproses salah satunya:</p>
+<ul>
+<li><strong>Material</strong> — diproses oleh semua operasi manufaktur, perusahaan tambang, ritel, gudang, jasa pos,
+perusahaan pelayaran kontainer, dan perusahaan truk. Materialnya berubah bentuk, berpindah tempat, atau berpindah pemilik.</li>
+<li><strong>Informasi</strong> — diproses oleh akuntan, kantor pusat bank, perusahaan riset pasar, analis keuangan,
+kantor berita, unit riset universitas, dan perusahaan telekomunikasi. Yang "diolah" adalah data dan pengetahuan.</li>
+<li><strong>Pelanggan</strong> — diproses oleh salon (mengubah penampilan), hotel (mengakomodasi), rumah sakit
+(mengobati), transportasi massal (memindahkan), teater dan taman hiburan (menghibur), serta dokter gigi.
+Pelanggannya sendiri yang "masuk ke dalam proses".</li>
+</ul>
+<p>Selain transformed resources, operasi juga membutuhkan <em>transforming resources</em> — fasilitas dan staf yang
+melakukan transformasi itu.</p>
+<h4 class="sub-h">"Operations" sebagai fungsi vs sebagai aktivitas</h4>
+<p>Satu hal yang sering membingungkan: kata "operations" punya dua makna. Sebagai <strong>fungsi</strong>, operations
+adalah bagian organisasi yang menciptakan dan menyampaikan produk/jasa bagi pelanggan eksternal — "departemen operasi".
+Sebagai <strong>aktivitas</strong>, operations berarti pengelolaan proses di fungsi <em>mana pun</em> — departemen
+marketing pun punya proses yang harus dikelola. Implikasinya penting: <em>semua manajer adalah operations manager</em>
+untuk prosesnya masing-masing, sehingga prinsip-prinsip OM relevan untuk seluruh bagian bisnis, apa pun jabatan Anda.</p>
+<div class="key-box"><strong>💡 Intinya:</strong> OM = mengelola sumber daya yang mentransformasi input (material,
+informasi, atau pelanggan) menjadi output bernilai (produk &amp; jasa). OM penting karena mahal, fundamental, dan
+berlaku di semua fungsi bisnis — bukan hanya di pabrik.</div>`
         },
         {
           heading: "The Four Vs",
           source: { kind: "ppt", label: "Slide Pertemuan 1" },
           visuals: ["fourVs"],
-          body: `<p>Semua proses operasi sama-sama mentransformasi input, tetapi berbeda dalam empat dimensi (<strong>4 Vs</strong>):</p>
-            <ul>
-              <li><strong>Volume</strong> — seberapa banyak output dihasilkan.</li>
-              <li><strong>Variety</strong> — seberapa beragam output-nya.</li>
-              <li><strong>Variation</strong> — seberapa fluktuatif permintaannya.</li>
-              <li><strong>Visibility</strong> — seberapa terlihat proses penciptaan output bagi pelanggan.</li>
-            </ul>
-            <p>Implikasi biaya: operasi dapat <strong>menurunkan biaya</strong> dengan volume <em>tinggi</em>, variety <em>rendah</em>,
-            variation <em>rendah</em>, dan visibility <em>rendah</em>. Contoh kontras: Ski Verbier Exclusive (mewah, variety & visibility
-            tinggi → biaya tinggi) vs hotelF1 (standar, kontak pelanggan minimal → biaya sangat rendah).</p>`
+          body: `<p>Kalau semua operasi sama-sama mentransformasi input menjadi output, apakah mengelola
+pabrik mi instan sama dengan mengelola butik pernikahan? Tentu tidak. Perbedaan antar-operasi bisa dipetakan dengan
+empat dimensi yang disebut <strong>the Four Vs</strong>. Memahami posisi operasi Anda di keempat dimensi ini akan
+menentukan bagaimana operasi itu sebaiknya dirancang dan berapa biayanya.</p>
+<h4 class="sub-h">Empat dimensi itu satu per satu</h4>
+<ul>
+<li><strong>Volume</strong> — seberapa <em>banyak</em> output dihasilkan. McDonald's membuat jutaan burger (volume
+tinggi) sehingga bisa membangun proses yang sangat sistematis, terstandardisasi, dan murah per unit. Warung burger
+rumahan membuat puluhan saja (volume rendah) — tiap burger dikerjakan lebih "manual" dan biaya per unitnya lebih tinggi.</li>
+<li><strong>Variety</strong> — seberapa <em>beragam</em> output-nya. Taksi menawarkan variety tinggi: rute apa pun
+sesuai permintaan penumpang. Bus kota variety-nya rendah: rutenya tetap. Makin banyak variasi yang ditawarkan,
+makin kompleks dan mahal operasinya.</li>
+<li><strong>Variation (in demand)</strong> — seberapa <em>fluktuatif</em> permintaannya. Hotel resor pantai ramai
+saat liburan dan sepi di luar musim (variation tinggi) — kapasitasnya sering menganggur atau kewalahan. Minimarket
+permintaannya relatif stabil sepanjang tahun (variation rendah) — kapasitas bisa dipakai efisien.</li>
+<li><strong>Visibility</strong> — seberapa <em>terlihat</em> proses operasi oleh pelanggan. Di salon, pelanggan
+menyaksikan (bahkan mengalami) seluruh proses — kesalahan kecil langsung ketahuan, dan staf harus punya keterampilan
+melayani. Di pabrik atau dapur pusat, proses tersembunyi dari pelanggan — bisa dioptimasi tanpa memikirkan "penampilan".</li>
+</ul>
+<h4 class="sub-h">Hubungannya dengan biaya</h4>
+<p>Inilah pola yang harus Anda ingat: <strong>biaya operasi turun ketika volume tinggi, variety rendah, variation
+rendah, dan visibility rendah</strong> (dengan asumsi hal lain tetap). Logikanya: volume tinggi memberi skala ekonomi;
+variety rendah memungkinkan standardisasi; variation rendah membuat kapasitas terpakai merata; visibility rendah
+membebaskan operasi dari "biaya melayani penonton".</p>
+<div class="case-box"><strong>📌 Contoh dari slide — dua hotel yang sangat berbeda:</strong> <em>Ski Verbier
+Exclusive</em> menjual liburan ski mewah dan bespoke untuk segmen kecil. Variety-nya nyaris tak terbatas (tamu boleh
+minta makanan dan hiburan apa pun), variation tinggi (4 bulan penuh 100% okupansi lalu sepi), dan kontak pelanggan
+sangat tinggi. Akibatnya biayanya tinggi — dan harganya pun mahal. Bandingkan dengan <em>hotelF1</em>: tamu biasanya
+menginap semalam, layanan sangat terbatas dan terstandardisasi, kontak pelanggan ditekan seminimal mungkin. Hasilnya:
+layanan standar dengan biaya (dan harga) sangat rendah. Keduanya sukses — karena keduanya <em>konsisten</em> dengan
+posisi 4V-nya masing-masing.</div>
+<div class="key-box"><strong>💡 Intinya:</strong> 4 Vs = Volume, Variety, Variation, Visibility. Konfigurasi biaya
+rendah: volume ↑, variety ↓, variation ↓, visibility ↓. Tidak ada posisi yang "benar" — yang penting strategi dan
+desain operasinya konsisten dengan posisinya.</div>`
         },
         {
           heading: "Apa yang Dikerjakan Operations Manager?",
           source: { kind: "ppt", label: "Slide Pertemuan 1" },
-          body: `<p>Empat aktivitas inti: <strong>Directing</strong> strategi keseluruhan operasi, <strong>Designing</strong>
-            produk/jasa & proses, <strong>Planning & controlling</strong> penyampaian proses, dan <strong>Developing</strong>
-            kinerja proses (perbaikan berkelanjutan).</p>
-            <p><strong>10 Keputusan Kritis OM</strong> (Heizer): (1) desain barang & jasa, (2) manajemen kualitas,
-            (3) desain proses & kapasitas, (4) strategi lokasi, (5) strategi layout, (6) SDM & desain pekerjaan,
-            (7) supply-chain management, (8) persediaan/MRP/JIT, (9) penjadwalan jangka menengah–pendek, (10) pemeliharaan.</p>
-            <p><strong>Tantangan OM masa kini</strong> — pergeseran dari: fokus lokal → <em>global</em>; pengiriman batch →
-            <em>just-in-time</em>; pembelian harga terendah → <em>kemitraan supply chain</em>; pengembangan produk lama →
-            <em>cepat & beraliansi</em>; produk standar → <em>mass customization</em>; spesialisasi kerja →
-            <em>karyawan berdaya & tim</em>.</p>`
+          body: `<p>Jika Anda menjadi operations manager besok pagi, apa saja
+pekerjaan Anda? Slack dkk. merangkum pekerjaan itu dalam empat aktivitas besar yang berurutan secara logis:</p>
+<ul>
+<li><strong>Directing</strong> — mengarahkan strategi keseluruhan operasi. Sebelum menyentuh detail, manajer harus
+paham tujuan strategis operasinya: bersaing lewat apa? Biaya? Kecepatan? Kualitas? Pemahaman ini menjadi prasyarat
+untuk semua keputusan detail berikutnya.</li>
+<li><strong>Designing</strong> — merancang produk/jasa dan prosesnya: menentukan bentuk fisik, komposisi, dan cara
+kerja operasi beserta produk yang dihasilkannya.</li>
+<li><strong>Planning &amp; controlling</strong> — setelah dirancang, penyampaian produk/jasa dari pemasok, melewati
+operasi, sampai ke pelanggan harus direncanakan dan dikendalikan sehari-hari.</li>
+<li><strong>Developing</strong> — mengembangkan kinerja proses. Manajer tidak boleh puas menjalankan proses dengan
+cara yang itu-itu saja; ia bertanggung jawab meningkatkan kapabilitas prosesnya terus-menerus.</li>
+</ul>
+<h4 class="sub-h">10 keputusan kritis operations management</h4>
+<p>Versi Heizer memerinci pekerjaan itu menjadi <strong>sepuluh area keputusan</strong>. Daftar ini adalah kerangka
+utama mata kuliah kita — hampir setiap pertemuan ke depan membahas satu atau dua keputusan ini. Perhatikan pertanyaan
+kunci di tiap keputusan:</p>
+<ul>
+<li><strong>1. Desain barang &amp; jasa</strong> — produk/jasa apa yang kita tawarkan? Bagaimana merancangnya?</li>
+<li><strong>2. Manajemen kualitas</strong> — bagaimana kita mendefinisikan kualitas? Siapa yang bertanggung jawab atasnya?</li>
+<li><strong>3. Desain proses &amp; kapasitas</strong> — proses dan kapasitas apa yang dibutuhkan produk ini?
+Peralatan dan teknologi apa yang diperlukan?</li>
+<li><strong>4. Strategi lokasi</strong> — di mana fasilitas ditempatkan? Kriteria apa dasar keputusannya?</li>
+<li><strong>5. Strategi layout</strong> — bagaimana menata fasilitas? Seberapa besar fasilitas yang dibutuhkan?</li>
+<li><strong>6. SDM &amp; desain pekerjaan</strong> — bagaimana menyediakan lingkungan kerja yang layak? Berapa
+output yang wajar diharapkan dari karyawan?</li>
+<li><strong>7. Supply chain management</strong> — buat sendiri atau beli (make or buy)? Siapa pemasok kita dan
+bagaimana mengintegrasikan mereka ke strategi?</li>
+<li><strong>8. Persediaan, MRP, dan JIT</strong> — berapa banyak persediaan tiap barang? Kapan memesan ulang?</li>
+<li><strong>9. Penjadwalan jangka menengah &amp; pendek</strong> — apakah lebih baik mempertahankan karyawan saat
+permintaan sepi? Pekerjaan mana yang dikerjakan berikutnya?</li>
+<li><strong>10. Pemeliharaan (maintenance)</strong> — bagaimana membangun keandalan ke dalam proses? Siapa yang
+bertanggung jawab atas pemeliharaan?</li>
+</ul>
+<h4 class="sub-h">Tantangan OM masa kini: dari mana ke mana</h4>
+<p>Cara menjalankan sepuluh keputusan itu terus bergeser. Slide dosen merangkum enam pergeseran besar — format
+"dari → ke" ini gampang keluar di ujian:</p>
+<ul>
+<li>Fokus lokal/nasional → <strong>fokus global</strong> (pasar dan pemasok mendunia);</li>
+<li>Pengiriman batch besar → <strong>just-in-time</strong> (kirim kecil tapi sering, persediaan minim);</li>
+<li>Pembelian dengan tawaran terendah → <strong>kemitraan supply chain</strong> (hubungan jangka panjang dengan pemasok);</li>
+<li>Pengembangan produk yang lama → <strong>pengembangan cepat &amp; beraliansi</strong>;</li>
+<li>Produk terstandardisasi → <strong>mass customization</strong> (produk massal tapi bisa dipersonalisasi);</li>
+<li>Spesialisasi pekerjaan sempit → <strong>karyawan yang diberdayakan dan kerja tim</strong>.</li>
+</ul>
+<div class="key-box"><strong>💡 Intinya:</strong> Pekerjaan operations manager = direct, design, plan &amp; control,
+develop — yang dijabarkan dalam 10 keputusan kritis. Hafalkan kesepuluhnya beserta pertanyaan kuncinya; itu peta
+seluruh mata kuliah ini.</div>`
         },
         {
           heading: "Digital Transformation & Digital Business Model",
           source: { kind: "ppt", label: "Slide Pertemuan 1" },
-          body: `<p><strong>Digital transformation</strong> adalah proses menggunakan teknologi digital untuk menciptakan atau
-            memodifikasi proses bisnis, budaya, dan pengalaman pelanggan sesuai perubahan kebutuhan pasar. Pandemi COVID-19
-            mempercepat adopsi digital 3–4 tahun.</p>
-            <p><strong>Digital business model</strong> menentukan bagaimana perusahaan menghasilkan uang dan mencapai tujuannya
-            menggunakan teknologi digital (website, media sosial, mobile). Model ini membuat perusahaan customer-centric, agile,
-            data-driven, dan berjangkauan global. Model sering dipakai kombinasi — contoh Walmart: menjual produk sendiri
-            secara online sekaligus menjadi marketplace bagi penjual lain.</p>
-            <p>Digital business model harus: memberi customer experience luar biasa, menghasilkan profit, menaikkan market share,
-            mengubah proses, dan melibatkan karyawan secara kreatif. Ingat: transformasi digital bukan sekadar memasang teknologi
-            baru — perubahan proses, budaya, dan peran karyawan tidak boleh diabaikan.</p>`
+          body: `<p>Bagian ini menghubungkan operations management dengan
+sisi <em>teknologi</em> dari mata kuliah kita. Mengapa dibahas di pertemuan pertama? Karena hari ini hampir tidak ada
+keputusan operasi yang tidak melibatkan teknologi digital.</p>
+<h4 class="sub-h">Apa itu digital transformation?</h4>
+<p><strong>Digital transformation</strong> adalah proses menggunakan teknologi digital untuk <em>menciptakan yang
+baru</em> atau <em>memodifikasi yang sudah ada</em> — pada tiga hal sekaligus: proses bisnis, budaya organisasi, dan
+pengalaman pelanggan — agar sesuai dengan perubahan kebutuhan bisnis dan pasar. Perhatikan: definisinya menyebut
+<em>budaya</em>, bukan cuma teknologi. Ini poin yang sering dilewatkan orang.</p>
+<p>Pandemi COVID-19 menjadi akselerator raksasa: organisasi terpaksa mempercepat transformasi digital pada interaksi
+pelanggan, operasi supply chain, dan proses internal — memajukan timeline adopsi digital mereka <strong>3–4 tahun</strong>
+lebih cepat dari rencana.</p>
+<h4 class="sub-h">Digital business model</h4>
+<p><strong>Digital business model</strong> menjawab pertanyaan: bagaimana perusahaan <em>menghasilkan uang</em> dan
+mencapai tujuannya menggunakan teknologi digital — website, media sosial, perangkat mobile? Perusahaan dengan model
+bisnis digital yang baik menjadi <em>customer-centric</em> (berpusat pada pelanggan), <em>agile</em> (lincah),
+<em>data-driven</em> (berbasis data), dan berjangkauan global.</p>
+<p>Dalam praktiknya, model-model digital sering dipakai <strong>kombinasi</strong>. Contoh yang disebut di slide:
+<strong>Walmart</strong> menghasilkan pendapatan dari menjual produknya sendiri secara online, sekaligus menjadi
+<em>marketplace</em> tempat penjual lain menawarkan barang dengan berbagi persentase keuntungan. Satu perusahaan,
+dua model sekaligus.</p>
+<p>Setiap inovasi teknologi memicu <em>peluang sekaligus ancaman</em> bagi model bisnis. Kuncinya bukan sekadar punya
+teknologi, tapi <strong>memanfaatkannya lebih awal dan lebih efisien daripada kompetitor</strong>.</p>
+<h4 class="sub-h">Lima syarat digital business model yang berhasil</h4>
+<p>Slide dosen menyebut lima syarat — semuanya harus terpenuhi, bukan pilih salah satu:</p>
+<ul>
+<li>Memberikan <strong>customer experience yang luar biasa</strong> — setara atau melebihi pengalaman online terbaik
+yang pernah dirasakan pelanggan (pelanggan membandingkan Anda dengan aplikasi terbaik yang mereka pakai, bukan dengan
+kompetitor langsung Anda);</li>
+<li>Tetap <strong>menghasilkan profit</strong>;</li>
+<li><strong>Menaikkan market share</strong>;</li>
+<li><strong>Mengubah proses</strong> — bukan menempelkan teknologi di atas proses lama;</li>
+<li><strong>Melibatkan karyawan secara kreatif</strong> — perubahan peran dan tanggung jawab karyawan tidak boleh diabaikan.</li>
+</ul>
+<div class="key-box"><strong>💡 Intinya:</strong> Transformasi digital = teknologi + proses + budaya + pengalaman
+pelanggan. Digital business model menentukan cara menghasilkan uang lewat teknologi digital, sering dipakai kombinasi
+(contoh Walmart), dan gagal bila hanya "memasang alat baru" tanpa mengubah proses dan orangnya.</div>`
         },
         {
           heading: "Operations Performance: 5 Performance Objectives",
           source: { kind: "ppt", label: "Slide Pertemuan 1" },
           visuals: ["perfObjectives"],
-          body: `<p>Kinerja operasi dinilai pada tiga level (societal, strategic, operational), dan operations manager wajib
-            memahami tujuan para stakeholder yang kadang saling bertentangan. Di level operasional ada
-            <strong>lima performance objectives</strong>:</p>
-            <ul>
-              <li><strong>Quality</strong> — kesesuaian dengan kebutuhan pelanggan; kualitas menurunkan biaya (rework, scrap,
-                garansi turun) dan menaikkan dependability & penjualan.</li>
-              <li><strong>Speed</strong> — waktu antara pelanggan meminta dan menerima produk/jasa; speed mengurangi persediaan dan risiko.</li>
-              <li><strong>Dependability</strong> — menepati janji waktu penyampaian; menghemat waktu & uang, memberi stabilitas,
-                dan dalam jangka panjang bisa mengalahkan semua kriteria lain.</li>
-              <li><strong>Flexibility</strong> — kemampuan berubah: product/service flexibility, mix flexibility, volume flexibility,
-                delivery flexibility. Flexibility mempercepat respons, menghemat waktu, menjaga dependability.</li>
-              <li><strong>Cost</strong> — biaya serendah mungkin yang masih kompatibel dengan level 4 objective lainnya.
-                Secara internal, cost dipengaruhi oleh keempat objective lain.</li>
-            </ul>
-            <p><strong>Polar diagram</strong> dipakai untuk menggambarkan kepentingan relatif tiap objective (mis. taksi vs bus).
-            Ada <strong>trade-off</strong> antar objective — konsep <em>efficient frontier</em> menunjukkan batas kombinasi kinerja
-            terbaik yang bisa dicapai.</p>`
+          body: `<p>Bagaimana kita tahu sebuah operasi "bagus"?
+Prinsipnya tegas: <em>kinerja operasi yang baik adalah fondasi kesuksesan berkelanjutan organisasi mana pun</em>.
+Kinerja itu dinilai pada <strong>tiga level</strong>: level masyarakat (societal — dampak pada lingkungan dan
+stakeholder luas), level strategis (kontribusi pada strategi bisnis), dan level operasional (kinerja harian proses).
+Dalam praktik, organisasi memakai ukuran dari ketiga level sekaligus. Dan karena setiap kelompok stakeholder —
+pemegang saham, karyawan, pelanggan, masyarakat — punya tujuan yang kadang saling bertentangan, adalah tanggung jawab
+operations manager untuk memahami dan menyeimbangkannya.</p>
+<h4 class="sub-h">Lima performance objectives — satu per satu</h4>
+<p>Di level operasional, kinerja diukur dengan lima objective. Ini konsep paling penting di pertemuan pertama:</p>
+<ul>
+<li><strong>Quality</strong> — melakukan hal yang benar, sesuai kebutuhan pelanggan. Tujuan manajer adalah membangun
+sistem total quality management yang mengidentifikasi dan memuaskan kebutuhan pelanggan. Kualitas meningkatkan
+profitabilitas lewat <em>dua jalur</em>: (1) <em>sales gain</em> — respons membaik, harga bisa lebih fleksibel,
+reputasi naik; (2) <em>reduced costs</em> — produktivitas naik, biaya rework/scrap turun, biaya garansi turun.
+Kualitas juga menaikkan dependability: proses yang benar sejak awal jarang meleset dari jadwal.</li>
+<li><strong>Speed</strong> — waktu yang berlalu antara pelanggan <em>meminta</em> dan <em>menerima</em> produk/jasa.
+Respons cepat ke pelanggan eksternal sangat terbantu oleh pengambilan keputusan yang cepat serta pergerakan material
+dan informasi yang cepat <em>di dalam</em> operasi. Manfaat internalnya: speed mengurangi persediaan (barang tidak
+lama mengendap) dan mengurangi risiko (ramalan untuk waktu dekat lebih akurat).</li>
+<li><strong>Dependability</strong> — menepati janji: pelanggan menerima produk/jasa tepat saat dibutuhkan atau
+setidaknya sesuai yang dijanjikan. Menariknya, pelanggan baru bisa menilai dependability <em>setelah</em> produk
+diterima — berbeda dengan harga yang terlihat di awal. Tapi seiring waktu, <strong>dependability bisa mengalahkan
+semua kriteria lain</strong>: pelanggan yang berulang kali dikecewakan jadwal akan pergi, semurah apa pun harganya.
+Secara internal, dependability menghemat waktu dan uang serta memberi stabilitas pada operasi.</li>
+<li><strong>Flexibility</strong> — kemampuan operasi untuk <em>berubah</em>. Pelanggan membutuhkan empat jenis
+fleksibilitas: <em>product/service flexibility</em> (kemampuan memperkenalkan produk baru), <em>mix flexibility</em>
+(kemampuan mengubah bauran produk yang ditawarkan), <em>volume flexibility</em> (kemampuan mengubah tingkat output),
+dan <em>delivery flexibility</em> (kemampuan mengubah waktu penyampaian). Manfaat internalnya: fleksibilitas
+mempercepat respons, menghemat waktu, dan menjaga dependability saat terjadi gangguan.</li>
+<li><strong>Cost</strong> — objective terakhir tapi bermuara dari semuanya. Semua operasi berkepentingan menjaga
+biaya serendah mungkin <em>yang masih kompatibel</em> dengan level quality, speed, dependability, dan flexibility
+yang dibutuhkan pelanggannya. Di sinilah letak hubungan indahnya: <strong>secara internal, cost dipengaruhi oleh
+keempat objective lainnya</strong> — kualitas mengurangi pemborosan, kecepatan mengurangi persediaan, keandalan
+mengurangi kejutan, fleksibilitas mempercepat penyesuaian. Memperbaiki empat hal itu adalah cara paling sehat
+menurunkan biaya.</li>
+</ul>
+<h4 class="sub-h">Polar diagram: membandingkan prioritas antar-operasi</h4>
+<p>Tidak semua operasi memprioritaskan kelima objective secara sama. <strong>Polar diagram</strong> (diagram
+laba-laba di bawah) adalah cara visual menggambarkan kepentingan relatif tiap objective: makin jauh garis dari pusat,
+makin penting objective itu. Contoh slide: <em>taksi</em> menonjol di speed dan flexibility (antar ke mana saja,
+kapan saja), sedangkan <em>bus</em> menonjol di cost dan dependability (murah dan terjadwal). Contoh lain: organisasi
+amal yang mempromosikan pangan organik akan punya profil yang berbeda lagi.</p>
+<h4 class="sub-h">Trade-off dan efficient frontier</h4>
+<p>Bisakah unggul di semua objective sekaligus? Umumnya tidak — ada <strong>trade-off</strong>. Meningkatkan
+fleksibilitas sering menaikkan biaya; menekan biaya habis-habisan bisa mengorbankan kecepatan. Konsep
+<strong>efficient frontier</strong> menggambarkan batas kombinasi kinerja terbaik yang mungkin dicapai saat ini:
+operasi yang sudah berada di frontier hanya bisa menaikkan satu objective dengan mengorbankan yang lain — kecuali ia
+berinvestasi menggeser frontier itu sendiri (misalnya lewat teknologi atau metode baru).</p>
+<div class="key-box"><strong>💡 Intinya:</strong> Lima objectives = Quality, Speed, Dependability, Flexibility, Cost
+(mnemonik: <em>QSDFC</em>). Masing-masing punya efek eksternal (dilihat pelanggan) dan efek internal (memengaruhi
+biaya). Prioritasnya berbeda antar-operasi (polar diagram) dan saling tarik-menarik (trade-off, efficient frontier).</div>`
         },
         {
           heading: "Produktivitas",
           source: { kind: "ppt", label: "Slide Pertemuan 1" },
-          body: `<p><strong>Produktivitas = Output ÷ Input.</strong> Ukuran perbaikan proses yang paling sering dipakai untuk cost.</p>
-            <ul>
-              <li><strong>Single-factor productivity</strong> — satu input, mis. labor productivity = unit yang diproduksi ÷ jam kerja.</li>
-              <li><strong>Multifactor (total factor) productivity</strong> — Output ÷ (Labor + Material + Energy + Capital + Miscellaneous),
-                biasanya dalam satuan uang. Memberi gambaran lebih lengkap karena mencakup semua biaya.</li>
-            </ul>
-            <p><strong>Contoh Collins Title:</strong> 4 staf × 8 jam (payroll $640/hari), overhead $400/hari, memproses 8 titel/hari.
-            Labor productivity = 8 ÷ 32 = 0,25 titel/jam. Dengan sistem komputer: 14 titel/hari, overhead naik jadi $800.
-            Labor productivity = 14 ÷ 32 = 0,4375 (naik 75%). Multifactor: 8 ÷ 1040 = 0,0077 → 14 ÷ 1440 = 0,0097 (naik 26%).</p>
-            <p><strong>Contoh Starbucks:</strong> perbaikan kecil (hapus tanda tangan kartu kredit &lt;$25 = 8 detik; scoop es baru =
-            14 detik; mesin espresso baru = 12 detik) → revenue per gerai naik $200.000 menjadi $940.000 dalam 6 tahun;
-            produktivitas naik 27% (±4,5%/tahun).</p>`
+          body: `<p>Dari lima performance objectives, cost adalah yang paling mudah diukur — dan ukuran
+yang paling sering dipakai untuk itu adalah <strong>produktivitas</strong>. Konsep ini dijamin muncul di ujian dalam
+bentuk soal hitungan, jadi mari kita kuasai sampai tuntas.</p>
+<h4 class="sub-h">Definisi dan dua jenis ukuran</h4>
+<p><strong>Produktivitas = Output ÷ Input.</strong> Sesederhana itu: berapa banyak yang dihasilkan dibagi berapa
+banyak sumber daya yang dipakai. Produktivitas adalah ukuran <em>perbaikan proses</em> — naiknya produktivitas berarti
+kita menghasilkan lebih banyak dengan sumber daya yang sama (atau sama banyak dengan sumber daya lebih sedikit).</p>
+<ul>
+<li><strong>Single-factor productivity</strong> — hanya menghitung <em>satu</em> input. Yang paling umum:
+<em>labor productivity</em> = unit yang diproduksi ÷ jam kerja (labor-hours). Mudah dihitung, tapi hanya memotret
+satu sisi.</li>
+<li><strong>Multifactor productivity</strong> (disebut juga <em>total factor productivity</em>) — menghitung
+<em>semua</em> input: Output ÷ (Labor + Material + Energy + Capital + Miscellaneous). Karena inputnya beragam,
+semuanya dikonversi ke satuan uang. Lebih repot, tapi jauh lebih jujur.</li>
+</ul>
+<h4 class="sub-h">Contoh soal lengkap: Collins Title Insurance</h4>
+<div class="case-box"><p><strong>📌 Soal:</strong> Collins Title ingin mengevaluasi produktivitasnya setelah memasang
+sistem pencarian titel terkomputerisasi. Kondisi awal: 4 staf, masing-masing bekerja 8 jam/hari (biaya payroll
+$640/hari), overhead $400/hari, memproses <strong>8 titel per hari</strong>. Dengan sistem baru: staf, jam kerja, dan
+gaji tetap sama, tapi bisa memproses <strong>14 titel per hari</strong> — dengan overhead naik menjadi $800/hari.
+Apakah sistem baru ini meningkatkan produktivitas?</p>
+<p><strong>Langkah 1 — Labor productivity (single factor):</strong><br>
+Total jam kerja = 4 staf × 8 jam = 32 jam/hari.<br>
+Sistem lama: 8 ÷ 32 = <strong>0,25</strong> titel per jam kerja.<br>
+Sistem baru: 14 ÷ 32 = <strong>0,4375</strong> titel per jam kerja.<br>
+Kenaikan = (0,4375 − 0,25) ÷ 0,25 = <strong>75%</strong>.</p>
+<p><strong>Langkah 2 — Multifactor productivity:</strong><br>
+Sistem lama: 8 ÷ (640 + 400) = 8 ÷ 1040 = <strong>0,0077</strong> titel per dolar.<br>
+Sistem baru: 14 ÷ (640 + 800) = 14 ÷ 1440 = <strong>0,0097</strong> titel per dolar.<br>
+Kenaikan = (0,0097 − 0,0077) ÷ 0,0077 = <strong>26%</strong>.</p>
+<p><strong>Insight:</strong> Kedua ukuran menunjukkan kenaikan — tapi lihat bedanya: 75% vs 26%! Ukuran multifactor
+memberi gambaran yang lebih akurat karena ikut menghitung kenaikan overhead $400. Kalau Anda hanya melihat labor
+productivity, Anda akan terlalu optimis menilai investasi sistem ini. <em>Latihan dari buku:</em> jika overhead naik
+ke $960 (bukan $800), multifactor productivity baru = 14 ÷ 1600 = <strong>0,00875</strong> — coba verifikasi di menu
+Kalkulator aplikasi ini.</p></div>
+<h4 class="sub-h">Cerita nyata: Starbucks</h4>
+<p>Produktivitas bukan cuma soal mesin mahal — sering kali soal detik-detik kecil. Tim 10 analis Starbucks terus
+mencari cara memangkas waktu: berhenti mewajibkan tanda tangan untuk pembelian kartu kredit di bawah $25
+(<em>hemat 8 detik per transaksi</em>), mengganti ukuran scoop es (<em>hemat 14 detik per minuman</em>), dan memasang
+mesin espresso baru (<em>hemat 12 detik per shot</em>). Hasil akumulasinya luar biasa: pendapatan per gerai naik
+$200.000 menjadi $940.000 dalam enam tahun, dan produktivitas naik <strong>27%</strong> — sekitar 4,5% per tahun.</p>
+<div class="key-box"><strong>💡 Intinya:</strong> Produktivitas = output ÷ input. Single-factor (mis. per jam kerja)
+mudah tapi parsial; multifactor (semua input dalam dolar) lebih lengkap dan lebih jujur. Untuk ujian: hafalkan langkah
+Collins Title — hitung total jam kerja dulu, jangan lupa menjumlahkan SEMUA biaya untuk multifactor, dan hitung
+persentase perubahan dengan (baru − lama) ÷ lama.</div>`
         },
         {
           heading: "Operations Strategy: 4 Perspektif",
           source: { kind: "ppt", label: "Slide Pertemuan 1" },
           visuals: ["strategyPerspectives", "importancePerformance"],
-          body: `<p><strong>Operations strategy</strong> = pola keputusan dan aksi yang membentuk visi jangka panjang, tujuan, dan
-            kapabilitas operasi serta kontribusinya terhadap strategi bisnis keseluruhan. Empat perspektif pembentuknya:</p>
-            <ul>
-              <li><strong>Top-down</strong> — strategi operasi mengikuti hierarki: corporate → business → functional strategy.
-                Perlu <em>correspondence</em> & <em>coherence</em> antar keputusan.</li>
-              <li><strong>Outside-in (market)</strong> — dibentuk kebutuhan pasar. Kenali <strong>order winners</strong> (faktor yang
-                langsung memenangkan bisnis), <strong>order qualifiers</strong> (syarat minimum agar dipertimbangkan pelanggan),
-                dan <em>less important factors</em>. Posisi product life cycle juga menggeser objective.</li>
-              <li><strong>Bottom-up</strong> — arah strategis muncul dari pengalaman operasional sehari-hari.</li>
-              <li><strong>Inside-out (operations resources)</strong> — keunggulan kompetitif jangka panjang berasal dari kapabilitas
-                sumber daya & proses operasi yang dikembangkan jangka panjang.</li>
-            </ul>
-            <p><strong>Operations strategy matrix</strong> mencari "line of fit" antara market requirements dan operations capabilities.
-            <strong>Importance–performance matrix</strong> membagi faktor kompetitif ke 4 zona: <em>appropriate</em> (memuaskan),
-            <em>improve</em> (perlu perbaikan), <em>urgent-action</em> (penting bagi pelanggan tapi di bawah kompetitor — perbaiki segera),
-            dan <em>excess?</em> (kinerja tinggi tapi tidak penting — mungkin sumber dayanya dialihkan).</p>`
+          body: `<p>Kalau operations management adalah "menjalankan mesin", maka
+<strong>operations strategy</strong> adalah menentukan "mesin seperti apa yang kita bangun dan ke mana arahnya".
+Definisi formalnya: <em>pola keputusan dan aksi yang membentuk visi jangka panjang, tujuan, dan kapabilitas operasi,
+serta kontribusinya terhadap strategi bisnis keseluruhan</em>. Isi (content) dari operations strategy adalah
+keputusan dan aksi spesifik yang menetapkan peran, tujuan, dan aktivitas operasi.</p>
+<h4 class="sub-h">Empat perspektif pembentuk strategi operasi</h4>
+<p>Dari mana strategi operasi seharusnya berasal? Slack menawarkan empat perspektif — dan ini poin pentingnya:
+<strong>tidak ada satu pun yang lengkap sendirian</strong>; keempatnya bersama-sama membentuk tekanan yang menentukan
+isi strategi operasi.</p>
+<ul>
+<li><strong>Top-down</strong> — strategi operasi "diturunkan" dari atas, mengikuti hierarki tiga level:
+<em>corporate strategy</em> (grup mau ke mana), <em>business strategy</em> (tiap unit bisnis bersaing bagaimana),
+lalu <em>functional strategy</em> (tiap fungsi mendukung bagaimana). Dua kata kunci: <em>correspondence</em> —
+harus ada hubungan yang jelas, eksplisit, dan logis antara strategi fungsional dengan keputusan-keputusan di dalam
+fungsi; dan <em>coherence</em> — semua keputusan harus saling melengkapi dan menguatkan, tidak menarik operasi ke
+arah yang berbeda-beda.</li>
+<li><strong>Outside-in (market perspective)</strong> — strategi operasi dibentuk oleh kebutuhan pasar. Alat pentingnya
+adalah membedakan tiga jenis faktor kompetitif:
+<em>Order winners</em> — faktor yang secara langsung dan signifikan memenangkan bisnis; makin baik kinerjanya, makin
+banyak order masuk. <em>Order qualifiers</em> — "tiket masuk": mungkin bukan penentu kemenangan, tapi di bawah level
+tertentu organisasi bahkan <em>tidak dipertimbangkan</em> oleh pelanggan. <em>Less important factors</em> — tidak
+banyak memengaruhi pelanggan. Contoh sehari-hari: untuk warung makan siang kantoran, kebersihan adalah qualifier
+(kotor = langsung dicoret), sedangkan kecepatan penyajian bisa jadi order winner. Perhatikan juga bahwa posisi produk
+pada <em>product/service life cycle</em> menggeser objective yang relevan.</li>
+<li><strong>Bottom-up</strong> — strategi muncul dari bawah: banyak organisasi bergerak ke arah strategis tertentu
+karena <em>pengalaman operasional sehari-hari</em> meyakinkan mereka bahwa itulah jalan yang benar. Inovasi di lantai
+operasi bisa naik menjadi strategi perusahaan. Perspektif top-down dan bottom-up idealnya saling menguatkan.</li>
+<li><strong>Inside-out (operations resources perspective)</strong> — keunggulan kompetitif jangka panjang berasal
+dari <em>kapabilitas sumber daya dan proses operasi</em> yang dikembangkan pelan-pelan dan sulit ditiru kompetitor.
+Strategi dibangun dari kekuatan unik yang sudah dimiliki, bukan hanya dari permintaan pasar.</li>
+</ul>
+<div class="case-box"><strong>📌 Contoh dari slide — Micraytech:</strong> perusahaan sistem metrologi (bagian dari
+Micray Group) yang mengembangkan sistem pengukuran terintegrasi untuk klien internasional besar. Strategi operasinya
+adalah hasil rekonsiliasi keempat perspektif sekaligus: arahan grup (top-down), tuntutan klien (outside-in),
+pembelajaran operasional (bottom-up), dan kapabilitas teknologinya (inside-out).</div>
+<h4 class="sub-h">Menyelaraskan pasar dan kapabilitas: line of fit</h4>
+<p><strong>Operations strategy matrix</strong> mempertemukan <em>market requirements</em> (apa yang pasar minta)
+dengan <em>operations capabilities</em> (apa yang operasi mampu). Idealnya keduanya berada pada "line of fit" —
+selaras. Titik A menggambarkan keselarasan di level rendah (pasar tidak menuntut banyak, operasi juga biasa saja);
+titik B keselarasan di level tinggi. Asumsi kebanyakan perusahaan: <strong>B lebih diinginkan daripada A</strong>
+karena lebih mungkin merepresentasikan posisi yang sukses secara finansial.</p>
+<h4 class="sub-h">Importance–performance matrix: menentukan prioritas perbaikan</h4>
+<p>Alat praktis untuk memutuskan <em>apa yang diperbaiki duluan</em>. Setiap faktor kompetitif dipetakan pada dua
+sumbu: seberapa <em>penting</em> bagi pelanggan, dan seberapa baik <em>kinerja</em> kita dibanding kompetitor.
+Hasilnya empat zona:</p>
+<ul>
+<li><strong>Appropriate</strong> — di atas batas kelayakan; memuaskan, pertahankan.</li>
+<li><strong>Improve</strong> — di bawah batas kelayakan; masuk daftar perbaikan.</li>
+<li><strong>Urgent-action</strong> — penting bagi pelanggan tapi kinerja di bawah kompetitor; perbaiki SEGERA.</li>
+<li><strong>Excess?</strong> — kinerja tinggi pada faktor yang tidak penting; tanyakan: apakah sumber daya di sini
+sebaiknya dialihkan ke tempat lain?</li>
+</ul>
+<div class="case-box"><strong>📌 Contoh dari slide — YIR Laboratories:</strong> anak perusahaan elektronik ini harus
+memutuskan aspek layanan mana yang diperbaiki lebih dulu. Caranya: menyusun daftar aspek terpenting layanannya, memberi
+skor kepentingan dan kinerja pada skala 1–9, lalu memetakan tiap aspek ke dalam matriks — aspek di zona urgent-action
+otomatis jadi prioritas pertama.</div>
+<p>Terakhir, ingat bahwa strategi operasi disusun melalui <em>proses</em> bertahap (formulation → implementation →
+monitoring → control) — strategi bukan dokumen sekali jadi.</p>
+<div class="key-box"><strong>💡 Intinya:</strong> Operations strategy dibentuk 4 perspektif: top-down (hierarki),
+outside-in (order winners &amp; qualifiers), bottom-up (pengalaman operasional), inside-out (kapabilitas sumber daya).
+Alat analisisnya: operations strategy matrix (line of fit) dan importance–performance matrix (4 zona prioritas).</div>`
         },
         {
           heading: "Competitive Advantage & Operasi Global",
           source: { kind: "ppt", label: "Slide Pertemuan 1" },
           visuals: ["competitiveAdvantage"],
-          body: `<p>Tiga strategi keunggulan kompetitif melalui operasi:</p>
-            <ul>
-              <li><strong>Differentiation</strong> — lebih baik/berbeda (Disney: experience differentiation, Hard Rock Cafe: dining experience).</li>
-              <li><strong>Cost leadership</strong> — nilai maksimum di mata pelanggan dengan biaya rendah, bukan kualitas rendah
-                (Southwest Airlines, Walmart, Franz Colruyt).</li>
-              <li><strong>Response</strong> — respons cepat: flexibility (HP), reliability (industri mesin Jerman), timeliness (Pizza Hut, Motorola).</li>
-            </ul>
-            <p><strong>Enam alasan go-global:</strong> (1) memperbaiki supply chain, (2) menekan biaya & risiko kurs
-            (termasuk <em>operational hedging</em>), (3) memperbaiki operasi (belajar dari negara lain), (4) memahami pasar,
-            (5) memperbaiki produk (aliansi R&D, mis. Toyota–BMW), (6) menarik & mempertahankan talenta global.
-            Perhatikan juga isu budaya & etika: ketepatan waktu, kekayaan intelektual, suap, pekerja anak, dsb.</p>`
+          body: `<p><strong>Competitive advantage</strong> berarti menciptakan
+sistem yang punya keunggulan unik atas kompetitor. Bagaimana operasi bisa menyumbangkannya? Lewat tiga strategi —
+dan cara terbaik memahaminya adalah lewat kisah perusahaan nyata:</p>
+<h4 class="sub-h">Tiga strategi keunggulan kompetitif</h4>
+<ul>
+<li><strong>Differentiation — "lebih baik, atau setidaknya berbeda".</strong> Keunikan tidak berhenti di karakteristik
+fisik produk; ia mencakup <em>segala hal yang memengaruhi persepsi nilai pelanggan</em>. Contoh: Safeskin memimpin
+lewat produk sarung tangan paling mutakhir; Walt Disney Magic Kingdom menjual <em>experience differentiation</em> —
+yang dibeli pengunjung adalah pengalamannya, bukan wahananya; Hard Rock Cafe menjual "dining experience", bukan
+sekadar makanan.</li>
+<li><strong>Cost leadership — "lebih murah".</strong> Hati-hati dengan salah paham umum: cost leadership berarti
+memberikan <em>nilai maksimum di mata pelanggan</em> dengan biaya rendah — <strong>bukan berarti kualitas rendah</strong>.
+Contoh: Southwest Airlines memakai bandara sekunder yang murah, layanan tanpa embel-embel, dan utilisasi pesawat yang
+sangat efisien; Walmart menekan overhead, kehilangan barang (shrinkage), dan biaya distribusi; supermarket Belgia
+Franz Colruyt ekstrem: tanpa kantong belanja, lampu redup, tanpa musik, dan freezer berpintu demi hemat listrik.</li>
+<li><strong>Response — "lebih responsif".</strong> Terdiri dari tiga komponen: <em>flexibility</em> — mengikuti
+perubahan pasar dalam inovasi desain dan volume (cara hidup di Hewlett-Packard); <em>reliability</em> — konsisten
+menepati jadwal (keunggulan industri mesin Jerman); dan <em>timeliness</em> — cepat dalam desain, produksi, dan
+pengiriman (Johnson Electric, Pizza Hut, Motorola).</li>
+</ul>
+<p>Ketiganya juga membedakan bagaimana 10 keputusan OM dijalankan untuk <em>barang</em> vs <em>jasa</em> — misalnya
+kualitas barang punya banyak standar objektif, sementara kualitas jasa lebih subjektif; persediaan barang bisa
+disimpan, jasa tidak bisa.</p>
+<h4 class="sub-h">Mengapa perusahaan go-global? Enam alasan</h4>
+<p>Perusahaan yang tadinya domestik memutuskan beroperasi internasional karena enam alasan utama:</p>
+<ul>
+<li><strong>1. Memperbaiki supply chain</strong> — menempatkan fasilitas dekat sumber daya unik: desain otomotif
+pindah ke California demi talenta desain; produksi parfum di Prancis karena esens bunga Mediterania ada di sana.</li>
+<li><strong>2. Menekan biaya dan risiko nilai tukar</strong> — lokasi asing dengan upah lebih rendah menekan biaya;
+<em>operational hedging</em> = menjaga kapasitas berlebih di beberapa negara lalu menggeser produksi antarnegara
+mengikuti perubahan biaya dan kurs. Perjanjian dagang (WTO, EU, APEC, dll.) memuluskan jalannya.</li>
+<li><strong>3. Memperbaiki operasi</strong> — belajar dari keunggulan negara lain: Jepang unggul manajemen persediaan,
+Jerman agresif memakai robot, Skandinavia berkontribusi pada ergonomika.</li>
+<li><strong>4. Memahami pasar</strong> — berinteraksi dengan pelanggan dan pemasok asing membuka peluang baru
+(desain ponsel dari Eropa, tren ponsel dari Jepang) dan memperpanjang product life cycle: produk yang jenuh di satu
+negara bisa tumbuh di negara lain.</li>
+<li><strong>5. Memperbaiki produk</strong> — aliansi R&amp;D lintas negara: Toyota–BMW berbagi biaya riset baterai
+generasi berikutnya; Samsung–Bosch patungan memproduksi baterai lithium-ion.</li>
+<li><strong>6. Menarik dan mempertahankan talenta global</strong> — menawarkan peluang karier yang lebih baik,
+perlindungan dari PHK saat pasar lokal lesu, dan mobilitas karyawan antarnegara.</li>
+</ul>
+<h4 class="sub-h">Isu budaya dan etika</h4>
+<p>Operasi global berarti berhadapan dengan budaya yang berbeda-beda: sikap terhadap ketepatan waktu, jam istirahat,
+lingkungan, kekayaan intelektual, pencurian, suap, hingga pekerja anak. Perusahaan juga menimbang faktor negara:
+tingkat literasi, laju inovasi dan perubahan teknologi, jumlah tenaga terampil, stabilitas politik, hukum kewajiban
+produk, pembatasan ekspor, bahasa, etos kerja, pajak, dan inflasi.</p>
+<div class="key-box"><strong>💡 Intinya:</strong> Tiga jalan competitive advantage lewat operasi: differentiation,
+cost leadership (murah ≠ kualitas rendah!), dan response (flexibility + reliability + timeliness). Enam alasan
+globalisasi: supply chain, biaya &amp; kurs, perbaikan operasi, pemahaman pasar, perbaikan produk, dan talenta.</div>`
         },
         {
           heading: "Pendalaman dari Buku HRM Bab 1",
           source: { kind: "book", label: "Buku HRM bab 1" },
-          body: `<p>Tambahan dari buku <strong>Heizer, Render & Munson bab 1</strong> yang tidak dibahas mendalam di slide:</p>
-            <p><strong>Perbedaan barang (goods) vs jasa (services):</strong> jasa bersifat intangible (kursi pesawat vs
-            pengalaman terbangnya), diproduksi & dikonsumsi bersamaan (potong rambut), unik per pelanggan, interaksi pelanggan
-            tinggi, definisi produknya tidak konsisten (asuransi berubah sesuai usia), berbasis pengetahuan (hukum, pendidikan,
-            medis — sulit diotomasi), tersebar lokasinya, kualitasnya sulit dievaluasi, dan tidak bisa dijual kembali —
-            kebalikan dari barang yang tangible, bisa disimpan sebagai persediaan, terstandardisasi, dan mudah diotomasi.</p>
-            <p><strong>Tiga variabel produktivitas</strong> — kenaikan produktivitas bergantung pada:</p>
-            <ul>
-              <li><strong>Labor</strong> — menyumbang ±10% kenaikan tahunan;</li>
-              <li><strong>Capital</strong> — menyumbang ±38%;</li>
-              <li><strong>Management</strong> — menyumbang ±52% (kontributor terbesar!).</li>
-            </ul>
-            <p>Ketiganya adalah area luas tempat manajer bisa bertindak untuk memperbaiki produktivitas. Latihan dari buku
-            (lanjutan contoh Collins Title): jika overhead naik ke $960 (bukan $800), multifactor productivity = 14 ÷ (640+960)
-            = <strong>0,00875</strong> — coba hitung sendiri di menu Kalkulator!</p>`
+          body: `<p>Bagian ini adalah pengayaan dari buku <strong>Heizer, Render &amp;
+Munson bab 1</strong> — materi yang tidak sempat dibahas mendalam di slide, tapi melengkapi pemahaman Anda (dan bisa
+jadi bahan soal ujian).</p>
+<h4 class="sub-h">Perbedaan barang (goods) dan jasa (services)</h4>
+<p>Mengapa mengelola restoran berbeda dari mengelola pabrik? Karena karakter output-nya berbeda fundamental.
+Perhatikan sembilan kontras ini — di kolom kiri karakter jasa, di kanan padanannya untuk barang:</p>
+<ul>
+<li><strong>Intangible vs tangible</strong> — yang Anda beli dari maskapai adalah "perjalanan" (tak berwujud);
+kursinya sendiri adalah barang.</li>
+<li><strong>Diproduksi &amp; dikonsumsi bersamaan vs bisa disimpan</strong> — potong rambut "diproduksi" saat itu
+juga dan langsung "dikonsumsi"; sampo bisa disimpan di gudang.</li>
+<li><strong>Unik per pelanggan vs produk serupa</strong> — portofolio investasi dan perawatan medis Anda unik;
+iPod diproduksi seragam jutaan unit.</li>
+<li><strong>Interaksi pelanggan tinggi vs keterlibatan terbatas</strong> — pada konsultasi atau pendidikan,
+interaksi itulah yang dibayar pelanggan.</li>
+<li><strong>Definisi produk tidak konsisten vs terstandardisasi</strong> — polis asuransi mobil berubah mengikuti
+usia dan jenis mobil; iPhone spesifikasinya tetap.</li>
+<li><strong>Berbasis pengetahuan vs mudah diotomasi</strong> — jasa hukum, pendidikan, dan medis sulit diotomasi;
+produk tangible yang standar justru mudah.</li>
+<li><strong>Lokasi tersebar vs fasilitas tetap</strong> — jasa bisa terjadi di toko, kantor cabang, rumah pelanggan,
+atau lewat internet; barang biasanya dibuat di fasilitas tetap.</li>
+<li><strong>Kualitas sulit dievaluasi vs mudah diukur</strong> — menilai mutu konsultasi itu subjektif; kekuatan
+baut bisa diukur objektif.</li>
+<li><strong>Tidak bisa dijual kembali</strong> — tiket konser yang sudah dipakai atau layanan medis tidak bisa
+dijual ulang.</li>
+</ul>
+<p>Implikasinya bagi operations manager: hampir semua dari 10 keputusan OM dieksekusi berbeda untuk jasa — lokasi
+harus dekat pelanggan (bukan dekat bahan baku), persediaan tidak bisa jadi penyangga permintaan, dan penjadwalan
+harus melayani permintaan seketika.</p>
+<h4 class="sub-h">Tiga variabel produktivitas: siapa penyumbang terbesarnya?</h4>
+<p>Dari mana datangnya kenaikan produktivitas? Heizer membaginya ke tiga variabel — dan proporsinya mengejutkan
+banyak orang:</p>
+<ul>
+<li><strong>Labor (tenaga kerja)</strong> — menyumbang hanya sekitar <strong>10%</strong> dari kenaikan tahunan.
+Perbaikannya lewat tenaga kerja yang lebih sehat, terdidik, dan terlatih.</li>
+<li><strong>Capital (modal)</strong> — menyumbang sekitar <strong>38%</strong>. Investasi mesin dan alat membuat
+tiap jam kerja lebih produktif.</li>
+<li><strong>Management (manajemen)</strong> — menyumbang sekitar <strong>52%</strong> — lebih dari separuh!
+Manajemen bertanggung jawab memastikan tenaga kerja dan modal dipakai secara efektif: memilih teknologi yang tepat,
+membangun proses yang baik, dan memanfaatkan pengetahuan.</li>
+</ul>
+<p>Angka 52% itu adalah kabar baik untuk Anda sebagai calon manajer: kontributor terbesar produktivitas bukan
+kerja lebih keras (labor) atau mesin lebih mahal (capital), melainkan <em>keputusan manajemen yang lebih baik</em> —
+persis yang sedang Anda pelajari di mata kuliah ini.</p>
+<div class="key-box"><strong>💡 Intinya:</strong> Jasa ≠ barang di sembilan dimensi (intangible, simultan, unik,
+interaksi tinggi, dst.) — dan itu mengubah cara mengelola operasinya. Kenaikan produktivitas: labor 10% + capital
+38% + management 52% — manajemen adalah pengungkit terbesar.</div>`
         }
       ]
     },
@@ -224,102 +533,267 @@ window.OTM_DATA = {
         {
           heading: "Operations Strategy dalam Lingkungan Global (HRM Bab 2)",
           source: { kind: "book", label: "Buku HRM bab 2" },
-          body: `<p>Rangkuman ini disusun dari buku <strong>Heizer, Render & Munson bab 2 — "Operations Strategy in a
-            Global Environment"</strong> (bacaan wajib sesi ini) sebagai persiapan sebelum kuliah. Slide Pertemuan 2 dari
-            dosen belum tersedia di Drive — begitu diupload, rangkuman ini akan disusun ulang mengikuti alur slide
-            (penjelasan di kelas), dan materi buku tetap dipertahankan sebagai pengayaan bertanda 📖.</p>
-            <p>Profil pembuka: <strong>Boeing 787 Dreamliner</strong>. Strategi Boeing unik karena desain produk canggih
-            dipadukan <em>global supply chain</em> — komponen datang dari puluhan mitra di berbagai negara (kolaborasi dengan
-            General Electric, mitra Jepang, Italia, dll.) lalu dirakit final di Everett. Rantai pasok global inilah yang
-            menjadi sumber competitive advantage Boeing: penjualan dan rantai pasoknya mendunia.</p>
-            <p>Contoh lain perusahaan multinasional (<strong>MNC</strong> — perusahaan dengan keterlibatan bisnis internasional
-            ekstensif): <strong>IBM</strong> mengimpor komponen dari 50+ negara, mengekspor ke 130+ negara, punya fasilitas di
-            45 negara, dan lebih dari separuh penjualan & labanya dari luar negeri.</p>`
+          body: `<p>Materi sesi ini disusun utuh dari buku
+<strong>Heizer, Render &amp; Munson bab 2 — "Operations Strategy in a Global Environment"</strong>, bacaan wajib
+Sesi 2, sebagai bekal Anda sebelum kuliah. Begitu slide Pertemuan 2 dari dosen tersedia di Drive, materi ini akan
+disusun ulang mengikuti alur penjelasan di kelas — dengan materi buku tetap dipertahankan sebagai pengayaan
+bertanda 📖.</p>
+<h4 class="sub-h">Kisah pembuka: Boeing 787 Dreamliner</h4>
+<p>Buku ini membuka bab dengan kisah yang bagus untuk memahami "operasi global". Strategi Boeing untuk 787
+Dreamliner unik karena menggabungkan <em>desain produk yang secara teknologi sangat maju</em> dengan <em>supply
+chain global</em>. Dengan komitmen finansial lebih dari $5 miliar, Boeing menerima tantangan bermitra secara global:
+kolaborasi dengan General Electric untuk mesin, serta puluhan mitra dari Jepang, Italia, dan berbagai negara yang
+masing-masing membuat bagian pesawat — sayap, badan, sistem — lalu mengirimkannya ke fasilitas perakitan akhir Boeing
+di Everett, Washington.</p>
+<p>Mengapa repot-repot begitu? Ada logika strategisnya: teknologi kolaboratif memungkinkan tiap mitra mengerjakan
+keahlian terbaiknya; risiko dan biaya pengembangan terbagi; dan — ini yang cerdas — negara yang industri
+penerbangannya ikut membuat komponen Dreamliner <em>lebih mungkin membeli dari Boeing</em> daripada dari pesaingnya.
+Hasilnya: dengan desain mutakhir, interior lebih lega, dan pemasok global, 787 mencetak rekor penjualan — lebih dari
+1.100 pesawat terjual, menjadikannya salah satu peluncuran paling sukses dalam sejarah penerbangan komersial.</p>
+<p><strong>Pelajaran utamanya:</strong> Boeing kompetitif karena <em>baik penjualan maupun supply chain-nya
+mendunia</em>. Rantai pasok global bukan sekadar cara menekan biaya — ia bisa menjadi sumber competitive advantage
+itu sendiri.</p>
+<h4 class="sub-h">Konteks: perusahaan multinasional</h4>
+<p>Dua istilah penting sebelum masuk lebih dalam: <strong>international business</strong> adalah perusahaan mana pun
+yang terlibat perdagangan atau investasi lintas negara. <strong>Multinational corporation (MNC)</strong> lebih jauh
+lagi: perusahaan dengan keterlibatan bisnis internasional yang <em>ekstensif</em> — membeli sumber daya, berproduksi,
+dan menjual di banyak negara. Contoh sempurna: <strong>IBM</strong> — mengimpor komponen elektronik dari 50+ negara,
+mengekspor ke 130+ negara, punya fasilitas di 45 negara, dan meraih lebih dari separuh penjualan serta labanya dari
+luar Amerika.</p>
+<div class="key-box"><strong>💡 Intinya:</strong> Operasi global menambah tantangan sekaligus peluang. Kisah Boeing
+787 menunjukkan supply chain global bisa menjadi competitive advantage: berbagi keahlian, berbagi risiko, dan membuka
+pasar. Bedakan international business (terlibat lintas negara) dengan MNC (keterlibatan ekstensif).</div>`
         },
         {
           heading: "Mission & Strategy",
           source: { kind: "book", label: "Buku HRM bab 2" },
-          body: `<p><strong>Mission</strong> = tujuan/alasan keberadaan organisasi — apa kontribusinya bagi masyarakat.
-            Mission memberi batasan & fokus, dan menjadi konsep pemersatu perusahaan. Setelah mission perusahaan ditetapkan,
-            tiap area fungsional (marketing, keuangan, operasi) menyusun <em>supporting mission</em>-nya sendiri secara hierarkis.</p>
-            <p><strong>Strategy</strong> = rencana aksi organisasi untuk mencapai mission. Strategi mengeksploitasi peluang &
-            kekuatan, menetralkan ancaman, dan menghindari kelemahan.</p>
-            <p>Perusahaan mencapai mission melalui tiga jalan konseptual: <strong>(1) Differentiation</strong> (lebih baik/berbeda),
-            <strong>(2) Cost leadership</strong> (lebih murah), <strong>(3) Response</strong> (lebih responsif).
-            <strong>Competitive advantage</strong> = penciptaan sistem yang punya keunggulan unik atas kompetitor — menciptakan
-            nilai pelanggan secara efisien dan berkelanjutan, biasanya lewat kombinasi ketiganya.</p>`
+          body: `<p>Upaya operations management yang efektif harus punya <strong>mission</strong>
+agar tahu <em>ke mana ia pergi</em>, dan <strong>strategy</strong> agar tahu <em>bagaimana sampai ke sana</em>.
+Ini berlaku untuk organisasi kecil domestik maupun raksasa internasional — bahkan, seperti kata buku, untuk hidup
+Anda sendiri: menempuh pendidikan pun butuh mission dan strategy.</p>
+<h4 class="sub-h">Mission: alasan keberadaan</h4>
+<p><strong>Mission</strong> didefinisikan sebagai <em>tujuan atau alasan keberadaan organisasi</em> — apa yang akan
+dikontribusikannya bagi masyarakat. Mission statement memberi batasan dan fokus, serta menjadi konsep yang membuat
+seluruh perusahaan "berkumpul di sekelilingnya". Keberhasilan ekonomi — bahkan kelangsungan hidup — adalah hasil dari
+mengidentifikasi mission untuk memuaskan kebutuhan pelanggan. Menyusun strategi yang baik itu sulit, tapi jauh lebih
+mudah kalau mission-nya sudah terdefinisi dengan baik.</p>
+<div class="case-box"><strong>📌 Tiga contoh mission statement dari buku:</strong><br>
+<em>Merck:</em> "Menyediakan produk dan layanan unggul bagi masyarakat — inovasi dan solusi yang meningkatkan kualitas
+hidup dan memuaskan kebutuhan pelanggan — memberi karyawan pekerjaan yang bermakna dan peluang berkembang, serta
+memberi investor tingkat pengembalian yang unggul."<br>
+<em>PepsiCo:</em> "Menjadi perusahaan produk konsumen terkemuka dunia yang berfokus pada makanan dan minuman praktis…
+dan dalam semua yang kami lakukan, kami berjuang untuk kejujuran, keadilan, dan integritas."<br>
+<em>Arnold Palmer Hospital:</em> "Menyediakan layanan kesehatan mutakhir yang berpusat pada keluarga, berfokus
+memulihkan kegembiraan masa kecil dalam lingkungan yang penuh kasih, penyembuhan, dan harapan."<br>
+Perhatikan polanya: semuanya menyebut <em>untuk siapa</em> mereka ada dan <em>nilai apa</em> yang mereka janjikan.</div>
+<p>Setelah mission organisasi ditetapkan, tiap <em>area fungsional</em> (marketing, keuangan/akuntansi,
+produksi/operasi) menyusun supporting mission-nya. Lalu di dalam fungsi operasi, mission pendukung level yang lebih
+rendah disusun untuk fungsi-fungsi OM. Jadinya sebuah <strong>hierarki mission</strong> yang saling menopang.</p>
+<h4 class="sub-h">Strategy: rencana aksi</h4>
+<p><strong>Strategy</strong> adalah <em>rencana aksi organisasi untuk mencapai mission</em>. Setiap area fungsional
+punya strateginya sendiri untuk mencapai mission-nya dan membantu organisasi mencapai mission keseluruhan. Strategi
+yang baik <em>mengeksploitasi peluang dan kekuatan, menetralkan ancaman, dan menghindari kelemahan</em> — definisi
+yang nanti langsung terhubung dengan SWOT analysis di bagian selanjutnya.</p>
+<p>Perusahaan mencapai mission lewat tiga jalan konseptual yang sudah Anda kenal dari Sesi 1: <strong>(1)
+differentiation, (2) cost leadership, (3) response</strong> — artinya operations manager dipanggil untuk menyampaikan
+barang dan jasa yang (1) <em>lebih baik atau setidaknya berbeda</em>, (2) <em>lebih murah</em>, dan (3) <em>lebih
+responsif</em>. Tugas operations manager adalah menerjemahkan konsep strategis ini menjadi <em>tugas-tugas nyata</em>
+yang bisa dikerjakan. Satu atau kombinasi dari ketiganya bisa menghasilkan sistem yang punya keunggulan unik atas
+kompetitor — itulah <strong>competitive advantage</strong>: menciptakan nilai pelanggan secara efisien dan
+berkelanjutan. Dalam praktik, bentuk murni jarang ada; manajer biasanya mengimplementasikan kombinasinya.</p>
+<div class="key-box"><strong>💡 Intinya:</strong> Mission = alasan keberadaan (ke mana); strategy = rencana aksi
+(bagaimana). Mission diturunkan hierarkis ke tiap fungsi. Tiga jalan mencapai mission: differentiation, cost
+leadership, response — dan operations manager yang menerjemahkannya jadi tugas nyata.</div>`
         },
         {
           heading: "Issues in Operations Strategy",
           source: { kind: "book", label: "Buku HRM bab 2" },
           visuals: ["plc"],
-          body: `<p>Sebelum menetapkan dan menjalankan strategi, beberapa sudut pandang membantu:</p>
-            <ul>
-              <li><strong>Resources view</strong> — memastikan strategi kompatibel dengan sumber daya finansial, fisik, manusia,
-                dan teknologi yang tersedia.</li>
-              <li><strong>Value-chain analysis (Porter)</strong> — mengidentifikasi aktivitas yang menjadi kekuatan unik penambah
-                nilai: riset produk, desain, SDM, supply chain, inovasi proses, manajemen kualitas.</li>
-              <li><strong>Five forces model (Porter)</strong> — menganalisis lima kekuatan kompetitif: rival langsung, pendatang
-                potensial, pelanggan, pemasok, dan produk substitusi.</li>
-            </ul>
-            <p>Strategi juga harus <strong>dinamis</strong>: lingkungan eksternal (ekonomi, hukum, budaya) dan internal
-            (sumber daya, teknologi, product life cycle) terus berubah. Posisi produk pada siklus hidup
-            (introduction → growth → maturity → decline) mengubah prioritas strategi operasi — mis. fase introduction:
-            desain produk & perubahan proses masih sering, biaya produksi tinggi; fase maturity: kontrol biaya jadi kritis,
-            mempertahankan posisi pasar. Contoh: strategi Microsoft bergeser dari operating system → office products →
-            layanan internet → integrator cloud seiring perubahan teknologi.</p>`
+          body: `<p>Sebelum menetapkan dan menjalankan strategi, ada beberapa "kacamata"
+analisis yang sebaiknya dipakai dulu. Bagian ini memperkenalkan tiga alat berpikir plus satu kesadaran penting:
+strategi harus dinamis.</p>
+<h4 class="sub-h">Tiga kacamata analisis pra-strategi</h4>
+<ul>
+<li><strong>Resources view</strong> — berpikir dari sumber daya: apakah strategi yang direncanakan <em>kompatibel</em>
+dengan sumber daya finansial, fisik, manusia, dan teknologi yang tersedia? Strategi sehebat apa pun gagal kalau
+sumber dayanya tidak sanggup menjalankannya.</li>
+<li><strong>Value-chain analysis (Porter)</strong> — memeriksa rantai aktivitas untuk menemukan di mana perusahaan
+menambahkan <em>nilai yang unik</em>: riset produk, desain, SDM, manajemen supply chain, inovasi proses, atau
+manajemen kualitas. Aktivitas-aktivitas yang merupakan kekuatan (atau kekuatan potensial) itulah peluang membangun
+competitive advantage.</li>
+<li><strong>Five forces model (Porter)</strong> — menganalisis lima kekuatan yang bersaing memperebutkan profit di
+industri Anda: (1) <em>rival langsung</em>, (2) <em>pendatang potensial</em> yang bisa masuk kapan saja,
+(3) <em>pelanggan</em> dengan daya tawarnya, (4) <em>pemasok</em> dengan daya tawarnya, dan (5) <em>produk
+substitusi</em> yang bisa menggantikan Anda. Makin kuat kelima kekuatan itu, makin sulit industri tersebut.</li>
+</ul>
+<p>Selain lingkungan kompetitif, perusahaan juga beroperasi dalam sistem dengan banyak faktor eksternal lain —
+ekonomi, hukum, budaya — yang memengaruhi penyusunan dan eksekusi strategi, sehingga lingkungan harus terus dipindai.</p>
+<h4 class="sub-h">Strategi harus dinamis: pelajaran dari product life cycle</h4>
+<p>Perusahaan sendiri juga terus berubah — sumber daya, teknologi, dan produk semuanya bergerak. Perhatikan perubahan
+besar yang dituntut ketika produk bergerak melintasi empat fase siklus hidupnya:</p>
+<ul>
+<li><strong>Introduction</strong> — desain produk dan proses masih sering berubah; produksi jangka pendek; biaya
+produksi tinggi; model terbatas; perhatian besar pada kualitas. Kuncinya: desain dan pengembangan produk.</li>
+<li><strong>Growth</strong> — desain mulai stabil; <em>peramalan (forecasting) menjadi kritis</em>; reliabilitas
+produk dan proses penting; perbaikan produk dan opsi yang kompetitif; kapasitas harus ditambah mengejar permintaan.</li>
+<li><strong>Maturity</strong> — kompetitor sudah mapan; <em>kontrol biaya menjadi kritis</em>; volume tinggi,
+inovasi produk melambat; fokus bertahan di posisi pasar.</li>
+<li><strong>Decline</strong> — permintaan menyusut; efisiensi jadi segalanya; pangkas lini produk yang tidak
+menguntungkan.</li>
+</ul>
+<div class="case-box"><strong>📌 Dua contoh strategi dinamis dari buku:</strong> <em>Boeing</em> — strateginya berubah
+seiring teknologi dan globalisasi: kini bisa membangun pesawat dari serat karbon dengan supply chain global.
+<em>Microsoft</em> — dipaksa beradaptasi cepat oleh prosesor yang makin kencang, bahasa pemrograman baru, preferensi
+pelanggan yang berubah, isu keamanan, internet, cloud, dan Google; strategi produknya bergeser dari operating system →
+office products → penyedia layanan internet → integrator komputer, ponsel, game, dan televisi via cloud.</div>
+<p>Makin menyeluruh analisis dan pemahaman atas faktor eksternal dan internal, makin besar kemungkinan perusahaan
+menemukan penggunaan optimal sumber dayanya. Setelah perusahaan memahami dirinya dan lingkungannya, barulah masuk ke
+SWOT analysis — bahasan bagian berikutnya.</p>
+<div class="key-box"><strong>💡 Intinya:</strong> Sebelum berstrategi, pakai tiga kacamata: resources view (mampukah
+kita?), value-chain analysis (di mana nilai unik kita?), five forces (seberapa keras medan persaingannya?). Dan ingat:
+posisi produk di life cycle mengubah prioritas operasi — strategi yang baik selalu dinamis.</div>`
         },
         {
           heading: "Strategy Development & Implementation",
           source: { kind: "book", label: "Buku HRM bab 2" },
           visuals: ["swot"],
-          body: `<p><strong>SWOT analysis</strong> = tinjauan formal atas kekuatan & kelemahan internal serta peluang & ancaman
-            eksternal. Dari SWOT, organisasi memposisikan diri untuk meraih competitive advantage; mission dan strategi
-            dievaluasi ulang agar konsisten.</p>
-            <p><strong>Key Success Factors (KSFs)</strong> = aktivitas yang <em>harus</em> dilakukan dengan baik agar perusahaan
-            mencapai tujuannya. <strong>Core competencies</strong> = hal-hal yang dilakukan perusahaan setara atau lebih baik
-            dari kompetitornya. Karena tidak ada perusahaan yang unggul di semua hal, strategi sukses menuntut identifikasi
-            keduanya.</p>
-            <p><strong>Activity mapping</strong> menghubungkan competitive advantage dengan KSF dan aktivitas pendukung.
-            Contoh klasik: <strong>Southwest Airlines</strong> — keunggulan biaya rendah dibangun dari aktivitas yang saling
-            menguatkan: rute pendek point-to-point ke bandara sekunder, armada seragam Boeing 737, utilisasi pesawat tinggi,
-            karyawan lean & berdaya, layanan penumpang terbatas tapi ramah, tanpa nomor kursi, "bags fly free".</p>`
+          body: `<p>Setelah memahami lingkungan, bagaimana strategi disusun dan
+dijalankan? Alurnya: SWOT → tentukan faktor kunci → petakan aktivitas → bangun dan isi organisasi.</p>
+<h4 class="sub-h">Mulai dari SWOT analysis</h4>
+<p><strong>SWOT analysis</strong> adalah tinjauan formal atas <em>kekuatan (Strengths) dan kelemahan (Weaknesses)
+internal</em> serta <em>peluang (Opportunities) dan ancaman (Threats) eksternal</em>. Dimulai dari SWOT, organisasi
+memposisikan dirinya untuk meraih competitive advantage. Yang penting: mission dan strategi kemudian <em>dievaluasi
+ulang</em> untuk memastikan keduanya konsisten dengan hasil SWOT — jadi SWOT bukan formalitas, melainkan cermin yang
+bisa mengubah arah.</p>
+<h4 class="sub-h">Key success factors dan core competencies</h4>
+<p>Karena <em>tidak ada perusahaan yang melakukan segalanya dengan sangat baik</em>, strategi yang sukses menuntut
+kejelasan tentang dua hal:</p>
+<ul>
+<li><strong>Key Success Factors (KSFs)</strong> — aktivitas atau faktor yang menjadi <em>kunci</em> untuk meraih
+competitive advantage; hal-hal yang mutlak harus dilakukan dengan baik agar tujuan tercapai. KSF bisa berada di
+area mana pun: marketing, keuangan, maupun operasi.</li>
+<li><strong>Core competencies</strong> — hal-hal yang perusahaan lakukan <em>setara atau lebih baik daripada
+kompetitornya</em>; kekuatan uniknya. Inilah yang harus dijaga di dalam perusahaan.</li>
+</ul>
+<h4 class="sub-h">Activity mapping: merangkai keunggulan</h4>
+<p><strong>Activity mapping</strong> menghubungkan competitive advantage → KSF → aktivitas-aktivitas pendukung, dan
+menunjukkan bagaimana aktivitas-aktivitas itu <em>saling menguatkan</em>. Contoh legendaris dari buku:
+keunggulan biaya rendah <strong>Southwest Airlines</strong> dibangun dari jaringan aktivitas yang koheren:</p>
+<div class="case-box"><p><strong>📌 Peta aktivitas Southwest Airlines (low-cost advantage):</strong></p>
+<ul>
+<li><em>Rute pendek point-to-point, sering ke bandara sekunder</em> — menghindari bandara hub yang mahal dan padat;</li>
+<li><em>Layanan penumpang terbatas tapi ramah</em> — tanpa makanan mewah, "bags fly free", tanpa transfer bagasi;</li>
+<li><em>Jadwal yang sering dan andal</em> — pesawat lebih banyak terbang, pelanggan puas;</li>
+<li><em>Armada seragam Boeing 737</em> — satu jenis pesawat berarti satu jenis pelatihan pilot &amp; mekanik, satu
+stok suku cadang;</li>
+<li><em>Utilisasi pesawat tinggi</em> — turnaround cepat di darat (tanpa nomor kursi, mesin tiket otomatis);</li>
+<li><em>Karyawan lean dan berdaya</em> — produktivitas per karyawan tinggi.</li>
+</ul>
+<p>Perhatikan: tidak ada satu aktivitas pun yang ajaib sendirian. Kekuatannya justru pada <em>kombinasi yang saling
+mengunci</em> — kompetitor yang meniru satu-dua aktivitas saja tidak akan mendapatkan hasil yang sama. Itulah mengapa
+keunggulan Southwest bertahan puluhan tahun.</p></div>
+<p>Langkah terakhir adalah <em>build and staff the organization</em>: mewujudkan strategi dengan struktur dan orang
+yang tepat, lalu mengintegrasikan OM dengan aktivitas lain. Pekerjaan operations manager: menerapkan strategi,
+mencapai competitive advantage, dan meningkatkan produktivitas.</p>
+<div class="key-box"><strong>💡 Intinya:</strong> Alur pengembangan strategi: SWOT analysis → identifikasi KSF &amp;
+core competencies → activity mapping (aktivitas saling menguatkan, contoh Southwest) → bangun organisasi.
+Keunggulan yang tahan lama datang dari <em>sistem aktivitas</em>, bukan satu trik.</div>`
         },
         {
           heading: "Outsourcing & Theory of Comparative Advantage",
           source: { kind: "book", label: "Buku HRM bab 2" },
-          body: `<p><strong>Outsourcing</strong> = memindahkan aktivitas yang biasanya internal ke pemasok eksternal. Kandidat
-            terbaiknya adalah <em>non-core activities</em>; core competencies sebaiknya dipertahankan. Landasan ekonominya:
-            <strong>theory of comparative advantage</strong> — negara diuntungkan bila berspesialisasi (dan mengekspor)
-            barang/jasa yang keunggulan relatifnya tinggi, dan mengimpor yang keunggulan relatifnya rendah.</p>
-            <p><strong>Risiko outsourcing:</strong> sekitar <strong>separuh perjanjian outsourcing gagal</strong> karena
-            perencanaan & analisis yang kurang; masalah umum: ketepatan pengiriman, standar kualitas, serta biaya persediaan
-            & logistik yang diremehkan. Outsourcing ke luar negeri menambah isu: daya tarik finansial, ketersediaan keterampilan,
-            lingkungan bisnis, hingga reaksi politik atas hilangnya lapangan kerja → memicu <strong>reshoring</strong>
-            (kembalinya aktivitas bisnis ke negara asal).</p>
-            <p>Untuk memilih penyedia outsourcing secara objektif dipakai <strong>factor-rating method</strong>: beri bobot
-            tiap kriteria, skor tiap kandidat, kalikan lalu jumlahkan (contoh buku: National Architects memilih provider IT).</p>`
+          body: `<p>Konsekuensi logis dari core competencies: kalau ada
+aktivitas yang <em>bukan</em> kekuatan inti Anda, kenapa tidak diserahkan ke pihak yang lebih ahli?
+Itulah outsourcing — tapi seperti akan kita lihat, keputusannya tidak sesederhana itu.</p>
+<h4 class="sub-h">Apa itu outsourcing dan kapan masuk akal?</h4>
+<p><strong>Outsourcing</strong> = memindahkan aktivitas yang secara tradisi dikerjakan internal ke pemasok eksternal.
+Saat organisasi menyusun mission dan strategi, mereka mengidentifikasi kekuatannya — <em>core competencies</em> —
+dan mempertahankannya di dalam. Sebaliknya, <em>non-core activities</em> (yang bisa jadi porsi besar dari total
+bisnis) adalah kandidat baik untuk di-outsource. Outsourcing bukan konsep baru — ia perpanjangan dari praktik lama
+subkontrak — tapi cakupannya terus meluas seiring keahlian pemasok yang makin spesialis, biaya komunikasi yang makin
+murah, dan tekanan untuk fokus.</p>
+<h4 class="sub-h">Landasan ekonominya: theory of comparative advantage</h4>
+<p>Mengapa outsourcing lintas negara masuk akal secara ekonomi? Jawabannya teori klasik ekonomi:
+<strong>theory of comparative advantage</strong> — negara-negara diuntungkan bila <em>berspesialisasi pada (dan
+mengekspor) barang/jasa yang keunggulan relatifnya tinggi</em>, dan <em>mengimpor barang/jasa yang keunggulan
+relatifnya rendah</em>. Diterapkan ke perusahaan: serahkan tiap aktivitas ke pihak (atau negara) yang paling unggul
+mengerjakannya secara relatif, dan semua pihak lebih sejahtera.</p>
+<h4 class="sub-h">Tapi hati-hati: risikonya nyata</h4>
+<p>Manajemen risiko dimulai dari analisis ketidakpastian yang realistis. Faktanya mencengangkan: <strong>sekitar
+separuh dari semua perjanjian outsourcing gagal</strong> — umumnya karena perencanaan dan analisis yang tidak memadai.
+Masalah yang paling sering muncul:</p>
+<ul>
+<li>Ketepatan waktu pengiriman dan standar kualitas yang meleset;</li>
+<li>Kenaikan biaya persediaan dan logistik yang <em>diremehkan</em> saat perhitungan awal;</li>
+<li>Penurunan kepuasan pelanggan — survei perusahaan Amerika Utara menemukan skor American Consumer Satisfaction
+Index <em>turun</em> pada perusahaan yang meng-outsource layanan pelanggannya, dan penurunannya kurang-lebih sama
+baik outsourcing-nya domestik maupun ke luar negeri;</li>
+<li>Untuk outsourcing lintas negara, ada lapisan isu tambahan: daya tarik finansial negara tujuan, ketersediaan dan
+keterampilan tenaga kerja, lingkungan bisnis secara umum;</li>
+<li>Reaksi politik atas "hilangnya lapangan kerja" ke luar negeri — retorika anti-outsourcing ini ikut mendorong
+<strong>reshoring</strong>: kembalinya aktivitas bisnis ke negara asal.</li>
+</ul>
+<h4 class="sub-h">Alat bantu memilih penyedia: factor-rating method</h4>
+<p>Supaya keputusan outsourcing tidak berdasar "kira-kira", buku memperkenalkan <strong>factor-rating method</strong>:
+(1) tentukan kriteria penilaian (mis. harga, keandalan, keterampilan, jarak); (2) beri <em>bobot</em> tiap kriteria
+sesuai kepentingannya (total 100%); (3) beri <em>skor</em> tiap kandidat pada tiap kriteria (mis. skala 1–5);
+(4) kalikan bobot × skor dan jumlahkan; (5) kandidat dengan total tertinggi menang. Contoh di buku: National
+Architects menilai calon provider IT dengan metode ini — dan metode yang sama bisa Anda pakai untuk keputusan
+apa pun yang multikriteria.</p>
+<div class="key-box"><strong>💡 Intinya:</strong> Outsource yang non-core, pertahankan core competencies. Landasan
+teorinya comparative advantage. Tapi waspada: ±50% perjanjian outsourcing gagal karena perencanaan buruk — hitung
+semua biaya, dan pakai factor-rating method agar keputusan objektif. Tren balik arah: reshoring.</div>`
         },
         {
           heading: "Empat Opsi Strategi Operasi Global",
           source: { kind: "book", label: "Buku HRM bab 2" },
           visuals: ["globalStrategies"],
-          body: `<p>Manajer operasi memposisikan perusahaan pada matriks dua sumbu: <strong>cost reduction</strong> (vertikal)
-            × <strong>local responsiveness</strong> (horizontal):</p>
-            <ul>
-              <li><strong>International strategy</strong> — penetrasi pasar global lewat ekspor & lisensi. Paling mudah tapi
-                paling tidak menguntungkan: responsivitas lokal rendah, keunggulan biaya kecil.</li>
-              <li><strong>Multidomestic strategy</strong> — wewenang terdesentralisasi (anak perusahaan, waralaba, joint venture
-                yang otonom). Memaksimalkan respons pasar lokal, tapi hampir tanpa keunggulan biaya. Contoh: Heinz menyesuaikan
-                selera lokal. Konsepnya: "ekspor talenta manajemen & proses, bukan produknya".</li>
-              <li><strong>Global strategy</strong> — sentralisasi tinggi; kantor pusat mengoordinasi standardisasi & pembelajaran
-                antar-pabrik → skala ekonomi. Cocok saat fokusnya penekanan biaya dan produk seragam di seluruh dunia.
-                Contoh: Caterpillar, Texas Instruments ("alat berat di Nigeria sama dengan di Iowa").</li>
-              <li><strong>Transnational strategy</strong> — menggabungkan efisiensi skala global <em>dan</em> responsivitas lokal
-                sekaligus.</li>
-            </ul>
-            <p>Ilustrasi persaingan global: Komatsu vs Caterpillar saling berekspansi lintas benua, memindahkan produksi
-            mengikuti pasar, risiko, dan nilai tukar.</p>`
+          body: `<p>Ketika perusahaan memutuskan go-international, ia harus memilih
+<em>cara</em> hadir di panggung global. Heizer memetakan empat pilihan strategi pada sebuah matriks dua sumbu — dan
+memahami matriks ini jauh lebih penting daripada menghafal empat namanya.</p>
+<h4 class="sub-h">Dua sumbu matriksnya</h4>
+<p>Sumbu <strong>vertikal: cost reduction</strong> — seberapa besar strategi itu mengejar efisiensi biaya lewat
+skala dan standardisasi global. Sumbu <strong>horizontal: local responsiveness</strong> — seberapa besar strategi
+itu menuntut respons cepat dan/atau diferensiasi untuk pasar lokal. Tugas operations manager: tahu di mana
+memposisikan perusahaannya pada matriks ini.</p>
+<h4 class="sub-h">Empat strategi, empat kuadran</h4>
+<ul>
+<li><strong>International strategy (cost rendah, responsiveness rendah)</strong> — menembus pasar global lewat
+<em>ekspor dan lisensi</em> dengan sedikit perubahan pada operasi yang ada. Ini strategi yang <em>paling mudah</em> —
+ekspor menuntut perubahan minimal, dan perjanjian lisensi melimpahkan sebagian besar risiko ke pemegang lisensi —
+tapi juga <em>paling tidak menguntungkan</em>: keunggulan biayanya kecil, responsivitas lokalnya pun rendah.
+Biasanya jadi pintu masuk pertama perusahaan ke pasar dunia.</li>
+<li><strong>Multidomestic strategy (cost rendah, responsiveness tinggi)</strong> — wewenang <em>terdesentralisasi</em>:
+tiap negara punya otonomi substansial lewat anak perusahaan, waralaba, atau joint venture. Keunggulannya:
+memaksimalkan respons kompetitif untuk pasar lokal; kelemahannya: nyaris tanpa keunggulan biaya. Konsepnya: <em>"kami
+sukses di pasar domestik; mari ekspor talenta manajemen dan prosesnya — bukan produknya — untuk melayani pasar
+lain"</em>. Contoh: produsen makanan seperti <strong>Heinz</strong> menyesuaikan produk dengan selera lokal karena
+integrasi global proses produksinya memang tidak kritis.</li>
+<li><strong>Global strategy (cost tinggi, responsiveness rendah)</strong> — <em>sentralisasi</em> tinggi: kantor
+pusat mengoordinasi standardisasi dan pembelajaran antar-pabrik sehingga tercipta skala ekonomi. Cocok saat fokus
+strategisnya penekanan biaya dan permintaan responsivitas lokal rendah — produk akhirnya serupa di seluruh dunia.
+Contoh: <strong>Caterpillar</strong> (pemimpin dunia alat berat) dan <strong>Texas Instruments</strong> (pemimpin
+semikonduktor) — "alat penggali tanah di Nigeria sama saja dengan di Iowa".</li>
+<li><strong>Transnational strategy (cost tinggi, responsiveness tinggi)</strong> — menggabungkan <em>keduanya</em>:
+efisiensi skala global <em>plus</em> responsivitas lokal. Ini kuadran yang paling sulit dicapai karena dua tuntutan
+itu secara alami saling tarik-menarik — butuh organisasi yang mampu memindahkan material, orang, dan ide melintasi
+batas negara dengan lincah.</li>
+</ul>
+<div class="case-box"><strong>📌 Ilustrasi persaingan global dari buku — Komatsu vs Caterpillar:</strong> dalam
+pertarungan sengit di pasar alat berat dunia, Komatsu bergerak ke barat (membuka fasilitas di Inggris) sementara
+Caterpillar bergerak ke timur (13 fasilitas dan joint venture di Tiongkok). Keduanya membangun peralatan di seluruh
+dunia <em>sesuai dikte biaya dan logistik</em> — strategi global memungkinkan produksi berpindah mengikuti pasar,
+risiko, dan nilai tukar. Persis seperti konsep operational hedging yang Anda pelajari di Sesi 1.</div>
+<h4 class="sub-h">Menutup bab: benang merahnya</h4>
+<p>Operasi global menambah tantangan <em>dan</em> peluang bagi operations manager. Urutannya kini lengkap:
+identifikasi kekuatan dan kelemahan → susun mission dan strategi yang memperhitungkannya serta melengkapi peluang
+dan ancaman lingkungan → raih competitive advantage lewat kombinasi differentiation, low cost, dan response →
+fokus pada core competencies (outsource sisanya dengan hati-hati) → dan pilih posisi yang tepat di matriks strategi
+global. Jika prosedur ini dijalankan dengan baik, perusahaan bisa unggul — di mana pun di dunia.</p>
+<div class="key-box"><strong>💡 Intinya:</strong> Hafalkan matriksnya, bukan cuma namanya: sumbu cost reduction ×
+local responsiveness. International = ekspor/lisensi (rendah-rendah, termudah, paling kecil untungnya); Multidomestic
+= desentralisasi demi pasar lokal (Heinz); Global = sentralisasi demi skala (Caterpillar, TI); Transnational =
+keduanya sekaligus (tersulit).</div>`
         }
       ]
     },

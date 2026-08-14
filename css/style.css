@@ -516,13 +516,48 @@ body::before {
 .src-badge--ppt { background: var(--gold-soft); color: var(--gold); border: 1px solid rgba(169, 123, 18, 0.35); }
 .src-badge--book { background: rgba(63, 107, 79, 0.12); color: var(--green); border: 1px solid rgba(63, 107, 79, 0.35); }
 
-.accordion-body { padding: 0.25rem 1.3rem 1.3rem 3.3rem; color: var(--ink-soft); font-size: 0.93rem; }
-.accordion-body p { margin-bottom: 0.75rem; }
+.accordion-body { padding: 0.25rem 1.3rem 1.3rem 3.3rem; color: var(--ink-soft); font-size: 0.95rem; line-height: 1.75; max-width: 76ch; }
+.accordion-body p { margin-bottom: 0.85rem; }
 .accordion-body p:last-child { margin-bottom: 0; }
-.accordion-body ul { margin: 0 0 0.75rem 1.1rem; }
-.accordion-body li { margin-bottom: 0.35rem; }
+.accordion-body ul { margin: 0 0 0.85rem 1.1rem; }
+.accordion-body li { margin-bottom: 0.45rem; }
 .accordion-body strong { color: var(--ink); }
 .accordion-body em { font-style: italic; }
+
+.sub-h {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 1.02rem;
+  color: var(--ink);
+  margin: 1.4rem 0 0.5rem;
+  padding-top: 0.9rem;
+  border-top: 1px dashed var(--line);
+}
+
+.key-box {
+  background: var(--gold-soft);
+  border: 1px solid rgba(169, 123, 18, 0.35);
+  border-radius: 12px;
+  padding: 0.95rem 1.15rem;
+  font-size: 0.9rem;
+  margin: 1.1rem 0 0.3rem;
+}
+
+.key-box strong { color: var(--gold); }
+
+.case-box {
+  background: var(--card);
+  border: 1px solid rgba(63, 107, 79, 0.35);
+  border-radius: 12px;
+  padding: 0.95rem 1.15rem;
+  font-size: 0.9rem;
+  margin: 1rem 0;
+}
+
+.case-box > strong:first-child, .case-box p:first-child strong { color: var(--green); }
+.case-box p { margin-bottom: 0.7rem; }
+.case-box p:last-child { margin-bottom: 0; }
+.case-box ul { margin-bottom: 0.7rem; }
 
 /* ---------------- Diagram visual materi ---------------- */
 .visual-block {

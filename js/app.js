@@ -427,6 +427,7 @@
         <h2>Sesi ${s.id} — ${esc(s.topic)}</h2>
         <div class="meta">
           <span class="tag">📅 ${esc(s.dateLabel)}</span>
+          ${s.summary ? `<span class="tag">⏱️ ±${Math.max(1, Math.round(s.summary.map((x) => x.body.replace(/<[^>]+>/g, " ")).join(" ").split(/\s+/).length / 180))} menit baca</span>` : ""}
           ${s.readings.map((r) => `<span class="tag tag--reading">📖 ${esc(r)}</span>`).join("")}
           ${s.caseStudy ? `<span class="tag tag--case">💼 ${esc(s.caseStudy)}</span>` : ""}
         </div>
