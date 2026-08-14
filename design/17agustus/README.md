@@ -29,7 +29,7 @@ node design/17agustus/render.mjs
 | Produk | File sumber |
 |---|---|
 | Matcha Premix 250 gram | `nomukita-matcha japanese.png` (Packaging 250) — pouch yang sama persis dengan foto di slide PDP Premix |
-| Pure Matcha Shizouka 500 gram | `Mockup nomukita-Pure Matcha Shizouka.png` |
+| Pure Matcha Shizouka 500 gram | `assets/shizouka-front.png` — **tampak depan hasil generate** (lihat bawah) |
 | Taro 250 gram | `nomukita-taro-250g.png` (Packaging 250) |
 
 Ketiganya cutout transparan asli yang dikomposit di HTML — **label tidak melewati
@@ -41,14 +41,27 @@ tanpa produk dan tanpa teks.
 
 Produk ditata sebagai pelari di lintasan:
 
-- **Semua produk tegak menghadap depan, tanpa rotasi**, dan kaki ketiganya
-  tertanam **di dalam permukaan merah lintasan** (tepi belakang lintasan ada di
-  ~y1085 kiri sampai ~y1010 kanan — kaki produk harus di bawah garis itu,
-  jangan ditaruh tepat di tepinya karena akan terbaca "di luar lintasan").
-- **Shizouka memimpin** — terdepan (kaki y1300, terbesar), menembus **pita
-  finis** (`assets/tape.png`) yang melintang di depan kakinya.
-- **Premix & Taro menyusul** — kaki y1195 / y1178, lebih kecil (350px vs
-  420px), di lajur masing-masing.
+- **Pose balapan referensi**: miring dinamis — Shizouka `-3°`, Premix `-8°`,
+  Taro `+7°` — dengan kaki ketiganya tetap **di dalam permukaan merah lintasan**
+  (tepi belakang lintasan ~y1085 kiri sampai ~y1010 kanan; kaki harus di bawah
+  garis itu, jangan tepat di tepinya).
+- **Shizouka memimpin** — tengah, terbesar, puncaknya menyelip di belakang band
+  (persis produk tengah referensi), menembus **pita finis** (`assets/tape.png`).
+- **Premix & Taro menyusul** — kaki ~y1188 / ~y1171, lebih kecil, di lajur
+  masing-masing.
+
+### Pouch Shizouka tampak depan
+
+Semua aset Shizouka di Drive memakai mockup 3/4 menyamping — tampak depannya
+tidak ada, jadi digenerate: `nano-banana-pro` diberi dua gambar (mockup 3/4 +
+pouch putih tampak depan sebagai acuan perspektif) dengan instruksi mereproduksi
+label karakter demi karakter, lalu `recraft/remove-background`. Label sudah
+di-zoom-verifikasi: `Pure / 抹茶 / Pure Matcha Shizouka / 500 gram` semuanya
+tepat. Kalau digenerate ulang, ulangi verifikasi itu.
+
+Geometri pouch depan lebih ramping (aspect 0,553): `w360 → h651`, `top:590`
+menempatkan `500 gram` (91,9% tinggi pouch) di y1188 — tepat di atas pita
+(y1192). Menggeser pouch atau pita = periksa ulang zoom label.
 - Pita finis digenerate terpisah (pita satin merah-putih di latar putih, lalu
   `recraft/remove-background`) supaya bisa ditaruh *di depan* produk; pita di
   background tetap di belakang sebagai lapisan kedalaman.
