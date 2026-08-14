@@ -44,29 +44,35 @@ versi pertama hanya strip tipis di dasar frame, produk terbaca "dipajang di
 depan langit", bukan balapan). Lajur melengkung dari kiri-bawah ke kanan,
 produk berdiri *di tengah* permukaan merah, dikelilingi lajur.
 
-**Angka lajur ("2", "3") bukan bagian background** — dilukis via CSS (`.lane`,
-Comfortaa Bold putih 48%) supaya teks tetap programatik sesuai aturan produksi
-design system. Kalau background digenerate ulang, angka lajur tidak ikut hilang.
+**Angka lajur ("2", "3") kini bagian dari background** — digenerate bersama
+scene-nya, dengan `Referensi Banner 17 Agustus.jpg` sebagai `image_input` dan
+instruksi "recreate the scene as an empty stage": kamera, lajur, angka terlukis
+(posisi/ukuran/perspektif referensi), pita, dan konfeti disalin; produk, logo,
+dan semua teks promosi dihilangkan. Angka jadi punya tekstur karet dan
+perspektif asli, hal yang tidak pernah tercapai lewat overlay CSS.
 
-Sudut & posisinya **diukur dari garis lajur asli**, bukan dikira. Scan kecerahan
-menemukan garis putih pada background: garis kiri miring **~24° dari tegak**,
-lajur melebar makin ke kanan sampai **~49°** di sisi kanan. Tiap angka `rotate`
-sesuai sudut lajurnya + `scaleY(.57–.6)` untuk foreshortening, dan ditaruh di
-**tengah channel** (bukan menindih garis): `2` di lajur terluar kiri
-(`rotate(-24deg)`), `3` di channel kanan (`rotate(-49deg)`). Kalau background
-diganti, ukur ulang sudut garisnya — percobaan pertama pakai −13° seragam dan
-melenceng dari lajur.
+Empat percobaan overlay CSS sebelumnya (sudut seragam, sudut terukur, rotateX
+rebah, spec besar-terang) semuanya gagal menyatu — angka tempelan tidak bisa
+menyamai cat yang terlukis di scene. Kalau angka perlu diubah, generate ulang
+background-nya, jangan kembali ke overlay.
+
+Posisi angka pada background aktif (diukur dari alpha/kecerahan, kanvas 1080):
+`2` di x95-255 y935-1150, `3` di x621-741 y960-1132. Produk diposisikan
+terhadap angka ini: tepi kanan Shizouka memotong ~29% sisi kiri `3` (pola
+oklusi referensi), kaki Premix menyentuh puncak `2` tanpa menutupinya.
+Fragmen glyph terpotong di tepi kanan frame adalah bawaan scene, seperti
+referensi yang juga punya tanda terpotong di tepinya.
 
 Produk ditata sebagai pelari di lintasan:
 
-- **Pose balapan referensi**: miring dinamis — Shizouka `-3°`, Premix `-8°`,
-  Taro `+7°` — dengan kaki ketiganya tetap **di dalam permukaan merah lintasan**
-  (tepi belakang lintasan ~y1085 kiri sampai ~y1010 kanan; kaki harus di bawah
-  garis itu, jangan tepat di tepinya).
-- **Shizouka memimpin** — tengah, terbesar, puncaknya menyelip di belakang band
-  (persis produk tengah referensi), menembus **pita finis** (`assets/tape.png`).
-- **Premix & Taro menyusul** — kaki ~y1188 / ~y1171, lebih kecil, di lajur
-  masing-masing.
+- **Rasio ukuran disalin dari referensi**: produk tengah ~36% lebar kanvas
+  (`w360`), produk samping ~23% (`w250`) — di referensi produk samping memang
+  ±2/3 produk tengah.
+- **Stagger referensi**: Taro kanan-atas (kaki ~y850), Premix kiri-tengah
+  (kaki ~y972), Shizouka tengah-bawah terbesar (kaki ~y1230) menembus
+  **pita finis** (`assets/tape.png`); puncaknya menyelip di belakang band.
+- Miring dinamis referensi dipertahankan: Shizouka `-3°`, Premix `-8°`,
+  Taro `+7°`.
 
 ### Pouch Shizouka tampak depan
 
