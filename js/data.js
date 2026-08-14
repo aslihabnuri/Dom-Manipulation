@@ -60,6 +60,8 @@ window.OTM_DATA = {
       summary: [
         {
           heading: "Apa itu Operations Management?",
+          source: { kind: "ppt", label: "Slide Pertemuan 1" },
+          visuals: ["inputTransform"],
           body: `<p><strong>Operations management (OM)</strong> adalah aktivitas mengelola sumber daya yang menciptakan dan
             menyampaikan produk & jasa (Slack, Brandon-Jones & Burgess, 2022) — atau serangkaian aktivitas yang menciptakan
             nilai dalam bentuk barang & jasa dengan <em>mentransformasi input menjadi output</em> (Heizer, Render & Munson).</p>
@@ -75,6 +77,8 @@ window.OTM_DATA = {
         },
         {
           heading: "The Four Vs",
+          source: { kind: "ppt", label: "Slide Pertemuan 1" },
+          visuals: ["fourVs"],
           body: `<p>Semua proses operasi sama-sama mentransformasi input, tetapi berbeda dalam empat dimensi (<strong>4 Vs</strong>):</p>
             <ul>
               <li><strong>Volume</strong> — seberapa banyak output dihasilkan.</li>
@@ -88,6 +92,7 @@ window.OTM_DATA = {
         },
         {
           heading: "Apa yang Dikerjakan Operations Manager?",
+          source: { kind: "ppt", label: "Slide Pertemuan 1" },
           body: `<p>Empat aktivitas inti: <strong>Directing</strong> strategi keseluruhan operasi, <strong>Designing</strong>
             produk/jasa & proses, <strong>Planning & controlling</strong> penyampaian proses, dan <strong>Developing</strong>
             kinerja proses (perbaikan berkelanjutan).</p>
@@ -101,6 +106,7 @@ window.OTM_DATA = {
         },
         {
           heading: "Digital Transformation & Digital Business Model",
+          source: { kind: "ppt", label: "Slide Pertemuan 1" },
           body: `<p><strong>Digital transformation</strong> adalah proses menggunakan teknologi digital untuk menciptakan atau
             memodifikasi proses bisnis, budaya, dan pengalaman pelanggan sesuai perubahan kebutuhan pasar. Pandemi COVID-19
             mempercepat adopsi digital 3–4 tahun.</p>
@@ -114,6 +120,8 @@ window.OTM_DATA = {
         },
         {
           heading: "Operations Performance: 5 Performance Objectives",
+          source: { kind: "ppt", label: "Slide Pertemuan 1" },
+          visuals: ["perfObjectives"],
           body: `<p>Kinerja operasi dinilai pada tiga level (societal, strategic, operational), dan operations manager wajib
             memahami tujuan para stakeholder yang kadang saling bertentangan. Di level operasional ada
             <strong>lima performance objectives</strong>:</p>
@@ -134,6 +142,7 @@ window.OTM_DATA = {
         },
         {
           heading: "Produktivitas",
+          source: { kind: "ppt", label: "Slide Pertemuan 1" },
           body: `<p><strong>Produktivitas = Output ÷ Input.</strong> Ukuran perbaikan proses yang paling sering dipakai untuk cost.</p>
             <ul>
               <li><strong>Single-factor productivity</strong> — satu input, mis. labor productivity = unit yang diproduksi ÷ jam kerja.</li>
@@ -149,6 +158,8 @@ window.OTM_DATA = {
         },
         {
           heading: "Operations Strategy: 4 Perspektif",
+          source: { kind: "ppt", label: "Slide Pertemuan 1" },
+          visuals: ["strategyPerspectives", "importancePerformance"],
           body: `<p><strong>Operations strategy</strong> = pola keputusan dan aksi yang membentuk visi jangka panjang, tujuan, dan
             kapabilitas operasi serta kontribusinya terhadap strategi bisnis keseluruhan. Empat perspektif pembentuknya:</p>
             <ul>
@@ -168,6 +179,8 @@ window.OTM_DATA = {
         },
         {
           heading: "Competitive Advantage & Operasi Global",
+          source: { kind: "ppt", label: "Slide Pertemuan 1" },
+          visuals: ["competitiveAdvantage"],
           body: `<p>Tiga strategi keunggulan kompetitif melalui operasi:</p>
             <ul>
               <li><strong>Differentiation</strong> — lebih baik/berbeda (Disney: experience differentiation, Hard Rock Cafe: dining experience).</li>
@@ -182,6 +195,7 @@ window.OTM_DATA = {
         },
         {
           heading: "Pendalaman dari Buku HRM Bab 1",
+          source: { kind: "book", label: "Buku HRM bab 1" },
           body: `<p>Tambahan dari buku <strong>Heizer, Render & Munson bab 1</strong> yang tidak dibahas mendalam di slide:</p>
             <p><strong>Perbedaan barang (goods) vs jasa (services):</strong> jasa bersifat intangible (kursi pesawat vs
             pengalaman terbangnya), diproduksi & dikonsumsi bersamaan (potong rambut), unik per pelanggan, interaksi pelanggan
@@ -209,8 +223,11 @@ window.OTM_DATA = {
       summary: [
         {
           heading: "Operations Strategy dalam Lingkungan Global (HRM Bab 2)",
+          source: { kind: "book", label: "Buku HRM bab 2" },
           body: `<p>Rangkuman ini disusun dari buku <strong>Heizer, Render & Munson bab 2 — "Operations Strategy in a
-            Global Environment"</strong> (bacaan wajib sesi ini) sebagai persiapan sebelum kuliah.</p>
+            Global Environment"</strong> (bacaan wajib sesi ini) sebagai persiapan sebelum kuliah. Slide Pertemuan 2 dari
+            dosen belum tersedia di Drive — begitu diupload, rangkuman ini akan disusun ulang mengikuti alur slide
+            (penjelasan di kelas), dan materi buku tetap dipertahankan sebagai pengayaan bertanda 📖.</p>
             <p>Profil pembuka: <strong>Boeing 787 Dreamliner</strong>. Strategi Boeing unik karena desain produk canggih
             dipadukan <em>global supply chain</em> — komponen datang dari puluhan mitra di berbagai negara (kolaborasi dengan
             General Electric, mitra Jepang, Italia, dll.) lalu dirakit final di Everett. Rantai pasok global inilah yang
@@ -221,6 +238,7 @@ window.OTM_DATA = {
         },
         {
           heading: "Mission & Strategy",
+          source: { kind: "book", label: "Buku HRM bab 2" },
           body: `<p><strong>Mission</strong> = tujuan/alasan keberadaan organisasi — apa kontribusinya bagi masyarakat.
             Mission memberi batasan & fokus, dan menjadi konsep pemersatu perusahaan. Setelah mission perusahaan ditetapkan,
             tiap area fungsional (marketing, keuangan, operasi) menyusun <em>supporting mission</em>-nya sendiri secara hierarkis.</p>
@@ -233,6 +251,8 @@ window.OTM_DATA = {
         },
         {
           heading: "Issues in Operations Strategy",
+          source: { kind: "book", label: "Buku HRM bab 2" },
+          visuals: ["plc"],
           body: `<p>Sebelum menetapkan dan menjalankan strategi, beberapa sudut pandang membantu:</p>
             <ul>
               <li><strong>Resources view</strong> — memastikan strategi kompatibel dengan sumber daya finansial, fisik, manusia,
@@ -251,6 +271,8 @@ window.OTM_DATA = {
         },
         {
           heading: "Strategy Development & Implementation",
+          source: { kind: "book", label: "Buku HRM bab 2" },
+          visuals: ["swot"],
           body: `<p><strong>SWOT analysis</strong> = tinjauan formal atas kekuatan & kelemahan internal serta peluang & ancaman
             eksternal. Dari SWOT, organisasi memposisikan diri untuk meraih competitive advantage; mission dan strategi
             dievaluasi ulang agar konsisten.</p>
@@ -265,6 +287,7 @@ window.OTM_DATA = {
         },
         {
           heading: "Outsourcing & Theory of Comparative Advantage",
+          source: { kind: "book", label: "Buku HRM bab 2" },
           body: `<p><strong>Outsourcing</strong> = memindahkan aktivitas yang biasanya internal ke pemasok eksternal. Kandidat
             terbaiknya adalah <em>non-core activities</em>; core competencies sebaiknya dipertahankan. Landasan ekonominya:
             <strong>theory of comparative advantage</strong> — negara diuntungkan bila berspesialisasi (dan mengekspor)
@@ -279,6 +302,8 @@ window.OTM_DATA = {
         },
         {
           heading: "Empat Opsi Strategi Operasi Global",
+          source: { kind: "book", label: "Buku HRM bab 2" },
+          visuals: ["globalStrategies"],
           body: `<p>Manajer operasi memposisikan perusahaan pada matriks dua sumbu: <strong>cost reduction</strong> (vertikal)
             × <strong>local responsiveness</strong> (horizontal):</p>
             <ul>

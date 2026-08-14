@@ -197,6 +197,203 @@
     </div>`;
   }
 
+  /* ---------- Diagram visual untuk materi ---------- */
+  const VISUALS = {
+    inputTransform() {
+      return `<figure class="visual-block">
+        <div class="flowviz">
+          <div class="flow-box">
+            <div class="flow-tag">Input</div>
+            <div class="flow-main">Transformed resources</div>
+            <div class="flow-sub">Material · Informasi · Pelanggan<br>+ fasilitas &amp; staf</div>
+          </div>
+          <div class="flow-arrow" aria-hidden="true">→</div>
+          <div class="flow-box flow-box--dark">
+            <div class="flow-tag">Transformation</div>
+            <div class="flow-main">Proses transformasi</div>
+            <div class="flow-sub">menciptakan nilai (create value)</div>
+          </div>
+          <div class="flow-arrow" aria-hidden="true">→</div>
+          <div class="flow-box">
+            <div class="flow-tag">Output</div>
+            <div class="flow-main">Produk &amp; Jasa</div>
+            <div class="flow-sub">memenuhi kebutuhan pelanggan</div>
+          </div>
+        </div>
+        <figcaption>Model input–transformation–output — inti dari semua operasi</figcaption>
+      </figure>`;
+    },
+
+    fourVs() {
+      const rows = [
+        ["Volume", 88, "biaya turun saat volume <b>tinggi</b>"],
+        ["Variety", 12, "biaya turun saat variety <b>rendah</b>"],
+        ["Variation", 12, "biaya turun saat variation <b>rendah</b>"],
+        ["Visibility", 12, "biaya turun saat visibility <b>rendah</b>"]
+      ];
+      return `<figure class="visual-block">
+        <div class="vv-wrap">
+          ${rows.map(([label, pos, note]) => `
+          <div class="vv-row">
+            <span class="vv-label">${label}</span>
+            <span class="vv-end">Rendah</span>
+            <div class="vv-track"><i style="left:${pos}%"></i></div>
+            <span class="vv-end">Tinggi</span>
+            <span class="vv-note">${note}</span>
+          </div>`).join("")}
+        </div>
+        <figcaption>The Four Vs — titik emas menunjukkan konfigurasi berbiaya rendah (gaya hotelF1); kebalikannya bergaya Ski Verbier Exclusive</figcaption>
+      </figure>`;
+    },
+
+    perfObjectives() {
+      const axes = ["Quality", "Speed", "Dependability", "Flexibility", "Cost"];
+      const taxi = [0.7, 0.9, 0.6, 0.9, 0.35];
+      const bus = [0.6, 0.45, 0.8, 0.3, 0.95];
+      const cx = 150, cy = 128, R = 88;
+      const pt = (i, r) => {
+        const a = (-90 + i * 72) * Math.PI / 180;
+        return [cx + Math.cos(a) * r * R, cy + Math.sin(a) * r * R];
+      };
+      const poly = (v) => v.map((r, i) => pt(i, r).map((n) => n.toFixed(1)).join(",")).join(" ");
+      const rings = [0.33, 0.66, 1].map((r) => `<polygon class="radar-ring" points="${poly([r, r, r, r, r])}"></polygon>`).join("");
+      const spokes = axes.map((_, i) => {
+        const [x, y] = pt(i, 1);
+        return `<line class="radar-ring" x1="${cx}" y1="${cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}"></line>`;
+      }).join("");
+      const labels = axes.map((a, i) => {
+        const [x, y] = pt(i, 1.24);
+        return `<text class="radar-label" x="${x.toFixed(1)}" y="${(y + 4).toFixed(1)}" text-anchor="middle">${a}</text>`;
+      }).join("");
+      return `<figure class="visual-block">
+        <svg viewBox="0 0 300 270" role="img" aria-label="Polar diagram lima performance objectives: taksi vs bus">
+          ${rings}${spokes}
+          <polygon class="radar-poly radar-poly--a" points="${poly(taxi)}"></polygon>
+          <polygon class="radar-poly radar-poly--b" points="${poly(bus)}"></polygon>
+          ${labels}
+        </svg>
+        <div class="viz-legend">
+          <span><i class="lg-dot lg-dot--gold"></i> Taksi — unggul speed &amp; flexibility</span>
+          <span><i class="lg-dot lg-dot--ink"></i> Bus — unggul cost &amp; dependability</span>
+        </div>
+        <figcaption>Polar diagram — makin jauh dari pusat, makin penting objective tersebut bagi operasi itu</figcaption>
+      </figure>`;
+    },
+
+    strategyPerspectives() {
+      return `<figure class="visual-block">
+        <div class="persp-grid">
+          <div class="persp-cell persp-cell--v">
+            <b>Top-down</b><span>strategi korporat → bisnis → fungsional</span><i>↓</i>
+          </div>
+          <div class="persp-cell persp-cell--h">
+            <b>Outside-in</b><span>kebutuhan pasar: order winners &amp; qualifiers</span><i>→</i>
+          </div>
+          <div class="persp-center">Operations<br>Strategy</div>
+          <div class="persp-cell persp-cell--h">
+            <i>←</i><b>Inside-out</b><span>kapabilitas sumber daya &amp; proses</span>
+          </div>
+          <div class="persp-cell persp-cell--v">
+            <i>↑</i><b>Bottom-up</b><span>pengalaman operasional sehari-hari</span>
+          </div>
+        </div>
+        <figcaption>Empat perspektif yang bersama-sama membentuk isi operations strategy (SBB)</figcaption>
+      </figure>`;
+    },
+
+    importancePerformance() {
+      return `<figure class="visual-block">
+        <div class="mx-wrap">
+          <div class="mx-ylabel">Kinerja vs kompetitor ↑</div>
+          <div class="mx-grid">
+            <div class="mx-cell mx-neutral"><b>Excess?</b><span>kinerja tinggi tapi tak penting — alihkan sumber daya?</span></div>
+            <div class="mx-cell mx-good"><b>Appropriate</b><span>di atas batas layak — pertahankan</span></div>
+            <div class="mx-cell mx-warn"><b>Improve</b><span>di bawah batas layak — kandidat perbaikan</span></div>
+            <div class="mx-cell mx-bad"><b>Urgent action</b><span>penting bagi pelanggan tapi kalah dari kompetitor — perbaiki segera</span></div>
+          </div>
+          <div class="mx-xlabel">Kepentingan bagi pelanggan →</div>
+        </div>
+        <figcaption>Importance–performance matrix — memprioritaskan faktor kompetitif mana yang harus diperbaiki dulu</figcaption>
+      </figure>`;
+    },
+
+    competitiveAdvantage() {
+      return `<figure class="visual-block">
+        <div class="adv-cards">
+          <div class="adv-card"><div class="adv-ico">◆</div><b>Differentiation</b><span>lebih baik / berbeda</span><em>Disney · Hard Rock Cafe · Safeskin</em></div>
+          <div class="adv-card"><div class="adv-ico">▼</div><b>Cost leadership</b><span>lebih murah, bukan kualitas rendah</span><em>Southwest · Walmart · Colruyt</em></div>
+          <div class="adv-card"><div class="adv-ico">⚡</div><b>Response</b><span>flexibility · reliability · timeliness</span><em>HP · Pizza Hut · Motorola</em></div>
+        </div>
+        <figcaption>Tiga jalan mencapai competitive advantage melalui operasi (HRM)</figcaption>
+      </figure>`;
+    },
+
+    swot() {
+      return `<figure class="visual-block">
+        <div class="swot-grid">
+          <div class="swot-side">Internal</div>
+          <div class="mx-cell mx-good"><b>S — Strengths</b><span>kekuatan: core competencies, KSF yang dikuasai</span></div>
+          <div class="mx-cell mx-warn"><b>W — Weaknesses</b><span>kelemahan yang harus dihindari strategi</span></div>
+          <div class="swot-side">Eksternal</div>
+          <div class="mx-cell mx-good"><b>O — Opportunities</b><span>peluang pasar &amp; teknologi untuk dieksploitasi</span></div>
+          <div class="mx-cell mx-bad"><b>T — Threats</b><span>ancaman: five forces, perubahan lingkungan</span></div>
+        </div>
+        <figcaption>SWOT analysis — titik awal pengembangan &amp; evaluasi strategi</figcaption>
+      </figure>`;
+    },
+
+    globalStrategies() {
+      return `<figure class="visual-block">
+        <div class="mx-wrap">
+          <div class="mx-ylabel">Cost reduction ↑</div>
+          <div class="mx-grid">
+            <div class="mx-cell mx-warn"><b>Global</b><span>sentralisasi, standardisasi, skala ekonomi — Caterpillar, Texas Instruments</span></div>
+            <div class="mx-cell mx-good"><b>Transnational</b><span>efisiensi global + responsivitas lokal sekaligus</span></div>
+            <div class="mx-cell mx-neutral"><b>International</b><span>ekspor &amp; lisensi — paling mudah, paling sedikit keunggulan</span></div>
+            <div class="mx-cell mx-warn"><b>Multidomestic</b><span>desentralisasi demi pasar lokal — Heinz</span></div>
+          </div>
+          <div class="mx-xlabel">Local responsiveness →</div>
+        </div>
+        <figcaption>Empat strategi operasi global (HRM Gambar 2.9) — posisikan perusahaan pada dua sumbu ini</figcaption>
+      </figure>`;
+    },
+
+    plc() {
+      return `<figure class="visual-block">
+        <svg viewBox="0 0 400 150" role="img" aria-label="Kurva product life cycle">
+          <line class="radar-ring" x1="100" y1="10" x2="100" y2="120"></line>
+          <line class="radar-ring" x1="200" y1="10" x2="200" y2="120"></line>
+          <line class="radar-ring" x1="300" y1="10" x2="300" y2="120"></line>
+          <line class="plc-base" x1="0" y1="120" x2="400" y2="120"></line>
+          <path class="plc-curve" d="M 8 118 C 70 114 90 55 150 38 C 195 26 235 26 270 40 C 315 58 350 95 392 112"></path>
+          <text class="radar-label" x="50" y="140" text-anchor="middle">Introduction</text>
+          <text class="radar-label" x="150" y="140" text-anchor="middle">Growth</text>
+          <text class="radar-label" x="250" y="140" text-anchor="middle">Maturity</text>
+          <text class="radar-label" x="350" y="140" text-anchor="middle">Decline</text>
+        </svg>
+        <div class="plc-notes">
+          <span>desain masih berubah, biaya tinggi</span>
+          <span>forecasting kritis, tambah kapasitas</span>
+          <span>kontrol biaya, pertahankan posisi</span>
+          <span>efisiensi, pangkas lini</span>
+        </div>
+        <figcaption>Product life cycle — tiap fase menggeser prioritas strategi operasi</figcaption>
+      </figure>`;
+    }
+  };
+
+  function sourceBadge(sec) {
+    if (!sec.source) return "";
+    const kind = sec.source.kind === "ppt" ? "src-badge--ppt" : "src-badge--book";
+    const icon = sec.source.kind === "ppt" ? "📽️" : "📖";
+    return `<span class="src-badge ${kind}">${icon} ${esc(sec.source.label)}</span>`;
+  }
+
+  function renderVisuals(sec) {
+    if (!sec.visuals) return "";
+    return sec.visuals.map((name) => (VISUALS[name] ? VISUALS[name]() : "")).join("");
+  }
+
   function viewMateri(id) {
     const s = getSession(id) || getSession(1);
     const available = DATA.sessions.filter((x) => x.summary).map((x) => x.id);
@@ -204,8 +401,8 @@
     if (s.summary) {
       body = s.summary.map((sec, i) => `
         <details class="card accordion" ${i === 0 ? "open" : ""}>
-          <summary>${esc(sec.heading)}</summary>
-          <div class="accordion-body">${sec.body}</div>
+          <summary><span class="acc-title">${esc(sec.heading)}</span>${sourceBadge(sec)}</summary>
+          <div class="accordion-body">${sec.body}${renderVisuals(sec)}</div>
         </details>`).join("");
     } else {
       body = `
@@ -222,7 +419,9 @@
     <div class="view">
       <p class="eyebrow">Rangkuman Materi</p>
       <h1 class="view-title">Materi per Pertemuan</h1>
-      <p class="view-sub">Angka bergaris emas menandakan sesi yang materinya sudah tersedia.</p>
+      <p class="view-sub">Angka bergaris emas menandakan sesi yang materinya sudah tersedia.
+        Tiap bagian diberi penanda sumber: <span class="src-badge src-badge--ppt">📽️ Slide dosen</span> = dibahas
+        di kelas, <span class="src-badge src-badge--book">📖 Buku</span> = pengayaan dari buku referensi.</p>
       ${sessionPicker(s.id, available, "#/materi")}
       <div class="materi-header">
         <h2>Sesi ${s.id} — ${esc(s.topic)}</h2>
