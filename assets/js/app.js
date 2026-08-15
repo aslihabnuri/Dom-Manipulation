@@ -15,6 +15,8 @@
   const GLOS = window.BEFS_GLOSSARY;
   const QUIZ = window.BEFS_QUIZZES;
 
+  const RCASES = window.BEFS_CASES || [];
+
   const app = document.getElementById("app");
   const nav = document.getElementById("mainNav");
 
@@ -349,6 +351,7 @@
 
     const prev = CH.find((c) => c.id === ch.id - 1);
     const next = CH.find((c) => c.id === ch.id + 1);
+    const chCases = casesFor(ch.id);
 
     return '<div class="view view--reading">' +
       '<p class="eyebrow">' + esc(ch.ref) + (session ? " · Sesi " + session.id : "") + '</p>' +
@@ -372,6 +375,16 @@
 
       sections +
 
+      (chCases.length ?
+        '<section style="margin-top:2rem">' +
+          '<p class="eyebrow">Bahan diskusi kelas</p>' +
+          '<h3 style="font-family:var(--serif);font-size:1.45rem;font-weight:600;margin-bottom:0.4rem">Kasus nyata untuk CM' + ch.id + '</h3>' +
+          '<p style="font-size:0.88rem;color:var(--ink-soft);max-width:66ch;margin-bottom:1.1rem">' +
+          'Dua kasus yang benar-benar terjadi dan diliput media — satu internasional, satu Indonesia. ' +
+          'Tiap kasus berisi fakta, kaitannya dengan teori bab ini, pertanyaan diskusi, dan tautan untuk menelusuri beritanya.</p>' +
+          '<div class="case-lib">' + chCases.map((c) => renderCase(c)).join("") + '</div>' +
+        '</section>' : "") +
+
       '<section class="card card-pad" style="margin-top:1.5rem;background:var(--brass-soft);border-color:rgba(168,121,31,0.4)">' +
         '<h3 style="color:var(--brass)">🎯 Fokus ujian — ' + esc(ch.ref) + '</h3>' +
         '<div style="font-size:0.9rem;color:var(--ink-soft);line-height:1.75">' + ch.exam + '</div>' +
@@ -387,6 +400,46 @@
         '</div>' +
         (next ? '<a class="btn" href="#/materi/' + next.id + '">' + esc(next.ref) + ' →</a>' : '<span></span>') +
       '</div></div>';
+  }
+
+  /* ============================================================
+     PUSTAKA KASUS NYATA
+     ============================================================ */
+  const casesFor = (ch) => RCASES.filter((c) => c.ch === ch);
+  const searchUrl = (q) => "https://www.google.com/search?q=" + encodeURIComponent(q);
+
+  function renderCase(c, opts) {
+    const open = opts && opts.open;
+    return '<details class="rcase" id="case-' + esc(c.id) + '"' + (open ? " open" : "") + '>' +
+      '<summary class="rcase-head">' +
+        '<span class="rcase-flag" aria-hidden="true">' + c.flag + '</span>' +
+        '<span class="rcase-headtext">' +
+          '<span class="rcase-title">' + c.title + '</span>' +
+          '<span class="rcase-meta">' + esc(c.place) + ' · ' + esc(c.year) + ' · CM' + c.ch + '</span>' +
+          '<span class="rcase-hook">' + esc(c.hook) + '</span>' +
+        '</span>' +
+        '<span class="rcase-scope' + (c.scope === "id" ? " rcase-scope--id" : "") + '">' +
+          (c.scope === "id" ? "Indonesia" : "Internasional") + '</span>' +
+        '<span class="rcase-open" aria-hidden="true">+</span>' +
+      '</summary>' +
+      '<div class="rcase-body">' +
+        '<div class="rcase-sec"><h5>Apa yang terjadi</h5>' +
+          '<ul class="rcase-facts">' + c.facts.map((f) => '<li>' + f + '</li>').join("") + '</ul></div>' +
+        '<div class="rcase-sec"><h5>Kaitannya dengan CM' + c.ch + '</h5>' +
+          '<div class="rcase-link">' + c.link + '</div></div>' +
+        '<div class="rcase-sec"><h5>Pertanyaan untuk diskusi kelas</h5>' +
+          '<ol class="rcase-qs">' + c.questions.map((q) => '<li><span>' + esc(q) + '</span></li>').join("") + '</ol></div>' +
+        '<div class="rcase-sec"><h5>Telusuri beritanya</h5>' +
+          '<div class="rcase-src">' + c.sources.map((s) =>
+            '<a href="' + esc(searchUrl(s.q)) + '" target="_blank" rel="noopener">' +
+            '<b>' + esc(s.outlet) + '</b><span>' + esc(s.desc) + '</span><i>cari ↗</i></a>').join("") + '</div></div>' +
+        '<div class="rcase-actions">' +
+          '<button class="btn btn--small btn--gold" data-case-load="' + esc(c.id) + '">Analisis kasus ini →</button>' +
+          '<a class="btn btn--small" href="#/materi/' + c.ch + '">Buka materi CM' + c.ch + '</a>' +
+        '</div>' +
+        '<p class="rcase-warn">Angka dan tanggal di atas adalah yang dilaporkan media dan dokumen resmi saat kejadian. ' +
+        'Cek berita terbaru sebelum presentasi — sebagian kasus masih berjalan di pengadilan.</p>' +
+      '</div></details>';
   }
 
   /* ============================================================
@@ -601,6 +654,42 @@
     return c;
   }
 
+  function caseTabs(active) {
+    return '<div class="case-tabs">' +
+      '<button class="btn btn--small' + (active === "analisis" ? " btn--primary" : "") + '" data-goto="#/kasus">🧭 Penganalisis</button>' +
+      '<button class="btn btn--small' + (active === "pustaka" ? " btn--primary" : "") + '" data-goto="#/kasus/pustaka">📚 Pustaka kasus (' + RCASES.length + ')</button>' +
+      '</div>';
+  }
+
+  let libScope = "all";
+
+  function viewPustaka() {
+    let list = RCASES.slice();
+    if (libScope !== "all") list = list.filter((c) => c.scope === libScope);
+
+    const byChapter = CH.map(function (ch) {
+      const items = list.filter((c) => c.ch === ch.id);
+      if (!items.length) return "";
+      return '<div style="margin-bottom:1.6rem">' +
+        '<p class="eyebrow" style="margin-bottom:0.6rem">' + esc(ch.ref) + ' · ' + esc(ch.title) + '</p>' +
+        '<div class="case-lib">' + items.map((c) => renderCase(c)).join("") + '</div></div>';
+    }).join("");
+
+    return '<div class="view">' +
+      '<p class="eyebrow">' + RCASES.length + ' kasus nyata · 12 bab</p>' +
+      '<h1 class="view-title">Pustaka Kasus</h1>' +
+      '<p class="view-sub">Setiap bab punya dua kasus yang benar-benar terjadi dan diliput media: satu internasional, ' +
+      'satu Indonesia. Klik <strong>Analisis kasus ini</strong> pada kasus mana pun untuk memuatnya ke penganalisis ' +
+      'dengan judul dan rumusan dilema yang sudah terisi.</p>' +
+      caseTabs("pustaka") +
+      '<div class="session-picker">' +
+        '<button data-lib-scope="all" class="has-content' + (libScope === "all" ? " active" : "") + '">SEMUA</button>' +
+        '<button data-lib-scope="int" class="has-content' + (libScope === "int" ? " active" : "") + '" style="width:auto;padding:0 0.9rem">🌍 Internasional</button>' +
+        '<button data-lib-scope="id" class="has-content' + (libScope === "id" ? " active" : "") + '" style="width:auto;padding:0 0.9rem">🇮🇩 Indonesia</button>' +
+      '</div>' +
+      byChapter + '</div>';
+  }
+
   function viewKasus() {
     const cs = getCases();
     const k = cs.list[cs.active] || cs.list[0];
@@ -634,6 +723,7 @@
       '<p class="view-sub">Kerangka lima langkah dari CM3 yang bisa kamu pakai untuk tugas individu, diskusi kasus ' +
       'kelompok, dan soal esai ujian. Semua isian tersimpan otomatis di browser ini.</p>' +
 
+      caseTabs("analisis") +
       selector +
 
       '<div class="case-grid">' +
@@ -1032,6 +1122,38 @@
     app.querySelectorAll(".exp-head").forEach((b) =>
       b.addEventListener("click", () => b.closest(".exp-card").classList.toggle("open")));
 
+    /* pustaka kasus: saring lingkup */
+    app.querySelectorAll("[data-lib-scope]").forEach((b) =>
+      b.addEventListener("click", function () {
+        libScope = b.dataset.libScope;
+        app.innerHTML = viewPustaka();
+        bindAll();
+      }));
+
+    /* pustaka kasus: muat ke penganalisis */
+    app.querySelectorAll("[data-case-load]").forEach((b) =>
+      b.addEventListener("click", function () {
+        const rc = RCASES.find((c) => c.id === b.dataset.caseLoad);
+        if (!rc) return;
+        const c = getCases();
+        const existing = c.list.findIndex((x) => x.sourceId === rc.id);
+        if (existing > -1) {
+          c.active = existing;
+        } else {
+          const k = blankCase();
+          k.sourceId = rc.id;
+          k.title = rc.title.replace(/<[^>]+>/g, "").replace(/&amp;/g, "&");
+          k.desc = rc.hook + "\n\nFakta kunci:\n" +
+            rc.facts.map((f) => "- " + f.replace(/<[^>]+>/g, "").replace(/&amp;/g, "&")).join("\n") +
+            "\n\nPertanyaan diskusi:\n" +
+            rc.questions.map((q, i) => (i + 1) + ". " + q).join("\n");
+          c.list.push(k);
+          c.active = c.list.length - 1;
+        }
+        store.set("cases", c);
+        location.hash = "#/kasus";
+      }));
+
     /* widget moral intensity */
     app.querySelectorAll("[data-mi-widget]").forEach(function (w) {
       const sliders = w.querySelectorAll("[data-mi]");
@@ -1296,7 +1418,7 @@
       case "materi": html = viewMateri(Number(r.arg) || 1); break;
       case "flashcards": html = viewFlashcards(r.arg === "all" || !r.arg ? "all" : Number(r.arg)); break;
       case "kuis": html = viewKuis(r.arg || "mid"); break;
-      case "kasus": html = viewKasus(); break;
+      case "kasus": html = r.arg === "pustaka" ? viewPustaka() : viewKasus(); break;
       case "glosarium": html = viewGlosarium(); break;
       case "catatan": html = viewCatatan(Number(r.arg) || 1); break;
       default: html = viewDashboard();

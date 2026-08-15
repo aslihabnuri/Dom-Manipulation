@@ -15,12 +15,37 @@ disimpan di `localStorage` peramban, jadi tidak ada server, akun, maupun data ya
 | **Materi** | Rangkuman 12 bab (CM1–CM12) dalam Bahasa Indonesia dengan istilah kunci Bahasa Inggris, 58 bagian, 35 diagram, kotak "Fokus ujian", dan kasus rujukan di tiap bab. |
 | **Flashcards** | 127 kartu tanya-jawab, dapat disaring per bab, dengan penanda penguasaan dan pintasan keyboard. |
 | **Kuis** | 97 soal pilihan ganda beserta penjelasan. Mode per bab, simulasi **mid-term** (CM1–CM6), dan simulasi **final** (CM7–CM12). |
-| **Kasus** | Penganalisis dilema etis lima langkah: rumusan dilema → peta stakeholder → lima lensa teori → penilaian → alternatif solusi. Bisa menyimpan beberapa kasus dan menyalin ringkasannya sebagai teks. |
+| **Kasus** | Dua bagian. **Penganalisis** dilema etis lima langkah: rumusan dilema → peta stakeholder → lima lensa teori → penilaian → alternatif solusi, bisa menyimpan beberapa kasus dan menyalin ringkasannya sebagai teks. **Pustaka kasus** berisi 24 kasus nyata yang diliput media — dua per bab, satu internasional dan satu Indonesia. |
 | **Glosarium** | 126 istilah kunci yang dapat dicari dalam Bahasa Inggris maupun Indonesia. |
 | **Catatan** | Catatan per sesi yang tersimpan otomatis, plus daftar sorotan yang kamu buat di halaman materi. |
 
 Di halaman **Materi**, seleksi kalimat mana pun lalu klik **✎ Tandai** untuk menyorotinya dan
 menambahkan catatan. Sorotan bertahan setelah halaman dimuat ulang dan muncul di halaman Catatan.
+
+## Pustaka kasus
+
+Setiap bab dilengkapi **dua kasus nyata** yang benar-benar terjadi dan diliput media — satu
+internasional, satu Indonesia — sehingga siap dipakai untuk diskusi kelas dan presentasi kelompok.
+Tiap kasus memuat:
+
+- **Apa yang terjadi** — fakta, angka, dan tanggal kunci
+- **Kaitannya dengan bab** — konsep mana yang sedang diuji kasus ini
+- **Tiga pertanyaan diskusi** yang bisa langsung dibawa ke kelas
+- **Rujukan berita** ke media seperti BBC, Reuters, Financial Times, Tempo, Katadata, serta
+  dokumen resmi (OJK, BPK, KPK, KPPU, EPA, CFPB, Serious Fraud Office)
+
+Kasusnya mencakup Volkswagen Dieselgate, karhutla 2015, Nike, Freeport, Ford Pinto, vaksin palsu,
+Wells Fargo, Jiwasraya, Enron, SNP Finance, Wirecard, laporan keuangan Garuda, Rana Plaza, ojek
+online, Boeing 737 MAX, kebocoran data BPJS, suap Rolls-Royce, kartel minyak goreng,
+Greenpeace–Nestlé, APP–Sinar Mas, pajak Apple di Irlandia, korupsi e-KTP, bias AI rekrutmen Amazon,
+dan JETP.
+
+Tombol **Analisis kasus ini** memuat kasus tersebut ke Penganalisis dengan judul, fakta, dan
+pertanyaan diskusi yang sudah terisi — tinggal mengerjakan analisis teorinya.
+
+Rujukan berita dibuat sebagai **tautan pencarian**, bukan tautan artikel langsung, agar tetap
+berfungsi meski alamat artikel aslinya berubah. Angka dan tanggal adalah yang dilaporkan saat
+kejadian — sebagian kasus masih berjalan di pengadilan, jadi cek berita terbaru sebelum presentasi.
 
 ## Menjalankan
 
@@ -52,6 +77,7 @@ assets/css/app.css         sistem desain: palet, tipografi, komponen, diagram, r
 assets/js/data.js          metadata mata kuliah + 14 sesi (dari RPKPS)
 assets/js/chapters.js      materi CM1–CM12 (58 bagian)
 assets/js/visuals.js       35 diagram SVG/CSS
+assets/js/cases.js         24 kasus nyata beserta rujukan beritanya
 assets/js/study-cards.js   127 flashcard + 126 istilah glosarium
 assets/js/study-quiz.js    97 soal pilihan ganda beserta pembahasan
 assets/js/app.js           routing, penyimpanan, dan seluruh logika tampilan

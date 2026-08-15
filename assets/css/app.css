@@ -1044,6 +1044,157 @@ body::before {
 .case-output ul { margin: 0.2rem 0 0.6rem 1.1rem; font-size: 0.86rem; color: rgba(233, 239, 228, 0.85); }
 .case-output li { margin-bottom: 0.3rem; }
 
+/* ---------------- Pustaka kasus nyata ---------------- */
+.case-lib { display: flex; flex-direction: column; gap: 1.1rem; }
+
+.rcase {
+  background: var(--card);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.rcase-scope {
+  font-size: 0.63rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.16rem 0.55rem;
+  border-radius: 999px;
+  background: var(--pine-soft);
+  color: var(--pine);
+  border: 1px solid rgba(47, 93, 71, 0.35);
+  white-space: nowrap;
+}
+
+.rcase-scope--id { background: var(--clay-soft); color: var(--clay); border-color: rgba(168, 69, 47, 0.35); }
+
+.rcase-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  padding: 1.1rem 1.3rem;
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+}
+
+.rcase-head::-webkit-details-marker { display: none; }
+.rcase-head:hover { background: var(--paper-deep); }
+
+.rcase-flag { font-size: 1.3rem; line-height: 1.2; flex: none; }
+.rcase-headtext { flex: 1; min-width: 0; display: block; }
+
+.rcase-title { display: block; font-family: var(--serif); font-weight: 600; font-size: 1.14rem; line-height: 1.3; }
+.rcase-meta { display: block; font-size: 0.75rem; color: var(--ink-faint); margin-top: 0.2rem; font-family: var(--mono); }
+.rcase-hook { display: block; font-size: 0.87rem; color: var(--ink-soft); margin-top: 0.5rem; font-style: italic; line-height: 1.6; max-width: 62ch; }
+
+.rcase-open {
+  flex: none;
+  font-family: var(--mono);
+  font-weight: 700;
+  color: var(--pine);
+  font-size: 1.15rem;
+  padding-top: 0.15rem;
+}
+
+.rcase[open] .rcase-open { transform: rotate(45deg); }
+.rcase-open { transition: transform 0.2s; display: inline-block; }
+
+.rcase-body { padding: 0 1.3rem 1.3rem; animation: rise 0.25s ease both; }
+
+.rcase-sec { margin-top: 1.1rem; }
+.rcase-sec > h5 {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--brass);
+  margin-bottom: 0.5rem;
+}
+
+.rcase-facts { list-style: none; }
+.rcase-facts li {
+  position: relative;
+  padding-left: 1.1rem;
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+  line-height: 1.7;
+  margin-bottom: 0.45rem;
+}
+.rcase-facts li::before { content: "▪"; position: absolute; left: 0; color: var(--pine); }
+.rcase-facts strong, .rcase-link strong { color: var(--ink); }
+
+.rcase-link {
+  background: var(--pine-soft);
+  border: 1px solid rgba(47, 93, 71, 0.35);
+  border-radius: 11px;
+  padding: 0.85rem 1.05rem;
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+  line-height: 1.7;
+}
+
+.rcase-qs { list-style: none; counter-reset: rq; }
+.rcase-qs li {
+  counter-increment: rq;
+  display: flex;
+  gap: 0.7rem;
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+  line-height: 1.65;
+  margin-bottom: 0.5rem;
+}
+.rcase-qs li::before {
+  content: counter(rq);
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 0.72rem;
+  color: var(--brass);
+  background: var(--brass-soft);
+  border-radius: 50%;
+  width: 1.35rem;
+  height: 1.35rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  margin-top: 0.15rem;
+}
+
+.rcase-src { display: flex; flex-direction: column; gap: 0.4rem; }
+.rcase-src a {
+  display: flex;
+  align-items: baseline;
+  gap: 0.55rem;
+  font-size: 0.83rem;
+  text-decoration: none;
+  color: var(--ink-soft);
+  padding: 0.45rem 0.7rem;
+  border-radius: 9px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  transition: border-color 0.15s, background 0.15s;
+}
+.rcase-src a:hover { border-color: var(--slate); background: var(--slate-soft); }
+.rcase-src b { color: var(--slate); font-size: 0.79rem; white-space: nowrap; }
+.rcase-src span { flex: 1; }
+.rcase-src i { font-style: normal; color: var(--ink-faint); font-size: 0.75rem; }
+
+.rcase-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1.2rem; }
+
+.rcase-warn {
+  font-size: 0.76rem;
+  color: var(--ink-faint);
+  font-style: italic;
+  margin-top: 0.9rem;
+  padding-top: 0.7rem;
+  border-top: 1px dashed var(--line);
+}
+
+.case-tabs { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+
 /* ---------------- Glosarium ---------------- */
 .glos-search { display: flex; gap: 0.6rem; flex-wrap: wrap; align-items: center; margin-bottom: 1.5rem; }
 

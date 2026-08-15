@@ -26,6 +26,7 @@ JS = [
     ROOT / "assets/js/data.js",
     ROOT / "assets/js/chapters.js",
     ROOT / "assets/js/visuals.js",
+    ROOT / "assets/js/cases.js",
     ROOT / "assets/js/study-cards.js",
     ROOT / "assets/js/study-quiz.js",
     ROOT / "assets/js/app.js",
