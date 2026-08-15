@@ -92,7 +92,7 @@ window.BEFS_DATA = {
       {
         code: "CM",
         main: true,
-        text: "Crane, A. & Matten, D. (2019). <em>Business Ethics: Managing corporate citizenship and sustainability in the age of globalization</em>. Oxford: Oxford University Press."
+        text: "Crane, A., Matten, D., Glozer, S. &amp; Spence, L.J. (2019). <em>Business Ethics: Managing corporate citizenship and sustainability in the age of globalization</em>, 5th edn. Oxford: Oxford University Press. <small>(Silabus menyingkatnya sebagai &ldquo;Crane &amp; Matten&rdquo;; edisi ke-5 memuat empat penulis.)</small>"
       },
       { code: "FFF", text: "Ferrell, O.C., Fraedrich, J. & Ferrell, L. (2022). <em>Business Ethics: Ethical Decision Making and Cases</em>, 11th edn. Boston, MA: Cengage Learning." },
       { code: "CB", text: "Carroll, A. B. & Brown, J. (2022). <em>Business &amp; Society: Ethics, Sustainability &amp; Stakeholder Management</em>. Cengage Learning." },
@@ -103,6 +103,7 @@ window.BEFS_DATA = {
 
     driveLinks: [
       { label: "Folder Business Ethics For Sustainability", url: "https://drive.google.com/drive/folders/1Vtc18Q6GmmB-VnlBKs0R-yiQvbpm0iLR" },
+      { label: "Folder Materi — slide dosen (PPT)", url: "https://drive.google.com/drive/folders/1jC6B1y7I34jWCg4FlHfdv77a1ipcvJSQ" },
       { label: "Silabus / RPKPS MAN5522 (PDF)", url: "https://drive.google.com/file/d/15PdSy_1MhZ2gTpuwUvG2VPDGrJwJKwZd/view" },
       { label: "Folder Semester 2 - MBA UGM", url: "https://drive.google.com/drive/folders/15qUTfHdRAi-x3eaxfZEapQHXArC-RY2R" }
     ],

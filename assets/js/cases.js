@@ -66,7 +66,56 @@ window.BEFS_CASES = [
   ]
 },
 
+{
+  ch: 1, id: "mcethics", scope: "book", flag: "📕",
+  title: "Global McEthics — kasus resmi buku",
+  place: "Global", year: "berjalan",
+  hook: "Haruskah standar etis diseragamkan di seluruh dunia, atau disesuaikan dengan tiap pasar? Ini kasus yang ditunjuk slide dosen untuk pertemuan 1.",
+  facts: [
+    "Kasus ini adalah <strong>case study resmi Bab 1</strong> pada Crane, Matten, Glozer &amp; Spence (2019), dan ditunjuk langsung oleh slide kuliah pertemuan 1.",
+    "Perusahaan makanan cepat saji — McDonald’s sebagai contoh utama — menghadapi kritik soal <strong>kesehatan dan gizi</strong>, praktik <strong>ketenagakerjaan</strong>, <strong>kesejahteraan hewan</strong>, kemasan dan limbah, serta dampak globalisasi terhadap budaya makan lokal.",
+    "Perusahaan beroperasi di lebih dari 100 negara, sehingga ekspektasi konsumen, regulasi gizi, dan norma ketenagakerjaan sangat berbeda antarpasar.",
+    "Menu dan praktik disesuaikan secara lokal, sementara sistem, merek, dan standar operasi tetap global.",
+    "Dilema sentralnya: <strong>konsistensi global vs adaptasi lokal</strong> — dan reputasi etis dapat menjadi isu global meski masalahnya bermula secara lokal."
+  ],
+  link: "Kasus penutup Bab 1 yang menyatukan seluruh temanya: definisi etika bisnis, batas etika dan hukum, tiga celah globalisasi, ketegangan <strong>relativism vs absolutism</strong>, serta triple bottom line. Slide dosen memakainya sebagai bahan debat utama di kelas.",
+  questions: [
+    "Tanggung jawab etis apa yang ikut melintasi batas negara, dan mana yang boleh menyesuaikan diri dengan konteks lokal?",
+    "Bagaimana perusahaan menyeimbangkan pilihan konsumen, kesehatan publik, dan kebebasan memasarkan produknya?",
+    "Peran apa yang seharusnya dimainkan stakeholder — konsumen, regulator, LSM — dalam menetapkan standar itu?"
+  ],
+  sources: [
+    { outlet: "Crane, Matten, Glozer &amp; Spence (2019)", desc: "Case study Bab 1 “Global McEthics”", q: "Crane Matten Business Ethics 5th edition Global McEthics case chapter 1" },
+    { outlet: "BBC / The Guardian", desc: "Liputan kritik gizi dan ketenagakerjaan", q: "Guardian McDonald's nutrition labour criticism globalisation" },
+    { outlet: "Reuters", desc: "Adaptasi menu dan praktik per negara", q: "Reuters McDonald's localise menu different countries strategy" }
+  ]
+},
+
 /* ---------------- CM2 ---------------- */
+{
+  ch: 2, id: "american-apparel", scope: "book", flag: "📕",
+  title: "American Apparel — kasus resmi buku",
+  place: "Amerika Serikat", year: "2000-an–2016",
+  hook: "Merek yang membangun identitasnya di atas klaim etis, lalu runtuh justru karena kontradiksi antara citra publik dan praktik internalnya.",
+  facts: [
+    "Kasus ini adalah <strong>case study resmi Bab 2</strong> pada Crane, Matten, Glozer &amp; Spence (2019), dan ditunjuk langsung oleh slide kuliah pertemuan 2.",
+    "American Apparel membangun merek di sekitar klaim <strong>“Made in USA — Sweatshop Free”</strong>: produksi terpusat di Los Angeles dengan upah di atas rata-rata industri garmen.",
+    "Klaim etis itu menjadi bagian inti strategi pemasaran dan identitas perusahaan.",
+    "Pada saat bersamaan, perusahaan menghadapi kritik keras atas <strong>kampanye iklan yang dinilai mengeksploitasi secara seksual</strong> serta rangkaian tuduhan terhadap pendirinya, Dov Charney, yang akhirnya dicopot dari jabatannya pada 2014.",
+    "Perusahaan mengajukan kebangkrutan pada 2015 dan 2016; mereknya kemudian dijual dan produksinya tidak lagi terpusat di AS."
+  ],
+  link: "Kasus paling tepat untuk seluruh kerangka Bab 2. Ia menguji <strong>CSR sebagai strategi vs sebagai manipulasi</strong>, <strong>stakeholder mapping</strong> (pekerja, konsumen, investor, karyawan perempuan), dan terutama <strong>accountability</strong>: klaim etis publik menaikkan ekspektasi, dan kegagalan memenuhinya merusak legitimasi lebih dalam daripada bila klaim itu tidak pernah dibuat.",
+  questions: [
+    "Dapatkah CSR menjadi bagian sah dari strategi bersaing sebuah merek fesyen? Kapan ia berubah menjadi manipulasi?",
+    "Bagaimana menilai ketegangan antara praktik ketenagakerjaan yang baik, pemasaran yang dipersoalkan, dan perilaku pimpinan?",
+    "Stakeholder mana yang paling terdampak — dan mekanisme akuntabilitas apa yang seharusnya ada sejak awal?"
+  ],
+  sources: [
+    { outlet: "Crane, Matten, Glozer &amp; Spence (2019)", desc: "Case study Bab 2 American Apparel", q: "Crane Matten Business Ethics American Apparel case study chapter 2" },
+    { outlet: "The Guardian / BBC", desc: "Pencopotan Dov Charney dan kebangkrutan", q: "Guardian American Apparel Dov Charney ousted bankruptcy" },
+    { outlet: "Reuters", desc: "Akhir produksi Made in USA setelah merek dijual", q: "Reuters American Apparel bankruptcy brand sold Gildan made in USA" }
+  ]
+},
 {
   ch: 2, id: "nike-supply", scope: "int", flag: "🌍",
   title: "Nike dan kondisi kerja pemasok",
