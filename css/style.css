@@ -1090,11 +1090,51 @@ body::before {
 /* ---------------- Pertanyaan diskusi MBA ---------------- */
 .mq-block {
   margin-top: 1.4rem;
-  padding: 1.1rem 1.2rem;
+  padding: 0;
   background: var(--paper);
   border: 1px solid var(--line-strong);
   border-radius: 12px;
+  overflow: hidden;
 }
+
+.mq-summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.8rem 1.2rem;
+  user-select: none;
+  transition: background 0.15s;
+}
+
+.mq-summary::-webkit-details-marker { display: none; }
+.mq-summary:hover { background: var(--paper-deep); }
+
+.mq-summary::before {
+  content: "▸";
+  color: var(--gold);
+  font-size: 0.85rem;
+  transition: transform 0.2s;
+}
+
+.mq-block[open] .mq-summary::before { transform: rotate(90deg); }
+
+.mq-count {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--gold);
+  background: var(--gold-soft);
+  border: 1px solid rgba(169, 123, 18, 0.35);
+  border-radius: 999px;
+  padding: 0.15rem 0.6rem;
+  white-space: nowrap;
+}
+
+.mq-block[open] { padding-bottom: 1.1rem; }
+.mq-block[open] .mq-hint, .mq-block .mq-item { padding-left: 1.2rem; padding-right: 1.2rem; }
 
 .mq-title {
   font-family: var(--serif);

@@ -680,8 +680,11 @@
       const mqAnswers = store.get("mq_answers", {});
       const questionBlock = (sec, i) => {
         if (!sec.questions || !sec.questions.length) return "";
-        return `<div class="mq-block">
-          <div class="mq-title">💬 Bahan Diskusi dengan Dosen</div>
+        return `<details class="mq-block">
+          <summary class="mq-summary">
+            <span class="mq-title">💬 Bahan Diskusi dengan Dosen</span>
+            <span class="mq-count">${sec.questions.length} pertanyaan</span>
+          </summary>
           <p class="mq-hint">Pertanyaan siap-tanya untuk memancing diskusi di kelas (modal partisipasi 10%!). Buka
           "Kenapa menarik" untuk memahami angle-nya, lalu catat jawaban &amp; diskusi dosen di kolomnya — tersimpan otomatis.</p>
           ${sec.questions.map((qq, qi) => {
@@ -693,7 +696,7 @@
                 placeholder="Catat jawaban & diskusi dosen di sini…">${esc(mqAnswers[key] || "")}</textarea>
             </div>`;
           }).join("")}
-        </div>`;
+        </details>`;
       };
       body = s.summary.map((sec, i) => `
         <details class="card accordion" ${i === 0 ? "open" : ""}>
