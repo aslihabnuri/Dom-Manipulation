@@ -520,10 +520,48 @@ operasi bisa naik menjadi strategi perusahaan. Perspektif top-down dan bottom-up
 dari <em>kapabilitas sumber daya dan proses operasi</em> yang dikembangkan pelan-pelan dan sulit ditiru kompetitor.
 Strategi dibangun dari kekuatan unik yang sudah dimiliki, bukan hanya dari permintaan pasar.</li>
 </ul>
-<div class="case-box"><strong>📌 Contoh dari slide — Micraytech:</strong> perusahaan sistem metrologi (bagian dari
-Micray Group) yang mengembangkan sistem pengukuran terintegrasi untuk klien internasional besar. Strategi operasinya
-adalah hasil rekonsiliasi keempat perspektif sekaligus: arahan grup (top-down), tuntutan klien (outside-in),
-pembelajaran operasional (bottom-up), dan kapabilitas teknologinya (inside-out).</div>
+<h4 class="sub-h">Contoh nyata tiap perspektif (dari slide dosen)</h4>
+<div class="case-box"><p><strong>📌 Top-down — grup jasa percetakan:</strong> perhatikan bagaimana strategi
+"diturunkan" tiga tingkat. Strategi korporat grup: <em>"berspesialisasi di bisnis kemasan (packaging) dan menjadi
+pemain besar di semua pasarnya"</em>. Diturunkan ke strategi bisnis unit kemasan konsumen: <em>"pertumbuhan volume
+yang cepat, layanan cepat, skala ekonomi"</em>. Lalu diturunkan lagi ke strategi operasi: <em>"ekspansi kapasitas,
+menoleransi kelebihan kapasitas dalam jangka pendek, membuka lokasi baru"</em>. Tiap level menjawab pertanyaan yang
+sama: "apa artinya target level di atas bagi kami?" — target skala ekonomi di level bisnis berubah wujud menjadi
+keputusan kapasitas di level operasi.</p>
+<p><strong>📌 Bottom-up — lahirnya divisi "fast service":</strong> masih di perusahaan percetakan yang sama, arah
+strategi justru bisa datang dari bawah. Dari pengalaman harian, tim operasi menyadari <em>kapasitas berlebih mereka
+memungkinkan layanan yang lebih cepat</em> dari siapa pun. Kesadaran itu menggumpal menjadi "emergent sense of what
+the strategy should be" — dan akhirnya perusahaan meresmikan <strong>divisi baru "fast service"</strong> yang menjual
+kecepatan dengan harga premium. Strategi tidak dirancang di ruang rapat; ia ditemukan di lantai produksi, lalu
+diresmikan ke atas.</p>
+<p><strong>📌 Outside-in — menerjemahkan posisi pasar:</strong> perspektif pasar bekerja dengan menerjemahkan posisi
+pasar yang diinginkan menjadi objectives untuk keputusan operasi, lewat pemilahan order winners / qualifiers /
+less important (lihat tiga kurvanya di atas) — dan ingat dari tabel product life cycle: apa yang menjadi winner
+bergeser seiring fase produk, sehingga terjemahan ini harus diperbarui terus.</p>
+<p><strong>📌 Inside-out — Micraytech:</strong> perusahaan sistem metrologi (bagian dari Micray Group) yang melayani
+klien internasional besar. Micraytech mengembangkan sumber daya & prosesnya — keahlian desain modular serta hubungan
+erat dengan klien dan pemasok — agar kapabilitas itu bisa <em>dieksploitasi di pasar yang dipilihnya</em>. Kekuatan
+dari dalam yang dicarikan pasarnya, bukan sebaliknya.</p></div>
+<div class="case-box"><p><strong>📌 Rekonsiliasi empat perspektif sekaligus — peta lengkap Micraytech:</strong>
+slide dosen menggambarkan bagaimana keempat perspektif "menekan" dari empat arah dan direkonsiliasi di tengah:</p>
+<ul>
+<li><strong>Top-down:</strong> grup sedang membangun kapabilitas korporat di produk & layanan teknologi tinggi;
+bisnis Micraytech diarahkan tumbuh melalui inovasi berbasis sistem.</li>
+<li><strong>Outside-in:</strong> pasar yang tumbuh ada di "integrated metrology systems" — maka jaga keterampilan
+teknis, tingkatkan software development, data exchange, dan kemampuan client liaison; sambil mempertahankan posisi
+di pasar "individual metrology devices".</li>
+<li><strong>Bottom-up:</strong> tim bereksperimen dengan desain "modular" pada produk & komponen kunci; dari lapangan
+juga muncul peringatan — pelanggan tampak bingung oleh inovasi sistem yang terus-menerus, dan biaya ikut naik.</li>
+<li><strong>Inside-out:</strong> tidak semua modul bisa diintegrasikan; perlu membeli kapabilitas teknis untuk modul
+antarmuka; kapabilitas pasokan dikembangkan hingga mencakup peralatan pemasok yang disesuaikan kebutuhan klien.</li>
+</ul>
+<p><strong>Hasil rekonsiliasinya</strong> (kotak tengah pada slide): <em>"operasi mengembangkan sistem hi-tech
+berbasis modular yang memberikan fleksibilitas sangat terkustomisasi dan inovasi dengan biaya relatif rendah,
+melalui hubungan yang erat dengan klien maupun pemasok."</em> Satu kalimat strategi yang menjawab keempat tekanan
+sekaligus.</p></div>
+<p>Slide juga menegaskan top-down dan bottom-up <strong>saling menguatkan dalam satu siklus</strong>: niat strategis
+diimplementasikan dengan menyelaraskan operasi harian → operasi harian menghasilkan pengalaman → pengalaman dibangun
+menjadi kapabilitas → kapabilitas dieksploitasi secara strategis → kembali memperkaya niat strategis berikutnya.</p>
 <h4 class="sub-h">Menyelaraskan pasar dan kapabilitas: line of fit</h4>
 <p><strong>Operations strategy matrix</strong> mempertemukan <em>market requirements</em> (apa yang pasar minta)
 dengan <em>operations capabilities</em> (apa yang operasi mampu). Idealnya keduanya berada pada "line of fit" —
