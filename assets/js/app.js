@@ -352,7 +352,7 @@
         '<summary><span class="acc-title">' + esc(s.title) + '</span>' +
         (s.ppt ? '<span class="src-badge src-badge--ppt">\ud83d\udcca ' + esc(s.ppt) + '</span>' : "") +
         '<span class="src-badge ' + (s.src.indexOf("+") > -1 ? "src-badge--extra" : "src-badge--book") + '">' + esc(s.src) + '</span></summary>' +
-        '<div class="accordion-body" data-annot-scope="' + ch.id + ':' + i + '">' + injectViz(s.body) + '</div>' +
+        '<div class="accordion-body" data-annot-scope="' + ch.id + ':' + i + '">' + injectViz(s.body) + slideShot(s.img) + '</div>' +
         '</details>';
     }).join("");
 
@@ -427,6 +427,15 @@
      PANDUAN KULIAH (slide dosen)
      ============================================================ */
   const deckFor = (ch) => DECKS.find((d) => d.ch === ch);
+
+  /* screenshot slide asli dosen di bawah pembahasan */
+  function slideShot(img) {
+    const IMG = window.BEFS_IMG || {};
+    if (!img || !IMG[img.key]) return "";
+    return '<figure class="visual-block visual-block--img">' +
+      '<img src="' + IMG[img.key] + '" alt="' + esc(img.cap) + '">' +
+      '<figcaption>\ud83d\udcca ' + esc(img.cap) + '</figcaption></figure>';
+  }
 
   /* ============================================================
      PUSTAKA KASUS NYATA

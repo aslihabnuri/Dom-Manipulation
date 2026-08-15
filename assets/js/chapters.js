@@ -34,6 +34,7 @@ window.BEFS_CHAPTERS = [
     {
       title: "Apa itu business ethics?",
       src: "CM1", ppt: "Slide 2–3 & 5",
+      img: { key: "c1s3", cap: "Slide 3 — What is business ethics? (slide asli dosen)" },
       body: `
 <p><strong>Business ethics</strong> adalah studi tentang situasi, aktivitas, dan keputusan bisnis di mana persoalan
 <em>benar dan salah secara moral</em> dipertanyakan. Slide dosen memberi tiga penegasan atas definisi ini:</p>
@@ -102,6 +103,7 @@ wilayah abu-abu, refleksi etis menjadi penting. Etika bisnis tidak menggantikan 
     {
       title: "Etika dan hukum: batas yang tidak sama",
       src: "CM1", ppt: "Slide 4",
+      img: { key: "c1s4", cap: "Slide 4 — Ethics and law: irisan hukum dan etika (slide asli dosen)" },
       body: `
 <p>Kesalahan paling umum mahasiswa adalah menyamakan <strong>legal</strong> dengan <strong>ethical</strong>.
 Slide 4 merangkum relasinya dalam empat butir:</p>
@@ -148,6 +150,7 @@ bekerja pada isu-isu yang tidak dicakup hukum, atau yang belum ada konsensus jel
     {
       title: "Mengapa etika bisnis penting — di semua jenis organisasi",
       src: "CM1", ppt: "Slide 6–7",
+      img: { key: "c1s7", cap: "Slide 7 — Business ethics across organizational contexts (slide asli dosen)" },
       body: `
 <p>Slide 6 membagi alasannya menjadi dua sisi:</p>
 
@@ -213,6 +216,7 @@ ditinggalkan. Itu bukan etika, itu strategi.</p>`
     {
       title: "Globalisasi: konteks yang mengubah pertanyaan",
       src: "CM1", ppt: "Slide 8–9 & 11",
+      img: { key: "c1s8", cap: "Slide 8 — Globalization as a key context (slide asli dosen)" },
       body: `
 <p><strong>Globalization</strong> didefinisikan buku sebagai proses <em>deterritorialization</em> — aktivitas sosial,
 politik, dan ekonomi semakin terlepas dari batas wilayah geografis. Slide 8 menyebut lima arena yang kini saling
@@ -303,6 +307,7 @@ Indonesia dan akan terasa lagi saat membahas tata kelola (CM6) dan regulasi (CM1
     {
       title: "Sustainability dan triple bottom line",
       src: "CM1", ppt: "Slide 10",
+      img: { key: "c1s10", cap: "Slide 10 — Sustainability dan Triple Bottom Line (slide asli dosen)" },
       body: `
 <p>Slide 10 menutup dengan tema kedua buku: etika bisnis melampaui laba jangka pendek. Definisi paling banyak
 dikutip berasal dari <strong>Brundtland Report</strong> (WCED, 1987):</p>
@@ -359,6 +364,7 @@ economic and social considerations"</em> — tiga dimensi ini dikenal sebagai <s
     {
       title: "Di kelas: alur sesi, kasus McEthics, dan penutup",
       src: "CM1", ppt: "Slide 12–15",
+      img: { key: "c1s13", cap: "Slide 13 — Teaching flow for class (slide asli dosen)" },
       body: `
 <p>Slide dosen menyertakan rancangan sesi 75–90 menit — berguna untuk menyiapkan diri sebelum kuliah dan menebak
 arah diskusinya:</p>
@@ -437,6 +443,7 @@ reaksi personal menuju <em>penalaran etis yang terstruktur</em>.</p>
     {
       title: "Mengapa etika bisnis perlu dibingkai?",
       src: "CM2", ppt: "Slide 3–4",
+      img: { key: "c2s3", cap: "Slide 3 — Chapter map: perjalanan konseptual Bab 2 (slide asli dosen)" },
       body: `
 <p>Bab 1 bertanya "apa itu etika bisnis". Bab 2 bertanya sesuatu yang lebih struktural: bagaimana menempatkan
 <strong>korporasi itu sendiri</strong> di dalam tatanan sosial. Slide 3 memberi peta perjalanannya:</p>
@@ -472,6 +479,7 @@ banyak stakeholder dan ikut membentuk hasil sosial serta politik. Itulah pergese
     {
       title: "Apa itu korporasi — dan bisakah ia bertanggung jawab secara moral?",
       src: "CM2", ppt: "Slide 5–6",
+      img: { key: "c2s5", cap: "Slide 5 — What is a corporation? Tiga aktor sekaligus (slide asli dosen)" },
       body: `
 <p>Slide 5 menguraikan korporasi sebagai tiga aktor sekaligus:</p>
 
@@ -522,6 +530,7 @@ keduanya berlaku bersamaan (<em>shared responsibility</em>). Saat menganalisis k
     {
       title: "Shareholder view vs tanggung jawab yang lebih luas",
       src: "CM2", ppt: "Slide 7",
+      img: { key: "c2s7", cap: "Slide 7 — Shareholder view vs broader responsibility (slide asli dosen)" },
       body: `
 <div class="gs-grid">
   <div class="gs-head gs-head--b">SHAREHOLDER-CENTRED VIEW</div>
@@ -557,6 +566,7 @@ keduanya berlaku bersamaan (<em>shared responsibility</em>). Saat menganalisis k
     {
       title: "CSR: kontestasi, piramida Carroll, dan strategi",
       src: "CM2", ppt: "Slide 8–10",
+      img: { key: "c2s9", cap: "Slide 9 — Carroll's four-part CSR model (slide asli dosen)" },
       body: `
 <p><strong>CSR</strong> menanyakan tanggung jawab apa yang dimiliki korporasi atas <strong>dampaknya terhadap
 masyarakat</strong> — dan bagaimana tanggung jawab itu dikelola. Slide 8 membingkainya dalam tiga sifat:</p>
@@ -647,6 +657,7 @@ rantai pasok, tanggung jawab produk, praktik ketenagakerjaan, manajemen lingkung
     {
       title: "Stakeholder theory dan pemetaan klaim",
       src: "CM2", ppt: "Slide 11–12",
+      img: { key: "c2s11", cap: "Slide 11 — Stakeholder theory of the firm (slide asli dosen)" },
       body: `
 <p><strong>Stakeholder</strong> menurut definisi klasik R. Edward Freeman (1984):
 <em>"any group or individual who can affect or is affected by the achievement of the organization's
@@ -720,6 +731,7 @@ prioritas utama manajemen.</p>
     {
       title: "Accountability, transparency, dan corporate citizenship",
       src: "CM2", ppt: "Slide 13–14",
+      img: { key: "c2s13", cap: "Slide 13 — Corporate accountability and transparency (slide asli dosen)" },
       body: `
 <p>Bertanggung jawab berarti juga <em>dapat dimintai penjelasan</em>. Bedakan: <strong>responsibility</strong>
 bersifat ke depan (apa yang seharusnya kita lakukan), <strong>accountability</strong> bersifat ke belakang (kepada
@@ -769,6 +781,7 @@ kampanye, atau menjadi sasaran aktivisme konsumen).</p>
     {
       title: "Konteks regional, kasus American Apparel, dan penutup",
       src: "CM2", ppt: "Slide 15–18",
+      img: { key: "c2s17", cap: "Slide 17 — Teaching flow for class (slide asli dosen)" },
       body: `
 <p>Konsep bab ini menyebar tidak merata antarkawasan (slide 15):</p>
 

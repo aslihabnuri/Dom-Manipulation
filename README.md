@@ -33,6 +33,11 @@ Badge di tiap bagian menunjukkan sumbernya: badge kuningan `📊 Slide n` untuk 
 hijau `CMn` untuk pendalaman buku. Prompt kelas, catatan penjelasan dosen, alur sesi 75–90 menit,
 pertanyaan penutup, dan ringkasan satu kalimat ikut dilebur di bagian terkait.
 
+Di bawah pembahasan tiap bagian tersemat **screenshot slide aslinya** (13 slide bergambar dari
+kedua deck), dirender dari berkas PPT dan disematkan sebagai data URI — sehingga aplikasi tetap
+satu berkas tanpa permintaan jaringan. Gambar aslinya dibuat dengan LibreOffice + Poppler dari
+PPT di Drive; jalankan ulang proses itu bila slide dosen berubah.
+
 | Pertemuan | Bab | Berkas |
 |---|---|---|
 | 1 | CM1 — Introducing Business Ethics (6 bagian) | `Chapter_1_with_Explanatory_Notes (1).pptx` |
@@ -103,6 +108,7 @@ assets/js/data.js          metadata mata kuliah + 14 sesi (dari RPKPS)
 assets/js/chapters.js      materi CM1–CM12 (61 bagian; CM1–CM2 melebur slide dosen + buku)
 assets/js/visuals.js       35 diagram SVG/CSS
 assets/js/decks.js         metadata slide dosen per pertemuan
+assets/js/slide-images.js  13 screenshot slide asli (data URI)
 assets/js/cases.js         26 kasus nyata beserta rujukan beritanya
 assets/js/study-cards.js   127 flashcard + 126 istilah glosarium
 assets/js/study-quiz.js    97 soal pilihan ganda beserta pembahasan

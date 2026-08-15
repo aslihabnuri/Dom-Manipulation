@@ -596,6 +596,19 @@ body::before {
 .visual-block svg { display: block; width: 100%; max-width: 500px; height: auto; margin: 0 auto; }
 .visual-block svg.wide { max-width: 620px; }
 
+.visual-block--img { padding: 0.6rem 0.6rem 0.7rem; }
+
+.visual-block--img img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: #fff;
+}
+
+.visual-block--img figcaption { margin-top: 0.55rem; }
+
 .viz-hint { font-size: 0.74rem; color: var(--ink-faint); text-align: center; margin: 0.6rem 0 0; }
 
 .viz-legend { display: flex; gap: 1.1rem; justify-content: center; flex-wrap: wrap; margin-top: 0.55rem; font-size: 0.75rem; color: var(--ink-soft); }
