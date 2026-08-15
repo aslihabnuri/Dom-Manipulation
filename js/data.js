@@ -149,6 +149,23 @@ sangat tinggi. Akibatnya biayanya tinggi — dan harganya pun mahal. Bandingkan 
 menginap semalam, layanan sangat terbatas dan terstandardisasi, kontak pelanggan ditekan seminimal mungkin. Hasilnya:
 layanan standar dengan biaya (dan harga) sangat rendah. Keduanya sukses — karena keduanya <em>konsisten</em> dengan
 posisi 4V-nya masing-masing.</div>
+<h4 class="sub-h">Implikasi tiap V terhadap desain operasi</h4>
+<p>Slide "A typology of operations and processes" memerinci apa konsekuensi posisi rendah vs tinggi di tiap dimensi —
+perhatikan bagaimana ujung kanan (kolom kedua) selalu bermuara pada <em>biaya unit rendah</em>:</p>
+<ul>
+<li><strong>Volume</strong> — rendah: repetisi rendah, tiap staf mengerjakan lebih banyak bagian tugas, kurang
+tersistemasi, biaya unit tinggi. Tinggi: repeatability tinggi, spesialisasi, padat modal (capital intensive),
+biaya unit rendah.</li>
+<li><strong>Variety</strong> — tinggi: fleksibel, kompleks, menyesuaikan kebutuhan tiap pelanggan, biaya unit tinggi.
+Rendah: terdefinisi baik, rutin, terstandardisasi, teratur, biaya unit rendah.</li>
+<li><strong>Variation in demand</strong> — tinggi: kapasitas harus berubah-ubah, perlu antisipasi dan fleksibilitas,
+selalu "menempel" pada permintaan, biaya unit tinggi. Rendah: stabil, rutin, dapat diprediksi, utilisasi tinggi,
+biaya unit rendah.</li>
+<li><strong>Visibility</strong> — tinggi: toleransi menunggu pelanggan pendek, kepuasan ditentukan persepsi,
+butuh keterampilan kontak pelanggan, variety yang diterima tinggi, biaya unit tinggi. Rendah: ada jeda waktu antara
+produksi dan konsumsi, standardisasi, keterampilan kontak rendah, utilisasi staf tinggi, sentralisasi,
+biaya unit rendah.</li>
+</ul>
 <div class="key-box"><strong>💡 Intinya:</strong> 4 Vs = Volume, Variety, Variation, Visibility. Konfigurasi biaya
 rendah: volume ↑, variety ↓, variation ↓, visibility ↓. Tidak ada posisi yang "benar" — yang penting strategi dan
 desain operasinya konsisten dengan posisinya.</div>`
@@ -206,6 +223,53 @@ develop — yang dijabarkan dalam 10 keputusan kritis. Hafalkan kesepuluhnya bes
 seluruh mata kuliah ini.</div>`
         },
         {
+          heading: "Sejarah OM & Agenda Operasi Baru",
+          source: { kind: "ppt", label: "Slide Pertemuan 1" },
+          body: `<p>Dari mana ilmu operations management berasal, dan ke mana arahnya? Dua slide penting — "Significant
+Events in Operations Management" dan "The New Operations Agenda" — menjawabnya.</p>
+<h4 class="sub-h">Lima era perkembangan OM (Figure 1.4 Heizer)</h4>
+<p>Sejarah OM dibagi dalam era-era yang masing-masing punya fokus berbeda:</p>
+<ul>
+<li><strong>Cost Focus — Early Concepts (1776–1880):</strong> spesialisasi tenaga kerja (Adam Smith, Babbage) dan
+komponen terstandardisasi (Whitney). <strong>Scientific Management (1880–1910):</strong> Gantt chart (Gantt), studi
+gerak & waktu (Gilbreth), analisis proses (Taylor), teori antrean (Erlang). <strong>Mass Production (1910–1980):</strong>
+lini perakitan bergerak (Ford/Sorensen), sampling statistik (Shewhart), Economic Order Quantity (Harris), linear
+programming, PERT/CPM (DuPont), Material Requirements Planning.</li>
+<li><strong>Quality Focus — Lean Production Era (1980–1995):</strong> Just-in-Time, Computer-Aided Design, Electronic
+Data Interchange, Total Quality Management, Baldrige Award, pemberdayaan karyawan, kanban.</li>
+<li><strong>Customization Focus — Mass Customization Era (1995–2005):</strong> internet & e-commerce, Enterprise
+Resource Planning, standar kualitas internasional (ISO), finite scheduling, supply chain management, mass
+customization, build-to-order, RFID.</li>
+<li><strong>Globalization Focus — Globalization Era (2005–2020):</strong> rantai pasok global, tumbuhnya organisasi
+transnasional, komunikasi instan, keberlanjutan (sustainability), etika dalam tenaga kerja global, logistik.</li>
+</ul>
+<p>Pola besarnya mudah diingat: <strong>biaya → kualitas → kustomisasi → globalisasi</strong> — tiap era menambahkan
+tuntutan baru tanpa menghapus tuntutan sebelumnya.</p>
+<h4 class="sub-h">The new operations agenda</h4>
+<p>Perkembangan lingkungan bisnis (persaingan, teknologi, sikap sosial-lingkungan, politik global, regulasi)
+mendorong tiga arus perubahan besar pada operasi masa kini:</p>
+<ul>
+<li><strong>Adopsi teknologi baru</strong> — Internet of Things, algorithmic decision making, artificial
+intelligence, 3D printing, robotika, dan analisis big data masuk ke jantung operasi.</li>
+<li><strong>Pengaturan pasokan yang berbeda</strong> — jaringan operasi global, hubungan kemitraan, analisis
+business ecosystem, dan manajemen risiko reputasi.</li>
+<li><strong>Penekanan isu sosial & lingkungan</strong> — kinerja triple bottom line, desain yang peka lingkungan,
+pola kerja fleksibel, dan penghematan energi.</li>
+</ul>
+<h4 class="sub-h">Posisi operasi di antara fungsi-fungsi lain</h4>
+<p>Slide "The relationship between the operations function and other functions" menggambarkan operasi sebagai pusat
+yang terhubung ke semua fungsi. Tiga <strong>fungsi inti (core)</strong>: operations, marketing, dan product/service
+development. Empat <strong>fungsi pendukung (support)</strong>: accounting & finance (memberi analisis finansial
+untuk pengukuran kinerja & pengambilan keputusan), human resources (rekrutmen, pengembangan, pelatihan), information
+systems (menyediakan sistem untuk desain, perencanaan, kontrol, dan perbaikan), serta fungsi teknis (opsi & kebutuhan
+teknologi proses). Ke setiap arah, operasi <em>mengomunikasikan kapabilitas dan batasan prosesnya</em> — misalnya ke
+marketing soal apa yang sanggup dijanjikan ke pasar, dan ke pengembangan produk soal apa yang sanggup diproduksi.</p>
+<div class="key-box"><strong>💡 Intinya:</strong> Lima era OM: cost (1776–1980, dari Smith sampai MRP) → quality
+(lean 1980–1995) → customization (1995–2005) → globalization (2005–2020). Agenda baru: teknologi (IoT, AI, robotik,
+big data), pengaturan pasokan baru, dan isu sosial-lingkungan (triple bottom line). Operasi adalah fungsi inti yang
+harus terus berdialog dengan marketing, pengembangan produk, dan fungsi-fungsi pendukung.</div>`
+        },
+        {
           heading: "Digital Transformation & Digital Business Model",
           source: { kind: "ppt", label: "Slide Pertemuan 1" },
           body: `<p>Bagian ini menghubungkan operations management dengan
@@ -241,6 +305,32 @@ kompetitor langsung Anda);</li>
 <li><strong>Mengubah proses</strong> — bukan menempelkan teknologi di atas proses lama;</li>
 <li><strong>Melibatkan karyawan secara kreatif</strong> — perubahan peran dan tanggung jawab karyawan tidak boleh diabaikan.</li>
 </ul>
+<h4 class="sub-h">Delapan model bisnis digital yang paling banyak dipakai</h4>
+<p>Slide dosen memetakan <strong>delapan model bisnis digital</strong> yang paling umum, lengkap dengan contoh
+perusahaannya. Cara termudah membedakannya: tanyakan <em>"dari mana uangnya datang, dan apa yang sebenarnya
+dijual?"</em></p>
+<div class="dbm-grid">
+<div class="dbm-card"><b>Subscription</b><span>Pelanggan membayar biaya bulanan untuk akses berkelanjutan ke
+produk/jasa tertentu.</span><em>Netflix · Apple Music (juga Spotify)</em></div>
+<div class="dbm-card"><b>Freemium</b><span>Pelanggan mendapat versi "basic" gratis atau free trial, dengan opsi
+upgrade ke versi berbayar.</span><em>LinkedIn · Dropbox</em></div>
+<div class="dbm-card"><b>Free</b><span>Pelanggan adalah "produknya". Data pelanggan (plus perhatiannya) adalah bagian
+paling bernilai dari bisnis, dijual untuk kepentingan iklan.</span><em>Google · Facebook</em></div>
+<div class="dbm-card"><b>Access-over-Ownership</b><span>Pelanggan membayar akses sementara atas produk/jasa tanpa
+memilikinya.</span><em>Zipcar · Airbnb</em></div>
+<div class="dbm-card"><b>Experience</b><span>Pelanggan diberi pengalaman unik yang membuatnya rela membayar harga
+tinggi.</span><em>Tesla · Apple</em></div>
+<div class="dbm-card"><b>On-Demand</b><span>Pelanggan membayar jasa yang tidak sempat ia kerjakan sendiri — dipenuhi
+oleh orang yang punya waktu tapi butuh uang.</span><em>Uber · Taskrabbit (di Indonesia: Gojek/Grab)</em></div>
+<div class="dbm-card"><b>Crowdfunding</b><span>Sejumlah besar individu berdonasi untuk menggalang dana bagi individu
+atau tujuan tertentu.</span><em>Kickstarter · GoFundMe (di Indonesia: Kitabisa)</em></div>
+<div class="dbm-card"><b>Ecosystem</b><span>Pelanggan dijual rangkaian produk/jasa yang saling terkait — makin banyak
+yang dimiliki, makin tinggi nilai keseluruhannya.</span><em>Apple · Google</em></div>
+</div>
+<p>Untuk ujian, perhatikan pasangan yang mudah tertukar: <strong>Freemium vs Free</strong> — pada freemium pelanggan
+bisa upgrade jadi pembayar (LinkedIn Premium), pada free pelanggan tidak pernah membayar karena datanya yang menjadi
+dagangan (Google). Dan <strong>Access-over-Ownership vs On-Demand</strong> — yang pertama menyewakan <em>aset</em>
+(mobil Zipcar, kamar Airbnb), yang kedua menjual <em>tenaga/waktu orang lain</em> (sopir Uber, tukang Taskrabbit).</p>
 <div class="key-box"><strong>💡 Intinya:</strong> Transformasi digital = teknologi + proses + budaya + pengalaman
 pelanggan. Digital business model menentukan cara menghasilkan uang lewat teknologi digital, sering dipakai kombinasi
 (contoh Walmart), dan gagal bila hanya "memasang alat baru" tanpa mengubah proses dan orangnya.</div>`
@@ -297,6 +387,43 @@ fleksibilitas sering menaikkan biaya; menekan biaya habis-habisan bisa mengorban
 <strong>efficient frontier</strong> menggambarkan batas kombinasi kinerja terbaik yang mungkin dicapai saat ini:
 operasi yang sudah berada di frontier hanya bisa menaikkan satu objective dengan mengorbankan yang lain — kecuali ia
 berinvestasi menggeser frontier itu sendiri (misalnya lewat teknologi atau metode baru).</p>
+<h4 class="sub-h">Melihat tiga level kinerja lebih dekat</h4>
+<p>Slide "Three levels of operations performance" dan "Performance measures at the three levels" memerinci isi
+tiap level beserta contoh ukurannya:</p>
+<ul>
+<li><strong>Societal level — operations sustainability.</strong> Digambarkan sebagai <em>triple bottom line</em>:
+People (sosial), Planet (lingkungan), Profit (ekonomi) yang beririsan pada "sustainability". Contoh ukuran: kepuasan
+& keselamatan karyawan, gender balance, program komunitas (People); emisi CO₂, limbah kemasan, penggunaan air,
+biodiversitas (Planet); return on invested capital, harga saham, pertumbuhan yang menguntungkan (Profit).</li>
+<li><strong>Strategic level — dampak strategis operasi.</strong> Operasi memengaruhi lima hal: <em>cost</em>,
+<em>revenue</em>, <em>capital</em> (return on assets, utilisasi kapasitas), <em>risk & resilience</em> (gangguan
+layanan, kecepatan pulih/business continuity), dan <em>learning</em> (kapabilitas untuk inovasi, pipeline penawaran
+baru).</li>
+<li><strong>Operational level — 5 performance objectives</strong>, masing-masing dengan ukuran konkretnya:
+quality (cacat per unit, keluhan pelanggan, tingkat scrap, biaya garansi), speed (waktu respons pertanyaan pelanggan,
+order lead time, throughput time), dependability (rata-rata waktu antar kegagalan/MTBF, keluhan keterlambatan),
+flexibility (time to market, lebar rentang produk, tingkat kustomisasi), cost (biaya transaksi, produktivitas tenaga
+kerja, efisiensi mesin, varians terhadap anggaran).</li>
+</ul>
+<p>Ukuran-ukuran detail itu bisa diagregasi menjadi ukuran komposit (customer satisfaction, overall service level,
+operations agility) yang merepresentasikan kinerja keseluruhan — dan sebaliknya bisa dipecah makin rinci untuk
+dimonitor makin sering.</p>
+<h4 class="sub-h">Siapa saja stakeholder operasi dan apa maunya?</h4>
+<p>Slide "Stakeholder groups" memetakan tuntutan tiap kelompok — perhatikan betapa mudahnya mereka saling
+bertentangan:</p>
+<ul>
+<li><strong>Pelanggan</strong> — harga pantas, layanan baik, kualitas terjaga.</li>
+<li><strong>Pemasok</strong> — pemberitahuan kebutuhan sejak awal, order jangka panjang, harga adil, pembayaran
+tepat waktu.</li>
+<li><strong>Pemegang saham</strong> — return on investment, stabilitas laba, likuiditas investasi.</li>
+<li><strong>Top management</strong> — profit yang layak, ROI, risiko kegagalan rendah, inovasi masa depan.</li>
+<li><strong>Staf</strong> — upah adil, kondisi kerja baik, pengembangan pribadi/karier; <strong>serikat/perwakilan
+staf</strong> — kesesuaian dengan kesepakatan nasional, konsultasi.</li>
+<li><strong>Pemerintah</strong> — kepatuhan hukum, kontribusi pada ekonomi; <strong>regulator</strong> — kepatuhan
+regulasi & umpan balik efektivitasnya; <strong>masyarakat</strong> — meminimalkan dampak negatif (kebisingan, lalu
+lintas) dan memaksimalkan dampak positif (lapangan kerja, sponsor lokal); <strong>kelompok kepentingan</strong> —
+keselarasan aktivitas organisasi dengan isu yang mereka perjuangkan.</li>
+</ul>
 <div class="key-box"><strong>💡 Intinya:</strong> Lima objectives = Quality, Speed, Dependability, Flexibility, Cost
 (mnemonik: <em>QSDFC</em>). Masing-masing punya efek eksternal (dilihat pelanggan) dan efek internal (memengaruhi
 biaya). Prioritasnya berbeda antar-operasi (polar diagram) dan saling tarik-menarik (trade-off, efficient frontier).</div>`
@@ -412,6 +539,35 @@ skor kepentingan dan kinerja pada skala 1–9, lalu memetakan tiap aspek ke dala
 otomatis jadi prioritas pertama.</div>
 <p>Terakhir, ingat bahwa strategi operasi disusun melalui <em>proses</em> bertahap (formulation → implementation →
 monitoring → control) — strategi bukan dokumen sekali jadi.</p>
+<h4 class="sub-h">Membaca order winners lewat kurvanya</h4>
+<p>Slide menggambarkan tiga jenis faktor kompetitif sebagai kurva "competitive benefit vs performance":
+<strong>order winners</strong> berbentuk garis naik — makin baik kinerja, makin besar manfaat kompetitifnya, tanpa
+batas; <strong>qualifiers</strong> berbentuk kurva S — di bawah <em>qualifying level</em> sangat merugikan, tapi
+setelah melewatinya manfaat tambahan mendatar (percuma jor-joran); <strong>less important factors</strong> nyaris
+datar — diperbaiki pun dampaknya kecil. Implikasi praktisnya: investasi besar-besaran hanya layak untuk order
+winners; untuk qualifiers cukup sampai level "lolos".</p>
+<h4 class="sub-h">Bagaimana product life cycle menggeser order winners</h4>
+<p>Slide "The effects of the product/service life cycle" merinci pergeseran per fase — tabel ini favorit dosen untuk
+soal ujian:</p>
+<ul>
+<li><strong>Introduction</strong> — pelanggan: innovators; kompetitor: sedikit/tidak ada; order winner: <em>spesifikasi
+produk/jasa</em>; qualifier: quality & range; objectives dominan: <strong>flexibility & quality</strong>.</li>
+<li><strong>Growth</strong> — pelanggan: early adopters; kompetitor: terus bertambah; order winner:
+<em>availability</em> (barang harus ada!); qualifier: price & range; objectives dominan: <strong>speed,
+dependability, quality</strong>.</li>
+<li><strong>Maturity</strong> — pelanggan: bulk of market; kompetitor: stabil; order winner: <em>harga murah &
+pasokan andal</em>; qualifier: range & quality; objectives dominan: <strong>cost & dependability</strong>.</li>
+<li><strong>Decline</strong> — pelanggan: laggards; kompetitor: menurun; order winner: <em>harga murah</em>;
+qualifier: pasokan andal; objective dominan: <strong>cost</strong>.</li>
+</ul>
+<h4 class="sub-h">Proses penyusunan strategi: empat tahap berdaur</h4>
+<p>Strategi operasi disusun melalui siklus empat tahap: <strong>formulation</strong> (merumuskan) →
+<strong>implementation</strong> (menjalankan) → <strong>monitoring</strong> (memantau) → <strong>control</strong>
+(mengendalikan & mengoreksi) → kembali ke formulation. Ini menegaskan strategi bukan dokumen sekali jadi. Contoh
+hierarki top-down dari slide (printing services group): corporate "spesialisasi di bisnis kemasan, jadi pemain besar
+di semua pasar" → business strategy kemasan konsumen "pertumbuhan volume cepat, layanan cepat, skala ekonomi" →
+operations strategy "ekspansi kapasitas, toleransi over-capacity jangka pendek, buka lokasi baru". Terlihat bagaimana
+tiap level menerjemahkan level di atasnya.</p>
 <div class="key-box"><strong>💡 Intinya:</strong> Operations strategy dibentuk 4 perspektif: top-down (hierarki),
 outside-in (order winners &amp; qualifiers), bottom-up (pengalaman operasional), inside-out (kapabilitas sumber daya).
 Alat analisisnya: operations strategy matrix (line of fit) dan importance–performance matrix (4 zona prioritas).</div>`
@@ -900,6 +1056,14 @@ keduanya sekaligus (tersulit).</div>`
     { session: 1, front: "Tiga variabel produktivitas menurut HRM dan kontribusinya terhadap kenaikan tahunan?", back: "Labor ±10%, Capital ±38%, Management ±52%. Management adalah kontributor terbesar — area utama tempat manajer bisa bertindak memperbaiki produktivitas." },
     { session: 1, front: "Sebutkan minimal 4 karakteristik jasa (services) yang membedakannya dari barang (goods).", back: "Intangible; diproduksi & dikonsumsi bersamaan; unik per pelanggan; interaksi pelanggan tinggi; definisi produk tidak konsisten; berbasis pengetahuan (sulit diotomasi); lokasi tersebar; kualitas sulit dievaluasi; tidak bisa dijual kembali; tidak bisa disimpan sebagai persediaan." },
     { session: 1, front: "Mengapa barang (goods) lebih mudah diotomasi daripada jasa?", back: "Karena barang berupa produk tangible yang terstandardisasi (mis. iPhone) dan diproduksi di fasilitas tetap, sedangkan jasa sering berbasis pengetahuan, unik per pelanggan, dan butuh interaksi tinggi (hukum, pendidikan, medis)." },
+    { session: 1, front: "Sebutkan 8 model bisnis digital yang paling banyak dipakai.", back: "Subscription (Netflix), Freemium (LinkedIn, Dropbox), Free (Google, Facebook), Access-over-Ownership (Zipcar, Airbnb), Experience (Tesla, Apple), On-Demand (Uber, Taskrabbit), Crowdfunding (Kickstarter, GoFundMe), Ecosystem (Apple, Google)." },
+    { session: 1, front: "Bedakan model Freemium dan model Free.", back: "Freemium: pelanggan dapat versi basic gratis/free trial dengan opsi upgrade berbayar (LinkedIn, Dropbox). Free: pelanggan tidak pernah membayar — pelanggan adalah 'produknya'; data dan perhatiannya dijual untuk iklan (Google, Facebook)." },
+    { session: 1, front: "Bedakan model Access-over-Ownership dan On-Demand.", back: "Access-over-Ownership: membayar akses sementara atas ASET tanpa memilikinya (mobil Zipcar, kamar Airbnb). On-Demand: membayar TENAGA/WAKTU orang lain untuk jasa yang tak sempat dikerjakan sendiri (Uber, Taskrabbit)." },
+    { session: 1, front: "Apa itu model bisnis Ecosystem? Beri contoh.", back: "Pelanggan dijual rangkaian produk/jasa yang saling terkait, yang nilainya meningkat seiring makin banyak produk yang dimiliki — mis. ekosistem Apple (iPhone + Watch + Mac + iCloud) atau Google." },
+    { session: 1, front: "Sebutkan lima era perkembangan OM beserta fokusnya.", back: "Cost focus: Early Concepts (1776–1880), Scientific Management (1880–1910), Mass Production (1910–1980). Quality focus: Lean Production Era (1980–1995, JIT/TQM/kanban). Customization focus: Mass Customization Era (1995–2005, e-commerce/ERP/RFID). Globalization focus (2005–2020, global supply chain, sustainability)." },
+    { session: 1, front: "Apa tiga arus perubahan dalam 'the new operations agenda'?", back: "1) Adopsi teknologi baru (IoT, AI, algorithmic decision making, 3D printing, robotika, big data), 2) pengaturan pasokan berbeda (jaringan global, kemitraan, business ecosystem, risiko reputasi), 3) penekanan isu sosial-lingkungan (triple bottom line, desain ramah lingkungan, kerja fleksibel, hemat energi)." },
+    { session: 1, front: "Apa itu triple bottom line pada level kinerja societal?", back: "People (sosial: kepuasan & keselamatan karyawan, komunitas), Planet (lingkungan: emisi CO₂, limbah, air), Profit (ekonomi: return on capital, pertumbuhan menguntungkan) — ketiganya beririsan pada sustainability." },
+    { session: 1, front: "Pada fase maturity product life cycle, apa order winner dan objectives dominannya?", back: "Order winner: harga murah & pasokan andal. Qualifier: range & quality. Objectives dominan: cost & dependability. (Bandingkan fase introduction: winner = spesifikasi produk, objectives = flexibility & quality.)" },
 
     { session: 2, front: "Apa definisi mission sebuah organisasi?", back: "Tujuan atau alasan keberadaan organisasi — apa yang akan dikontribusikannya bagi masyarakat. Mission memberi batasan, fokus, dan konsep pemersatu perusahaan." },
     { session: 2, front: "Apa definisi strategy?", back: "Rencana aksi (action plan) organisasi untuk mencapai mission-nya. Strategi mengeksploitasi peluang & kekuatan, menetralkan ancaman, dan menghindari kelemahan." },
@@ -1022,6 +1186,41 @@ keduanya sekaligus (tersulit).</div>`
           options: ["0,0097 titel per dolar", "0,00875 titel per dolar", "0,0077 titel per dolar", "0,4375 titel per dolar"],
           answer: 1,
           explain: "Multifactor productivity = 14 ÷ (640 + 960) = 14 ÷ 1600 = 0,00875 titel per dolar. Ini learning exercise resmi dari buku HRM bab 1."
+        },
+        {
+          q: "Netflix dan Apple Music, yang menarik pembayaran bulanan untuk akses berkelanjutan, memakai model bisnis digital…",
+          options: ["Freemium", "Subscription", "On-Demand", "Ecosystem"],
+          answer: 1,
+          explain: "Subscription = pelanggan membayar biaya bulanan untuk akses berkelanjutan ke produk/jasa. Freemium berbeda: versi dasar gratis dengan opsi upgrade."
+        },
+        {
+          q: "Pada model bisnis 'Free' seperti Google dan Facebook, siapa/apa yang sebenarnya menjadi 'produk'?",
+          options: [
+            "Perangkat lunak yang diunduh pengguna",
+            "Iklan yang ditayangkan",
+            "Pelanggan itu sendiri — data dan perhatiannya",
+            "Server dan infrastruktur perusahaan"
+          ],
+          answer: 2,
+          explain: "Dalam model Free, customer is the 'product' — data pelanggan (plus perhatiannya) adalah bagian paling bernilai dari bisnis, dimonetisasi lewat iklan."
+        },
+        {
+          q: "Zipcar dan Airbnb — pelanggan membayar akses sementara tanpa memiliki asetnya — adalah contoh model…",
+          options: ["On-Demand", "Experience", "Access-over-Ownership", "Crowdfunding"],
+          answer: 2,
+          explain: "Access-over-Ownership = bayar untuk akses sementara atas aset. Bedakan dengan On-Demand (Uber/Taskrabbit) yang menjual tenaga/waktu orang lain."
+        },
+        {
+          q: "Era 1980–1995 dalam sejarah OM yang ditandai JIT, TQM, kanban, dan pemberdayaan karyawan disebut…",
+          options: ["Mass Production Era", "Lean Production Era", "Mass Customization Era", "Globalization Era"],
+          answer: 1,
+          explain: "Lean Production Era (1980–1995) adalah masa 'quality focus'. Mass Production (1910–1980) fokus biaya; Mass Customization (1995–2005) fokus kustomisasi; Globalization (2005–2020) fokus global."
+        },
+        {
+          q: "Menurut tabel efek product life cycle, order winner pada fase GROWTH adalah…",
+          options: ["Spesifikasi produk/jasa", "Availability (ketersediaan)", "Harga murah", "Pasokan yang andal"],
+          answer: 1,
+          explain: "Fase growth: permintaan melesat sehingga availability menjadi order winner; objectives dominannya speed, dependability, quality. Harga murah baru jadi winner di fase maturity dan decline."
         }
       ]
     },

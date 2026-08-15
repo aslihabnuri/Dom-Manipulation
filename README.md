@@ -20,8 +20,8 @@ python3 -m http.server 8000
 | **Dashboard** | Info kuliah, sesi berikutnya + hitung mundur, komponen penilaian, progres belajar, tautan ke Drive |
 | **Silabus** | Garis waktu 12 sesi lengkap dengan bacaan (SBB/HRM/TPW) & case study; tandai sesi yang sudah dipelajari |
 | **Materi** | Materi utuh per pertemuan (bukan sekadar rangkuman): penjelasan naratif dengan contoh soal langkah-demi-langkah, kisah perusahaan nyata, kotak 💡 Intinya & 📌 Contoh, sub-judul, estimasi waktu baca, penanda sumber (📽️ slide dosen / 📖 buku), dan 9 diagram visual — Sesi 1 (±25 mnt baca) & Sesi 2 (±15 mnt baca) lengkap |
-| **Flashcards** | 51 kartu hafalan (29 kartu Sesi 1, 22 kartu Sesi 2) dengan pelacakan penguasaan |
-| **Kuis** | 25 soal pilihan ganda (13 soal Sesi 1, 12 soal Sesi 2) dengan pembahasan & skor terbaik |
+| **Flashcards** | 59 kartu hafalan (37 kartu Sesi 1, 22 kartu Sesi 2) dengan pelacakan penguasaan |
+| **Kuis** | 30 soal pilihan ganda (18 soal Sesi 1, 12 soal Sesi 2) dengan pembahasan & skor terbaik |
 | **Kalkulator** | Kalkulator labor & multifactor productivity (contoh Collins Title dari slide) |
 | **Catatan** | Jurnal pribadi per sesi, tersimpan otomatis |
 

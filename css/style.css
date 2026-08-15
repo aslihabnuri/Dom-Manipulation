@@ -554,6 +554,31 @@ body::before {
   margin: 1rem 0;
 }
 
+.dbm-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+  margin: 0.9rem 0;
+}
+
+.dbm-card {
+  background: var(--card);
+  border: 1px solid var(--line-strong);
+  border-radius: 10px;
+  padding: 0.8rem 0.95rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.dbm-card b { font-family: var(--serif); font-size: 0.95rem; color: var(--gold); }
+.dbm-card span { font-size: 0.8rem; color: var(--ink-soft); line-height: 1.5; }
+.dbm-card em { font-size: 0.72rem; color: var(--ink-faint); font-style: normal; }
+
+@media (max-width: 700px) {
+  .dbm-grid { grid-template-columns: 1fr; }
+}
+
 .case-box > strong:first-child, .case-box p:first-child strong { color: var(--green); }
 .case-box p { margin-bottom: 0.7rem; }
 .case-box p:last-child { margin-bottom: 0; }
