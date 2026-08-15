@@ -1076,6 +1076,111 @@ body::before {
 
 .notes-status { font-size: 0.78rem; color: var(--ink-faint); margin-top: 0.5rem; font-family: var(--mono); }
 
+/* ---------------- Highlight & catatan kalimat ---------------- */
+mark.hl {
+  background: linear-gradient(180deg, rgba(217, 165, 33, 0.35), rgba(217, 165, 33, 0.5));
+  color: inherit;
+  font-weight: 700;
+  border-radius: 3px;
+  padding: 0 2px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+mark.hl:hover { background: rgba(217, 165, 33, 0.65); }
+
+mark.hl--noted::after {
+  content: "📝";
+  font-size: 0.7em;
+  vertical-align: super;
+  margin-left: 2px;
+}
+
+#hlPopup {
+  position: absolute;
+  z-index: 90;
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--panel);
+  background: var(--panel);
+  color: var(--gold-bright);
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  animation: rise 0.15s ease both;
+}
+
+#hlPopup:hover { background: #33291b; }
+
+#hlPanel {
+  position: absolute;
+  z-index: 91;
+  width: min(340px, calc(100vw - 24px));
+  background: var(--card);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 0.9rem;
+  animation: rise 0.15s ease both;
+}
+
+#hlPanel .hl-quote {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  margin-bottom: 0.6rem;
+  border-bottom: 1px dashed var(--line);
+  padding-bottom: 0.6rem;
+}
+
+#hlPanel textarea {
+  width: 100%;
+  resize: vertical;
+  font-family: var(--sans);
+  font-size: 0.88rem;
+  line-height: 1.55;
+  padding: 0.6rem 0.75rem;
+  border-radius: 10px;
+  border: 1px solid var(--line-strong);
+  background: var(--paper);
+  color: var(--ink);
+  margin-bottom: 0.6rem;
+}
+
+#hlPanel textarea:focus { outline: 2px solid var(--gold-bright); outline-offset: 1px; }
+
+#hlPanel .hl-actions { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+
+/* daftar tanda di halaman Catatan */
+.ann-heading { font-family: var(--serif); font-weight: 600; font-size: 1.1rem; margin: 1.5rem 0 0.75rem; }
+
+.ann-empty { font-size: 0.85rem; color: var(--ink-faint); margin-top: 1.25rem; }
+.ann-empty a { color: var(--gold); font-weight: 600; }
+
+.ann-list { display: flex; flex-direction: column; gap: 0.6rem; }
+
+.ann-item {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 0.85rem 1rem;
+}
+
+.ann-item blockquote {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 0.92rem;
+  color: var(--ink);
+  margin-bottom: 0.4rem;
+}
+
+.ann-note { font-size: 0.85rem; color: var(--ink-soft); margin-bottom: 0.55rem; }
+.ann-note--empty { color: var(--ink-faint); font-style: italic; }
+.ann-item-actions { display: flex; gap: 0.4rem; }
+
 /* ---------------- Footer ---------------- */
 .footer {
   position: relative;

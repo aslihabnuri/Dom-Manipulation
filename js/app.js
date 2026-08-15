@@ -394,6 +394,224 @@
     return sec.visuals.map((name) => (VISUALS[name] ? VISUALS[name]() : "")).join("");
   }
 
+  /* ============================================================
+     HIGHLIGHT & CATATAN KALIMAT
+     Seleksi teks di materi -> tandai (stabilo + tebal) -> klik
+     tanda untuk menambah/melihat catatan. Disimpan sebagai
+     { session, secIndex, text, occ, note } di localStorage dan
+     dipasang ulang setiap kali materi dirender.
+     ============================================================ */
+
+  const annState = { session: 1, activeId: null, pending: null };
+
+  const getAnns = () => store.get("annotations", []);
+  const saveAnns = (list) => store.set("annotations", list);
+
+  function sectionBodies() {
+    return [...app.querySelectorAll(".accordion .accordion-body")];
+  }
+
+  function textNodesIn(el) {
+    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+    const nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    return nodes;
+  }
+
+  const plainTextOf = (el) => textNodesIn(el).map((n) => n.nodeValue).join("");
+
+  function nthIndexOf(haystack, needle, occ) {
+    let idx = -1;
+    for (let i = 0; i <= occ; i++) {
+      idx = haystack.indexOf(needle, idx + 1);
+      if (idx === -1) return -1;
+    }
+    return idx;
+  }
+
+  function wrapAnnotation(body, startIdx, len, ann) {
+    const nodes = textNodesIn(body);
+    const segs = [];
+    let offset = 0;
+    for (const n of nodes) {
+      const nStart = offset;
+      const nEnd = offset + n.nodeValue.length;
+      const s = Math.max(startIdx, nStart);
+      const e = Math.min(startIdx + len, nEnd);
+      if (s < e) segs.push({ node: n, from: s - nStart, to: e - nStart });
+      offset = nEnd;
+      if (nEnd >= startIdx + len) break;
+    }
+    segs.forEach(({ node, from, to }) => {
+      const target = from > 0 ? node.splitText(from) : node;
+      if (to - from < target.nodeValue.length) target.splitText(to - from);
+      const mark = document.createElement("mark");
+      mark.className = "hl" + ((ann.note || "").trim() ? " hl--noted" : "");
+      mark.dataset.hlId = ann.id;
+      target.parentNode.insertBefore(mark, target);
+      mark.appendChild(target);
+    });
+  }
+
+  function applyOneAnnotation(ann) {
+    const body = sectionBodies()[ann.secIndex];
+    if (!body) return;
+    const idx = nthIndexOf(plainTextOf(body), ann.text, ann.occ);
+    if (idx === -1) return;
+    wrapAnnotation(body, idx, ann.text.length, ann);
+  }
+
+  function annApplyAll(sessionId) {
+    annState.session = sessionId;
+    getAnns().filter((a) => a.session === sessionId).forEach(applyOneAnnotation);
+  }
+
+  function unwrapAnnotation(annId) {
+    app.querySelectorAll(`mark[data-hl-id="${annId}"]`).forEach((m) => {
+      const parent = m.parentNode;
+      while (m.firstChild) parent.insertBefore(m.firstChild, m);
+      parent.removeChild(m);
+      parent.normalize();
+    });
+  }
+
+  /* --- elemen UI melayang (dibuat sekali) --- */
+  const hlPopup = document.createElement("button");
+  hlPopup.id = "hlPopup";
+  hlPopup.type = "button";
+  hlPopup.textContent = "🖍️ Tandai & catat";
+  hlPopup.hidden = true;
+  document.body.appendChild(hlPopup);
+
+  const hlPanel = document.createElement("div");
+  hlPanel.id = "hlPanel";
+  hlPanel.hidden = true;
+  hlPanel.innerHTML = `
+    <div class="hl-quote"></div>
+    <textarea rows="4" placeholder="Tulis catatan dari penjelasan dosen…"></textarea>
+    <div class="hl-actions">
+      <button type="button" class="btn btn--small btn--primary" data-hl-save>Simpan</button>
+      <button type="button" class="btn btn--small btn--red-outline" data-hl-delete>Hapus tanda</button>
+      <button type="button" class="btn btn--small btn--ghost" data-hl-close>Tutup</button>
+    </div>`;
+  document.body.appendChild(hlPanel);
+
+  function hideHlUi() {
+    hlPopup.hidden = true;
+    hlPanel.hidden = true;
+    annState.activeId = null;
+    annState.pending = null;
+  }
+
+  function placeAt(el, rect) {
+    el.hidden = false;
+    const top = rect.bottom + window.scrollY + 8;
+    let left = rect.left + window.scrollX;
+    left = Math.max(8, Math.min(left, window.scrollX + document.documentElement.clientWidth - el.offsetWidth - 8));
+    el.style.top = top + "px";
+    el.style.left = left + "px";
+  }
+
+  function selectionInfo() {
+    const sel = window.getSelection();
+    if (!sel || sel.isCollapsed || sel.rangeCount === 0) return null;
+    const range = sel.getRangeAt(0);
+    const anchor = range.commonAncestorContainer;
+    const el = anchor.nodeType === 1 ? anchor : anchor.parentElement;
+    const body = el && el.closest ? el.closest(".accordion-body") : null;
+    if (!body) return null;
+    const text = range.toString();
+    if (!text.trim() || text.length < 3 || text.length > 600) return null;
+    const full = plainTextOf(body);
+    let occ = 0;
+    const nodes = textNodesIn(body);
+    let offset = 0;
+    let startOffset = -1;
+    for (const n of nodes) {
+      if (n === range.startContainer) { startOffset = offset + range.startOffset; break; }
+      offset += n.nodeValue.length;
+    }
+    if (startOffset >= 0) occ = Math.max(0, full.slice(0, startOffset).split(text).length - 1);
+    if (nthIndexOf(full, text, occ) === -1) return null;
+    return { secIndex: sectionBodies().indexOf(body), text, occ, rect: range.getBoundingClientRect() };
+  }
+
+  function openPanelFor(ann, rect) {
+    annState.activeId = ann.id;
+    hlPanel.querySelector(".hl-quote").textContent = "“" + (ann.text.length > 120 ? ann.text.slice(0, 120) + "…" : ann.text) + "”";
+    hlPanel.querySelector("textarea").value = ann.note || "";
+    placeAt(hlPanel, rect);
+    hlPanel.querySelector("textarea").focus();
+  }
+
+  document.addEventListener("mouseup", (e) => {
+    if (hlPanel.contains(e.target) || e.target === hlPopup) return;
+    if (parseHash().view !== "materi") return;
+    setTimeout(() => {
+      const info = selectionInfo();
+      if (info) {
+        annState.pending = info;
+        placeAt(hlPopup, info.rect);
+      } else {
+        hlPopup.hidden = true;
+      }
+    }, 0);
+  });
+
+  // dukungan seleksi via sentuhan (HP/tablet): pantau selectionchange dengan debounce
+  let selDebounce = null;
+  document.addEventListener("selectionchange", () => {
+    if (parseHash().view !== "materi") return;
+    clearTimeout(selDebounce);
+    selDebounce = setTimeout(() => {
+      const info = selectionInfo();
+      if (info) {
+        annState.pending = info;
+        placeAt(hlPopup, info.rect);
+      } else if (hlPanel.hidden) {
+        hlPopup.hidden = true;
+      }
+    }, 500);
+  });
+
+  hlPopup.addEventListener("click", () => {
+    const p = annState.pending;
+    if (!p) return;
+    const ann = {
+      id: "a" + (store.get("ann_seq", 0) + 1),
+      session: annState.session,
+      secIndex: p.secIndex,
+      text: p.text,
+      occ: p.occ,
+      note: ""
+    };
+    store.set("ann_seq", store.get("ann_seq", 0) + 1);
+    saveAnns([...getAnns(), ann]);
+    applyOneAnnotation(ann);
+    const sel = window.getSelection();
+    if (sel) sel.removeAllRanges();
+    hlPopup.hidden = true;
+    openPanelFor(ann, p.rect);
+    annState.pending = null;
+  });
+
+  hlPanel.addEventListener("click", (e) => {
+    const anns = getAnns();
+    const ann = anns.find((a) => a.id === annState.activeId);
+    if (e.target.closest("[data-hl-save]") && ann) {
+      ann.note = hlPanel.querySelector("textarea").value.trim();
+      saveAnns(anns);
+      app.querySelectorAll(`mark[data-hl-id="${ann.id}"]`).forEach((m) => m.classList.toggle("hl--noted", !!ann.note));
+      hideHlUi();
+    }
+    if (e.target.closest("[data-hl-delete]") && ann) {
+      saveAnns(anns.filter((a) => a.id !== ann.id));
+      unwrapAnnotation(ann.id);
+      hideHlUi();
+    }
+    if (e.target.closest("[data-hl-close]")) hideHlUi();
+  });
+
   function viewMateri(id) {
     const s = getSession(id) || getSession(1);
     const available = DATA.sessions.filter((x) => x.summary).map((x) => x.id);
@@ -421,7 +639,10 @@
       <h1 class="view-title">Materi per Pertemuan</h1>
       <p class="view-sub">Angka bergaris emas menandakan sesi yang materinya sudah tersedia.
         Tiap bagian diberi penanda sumber: <span class="src-badge src-badge--ppt">📽️ Slide dosen</span> = dibahas
-        di kelas, <span class="src-badge src-badge--book">📖 Buku</span> = pengayaan dari buku referensi.</p>
+        di kelas, <span class="src-badge src-badge--book">📖 Buku</span> = pengayaan dari buku referensi.
+        <br>🖍️ <strong>Blok (seleksi) kalimat mana pun</strong> untuk menandainya dan menambahkan catatan penjelasan
+        dosen — lalu klik kalimat berstabilo untuk melihat atau mengedit catatannya. Semua tanda tersimpan otomatis
+        dan terkumpul juga di menu Catatan.</p>
       ${sessionPicker(s.id, available, "#/materi")}
       <div class="materi-header">
         <h2>Sesi ${s.id} — ${esc(s.topic)}</h2>
@@ -745,6 +966,26 @@
         <div class="notes-editor">
           <textarea id="noteArea" placeholder="Catatanmu untuk Sesi ${notesState.session} — ${esc(s.topic)}…">${esc(text)}</textarea>
           <div class="notes-status" id="noteStatus">Tersimpan otomatis saat kamu mengetik.</div>
+          ${(() => {
+            const anns = getAnns().filter((a) => a.session === notesState.session);
+            if (!anns.length) {
+              return `<p class="ann-empty">Belum ada kalimat yang kamu tandai di materi sesi ini.
+                Buka <a href="#/materi/${notesState.session}">Materi Sesi ${notesState.session}</a>, blok kalimat
+                yang dibahas dosen, lalu tambahkan catatan — semuanya akan terkumpul di sini.</p>`;
+            }
+            return `<h3 class="ann-heading">🖍️ Kalimat yang kamu tandai di materi (${anns.length})</h3>
+            <div class="ann-list">
+              ${anns.map((a) => `
+                <div class="ann-item">
+                  <blockquote>“${esc(a.text)}”</blockquote>
+                  ${a.note ? `<p class="ann-note">📝 ${esc(a.note)}</p>` : `<p class="ann-note ann-note--empty">Belum ada catatan — klik kalimatnya di materi untuk menambahkan.</p>`}
+                  <div class="ann-item-actions">
+                    <a class="btn btn--small btn--ghost" href="#/materi/${a.session}">Buka di materi</a>
+                    <button class="btn btn--small btn--red-outline" data-ann-del="${a.id}">Hapus</button>
+                  </div>
+                </div>`).join("")}
+            </div>`;
+          })()}
         </div>
       </div>
     </div>`;
@@ -801,12 +1042,28 @@
       a.classList.toggle("active", a.dataset.view === view || (!views[view] && a.dataset.view === "dashboard"));
     });
 
+    hideHlUi();
+    if (view === "materi") annApplyAll((param && getSession(param)) ? param : 1);
     if (view === "kalkulator") calcCompute();
     if (view === "catatan") bindNotes();
     window.scrollTo({ top: 0 });
   }
 
   app.addEventListener("click", (e) => {
+    const mark = e.target.closest("mark.hl");
+    if (mark) {
+      const ann = getAnns().find((a) => a.id === mark.dataset.hlId);
+      if (ann) { openPanelFor(ann, mark.getBoundingClientRect()); e.preventDefault(); }
+      return;
+    }
+
+    const annDel = e.target.closest("[data-ann-del]");
+    if (annDel) {
+      saveAnns(getAnns().filter((a) => a.id !== annDel.dataset.annDel));
+      render();
+      return;
+    }
+
     const goto = e.target.closest("[data-goto]");
     if (goto) { location.hash = goto.dataset.goto; return; }
 

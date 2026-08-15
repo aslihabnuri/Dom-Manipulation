@@ -23,7 +23,8 @@ python3 -m http.server 8000
 | **Flashcards** | 59 kartu hafalan (37 kartu Sesi 1, 22 kartu Sesi 2) dengan pelacakan penguasaan |
 | **Kuis** | 30 soal pilihan ganda (18 soal Sesi 1, 12 soal Sesi 2) dengan pembahasan & skor terbaik |
 | **Kalkulator** | Kalkulator labor & multifactor productivity (contoh Collins Title dari slide) |
-| **Catatan** | Jurnal pribadi per sesi, tersimpan otomatis |
+| **Highlight & Catat** | Blok kalimat mana pun di Materi → kalimat ditandai stabilo emas + tebal → klik untuk menambah/melihat catatan penjelasan dosen; semua tanda terkumpul di menu Catatan |
+| **Catatan** | Jurnal pribadi per sesi, tersimpan otomatis, plus daftar semua kalimat yang ditandai |
 
 Semua progres (sesi selesai, penguasaan kartu, skor kuis, catatan) disimpan di `localStorage` browser —
 tidak butuh server maupun akun.
