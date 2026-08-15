@@ -165,6 +165,53 @@ window.BEFS_VIZ = (function () {
     );
   },
 
+  primaryStakeholders: function () {
+    const L = [["Employees", 20], ["Shareholders & investors", 122], ["Creditors", 224]];
+    const R = [["Customers", 20], ["Suppliers", 122], ["Distributors & retailers", 224]];
+    let g = '<svg viewBox="0 0 560 300" class="wide" role="img" aria-label="Relasi perusahaan dan primary stakeholders">' +
+      '<defs>' +
+      '<marker id="ahp" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">' +
+      '<path d="M0,0 L10,5 L0,10 z" fill="var(--pine)"/></marker>' +
+      '<marker id="ahq" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">' +
+      '<path d="M0,0 L10,5 L0,10 z" fill="var(--brass)"/></marker>' +
+      '</defs>';
+    function sideBox(x, y, label) {
+      const two = label.length > 14;
+      let h = '<rect x="' + x + '" y="' + y + '" width="150" height="52" rx="10" class="d-box--pine"/>';
+      if (two) {
+        const parts = label.split(" & ");
+        h += '<text x="' + (x + 75) + '" y="' + (y + 23) + '" class="d-label--sm" text-anchor="middle" fill="var(--pine)">' + parts[0] + (parts[1] ? ' &amp;' : '') + '</text>';
+        h += '<text x="' + (x + 75) + '" y="' + (y + 37) + '" class="d-label--sm" text-anchor="middle" fill="var(--pine)">' + (parts[1] || '') + '</text>';
+      } else {
+        h += '<text x="' + (x + 75) + '" y="' + (y + 31) + '" class="d-label--sm" text-anchor="middle" fill="var(--pine)">' + label + '</text>';
+      }
+      return h;
+    }
+    L.forEach(function (b) {
+      const y = b[1] + 26;
+      g += sideBox(10, b[1], b[0]);
+      g += '<path d="M166 ' + (y - 7) + ' L199 ' + (y - 7) + '" stroke="var(--pine)" stroke-width="1.6" fill="none" marker-end="url(#ahp)"/>';
+      g += '<path d="M199 ' + (y + 7) + ' L166 ' + (y + 7) + '" stroke="var(--brass)" stroke-width="1.6" fill="none" marker-end="url(#ahq)"/>';
+    });
+    R.forEach(function (b) {
+      const y = b[1] + 26;
+      g += sideBox(400, b[1], b[0]);
+      g += '<path d="M394 ' + (y - 7) + ' L361 ' + (y - 7) + '" stroke="var(--pine)" stroke-width="1.6" fill="none" marker-end="url(#ahp)"/>';
+      g += '<path d="M361 ' + (y + 7) + ' L394 ' + (y + 7) + '" stroke="var(--brass)" stroke-width="1.6" fill="none" marker-end="url(#ahq)"/>';
+    });
+    g += '<path d="M205 148 L205 148" fill="none"/>' +
+      '<rect x="205" y="118" width="150" height="64" rx="12" class="d-box--dark"/>' +
+      '<text x="280" y="145" class="d-label d-label--inv" text-anchor="middle">PERUSAHAAN</text>' +
+      '<text x="280" y="162" class="d-note" fill="rgba(233,239,228,0.72)" text-anchor="middle">the business firm</text>' +
+      '<text x="280" y="24" class="d-note" text-anchor="middle">Setiap relasi bersifat dua arah — transaksi ekonomi langsung</text>' +
+      '</svg>' +
+      '<div class="viz-legend">' +
+      '<span><span class="lg-dot lg-dot--pine"></span>kontribusi kepada perusahaan</span>' +
+      '<span><span class="lg-dot lg-dot--brass"></span>imbalan dari perusahaan</span>' +
+      '</div>';
+    return fig(g, 'Relations between a business firm and its primary stakeholders — digambar ulang dari kerangka klasik stakeholder management (tradisi Carroll; bacaan pendukung CB).');
+  },
+
   /* ---------- CM3 ---------- */
 
   theoryTree: function () {

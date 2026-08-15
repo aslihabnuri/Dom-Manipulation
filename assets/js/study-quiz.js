@@ -66,6 +66,20 @@ window.BEFS_QUIZZES = [
     "Program sosial selalu menurunkan kualitas produk perusahaan"
   ], a: 3, why: "Tiga argumen Friedman adalah <strong>agensi, kompetensi, dan legitimasi</strong>. Pilihan (d) bukan argumennya dan tidak punya dasar." },
 
+  { ch: 2, q: "Manakah yang termasuk primary (market) stakeholder sebuah perusahaan?", opts: [
+    "Media massa yang meliput perusahaan",
+    "LSM lingkungan yang mengkritik operasinya",
+    "Pemasok bahan bakunya",
+    "Masyarakat umum di sekitar kantor pusatnya"
+  ], a: 2, why: "Primary stakeholders terlibat <strong>transaksi ekonomi langsung</strong>: karyawan, pemegang saham, kreditor, pelanggan, pemasok, distributor. Media, LSM, dan masyarakat umum adalah secondary (nonmarket) — berpengaruh, tetapi tidak bertransaksi langsung." },
+
+  { ch: 2, q: "Ciri pembeda utama primary dan secondary stakeholders adalah…", opts: [
+    "ukuran dan kekuatan finansial kelompoknya",
+    "keterlibatan dalam transaksi ekonomi langsung dengan perusahaan",
+    "kedekatan geografis dengan lokasi perusahaan",
+    "status hukum kelompok tersebut"
+  ], a: 1, why: "Pembedanya adalah <strong>jenis relasi</strong>: primary bertransaksi ekonomi langsung sehingga kelangsungan perusahaan bergantung padanya; secondary memengaruhi atau dipengaruhi tanpa transaksi langsung. Ingat: sekunder bukan berarti kurang penting — pada model salience, media atau LSM bisa menjadi definitive stakeholder." },
+
   { ch: 2, q: "Definisi stakeholder Freeman mencakup pihak yang…", opts: [
     "memiliki saham di perusahaan",
     "dapat memengaruhi ATAU dipengaruhi oleh pencapaian tujuan organisasi",

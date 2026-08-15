@@ -689,6 +689,57 @@ sebagai pergeseran pertanyaan: dari "bagaimana manajer melayani pemegang saham?"
   </div>
 </div>
 
+<p class="sub-h">Primary vs secondary stakeholders: relasi dua arah dengan perusahaan</p>
+
+<p><em>Dibahas dosen di kelas.</em> Sebelum menilai bobot tiap klaim, literatur stakeholder management membedakan
+dulu <strong>jenis relasinya</strong> — kerangka klasik dari tradisi Carroll yang juga ada di bacaan pendukung
+silabus (CB — Carroll &amp; Brown):</p>
+
+<div class="gs-grid">
+  <div class="gs-head gs-head--a">PRIMARY (market) STAKEHOLDERS</div>
+  <div class="gs-head gs-head--b">SECONDARY (nonmarket) STAKEHOLDERS</div>
+  <div class="gs-cell gs-cell--a">Terlibat <strong>transaksi ekonomi langsung</strong> dengan perusahaan.</div>
+  <div class="gs-cell gs-cell--b">Tidak bertransaksi langsung, tetapi dapat <strong>memengaruhi atau
+  dipengaruhi</strong> perusahaan.</div>
+  <div class="gs-cell gs-cell--a">Karyawan, pemegang saham &amp; investor, kreditor, pelanggan, pemasok,
+  distributor &amp; peritel.</div>
+  <div class="gs-cell gs-cell--b">Pemerintah, komunitas, media, LSM/kelompok aktivis, masyarakat umum,
+  asosiasi bisnis.</div>
+  <div class="gs-cell gs-cell--a"><strong>Uji cepat:</strong> bila kelompok ini menghilang, operasi perusahaan
+  langsung terancam berhenti.</div>
+  <div class="gs-cell gs-cell--b"><strong>Awas:</strong> sekunder bukan berarti kurang penting — media dan LSM bisa
+  menjadi <em>definitive stakeholder</em> pada model salience.</div>
+</div>
+
+{{viz:primaryStakeholders}}
+
+<p>Inti gambarnya ada pada <strong>panah dua arah</strong>: setiap primary stakeholder memberi sesuatu kepada
+perusahaan <em>dan</em> menerima sesuatu darinya. Relasinya adalah <strong>saling ketergantungan</strong>, bukan
+satu arah:</p>
+
+<div class="dbm-grid dbm-grid--3">
+  <div class="dbm-card"><b>Karyawan</b><span>Memberi tenaga, keterampilan, komitmen → menerima upah yang adil,
+  keamanan kerja, pengembangan.</span></div>
+  <div class="dbm-card"><b>Pemegang saham &amp; investor</b><span>Memberi modal → menerima dividen, kenaikan nilai,
+  hak suara dan informasi.</span></div>
+  <div class="dbm-card"><b>Kreditor</b><span>Memberi pinjaman → menerima bunga dan pelunasan tepat waktu.</span></div>
+  <div class="dbm-card"><b>Pelanggan</b><span>Memberi pendapatan dan loyalitas → menerima produk aman, bernilai,
+  dan informasi jujur.</span></div>
+  <div class="dbm-card"><b>Pemasok</b><span>Memberi bahan baku dan keandalan → menerima pembayaran adil, tepat
+  waktu, relasi berkelanjutan.</span></div>
+  <div class="dbm-card"><b>Distributor &amp; peritel</b><span>Memberi akses pasar → menerima margin wajar dan
+  dukungan produk.</span></div>
+</div>
+
+<div class="key-box">
+  <strong>Mengapa relasi dua arah ini penting secara etis.</strong> Ketika perusahaan menerima kontribusi tetapi
+  menekan imbalannya — upah di bawah layak (CM7), menunda pembayaran pemasok (CM9), produk tidak aman (CM8) —
+  relasi itu berubah dari pertukaran menjadi <em>ekstraksi</em>. Kerangka ini juga alat diagnosis cepat: telusuri
+  tiap panah dan tanyakan, <em>apakah kedua arah pertukarannya masih adil?</em> Bedakan pula dari model salience:
+  primary/secondary memetakan <strong>jenis relasi</strong>, salience memetakan <strong>bobot perhatian</strong> —
+  dua alat berbeda yang saling melengkapi.
+</div>
+
 <p class="sub-h">Menilai klaim: model salience — plus dua atribut dari slide</p>
 
 {{viz:stakeholderSalience}}
