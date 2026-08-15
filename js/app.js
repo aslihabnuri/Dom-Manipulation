@@ -358,6 +358,115 @@
       </figure>`;
     },
 
+    topdownCascade() {
+      return `<figure class="visual-block">
+        <div class="cascade">
+          <div class="cascade-box"><b>Corporate strategy — Micray Group percetakan</b>
+            <span>"Berspesialisasi di bisnis kemasan (packaging) · menjadi pemain besar di semua pasarnya"</span></div>
+          <div class="cascade-arrow" aria-hidden="true">↓</div>
+          <div class="cascade-box"><b>Business strategy — unit kemasan konsumen</b>
+            <span>Pertumbuhan volume cepat · layanan cepat · skala ekonomi</span></div>
+          <div class="cascade-arrow" aria-hidden="true">↓</div>
+          <div class="cascade-box cascade-box--ops"><b>Operations strategy</b>
+            <span>Ekspansi kapasitas · toleransi over-capacity jangka pendek · buka lokasi baru</span></div>
+        </div>
+        <figcaption>Top-down: hierarki strategi grup jasa percetakan — tiap level menerjemahkan level di atasnya</figcaption>
+      </figure>`;
+    },
+
+    orderWinnerCurves() {
+      const chart = (title, path, extra) => `
+        <div class="owc-cell">
+          <svg viewBox="0 0 150 130" role="img" aria-label="${title}">
+            <line x1="22" y1="110" x2="140" y2="110" class="plc-base"></line>
+            <line x1="22" y1="110" x2="22" y2="12" class="plc-base"></line>
+            <line x1="22" y1="61" x2="140" y2="61" class="owc-neutral"></line>
+            <text class="owc-axis" x="10" y="20">+</text>
+            <text class="owc-axis" x="10" y="66">0</text>
+            <text class="owc-axis" x="10" y="108">−</text>
+            ${extra || ""}
+            <path d="${path}" class="plc-curve"></path>
+          </svg>
+          <div class="owc-title">${title}</div>
+        </div>`;
+      return `<figure class="visual-block">
+        <div class="owc-grid">
+          ${chart("Order winners", "M 26 102 L 136 20")}
+          ${chart("Qualifiers", "M 26 104 C 60 102 66 96 76 62 C 84 34 96 28 136 26",
+            `<line x1="76" y1="110" x2="76" y2="20" class="owc-qline"></line>
+             <text class="owc-axis" x="80" y="100">qualifying level</text>`)}
+          ${chart("Less important", "M 26 74 L 136 56")}
+        </div>
+        <figcaption>Manfaat kompetitif vs kinerja (sumbu x: kinerja →) — investasi besar hanya untuk winners;
+        qualifiers cukup lolos qualifying level; less important nyaris datar</figcaption>
+      </figure>`;
+    },
+
+    micraytechMap() {
+      return `<figure class="visual-block">
+        <div class="persp-grid persp-grid--map">
+          <div class="persp-cell persp-cell--v"><b>Top-down</b>
+            <span>grup membangun kapabilitas produk &amp; layanan hi-tech → bisnis tumbuh lewat inovasi berbasis sistem</span><i>↓</i></div>
+          <div class="persp-cell persp-cell--h"><b>Inside-out</b>
+            <span>tidak semua modul terintegrasi; beli kapabilitas modul antarmuka; kembangkan pasokan sesuai kebutuhan klien</span><i>→</i></div>
+          <div class="persp-center persp-center--wide">Operasi mengembangkan sistem hi-tech <b>modular</b>:
+            fleksibilitas terkustomisasi &amp; inovasi berbiaya relatif rendah, lewat hubungan erat dengan klien &amp; pemasok</div>
+          <div class="persp-cell persp-cell--h"><i>←</i><b>Outside-in</b>
+            <span>pasar tumbuh di "integrated metrology systems"; jaga skill teknis, software, data exchange &amp; client liaison</span></div>
+          <div class="persp-cell persp-cell--v"><i>↑</i><b>Bottom-up</b>
+            <span>eksperimen desain "modular"; pelanggan bingung inovasi terus-menerus &amp; biaya naik</span></div>
+        </div>
+        <figcaption>Micraytech — empat perspektif direkonsiliasi menjadi satu kalimat strategi di tengah</figcaption>
+      </figure>`;
+    },
+
+    lineOfFit() {
+      return `<figure class="visual-block">
+        <svg viewBox="0 0 380 300" role="img" aria-label="Operations strategy matrix: line of fit">
+          <defs>
+            <marker id="lofArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" class="ef-arrowhead"></path>
+            </marker>
+          </defs>
+          <line x1="55" y1="250" x2="360" y2="250" class="plc-base"></line>
+          <line x1="55" y1="250" x2="55" y2="20" class="plc-base"></line>
+          <text class="radar-label" x="205" y="285" text-anchor="middle">Level kapabilitas operasi →</text>
+          <text class="radar-label" x="66" y="16">Level tuntutan pasar ↑</text>
+          <line x1="70" y1="235" x2="330" y2="45" class="lof-line"></line>
+          <text class="ef-note" x="292" y="32">line of fit</text>
+          <line x1="135" y1="180" x2="245" y2="102" class="ef-move" marker-end="url(#lofArrow)"></line>
+          <circle cx="120" cy="192" r="6" class="ef-dot"></circle>
+          <text class="radar-label" x="106" y="212">A</text>
+          <circle cx="258" cy="90" r="6" class="ef-dot"></circle>
+          <text class="radar-label" x="266" y="82">B</text>
+          <circle cx="120" cy="90" r="6" class="ef-dot ef-dot--x"></circle>
+          <text class="radar-label" x="106" y="82">X</text>
+          <text class="ef-note ef-note--red" x="60" y="62">janji pasar &gt; kemampuan → pelanggan kecewa</text>
+          <circle cx="258" cy="192" r="6" class="ef-dot ef-dot--x"></circle>
+          <text class="radar-label" x="266" y="212">Y</text>
+          <text class="ef-note ef-note--red" x="200" y="232">kapabilitas tak termanfaatkan → boros</text>
+        </svg>
+        <figcaption>Line of fit — A→B: naik kelas dengan tuntutan pasar &amp; kapabilitas bergerak bersama.
+        X dan Y sama-sama keluar jalur, dengan risiko yang berbeda</figcaption>
+      </figure>`;
+    },
+
+    strategyStages() {
+      return `<figure class="visual-block">
+        <div class="stages">
+          <div class="stage-box">1<br><b>Formulation</b><span>merumuskan</span></div>
+          <div class="flow-arrow" aria-hidden="true">→</div>
+          <div class="stage-box">2<br><b>Implementation</b><span>menjalankan</span></div>
+          <div class="flow-arrow" aria-hidden="true">→</div>
+          <div class="stage-box">3<br><b>Monitoring</b><span>memantau</span></div>
+          <div class="flow-arrow" aria-hidden="true">→</div>
+          <div class="stage-box">4<br><b>Control</b><span>mengoreksi</span></div>
+        </div>
+        <div class="stages-loop">↻ hasil control mengalir kembali ke formulation — strategi adalah proses berdaur, bukan dokumen sekali jadi</div>
+        <figcaption>Empat tahap proses operations strategy</figcaption>
+      </figure>`;
+    },
+
     efficientFrontier() {
       // titik pada elips lama (cx=50, cy=250, rx=280, ry=180) dan baru (rx=330, ry=215)
       const pt = (deg, rx, ry) => {

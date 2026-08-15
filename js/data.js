@@ -488,7 +488,7 @@ persentase perubahan dengan (baru − lama) ÷ lama.</div>`
           heading: "Operations Strategy: 4 Perspektif",
           questions: [{"q": "Kalau perspektif outside-in dan inside-out menunjuk arah berbeda — pasar menuntut murah, sementara kapabilitas kita justru di kustomisasi premium — perspektif mana yang seharusnya menang? Apakah ada urutan prioritas di antara keempat perspektif, atau rekonsiliasinya selalu kasus-per-kasus seperti Micraytech?", "guide": "Kenapa menarik: slide bilang 'keempatnya harus direkonsiliasi' tapi tidak bilang BAGAIMANA saat mereka bertabrakan — itu celah diskusi yang tajam. Follow-up: 'Dalam pengalaman Ibu, perusahaan Indonesia lebih sering gagal karena mengabaikan perspektif yang mana?'"}, {"q": "Di importance–performance matrix, zona 'excess?' menyarankan realokasi sumber daya dari faktor yang kinerjanya tinggi tapi tidak penting bagi pelanggan. Tapi kadang kelebihan itu justru ciri khas yang membedakan brand — bagaimana membedakan excess yang aman dipangkas dari excess yang diam-diam menjadi identitas?", "guide": "Kenapa menarik: mempersoalkan sisi paling kontroversial dari matrix — tanda baca '?' pada zona excess memang disengaja penulisnya. Contoh diskusi: pelayanan berlebih ala restoran Jepang yang 'tidak diminta' pelanggan tapi jadi reputasi. Follow-up: 'Bagaimana menguji secara murah apakah pelanggan diam-diam menghargai faktor itu?'"}],
           source: { kind: "ppt", label: "Slide Pertemuan 1" },
-          visuals: ["strategyPerspectives", "importancePerformance"],
+          visuals: ["strategyPerspectives", "topdownCascade", "orderWinnerCurves", "plc", "micraytechMap", "lineOfFit", "importancePerformance", "strategyStages"],
           body: `<p>Kalau operations management adalah "menjalankan mesin", maka
 <strong>operations strategy</strong> adalah menentukan "mesin seperti apa yang kita bangun dan ke mana arahnya".
 Definisi formalnya: <em>pola keputusan dan aksi yang membentuk visi jangka panjang, tujuan, dan kapabilitas operasi,
@@ -520,6 +520,15 @@ operasi bisa naik menjadi strategi perusahaan. Perspektif top-down dan bottom-up
 dari <em>kapabilitas sumber daya dan proses operasi</em> yang dikembangkan pelan-pelan dan sulit ditiru kompetitor.
 Strategi dibangun dari kekuatan unik yang sudah dimiliki, bukan hanya dari permintaan pasar.</li>
 </ul>
+<h4 class="sub-h">Correspondence &amp; coherence: dua syarat hierarki yang sehat</h4>
+<p>Perspektif top-down hanya bekerja bila hierarkinya selaras dua arah. Diagram di slide menggambarkan keduanya:
+<strong>correspondence</strong> adalah keselarasan <em>vertikal</em> — harus ada hubungan yang jelas, eksplisit, dan
+logis dari business strategy → operations strategy → sampai keputusan operasi sehari-hari; dan
+<strong>coherence</strong> adalah keselarasan <em>horizontal</em> — di dua lapis sekaligus: antar strategi fungsional
+(HR, marketing, operations, finance, IT harus saling melengkapi, bukan saling tarik), dan antar area keputusan
+<em>di dalam</em> strategi operasi itu sendiri (inovasi produk/jasa, struktur &amp; cakupan operasi, desain proses,
+supply chain, manajemen kapasitas). Kegagalan yang umum: tiap keputusan bagus sendiri-sendiri, tapi bersama-sama
+menarik operasi ke arah yang berbeda-beda.</p>
 <h4 class="sub-h">Contoh nyata tiap perspektif (dari slide dosen)</h4>
 <div class="case-box"><p><strong>📌 Top-down — grup jasa percetakan:</strong> perhatikan bagaimana strategi
 "diturunkan" tiga tingkat. Strategi korporat grup: <em>"berspesialisasi di bisnis kemasan (packaging) dan menjadi
@@ -567,7 +576,14 @@ menjadi kapabilitas → kapabilitas dieksploitasi secara strategis → kembali m
 dengan <em>operations capabilities</em> (apa yang operasi mampu). Idealnya keduanya berada pada "line of fit" —
 selaras. Titik A menggambarkan keselarasan di level rendah (pasar tidak menuntut banyak, operasi juga biasa saja);
 titik B keselarasan di level tinggi. Asumsi kebanyakan perusahaan: <strong>B lebih diinginkan daripada A</strong>
-karena lebih mungkin merepresentasikan posisi yang sukses secara finansial.</p>
+karena lebih mungkin merepresentasikan posisi yang sukses secara finansial — dan perjalanan dari A ke B menuntut
+dua hal bergerak bersama: tuntutan pasar dinaikkan <em>dan</em> kapabilitas operasi ditingkatkan.</p>
+<p>Panel kedua slide menunjukkan dua cara <strong>keluar dari line of fit</strong> — dan keduanya buruk dengan cara
+berbeda: titik <strong>X</strong> (tuntutan pasar di atas kapabilitas) berarti <em>kinerja operasi tidak memadai
+untuk janji pasar</em> — perusahaan menjanjikan apa yang tak sanggup ia penuhi, pelanggan kecewa; titik
+<strong>Y</strong> (kapabilitas di atas tuntutan pasar) berarti <em>kapabilitas operasi tidak termanfaatkan di
+pasar</em> — kemampuan mahal yang tidak dijual, alias pemborosan. Keduanya sinyal untuk bergerak kembali ke garis:
+X dengan membangun kapabilitas, Y dengan menaikkan posisi pasar (atau berhenti berinvestasi pada kelebihan itu).</p>
 <h4 class="sub-h">Importance–performance matrix: menentukan prioritas perbaikan</h4>
 <p>Alat praktis untuk memutuskan <em>apa yang diperbaiki duluan</em>. Setiap faktor kompetitif dipetakan pada dua
 sumbu: seberapa <em>penting</em> bagi pelanggan, dan seberapa baik <em>kinerja</em> kita dibanding kompetitor.
@@ -579,10 +595,22 @@ Hasilnya empat zona:</p>
 <li><strong>Excess?</strong> — kinerja tinggi pada faktor yang tidak penting; tanyakan: apakah sumber daya di sini
 sebaiknya dialihkan ke tempat lain?</li>
 </ul>
-<div class="case-box"><strong>📌 Contoh dari slide — YIR Laboratories:</strong> anak perusahaan elektronik ini harus
-memutuskan aspek layanan mana yang diperbaiki lebih dulu. Caranya: menyusun daftar aspek terpenting layanannya, memberi
-skor kepentingan dan kinerja pada skala 1–9, lalu memetakan tiap aspek ke dalam matriks — aspek di zona urgent-action
-otomatis jadi prioritas pertama.</div>
+<div class="case-box"><p><strong>📌 Contoh dari slide — YIR Laboratories, lengkap dengan hasilnya:</strong>
+anak perusahaan elektronik ini harus memutuskan aspek layanan mana yang diperbaiki lebih dulu. Caranya: menyusun
+delapan aspek terpenting layanannya, memberi masing-masing dua skor pada skala 1–9 (kepentingan bagi pelanggan ×
+kinerja dibanding kompetitor), lalu memetakannya ke matriks. Hasil pemetaannya:</p>
+<ul>
+<li><strong>Zona urgent action</strong> — <em>price/cost</em> dan <em>communications</em>: penting bagi pelanggan
+tapi kinerjanya kalah dari kompetitor → prioritas perbaikan nomor satu.</li>
+<li><strong>Zona improve</strong> — <em>delivery speed</em>, <em>delivery dependability</em>, dan
+<em>delivery flexibility</em>: di bawah batas kelayakan → masuk daftar perbaikan berikutnya.</li>
+<li><strong>Zona appropriate</strong> — <em>technical solution</em> (order winner yang kinerjanya unggul) dan
+<em>specification flexibility</em>: pertahankan.</li>
+<li><strong>Zona excess?</strong> — <em>documentation</em>: kinerjanya bagus tapi tidak penting bagi pelanggan →
+kandidat realokasi sumber daya ke aspek yang urgent.</li>
+</ul>
+<p>Perhatikan pelajaran manajerialnya: tanpa matriks, tim yang bangga dengan dokumentasinya akan terus menyempurnakan
+hal yang tidak dihargai pelanggan — sementara harga dan komunikasi yang menentukan order justru tertinggal.</p></div>
 <p>Terakhir, ingat bahwa strategi operasi disusun melalui <em>proses</em> bertahap (formulation → implementation →
 monitoring → control) — strategi bukan dokumen sekali jadi.</p>
 <h4 class="sub-h">Membaca order winners lewat kurvanya</h4>
