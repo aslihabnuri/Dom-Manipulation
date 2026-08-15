@@ -12,7 +12,7 @@ disimpan di `localStorage` peramban, jadi tidak ada server, akun, maupun data ya
 |---|---|
 | **Dashboard** | Ringkasan mata kuliah, course objectives, bobot penilaian, referensi, dan progres belajar. |
 | **Silabus** | 14 sesi sesuai *Weekly Learning Activity Plan* pada RPKPS, penanda sesi selesai, skala nilai, aturan integritas akademik. Isi tanggal sesi pertama dan jadwal 14 minggu dihitung otomatis. |
-| **Materi** | **Panduan slide dosen** lebih dulu (untuk bab yang tersedia), lalu rangkuman 12 bab (CM1–CM12) dalam Bahasa Indonesia dengan istilah kunci Bahasa Inggris, 58 bagian, 35 diagram, kotak "Fokus ujian", dan kasus nyata di tiap bab. |
+| **Materi** | 12 bab (CM1–CM12) dalam Bahasa Indonesia dengan istilah kunci Bahasa Inggris — 61 bagian, 35 diagram, kotak "Fokus ujian", dan kasus nyata di tiap bab. Pada bab yang sudah ada slide dosennya, urutan bagian **mengikuti alur slide dan diperkaya penjelasan buku**, dengan badge sumber PPT/buku di tiap bagian. |
 | **Flashcards** | 127 kartu tanya-jawab, dapat disaring per bab, dengan penanda penguasaan dan pintasan keyboard. |
 | **Kuis** | 97 soal pilihan ganda beserta penjelasan. Mode per bab, simulasi **mid-term** (CM1–CM6), dan simulasi **final** (CM7–CM12). |
 | **Kasus** | Dua bagian. **Penganalisis** dilema etis lima langkah: rumusan dilema → peta stakeholder → lima lensa teori → penilaian → alternatif solusi, bisa menyimpan beberapa kasus dan menyalin ringkasannya sebagai teks. **Pustaka kasus** berisi 26 kasus nyata yang diliput media — dua per bab (satu internasional, satu Indonesia), plus dua kasus resmi buku pada CM1 dan CM2. |
@@ -27,19 +27,20 @@ menambahkan catatan. Sorotan bertahan setelah halaman dimuat ulang dan muncul di
 Berkas PPT dari dosen di folder Drive **Materi** menjadi **pedoman urutan pembelajaran**. Kode
 di belakang nama berkas menandai pertemuannya — `(1)` pertemuan pertama, `(2)` pertemuan kedua.
 
-Pada halaman Materi, bab yang punya slide menampilkan panduannya **lebih dulu**, baru diikuti
-rangkuman buku. Tiap slide ditampilkan sebagai kartu berisi judul, butir isi, tabel atau alur bila
-ada, prompt untuk kelas, dan **catatan penjelasan dosen** yang bisa dibuka-tutup. Di bawahnya ada
-alur kelas yang disarankan, key takeaways, pertanyaan penutup, rujukan slide, dan ringkasan satu
-kalimat.
+Isi slide **dilebur langsung ke dalam materi bab** (bukan blok terpisah): urutan bagian mengikuti
+alur slide dosen, dan tiap bagian diperkaya penjelasan buku — mengikuti format OTM Study Hub.
+Badge di tiap bagian menunjukkan sumbernya: badge kuningan `📊 Slide n` untuk isi slide, badge
+hijau `CMn` untuk pendalaman buku. Prompt kelas, catatan penjelasan dosen, alur sesi 75–90 menit,
+pertanyaan penutup, dan ringkasan satu kalimat ikut dilebur di bagian terkait.
 
-| Pertemuan | Bab | Slide | Berkas |
-|---|---|---|---|
-| 1 | CM1 — Introducing Business Ethics | 11 kartu inti dari 15 slide | `Chapter_1_with_Explanatory_Notes (1).pptx` |
-| 2 | CM2 — Framing Business Ethics | 15 kartu inti dari 18 slide | `Chapter_2_Slides_and_Explanatory_Notes (2).pptx` |
+| Pertemuan | Bab | Berkas |
+|---|---|---|
+| 1 | CM1 — Introducing Business Ethics (6 bagian) | `Chapter_1_with_Explanatory_Notes (1).pptx` |
+| 2 | CM2 — Framing Business Ethics (7 bagian) | `Chapter_2_Slides_and_Explanatory_Notes (2).pptx` |
 
-Bab yang sudah punya slide ditandai titik emas pada pemilih bab. Menambahkan pertemuan berikutnya
-cukup dengan menambah satu entri di `assets/js/decks.js` — tidak perlu menyentuh logika aplikasi.
+Bab yang sudah punya slide ditandai titik emas pada pemilih bab dan bar pedoman berisi tautan ke
+PPT aslinya. Menambahkan pertemuan berikutnya: satu entri metadata di `assets/js/decks.js`, lalu
+lebur isi slide-nya ke bagian bab terkait di `chapters.js` dengan field `ppt`.
 
 Slide dosen menyebut sumbernya sebagai **Crane, Matten, Glozer & Spence (2019), edisi ke-5**.
 Silabus menyingkatnya menjadi "Crane & Matten"; daftar referensi di aplikasi kini memakai kutipan
@@ -99,9 +100,9 @@ index.html                 kerangka halaman dan navigasi
 build.py                   membundel semuanya menjadi dist/befs-study-hub.html
 assets/css/app.css         sistem desain: palet, tipografi, komponen, diagram, responsif
 assets/js/data.js          metadata mata kuliah + 14 sesi (dari RPKPS)
-assets/js/chapters.js      materi CM1–CM12 (58 bagian)
+assets/js/chapters.js      materi CM1–CM12 (61 bagian; CM1–CM2 melebur slide dosen + buku)
 assets/js/visuals.js       35 diagram SVG/CSS
-assets/js/decks.js         panduan slide dosen per pertemuan
+assets/js/decks.js         metadata slide dosen per pertemuan
 assets/js/cases.js         26 kasus nyata beserta rujukan beritanya
 assets/js/study-cards.js   127 flashcard + 126 istilah glosarium
 assets/js/study-quiz.js    97 soal pilihan ganda beserta pembahasan

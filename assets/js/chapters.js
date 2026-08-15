@@ -16,28 +16,42 @@ window.BEFS_CHAPTERS = [
 
 /* ==========================================================
    CM1 — INTRODUCING BUSINESS ETHICS
+   Pertemuan 1 — urutan mengikuti slide dosen, diperkaya buku.
    ========================================================== */
 {
   id: 1, ref: "CM1", session: 1,
   title: "Introducing Business Ethics",
   titleId: "Pengantar Etika Bisnis",
-  blurb: "Apa itu etika bisnis, mengapa ia penting justru sekarang, bagaimana ia berbeda dari hukum, dan bagaimana globalisasi serta sustainability mengubah pertanyaannya.",
+  blurb: "Pertemuan 1. Urutan materi mengikuti alur slide dosen — definisi, batas etika dan hukum, mengapa etika bisnis penting, lalu dua tema besar buku: globalisasi dan sustainability — dan tiap bagian diperkaya penjelasan buku.",
   objectives: [
-    "Membedakan morality, ethics, dan ethical theory.",
-    "Menjelaskan mengapa etika bisnis penting dan mengapa ia bukan sekadar kepatuhan hukum.",
-    "Menjelaskan dampak globalisasi terhadap etika bisnis.",
-    "Menjelaskan konsep sustainability dan triple bottom line."
+    "Mendefinisikan business ethics sebagai bidang kajian dan membedakan morality, ethics, serta ethical theory.",
+    "Menjelaskan hubungan etika dan hukum — dan mengapa kepatuhan hukum hanyalah lantai minimum.",
+    "Menjelaskan mengapa etika bisnis penting bagi manajer dan masyarakat, di organisasi privat, publik, maupun masyarakat sipil.",
+    "Mengenali globalisasi sebagai konteks kunci beserta perbedaan perspektif antarkawasan.",
+    "Memakai sustainability dan triple bottom line sebagai lensa penilaian."
   ],
   sections: [
     {
       title: "Apa itu business ethics?",
-      src: "CM1",
+      src: "CM1", ppt: "Slide 2–3 & 5",
       body: `
 <p><strong>Business ethics</strong> adalah studi tentang situasi, aktivitas, dan keputusan bisnis di mana persoalan
-<em>benar dan salah</em> (right and wrong) dipertanyakan. Kata kuncinya adalah <strong>"right and wrong"</strong> —
-bukan soal legal atau ilegal, bukan soal untung atau rugi, melainkan soal moral.</p>
+<em>benar dan salah secara moral</em> dipertanyakan. Slide dosen memberi tiga penegasan atas definisi ini:</p>
 
-<p>Crane &amp; Matten membedakan tiga istilah yang sering tertukar. Ini pertanyaan klasik ujian, jadi kuasai bedanya:</p>
+<ul>
+  <li>Tidak terbatas pada perusahaan pencari laba;</li>
+  <li>berlaku untuk organisasi <strong>publik, swasta, dan masyarakat sipil</strong>;</li>
+  <li>menyangkut benar-salah <strong>moral</strong> — bukan sekadar untung-rugi komersial.</li>
+</ul>
+
+<p>Buku menempatkan definisi ini <em>di dalam</em> aktivitas bisnis sehari-hari: isu etis tidak hanya muncul pada
+skandal besar seperti korupsi atau penipuan. Keputusan harga bisa rasional secara ekonomi tetapi tetap menimbulkan
+pertanyaan keadilan; kampanye pemasaran bisa legal tetapi menyesatkan konsumen yang rentan. Pertanyaan dasarnya
+selalu sama: <em>bagaimana keputusan ini memengaruhi pihak lain, dan dapatkah ia dibenarkan secara moral?</em></p>
+
+<p class="sub-h">Morality, ethics, dan ethical theory</p>
+
+<p>Slide 5 menyusun tiga istilah yang sering tertukar — dan ini pertanyaan klasik ujian:</p>
 
 <div class="dbm-grid dbm-grid--3">
   <div class="dbm-card">
@@ -48,43 +62,59 @@ bukan soal legal atau ilegal, bukan soal untung atau rugi, melainkan soal moral.
   </div>
   <div class="dbm-card">
     <b>Ethics</b>
-    <span>Studi tentang moralitas dan penerapan akal (reason) untuk menjelaskan aturan dan prinsip spesifik yang
-    menentukan benar dan salah pada situasi tertentu.</span>
+    <span>Refleksi sistematis dan rasional atas moralitas — aturan dan prinsip yang menentukan benar dan salah pada
+    situasi tertentu.</span>
     <em>Level: refleksi rasional atas moralitas</em>
   </div>
   <div class="dbm-card">
     <b>Ethical theory</b>
-    <span>Aturan dan prinsip hasil dari studi etika, yang menentukan benar dan salah untuk situasi tertentu —
-    misalnya utilitarianism atau ethics of duty.</span>
+    <span>Kerangka terstruktur hasil studi etika untuk mengevaluasi dilema — misalnya utilitarianism atau ethics
+    of duty.</span>
     <em>Level: teori yang bisa dipakai menilai</em>
   </div>
 </div>
 
 <p class="viz-hint">Alurnya: <strong>morality</strong> (yang dipercaya masyarakat) → dipelajari secara rasional oleh
-<strong>ethics</strong> → menghasilkan <strong>ethical theory</strong> yang bisa diterapkan kembali ke situasi bisnis.</p>
+<strong>ethics</strong> → menghasilkan <strong>ethical theory</strong> yang bisa diterapkan kembali ke situasi bisnis.
+Catatan dosen: penalaran etis bukan sekadar pendapat pribadi — teori membantu membangun penilaian yang disiplin dan
+dapat dipertahankan.</p>
 
 <p class="sub-h">Apakah "business ethics" itu oxymoron?</p>
 
 <p>Kritik populer mengatakan bisnis dan etika saling meniadakan: bisnis bertujuan mencari laba, etika menuntut
-pengorbanan. Crane &amp; Matten menolak posisi ini. Justru karena bisnis punya <strong>kekuatan besar</strong> dan
-beroperasi di wilayah abu-abu, refleksi etis menjadi penting. Etika bisnis tidak menggantikan tujuan bisnis —
-ia mempertanyakan <em>cara</em> tujuan itu dicapai dan <em>siapa</em> yang menanggung biayanya.</p>
+pengorbanan. Buku menolak posisi ini. Justru karena bisnis punya <strong>kekuatan besar</strong> dan beroperasi di
+wilayah abu-abu, refleksi etis menjadi penting. Etika bisnis tidak menggantikan tujuan bisnis — ia mempertanyakan
+<em>cara</em> tujuan itu dicapai dan <em>siapa</em> yang menanggung biayanya.</p>
+
+<div class="case-box">
+  <strong>Prompt dari slide untuk kelas.</strong>
+  <p>Definisikan "etika bisnis sebuah organisasi" dalam <em>satu kalimat</em>. Latihan ini kelihatan sepele, tetapi
+  memaksa kamu memilih: apakah definisimu berhenti pada kepatuhan, atau mencakup dampak pada pihak lain?</p>
+</div>
 
 <div class="key-box">
   <strong>Kunci ujian.</strong> Ketika ditanya "apa itu business ethics", jangan berhenti pada "belajar soal moral
-  dalam bisnis". Sebutkan definisi Crane &amp; Matten secara utuh — <em>situasi, aktivitas, dan keputusan bisnis di
-  mana isu benar dan salah dipertanyakan</em> — lalu bedakan morality / ethics / ethical theory.
+  dalam bisnis". Sebutkan definisinya secara utuh — <em>situasi, aktivitas, dan keputusan bisnis di mana isu benar
+  dan salah dipertanyakan</em> — lalu bedakan morality / ethics / ethical theory, dan tegaskan bahwa cakupannya
+  melampaui perusahaan komersial.
 </div>`
     },
     {
-      title: "Etika, hukum, dan wilayah abu-abu",
-      src: "CM1",
+      title: "Etika dan hukum: batas yang tidak sama",
+      src: "CM1", ppt: "Slide 4",
       body: `
 <p>Kesalahan paling umum mahasiswa adalah menyamakan <strong>legal</strong> dengan <strong>ethical</strong>.
-Hukum dan etika beririsan, tetapi tidak identik. Crane &amp; Matten merumuskannya sebagai berikut:</p>
+Slide 4 merangkum relasinya dalam empat butir:</p>
 
-<p><em>"Business ethics dimulai di titik hukum berakhir."</em> Etika bisnis terutama berkaitan dengan isu-isu yang
-<strong>tidak dicakup oleh hukum</strong>, atau di mana tidak ada konsensus jelas tentang apa yang benar.</p>
+<ul>
+  <li>Hukum menetapkan <strong>batas minimum</strong> perilaku yang dapat diterima;</li>
+  <li>sebagian isu etis <strong>belum diatur</strong> oleh hukum;</li>
+  <li>sebagian persoalan hukum <strong>bukan dilema moral</strong>;</li>
+  <li>perdebatan etis hari ini dapat <strong>membentuk hukum</strong> di kemudian hari.</li>
+</ul>
+
+<p>Karena itu buku merumuskan: <em>"Business ethics dimulai di titik hukum berakhir."</em> Etika bisnis terutama
+bekerja pada isu-isu yang tidak dicakup hukum, atau yang belum ada konsensus jelas tentang apa yang benar.</p>
 
 {{viz:ethicsLaw}}
 
@@ -96,7 +126,7 @@ Hukum dan etika beririsan, tetapi tidak identik. Crane &amp; Matten merumuskanny
   agresif yang sah secara hukum tetapi memindahkan beban ke pembayar pajak lain; memasarkan makanan tinggi gula
   ke anak-anak; PHK massal saat perusahaan untung besar.</li>
   <li><strong>Ilegal tapi dianggap etis oleh sebagian pihak</strong> — misalnya <em>whistleblowing</em> yang melanggar
-  klausul kerahasiaan, atau aksi pembangkangan sipil terhadap regulasi yang dianggap tidak adil.</li>
+  klausul kerahasiaan, atau pembangkangan sipil terhadap regulasi yang dianggap tidak adil.</li>
   <li><strong>Ilegal &amp; tidak etis</strong> — penipuan, suap, kartel. Ini urusan hukum, bukan lagi dilema etis.</li>
 </ul>
 
@@ -105,54 +135,93 @@ Hukum dan etika beririsan, tetapi tidak identik. Crane &amp; Matten merumuskanny
   artinya hukum selalu <strong>tertinggal</strong> dari isu etis yang baru muncul. Ketika teknologi atau model bisnis
   baru lahir (AI, gig economy, data pribadi), wilayah "legal tapi belum tentu etis" melebar. Di situlah manajer harus
   memutuskan tanpa panduan hukum.
+</div>
+
+<div class="case-box">
+  <strong>Pertanyaan kelas (slide 4).</strong>
+  <p>Bisakah suatu tindakan legal tetapi tetap tidak etis? Siapkan satu contoh bisnis terkini. Catatan dosen memberi
+  dua contoh: perusahaan yang memenuhi regulasi lingkungan secara teknis sambil tetap menghasilkan polusi yang tidak
+  perlu, dan skema pajak agresif yang memenuhi bunyi hukum tetapi mempertanyakan tanggung jawab sosialnya.
+  Pelajarannya: <strong>kepatuhan hukum adalah lantai, bukan langit-langit.</strong></p>
 </div>`
     },
     {
-      title: "Mengapa etika bisnis penting?",
-      src: "CM1",
+      title: "Mengapa etika bisnis penting — di semua jenis organisasi",
+      src: "CM1", ppt: "Slide 6–7",
       body: `
-<p>Crane &amp; Matten memberi beberapa alasan mengapa etika bisnis layak dipelajari secara serius:</p>
+<p>Slide 6 membagi alasannya menjadi dua sisi:</p>
 
-<ol>
-  <li><strong>Kekuatan dan pengaruh bisnis dalam masyarakat kini sangat besar</strong> — banyak korporasi punya
-  pendapatan melebihi PDB negara berkembang. Kekuatan besar menuntut tanggung jawab besar.</li>
-  <li><strong>Bisnis punya potensi memberi kontribusi besar</strong> pada masyarakat: lapangan kerja, inovasi,
-  produk, pajak. Pertanyaannya bagaimana kontribusi itu dioptimalkan.</li>
-  <li><strong>Malpraktik bisnis berpotensi menimbulkan kerugian sangat luas</strong> — pada individu, komunitas, dan
-  lingkungan. Krisis keuangan 2008 dan skandal emisi Volkswagen adalah contohnya.</li>
-  <li><strong>Tuntutan dari stakeholder meningkat</strong> — konsumen, investor, karyawan, dan LSM kini aktif menuntut
-  akuntabilitas.</li>
-  <li><strong>Isu etis kompleks dan tidak punya jawaban tunggal</strong> — manajer perlu kerangka berpikir, bukan
-  sekadar daftar aturan.</li>
-  <li><strong>Pendidikan etika bisnis membantu</strong> mengidentifikasi, menalar, dan mengambil keputusan yang bisa
-  dipertanggungjawabkan.</li>
-</ol>
+<div class="gs-grid">
+  <div class="gs-head gs-head--a">ALASAN KEMASYARAKATAN</div>
+  <div class="gs-head gs-head--b">ALASAN MANAJERIAL</div>
+  <div class="gs-cell gs-cell--a">Bisnis punya kekuatan dan pengaruh sosial yang besar.</div>
+  <div class="gs-cell gs-cell--b">Manajer menghadapi tekanan nyata dan ambiguitas moral.</div>
+  <div class="gs-cell gs-cell--a">Bisnis dapat menciptakan nilai dan memecahkan masalah.</div>
+  <div class="gs-cell gs-cell--b">Media, LSM, konsumen, dan karyawan mengawasi perusahaan.</div>
+  <div class="gs-cell gs-cell--a">Bisnis juga dapat menimbulkan kerugian luas.</div>
+  <div class="gs-cell gs-cell--b">Perusahaan global melintasi batas hukum dan budaya.</div>
+  <div class="gs-cell gs-cell--a">Kegagalan etis merusak kepercayaan dan legitimasi.</div>
+  <div class="gs-cell gs-cell--b">Etika bisnis membantu menyusun keputusan yang lebih baik.</div>
+</div>
+
+<p>Buku merincinya: banyak korporasi punya pendapatan melebihi PDB negara berkembang — kekuatan besar menuntut
+tanggung jawab besar; malpraktik berpotensi merugikan sangat luas; tuntutan stakeholder meningkat; dan isu etis
+kompleks tanpa jawaban tunggal, sehingga manajer perlu <em>kerangka berpikir</em>, bukan daftar aturan. Contoh
+kepentingan yang bertabrakan: pemegang saham ingin imbal hasil, karyawan menuntut kondisi kerja, pelanggan ingin
+harga murah, komunitas mengharapkan perlindungan lingkungan.</p>
 
 <div class="case-box">
   <strong>Kasus rujukan — Volkswagen "Dieselgate" (2015).</strong>
   <p>VW memasang <em>defeat device</em>: perangkat lunak yang mendeteksi kondisi uji emisi dan menurunkan output NOx
   hanya saat diuji. Di jalan raya, emisi mencapai hingga 40 kali batas legal. Sekitar 11 juta kendaraan terdampak.</p>
-  <p><strong>Kenapa relevan untuk CM1?</strong> Ini menunjukkan tiga hal sekaligus: (1) kekuatan bisnis menimbulkan
-  dampak lintas negara; (2) malpraktik menimbulkan kerugian luas — kesehatan publik, nilai saham, kepercayaan
-  industri; (3) masalahnya bukan ketiadaan aturan, melainkan keputusan sadar untuk mengakalinya. Biaya total bagi VW
-  melampaui EUR 30 miliar — bukti bahwa <em>ethics pays</em> juga berlaku terbalik.</p>
+  <p><strong>Kenapa relevan untuk CM1?</strong> (1) Kekuatan bisnis menimbulkan dampak lintas negara; (2) malpraktik
+  merugikan luas — kesehatan publik, nilai saham, kepercayaan industri; (3) masalahnya bukan ketiadaan aturan,
+  melainkan keputusan sadar mengakalinya. Biaya total bagi VW melampaui EUR 30 miliar — bukti <em>ethics pays</em>
+  juga berlaku terbalik.</p>
+</div>
+
+<p class="sub-h">Etika bisnis melampaui korporasi komersial</p>
+
+<p>Slide 7 menegaskan poin yang sering terlewat: tanggung jawab etis ada di mana pun keputusan organisasi
+memengaruhi orang — tetapi tantangan spesifiknya berbeda menurut tujuan dan akuntabilitas organisasi.</p>
+
+<div class="dbm-grid dbm-grid--3">
+  <div class="dbm-card">
+    <b>Private firms</b>
+    <span>Akuntabel pada pemilik, pelanggan, karyawan.</span>
+    <em>Fokus: laba, kejujuran berdagang, rantai pasok</em>
+  </div>
+  <div class="dbm-card dbm-card--brass">
+    <b>Public sector</b>
+    <span>Akuntabel pada warga negara, hukum, dan pengawasan pemerintah.</span>
+    <em>Fokus: rule of law, korupsi, konflik kepentingan</em>
+  </div>
+  <div class="dbm-card dbm-card--clay">
+    <b>Civil society</b>
+    <span>Akuntabel pada penerima manfaat, donor, dan misi publik.</span>
+    <em>Fokus: akuntabilitas, legitimasi, mission drift</em>
+  </div>
 </div>
 
 <p class="sub-h">Apakah etis itu menguntungkan? (the business case)</p>
 
-<p>Pertanyaan "does ethics pay?" tidak punya jawaban sederhana. Riset menunjukkan korelasi positif yang lemah hingga
-sedang antara kinerja sosial dan kinerja finansial, tetapi <strong>arah sebabnya tidak jelas</strong> — apakah
-perusahaan etis jadi untung, atau perusahaan untung mampu membiayai program etis? Crane &amp; Matten mengingatkan:
-jika alasan satu-satunya berperilaku etis adalah profit, maka begitu tidak menguntungkan, perilaku etis akan
+<p>Pertanyaan "does ethics pay?" tidak punya jawaban sederhana. Riset menunjukkan korelasi positif lemah hingga
+sedang antara kinerja sosial dan finansial, tetapi <strong>arah sebabnya tidak jelas</strong>. Peringatan buku: jika
+alasan satu-satunya berperilaku etis adalah profit, maka begitu tidak menguntungkan, perilaku etis akan
 ditinggalkan. Itu bukan etika, itu strategi.</p>`
     },
     {
-      title: "Globalisasi dan etika bisnis",
-      src: "CM1",
+      title: "Globalisasi: konteks yang mengubah pertanyaan",
+      src: "CM1", ppt: "Slide 8–9 & 11",
       body: `
-<p><strong>Globalization</strong> didefinisikan sebagai proses <em>deterritorialization</em> — aktivitas sosial,
-politik, dan ekonomi semakin terlepas dari batas wilayah geografis tertentu. Bagi etika bisnis, ini menimbulkan
-tiga celah (gap) yang menjadi inti bahasan sepanjang buku:</p>
+<p><strong>Globalization</strong> didefinisikan buku sebagai proses <em>deterritorialization</em> — aktivitas sosial,
+politik, dan ekonomi semakin terlepas dari batas wilayah geografis. Slide 8 menyebut lima arena yang kini saling
+terhubung:</p>
+
+<div class="fx-chips"><span>Markets</span><span>Supply chains</span><span>Culture</span><span>Climate</span><span>Technology</span></div>
+
+<p>Akibatnya: saling ketergantungan meningkat, risiko reputasi menjalar lebih cepat, dan perusahaan berhadapan
+dengan ekspektasi moral yang berbeda-beda. Buku menajamkannya menjadi tiga celah (gap):</p>
 
 {{viz:globalGaps}}
 
@@ -187,257 +256,429 @@ tiga celah (gap) yang menjadi inti bahasan sepanjang buku:</p>
   <div class="gs-cell gs-cell--b"><strong>Risiko:</strong> imperialisme moral; mengabaikan konteks lokal yang sah.</div>
 </div>
 
-<p>Crane &amp; Matten menolak kedua ekstrem dan mengusulkan <strong>ethical pluralism</strong>: mengakui adanya
-beberapa nilai inti yang tidak bisa ditawar (hak asasi dasar, larangan kerja paksa), sambil menghormati variasi
-lokal pada hal-hal yang secara moral tidak setara.</p>`
+<p>Buku menolak kedua ekstrem dan mengusulkan <strong>ethical pluralism</strong>: ada nilai inti yang tidak bisa
+ditawar (hak asasi dasar, larangan kerja paksa), sambil menghormati variasi lokal pada hal yang secara moral tidak
+setara bobotnya.</p>
+
+<p class="sub-h">Perspektif internasional (slide 9)</p>
+
+<div class="dbm-grid dbm-grid--3">
+  <div class="dbm-card">
+    <b>Europe</b>
+    <span>Kontrol sosial kolektif; pemerintah dan serikat pekerja sentral; kerangka hukum hasil negosiasi;
+    orientasi multi-stakeholder.</span>
+  </div>
+  <div class="dbm-card">
+    <b>North America</b>
+    <span>Tanggung jawab individual; korporasi sebagai aktor kunci; codes of ethics; fokus pada misconduct dan
+    situasi keputusan.</span>
+  </div>
+  <div class="dbm-card">
+    <b>Asia</b>
+    <span>Diskresi manajemen puncak; pemerintah dan korporasi sebagai aktor kunci; tekanan pada governance dan
+    akuntabilitas; pendekatan stakeholder yang implisit.</span>
+  </div>
+</div>
+
+<p>Peringatan slide: ini <em>pola perbandingan umum, bukan stereotip</em> untuk setiap negara atau organisasi.
+Perhatikan kolom Asia — relasi pemerintah-korporasi dan stakeholder implisit — karena paling dekat dengan konteks
+Indonesia dan akan terasa lagi saat membahas tata kelola (CM6) dan regulasi (CM11).</p>
+
+<p class="sub-h">Dampak globalisasi per stakeholder (slide 11)</p>
+
+<div class="dbm-grid dbm-grid--3">
+  <div class="dbm-card"><b>Shareholders</b><span>Governance, transparansi, short-termism.</span></div>
+  <div class="dbm-card"><b>Employees</b><span>Standar ketenagakerjaan, migrasi, hak di tempat kerja.</span></div>
+  <div class="dbm-card"><b>Consumers</b><span>Keamanan, privasi, harga, informasi.</span></div>
+  <div class="dbm-card"><b>Suppliers</b><span>Sourcing, suap, kondisi kerja.</span></div>
+  <div class="dbm-card"><b>Society</b><span>Iklim, pajak, ketimpangan, hak asasi manusia.</span></div>
+</div>
+
+<div class="case-box">
+  <strong>Aktivitas kelas (slide 11).</strong>
+  <p>Pilih satu perusahaan multinasional dan petakan isu etis utamanya per stakeholder. Susunan ini adalah cikal
+  bakal <em>stakeholder mapping</em> yang kerangka penuhnya menunggu di CM2.</p>
+</div>`
     },
     {
       title: "Sustainability dan triple bottom line",
-      src: "CM1",
+      src: "CM1", ppt: "Slide 10",
       body: `
-<p><strong>Sustainability</strong> adalah konsep pengorganisasi (organizing principle) buku ini. Definisi paling
-banyak dikutip berasal dari <strong>Brundtland Report</strong> (WCED, 1987):</p>
+<p>Slide 10 menutup dengan tema kedua buku: etika bisnis melampaui laba jangka pendek. Definisi paling banyak
+dikutip berasal dari <strong>Brundtland Report</strong> (WCED, 1987):</p>
 
 <div class="term-box">
   <strong>Sustainable development</strong> — "development that meets the needs of the present without compromising
-  the ability of future generations to meet their own needs." Perhatikan dua kata kunci: <em>needs</em> (khususnya
-  kebutuhan kaum miskin) dan <em>limitations</em> (batas kemampuan lingkungan menopang kebutuhan).
+  the ability of future generations to meet their own needs." Dua kata kuncinya: <em>needs</em> (khususnya kebutuhan
+  kaum miskin) dan <em>limitations</em> (batas kemampuan lingkungan menopang kebutuhan).
 </div>
 
-<p>Crane &amp; Matten mendefinisikan sustainability sebagai <em>"the long-term maintenance of systems according to
-environmental, economic and social considerations"</em> — tiga dimensi ini dikenal sebagai
-<strong>triple bottom line</strong> (istilah John Elkington): <strong>people, planet, profit</strong>.</p>
+<p>Buku mendefinisikan sustainability sebagai <em>"the long-term maintenance of systems according to environmental,
+economic and social considerations"</em> — tiga dimensi ini dikenal sebagai <strong>triple bottom line</strong>
+(istilah John Elkington): <strong>people, planet, profit</strong>.</p>
 
 {{viz:tripleBottomLine}}
 
 <div class="dbm-grid dbm-grid--3">
   <div class="dbm-card">
     <b>Environmental (Planet)</b>
-    <span>Berakar pada pertanyaan paling mendasar: sistem alam punya batas. Isu: emisi, keanekaragaman hayati,
-    limbah, air, sumber daya tak terbarukan.</span>
+    <span>Sistem alam punya batas. Isu: emisi, keanekaragaman hayati, limbah, air, sumber daya tak terbarukan.</span>
     <em>Prinsip: effective management of physical resources</em>
   </div>
   <div class="dbm-card">
     <b>Economic (Profit)</b>
-    <span>Dua level: (a) dampak ekonomi perusahaan pada sistem ekonomi yang lebih luas; (b) kinerja finansial
-    perusahaan sendiri agar bisa bertahan jangka panjang.</span>
+    <span>Dua level: dampak perusahaan pada sistem ekonomi luas, dan kelayakan finansial perusahaan sendiri agar
+    bertahan jangka panjang.</span>
     <em>Prinsip: sistem ekonomi yang menopang, bukan menggerus</em>
   </div>
   <div class="dbm-card">
     <b>Social (People)</b>
     <span>Dimensi yang paling belakangan diakui. Isu utamanya <strong>social justice</strong> — keadilan distribusi
-    manfaat dan beban pembangunan, di dalam generasi dan antargenerasi.</span>
+    manfaat dan beban pembangunan.</span>
     <em>Prinsip: keadilan sosial</em>
   </div>
 </div>
 
 <div class="key-box">
-  <strong>Kunci ujian.</strong> Banyak jawaban kehilangan poin karena hanya menyebut "people, planet, profit". Tambahkan
-  bahwa (1) triple bottom line menuntut perusahaan mengukur dan melaporkan ketiganya, bukan sekadar menyebutnya;
-  (2) ketiga dimensi sering <strong>trade-off</strong>, bukan otomatis saling menguatkan — di situlah dilema etisnya;
-  dan (3) dimensi <em>social justice</em> mencakup keadilan <strong>intra-generasi</strong> (antara yang kaya dan miskin
-  hari ini) dan <strong>inter-generasi</strong> (antara kita dan generasi mendatang).
+  <strong>Kunci ujian.</strong> Jangan berhenti di "people, planet, profit". Tambahkan: (1) triple bottom line
+  menuntut perusahaan <em>mengukur dan melaporkan</em> ketiganya; (2) ketiga dimensi sering <strong>trade-off</strong>
+  — slide dosen secara eksplisit meminta perhatian pada trade-off antardimensi, karena di situlah dilema etisnya;
+  (3) keadilan sosial mencakup dimensi <strong>intra-generasi</strong> dan <strong>inter-generasi</strong>.
 </div>
 
 <div class="case-box">
   <strong>Kasus Indonesia — kelapa sawit dan deforestasi.</strong>
-  <p>Indonesia adalah produsen minyak sawit terbesar dunia. Sawit memberi kontribusi ekonomi besar (devisa, jutaan
-  lapangan kerja — dimensi <em>economic</em>), namun ekspansinya dikaitkan dengan deforestasi, kebakaran gambut, dan
-  kabut asap lintas batas (dimensi <em>environmental</em>), serta konflik lahan dengan masyarakat adat dan kondisi
-  kerja buruh (dimensi <em>social</em>).</p>
-  <p><strong>Latihan:</strong> gunakan kasus ini untuk menunjukkan bahwa triple bottom line bukan penjumlahan
-  sederhana. Keuntungan pada satu pilar dapat dibayar oleh pilar lain — dan pertanyaan etisnya adalah
-  <em>siapa yang membayar, dan apakah mereka ikut memutuskan?</em></p>
+  <p>Sawit memberi kontribusi ekonomi besar (devisa, jutaan lapangan kerja — dimensi <em>economic</em>), namun
+  ekspansinya dikaitkan dengan deforestasi, kebakaran gambut, dan kabut asap lintas batas (<em>environmental</em>),
+  serta konflik lahan dan kondisi kerja buruh (<em>social</em>).</p>
+  <p><strong>Latihan:</strong> pakai kasus ini untuk menunjukkan bahwa triple bottom line bukan penjumlahan
+  sederhana. Keuntungan satu pilar dapat dibayar pilar lain — dan pertanyaan etisnya: <em>siapa yang membayar, dan
+  apakah mereka ikut memutuskan?</em></p>
+</div>`
+    },
+    {
+      title: "Di kelas: alur sesi, kasus McEthics, dan penutup",
+      src: "CM1", ppt: "Slide 12–15",
+      body: `
+<p>Slide dosen menyertakan rancangan sesi 75–90 menit — berguna untuk menyiapkan diri sebelum kuliah dan menebak
+arah diskusinya:</p>
+
+<div class="cascade">
+  <div class="cascade-box"><b>1. Warm-up</b><span>legal vs ethical — mulai dari pengalamanmu sendiri</span></div>
+  <div class="cascade-arrow">↓</div>
+  <div class="cascade-box"><b>2. Mini-lecture</b><span>definisi kunci</span></div>
+  <div class="cascade-arrow">↓</div>
+  <div class="cascade-box"><b>3. Group task</b><span>isu etis sebuah perusahaan multinasional</span></div>
+  <div class="cascade-arrow">↓</div>
+  <div class="cascade-box"><b>4. Case discussion</b><span>Global McEthics — global vs lokal</span></div>
+  <div class="cascade-box cascade-box--hi"><b>5. Reflection</b><span>sustainability sebagai penutup</span></div>
+</div>
+
+<p>Satu takeaway penutup dari dosen: etika bisnis mengembangkan <strong>penilaian dalam ketidakpastian</strong> —
+lintas organisasi, lintas batas negara, dan di bawah tekanan keberlanjutan. Tujuan pendidikannya: bergerak dari
+reaksi personal menuju <em>penalaran etis yang terstruktur</em>.</p>
+
+<div class="case-box">
+  <strong>Kasus bab ini — Global McEthics.</strong>
+  <p>Perusahaan makanan cepat saji dikritik soal kesehatan, gizi, ketenagakerjaan, kesejahteraan hewan, dan
+  globalisasi. Dilema sentralnya: <strong>konsistensi global vs adaptasi lokal</strong> — dan reputasi etis bisa
+  menjadi isu global meski masalahnya bermula lokal. Tujuannya bukan memutuskan perusahaan itu baik atau buruk,
+  melainkan menganalisis tanggung jawab, stakeholder, konsekuensi, dan alternatif. Versi lengkap dengan fakta dan
+  rujukan beritanya ada di bagian <em>Kasus nyata untuk CM1</em> di bawah.</p>
+</div>
+
+<p class="sub-h">Pertanyaan penutup dari slide</p>
+
+<ul>
+  <li>Bisakah perusahaan yang untung tetap gagal secara etis?</li>
+  <li>Bisakah perusahaan bertindak legal tetapi tidak etis?</li>
+  <li>Haruskah perusahaan multinasional menerapkan standar etis identik di setiap negara?</li>
+  <li>Kelompok stakeholder mana yang paling sulit dipuaskan manajer?</li>
+  <li>Dapatkah pertumbuhan ekonomi dan keberlanjutan lingkungan selalu didamaikan?</li>
+  <li>Siapa yang seharusnya memutuskan apakah sebuah perusahaan berperilaku etis?</li>
+</ul>
+
+<div class="key-box">
+  <strong>Ringkasan satu kalimat (dari slide).</strong> Etika bisnis menanyakan bukan hanya apakah keputusan bisnis
+  itu menguntungkan atau legal, melainkan apakah ia <em>dapat dipertahankan secara moral, adil bagi stakeholder
+  terdampak, dan berkelanjutan dalam jangka panjang</em>.
 </div>`
     }
   ],
   exam: `
 <p><strong>Yang paling sering keluar dari CM1:</strong></p>
 <ul>
-  <li>Definisi business ethics + bedakan morality / ethics / ethical theory.</li>
-  <li>Hubungan etika dan hukum — khususnya kuadran <em>legal tapi tidak etis</em> beserta contohnya.</li>
-  <li>Tiga celah globalisasi: cultural, legal, accountability.</li>
-  <li>Relativism vs absolutism, dan mengapa pluralism jadi jalan tengah.</li>
-  <li>Definisi Brundtland + triple bottom line, termasuk keadilan intra- dan inter-generasi.</li>
+  <li>Definisi business ethics + bedakan morality / ethics / ethical theory — plus penegasan slide bahwa cakupannya melampaui perusahaan komersial.</li>
+  <li>Hubungan etika dan hukum — kuadran <em>legal tapi tidak etis</em> beserta contohnya; hukum sebagai lantai minimum.</li>
+  <li>Konteks organisasi: private / public sector / civil society dengan akuntabilitas dan fokus etis masing-masing.</li>
+  <li>Tiga celah globalisasi (cultural, legal, accountability) + relativism vs absolutism vs pluralism.</li>
+  <li>Perspektif internasional: pola Eropa / Amerika Utara / Asia.</li>
+  <li>Definisi Brundtland + triple bottom line, trade-off antardimensi, keadilan intra- dan inter-generasi.</li>
 </ul>`
 },
 
 /* ==========================================================
    CM2 — FRAMING BUSINESS ETHICS
+   Pertemuan 2 — urutan mengikuti slide dosen, diperkaya buku.
    ========================================================== */
 {
   id: 2, ref: "CM2", session: 2,
   title: "Framing Business Ethics: Corporate Responsibility, Stakeholders, and Citizenship",
   titleId: "Membingkai Etika Bisnis",
-  blurb: "Bisakah korporasi punya tanggung jawab moral? Bab ini membangun tiga kerangka besar: corporate social responsibility, stakeholder theory, dan corporate citizenship.",
+  blurb: "Pertemuan 2. Mengikuti alur slide dosen: apa itu korporasi dan bisakah ia bertanggung jawab moral, CSR dan piramida Carroll, stakeholder theory, accountability, hingga corporate citizenship — diperkaya penjelasan buku.",
   objectives: [
-    "Menilai apakah korporasi dapat menjadi pelaku moral (moral agent).",
-    "Menjelaskan piramida CSR Carroll dan kritik Friedman.",
-    "Menerapkan stakeholder theory dan memetakan stakeholder.",
-    "Membedakan tiga pandangan corporate citizenship."
+    "Menjelaskan korporasi sebagai aktor hukum, ekonomi, dan sosial — dan menilai apakah ia dapat menjadi pelaku moral.",
+    "Membedakan pendekatan CSR: piramida Carroll dan tiga corak strategi (defensif, terintegrasi, transformatif).",
+    "Menerapkan stakeholder theory dan memetakan klaim: power, legitimacy, urgency — plus vulnerability dan dependency.",
+    "Menjelaskan corporate accountability dan transparency.",
+    "Membahas secara kritis corporate citizenship dalam konteks global."
   ],
   sections: [
     {
-      title: "Apakah korporasi bisa bertanggung jawab secara moral?",
-      src: "CM2",
+      title: "Mengapa etika bisnis perlu dibingkai?",
+      src: "CM2", ppt: "Slide 3–4",
       body: `
-<p>Sebelum bicara tanggung jawab, kita harus menjawab pertanyaan filosofis: korporasi itu <em>entitas hukum</em>,
-bukan manusia. Bisakah ia disebut bersalah secara moral, atau yang bersalah selalu individu di dalamnya?</p>
+<p>Bab 1 bertanya "apa itu etika bisnis". Bab 2 bertanya sesuatu yang lebih struktural: bagaimana menempatkan
+<strong>korporasi itu sendiri</strong> di dalam tatanan sosial. Slide 3 memberi peta perjalanannya:</p>
+
+<div class="slide-chain">
+  <span>What is a corporation?</span><i>→</i>
+  <span>Moral responsibility</span><i>→</i>
+  <span>CSR</span><i>→</i>
+  <span>Stakeholder theory</span><i>→</i>
+  <span>Corporate citizenship</span>
+</div>
+
+<p>Tiap konsep menjawab pertanyaan berbeda: <strong>apa</strong> perusahaan itu, <strong>apa</strong> yang harus
+dilakukannya, <strong>siapa</strong> yang diperhitungkan, dan <strong>bagaimana</strong> ia dimintai
+pertanggungjawaban. Bersama-sama mereka membentuk kerangka analisis melampaui kepatuhan hukum.</p>
+
+<div class="gs-grid">
+  <div class="gs-head gs-head--b">PANDANGAN SEMPIT TRADISIONAL</div>
+  <div class="gs-head gs-head--a">PANDANGAN SOSIAL YANG LEBIH LUAS</div>
+  <div class="gs-cell gs-cell--b">Perusahaan terutama institusi ekonomi.</div>
+  <div class="gs-cell gs-cell--a">Perusahaan tertanam (embedded) dalam masyarakat.</div>
+  <div class="gs-cell gs-cell--b">Manajer fokus pada kepentingan pemegang saham.</div>
+  <div class="gs-cell gs-cell--a">Keputusan bisnis memengaruhi banyak kelompok.</div>
+  <div class="gs-cell gs-cell--b">Masalah sosial diserahkan pada pemerintah atau individu.</div>
+  <div class="gs-cell gs-cell--a">Tanggung jawab mencakup dimensi ekonomi, hukum, etis, dan sosial.</div>
+  <div class="gs-cell gs-cell--b">Etika = kepatuhan atau perilaku pribadi.</div>
+  <div class="gs-cell gs-cell--a">Etika = bagian dari strategi, tata kelola, dan legitimasi.</div>
+</div>
+
+<p>Catatan dosen: pandangan sempit tidak "salah" — ia hanya <em>tidak memadai</em>, karena korporasi memengaruhi
+banyak stakeholder dan ikut membentuk hasil sosial serta politik. Itulah pergeseran fundamental bab ini.</p>`
+    },
+    {
+      title: "Apa itu korporasi — dan bisakah ia bertanggung jawab secara moral?",
+      src: "CM2", ppt: "Slide 5–6",
+      body: `
+<p>Slide 5 menguraikan korporasi sebagai tiga aktor sekaligus:</p>
+
+<div class="dbm-grid dbm-grid--3">
+  <div class="dbm-card">
+    <b>Legal person</b>
+    <span>Diakui hukum, terpisah dari pemiliknya; dapat memiliki properti, membuat kontrak, menggugat dan
+    digugat.</span>
+  </div>
+  <div class="dbm-card dbm-card--brass">
+    <b>Economic actor</b>
+    <span>Mengorganisasi modal, tenaga kerja, dan aset; memproduksi barang dan jasa; menciptakan serta
+    mendistribusikan nilai.</span>
+  </div>
+  <div class="dbm-card dbm-card--clay">
+    <b>Social actor</b>
+    <span>Memengaruhi komunitas, pekerja, konsumen, dan ekosistem — dan beroperasi dengan <strong>legitimasi yang
+    diberikan masyarakat</strong>.</span>
+  </div>
+</div>
+
+<p>Karena ia aktor sosial, muncul debat inti bab ini: korporasi adalah <em>entitas hukum</em>, bukan manusia.
+Bisakah ia disebut bersalah secara moral?</p>
 
 <div class="gs-grid">
   <div class="gs-head gs-head--a">YA — korporasi adalah moral agent</div>
   <div class="gs-head gs-head--b">TIDAK — hanya individu yang bermoral</div>
-  <div class="gs-cell gs-cell--a">Korporasi punya <strong>Corporate Internal Decision Structure (CID)</strong> —
-  bagan organisasi + aturan keputusan — sehingga keputusan bisa disebut keputusan <em>perusahaan</em>, bukan
-  sekadar penjumlahan keputusan orang.</div>
-  <div class="gs-cell gs-cell--b">Hanya manusia yang punya kesadaran, niat, dan kebebasan memilih. Korporasi tidak
-  bisa merasa bersalah atau menyesal.</div>
-  <div class="gs-cell gs-cell--a">Korporasi punya <strong>budaya organisasi</strong> yang menetapkan apa yang
-  "wajar dilakukan di sini" dan bertahan meski orangnya berganti.</div>
-  <div class="gs-cell gs-cell--b">Menyalahkan "perusahaan" justru mengaburkan tanggung jawab individu — orang bisa
-  bersembunyi di balik institusi.</div>
+  <div class="gs-cell gs-cell--a">Korporasi punya <strong>sistem keputusan, budaya, dan kebijakan</strong> —
+  keputusan bisa disebut keputusan <em>perusahaan</em>, bukan penjumlahan keputusan orang.</div>
+  <div class="gs-cell gs-cell--b">Hanya manusia yang dapat berniat, memilih, dan merasa bersalah.</div>
+  <div class="gs-cell gs-cell--a">Tindakan korporasi berdampak <strong>kolektif</strong>; organisasi dapat dipuji,
+  disalahkan, disanksi, atau dipercaya.</div>
+  <div class="gs-cell gs-cell--b">Manajer adalah agen pemilik; isu sosial adalah peran pemerintah.</div>
+  <div class="gs-cell gs-cell--a">Budaya organisasi bertahan meski orangnya berganti.</div>
+  <div class="gs-cell gs-cell--b">Menyalahkan "perusahaan" bisa mengaburkan tanggung jawab individual.</div>
 </div>
-
-<p>Posisi Crane &amp; Matten: korporasi memang punya <strong>tanggung jawab moral</strong> karena punya struktur
-keputusan dan budaya sendiri, <em>tetapi</em> ini tidak menghapus tanggung jawab individu. Keduanya berlaku
-bersamaan. Ini penting saat menganalisis kasus: tanyakan <em>apa yang salah pada sistemnya</em> sekaligus
-<em>siapa yang mengambil keputusan itu</em>.</p>
 
 <div class="term-box">
-  <strong>Corporate Internal Decision Structure (CID)</strong> — kerangka Peter French: kombinasi bagan organisasi
-  (siapa memutuskan apa) dan aturan pengakuan keputusan (kapan sebuah keputusan menjadi keputusan korporasi).
-  Keberadaan CID inilah yang membuat korporasi bisa disebut pelaku, bukan sekadar wadah.
-</div>`
-    },
-    {
-      title: "Corporate Social Responsibility (CSR) dan piramida Carroll",
-      src: "CM2",
-      body: `
-<p><strong>CSR</strong> mencakup harapan ekonomi, hukum, etis, dan diskresioner yang dimiliki masyarakat terhadap
-organisasi pada suatu waktu. Model paling terkenal adalah <strong>piramida CSR Archie Carroll</strong>:</p>
-
-{{viz:carrollPyramid}}
-
-<ul>
-  <li><strong>Economic responsibility (be profitable)</strong> — fondasi. Perusahaan harus menguntungkan; tanpa ini
-  yang lain tidak mungkin. Ini <em>required</em> oleh masyarakat.</li>
-  <li><strong>Legal responsibility (obey the law)</strong> — mematuhi hukum sebagai "kodifikasi benar dan salah".
-  Juga <em>required</em>.</li>
-  <li><strong>Ethical responsibility (be ethical)</strong> — melakukan yang benar, adil, dan menghindari bahaya,
-  melampaui yang diwajibkan hukum. Ini <em>expected</em> oleh masyarakat.</li>
-  <li><strong>Philanthropic responsibility (be a good corporate citizen)</strong> — menyumbang sumber daya untuk
-  komunitas, meningkatkan kualitas hidup. Ini <em>desired</em>, bersifat sukarela.</li>
-</ul>
-
-<div class="warn-box">
-  <strong>Kritik terhadap piramida.</strong> (1) Bentuk piramida menyiratkan urutan prioritas — seolah ekonomi selalu
-  didahulukan dan filantropi hanya "kalau ada sisa"; padahal dalam praktiknya keempatnya berjalan simultan dan sering
-  bertabrakan. (2) Model ini berbasis konteks Amerika Serikat; di Eropa banyak tanggung jawab "etis" sudah menjadi
-  kewajiban hukum, sehingga bentuk piramidanya berbeda. (3) Kategori etis dan filantropis sulit dipisahkan.
+  <strong>Corporate Internal Decision Structure (CID)</strong> — kerangka Peter French dari buku: kombinasi bagan
+  organisasi (siapa memutuskan apa) dan aturan pengakuan keputusan (kapan sebuah keputusan menjadi keputusan
+  korporasi). Keberadaan CID inilah yang membuat korporasi bisa disebut pelaku, bukan sekadar wadah.
 </div>
 
-<p class="sub-h">Kritik Milton Friedman</p>
+<p>Posisi buku dan slide sama: tanggung jawab korporasi <strong>tidak menghapus</strong> tanggung jawab individu —
+keduanya berlaku bersamaan (<em>shared responsibility</em>). Saat menganalisis kasus, tanyakan dua-duanya:
+<em>apa yang salah pada sistemnya</em> dan <em>siapa yang mengambil keputusan itu</em>.</p>`
+    },
+    {
+      title: "Shareholder view vs tanggung jawab yang lebih luas",
+      src: "CM2", ppt: "Slide 7",
+      body: `
+<div class="gs-grid">
+  <div class="gs-head gs-head--b">SHAREHOLDER-CENTRED VIEW</div>
+  <div class="gs-head gs-head--a">BROADER RESPONSIBILITY VIEW</div>
+  <div class="gs-cell gs-cell--b">Manajer berkewajiban melindungi investasi pemilik.</div>
+  <div class="gs-cell gs-cell--a">Korporasi bergantung pada banyak relasi stakeholder.</div>
+  <div class="gs-cell gs-cell--b">Maksimalisasi laba = tanggung jawab utama bisnis.</div>
+  <div class="gs-cell gs-cell--a">Bisnis memengaruhi masyarakat melampaui pemiliknya.</div>
+  <div class="gs-cell gs-cell--b">Belanja sosial dikritik karena memakai sumber daya pemegang saham.</div>
+  <div class="gs-cell gs-cell--a">Legitimasi jangka panjang menuntut keadilan, kepercayaan, akuntabilitas.</div>
+</div>
 
-<p>Argumen tandingan paling terkenal datang dari <strong>Milton Friedman</strong> (1970):
-<em>"The social responsibility of business is to increase its profits."</em> Alasannya ada tiga:</p>
+<p>Argumen shareholder paling tajam datang dari <strong>Milton Friedman</strong> (1970):
+<em>"The social responsibility of business is to increase its profits."</em> Buku memerinci tiga alasannya:</p>
 
 <ol>
   <li><strong>Argumen agensi:</strong> manajer adalah agen pemegang saham. Membelanjakan uang perusahaan untuk tujuan
   sosial sama dengan membelanjakan uang orang lain tanpa mandat.</li>
   <li><strong>Argumen kompetensi:</strong> manajer dilatih menjalankan bisnis, bukan menyelesaikan masalah sosial.</li>
-  <li><strong>Argumen legitimasi:</strong> menentukan prioritas sosial adalah kewenangan pemerintah yang dipilih
-  rakyat, bukan eksekutif korporasi yang tidak dipilih siapa pun.</li>
+  <li><strong>Argumen legitimasi:</strong> menentukan prioritas sosial adalah kewenangan pemerintah terpilih, bukan
+  eksekutif korporasi.</li>
 </ol>
 
-<p><strong>Bagaimana menjawabnya di ujian?</strong> Jangan langsung menolak Friedman — akui kekuatan argumennya
-(ia bicara soal legitimasi dan akuntabilitas, bukan keserakahan), lalu bantah dengan: (a) perusahaan menikmati hak
-istimewa dari masyarakat (badan hukum, tanggung jawab terbatas) sehingga punya kewajiban balik; (b) pasar tidak
-sempurna — ada eksternalitas yang tidak terhitung dalam harga; (c) pemegang saham sendiri kini menuntut kinerja ESG;
-(d) Friedman sendiri mensyaratkan "conforming to the basic rules of society, both those embodied in law and those
-embodied in ethical custom" — syarat yang sering dilupakan pengutipnya.</p>`
+<div class="key-box">
+  <strong>Catatan dosen — penting untuk cara menjawab.</strong> Pandangan shareholder <em>bukan sekadar tidak
+  etis</em>; ia posisi koheren tentang keagenan manajerial dan efisiensi ekonomi. Jawaban ujian yang baik mengakui
+  kekuatannya dulu, baru membantah: (a) perusahaan menikmati hak istimewa dari masyarakat (badan hukum, tanggung
+  jawab terbatas) sehingga punya kewajiban balik; (b) pasar punya eksternalitas yang tidak terhitung dalam harga;
+  (c) pemegang saham sendiri kini menuntut kinerja ESG; (d) Friedman sendiri mensyaratkan kepatuhan pada
+  <em>"ethical custom"</em> — syarat yang sering dilupakan pengutipnya.
+</div>`
     },
     {
-      title: "Strategi CSR: dari reaktif ke proaktif",
-      src: "CM2",
+      title: "CSR: kontestasi, piramida Carroll, dan strategi",
+      src: "CM2", ppt: "Slide 8–10",
       body: `
-<p>Perusahaan tidak merespons tuntutan sosial dengan cara yang sama. Kerangka klasik membagi respons ke dalam empat
-posisi (sering disingkat <strong>RDAP</strong>):</p>
+<p><strong>CSR</strong> menanyakan tanggung jawab apa yang dimiliki korporasi atas <strong>dampaknya terhadap
+masyarakat</strong> — dan bagaimana tanggung jawab itu dikelola. Slide 8 membingkainya dalam tiga sifat:</p>
 
-<div class="ft-wrap">
-  <div class="ft-head"><span>POSISI RESPONS</span><span></span><span>SIKAP PERUSAHAAN</span></div>
-  <div class="ft-row"><div class="ft-from">Reaction</div><div class="ft-arrow">→</div><div class="ft-to">Menyangkal tanggung jawab</div></div>
-  <div class="ft-row"><div class="ft-from">Defence</div><div class="ft-arrow">→</div><div class="ft-to">Melakukan seminimal yang diwajibkan</div></div>
-  <div class="ft-row"><div class="ft-from">Accommodation</div><div class="ft-arrow">→</div><div class="ft-to">Menerima tanggung jawab, mengikuti tuntutan</div></div>
-  <div class="ft-row"><div class="ft-from">Proaction</div><div class="ft-arrow">→</div><div class="ft-to">Mengantisipasi, memimpin lebih dari yang diminta</div></div>
+<div class="dbm-grid dbm-grid--3">
+  <div class="dbm-card"><b>Contested</b><span>Banyak definisi; debat sukarela vs wajib; bisa strategis, etis,
+  defensif, atau sekadar simbolik.</span></div>
+  <div class="dbm-card"><b>Relational</b><span>Melibatkan stakeholder, menuntut akuntabilitas, menghubungkan
+  keputusan bisnis dengan ekspektasi sosial.</span></div>
+  <div class="dbm-card"><b>Practical</b><span>Berwujud kebijakan dan program, pelaporan dan dialog, manajemen
+  risiko, reputasi, dan penciptaan nilai.</span></div>
+</div>
+
+<p>Penting dari catatan dosen: <strong>CSR bukan hanya filantropi.</strong> Ia mencakup tata kelola, operasi,
+rantai pasok, tanggung jawab produk, praktik ketenagakerjaan, manajemen lingkungan, dan pelaporan.</p>
+
+<p class="sub-h">Piramida CSR Carroll</p>
+
+{{viz:carrollPyramid}}
+
+<ul>
+  <li><strong>Economic responsibility (be profitable)</strong> — fondasi; <em>required</em> oleh masyarakat.</li>
+  <li><strong>Legal responsibility (obey the law)</strong> — mematuhi hukum; juga <em>required</em>.</li>
+  <li><strong>Ethical responsibility (be ethical)</strong> — melakukan yang benar dan adil melampaui hukum;
+  <em>expected</em>.</li>
+  <li><strong>Philanthropic responsibility</strong> — menyumbang bagi komunitas; <em>desired</em>, sukarela.</li>
+</ul>
+
+<div class="warn-box">
+  <strong>Kritik terhadap piramida — termasuk peringatan slide.</strong> (1) Bentuk piramida menyiratkan urutan
+  prioritas, padahal keempatnya berjalan simultan dan sering bertabrakan; slide dosen menegaskan model ini
+  <em>jangan dibaca sebagai hierarki kaku di semua konteks budaya atau institusional</em>. (2) Model berbasis
+  konteks Amerika; di Eropa banyak tanggung jawab "etis" sudah menjadi kewajiban hukum. (3) Kategori etis dan
+  filantropis sulit dipisahkan.
+</div>
+
+<p class="sub-h">Tiga corak strategi CSR (slide 10)</p>
+
+<div class="dbm-grid dbm-grid--3">
+  <div class="dbm-card dbm-card--clay">
+    <b>Defensive / compliance</b>
+    <span>Merespons tekanan atau risiko; fokus menghindari kerugian atau kritik; cenderung reaktif.</span>
+  </div>
+  <div class="dbm-card dbm-card--brass">
+    <b>Strategic / integrated</b>
+    <span>Menghubungkan CSR dengan bisnis inti; memakai wawasan stakeholder; mengejar manfaat reputasi, risiko, dan
+    inovasi.</span>
+  </div>
+  <div class="dbm-card">
+    <b>Civil / transformative</b>
+    <span>Menggarap isu sosial-lingkungan yang sistemik; sering lewat kemitraan; menuju nilai publik yang lebih
+    luas.</span>
+  </div>
+</div>
+
+<div class="key-box">
+  <strong>Alat evaluasi tercepat (dari slide).</strong> Saat menilai program CSR perusahaan mana pun, tanyakan:
+  apakah ia sekadar <em>bereaksi terhadap tekanan</em>, sudah <em>mengintegrasikan tanggung jawab ke operasi
+  inti</em>, atau ikut <em>menggarap solusi masyarakat yang lebih luas</em>?
 </div>
 
 <p class="sub-h">Tahapan pembelajaran organisasi (Zadek)</p>
 
-<p>Simon Zadek memetakan bagaimana perusahaan belajar merespons isu — berguna sekali untuk menganalisis kasus Nike:</p>
+<p>Buku melengkapi tiga corak itu dengan peta Simon Zadek tentang bagaimana perusahaan <em>belajar</em>:</p>
 
 <div class="cascade">
   <div class="cascade-box"><b>1. Defensive</b><span>"Bukan salah kami." Menyangkal praktik, dampak, atau tanggung jawab.</span></div>
   <div class="cascade-arrow">↓</div>
-  <div class="cascade-box"><b>2. Compliance</b><span>"Kami lakukan sebatas kewajiban." Menerapkan kebijakan sebagai biaya berbisnis.</span></div>
+  <div class="cascade-box"><b>2. Compliance</b><span>"Kami lakukan sebatas kewajiban."</span></div>
   <div class="cascade-arrow">↓</div>
-  <div class="cascade-box"><b>3. Managerial</b><span>"Ini urusan bisnis inti." Menanamkan isu ke dalam proses manajemen sehari-hari.</span></div>
+  <div class="cascade-box"><b>3. Managerial</b><span>"Ini urusan bisnis inti." Ditanam ke proses manajemen.</span></div>
   <div class="cascade-arrow">↓</div>
-  <div class="cascade-box"><b>4. Strategic</b><span>"Ini memberi keunggulan bersaing." Mengintegrasikan isu ke dalam strategi.</span></div>
+  <div class="cascade-box"><b>4. Strategic</b><span>"Ini memberi keunggulan bersaing."</span></div>
   <div class="cascade-arrow">↓</div>
-  <div class="cascade-box cascade-box--hi"><b>5. Civil</b><span>"Kami dorong seluruh industri." Memimpin aksi kolektif dan advokasi kebijakan.</span></div>
+  <div class="cascade-box cascade-box--hi"><b>5. Civil</b><span>"Kami dorong seluruh industri."</span></div>
 </div>
 
 <div class="case-box">
   <strong>Kasus rujukan — Nike dan rantai pasok (1990-an hingga kini).</strong>
-  <p>Awal 1990-an, Nike menghadapi tuduhan soal upah rendah, jam kerja panjang, dan pekerja anak di pabrik pemasok
-  di Asia. Respons awalnya <strong>defensive</strong>: "pabrik itu bukan milik kami, jadi bukan tanggung jawab kami."
-  Tekanan konsumen, kampus, dan media memaksa Nike bergerak ke <strong>compliance</strong> (kode etik pemasok, audit),
-  lalu <strong>managerial</strong> (tim compliance internal), hingga <strong>strategic</strong> dan
-  <strong>civil</strong> — Nike akhirnya mempublikasikan daftar pabriknya, langkah yang saat itu belum lazim di industri.</p>
-  <p><strong>Poin analisis:</strong> kasus ini menunjukkan bahwa batas tanggung jawab perusahaan tidak ditentukan oleh
-  kepemilikan hukum, melainkan oleh <em>ekspektasi stakeholder</em> — dan ekspektasi itu bergerak.</p>
+  <p>Awal 1990-an Nike dituduh soal upah rendah, jam kerja panjang, dan pekerja anak di pabrik pemasok Asia.
+  Respons awalnya <strong>defensive</strong>: "pabrik itu bukan milik kami." Tekanan konsumen dan media memaksanya
+  bergerak melalui compliance, managerial, strategic, hingga <strong>civil</strong> — Nike menjadi salah satu merek
+  pertama yang mempublikasikan daftar pabriknya.</p>
+  <p><strong>Poin analisis:</strong> batas tanggung jawab perusahaan tidak ditentukan kepemilikan hukum, melainkan
+  <em>ekspektasi stakeholder</em> — dan ekspektasi itu bergerak.</p>
 </div>`
     },
     {
-      title: "Stakeholder theory",
-      src: "CM2",
+      title: "Stakeholder theory dan pemetaan klaim",
+      src: "CM2", ppt: "Slide 11–12",
       body: `
-<p><strong>Stakeholder</strong> menurut definisi klasik R. Edward Freeman (1984) adalah
-<em>"any group or individual who can affect or is affected by the achievement of the organization's objectives."</em>
-Perhatikan bahwa definisi ini dua arah — memengaruhi <strong>atau</strong> dipengaruhi.</p>
+<p><strong>Stakeholder</strong> menurut definisi klasik R. Edward Freeman (1984):
+<em>"any group or individual who can affect or is affected by the achievement of the organization's
+objectives."</em> Definisi ini dua arah — memengaruhi <strong>atau</strong> dipengaruhi. Slide 11 merumuskannya
+sebagai pergeseran pertanyaan: dari "bagaimana manajer melayani pemegang saham?" menjadi
+<strong>"kelompok mana yang punya klaim sah atas korporasi?"</strong></p>
 
 {{viz:stakeholderMap}}
 
-<p>Crane &amp; Matten menekankan pergeseran dari model lama <em>input-output</em> (pemasok, karyawan, investor masuk;
-produk keluar ke pelanggan) menjadi model <strong>jaringan</strong> di mana perusahaan berada di tengah relasi
-timbal balik dengan banyak pihak.</p>
-
-<p class="sub-h">Tiga cara memakai stakeholder theory</p>
+<p>Teori ini tidak otomatis menyelesaikan konflik antarklaim — tetapi ia memastikan kelompok terdampak
+<em>terlihat</em>. Buku menambahkan tiga cara memakainya:</p>
 
 <div class="dbm-grid dbm-grid--3">
   <div class="dbm-card">
     <b>Normative</b>
-    <span>Perusahaan <em>seharusnya</em> memperhatikan stakeholder karena mereka punya hak moral dan kepentingan yang
-    sah — terlepas dari untung-rugi bagi perusahaan.</span>
+    <span>Perusahaan <em>seharusnya</em> memperhatikan stakeholder karena mereka punya hak moral dan kepentingan
+    sah.</span>
     <em>Pertanyaan: mengapa ini benar?</em>
   </div>
   <div class="dbm-card dbm-card--brass">
     <b>Descriptive</b>
-    <span>Menggambarkan bagaimana perusahaan <em>sebenarnya</em> berinteraksi dengan stakeholder di dunia nyata.</span>
+    <span>Menggambarkan bagaimana perusahaan <em>sebenarnya</em> berinteraksi dengan stakeholder.</span>
     <em>Pertanyaan: apa yang terjadi?</em>
   </div>
   <div class="dbm-card dbm-card--clay">
     <b>Instrumental</b>
-    <span>Mengelola stakeholder dengan baik <em>menghasilkan</em> kinerja perusahaan yang lebih baik — argumen
-    business case.</span>
+    <span>Mengelola stakeholder dengan baik <em>menghasilkan</em> kinerja lebih baik — argumen business case.</span>
     <em>Pertanyaan: apa untungnya?</em>
   </div>
 </div>
 
-<p class="sub-h">Memetakan stakeholder: model salience (Mitchell, Agle &amp; Wood)</p>
-
-<p>Tidak semua stakeholder sama pentingnya pada satu waktu. Model <strong>stakeholder salience</strong> menilai tiga
-atribut, dan tingkat perhatian manajemen bergantung pada berapa atribut yang dimiliki:</p>
+<p class="sub-h">Menilai klaim: model salience — plus dua atribut dari slide</p>
 
 {{viz:stakeholderSalience}}
 
@@ -447,68 +688,167 @@ atribut, dan tingkat perhatian manajemen bergantung pada berapa atribut yang dim
   <li><strong>Urgency</strong> — tuntutan yang sensitif waktu dan dianggap kritis.</li>
 </ul>
 
-<p>Satu atribut = <em>latent stakeholder</em> (perhatian rendah). Dua atribut = <em>expectant stakeholder</em>
-(perhatian sedang). Tiga atribut = <strong>definitive stakeholder</strong> — prioritas utama manajemen.</p>
+<p>Satu atribut = <em>latent</em>; dua = <em>expectant</em>; tiga = <strong>definitive stakeholder</strong> —
+prioritas utama manajemen.</p>
+
+<div class="term-box">
+  <strong>Tambahan penting dari slide 12.</strong> Di luar tiga atribut Mitchell yang klasik, slide dosen menambahkan
+  <strong>vulnerability</strong> dan <strong>dependency</strong>: sebagian stakeholder punya power kuat tetapi klaim
+  moral lemah; sebagian lain nyaris tanpa power tetapi sangat rentan dan bergantung pada perusahaan. Analisis etis
+  tidak boleh sekadar memprioritaskan pihak yang paling nyaring atau paling berkuasa — pertimbangkan legitimacy,
+  urgency, dependency, dan keadilan.
+</div>
+
+<p class="sub-h">Tiga langkah pemetaan (slide 12)</p>
+
+<div class="dbm-grid dbm-grid--3">
+  <div class="dbm-card"><b>1 · Identify</b><span>Siapa terdampak? Siapa dapat memengaruhi perusahaan? Siapa punya
+  klaim, hak, atau kepentingan?</span></div>
+  <div class="dbm-card"><b>2 · Assess</b><span>Power dan pengaruh · legitimacy klaim · urgency isu ·
+  vulnerability dan dependency.</span></div>
+  <div class="dbm-card"><b>3 · Respond ethically</b><span>Libatkan dan dengarkan · seimbangkan kepentingan ·
+  jelaskan trade-off · bangun mekanisme akuntabilitas.</span></div>
+</div>
 
 <div class="key-box">
-  <strong>Cara memakai di analisis kasus.</strong> Jangan hanya membuat daftar stakeholder. Untuk tiap pihak, sebutkan:
-  (1) apa <em>stake</em>-nya secara konkret; (2) atribut power/legitimacy/urgency mana yang dimilikinya;
-  (3) apakah klaim mereka bertabrakan dengan klaim pihak lain. Bagian ketiga inilah yang membuat analisis kamu
-  terlihat matang — dilema etis lahir dari klaim yang sama-sama sah tetapi saling bertentangan.
+  <strong>Cara memakai di analisis kasus.</strong> Jangan hanya membuat daftar stakeholder. Untuk tiap pihak
+  sebutkan: (1) apa <em>stake</em>-nya secara konkret; (2) atribut mana yang dimilikinya — termasuk kerentanannya;
+  (3) apakah klaimnya bertabrakan dengan klaim pihak lain. Dilema etis lahir dari klaim yang sama-sama sah tetapi
+  saling bertentangan.
 </div>`
     },
     {
-      title: "Corporate accountability dan corporate citizenship",
-      src: "CM2",
+      title: "Accountability, transparency, dan corporate citizenship",
+      src: "CM2", ppt: "Slide 13–14",
       body: `
-<p><strong>Corporate accountability</strong> adalah kewajiban perusahaan untuk mempertanggungjawabkan tindakannya
-kepada pihak yang terdampak. Bedanya dengan <em>responsibility</em>: tanggung jawab bersifat ke depan (apa yang
-seharusnya kita lakukan), akuntabilitas bersifat ke belakang (kepada siapa kita harus menjelaskan apa yang sudah
-kita lakukan, dan sanksi apa yang berlaku jika gagal).</p>
+<p>Bertanggung jawab berarti juga <em>dapat dimintai penjelasan</em>. Bedakan: <strong>responsibility</strong>
+bersifat ke depan (apa yang seharusnya kita lakukan), <strong>accountability</strong> bersifat ke belakang (kepada
+siapa kita menjelaskan apa yang sudah dilakukan, dan sanksi apa bila gagal). Slide 13 menyusunnya sebagai tiga
+rangkaian pertanyaan:</p>
+
+<div class="dbm-grid dbm-grid--3">
+  <div class="dbm-card"><b>Responsibility</b><span>Siapa punya kewajiban? Kewajiban apa yang ada? Kerugian atau
+  manfaat apa yang tercipta?</span></div>
+  <div class="dbm-card dbm-card--brass"><b>Accountability</b><span>Siapa harus menjelaskan keputusan? Kepada siapa?
+  Konsekuensi apa yang mengikuti?</span></div>
+  <div class="dbm-card dbm-card--clay"><b>Transparency</b><span>Informasi apa yang diungkap? Apakah dapat dipahami
+  dan diandalkan? Dapatkah stakeholder memakainya?</span></div>
+</div>
+
+<div class="warn-box">
+  <strong>Transparansi saja tidak cukup.</strong> Catatan dosen: informasi harus relevan, andal, dapat diakses, dan
+  terhubung dengan mekanisme yang memungkinkan stakeholder <em>mempertanyakan atau menantang</em> perilaku
+  korporasi. Laporan tebal tanpa mekanisme itu hanyalah kehumasan — sambungkan dengan social auditing di CM5.
+</div>
 
 <p class="sub-h">Tiga pandangan corporate citizenship</p>
 
 <div class="cascade">
-  <div class="cascade-box"><b>Limited view</b><span>Corporate citizenship = filantropi korporat dan investasi komunitas
-  lokal. Sekadar nama baru untuk kedermawanan.</span></div>
+  <div class="cascade-box"><b>Limited view</b><span>Corporate citizenship = filantropi korporat dan investasi
+  komunitas lokal.</span></div>
   <div class="cascade-arrow">↓</div>
-  <div class="cascade-box"><b>Equivalent view</b><span>Corporate citizenship = CSR. Istilah yang sama, dibungkus ulang
-  agar terdengar lebih menarik.</span></div>
+  <div class="cascade-box"><b>Equivalent view</b><span>Corporate citizenship = CSR, sekadar dibungkus ulang.</span></div>
   <div class="cascade-arrow">↓</div>
   <div class="cascade-box cascade-box--hi"><b>Extended view</b><span>Pandangan Crane &amp; Matten: korporasi
-  <em>mengelola hak-hak kewarganegaraan</em> individu — ketika negara mundur atau gagal, korporasi mengambil alih
-  peran menyediakan atau menghalangi hak sosial, sipil, dan politik.</span></div>
+  <em>mengelola hak-hak kewarganegaraan</em> individu ketika negara mundur atau gagal.</span></div>
 </div>
 
 <p>Pada <strong>extended view</strong>, korporasi bukan "warga negara" yang punya hak, melainkan aktor yang
-<strong>mengatur hak warga lain</strong> dalam tiga peran:</p>
-
-<ul>
-  <li><strong>Social rights (provider)</strong> — menyediakan atau menahan hak sosial: layanan kesehatan, pendidikan,
-  jaminan pensiun bagi karyawan dan komunitas.</li>
-  <li><strong>Civil rights (enabler)</strong> — memfasilitasi atau menghambat hak sipil: kebebasan berserikat,
-  privasi, kebebasan berpendapat di tempat kerja dan platform digital.</li>
-  <li><strong>Political rights (channel)</strong> — menjadi saluran hak politik: melalui lobi, pendanaan kampanye,
-  atau justru menjadi sasaran aktivisme konsumen sebagai bentuk partisipasi politik baru.</li>
-</ul>
+<strong>mengatur hak warga lain</strong>: sebagai <em>provider</em> hak sosial (kesehatan, pendidikan, pensiun),
+<em>enabler</em> hak sipil (berserikat, privasi, berpendapat), dan <em>channel</em> hak politik (lobi, pendanaan
+kampanye, atau menjadi sasaran aktivisme konsumen).</p>
 
 <div class="case-box">
-  <strong>Latihan berpikir.</strong> Ketika sebuah platform media sosial memutuskan menghapus atau membiarkan sebuah
-  konten, hak sipil mana yang sedang dikelola korporasi itu? Ketika perusahaan tambang membangun sekolah dan
-  puskesmas di wilayah yang tidak dijangkau negara, hak sosial mana yang sedang ia sediakan — dan apa yang terjadi
-  pada komunitas itu bila perusahaannya pergi?
+  <strong>Tantangan etis (slide 14).</strong>
+  <p>Ketika bisnis menjadi <em>aktor politik</em>: siapa yang mengotorisasi kekuasaan korporasi? Bagaimana ia
+  dimintai pertanggungjawaban? Dapatkah kewargaan bersifat global? Perusahaan dapat berkontribusi pada kesejahteraan
+  publik, tetapi kekuasaannya tidak diotorisasi secara demokratis — pertanyaan ini kembali dengan nama
+  <em>political CSR</em> di CM11.</p>
+</div>`
+    },
+    {
+      title: "Konteks regional, kasus American Apparel, dan penutup",
+      src: "CM2", ppt: "Slide 15–18",
+      body: `
+<p>Konsep bab ini menyebar tidak merata antarkawasan (slide 15):</p>
+
+<div class="dbm-grid dbm-grid--3">
+  <div class="dbm-card">
+    <b>North America</b>
+    <span>Tanggung jawab individual dan inisiatif korporasi; shareholder value tetap berpengaruh; kode etik,
+    kepatuhan, filantropi menonjol.</span>
+  </div>
+  <div class="dbm-card">
+    <b>Europe</b>
+    <span>Peran institusional dan regulasi; tradisi tata kelola stakeholder lebih kuat; CSR lebih menyatu dengan
+    kebijakan sosial.</span>
+  </div>
+  <div class="dbm-card">
+    <b>Asia &amp; emerging</b>
+    <span>Relasi bisnis-pemerintah sentral; perusahaan keluarga, BUMN, dan konglomerat penting; norma lokal
+    membentuk ekspektasi.</span>
+  </div>
+</div>
+
+<p>Untuk Indonesia, kolom ketiga paling relevan: perusahaan keluarga, BUMN, konglomerat, dan relasi
+bisnis-pemerintah membentuk ekspektasi tanggung jawab — pola yang kembali saat membahas tata kelola (CM6) dan
+regulasi (CM11). Hindari stereotip, tetapi akui bahwa etika bisnis <em>peka konteks</em>.</p>
+
+<div class="case-box">
+  <strong>Kasus bab ini — American Apparel.</strong>
+  <p>Merek yang dibangun di atas klaim etis "Made in USA — Sweatshop Free", lalu runtuh justru karena kontradiksi
+  antara citra publik dan praktik internal — kampanye iklan yang dipersoalkan dan perilaku pendirinya. Pelajaran
+  kuncinya: <strong>klaim CSR menaikkan ekspektasi</strong>; kegagalan memenuhi klaim sendiri merusak legitimasi
+  lebih dalam daripada bila klaim itu tidak pernah dibuat. Versi lengkapnya ada di bagian <em>Kasus nyata untuk
+  CM2</em> di bawah.</p>
+</div>
+
+<p class="sub-h">Alur kelas yang disarankan (slide 17)</p>
+
+<div class="cascade">
+  <div class="cascade-box"><b>1. Opening question</b><span>What is a corporation for?</span></div>
+  <div class="cascade-arrow">↓</div>
+  <div class="cascade-box"><b>2. Mini-lecture</b><span>CSR dan tanggung jawab korporasi</span></div>
+  <div class="cascade-arrow">↓</div>
+  <div class="cascade-box"><b>3. Group work</b><span>stakeholder mapping</span></div>
+  <div class="cascade-arrow">↓</div>
+  <div class="cascade-box"><b>4. Case debate</b><span>American Apparel</span></div>
+  <div class="cascade-box cascade-box--hi"><b>5. Reflection</b><span>corporate citizenship</span></div>
+</div>
+
+<p><em>Instructor tip</em> dari slide: pilih satu konsep — CSR, stakeholder theory, accountability, atau
+citizenship — dan terapkan pada satu perusahaan terkini. Latihan yang persis sama bisa kamu kerjakan di halaman
+<strong>Kasus</strong> aplikasi ini.</p>
+
+<p class="sub-h">Pertanyaan penutup dari slide</p>
+
+<ul>
+  <li>Untuk apa sebuah korporasi ada?</li>
+  <li>Dapatkah korporasi benar-benar dimintai pertanggungjawaban moral, atau hanya individu di dalamnya?</li>
+  <li>Kapan CSR menjadi strategi, dan kapan ia menjadi manipulasi?</li>
+  <li>Jika korporasi kini memengaruhi barang publik, hak, dan regulasi — bagaimana kekuasaan itu seharusnya
+  diatur?</li>
+</ul>
+
+<div class="key-box">
+  <strong>Ringkasan satu kalimat (dari slide).</strong> CSR menanyakan tanggung jawab <em>apa</em> yang dimiliki
+  bisnis; stakeholder theory menanyakan <em>kepada siapa</em> tanggung jawab itu terutang; accountability menanyakan
+  <em>bagaimana</em> korporasi dimintai penjelasan; corporate citizenship menanyakan bagaimana <em>kekuasaan
+  korporasi</em> dipahami ketika perusahaan mengambil peran sosial atau politik.
 </div>`
     }
   ],
   exam: `
 <p><strong>Yang paling sering keluar dari CM2:</strong></p>
 <ul>
-  <li>Piramida Carroll — empat level, kata kunci <em>required / expected / desired</em>, plus kritiknya.</li>
+  <li>Korporasi sebagai tiga aktor (legal, economic, social) + debat moral agency dan CID.</li>
+  <li>Piramida Carroll — required / expected / desired — plus kritiknya dan peringatan slide soal hierarki kaku.</li>
   <li>Argumen Friedman dan cara membantahnya secara berimbang.</li>
   <li>Definisi stakeholder Freeman + tiga pendekatan (normative, descriptive, instrumental).</li>
-  <li>Model salience: power, legitimacy, urgency → latent / expectant / definitive.</li>
-  <li>Tiga pandangan corporate citizenship, terutama <em>extended view</em> yang khas Crane &amp; Matten.</li>
-  <li>Beda <em>responsibility</em> dan <em>accountability</em>.</li>
+  <li>Model salience (power, legitimacy, urgency) <strong>plus vulnerability dan dependency</strong> dari slide.</li>
+  <li>Tiga corak strategi CSR: defensive / integrated / transformative.</li>
+  <li>Trio responsibility–accountability–transparency, dan mengapa transparansi saja tidak cukup.</li>
+  <li>Tiga pandangan corporate citizenship, terutama <em>extended view</em>.</li>
 </ul>`
 },
 

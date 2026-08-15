@@ -350,6 +350,7 @@
     const sections = ch.sections.map(function (s, i) {
       return '<details class="card accordion" data-sec="' + i + '"' + (i === 0 ? " open" : "") + '>' +
         '<summary><span class="acc-title">' + esc(s.title) + '</span>' +
+        (s.ppt ? '<span class="src-badge src-badge--ppt">\ud83d\udcca ' + esc(s.ppt) + '</span>' : "") +
         '<span class="src-badge ' + (s.src.indexOf("+") > -1 ? "src-badge--extra" : "src-badge--book") + '">' + esc(s.src) + '</span></summary>' +
         '<div class="accordion-body" data-annot-scope="' + ch.id + ':' + i + '">' + injectViz(s.body) + '</div>' +
         '</details>';
@@ -376,14 +377,17 @@
         '</div>' +
       '</div>' +
 
-      (deck ? renderDeck(deck) : "") +
-
       (deck ?
-        '<p class="eyebrow" style="margin-top:2.25rem">Pendalaman dari buku</p>' +
-        '<h3 style="font-family:var(--serif);font-size:1.45rem;font-weight:600;margin-bottom:0.4rem">Rangkuman ' + esc(ch.ref) + '</h3>' +
-        '<p style="font-size:0.88rem;color:var(--ink-soft);max-width:66ch;margin-bottom:1.1rem">' +
-        'Setelah mengikuti alur slide di atas, bagian ini memperdalam tiap konsep dengan rangkuman buku, ' +
-        'diagram, dan fokus ujian.</p>' : "") +
+        '<section class="card card-pad" style="margin-bottom:1.5rem;display:flex;gap:1rem;align-items:center;flex-wrap:wrap">' +
+          '<div style="flex:1;min-width:250px">' +
+            '<h3 style="margin-bottom:0.3rem">\ud83d\udcca Pedoman: slide dosen Pertemuan ' + deck.meeting + '</h3>' +
+            '<p style="font-size:0.85rem;color:var(--ink-soft);line-height:1.7;margin:0">Urutan bagian di bawah mengikuti alur ' +
+            deck.slides + ' slide dosen dan diperkaya penjelasan buku. Badge ' +
+            '<span class="src-badge src-badge--ppt">PPT</span> menandai isi slide, ' +
+            '<span class="src-badge src-badge--book">' + esc(ch.ref) + '</span> menandai pendalaman dari buku.</p>' +
+          '</div>' +
+          '<a class="btn btn--small btn--gold" href="' + esc(deck.fileUrl) + '" target="_blank" rel="noopener">Buka PPT asli \u2197</a>' +
+        '</section>' : "") +
 
       '<section class="card card-pad" style="margin-bottom:1.5rem">' +
         '<h3>Tujuan belajar bab ini</h3>' +
@@ -423,82 +427,6 @@
      PANDUAN KULIAH (slide dosen)
      ============================================================ */
   const deckFor = (ch) => DECKS.find((d) => d.ch === ch);
-
-  function renderSlide(s) {
-    let h = '<article class="slide">' +
-      '<div class="slide-head"><span class="slide-n">Slide ' + s.n + '</span>' +
-      '<span class="slide-title">' + s.title + '</span></div>' +
-      (s.sub ? '<p class="slide-sub">' + s.sub + '</p>' : "");
-
-    if (s.lead) h += '<div class="slide-lead">' + s.lead + '</div>';
-
-    if (s.chain) {
-      h += '<div class="slide-chain">' + s.chain.map((c, i) =>
-        (i ? '<i aria-hidden="true">→</i>' : "") + '<span>' + c + '</span>').join("") + '</div>';
-    }
-
-    if (s.points) h += '<ul class="slide-points">' + s.points.map((p) => '<li>' + p + '</li>').join("") + '</ul>';
-
-    if (s.groups) {
-      h += '<div class="slide-groups">' + s.groups.map((g) =>
-        '<div class="slide-group"><h6>' + g.h + '</h6><ul>' +
-        g.items.map((i) => '<li>' + i + '</li>').join("") + '</ul></div>').join("") + '</div>';
-    }
-
-    if (s.table) {
-      h += '<div class="slide-table-wrap"><table class="slide-table"><thead><tr>' +
-        s.table.cols.map((c) => '<th>' + esc(c) + '</th>').join("") + '</tr></thead><tbody>' +
-        s.table.rows.map((r) => '<tr>' + r.map((c) => '<td>' + c + '</td>').join("") + '</tr>').join("") +
-        '</tbody></table></div>';
-    }
-
-    if (s.prompt) h += '<p class="slide-prompt">' + s.prompt + '</p>';
-    if (s.note) h += '<details class="slide-note"><summary>Catatan penjelasan dosen</summary><p>' + s.note + '</p></details>';
-
-    return h + '</article>';
-  }
-
-  function renderDeck(d) {
-    return '<section style="margin-bottom:2rem">' +
-      '<div class="deck">' +
-        '<p class="deck-eyebrow">Pedoman kuliah · Pertemuan ' + d.meeting + '</p>' +
-        '<h2>' + d.title + '</h2>' +
-        '<p class="deck-sub">' + d.subtitle + ' — ' + d.themes + '</p>' +
-        '<p class="deck-intro">' + d.intro + '</p>' +
-        '<div class="deck-meta">' +
-          '<a class="deck-file" href="' + esc(d.fileUrl) + '" target="_blank" rel="noopener">📊 ' + esc(d.file) + ' ↗</a>' +
-          '<span class="chip">' + d.slides.length + ' slide inti</span>' +
-          '<span class="chip">Sumber: ' + d.source + '</span>' +
-        '</div>' +
-      '</div>' +
-
-      '<div class="slides">' + d.slides.map(renderSlide).join("") + '</div>' +
-
-      '<div class="grid grid--two" style="margin-top:1.25rem">' +
-        '<section class="card card-pad"><h3>Alur kelas yang disarankan</h3>' +
-          '<div class="deck-flow">' + d.flow.map((f, i) =>
-            '<div class="deck-flow-step"><i>' + (i + 1) + '</i><b>' + esc(f.h) + '</b><span>' + esc(f.d) + '</span></div>').join("") + '</div>' +
-          '<p style="font-size:0.82rem;color:var(--ink-soft);margin-top:0.85rem;line-height:1.7">' + d.flowNote + '</p>' +
-        '</section>' +
-        '<section class="card card-pad"><h3>Key takeaways</h3>' +
-          '<ol class="obj-list">' + d.takeaways.map((t) => '<li><span>' + t + '</span></li>').join("") + '</ol>' +
-        '</section>' +
-      '</div>' +
-
-      '<div class="grid grid--two" style="margin-top:1.25rem">' +
-        '<section class="card card-pad"><h3>Pertanyaan penutup</h3>' +
-          '<ol class="rcase-qs" style="counter-reset:rq">' + d.closing.map((q) =>
-            '<li><span>' + esc(q) + '</span></li>').join("") + '</ol>' +
-        '</section>' +
-        '<section class="card card-pad"><h3>Rujukan slide</h3>' +
-          '<ul class="ref-list">' + d.refs.map((r) =>
-            '<li><span class="ref-code">•</span><span>' + r + '</span></li>').join("") + '</ul>' +
-        '</section>' +
-      '</div>' +
-
-      '<div class="deck-oneline"><span>Ringkasan satu kalimat</span>' + d.oneLine + '</div>' +
-      '</section>';
-  }
 
   /* ============================================================
      PUSTAKA KASUS NYATA
