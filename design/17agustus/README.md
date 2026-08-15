@@ -1,7 +1,7 @@
 # Banner 17 Agustus — nomukita.
 
-Banner kemerdekaan **"Diskon Semangat 45"**: disc up to **45%** + **voucher gratis
-ongkir**, periode **16–18 Agustus**. Format 1080×1350 (4:5), mengikuti
+Banner kemerdekaan **"Diskon Special Merdeka Sale"**: disc up to **30%** +
+**voucher gratis ongkir**, periode **16–18 Agustus**. Format 1080×1350 (4:5), mengikuti
 `Referensi Banner 17 Agustus.jpg` (Drive → Banner Referensi/Agustus).
 
 ```bash
@@ -17,12 +17,14 @@ node design/17agustus/render.mjs
 | Logo di atas | Logo nomukita 300px, y=52 (aturan design system) |
 | Pill `10 - 16 AUGUSTUS` | Pill `16 – 18 AGUSTUS` (ejaan dibetulkan) |
 | Script "Diskon" oranye | "Diskon" merah, ARG Demi dimiringkan |
-| Headline putih "SEMANGAT 45" outline biru | Sama — dua lapis: stroke biru muda di belakang, isi putih di depan |
-| Band biru `DISC UP TO 50% + VOUCHER UP TO 45K` | Band merah `DISC UP TO 45% + VOUCHER GRATIS ONGKIR` |
+| Headline putih "SEMANGAT 45" outline biru | "SPECIAL MERDEKA SALE" dua baris, dua lapis: stroke biru muda di belakang, isi putih di depan |
+| Band biru `DISC UP TO 50% + VOUCHER UP TO 45K` | Band merah `DISC UP TO 30% + VOUCHER GRATIS ONGKIR` |
 | 3 produk di lintasan lari + pita merah putih | 3 kemasan ditata sebagai lomba lari (lihat bawah) |
 | `100% ORI + BPOM APPROVED` | — (footer dihapus atas permintaan) |
 
-"Semangat 45" sekaligus pun angka diskonnya — 45%.
+Headline dua baris: `SPECIAL` (88px) sebagai lead-in, `MERDEKA SALE` (124px)
+sebagai hero. Aksen script "Diskon" dirapatkan ke sudut kiri-atas headline
+supaya terbaca satu lockup seperti referensi.
 
 ## Produk (file asli dari Drive, bukan hasil generate)
 
@@ -95,12 +97,15 @@ menempatkan `500 gram` (91,9% tinggi pouch) di y1188 — tepat di atas pita
 
 ## Karakter terkunci (font DEMO)
 
-Kampanye ini menabrak hampir semua glyph yang terkunci di All Round Gothic DEMO:
+Kampanye versi 45% dulu menabrak hampir semua glyph terkunci. Setelah diskon
+jadi **30%** dan headline tidak lagi memuat angka, hanya `%` yang tersisa
+bermasalah — jadi angka diskon sekarang memakai **All Round Gothic Bold asli**,
+bukan Comfortaa pengganti. Kalau angka diskon nanti mengandung `4`
+(45%, 40%, 24%…), digitnya harus kembali ke Comfortaa Bold.
 
 | Teks | Glyph terkunci | Solusi |
 |---|---|---|
-| `45` (headline & band) | angka `4` | Kedua digit diset **Comfortaa Bold** supaya konsisten satu pasangan |
-| `45%` | `%` | Vektor SVG, stroke disamakan dengan digit |
+| `30%` | `%` saja | Digit `3` dan `0` **aman di All Round Gothic Bold** — dipakai langsung; hanya `%` yang jadi vektor SVG |
 | `16 – 18` | tanda hubung | Bar CSS (`.pill i`) |
 | `+` di band | belum teruji di DEMO | Vektor SVG, tidak ambil risiko |
 

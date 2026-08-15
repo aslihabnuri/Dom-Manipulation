@@ -6,9 +6,9 @@
 <style>
   /* Type follows the locked nomukita design system: All Round Gothic for
      display, Comfortaa for body. The DEMO cut locks '4', '%', '-', '–' and
-     '°', so: the digits of "45" are set in Comfortaa Bold (the system's own
-     prescribed fallback), '%' is drawn as a vector matched to the digit
-     stroke, and the date dash is a CSS bar. */
+     '°'. "30" contains no locked glyph, so the discount is set in real All
+     Round Gothic Bold — the previous 45 had needed the Comfortaa fallback.
+     '%' is still drawn as a vector; the date dash is still a CSS bar. */
   :root{
     --brand-display:"FONTSPRING DEMO - All Round Gothic Bold";
     --brand-label:"FONTSPRING DEMO - All Round Gothic Demi";
@@ -38,25 +38,26 @@
   .pill i{display:block;width:22px;height:3px;border-radius:2px;background:var(--merah)}
 
   /* ── "Diskon" accent, oblique like the reference's script ── */
-  .diskon{position:absolute;left:132px;top:206px;z-index:9;
+  .diskon{position:absolute;left:292px;top:190px;z-index:9;
     font-family:var(--brand-label);font-size:44px;letter-spacing:2px;color:var(--merah);
     transform:rotate(-8deg) skewX(-6deg);
     text-shadow:0 2px 0 rgba(255,255,255,.85)}
 
-  /* ── hero: SEMANGAT 45 ── */
-  .hero{position:absolute;left:0;right:0;top:236px;height:150px;z-index:8;
+  /* ── hero: SPECIAL MERDEKA SALE — all All Round Gothic now that the
+     headline carries no digits ── */
+  .hero{position:absolute;left:0;right:0;top:222px;height:232px;z-index:8;
     transform:skewX(-4deg)}
-  .hero .row{position:absolute;left:0;right:0;top:0;
-    display:flex;align-items:baseline;justify-content:center;gap:18px}
-  .hero .word{font-family:var(--brand-display);font-size:136px;line-height:1;letter-spacing:-2px}
-  .hero .num{font-family:var(--brand-body);font-weight:700;font-size:127px;line-height:1;letter-spacing:-3px}
-  .hero .back .word,.hero .back .num{color:#9DC4DE;-webkit-text-stroke:9px #9DC4DE;
+  .hero .row{position:absolute;left:0;right:0;top:0;text-align:center}
+  .hero .ln{font-family:var(--brand-display);line-height:1;letter-spacing:-2px}
+  .hero .l1{font-size:88px}
+  .hero .l2{font-size:124px;margin-top:8px}
+  .hero .back .ln{color:#9DC4DE;-webkit-text-stroke:9px #9DC4DE;
     text-shadow:0 14px 34px rgba(40,80,120,.4)}
-  .hero .front .word,.hero .front .num{color:#fff;
+  .hero .front .ln{color:#fff;
     text-shadow:0 4px 0 rgba(200,16,46,.16)}
 
   /* ── offer band ── */
-  .band{position:absolute;left:-20px;right:-20px;top:436px;z-index:8;
+  .band{position:absolute;left:-20px;right:-20px;top:452px;z-index:8;
     transform:rotate(-2.2deg);
     background:linear-gradient(100deg,rgba(200,16,46,.94) 0%,rgba(165,13,38,.94) 100%);
     box-shadow:0 14px 34px rgba(120,20,35,.30);
@@ -67,8 +68,8 @@
   .stack span{font-family:var(--brand-label);font-size:27px;letter-spacing:3px;
     color:var(--bone);line-height:1.15}
   .big{display:flex;align-items:flex-start;gap:6px}
-  .big b{font-family:var(--brand-body);font-weight:700;font-size:96px;line-height:.94;
-    color:#fff;letter-spacing:-2px}
+  .big b{font-family:var(--brand-display);font-size:100px;line-height:.94;
+    color:#fff;letter-spacing:-1px}
   .big svg{margin-top:8px}
   .vg{display:flex;flex-direction:column;align-items:flex-start;gap:3px}
   .vg small{font-family:var(--brand-label);font-size:23px;letter-spacing:5px;
@@ -99,15 +100,15 @@
 
   <div class="diskon">Diskon</div>
   <div class="hero">
-    <div class="row back"><span class="word">SEMANGAT</span><span class="num">45</span></div>
-    <div class="row front"><span class="word">SEMANGAT</span><span class="num">45</span></div>
+    <div class="row back"><div class="ln l1">SPECIAL</div><div class="ln l2">MERDEKA SALE</div></div>
+    <div class="row front"><div class="ln l1">SPECIAL</div><div class="ln l2">MERDEKA SALE</div></div>
   </div>
 
   <div class="band">
     <div class="grp">
       <div class="stack"><span>DISC</span><span>UP TO</span></div>
       <div class="big">
-        <b>45</b>
+        <b>30</b>
         <svg width="64" height="98" viewBox="0 0 64 96" fill="none" aria-label="persen">
           <g stroke="#FFFFFF" stroke-width="11" fill="none">
             <circle cx="16.5" cy="27" r="10"/>
