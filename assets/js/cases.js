@@ -441,6 +441,30 @@ window.BEFS_CASES = [
   ]
 },
 {
+  ch: 8, id: "gagal-ginjal-sirop", scope: "id", flag: "🇮🇩",
+  title: "Gagal ginjal akut anak dan cemaran obat sirop",
+  place: "Indonesia", year: "2022–2023",
+  hook: "Obat penurun panas untuk anak tercemar pelarut industri — kasus keamanan produk paling menyakitkan dalam sejarah farmasi Indonesia, dan kasus yang diminta dosen untuk dibahas di kelas.",
+  facts: [
+    "Oktober 2022, Kemenkes melaporkan lonjakan kasus <strong>gagal ginjal akut misterius pada anak</strong>; per 18 Oktober 2022 tercatat 208 kasus di 20 provinsi dengan 118 kematian (56,7%) — angka yang kemudian bertambah melewati 200 jiwa.",
+    "Pada pasien terdeteksi cemaran <strong>etilen glikol (EG)</strong> dan <strong>dietilen glikol (DEG)</strong> — pelarut industri yang mencemari bahan baku pengganti propilen glikol pada obat sirop.",
+    "Kemenkes menghentikan sementara peresepan dan penjualan obat sirop; BPOM menarik produk-produk yang tercemar dari peredaran.",
+    "Proses hukum menjerat produsen farmasi (antara lain CV Samudera Chemical dan PT Afi Farma yang divonis pidana) dan menyingkap rantai pasok bahan baku yang tidak terkendali.",
+    "Keluarga korban mengajukan gugatan class action; kasus serupa dengan sirop tercemar juga terjadi di Gambia dan Uzbekistan pada periode yang sama, memicu peringatan global WHO."
+  ],
+  link: "Kasus paling tepat untuk menguji tiga teori tanggung jawab produsen yang dipakai dosen (Velasquez): <strong>contract view</strong> (janji keamanan produk dilanggar), <strong>due care</strong> (kegagalan uji bahan baku di sepanjang rantai pasok — kelalaian di mana?), dan <strong>social cost / strict liability</strong> (siapa menanggung biaya meski tanpa niat jahat). Deck dosen secara eksplisit meminta pembandingan dengan <strong>Johnson &amp; Johnson</strong> yang menarik seluruh Tylenol dari pasar AS pada 1982 dalam hitungan hari — standar emas product recall yang lahir justru dari sabotase pihak ketiga, bukan kesalahan produsen.",
+  questions: [
+    "Terapkan tiga teori: di titik mana contract view, due care, dan social cost view memberi kesimpulan berbeda tentang siapa yang bertanggung jawab — produsen obat, pemasok bahan baku, atau regulator?",
+    "Bandingkan dengan J&J 1982: apa yang membuat sebuah penarikan produk disebut etis — kecepatan, cakupan, transparansi, atau kesediaan menanggung rugi?",
+    "Sistem pengawasan seperti apa yang bisa mencegah substitusi bahan baku seperti ini — dan siapa yang wajib membayarnya?"
+  ],
+  sources: [
+    { outlet: "Kemenkes / BPOM", desc: "Kronologi kasus dan penarikan produk", q: "Kemenkes gagal ginjal akut anak 2022 BPOM penarikan obat sirop EG DEG" },
+    { outlet: "Reuters / BBC", desc: "Liputan internasional dan peringatan WHO", q: "Reuters Indonesia acute kidney injury children cough syrup ethylene glycol WHO" },
+    { outlet: "Tempo / Kompas", desc: "Vonis produsen dan gugatan class action", q: "vonis Afi Farma gagal ginjal akut class action Tempo" }
+  ]
+},
+{
   ch: 8, id: "bpjs-data", scope: "id", flag: "🇮🇩",
   title: "Dugaan kebocoran data BPJS Kesehatan",
   place: "Indonesia", year: "2021",

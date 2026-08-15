@@ -22,8 +22,8 @@ window.BEFS_DECKS = [
     fileUrl: "https://drive.google.com/file/d/1-8XGJkhx82VhHH1-6RIsAMuDozr-N1q0/view"
   },
   {
-    ch: 2, meeting: 2, slides: 18,
-    file: "Chapter_2_Slides_and_Explanatory_Notes (2).pptx",
-    fileUrl: "https://drive.google.com/file/d/18_E2wmIL6CECRD6sfb_4C8_nVOXa7wBR/view"
+    ch: 2, meeting: 2, slides: 70,
+    file: "Materi Etika Bisnis-Terbaru.pptx",
+    fileUrl: "https://drive.google.com/file/d/16wdoZJYqUiEqXR6i_sEElwl_tjHmoNK6/view"
   }
 ];

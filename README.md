@@ -13,10 +13,10 @@ disimpan di `localStorage` peramban, jadi tidak ada server, akun, maupun data ya
 | **Dashboard** | Ringkasan mata kuliah, course objectives, bobot penilaian, referensi, dan progres belajar. |
 | **Silabus** | 14 sesi sesuai *Weekly Learning Activity Plan* pada RPKPS, penanda sesi selesai, skala nilai, aturan integritas akademik. Isi tanggal sesi pertama dan jadwal 14 minggu dihitung otomatis. |
 | **Materi** | 12 bab (CM1–CM12) dalam Bahasa Indonesia dengan istilah kunci Bahasa Inggris — 61 bagian, 35 diagram, kotak "Fokus ujian", dan kasus nyata di tiap bab. Pada bab yang sudah ada slide dosennya, urutan bagian **mengikuti alur slide dan diperkaya penjelasan buku**, dengan badge sumber PPT/buku di tiap bagian. |
-| **Flashcards** | 129 kartu tanya-jawab, dapat disaring per bab, dengan penanda penguasaan dan pintasan keyboard. |
-| **Kuis** | 99 soal pilihan ganda beserta penjelasan. Mode per bab, simulasi **mid-term** (CM1–CM6), dan simulasi **final** (CM7–CM12). |
-| **Kasus** | Dua bagian. **Penganalisis** dilema etis lima langkah: rumusan dilema → peta stakeholder → lima lensa teori → penilaian → alternatif solusi, bisa menyimpan beberapa kasus dan menyalin ringkasannya sebagai teks. **Pustaka kasus** berisi 26 kasus nyata yang diliput media — dua per bab (satu internasional, satu Indonesia), plus dua kasus resmi buku pada CM1 dan CM2. |
-| **Glosarium** | 128 istilah kunci yang dapat dicari dalam Bahasa Inggris maupun Indonesia. |
+| **Flashcards** | 134 kartu tanya-jawab, dapat disaring per bab, dengan penanda penguasaan dan pintasan keyboard. |
+| **Kuis** | 102 soal pilihan ganda beserta penjelasan. Mode per bab, simulasi **mid-term** (CM1–CM6), dan simulasi **final** (CM7–CM12). |
+| **Kasus** | Dua bagian. **Penganalisis** dilema etis lima langkah: rumusan dilema → peta stakeholder → lima lensa teori → penilaian → alternatif solusi, bisa menyimpan beberapa kasus dan menyalin ringkasannya sebagai teks. **Pustaka kasus** berisi 27 kasus nyata yang diliput media — dua per bab (satu internasional, satu Indonesia), plus dua kasus resmi buku pada CM1 dan CM2. |
+| **Glosarium** | 133 istilah kunci yang dapat dicari dalam Bahasa Inggris maupun Indonesia. |
 | **Catatan** | Catatan per sesi yang tersimpan otomatis, plus daftar sorotan yang kamu buat di halaman materi. |
 
 Di halaman **Materi**, seleksi kalimat mana pun lalu klik **✎ Tandai** untuk menyorotinya dan
@@ -41,7 +41,7 @@ PPT di Drive; jalankan ulang proses itu bila slide dosen berubah.
 | Pertemuan | Bab | Berkas |
 |---|---|---|
 | 1 | CM1 — Introducing Business Ethics (6 bagian) | `Chapter_1_with_Explanatory_Notes (1).pptx` |
-| 2 | CM2 — Framing Business Ethics (7 bagian) | `Chapter_2_Slides_and_Explanatory_Notes (2).pptx` |
+| 2 | CM2 — deck terbaru dosen, 70 slide (11 bagian) | `Materi Etika Bisnis-Terbaru.pptx` |
 
 Bab yang sudah punya slide ditandai titik emas pada pemilih bab dan bar pedoman berisi tautan ke
 PPT aslinya. Menambahkan pertemuan berikutnya: satu entri metadata di `assets/js/decks.js`, lalu
@@ -56,7 +56,7 @@ lengkap empat penulis dengan catatan penjelas.
 Setiap bab dilengkapi **dua kasus nyata** yang benar-benar terjadi dan diliput media — satu
 internasional, satu Indonesia — sehingga siap dipakai untuk diskusi kelas dan presentasi kelompok.
 CM1 dan CM2 juga memuat **kasus resmi buku** yang ditunjuk slide dosen (Global McEthics dan
-American Apparel), sehingga totalnya 26 kasus. Tiap kasus memuat:
+American Apparel), plus kasus gagal ginjal akut 2022 yang diminta dosen, sehingga totalnya 27 kasus. Tiap kasus memuat:
 
 - **Apa yang terjadi** — fakta, angka, dan tanggal kunci
 - **Kaitannya dengan bab** — konsep mana yang sedang diuji kasus ini
@@ -108,10 +108,10 @@ assets/js/data.js          metadata mata kuliah + 14 sesi (dari RPKPS)
 assets/js/chapters.js      materi CM1–CM12 (61 bagian; CM1–CM2 melebur slide dosen + buku)
 assets/js/visuals.js       35 diagram SVG/CSS
 assets/js/decks.js         metadata slide dosen per pertemuan
-assets/js/slide-images.js  13 screenshot slide asli (data URI)
-assets/js/cases.js         26 kasus nyata beserta rujukan beritanya
-assets/js/study-cards.js   129 flashcard + 128 istilah glosarium
-assets/js/study-quiz.js    99 soal pilihan ganda beserta pembahasan
+assets/js/slide-images.js  12 screenshot slide asli (data URI)
+assets/js/cases.js         27 kasus nyata beserta rujukan beritanya
+assets/js/study-cards.js   134 flashcard + 133 istilah glosarium
+assets/js/study-quiz.js    102 soal pilihan ganda beserta pembahasan
 assets/js/app.js           routing, penyimpanan, dan seluruh logika tampilan
 ```
 

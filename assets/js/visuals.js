@@ -166,50 +166,80 @@ window.BEFS_VIZ = (function () {
   },
 
   primaryStakeholders: function () {
-    const L = [["Employees", 20], ["Shareholders & investors", 122], ["Creditors", 224]];
-    const R = [["Customers", 20], ["Suppliers", 122], ["Distributors & retailers", 224]];
-    let g = '<svg viewBox="0 0 560 300" class="wide" role="img" aria-label="Relasi perusahaan dan primary stakeholders">' +
-      '<defs>' +
-      '<marker id="ahp" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">' +
-      '<path d="M0,0 L10,5 L0,10 z" fill="var(--pine)"/></marker>' +
-      '<marker id="ahq" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">' +
-      '<path d="M0,0 L10,5 L0,10 z" fill="var(--brass)"/></marker>' +
-      '</defs>';
-    function sideBox(x, y, label) {
-      const two = label.length > 14;
-      let h = '<rect x="' + x + '" y="' + y + '" width="150" height="52" rx="10" class="d-box--pine"/>';
-      if (two) {
-        const parts = label.split(" & ");
-        h += '<text x="' + (x + 75) + '" y="' + (y + 23) + '" class="d-label--sm" text-anchor="middle" fill="var(--pine)">' + parts[0] + (parts[1] ? ' &amp;' : '') + '</text>';
-        h += '<text x="' + (x + 75) + '" y="' + (y + 37) + '" class="d-label--sm" text-anchor="middle" fill="var(--pine)">' + (parts[1] || '') + '</text>';
-      } else {
-        h += '<text x="' + (x + 75) + '" y="' + (y + 31) + '" class="d-label--sm" text-anchor="middle" fill="var(--pine)">' + label + '</text>';
-      }
-      return h;
+    function pair(g, x1, x2, y, label) {
+      return g +
+        '<text x="' + ((x1 + x2) / 2) + '" y="' + (y - 13) + '" class="d-note" text-anchor="middle">' + label + '</text>' +
+        '<path d="M' + x1 + ' ' + (y - 5) + ' L' + x2 + ' ' + (y - 5) + '" stroke="var(--pine)" stroke-width="1.6" fill="none" marker-end="url(#ahp)"/>' +
+        '<path d="M' + x2 + ' ' + (y + 6) + ' L' + x1 + ' ' + (y + 6) + '" stroke="var(--brass)" stroke-width="1.6" fill="none" marker-end="url(#ahq)"/>';
     }
-    L.forEach(function (b) {
-      const y = b[1] + 26;
-      g += sideBox(10, b[1], b[0]);
-      g += '<path d="M166 ' + (y - 7) + ' L199 ' + (y - 7) + '" stroke="var(--pine)" stroke-width="1.6" fill="none" marker-end="url(#ahp)"/>';
-      g += '<path d="M199 ' + (y + 7) + ' L166 ' + (y + 7) + '" stroke="var(--brass)" stroke-width="1.6" fill="none" marker-end="url(#ahq)"/>';
-    });
-    R.forEach(function (b) {
-      const y = b[1] + 26;
-      g += sideBox(400, b[1], b[0]);
-      g += '<path d="M394 ' + (y - 7) + ' L361 ' + (y - 7) + '" stroke="var(--pine)" stroke-width="1.6" fill="none" marker-end="url(#ahp)"/>';
-      g += '<path d="M361 ' + (y + 7) + ' L394 ' + (y + 7) + '" stroke="var(--brass)" stroke-width="1.6" fill="none" marker-end="url(#ahq)"/>';
-    });
-    g += '<path d="M205 148 L205 148" fill="none"/>' +
-      '<rect x="205" y="118" width="150" height="64" rx="12" class="d-box--dark"/>' +
-      '<text x="280" y="145" class="d-label d-label--inv" text-anchor="middle">PERUSAHAAN</text>' +
-      '<text x="280" y="162" class="d-note" fill="rgba(233,239,228,0.72)" text-anchor="middle">the business firm</text>' +
-      '<text x="280" y="24" class="d-note" text-anchor="middle">Setiap relasi bersifat dua arah — transaksi ekonomi langsung</text>' +
+    function box(x, y, l1, l2) {
+      return '<rect x="' + x + '" y="' + y + '" width="140" height="48" rx="10" class="d-box--pine"/>' +
+        '<text x="' + (x + 70) + '" y="' + (y + (l2 ? 21 : 29)) + '" class="d-label--sm" text-anchor="middle" fill="var(--pine)">' + l1 + '</text>' +
+        (l2 ? '<text x="' + (x + 70) + '" y="' + (y + 35) + '" class="d-label--sm" text-anchor="middle" fill="var(--pine)">' + l2 + '</text>' : '');
+    }
+    let g = '<svg viewBox="0 0 560 372" class="wide" role="img" aria-label="Relasi perusahaan dan primary stakeholders">' +
+      '<defs>' +
+      '<marker id="ahp" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--pine)"/></marker>' +
+      '<marker id="ahq" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--brass)"/></marker>' +
+      '</defs>' +
+      '<text x="280" y="18" class="d-note" text-anchor="middle">Relasi dua arah — transaksi ekonomi langsung (label mengikuti slide dosen)</text>';
+    g += box(10, 30, 'Employees', '(unions)');   g = pair(g, 156, 209, 54, 'sell labor');
+    g += box(10, 122, 'Stockholders');           g = pair(g, 156, 209, 146, 'invest capital');
+    g += box(10, 214, 'Creditors');              g = pair(g, 156, 209, 238, 'lend funds');
+    g += box(410, 30, 'Customers');              g = pair(g, 404, 351, 54, 'buy product');
+    g += box(410, 122, 'Suppliers');             g = pair(g, 404, 351, 146, 'sell materials');
+    g += box(410, 214, 'Wholesalers &amp;', 'retailers'); g = pair(g, 404, 351, 238, 'distribute product');
+    g += '<rect x="210" y="304" width="140" height="44" rx="10" class="d-box--clay"/>' +
+      '<text x="280" y="331" class="d-label--sm" text-anchor="middle" fill="var(--clay)">Competitors</text>' +
+      '<text x="304" y="286" class="d-note" text-anchor="start">compete</text>' +
+      '<path d="M273 300 L273 268" stroke="var(--pine)" stroke-width="1.6" fill="none" marker-end="url(#ahp)"/>' +
+      '<path d="M287 268 L287 300" stroke="var(--brass)" stroke-width="1.6" fill="none" marker-end="url(#ahq)"/>';
+    g += '<rect x="215" y="128" width="130" height="72" rx="12" class="d-box--dark"/>' +
+      '<text x="280" y="158" class="d-label d-label--inv" text-anchor="middle">BUSINESS FIRM</text>' +
+      '<text x="280" y="176" class="d-note" fill="rgba(233,239,228,0.72)" text-anchor="middle">owners &middot; managers</text>' +
       '</svg>' +
       '<div class="viz-legend">' +
       '<span><span class="lg-dot lg-dot--pine"></span>kontribusi kepada perusahaan</span>' +
-      '<span><span class="lg-dot lg-dot--brass"></span>imbalan dari perusahaan</span>' +
+      '<span><span class="lg-dot lg-dot--brass"></span>imbalan / respons dari perusahaan</span>' +
       '</div>';
-    return fig(g, 'Relations between a business firm and its primary stakeholders — digambar ulang dari kerangka klasik stakeholder management (tradisi Carroll; bacaan pendukung CB).');
+    return fig(g, 'Relations between a business firm and its primary stakeholders — digambar ulang dari slide 5 deck dosen. Perhatikan: deck memasukkan competitors sebagai primary stakeholder (relasinya: compete).');
+  },
+
+  secondaryStakeholders: function () {
+    function pair(g, x1, x2, y, label) {
+      return g +
+        '<text x="' + ((x1 + x2) / 2) + '" y="' + (y - 13) + '" class="d-note" text-anchor="middle">' + label + '</text>' +
+        '<path d="M' + x1 + ' ' + (y - 5) + ' L' + x2 + ' ' + (y - 5) + '" stroke="var(--pine)" stroke-width="1.6" fill="none" marker-end="url(#ahp)"/>' +
+        '<path d="M' + x2 + ' ' + (y + 6) + ' L' + x1 + ' ' + (y + 6) + '" stroke="var(--brass)" stroke-width="1.6" fill="none" marker-end="url(#ahq)"/>';
+    }
+    function box(x, y, l1, l2) {
+      return '<rect x="' + x + '" y="' + y + '" width="140" height="48" rx="10" class="d-box--brass"/>' +
+        '<text x="' + (x + 70) + '" y="' + (y + (l2 ? 21 : 29)) + '" class="d-label--sm" text-anchor="middle" fill="var(--brass)">' + l1 + '</text>' +
+        (l2 ? '<text x="' + (x + 70) + '" y="' + (y + 35) + '" class="d-label--sm" text-anchor="middle" fill="var(--brass)">' + l2 + '</text>' : '');
+    }
+    let g = '<svg viewBox="0 0 560 372" class="wide" role="img" aria-label="Relasi perusahaan dan secondary stakeholders">' +
+      '<text x="280" y="18" class="d-note" text-anchor="middle">Relasi dua arah tanpa transaksi ekonomi langsung (label mengikuti slide dosen)</text>';
+    g += box(10, 30, 'Local', 'communities');    g = pair(g, 156, 209, 54, 'jobs, environment');
+    g += box(10, 122, 'General public');         g = pair(g, 156, 209, 146, 'opinion (+/&minus;)');
+    g += box(10, 214, 'Business support', 'groups'); g = pair(g, 156, 209, 238, 'advice, research');
+    g += box(410, 30, 'Governments', '(pusat &amp; daerah)'); g = pair(g, 404, 351, 54, 'regulation, taxes');
+    g += box(410, 122, 'Foreign', 'governments'); g = pair(g, 404, 351, 146, 'friendly / hostile');
+    g += box(410, 214, 'Media');                 g = pair(g, 404, 351, 238, 'image, publicity');
+    g += '<rect x="210" y="304" width="140" height="44" rx="10" class="d-box--brass"/>' +
+      '<text x="280" y="323" class="d-label--sm" text-anchor="middle" fill="var(--brass)">Social activist</text>' +
+      '<text x="280" y="337" class="d-label--sm" text-anchor="middle" fill="var(--brass)">groups</text>' +
+      '<text x="304" y="286" class="d-note" text-anchor="start">social demands</text>' +
+      '<path d="M273 300 L273 268" stroke="var(--pine)" stroke-width="1.6" fill="none" marker-end="url(#ahp)"/>' +
+      '<path d="M287 268 L287 300" stroke="var(--brass)" stroke-width="1.6" fill="none" marker-end="url(#ahq)"/>';
+    g += '<rect x="215" y="128" width="130" height="72" rx="12" class="d-box--dark"/>' +
+      '<text x="280" y="158" class="d-label d-label--inv" text-anchor="middle">BUSINESS FIRM</text>' +
+      '<text x="280" y="176" class="d-note" fill="rgba(233,239,228,0.72)" text-anchor="middle">owners &middot; managers</text>' +
+      '</svg>' +
+      '<div class="viz-legend">' +
+      '<span><span class="lg-dot lg-dot--pine"></span>pengaruh kepada perusahaan</span>' +
+      '<span><span class="lg-dot lg-dot--brass"></span>dampak / respons perusahaan</span>' +
+      '</div>';
+    return fig(g, 'Relations between a business firm and its secondary stakeholders — digambar ulang dari slide 6 deck dosen.');
   },
 
   /* ---------- CM3 ---------- */

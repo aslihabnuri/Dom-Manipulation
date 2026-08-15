@@ -352,7 +352,7 @@
         '<summary><span class="acc-title">' + esc(s.title) + '</span>' +
         (s.ppt ? '<span class="src-badge src-badge--ppt">\ud83d\udcca ' + esc(s.ppt) + '</span>' : "") +
         '<span class="src-badge ' + (s.src.indexOf("+") > -1 ? "src-badge--extra" : "src-badge--book") + '">' + esc(s.src) + '</span></summary>' +
-        '<div class="accordion-body" data-annot-scope="' + ch.id + ':' + i + '">' + injectViz(s.body) + slideShot(s.img) + '</div>' +
+        '<div class="accordion-body" data-annot-scope="' + ch.id + ':' + i + '">' + injectViz(s.body) + (Array.isArray(s.img) ? s.img.map(slideShot).join("") : slideShot(s.img)) + '</div>' +
         '</details>';
     }).join("");
 

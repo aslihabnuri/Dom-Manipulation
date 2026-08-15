@@ -80,6 +80,21 @@ window.BEFS_QUIZZES = [
     "status hukum kelompok tersebut"
   ], a: 1, why: "Pembedanya adalah <strong>jenis relasi</strong>: primary bertransaksi ekonomi langsung sehingga kelangsungan perusahaan bergantung padanya; secondary memengaruhi atau dipengaruhi tanpa transaksi langsung. Ingat: sekunder bukan berarti kurang penting — pada model salience, media atau LSM bisa menjadi definitive stakeholder." },
 
+  { ch: 2, q: "Hak atas pendidikan dasar — yang menuntut negara menyediakan sekolah — adalah contoh…", opts: [
+    "negative right", "positive right", "contractual right", "legal right semata"
+  ], a: 1, why: "<strong>Positive right</strong> mewajibkan pihak lain <em>menyediakan fasilitas</em>, bukan sekadar tidak mengganggu. Negative right hanya menuntut pembiaran (privasi, kebebasan berpendapat)." },
+
+  { ch: 2, q: "Asap pabrik yang membuat warga sekitar sakit, tetapi tidak masuk dalam biaya produksi perusahaan, disebut…", opts: [
+    "private costs", "social costs", "opportunity costs", "agency costs"
+  ], a: 1, why: "<strong>Social costs</strong> — biaya eksternal yang menjadi beban masyarakat. Kewajiban etisnya: <strong>internalisasi</strong> (private + social costs) dan pemasangan pengendali polusi. Deck menyebut akar masalahnya: udara dan air diperlakukan sebagai barang gratis." },
+
+  { ch: 2, q: "Menurut deck dosen, pihak yang PERTAMA memikul tanggung jawab moral atas tindakan perusahaan adalah…", opts: [
+    "korporasi sebagai badan hukum",
+    "individu yang bertindak atas nama perusahaan, baru kemudian korporasinya",
+    "pemegang saham pengendali",
+    "regulator yang mengawasinya"
+  ], a: 1, why: "Posisi deck: <em>\"individual is primarily responsible and then the corporation, because individuals act for the firms.\"</em> Buku menambahkan CID sebagai dasar tanggung jawab korporat — keduanya berlaku bersamaan (shared responsibility)." },
+
   { ch: 2, q: "Definisi stakeholder Freeman mencakup pihak yang…", opts: [
     "memiliki saham di perusahaan",
     "dapat memengaruhi ATAU dipengaruhi oleh pencapaian tujuan organisasi",
