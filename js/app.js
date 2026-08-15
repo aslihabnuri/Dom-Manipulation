@@ -358,6 +358,53 @@
       </figure>`;
     },
 
+    efficientFrontier() {
+      // titik pada elips lama (cx=50, cy=250, rx=280, ry=180) dan baru (rx=330, ry=215)
+      const pt = (deg, rx, ry) => {
+        const r = (deg * Math.PI) / 180;
+        return [50 + rx * Math.sin(r), 250 - ry * Math.cos(r)];
+      };
+      const [ax, ay] = pt(20, 280, 180);
+      const [bx, by] = pt(40, 280, 180);
+      const [cx2, cy2] = pt(65, 280, 180);
+      const [dx, dy] = pt(80, 280, 180);
+      const [b1x, b1y] = pt(40, 330, 215);
+      const dot = (x, y, label, lx, ly, hollow) => `
+        <circle cx="${x.toFixed(0)}" cy="${y.toFixed(0)}" r="6" class="ef-dot${hollow ? " ef-dot--x" : ""}"></circle>
+        <text class="radar-label" x="${(x + lx).toFixed(0)}" y="${(y + ly).toFixed(0)}">${label}</text>`;
+      return `<figure class="visual-block">
+        <svg viewBox="0 0 430 300" role="img" aria-label="Diagram trade-off dan efficient frontier">
+          <defs>
+            <marker id="efArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" class="ef-arrowhead"></path>
+            </marker>
+          </defs>
+          <line x1="50" y1="250" x2="410" y2="250" class="plc-base"></line>
+          <line x1="50" y1="250" x2="50" y2="25" class="plc-base"></line>
+          <text class="radar-label" x="230" y="285" text-anchor="middle">Cost efficiency →</text>
+          <text class="radar-label" x="62" y="22">Variety ↑</text>
+          <path d="M 108 74 A 280 180 0 0 1 330 244" class="ef-frontier"></path>
+          <path d="M 119 40 A 330 215 0 0 1 380 242" class="ef-frontier ef-frontier--new"></path>
+          <text class="ef-note" x="88" y="122">frontier lama</text>
+          <text class="ef-note ef-note--gold" x="292" y="52">frontier baru (setelah investasi)</text>
+          <line x1="170" y1="170" x2="${(bx - 8).toFixed(0)}" y2="${(by + 10).toFixed(0)}" class="ef-move" marker-end="url(#efArrow)"></line>
+          <line x1="${(bx + 4).toFixed(0)}" y1="${(by - 6).toFixed(0)}" x2="${(b1x - 2).toFixed(0)}" y2="${(b1y + 8).toFixed(0)}" class="ef-move ef-move--invest" marker-end="url(#efArrow)"></line>
+          ${dot(ax, ay, "A", -2, -12)}
+          ${dot(bx, by, "B", 10, -6)}
+          ${dot(cx2, cy2, "C", 10, 0)}
+          ${dot(dx, dy, "D", 10, 4)}
+          ${dot(b1x, b1y, "B1", 10, -6)}
+          ${dot(170, 170, "X", -16, 4, true)}
+        </svg>
+        <div class="viz-legend">
+          <span><b>①</b> X → B : perbaikan <em>menuju</em> frontier — variety &amp; efisiensi naik bersamaan, tanpa trade-off</span>
+          <span><b>②</b> B → B1 : investasi (teknologi/metode baru) <em>menggeser</em> frontier itu sendiri</span>
+        </div>
+        <figcaption>Trade-off &amp; efficient frontier — A, B, C, D sudah di frontier: menaikkan satu objective berarti
+        mengorbankan yang lain. X masih di dalam: bisa memperbaiki keduanya sekaligus. Melampaui frontier hanya lewat investasi.</figcaption>
+      </figure>`;
+    },
+
     plc() {
       return `<figure class="visual-block">
         <svg viewBox="0 0 400 150" role="img" aria-label="Kurva product life cycle">
