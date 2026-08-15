@@ -634,15 +634,16 @@
       const questionBlock = (sec, i) => {
         if (!sec.questions || !sec.questions.length) return "";
         return `<div class="mq-block">
-          <div class="mq-title">💬 Pertanyaan Diskusi MBA</div>
-          <p class="mq-hint">Jawab dulu dengan kata-katamu sendiri — baru buka kerangka berpikirnya. Draf jawabanmu tersimpan otomatis.</p>
+          <div class="mq-title">💬 Bahan Diskusi dengan Dosen</div>
+          <p class="mq-hint">Pertanyaan siap-tanya untuk memancing diskusi di kelas (modal partisipasi 10%!). Buka
+          "Kenapa menarik" untuk memahami angle-nya, lalu catat jawaban &amp; diskusi dosen di kolomnya — tersimpan otomatis.</p>
           ${sec.questions.map((qq, qi) => {
             const key = `${s.id}-${i}-${qi}`;
             return `<div class="mq-item">
-              <p class="mq-q"><span class="mq-num">Q${qi + 1}</span> ${esc(qq.q)}</p>
-              <details class="mq-guide"><summary>💡 Kerangka berpikir</summary><p>${esc(qq.guide)}</p></details>
+              <p class="mq-q"><span class="mq-num">T${qi + 1}</span> ${esc(qq.q)}</p>
+              <details class="mq-guide"><summary>💡 Kenapa menarik &amp; follow-up</summary><p>${esc(qq.guide)}</p></details>
               <textarea class="mq-answer" data-mq="${key}" rows="3"
-                placeholder="Tulis draf jawabanmu di sini…">${esc(mqAnswers[key] || "")}</textarea>
+                placeholder="Catat jawaban & diskusi dosen di sini…">${esc(mqAnswers[key] || "")}</textarea>
             </div>`;
           }).join("")}
         </div>`;
