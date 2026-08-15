@@ -168,9 +168,9 @@
         'kuis, penganalisis kasus etis, glosarium, dan catatan pribadi. Semuanya disusun mengikuti RPKPS resmi ' +
         'mata kuliah ini.</p>' +
         '<div class="hero-meta">' +
+          '<span class="chip chip--gold">Dosen: ' + esc(c.lecturer) + '</span>' +
           '<span class="chip chip--green">' + esc(c.credit) + '</span>' +
-          '<span class="chip chip--gold">' + esc(c.status) + '</span>' +
-          '<span class="chip">Koordinator: ' + esc(c.coordinator) + '</span>' +
+          '<span class="chip">' + esc(c.status) + '</span>' +
           '<span class="chip">MBA FEB UGM</span>' +
         '</div>' +
       '</section>' +
@@ -280,6 +280,13 @@
       '<h1 class="view-title">Silabus &amp; Rencana 14 Sesi</h1>' +
       '<p class="view-sub">Mengikuti tabel <em>Weekly Learning Activity Plan</em> pada RPKPS resmi. ' +
       'Tandai sesi yang sudah kamu pelajari untuk melacak progres.</p>' +
+
+      '<div class="materi-header"><div class="meta">' +
+        '<span class="tag tag--case">👤 Dosen: ' + esc(DATA.course.lecturer) + '</span>' +
+        '<span class="tag">' + esc(DATA.course.credit) + '</span>' +
+        '<span class="tag">' + esc(DATA.course.status) + '</span>' +
+        '<span class="tag">' + esc(DATA.course.prerequisite) + '</span>' +
+      '</div></div>' +
 
       '<div class="schedule-setter">' +
         '<span>📅 Tanggal sesi pertama:</span>' +

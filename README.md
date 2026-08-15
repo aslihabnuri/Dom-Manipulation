@@ -63,9 +63,9 @@ Diagram disisipkan ke dalam teks lewat penanda `{{viz:namaDiagram}}` yang dipeta
 
 ## Sumber
 
-- **RPKPS** MAN5522 *Business Ethics for Sustainability*, MBA FEB UGM (disahkan 13 Juli 2023;
-  koordinator: Amin Wibowo, Ph.D.) — dasar untuk silabus, course objectives, bobot penilaian,
-  skala nilai, dan rencana 14 sesi.
+- **RPKPS** MAN5522 *Business Ethics for Sustainability*, MBA FEB UGM (disahkan 13 Juli 2023) —
+  dasar untuk silabus, course objectives, bobot penilaian, skala nilai, dan rencana 14 sesi.
+  Dosen pengampu: **Prof. Dr. Eko Suwardi, M.Sc.**
 - **Bacaan utama:** Crane, A. & Matten, D. (2019). *Business Ethics: Managing corporate citizenship
   and sustainability in the age of globalization*. Oxford: Oxford University Press — dasar untuk
   struktur dan isi materi CM1–CM12.

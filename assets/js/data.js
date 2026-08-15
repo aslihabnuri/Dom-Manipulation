@@ -4,7 +4,7 @@
    Master of Business Administration — Universitas Gadjah Mada
 
    Sumber: RPKPS "MAN5522 Business Ethics for Sustainability"
-   (disahkan 13 Juli 2023, Koordinator: Amin Wibowo, Ph.D.)
+   (disahkan 13 Juli 2023) · Dosen pengampu: Prof. Dr. Eko Suwardi, M.Sc.
 
    Struktur materi ada di chapters.js (CM1–CM12), kartu & soal
    ada di flashcards.js dan quizzes.js.
@@ -20,7 +20,7 @@ window.BEFS_DATA = {
     status: "Mata kuliah wajib (compulsory)",
     prerequisite: "Tanpa prasyarat",
     folder: "Semester 2 · MBA UGM",
-    coordinator: "Amin Wibowo, Ph.D.",
+    lecturer: "Prof. Dr. Eko Suwardi, M.Sc.",
     authorized: "13 Juli 2023",
 
     description:
