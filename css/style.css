@@ -1076,6 +1076,86 @@ body::before {
 
 .notes-status { font-size: 0.78rem; color: var(--ink-faint); margin-top: 0.5rem; font-family: var(--mono); }
 
+/* ---------------- Pertanyaan diskusi MBA ---------------- */
+.mq-block {
+  margin-top: 1.4rem;
+  padding: 1.1rem 1.2rem;
+  background: var(--paper);
+  border: 1px solid var(--line-strong);
+  border-radius: 12px;
+}
+
+.mq-title {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 1.02rem;
+  color: var(--ink);
+}
+
+.mq-hint { font-size: 0.76rem; color: var(--ink-faint); margin: 0.2rem 0 0.9rem; }
+
+.mq-item {
+  padding: 0.85rem 0;
+  border-top: 1px dashed var(--line);
+}
+
+.mq-q { font-size: 0.92rem; font-weight: 600; color: var(--ink); margin-bottom: 0.55rem; }
+
+.mq-num {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--gold);
+  background: var(--gold-soft);
+  border-radius: 6px;
+  padding: 0.1rem 0.45rem;
+  margin-right: 0.35rem;
+  white-space: nowrap;
+}
+
+.mq-guide { margin-bottom: 0.6rem; }
+
+.mq-guide summary {
+  cursor: pointer;
+  list-style: none;
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--green);
+  padding: 0.2rem 0.6rem;
+  border: 1px solid rgba(63, 107, 79, 0.35);
+  border-radius: 999px;
+  user-select: none;
+}
+
+.mq-guide summary::-webkit-details-marker { display: none; }
+.mq-guide summary:hover { background: rgba(63, 107, 79, 0.08); }
+
+.mq-guide p {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  background: rgba(63, 107, 79, 0.07);
+  border: 1px solid rgba(63, 107, 79, 0.25);
+  border-radius: 10px;
+  padding: 0.7rem 0.9rem;
+}
+
+.mq-answer {
+  width: 100%;
+  resize: vertical;
+  font-family: var(--sans);
+  font-size: 0.87rem;
+  line-height: 1.6;
+  padding: 0.6rem 0.8rem;
+  border-radius: 10px;
+  border: 1px dashed var(--line-strong);
+  background: var(--card);
+  color: var(--ink);
+}
+
+.mq-answer:focus { outline: 2px solid var(--gold-bright); outline-offset: 1px; border-style: solid; }
+
 /* ---------------- Highlight & catatan kalimat ---------------- */
 mark.hl {
   background: linear-gradient(180deg, rgba(217, 165, 33, 0.35), rgba(217, 165, 33, 0.5));

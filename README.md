@@ -23,6 +23,7 @@ python3 -m http.server 8000
 | **Flashcards** | 59 kartu hafalan (37 kartu Sesi 1, 22 kartu Sesi 2) dengan pelacakan penguasaan |
 | **Kuis** | 30 soal pilihan ganda (18 soal Sesi 1, 12 soal Sesi 2) dengan pembahasan & skor terbaik |
 | **Kalkulator** | Kalkulator labor & multifactor productivity (contoh Collins Title dari slide) |
+| **Diskusi MBA** | 37 pertanyaan diskusi bergaya MBA di dalam tiap bagian Materi (tab yang sama): studi kasus aplikatif, kerangka berpikir yang bisa dibuka setelah mencoba menjawab, dan kolom draf jawaban yang tersimpan otomatis |
 | **Highlight & Catat** | Blok kalimat mana pun di Materi → kalimat ditandai stabilo emas + tebal → klik untuk menambah/melihat catatan penjelasan dosen; semua tanda terkumpul di menu Catatan |
 | **Catatan** | Jurnal pribadi per sesi, tersimpan otomatis, plus daftar semua kalimat yang ditandai |
 

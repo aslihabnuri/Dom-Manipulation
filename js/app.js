@@ -412,7 +412,16 @@
   }
 
   function textNodesIn(el) {
-    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+    // blok pertanyaan (mq-block) dikecualikan agar offset highlight stabil
+    // meski draf jawaban pengguna berubah-ubah
+    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, {
+      acceptNode(n) {
+        const p = n.parentElement;
+        return p && (p.closest(".mq-block") || p.tagName === "TEXTAREA")
+          ? NodeFilter.FILTER_REJECT
+          : NodeFilter.FILTER_ACCEPT;
+      }
+    });
     const nodes = [];
     while (walker.nextNode()) nodes.push(walker.currentNode);
     return nodes;
@@ -505,7 +514,7 @@
 
   function placeAt(el, rect) {
     el.hidden = false;
-    const top = rect.bottom + window.scrollY + 8;
+    const top = Math.max(8, rect.bottom + window.scrollY + 8);
     let left = rect.left + window.scrollX;
     left = Math.max(8, Math.min(left, window.scrollX + document.documentElement.clientWidth - el.offsetWidth - 8));
     el.style.top = top + "px";
@@ -520,6 +529,7 @@
     const el = anchor.nodeType === 1 ? anchor : anchor.parentElement;
     const body = el && el.closest ? el.closest(".accordion-body") : null;
     if (!body) return null;
+    if (el.closest(".mq-block")) return null;
     const text = range.toString();
     if (!text.trim() || text.length < 3 || text.length > 600) return null;
     const full = plainTextOf(body);
@@ -591,7 +601,10 @@
     const sel = window.getSelection();
     if (sel) sel.removeAllRanges();
     hlPopup.hidden = true;
-    openPanelFor(ann, p.rect);
+    // pakai posisi mark yang baru dibuat (bukan rect seleksi yang bisa basi
+    // setelah halaman bergeser) agar panel selalu berada di dekat kalimatnya
+    const firstMark = app.querySelector(`mark[data-hl-id="${ann.id}"]`);
+    openPanelFor(ann, firstMark ? firstMark.getBoundingClientRect() : p.rect);
     annState.pending = null;
   });
 
@@ -617,10 +630,27 @@
     const available = DATA.sessions.filter((x) => x.summary).map((x) => x.id);
     let body;
     if (s.summary) {
+      const mqAnswers = store.get("mq_answers", {});
+      const questionBlock = (sec, i) => {
+        if (!sec.questions || !sec.questions.length) return "";
+        return `<div class="mq-block">
+          <div class="mq-title">💬 Pertanyaan Diskusi MBA</div>
+          <p class="mq-hint">Jawab dulu dengan kata-katamu sendiri — baru buka kerangka berpikirnya. Draf jawabanmu tersimpan otomatis.</p>
+          ${sec.questions.map((qq, qi) => {
+            const key = `${s.id}-${i}-${qi}`;
+            return `<div class="mq-item">
+              <p class="mq-q"><span class="mq-num">Q${qi + 1}</span> ${esc(qq.q)}</p>
+              <details class="mq-guide"><summary>💡 Kerangka berpikir</summary><p>${esc(qq.guide)}</p></details>
+              <textarea class="mq-answer" data-mq="${key}" rows="3"
+                placeholder="Tulis draf jawabanmu di sini…">${esc(mqAnswers[key] || "")}</textarea>
+            </div>`;
+          }).join("")}
+        </div>`;
+      };
       body = s.summary.map((sec, i) => `
         <details class="card accordion" ${i === 0 ? "open" : ""}>
           <summary><span class="acc-title">${esc(sec.heading)}</span>${sourceBadge(sec)}</summary>
-          <div class="accordion-body">${sec.body}${renderVisuals(sec)}</div>
+          <div class="accordion-body">${sec.body}${renderVisuals(sec)}${questionBlock(sec, i)}</div>
         </details>`).join("");
     } else {
       body = `
@@ -1090,8 +1120,19 @@
     if (e.target.closest("[data-quiz-next]")) { quizNext(); return; }
   });
 
+  let mqTimer = null;
   app.addEventListener("input", (e) => {
     if (e.target.matches(".calc-grid input")) calcCompute();
+    if (e.target.matches(".mq-answer")) {
+      const key = e.target.dataset.mq;
+      const val = e.target.value;
+      clearTimeout(mqTimer);
+      mqTimer = setTimeout(() => {
+        const answers = store.get("mq_answers", {});
+        answers[key] = val;
+        store.set("mq_answers", answers);
+      }, 400);
+    }
   });
 
   window.addEventListener("hashchange", render);
