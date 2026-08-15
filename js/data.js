@@ -143,7 +143,7 @@ melayani. Di pabrik atau dapur pusat, proses tersembunyi dari pelanggan — bisa
 rendah, dan visibility rendah</strong> (dengan asumsi hal lain tetap). Logikanya: volume tinggi memberi skala ekonomi;
 variety rendah memungkinkan standardisasi; variation rendah membuat kapasitas terpakai merata; visibility rendah
 membebaskan operasi dari "biaya melayani penonton".</p>
-[[visual:fourVs]]
+[[visual:fourVsInteractive]]
 <div class="case-box"><strong>📌 Contoh dari slide — dua hotel yang sangat berbeda:</strong> <em>Ski Verbier
 Exclusive</em> menjual liburan ski mewah dan bespoke untuk segmen kecil. Variety-nya nyaris tak terbatas (tamu boleh
 minta makanan dan hiburan apa pun), variation tinggi (4 bulan penuh 100% okupansi lalu sepi), dan kontak pelanggan
@@ -193,34 +193,11 @@ cara yang itu-itu saja; ia bertanggung jawab meningkatkan kapabilitas prosesnya 
 <p>Versi Heizer memerinci pekerjaan itu menjadi <strong>sepuluh area keputusan</strong>. Daftar ini adalah kerangka
 utama mata kuliah kita — hampir setiap pertemuan ke depan membahas satu atau dua keputusan ini. Perhatikan pertanyaan
 kunci di tiap keputusan:</p>
-<ul>
-<li><strong>1. Desain barang &amp; jasa</strong> — produk/jasa apa yang kita tawarkan? Bagaimana merancangnya?</li>
-<li><strong>2. Manajemen kualitas</strong> — bagaimana kita mendefinisikan kualitas? Siapa yang bertanggung jawab atasnya?</li>
-<li><strong>3. Desain proses &amp; kapasitas</strong> — proses dan kapasitas apa yang dibutuhkan produk ini?
-Peralatan dan teknologi apa yang diperlukan?</li>
-<li><strong>4. Strategi lokasi</strong> — di mana fasilitas ditempatkan? Kriteria apa dasar keputusannya?</li>
-<li><strong>5. Strategi layout</strong> — bagaimana menata fasilitas? Seberapa besar fasilitas yang dibutuhkan?</li>
-<li><strong>6. SDM &amp; desain pekerjaan</strong> — bagaimana menyediakan lingkungan kerja yang layak? Berapa
-output yang wajar diharapkan dari karyawan?</li>
-<li><strong>7. Supply chain management</strong> — buat sendiri atau beli (make or buy)? Siapa pemasok kita dan
-bagaimana mengintegrasikan mereka ke strategi?</li>
-<li><strong>8. Persediaan, MRP, dan JIT</strong> — berapa banyak persediaan tiap barang? Kapan memesan ulang?</li>
-<li><strong>9. Penjadwalan jangka menengah &amp; pendek</strong> — apakah lebih baik mempertahankan karyawan saat
-permintaan sepi? Pekerjaan mana yang dikerjakan berikutnya?</li>
-<li><strong>10. Pemeliharaan (maintenance)</strong> — bagaimana membangun keandalan ke dalam proses? Siapa yang
-bertanggung jawab atas pemeliharaan?</li>
-</ul>
+[[visual:tenDecisions]]
 <h4 class="sub-h">Tantangan OM masa kini: dari mana ke mana</h4>
 <p>Cara menjalankan sepuluh keputusan itu terus bergeser. Slide dosen merangkum enam pergeseran besar — format
 "dari → ke" ini gampang keluar di ujian:</p>
-<ul>
-<li>Fokus lokal/nasional → <strong>fokus global</strong> (pasar dan pemasok mendunia);</li>
-<li>Pengiriman batch besar → <strong>just-in-time</strong> (kirim kecil tapi sering, persediaan minim);</li>
-<li>Pembelian dengan tawaran terendah → <strong>kemitraan supply chain</strong> (hubungan jangka panjang dengan pemasok);</li>
-<li>Pengembangan produk yang lama → <strong>pengembangan cepat &amp; beraliansi</strong>;</li>
-<li>Produk terstandardisasi → <strong>mass customization</strong> (produk massal tapi bisa dipersonalisasi);</li>
-<li>Spesialisasi pekerjaan sempit → <strong>karyawan yang diberdayakan dan kerja tim</strong>.</li>
-</ul>
+[[visual:fromTo]]
 <div class="key-box"><strong>💡 Intinya:</strong> Pekerjaan operations manager = direct, design, plan &amp; control,
 develop — yang dijabarkan dalam 10 keputusan kritis. Hafalkan kesepuluhnya beserta pertanyaan kuncinya; itu peta
 seluruh mata kuliah ini.</div>`
@@ -353,33 +330,7 @@ pemegang saham, karyawan, pelanggan, masyarakat — punya tujuan yang kadang sal
 operations manager untuk memahami dan menyeimbangkannya.</p>
 <h4 class="sub-h">Lima performance objectives — satu per satu</h4>
 <p>Di level operasional, kinerja diukur dengan lima objective. Ini konsep paling penting di pertemuan pertama:</p>
-<ul>
-<li><strong>Quality</strong> — melakukan hal yang benar, sesuai kebutuhan pelanggan. Tujuan manajer adalah membangun
-sistem total quality management yang mengidentifikasi dan memuaskan kebutuhan pelanggan. Kualitas meningkatkan
-profitabilitas lewat <em>dua jalur</em>: (1) <em>sales gain</em> — respons membaik, harga bisa lebih fleksibel,
-reputasi naik; (2) <em>reduced costs</em> — produktivitas naik, biaya rework/scrap turun, biaya garansi turun.
-Kualitas juga menaikkan dependability: proses yang benar sejak awal jarang meleset dari jadwal.</li>
-<li><strong>Speed</strong> — waktu yang berlalu antara pelanggan <em>meminta</em> dan <em>menerima</em> produk/jasa.
-Respons cepat ke pelanggan eksternal sangat terbantu oleh pengambilan keputusan yang cepat serta pergerakan material
-dan informasi yang cepat <em>di dalam</em> operasi. Manfaat internalnya: speed mengurangi persediaan (barang tidak
-lama mengendap) dan mengurangi risiko (ramalan untuk waktu dekat lebih akurat).</li>
-<li><strong>Dependability</strong> — menepati janji: pelanggan menerima produk/jasa tepat saat dibutuhkan atau
-setidaknya sesuai yang dijanjikan. Menariknya, pelanggan baru bisa menilai dependability <em>setelah</em> produk
-diterima — berbeda dengan harga yang terlihat di awal. Tapi seiring waktu, <strong>dependability bisa mengalahkan
-semua kriteria lain</strong>: pelanggan yang berulang kali dikecewakan jadwal akan pergi, semurah apa pun harganya.
-Secara internal, dependability menghemat waktu dan uang serta memberi stabilitas pada operasi.</li>
-<li><strong>Flexibility</strong> — kemampuan operasi untuk <em>berubah</em>. Pelanggan membutuhkan empat jenis
-fleksibilitas: <em>product/service flexibility</em> (kemampuan memperkenalkan produk baru), <em>mix flexibility</em>
-(kemampuan mengubah bauran produk yang ditawarkan), <em>volume flexibility</em> (kemampuan mengubah tingkat output),
-dan <em>delivery flexibility</em> (kemampuan mengubah waktu penyampaian). Manfaat internalnya: fleksibilitas
-mempercepat respons, menghemat waktu, dan menjaga dependability saat terjadi gangguan.</li>
-<li><strong>Cost</strong> — objective terakhir tapi bermuara dari semuanya. Semua operasi berkepentingan menjaga
-biaya serendah mungkin <em>yang masih kompatibel</em> dengan level quality, speed, dependability, dan flexibility
-yang dibutuhkan pelanggannya. Di sinilah letak hubungan indahnya: <strong>secara internal, cost dipengaruhi oleh
-keempat objective lainnya</strong> — kualitas mengurangi pemborosan, kecepatan mengurangi persediaan, keandalan
-mengurangi kejutan, fleksibilitas mempercepat penyesuaian. Memperbaiki empat hal itu adalah cara paling sehat
-menurunkan biaya.</li>
-</ul>
+[[visual:objTabs]]
 <h4 class="sub-h">Polar diagram: membandingkan prioritas antar-operasi</h4>
 <p>Tidak semua operasi memprioritaskan kelima objective secara sama. <strong>Polar diagram</strong> (diagram
 laba-laba di bawah) adalah cara visual menggambarkan kepentingan relatif tiap objective: makin jauh garis dari pusat,
@@ -418,19 +369,7 @@ dimonitor makin sering.</p>
 <h4 class="sub-h">Siapa saja stakeholder operasi dan apa maunya?</h4>
 <p>Slide "Stakeholder groups" memetakan tuntutan tiap kelompok — perhatikan betapa mudahnya mereka saling
 bertentangan:</p>
-<ul>
-<li><strong>Pelanggan</strong> — harga pantas, layanan baik, kualitas terjaga.</li>
-<li><strong>Pemasok</strong> — pemberitahuan kebutuhan sejak awal, order jangka panjang, harga adil, pembayaran
-tepat waktu.</li>
-<li><strong>Pemegang saham</strong> — return on investment, stabilitas laba, likuiditas investasi.</li>
-<li><strong>Top management</strong> — profit yang layak, ROI, risiko kegagalan rendah, inovasi masa depan.</li>
-<li><strong>Staf</strong> — upah adil, kondisi kerja baik, pengembangan pribadi/karier; <strong>serikat/perwakilan
-staf</strong> — kesesuaian dengan kesepakatan nasional, konsultasi.</li>
-<li><strong>Pemerintah</strong> — kepatuhan hukum, kontribusi pada ekonomi; <strong>regulator</strong> — kepatuhan
-regulasi & umpan balik efektivitasnya; <strong>masyarakat</strong> — meminimalkan dampak negatif (kebisingan, lalu
-lintas) dan memaksimalkan dampak positif (lapangan kerja, sponsor lokal); <strong>kelompok kepentingan</strong> —
-keselarasan aktivitas organisasi dengan isu yang mereka perjuangkan.</li>
-</ul>
+[[visual:stakeholderMap]]
 <div class="key-box"><strong>💡 Intinya:</strong> Lima objectives = Quality, Speed, Dependability, Flexibility, Cost
 (mnemonik: <em>QSDFC</em>). Masing-masing punya efek eksternal (dilihat pelanggan) dan efek internal (memengaruhi
 biaya). Prioritasnya berbeda antar-operasi (polar diagram) dan saling tarik-menarik (trade-off, efficient frontier).</div>`
@@ -684,22 +623,7 @@ kualitas barang punya banyak standar objektif, sementara kualitas jasa lebih sub
 disimpan, jasa tidak bisa.</p>
 <h4 class="sub-h">Mengapa perusahaan go-global? Enam alasan</h4>
 <p>Perusahaan yang tadinya domestik memutuskan beroperasi internasional karena enam alasan utama:</p>
-<ul>
-<li><strong>1. Memperbaiki supply chain</strong> — menempatkan fasilitas dekat sumber daya unik: desain otomotif
-pindah ke California demi talenta desain; produksi parfum di Prancis karena esens bunga Mediterania ada di sana.</li>
-<li><strong>2. Menekan biaya dan risiko nilai tukar</strong> — lokasi asing dengan upah lebih rendah menekan biaya;
-<em>operational hedging</em> = menjaga kapasitas berlebih di beberapa negara lalu menggeser produksi antarnegara
-mengikuti perubahan biaya dan kurs. Perjanjian dagang (WTO, EU, APEC, dll.) memuluskan jalannya.</li>
-<li><strong>3. Memperbaiki operasi</strong> — belajar dari keunggulan negara lain: Jepang unggul manajemen persediaan,
-Jerman agresif memakai robot, Skandinavia berkontribusi pada ergonomika.</li>
-<li><strong>4. Memahami pasar</strong> — berinteraksi dengan pelanggan dan pemasok asing membuka peluang baru
-(desain ponsel dari Eropa, tren ponsel dari Jepang) dan memperpanjang product life cycle: produk yang jenuh di satu
-negara bisa tumbuh di negara lain.</li>
-<li><strong>5. Memperbaiki produk</strong> — aliansi R&amp;D lintas negara: Toyota–BMW berbagi biaya riset baterai
-generasi berikutnya; Samsung–Bosch patungan memproduksi baterai lithium-ion.</li>
-<li><strong>6. Menarik dan mempertahankan talenta global</strong> — menawarkan peluang karier yang lebih baik,
-perlindungan dari PHK saat pasar lokal lesu, dan mobilitas karyawan antarnegara.</li>
-</ul>
+[[visual:globalReasons]]
 <h4 class="sub-h">Isu budaya dan etika</h4>
 <p>Operasi global berarti berhadapan dengan budaya yang berbeda-beda: sikap terhadap ketepatan waktu, jam istirahat,
 lingkungan, kekayaan intelektual, pencurian, suap, hingga pekerja anak. Perusahaan juga menimbang faktor negara:
@@ -719,26 +643,7 @@ jadi bahan soal ujian).</p>
 <h4 class="sub-h">Perbedaan barang (goods) dan jasa (services)</h4>
 <p>Mengapa mengelola restoran berbeda dari mengelola pabrik? Karena karakter output-nya berbeda fundamental.
 Perhatikan sembilan kontras ini — di kolom kiri karakter jasa, di kanan padanannya untuk barang:</p>
-<ul>
-<li><strong>Intangible vs tangible</strong> — yang Anda beli dari maskapai adalah "perjalanan" (tak berwujud);
-kursinya sendiri adalah barang.</li>
-<li><strong>Diproduksi &amp; dikonsumsi bersamaan vs bisa disimpan</strong> — potong rambut "diproduksi" saat itu
-juga dan langsung "dikonsumsi"; sampo bisa disimpan di gudang.</li>
-<li><strong>Unik per pelanggan vs produk serupa</strong> — portofolio investasi dan perawatan medis Anda unik;
-iPod diproduksi seragam jutaan unit.</li>
-<li><strong>Interaksi pelanggan tinggi vs keterlibatan terbatas</strong> — pada konsultasi atau pendidikan,
-interaksi itulah yang dibayar pelanggan.</li>
-<li><strong>Definisi produk tidak konsisten vs terstandardisasi</strong> — polis asuransi mobil berubah mengikuti
-usia dan jenis mobil; iPhone spesifikasinya tetap.</li>
-<li><strong>Berbasis pengetahuan vs mudah diotomasi</strong> — jasa hukum, pendidikan, dan medis sulit diotomasi;
-produk tangible yang standar justru mudah.</li>
-<li><strong>Lokasi tersebar vs fasilitas tetap</strong> — jasa bisa terjadi di toko, kantor cabang, rumah pelanggan,
-atau lewat internet; barang biasanya dibuat di fasilitas tetap.</li>
-<li><strong>Kualitas sulit dievaluasi vs mudah diukur</strong> — menilai mutu konsultasi itu subjektif; kekuatan
-baut bisa diukur objektif.</li>
-<li><strong>Tidak bisa dijual kembali</strong> — tiket konser yang sudah dipakai atau layanan medis tidak bisa
-dijual ulang.</li>
-</ul>
+[[visual:goodsServices]]
 <p>Implikasinya bagi operations manager: hampir semua dari 10 keputusan OM dieksekusi berbeda untuk jasa — lokasi
 harus dekat pelanggan (bukan dekat bahan baku), persediaan tidak bisa jadi penyangga permintaan, dan penjadwalan
 harus melayani permintaan seketika.</p>
@@ -868,6 +773,7 @@ industri Anda: (1) <em>rival langsung</em>, (2) <em>pendatang potensial</em> yan
 (3) <em>pelanggan</em> dengan daya tawarnya, (4) <em>pemasok</em> dengan daya tawarnya, dan (5) <em>produk
 substitusi</em> yang bisa menggantikan Anda. Makin kuat kelima kekuatan itu, makin sulit industri tersebut.</li>
 </ul>
+[[visual:fiveForces]]
 <p>Selain lingkungan kompetitif, perusahaan juga beroperasi dalam sistem dengan banyak faktor eksternal lain —
 ekonomi, hukum, budaya — yang memengaruhi penyusunan dan eksekusi strategi, sehingga lingkungan harus terus dipindai.</p>
 <h4 class="sub-h">Strategi harus dinamis: pelajaran dari product life cycle</h4>

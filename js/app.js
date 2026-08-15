@@ -358,6 +358,164 @@
       </figure>`;
     },
 
+    /* ---------- komponen interaktif ---------- */
+    objTabs() {
+      const tabs = [
+        ["Quality", `<p><strong>Melakukan hal yang benar</strong> — sesuai kebutuhan pelanggan; bangun sistem total
+          quality management. Dua jalur menuju profit: <em>sales gain</em> (respons membaik, harga fleksibel, reputasi
+          naik) dan <em>reduced costs</em> (produktivitas naik; biaya rework, scrap &amp; garansi turun). Kualitas juga
+          menaikkan dependability: proses yang benar sejak awal jarang meleset jadwal.</p>
+          <div class="fx-chips"><span>Eksternal: pelanggan puas &amp; loyal</span><span>Internal: pemborosan turun → biaya turun</span></div>`],
+        ["Speed", `<p><strong>Waktu antara pelanggan meminta dan menerima</strong> produk/jasa. Respons cepat ke luar
+          ditopang kecepatan di dalam: pengambilan keputusan, pergerakan material, dan aliran informasi yang cepat.</p>
+          <div class="fx-chips"><span>Eksternal: respons cepat memenangkan order</span><span>Internal: persediaan turun &amp; risiko turun (ramalan jangka pendek lebih akurat)</span></div>`],
+        ["Dependability", `<p><strong>Menepati janji waktu</strong> — pelanggan menerima tepat saat dibutuhkan atau
+          sesuai yang dijanjikan. Uniknya, dependability baru bisa dinilai <em>setelah</em> penyampaian — tapi seiring
+          waktu menumpuk jadi reputasi, dan <strong>dalam jangka panjang bisa mengalahkan semua kriteria lain</strong>.</p>
+          <div class="fx-chips"><span>Eksternal: kepercayaan &amp; loyalitas</span><span>Internal: stabilitas, hemat waktu &amp; uang</span></div>`],
+        ["Flexibility", `<p><strong>Kemampuan berubah</strong> — empat tipe yang dibutuhkan pelanggan:
+          <em>product/service</em> (produk baru), <em>mix</em> (bauran), <em>volume</em> (tingkat output), dan
+          <em>delivery</em> (waktu penyampaian).</p>
+          <div class="fx-chips"><span>Eksternal: mengikuti perubahan kebutuhan</span><span>Internal: mempercepat respons, menghemat waktu, menjaga dependability saat gangguan</span></div>`],
+        ["Cost", `<p><strong>Biaya serendah mungkin yang masih kompatibel</strong> dengan level quality, speed,
+          dependability &amp; flexibility yang dibutuhkan pelanggan. Kuncinya: secara internal cost
+          <em>dipengaruhi keempat objective lain</em> — memperbaiki Q-S-D-F adalah cara paling sehat menurunkan biaya.
+          Ukuran yang paling sering dipakai: produktivitas.</p>
+          <div class="fx-chips"><span>Eksternal: harga kompetitif / margin lebih tebal</span><span>Internal: muara dari keempat objective lainnya</span></div>`]
+      ];
+      return `<div class="tabs-viz">
+        <div class="tabs-viz-nav">
+          ${tabs.map(([t], i) => `<button type="button" data-vtab="${i}" class="${i === 0 ? "active" : ""}">${t}</button>`).join("")}
+        </div>
+        ${tabs.map(([, c], i) => `<div class="vtab-panel ${i === 0 ? "active" : ""}">${c}</div>`).join("")}
+        <p class="viz-hint">👆 Klik tiap objective — perhatikan setiap objective punya efek eksternal (dilihat pelanggan) dan internal (memengaruhi biaya)</p>
+      </div>`;
+    },
+
+    tenDecisions() {
+      const d = [
+        ["Desain barang & jasa", "Barang/jasa apa yang kita tawarkan?", "Bagaimana merancangnya?"],
+        ["Manajemen kualitas", "Bagaimana kita mendefinisikan kualitas?", "Siapa yang bertanggung jawab atas kualitas?"],
+        ["Desain proses & kapasitas", "Proses & kapasitas apa yang dibutuhkan?", "Peralatan & teknologi apa yang diperlukan?"],
+        ["Strategi lokasi", "Di mana fasilitas ditempatkan?", "Kriteria apa dasar keputusannya?"],
+        ["Strategi layout", "Bagaimana menata fasilitas?", "Seberapa besar fasilitasnya?"],
+        ["SDM & desain pekerjaan", "Bagaimana menyediakan lingkungan kerja yang layak?", "Berapa output wajar dari karyawan?"],
+        ["Supply chain management", "Buat sendiri atau beli (make or buy)?", "Siapa pemasok kita & bagaimana integrasinya?"],
+        ["Persediaan, MRP & JIT", "Berapa banyak persediaan tiap barang?", "Kapan memesan ulang?"],
+        ["Penjadwalan", "Pertahankan karyawan saat sepi?", "Pekerjaan mana dikerjakan berikutnya?"],
+        ["Pemeliharaan", "Bagaimana membangun keandalan proses?", "Siapa penanggung jawab maintenance?"]
+      ];
+      return `<div class="exp-grid">
+        ${d.map(([t, q1, q2], i) => `
+        <div class="exp-card">
+          <button type="button" class="exp-head" data-exp>
+            <span class="mq-num">${i + 1}</span><span>${t}</span><i aria-hidden="true">+</i>
+          </button>
+          <div class="exp-body"><p>❓ ${q1}</p><p>❓ ${q2}</p></div>
+        </div>`).join("")}
+      </div>
+      <p class="viz-hint">👆 Klik tiap keputusan untuk melihat dua pertanyaan kuncinya — hafalkan kesepuluhnya, ini peta seluruh mata kuliah</p>`;
+    },
+
+    fromTo() {
+      const rows = [
+        ["Fokus lokal / nasional", "Fokus global"],
+        ["Pengiriman batch besar", "Just-in-time"],
+        ["Pembelian tawaran terendah", "Kemitraan supply chain"],
+        ["Pengembangan produk lama", "Cepat & beraliansi"],
+        ["Produk terstandardisasi", "Mass customization"],
+        ["Spesialisasi pekerjaan", "Karyawan berdaya & tim"]
+      ];
+      return `<div class="ft-wrap">
+        <div class="ft-head"><span>DARI</span><span></span><span>MENJADI</span></div>
+        ${rows.map(([f, t]) => `<div class="ft-row"><span class="ft-from">${f}</span><span class="ft-arrow" aria-hidden="true">→</span><span class="ft-to">${t}</span></div>`).join("")}
+      </div>`;
+    },
+
+    fourVsInteractive() {
+      const rows = [
+        ["Volume", "1"], ["Variety", "-1"], ["Variation", "-1"], ["Visibility", "-1"]
+      ];
+      return `<figure class="visual-block">
+        <div class="vv-int">
+          <p class="vv-int-hint">🎛️ <strong>Coba sendiri:</strong> geser posisi sebuah bisnis (bisnismu?) di tiap
+          dimensi, lalu lihat perkiraan konsekuensi biaya unitnya.</p>
+          ${rows.map(([label, dir]) => `
+          <div class="vv-row">
+            <span class="vv-label">${label}</span>
+            <span class="vv-end">Rendah</span>
+            <input type="range" min="0" max="100" value="50" data-vdir="${dir}" aria-label="${label}">
+            <span class="vv-end">Tinggi</span>
+          </div>`).join("")}
+          <div class="vv-meter-wrap">
+            <span>Perkiraan biaya unit:</span>
+            <div class="vv-meter"><i style="transform:scaleX(0.5)"></i></div>
+            <b class="vv-meter-label">sedang</b>
+          </div>
+          <p class="vv-verdict">Geser slider untuk melihat posisinya…</p>
+        </div>
+        <figcaption>Konfigurasi berbiaya rendah: volume tinggi + variety, variation &amp; visibility rendah (gaya hotelF1)</figcaption>
+      </figure>`;
+    },
+
+    goodsServices() {
+      const rows = [
+        ["Intangible — yang dibeli adalah pengalaman terbang", "Tangible — kursinya itu sendiri"],
+        ["Diproduksi & dikonsumsi bersamaan (potong rambut)", "Bisa disimpan sebagai persediaan"],
+        ["Unik per pelanggan (investasi, perawatan medis)", "Produk serupa jutaan unit (iPhone)"],
+        ["Interaksi pelanggan tinggi — itulah yang dibayar", "Keterlibatan pelanggan terbatas"],
+        ["Definisi produk berubah-ubah (polis asuransi)", "Terstandardisasi"],
+        ["Berbasis pengetahuan — sulit diotomasi (hukum, medis)", "Standar & tangible — mudah diotomasi"],
+        ["Lokasi tersebar: toko, rumah, via internet", "Diproduksi di fasilitas tetap"],
+        ["Kualitas subjektif, sulit dievaluasi", "Kualitas terukur objektif (kekuatan baut)"],
+        ["Tak bisa dijual ulang (konser, layanan medis)", "Sering punya nilai sisa"]
+      ];
+      return `<div class="gs-grid">
+        <div class="gs-head gs-head--s">JASA (services)</div>
+        <div class="gs-head gs-head--g">BARANG (goods)</div>
+        ${rows.map(([s2, g]) => `<div class="gs-cell gs-cell--s">${s2}</div><div class="gs-cell gs-cell--g">${g}</div>`).join("")}
+      </div>`;
+    },
+
+    globalReasons() {
+      const r = [
+        ["🔗", "Memperbaiki supply chain", "dekat sumber daya unik: desain otomotif ke California, parfum ke Prancis"],
+        ["💱", "Menekan biaya & risiko kurs", "upah lebih rendah, operational hedging antar-negara, perjanjian dagang (WTO, EU)"],
+        ["⚙️", "Memperbaiki operasi", "belajar dari yang terbaik: persediaan ala Jepang, robot ala Jerman, ergonomika Skandinavia"],
+        ["🌏", "Memahami pasar", "interaksi dengan pelanggan asing membuka peluang & memperpanjang product life cycle"],
+        ["🧪", "Memperbaiki produk", "aliansi R&D lintas negara: Toyota–BMW (baterai), Samsung–Bosch (lithium-ion)"],
+        ["🧑‍💼", "Menarik talenta global", "peluang karier lebih baik, perlindungan PHK, mobilitas antarnegara"]
+      ];
+      return `<div class="glr-grid">
+        ${r.map(([ic, t, d2], i) => `<div class="glr-card"><span class="glr-ic">${ic}</span><b>${i + 1}. ${t}</b><span>${d2}</span></div>`).join("")}
+      </div>`;
+    },
+
+    stakeholderMap() {
+      return `<div class="stk-grid">
+        <div class="glr-card"><b>Pemerintah & regulator</b><span>kepatuhan hukum & regulasi, kontribusi ekonomi</span></div>
+        <div class="glr-card"><b>Masyarakat & kelompok kepentingan</b><span>minimalkan dampak negatif, maksimalkan lapangan kerja</span></div>
+        <div class="glr-card"><b>Pemegang saham</b><span>return on investment, stabilitas laba</span></div>
+        <div class="glr-card"><b>Pemasok</b><span>order jangka panjang, harga adil, bayar tepat waktu</span></div>
+        <div class="glr-card glr-card--center"><b>OPERASI</b><span>top management: profit layak & inovasi · staf: upah adil, kondisi kerja, pengembangan karier</span></div>
+        <div class="glr-card"><b>Pelanggan</b><span>harga pantas, layanan baik, kualitas terjaga</span></div>
+      </div>
+      <p class="viz-hint">Tuntutan-tuntutan ini kerap saling bertentangan — menyeimbangkannya adalah tugas operations manager</p>`;
+    },
+
+    fiveForces() {
+      return `<figure class="visual-block">
+        <div class="persp-grid">
+          <div class="persp-cell persp-cell--v"><b>Pendatang potensial</b><span>seberapa mudah pemain baru masuk?</span><i>↓</i></div>
+          <div class="persp-cell persp-cell--h"><b>Daya tawar pemasok</b><span>seberapa besar pemasok menekan?</span><i>→</i></div>
+          <div class="persp-center">Rivalitas<br>antar pemain</div>
+          <div class="persp-cell persp-cell--h"><i>←</i><b>Daya tawar pelanggan</b><span>seberapa mudah pelanggan menuntut/pindah?</span></div>
+          <div class="persp-cell persp-cell--v"><i>↑</i><b>Produk substitusi</b><span>apa penggantinya di luar industri?</span></div>
+        </div>
+        <figcaption>Five forces model (Porter) — makin kuat kelima kekuatan, makin sulit industrinya</figcaption>
+      </figure>`;
+    },
+
     topdownCascade() {
       return `<figure class="visual-block">
         <div class="cascade">
@@ -1273,6 +1431,18 @@
       return;
     }
 
+    const vtab = e.target.closest("[data-vtab]");
+    if (vtab) {
+      const group = vtab.closest(".tabs-viz");
+      const idx = parseInt(vtab.dataset.vtab, 10);
+      group.querySelectorAll("[data-vtab]").forEach((btn, i2) => btn.classList.toggle("active", i2 === idx));
+      group.querySelectorAll(".vtab-panel").forEach((panel, i2) => panel.classList.toggle("active", i2 === idx));
+      return;
+    }
+
+    const expBtn = e.target.closest("[data-exp]");
+    if (expBtn) { expBtn.closest(".exp-card").classList.toggle("open"); return; }
+
     const fc = e.target.closest("[data-fc]");
     if (fc) { fcAction(fc.dataset.fc); return; }
 
@@ -1289,6 +1459,25 @@
   let mqTimer = null;
   app.addEventListener("input", (e) => {
     if (e.target.matches(".calc-grid input")) calcCompute();
+    if (e.target.matches('.vv-int input[type="range"]')) {
+      const box = e.target.closest(".vv-int");
+      const inputs = [...box.querySelectorAll('input[type="range"]')];
+      const score = inputs.reduce((s2, inp) =>
+        s2 + (inp.dataset.vdir === "1" ? +inp.value : 100 - +inp.value), 0) / inputs.length;
+      box.querySelector(".vv-meter i").style.transform = `scaleX(${(100 - score) / 100})`;
+      const label = box.querySelector(".vv-meter-label");
+      const verdict = box.querySelector(".vv-verdict");
+      if (score >= 70) {
+        label.textContent = "rendah";
+        verdict.textContent = "≈ profil hotelF1: standar, efisien, murah — cocok bersaing lewat cost leadership.";
+      } else if (score <= 30) {
+        label.textContent = "tinggi";
+        verdict.textContent = "≈ profil Ski Verbier Exclusive: bespoke & mahal — harus dijual dengan harga premium (differentiation).";
+      } else {
+        label.textContent = "sedang";
+        verdict.textContent = "Posisi campuran — pastikan strategi harga & layananmu konsisten dengan posisi ini.";
+      }
+    }
     if (e.target.matches(".mq-answer")) {
       const key = e.target.dataset.mq;
       const val = e.target.value;

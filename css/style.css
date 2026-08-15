@@ -808,6 +808,177 @@ body::before {
 .adv-card span { font-size: 0.73rem; color: var(--ink-soft); line-height: 1.35; }
 .adv-card em { font-size: 0.68rem; color: var(--ink-faint); font-style: normal; }
 
+/* ---------------- komponen interaktif materi ---------------- */
+.viz-hint { font-size: 0.75rem; color: var(--ink-faint); text-align: center; margin: 0.6rem 0 0.9rem; }
+
+/* tab objectives */
+.tabs-viz { margin: 0.9rem 0; }
+
+.tabs-viz-nav { display: flex; gap: 0.35rem; flex-wrap: wrap; margin-bottom: 0; }
+
+.tabs-viz-nav button {
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.45rem 0.9rem;
+  border-radius: 10px 10px 0 0;
+  border: 1px solid var(--line-strong);
+  border-bottom: none;
+  background: var(--paper-deep);
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+
+.tabs-viz-nav button.active { background: var(--panel); border-color: var(--panel); color: var(--gold-bright); }
+.tabs-viz-nav button:hover:not(.active) { color: var(--ink); }
+
+.vtab-panel {
+  display: none;
+  background: var(--card);
+  border: 1px solid var(--line-strong);
+  border-radius: 0 12px 12px 12px;
+  padding: 1rem 1.1rem;
+  font-size: 0.9rem;
+}
+
+.vtab-panel.active { display: block; animation: rise 0.25s ease both; }
+.vtab-panel p { margin-bottom: 0.6rem; }
+
+.fx-chips { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+
+.fx-chips span {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.3rem 0.65rem;
+  border-radius: 999px;
+  background: var(--gold-soft);
+  border: 1px solid rgba(169, 123, 18, 0.3);
+  color: var(--ink-soft);
+}
+
+/* kartu buka-tutup 10 keputusan */
+.exp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.45rem; margin: 0.9rem 0 0.2rem; }
+
+.exp-card { background: var(--card); border: 1px solid var(--line-strong); border-radius: 10px; overflow: hidden; }
+
+.exp-head {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-align: left;
+  padding: 0.6rem 0.8rem;
+  border: none;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.exp-head:hover { background: var(--paper-deep); }
+.exp-head i { margin-left: auto; font-style: normal; color: var(--gold); font-weight: 700; transition: transform 0.2s; }
+.exp-card.open .exp-head i { transform: rotate(45deg); }
+
+.exp-body { display: none; padding: 0 0.85rem 0.7rem; font-size: 0.8rem; color: var(--ink-soft); }
+.exp-card.open .exp-body { display: block; animation: rise 0.2s ease both; }
+.exp-body p { margin-bottom: 0.3rem; }
+
+/* dari -> menjadi */
+.ft-wrap { margin: 0.9rem 0; }
+
+.ft-head, .ft-row {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.ft-head span { font-size: 0.66rem; font-weight: 700; letter-spacing: 0.14em; color: var(--ink-faint); padding: 0 0.85rem 0.3rem; }
+.ft-head span:last-child { text-align: right; }
+
+.ft-row { margin-bottom: 0.35rem; }
+
+.ft-from, .ft-to { padding: 0.5rem 0.85rem; border-radius: 9px; font-size: 0.82rem; font-weight: 600; }
+.ft-from { background: var(--paper-deep); border: 1px dashed var(--line-strong); color: var(--ink-faint); }
+.ft-to { background: var(--panel); color: var(--gold-bright); text-align: right; }
+.ft-arrow { color: var(--gold); font-weight: 700; }
+
+/* slider 4V interaktif */
+.vv-int { display: flex; flex-direction: column; gap: 0.55rem; }
+.vv-int-hint { font-size: 0.82rem; color: var(--ink-soft); margin-bottom: 0.2rem; }
+
+.vv-int .vv-row { grid-template-columns: 74px auto 1fr auto; }
+
+.vv-int input[type="range"] {
+  width: 100%;
+  accent-color: var(--gold);
+  cursor: pointer;
+}
+
+.vv-meter-wrap { display: flex; align-items: center; gap: 0.6rem; margin-top: 0.4rem; font-size: 0.8rem; font-weight: 700; }
+
+.vv-meter {
+  flex: 1;
+  height: 10px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(63, 107, 79, 0.25), rgba(164, 67, 47, 0.25));
+  border: 1px solid var(--line);
+  overflow: hidden;
+}
+
+.vv-meter i {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--green), var(--gold-bright), var(--red));
+  transform-origin: left;
+  transition: transform 0.2s;
+}
+
+.vv-meter-label { font-family: var(--mono); color: var(--gold); min-width: 52px; }
+.vv-verdict { font-size: 0.78rem; color: var(--ink-soft); font-style: italic; }
+
+/* perbandingan jasa vs barang */
+.gs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.3rem; margin: 0.9rem 0; }
+
+.gs-head { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; padding: 0.45rem 0.8rem; border-radius: 8px 8px 0 0; text-align: center; }
+.gs-head--s { background: var(--panel); color: var(--gold-bright); }
+.gs-head--g { background: var(--paper-deep); color: var(--ink-soft); border: 1px solid var(--line-strong); border-bottom: none; }
+
+.gs-cell { font-size: 0.78rem; padding: 0.45rem 0.8rem; border-radius: 7px; line-height: 1.45; }
+.gs-cell--s { background: var(--gold-soft); color: var(--ink); }
+.gs-cell--g { background: var(--card); border: 1px solid var(--line); color: var(--ink-soft); }
+
+/* kartu alasan globalisasi & stakeholder */
+.glr-grid, .stk-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin: 0.9rem 0; }
+.stk-grid { grid-template-columns: repeat(3, 1fr); }
+
+.glr-card {
+  background: var(--card);
+  border: 1px solid var(--line-strong);
+  border-radius: 10px;
+  padding: 0.7rem 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.glr-ic { font-size: 1.1rem; }
+.glr-card b { font-family: var(--serif); font-size: 0.86rem; color: var(--ink); }
+.glr-card > span:last-child { font-size: 0.74rem; color: var(--ink-soft); line-height: 1.45; }
+.glr-card--center { background: var(--panel); border-color: var(--panel); }
+.glr-card--center b { color: var(--gold-bright); }
+.glr-card--center > span:last-child { color: rgba(244, 236, 215, 0.8); }
+
+@media (max-width: 760px) {
+  .exp-grid, .gs-grid { grid-template-columns: 1fr; }
+  .glr-grid, .stk-grid { grid-template-columns: 1fr 1fr; }
+  .gs-head--g { border-radius: 0; }
+}
+
 /* kaskade top-down */
 .cascade { display: flex; flex-direction: column; align-items: center; gap: 0.35rem; max-width: 460px; margin: 0 auto; }
 
