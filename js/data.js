@@ -62,7 +62,6 @@ window.OTM_DATA = {
           heading: "Apa itu Operations Management?",
           questions: [{"q": "Di kasus Hard Rock Cafe, menu baru hanya masuk produksi bila bahannya tersedia dari pemasok yang qualified. Dalam praktik di Indonesia, bagaimana perusahaan sebaiknya menyeimbangkan kecepatan meluncurkan produk baru dengan kesiapan pemasok — apakah pernah ada kasus di mana menunggu pemasok justru membuat kehilangan momentum pasar?", "guide": "Kenapa menarik: menghubungkan kasus pembuka kuliah dengan dilema nyata speed vs quality di keputusan supply chain. Dosen Anda berlatar industrial engineering — kemungkinan punya contoh riset/industri nyata. Follow-up: 'Apa kriteria minimum pemasok yang tidak boleh dikompromikan?'"}, {"q": "Materi membagi operasi berdasarkan input dominannya: material, informasi, atau pelanggan. Untuk bisnis hybrid seperti bank digital atau rumah sakit dengan telemedicine — yang memproses informasi sekaligus pelanggan — mana yang sebaiknya dijadikan acuan utama desain operasinya?", "guide": "Kenapa menarik: menguji batas kerangka Tabel 1.2 pada bisnis kontemporer yang tidak rapi masuk satu kategori. Ini pertanyaan konseptual yang menunjukkan Anda membaca materi sampai implikasinya. Follow-up: 'Apakah pergeseran layanan ke digital berarti semua operasi bergerak menjadi pemroses informasi?'"}, {"q": "Kalau prinsip OM berlaku untuk semua fungsi (operations as activity), mengapa dalam struktur organisasi kebanyakan perusahaan Indonesia, direktur operasi justru jarang duduk setara CFO/CMO di pengambilan keputusan strategis? Apakah ini masalah persepsi terhadap fungsi operasi?", "guide": "Kenapa menarik: mengangkat ketegangan antara teori (OM fundamental) dan realita organisasi — tema yang biasanya memancing dosen bercerita pengalaman industri. Follow-up: 'Apa yang harus dilakukan profesional operasi agar suaranya lebih strategis?'"}],
           source: { kind: "ppt", label: "Slide Pertemuan 1" },
-          visuals: ["inputTransform"],
           body: `<p>Bayangkan Anda makan di <strong>Hard Rock Cafe</strong>. Restoran yang dibuka pertama kali
 di London tahun 1971 ini kini punya 300+ venue di 70 negara. Pertanyaan sederhananya: bagaimana sebuah menu bisa sampai
 ke meja Anda? Ternyata panjang ceritanya — hidangan dirancang, diuji, lalu dianalisis biaya bahannya, kebutuhan tenaga
@@ -105,6 +104,7 @@ Pelanggannya sendiri yang "masuk ke dalam proses".</li>
 </ul>
 <p>Selain transformed resources, operasi juga membutuhkan <em>transforming resources</em> — fasilitas dan staf yang
 melakukan transformasi itu.</p>
+[[visual:inputTransform]]
 <h4 class="sub-h">"Operations" sebagai fungsi vs sebagai aktivitas</h4>
 <p>Satu hal yang sering membingungkan: kata "operations" punya dua makna. Sebagai <strong>fungsi</strong>, operations
 adalah bagian organisasi yang menciptakan dan menyampaikan produk/jasa bagi pelanggan eksternal — "departemen operasi".
@@ -119,7 +119,6 @@ berlaku di semua fungsi bisnis — bukan hanya di pabrik.</div>`
           heading: "The Four Vs",
           questions: [{"q": "hotelF1 sukses dengan menekan visibility serendah mungkin demi biaya. Tapi tren 'experience economy' mendorong pelanggan justru ingin melihat dan terlibat dalam proses (open kitchen, live barista). Apakah strategi menekan visibility makin berisiko sekarang — atau kedua tren ini melayani segmen yang memang berbeda?", "guide": "Kenapa menarik: mempertemukan kerangka klasik 4V dengan tren konsumen terkini — mengundang dosen mengomentari apakah teorinya perlu adaptasi. Follow-up: 'Apakah ada industri di mana menaikkan visibility justru menurunkan biaya, misalnya karena pelanggan ikut bekerja (self-service)?'"}, {"q": "Adakah contoh perusahaan Indonesia yang berhasil berpindah posisi 4V secara signifikan — misalnya dari volume rendah-variety tinggi menjadi volume tinggi-variety rendah — tanpa kehilangan pelanggan lamanya? Apa yang membuat transisi seperti itu berhasil atau gagal?", "guide": "Kenapa menarik: meminta contoh lokal dari pengalaman/riset dosen, bukan dari buku — jenis pertanyaan yang menghidupkan kelas. Kandidat diskusi: warung yang jadi waralaba, katering rumahan yang masuk industri. Follow-up: 'Fase mana yang paling berbahaya dalam transisi itu?'"}],
           source: { kind: "ppt", label: "Slide Pertemuan 1" },
-          visuals: ["fourVs"],
           body: `<p>Kalau semua operasi sama-sama mentransformasi input menjadi output, apakah mengelola
 pabrik mi instan sama dengan mengelola butik pernikahan? Tentu tidak. Perbedaan antar-operasi bisa dipetakan dengan
 empat dimensi yang disebut <strong>the Four Vs</strong>. Memahami posisi operasi Anda di keempat dimensi ini akan
@@ -144,6 +143,7 @@ melayani. Di pabrik atau dapur pusat, proses tersembunyi dari pelanggan — bisa
 rendah, dan visibility rendah</strong> (dengan asumsi hal lain tetap). Logikanya: volume tinggi memberi skala ekonomi;
 variety rendah memungkinkan standardisasi; variation rendah membuat kapasitas terpakai merata; visibility rendah
 membebaskan operasi dari "biaya melayani penonton".</p>
+[[visual:fourVs]]
 <div class="case-box"><strong>📌 Contoh dari slide — dua hotel yang sangat berbeda:</strong> <em>Ski Verbier
 Exclusive</em> menjual liburan ski mewah dan bespoke untuk segmen kecil. Variety-nya nyaris tak terbatas (tamu boleh
 minta makanan dan hiburan apa pun), variation tinggi (4 bulan penuh 100% okupansi lalu sepi), dan kontak pelanggan
@@ -344,7 +344,6 @@ pelanggan. Digital business model menentukan cara menghasilkan uang lewat teknol
           heading: "Operations Performance: 5 Performance Objectives",
           questions: [{"q": "Materi menyebut dependability dalam jangka panjang bisa mengalahkan semua kriteria lain. Tapi di pasar Indonesia yang sangat sensitif harga, konsumen tampak selalu kembali ke yang termurah. Apakah supremasi dependability itu berlaku universal, atau ada prasyarat tingkat pendapatan/kematangan pasar?", "guide": "Kenapa menarik: menantang klaim buku dengan konteks lokal secara sehat — diskusi 'kapan teori berlaku' selalu lebih dalam daripada 'apa teorinya'. Contoh untuk diskusi: KRL/kurir yang naik kelas karena konsistensi vs perang harga e-commerce. Follow-up: 'Di segmen B2B apakah jawabannya berbeda?'"}, {"q": "Polar diagram membandingkan prioritas objectives antar-operasi, tapi sifatnya statis. Dalam praktik, apakah perusahaan sebaiknya meninjau ulang profil polar-nya secara berkala — dan apa sinyal bahwa profil yang selama ini dipakai sudah tidak cocok dengan pasar?", "guide": "Kenapa menarik: mengubah alat deskriptif di slide menjadi alat manajemen hidup — pertanyaan praktis yang dosen teknik industri biasanya senang jawab. Jembatan ke konsep PLC: profil bergeser mengikuti fase produk. Follow-up: 'Siapa di organisasi yang seharusnya memiliki polar diagram ini?'"}],
           source: { kind: "ppt", label: "Slide Pertemuan 1" },
-          visuals: ["perfObjectives", "efficientFrontier"],
           body: `<p>Bagaimana kita tahu sebuah operasi "bagus"?
 Prinsipnya tegas: <em>kinerja operasi yang baik adalah fondasi kesuksesan berkelanjutan organisasi mana pun</em>.
 Kinerja itu dinilai pada <strong>tiga level</strong>: level masyarakat (societal — dampak pada lingkungan dan
@@ -387,12 +386,14 @@ laba-laba di bawah) adalah cara visual menggambarkan kepentingan relatif tiap ob
 makin penting objective itu. Contoh slide: <em>taksi</em> menonjol di speed dan flexibility (antar ke mana saja,
 kapan saja), sedangkan <em>bus</em> menonjol di cost dan dependability (murah dan terjadwal). Contoh lain: organisasi
 amal yang mempromosikan pangan organik akan punya profil yang berbeda lagi.</p>
+[[visual:perfObjectives]]
 <h4 class="sub-h">Trade-off dan efficient frontier</h4>
 <p>Bisakah unggul di semua objective sekaligus? Umumnya tidak — ada <strong>trade-off</strong>. Meningkatkan
 fleksibilitas sering menaikkan biaya; menekan biaya habis-habisan bisa mengorbankan kecepatan. Konsep
 <strong>efficient frontier</strong> menggambarkan batas kombinasi kinerja terbaik yang mungkin dicapai saat ini:
 operasi yang sudah berada di frontier hanya bisa menaikkan satu objective dengan mengorbankan yang lain — kecuali ia
 berinvestasi menggeser frontier itu sendiri (misalnya lewat teknologi atau metode baru).</p>
+[[visual:efficientFrontier]]
 <h4 class="sub-h">Melihat tiga level kinerja lebih dekat</h4>
 <p>Slide "Three levels of operations performance" dan "Performance measures at the three levels" memerinci isi
 tiap level beserta contoh ukurannya:</p>
@@ -488,7 +489,6 @@ persentase perubahan dengan (baru − lama) ÷ lama.</div>`
           heading: "Operations Strategy: 4 Perspektif",
           questions: [{"q": "Kalau perspektif outside-in dan inside-out menunjuk arah berbeda — pasar menuntut murah, sementara kapabilitas kita justru di kustomisasi premium — perspektif mana yang seharusnya menang? Apakah ada urutan prioritas di antara keempat perspektif, atau rekonsiliasinya selalu kasus-per-kasus seperti Micraytech?", "guide": "Kenapa menarik: slide bilang 'keempatnya harus direkonsiliasi' tapi tidak bilang BAGAIMANA saat mereka bertabrakan — itu celah diskusi yang tajam. Follow-up: 'Dalam pengalaman Ibu, perusahaan Indonesia lebih sering gagal karena mengabaikan perspektif yang mana?'"}, {"q": "Di importance–performance matrix, zona 'excess?' menyarankan realokasi sumber daya dari faktor yang kinerjanya tinggi tapi tidak penting bagi pelanggan. Tapi kadang kelebihan itu justru ciri khas yang membedakan brand — bagaimana membedakan excess yang aman dipangkas dari excess yang diam-diam menjadi identitas?", "guide": "Kenapa menarik: mempersoalkan sisi paling kontroversial dari matrix — tanda baca '?' pada zona excess memang disengaja penulisnya. Contoh diskusi: pelayanan berlebih ala restoran Jepang yang 'tidak diminta' pelanggan tapi jadi reputasi. Follow-up: 'Bagaimana menguji secara murah apakah pelanggan diam-diam menghargai faktor itu?'"}],
           source: { kind: "ppt", label: "Slide Pertemuan 1" },
-          visuals: ["strategyPerspectives", "topdownCascade", "orderWinnerCurves", "plc", "micraytechMap", "lineOfFit", "importancePerformance", "strategyStages"],
           body: `<p>Kalau operations management adalah "menjalankan mesin", maka
 <strong>operations strategy</strong> adalah menentukan "mesin seperti apa yang kita bangun dan ke mana arahnya".
 Definisi formalnya: <em>pola keputusan dan aksi yang membentuk visi jangka panjang, tujuan, dan kapabilitas operasi,
@@ -520,6 +520,7 @@ operasi bisa naik menjadi strategi perusahaan. Perspektif top-down dan bottom-up
 dari <em>kapabilitas sumber daya dan proses operasi</em> yang dikembangkan pelan-pelan dan sulit ditiru kompetitor.
 Strategi dibangun dari kekuatan unik yang sudah dimiliki, bukan hanya dari permintaan pasar.</li>
 </ul>
+[[visual:strategyPerspectives]]
 <h4 class="sub-h">Correspondence &amp; coherence: dua syarat hierarki yang sehat</h4>
 <p>Perspektif top-down hanya bekerja bila hierarkinya selaras dua arah. Diagram di slide menggambarkan keduanya:
 <strong>correspondence</strong> adalah keselarasan <em>vertikal</em> — harus ada hubungan yang jelas, eksplisit, dan
@@ -545,12 +546,13 @@ kecepatan dengan harga premium. Strategi tidak dirancang di ruang rapat; ia dite
 diresmikan ke atas.</p>
 <p><strong>📌 Outside-in — menerjemahkan posisi pasar:</strong> perspektif pasar bekerja dengan menerjemahkan posisi
 pasar yang diinginkan menjadi objectives untuk keputusan operasi, lewat pemilahan order winners / qualifiers /
-less important (lihat tiga kurvanya di atas) — dan ingat dari tabel product life cycle: apa yang menjadi winner
+less important (lihat tiga kurvanya pada bagian \"Membaca order winners lewat kurvanya\" di bawah) — dan ingat dari tabel product life cycle: apa yang menjadi winner
 bergeser seiring fase produk, sehingga terjemahan ini harus diperbarui terus.</p>
 <p><strong>📌 Inside-out — Micraytech:</strong> perusahaan sistem metrologi (bagian dari Micray Group) yang melayani
 klien internasional besar. Micraytech mengembangkan sumber daya & prosesnya — keahlian desain modular serta hubungan
 erat dengan klien dan pemasok — agar kapabilitas itu bisa <em>dieksploitasi di pasar yang dipilihnya</em>. Kekuatan
 dari dalam yang dicarikan pasarnya, bukan sebaliknya.</p></div>
+[[visual:topdownCascade]]
 <div class="case-box"><p><strong>📌 Rekonsiliasi empat perspektif sekaligus — peta lengkap Micraytech:</strong>
 slide dosen menggambarkan bagaimana keempat perspektif "menekan" dari empat arah dan direkonsiliasi di tengah:</p>
 <ul>
@@ -568,6 +570,7 @@ antarmuka; kapabilitas pasokan dikembangkan hingga mencakup peralatan pemasok ya
 berbasis modular yang memberikan fleksibilitas sangat terkustomisasi dan inovasi dengan biaya relatif rendah,
 melalui hubungan yang erat dengan klien maupun pemasok."</em> Satu kalimat strategi yang menjawab keempat tekanan
 sekaligus.</p></div>
+[[visual:micraytechMap]]
 <p>Slide juga menegaskan top-down dan bottom-up <strong>saling menguatkan dalam satu siklus</strong>: niat strategis
 diimplementasikan dengan menyelaraskan operasi harian → operasi harian menghasilkan pengalaman → pengalaman dibangun
 menjadi kapabilitas → kapabilitas dieksploitasi secara strategis → kembali memperkaya niat strategis berikutnya.</p>
@@ -584,6 +587,7 @@ untuk janji pasar</em> — perusahaan menjanjikan apa yang tak sanggup ia penuhi
 <strong>Y</strong> (kapabilitas di atas tuntutan pasar) berarti <em>kapabilitas operasi tidak termanfaatkan di
 pasar</em> — kemampuan mahal yang tidak dijual, alias pemborosan. Keduanya sinyal untuk bergerak kembali ke garis:
 X dengan membangun kapabilitas, Y dengan menaikkan posisi pasar (atau berhenti berinvestasi pada kelebihan itu).</p>
+[[visual:lineOfFit]]
 <h4 class="sub-h">Importance–performance matrix: menentukan prioritas perbaikan</h4>
 <p>Alat praktis untuk memutuskan <em>apa yang diperbaiki duluan</em>. Setiap faktor kompetitif dipetakan pada dua
 sumbu: seberapa <em>penting</em> bagi pelanggan, dan seberapa baik <em>kinerja</em> kita dibanding kompetitor.
@@ -595,6 +599,7 @@ Hasilnya empat zona:</p>
 <li><strong>Excess?</strong> — kinerja tinggi pada faktor yang tidak penting; tanyakan: apakah sumber daya di sini
 sebaiknya dialihkan ke tempat lain?</li>
 </ul>
+[[visual:importancePerformance]]
 <div class="case-box"><p><strong>📌 Contoh dari slide — YIR Laboratories, lengkap dengan hasilnya:</strong>
 anak perusahaan elektronik ini harus memutuskan aspek layanan mana yang diperbaiki lebih dulu. Caranya: menyusun
 delapan aspek terpenting layanannya, memberi masing-masing dua skor pada skala 1–9 (kepentingan bagi pelanggan ×
@@ -620,6 +625,7 @@ batas; <strong>qualifiers</strong> berbentuk kurva S — di bawah <em>qualifying
 setelah melewatinya manfaat tambahan mendatar (percuma jor-joran); <strong>less important factors</strong> nyaris
 datar — diperbaiki pun dampaknya kecil. Implikasi praktisnya: investasi besar-besaran hanya layak untuk order
 winners; untuk qualifiers cukup sampai level "lolos".</p>
+[[visual:orderWinnerCurves]]
 <h4 class="sub-h">Bagaimana product life cycle menggeser order winners</h4>
 <p>Slide "The effects of the product/service life cycle" merinci pergeseran per fase — tabel ini favorit dosen untuk
 soal ujian:</p>
@@ -634,6 +640,7 @@ pasokan andal</em>; qualifier: range & quality; objectives dominan: <strong>cost
 <li><strong>Decline</strong> — pelanggan: laggards; kompetitor: menurun; order winner: <em>harga murah</em>;
 qualifier: pasokan andal; objective dominan: <strong>cost</strong>.</li>
 </ul>
+[[visual:plc]]
 <h4 class="sub-h">Proses penyusunan strategi: empat tahap berdaur</h4>
 <p>Strategi operasi disusun melalui siklus empat tahap: <strong>formulation</strong> (merumuskan) →
 <strong>implementation</strong> (menjalankan) → <strong>monitoring</strong> (memantau) → <strong>control</strong>
@@ -642,6 +649,7 @@ hierarki top-down dari slide (printing services group): corporate "spesialisasi 
 di semua pasar" → business strategy kemasan konsumen "pertumbuhan volume cepat, layanan cepat, skala ekonomi" →
 operations strategy "ekspansi kapasitas, toleransi over-capacity jangka pendek, buka lokasi baru". Terlihat bagaimana
 tiap level menerjemahkan level di atasnya.</p>
+[[visual:strategyStages]]
 <div class="key-box"><strong>💡 Intinya:</strong> Operations strategy dibentuk 4 perspektif: top-down (hierarki),
 outside-in (order winners &amp; qualifiers), bottom-up (pengalaman operasional), inside-out (kapabilitas sumber daya).
 Alat analisisnya: operations strategy matrix (line of fit) dan importance–performance matrix (4 zona prioritas).</div>`
@@ -650,7 +658,6 @@ Alat analisisnya: operations strategy matrix (line of fit) dan importance–perf
           heading: "Competitive Advantage & Operasi Global",
           questions: [{"q": "Franz Colruyt memangkas biaya sampai meniadakan kantong belanja, meredupkan lampu, dan mematikan musik — dan pelanggannya menerima karena janjinya memang harga termurah. Di budaya belanja Indonesia yang sosial dan mementingkan layanan, seberapa jauh cost-cutting yang terlihat pelanggan bisa diterima — dan apa contoh batas yang pernah dilanggar peritel lokal?", "guide": "Kenapa menarik: menguji transferabilitas strategi lintas budaya — tema yang pas dengan bagian operasi global. Follow-up: 'Apakah cost leadership di Indonesia menuntut biaya rendah yang TIDAK terlihat pelanggan (back office) alih-alih yang terlihat?'"}, {"q": "Dari enam alasan globalisasi, mana yang menurut Ibu paling realistis menjadi pintu masuk UMKM Indonesia ke pasar global — dan kesalahan apa yang paling sering dilakukan perusahaan lokal di langkah internasional pertamanya?", "guide": "Kenapa menarik: menurunkan kerangka besar (6 alasan go-global) ke aksi konkret untuk skala UMKM — konteks yang sangat Indonesia. Catat jawabannya untuk bekal proyek tim. Follow-up: 'Lebih baik mulai dari ekspor, lisensi, atau ikut marketplace global seperti Alibaba?'"}],
           source: { kind: "ppt", label: "Slide Pertemuan 1" },
-          visuals: ["competitiveAdvantage"],
           body: `<p><strong>Competitive advantage</strong> berarti menciptakan
 sistem yang punya keunggulan unik atas kompetitor. Bagaimana operasi bisa menyumbangkannya? Lewat tiga strategi —
 dan cara terbaik memahaminya adalah lewat kisah perusahaan nyata:</p>
@@ -671,6 +678,7 @@ perubahan pasar dalam inovasi desain dan volume (cara hidup di Hewlett-Packard);
 menepati jadwal (keunggulan industri mesin Jerman); dan <em>timeliness</em> — cepat dalam desain, produksi, dan
 pengiriman (Johnson Electric, Pizza Hut, Motorola).</li>
 </ul>
+[[visual:competitiveAdvantage]]
 <p>Ketiganya juga membedakan bagaimana 10 keputusan OM dijalankan untuk <em>barang</em> vs <em>jasa</em> — misalnya
 kualitas barang punya banyak standar objektif, sementara kualitas jasa lebih subjektif; persediaan barang bisa
 disimpan, jasa tidak bisa.</p>
@@ -843,7 +851,6 @@ leadership, response — dan operations manager yang menerjemahkannya jadi tugas
           heading: "Issues in Operations Strategy",
           questions: [{"q": "Kalau dianalisis dengan five forces, industri kopi kekinian Indonesia tampak sangat tidak menarik: entry mudah, substitusi banyak, pelanggan gampang pindah. Tapi pemain dan investor terus berdatangan. Apakah ini berarti analisis five forces melewatkan sesuatu — atau para pemain itu yang keliru membaca industrinya?", "guide": "Kenapa menarik: menguji alat analisis klasik dengan anomali pasar lokal yang semua orang lihat sehari-hari. Kemungkinan jawaban yang memancing diskusi: five forces memotret rata-rata industri, bukan peluang pemain dengan kapabilitas unik (resources view!); atau ekspektasi exit/akuisisi yang menggerakkan investor. Follow-up: 'Alat apa yang sebaiknya melengkapi five forces sebelum keputusan masuk industri?'"}, {"q": "Perpindahan fase product life cycle menuntut perubahan operasi yang besar — dari fleksibilitas ke kontrol biaya. Tapi di dalam perusahaan, sinyal pergeseran fase sering terlambat disadari. Indikator operasional apa yang biasanya muncul paling awal ketika produk mulai bergeser dari growth ke maturity?", "guide": "Kenapa menarik: slide memberi tabel per fase tapi tidak membahas TRANSISI antar fase — padahal di situlah perusahaan gagal. Kandidat indikator untuk diskusi: melambatnya repeat-order growth, menyempitnya margin, menumpuknya persediaan, perang diskon kompetitor. Follow-up: 'Siapa yang seharusnya memiliki tanggung jawab memantau sinyal ini — marketing atau operasi?'"}],
           source: { kind: "book", label: "Buku HRM bab 2" },
-          visuals: ["plc"],
           body: `<p>Sebelum menetapkan dan menjalankan strategi, ada beberapa "kacamata"
 analisis yang sebaiknya dipakai dulu. Bagian ini memperkenalkan tiga alat berpikir plus satu kesadaran penting:
 strategi harus dinamis.</p>
@@ -876,6 +883,7 @@ inovasi produk melambat; fokus bertahan di posisi pasar.</li>
 <li><strong>Decline</strong> — permintaan menyusut; efisiensi jadi segalanya; pangkas lini produk yang tidak
 menguntungkan.</li>
 </ul>
+[[visual:plc]]
 <div class="case-box"><strong>📌 Dua contoh strategi dinamis dari buku:</strong> <em>Boeing</em> — strateginya berubah
 seiring teknologi dan globalisasi: kini bisa membangun pesawat dari serat karbon dengan supply chain global.
 <em>Microsoft</em> — dipaksa beradaptasi cepat oleh prosesor yang makin kencang, bahasa pemrograman baru, preferensi
@@ -892,7 +900,6 @@ posisi produk di life cycle mengubah prioritas operasi — strategi yang baik se
           heading: "Strategy Development & Implementation",
           questions: [{"q": "Activity map Southwest tampak elegan setelah selesai — semua aktivitasnya saling mengunci. Tapi bagaimana proses MENEMUKAN kombinasi seperti itu dari awal? Apakah sistem aktivitas yang koheren bisa dirancang di atas kertas, atau selalu hasil evolusi dan trial-and-error bertahun-tahun?", "guide": "Kenapa menarik: pertanyaan tentang proses penciptaan strategi, bukan hasil akhirnya — wilayah yang jarang dibahas buku teks dan biasanya dijawab dosen dari pengalaman. Follow-up: 'Kalau evolutif, apa peran manajemen: merancang, atau menyeleksi dan memperkuat pola yang muncul (bottom-up)?' — sekaligus menghubungkan ke 4 perspektif strategi."}, {"q": "Hampir semua perusahaan rutin membuat SWOT, tapi sedikit yang keputusannya benar-benar berubah karena SWOT. Dari yang Ibu amati, apa yang membedakan organisasi yang SWOT-nya mengoreksi strategi dari yang sekadar mengisi template tahunan?", "guide": "Kenapa menarik: semua mahasiswa MBA pernah menulis SWOT — pertanyaan ini menyentil pengalaman bersama dengan jujur. Kunci dari slide yang bisa diangkat: buku menyebut mission & strategi harus 'dievaluasi ulang' setelah SWOT — langkah yang paling sering dilewati. Follow-up: 'Apakah sebaiknya SWOT disusun oleh orang dalam yang paham konteks, atau pihak luar yang bebas kepentingan?'"}],
           source: { kind: "book", label: "Buku HRM bab 2" },
-          visuals: ["swot"],
           body: `<p>Setelah memahami lingkungan, bagaimana strategi disusun dan
 dijalankan? Alurnya: SWOT → tentukan faktor kunci → petakan aktivitas → bangun dan isi organisasi.</p>
 <h4 class="sub-h">Mulai dari SWOT analysis</h4>
@@ -901,6 +908,7 @@ internal</em> serta <em>peluang (Opportunities) dan ancaman (Threats) eksternal<
 memposisikan dirinya untuk meraih competitive advantage. Yang penting: mission dan strategi kemudian <em>dievaluasi
 ulang</em> untuk memastikan keduanya konsisten dengan hasil SWOT — jadi SWOT bukan formalitas, melainkan cermin yang
 bisa mengubah arah.</p>
+[[visual:swot]]
 <h4 class="sub-h">Key success factors dan core competencies</h4>
 <p>Karena <em>tidak ada perusahaan yang melakukan segalanya dengan sangat baik</em>, strategi yang sukses menuntut
 kejelasan tentang dua hal:</p>
@@ -985,7 +993,6 @@ semua biaya, dan pakai factor-rating method agar keputusan objektif. Tren balik 
           heading: "Empat Opsi Strategi Operasi Global",
           questions: [{"q": "McDonald's menyesuaikan menu di tiap negara — tapi ke mana pun kita pergi, McD tetap terasa 'McD'. Di mana sebenarnya batas antara multidomestic strategy yang sungguhan dengan sekadar lokalisasi kosmetik di atas operasi yang sepenuhnya standar? Keputusan operasi apa yang jadi penentunya?", "guide": "Kenapa menarik: membongkar contoh yang tampak sederhana di slide — jawabannya menyentuh keputusan mana yang didesentralisasi (menu, pemasok lokal) vs yang tetap terpusat (proses, standar kualitas, sistem). Follow-up: 'Apakah lokalisasi menu tanpa desentralisasi keputusan operasi masih layak disebut multidomestic?'"}, {"q": "Untuk brand Indonesia yang mau ekspansi regional — Kopi Kenangan, J.CO, Erigo — kuadran strategi global mana yang realistis sebagai pintu masuk pertama, dan kesalahan apa yang paling sering dilakukan perusahaan Asia Tenggara saat naik kelas dari international ke multidomestic?", "guide": "Kenapa menarik: meminta dosen menerapkan matriks 2×2 pada kasus lokal yang belum ada di buku mana pun — diskusi yang hasilnya orisinal. Catat jawabannya: bisa jadi bahan proyek tim presentasi. Follow-up: 'Kapabilitas organisasi apa yang harus dibangun SEBELUM membuka operasi di negara kedua?'"}],
           source: { kind: "book", label: "Buku HRM bab 2" },
-          visuals: ["globalStrategies"],
           body: `<p>Ketika perusahaan memutuskan go-international, ia harus memilih
 <em>cara</em> hadir di panggung global. Heizer memetakan empat pilihan strategi pada sebuah matriks dua sumbu — dan
 memahami matriks ini jauh lebih penting daripada menghafal empat namanya.</p>
@@ -1017,6 +1024,7 @@ efisiensi skala global <em>plus</em> responsivitas lokal. Ini kuadran yang palin
 itu secara alami saling tarik-menarik — butuh organisasi yang mampu memindahkan material, orang, dan ide melintasi
 batas negara dengan lincah.</li>
 </ul>
+[[visual:globalStrategies]]
 <div class="case-box"><strong>📌 Ilustrasi persaingan global dari buku — Komatsu vs Caterpillar:</strong> dalam
 pertarungan sengit di pasar alat berat dunia, Komatsu bergerak ke barat (membuka fasilitas di Inggris) sementara
 Caterpillar bergerak ke timur (13 fasilitas dan joint venture di Tiongkok). Keduanya membangun peralatan di seluruh

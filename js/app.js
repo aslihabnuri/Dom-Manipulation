@@ -550,6 +550,12 @@
     return sec.visuals.map((name) => (VISUALS[name] ? VISUALS[name]() : "")).join("");
   }
 
+  // token [[visual:nama]] di dalam body digantikan diagramnya di posisi itu,
+  // sehingga tiap visual menempel tepat di bawah pembahasannya
+  function inlineVisuals(body) {
+    return body.replace(/\[\[visual:([A-Za-z]+)\]\]/g, (m, name) => (VISUALS[name] ? VISUALS[name]() : ""));
+  }
+
   /* ============================================================
      HIGHLIGHT & CATATAN KALIMAT
      Seleksi teks di materi -> tandai (stabilo + tebal) -> klik
@@ -810,7 +816,7 @@
       body = s.summary.map((sec, i) => `
         <details class="card accordion" ${i === 0 ? "open" : ""}>
           <summary><span class="acc-title">${esc(sec.heading)}</span>${sourceBadge(sec)}</summary>
-          <div class="accordion-body">${sec.body}${renderVisuals(sec)}${questionBlock(sec, i)}</div>
+          <div class="accordion-body">${inlineVisuals(sec.body)}${renderVisuals(sec)}${questionBlock(sec, i)}</div>
         </details>`).join("");
     } else {
       body = `
