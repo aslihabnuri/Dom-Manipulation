@@ -105,6 +105,7 @@ Pelanggannya sendiri yang "masuk ke dalam proses".</li>
 <p>Selain transformed resources, operasi juga membutuhkan <em>transforming resources</em> — fasilitas dan staf yang
 melakukan transformasi itu.</p>
 [[visual:inputTransform]]
+[[slide:12|bagaimana OM memakai resources untuk menciptakan output yang memenuhi kebutuhan pasar — versi lengkap dengan transformation objectives & performance standard]]
 <h4 class="sub-h">"Operations" sebagai fungsi vs sebagai aktivitas</h4>
 <p>Satu hal yang sering membingungkan: kata "operations" punya dua makna. Sebagai <strong>fungsi</strong>, operations
 adalah bagian organisasi yang menciptakan dan menyampaikan produk/jasa bagi pelanggan eksternal — "departemen operasi".
@@ -226,6 +227,7 @@ transnasional, komunikasi instan, keberlanjutan (sustainability), etika dalam te
 </ul>
 <p>Pola besarnya mudah diingat: <strong>biaya → kualitas → kustomisasi → globalisasi</strong> — tiap era menambahkan
 tuntutan baru tanpa menghapus tuntutan sebelumnya.</p>
+[[slide:25|Figure 1.4 — significant events in OM: lima era lengkap dengan tokoh & inovasinya]]
 <h4 class="sub-h">The new operations agenda</h4>
 <p>Perkembangan lingkungan bisnis (persaingan, teknologi, sikap sosial-lingkungan, politik global, regulasi)
 mendorong tiga arus perubahan besar pada operasi masa kini:</p>
@@ -237,6 +239,7 @@ business ecosystem, dan manajemen risiko reputasi.</li>
 <li><strong>Penekanan isu sosial & lingkungan</strong> — kinerja triple bottom line, desain yang peka lingkungan,
 pola kerja fleksibel, dan penghematan energi.</li>
 </ul>
+[[slide:14|the new operations agenda — perkembangan lingkungan mendorong tiga arus perubahan]]
 <h4 class="sub-h">Posisi operasi di antara fungsi-fungsi lain</h4>
 <p>Slide "The relationship between the operations function and other functions" menggambarkan operasi sebagai pusat
 yang terhubung ke semua fungsi. Tiga <strong>fungsi inti (core)</strong>: operations, marketing, dan product/service
@@ -245,6 +248,7 @@ untuk pengukuran kinerja & pengambilan keputusan), human resources (rekrutmen, p
 systems (menyediakan sistem untuk desain, perencanaan, kontrol, dan perbaikan), serta fungsi teknis (opsi & kebutuhan
 teknologi proses). Ke setiap arah, operasi <em>mengomunikasikan kapabilitas dan batasan prosesnya</em> — misalnya ke
 marketing soal apa yang sanggup dijanjikan ke pasar, dan ke pengembangan produk soal apa yang sanggup diproduksi.</p>
+[[slide:13|peta hubungan fungsi operasi dengan fungsi inti & pendukung — perhatikan apa yang dikomunikasikan di tiap panah]]
 <div class="key-box"><strong>💡 Intinya:</strong> Lima era OM: cost (1776–1980, dari Smith sampai MRP) → quality
 (lean 1980–1995) → customization (1995–2005) → globalization (2005–2020). Agenda baru: teknologi (IoT, AI, robotik,
 big data), pengaturan pasokan baru, dan isu sosial-lingkungan (triple bottom line). Operasi adalah fungsi inti yang
@@ -366,6 +370,7 @@ kerja, efisiensi mesin, varians terhadap anggaran).</li>
 <p>Ukuran-ukuran detail itu bisa diagregasi menjadi ukuran komposit (customer satisfaction, overall service level,
 operations agility) yang merepresentasikan kinerja keseluruhan — dan sebaliknya bisa dipecah makin rinci untuk
 dimonitor makin sering.</p>
+[[slide:31|corong tiga level kinerja operasi: societal (triple bottom line) → strategic → operational]]
 <h4 class="sub-h">Siapa saja stakeholder operasi dan apa maunya?</h4>
 <p>Slide "Stakeholder groups" memetakan tuntutan tiap kelompok — perhatikan betapa mudahnya mereka saling
 bertentangan:</p>
@@ -513,6 +518,7 @@ sekaligus.</p></div>
 <p>Slide juga menegaskan top-down dan bottom-up <strong>saling menguatkan dalam satu siklus</strong>: niat strategis
 diimplementasikan dengan menyelaraskan operasi harian → operasi harian menghasilkan pengalaman → pengalaman dibangun
 menjadi kapabilitas → kapabilitas dieksploitasi secara strategis → kembali memperkaya niat strategis berikutnya.</p>
+[[slide:57|siklus saling menguatkan antara top-down (niat strategis) dan bottom-up (pengalaman operasional)]]
 <h4 class="sub-h">Menyelaraskan pasar dan kapabilitas: line of fit</h4>
 <p><strong>Operations strategy matrix</strong> mempertemukan <em>market requirements</em> (apa yang pasar minta)
 dengan <em>operations capabilities</em> (apa yang operasi mampu). Idealnya keduanya berada pada "line of fit" —
@@ -555,6 +561,7 @@ kandidat realokasi sumber daya ke aspek yang urgent.</li>
 </ul>
 <p>Perhatikan pelajaran manajerialnya: tanpa matriks, tim yang bangga dengan dokumentasinya akan terus menyempurnakan
 hal yang tidak dihargai pelanggan — sementara harga dan komunikasi yang menentukan order justru tertinggal.</p></div>
+[[slide:62|pemetaan asli YIR Laboratories: skor kepentingan × kinerja tiap faktor dan posisinya di matriks]]
 <p>Terakhir, ingat bahwa strategi operasi disusun melalui <em>proses</em> bertahap (formulation → implementation →
 monitoring → control) — strategi bukan dokumen sekali jadi.</p>
 <h4 class="sub-h">Membaca order winners lewat kurvanya</h4>

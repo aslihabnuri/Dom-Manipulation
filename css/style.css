@@ -603,6 +603,19 @@ body::before {
 
 .visual-block svg { display: block; width: 100%; max-width: 460px; height: auto; margin: 0 auto; }
 
+.visual-block--img { padding: 0.6rem 0.6rem 0.7rem; }
+
+.visual-block--img img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: #fff;
+}
+
+.visual-block--img figcaption { margin-top: 0.55rem; }
+
 /* flow input-transformation-output */
 .flowviz { display: flex; align-items: stretch; gap: 0.5rem; }
 

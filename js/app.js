@@ -709,9 +709,21 @@
   }
 
   // token [[visual:nama]] di dalam body digantikan diagramnya di posisi itu,
+  // dan token [[slide:N|caption]] menyematkan capture halaman PPT dosen —
   // sehingga tiap visual menempel tepat di bawah pembahasannya
   function inlineVisuals(body) {
-    return body.replace(/\[\[visual:([A-Za-z]+)\]\]/g, (m, name) => (VISUALS[name] ? VISUALS[name]() : ""));
+    return body
+      .replace(/\[\[visual:([A-Za-z]+)\]\]/g, (m, name) => (VISUALS[name] ? VISUALS[name]() : ""))
+      .replace(/\[\[slide:(\d+)\|([^\]]+)\]\]/g, (m, n, caption) => {
+        // versi bundel satu-file (Artifact) menyuntikkan window.OTM_IMG berisi
+        // data-URI; versi repo memuat dari folder img/
+        const src = (window.OTM_IMG && window.OTM_IMG["slide-" + n + ".jpg"]) || "img/slide-" + n + ".jpg";
+        return `
+        <figure class="visual-block visual-block--img">
+          <img src="${src}" alt="Slide ${n}: ${esc(caption)}" loading="lazy">
+          <figcaption>📸 Slide dosen (hal. ${n}) — ${esc(caption)}</figcaption>
+        </figure>`;
+      });
   }
 
   /* ============================================================
