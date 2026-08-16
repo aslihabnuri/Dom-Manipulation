@@ -1,0 +1,23 @@
+{
+  "name": "naratif",
+  "version": "1.0.0",
+  "description": "Studio produksi video soft-selling gaya Vox untuk F&B dan Fashion — riset topik, naskah Indonesia, QC pelafalan, dubbing, perakitan video, dan caption end-to-end.",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "bin": {
+    "naratif": "./bin/cli.mjs"
+  },
+  "scripts": {
+    "start": "node server.mjs",
+    "dev": "node --watch server.mjs",
+    "cli": "node bin/cli.mjs",
+    "doctor": "node bin/cli.mjs doctor",
+    "test": "node --test \"test/*.test.mjs\""
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.68.0"
+  }
+}

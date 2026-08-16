@@ -1,0 +1,16 @@
+node_modules/
+.env
+.env.local
+
+# Runtime data & generated media
+data/
+output/
+tmp/
+cache/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/

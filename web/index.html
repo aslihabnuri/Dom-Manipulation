@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Naratif — Studio Video Soft-Selling</title>
+<link rel="stylesheet" href="/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>◐</text></svg>">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="mark">◐</span>
+    <div>
+      <h1>Naratif</h1>
+      <p>Studio video soft-selling gaya Vox — F&amp;B dan Fashion</p>
+    </div>
+  </div>
+  <div class="health" id="health"></div>
+</header>
+
+<main class="layout">
+
+  <!-- ── Sidebar: projects ─────────────────────────────────────────── -->
+  <aside class="panel projects">
+    <div class="panel-head">
+      <h2>Proyek</h2>
+      <button class="btn btn-primary btn-sm" id="btn-new">+ Baru</button>
+    </div>
+    <ul class="project-list" id="project-list"></ul>
+  </aside>
+
+  <!-- ── Main workspace ────────────────────────────────────────────── -->
+  <section class="workspace" id="workspace">
+    <div class="empty" id="empty-state">
+      <span class="empty-mark">◐</span>
+      <h2>Belum ada proyek dipilih</h2>
+      <p>Buat proyek baru untuk mulai. Alurnya: riset topik → naskah → dubbing → gambar → video → caption.</p>
+      <button class="btn btn-primary" id="btn-new-2">Buat proyek pertama</button>
+    </div>
+
+    <div class="project-view hidden" id="project-view">
+      <div class="project-head">
+        <div>
+          <h2 id="pv-title">—</h2>
+          <p class="muted" id="pv-sub">—</p>
+        </div>
+        <div class="project-actions">
+          <span class="cost" id="pv-cost"></span>
+          <button class="btn btn-ghost btn-sm" id="btn-delete">Hapus</button>
+          <button class="btn btn-primary" id="btn-runall">Jalankan semua</button>
+        </div>
+      </div>
+
+      <ol class="pipeline" id="pipeline"></ol>
+
+      <div class="tabs" id="tabs">
+        <button class="tab is-active" data-tab="topik">Topik</button>
+        <button class="tab" data-tab="naskah">Naskah</button>
+        <button class="tab" data-tab="dubbing">Dubbing</button>
+        <button class="tab" data-tab="visual">Visual</button>
+        <button class="tab" data-tab="hasil">Hasil</button>
+        <button class="tab" data-tab="caption">Caption</button>
+      </div>
+
+      <div class="tab-body" id="tab-topik"></div>
+      <div class="tab-body hidden" id="tab-naskah"></div>
+      <div class="tab-body hidden" id="tab-dubbing"></div>
+      <div class="tab-body hidden" id="tab-visual"></div>
+      <div class="tab-body hidden" id="tab-hasil"></div>
+      <div class="tab-body hidden" id="tab-caption"></div>
+    </div>
+  </section>
+
+  <!-- ── Log rail ──────────────────────────────────────────────────── -->
+  <aside class="panel logs">
+    <div class="panel-head">
+      <h2>Log</h2>
+      <button class="btn btn-ghost btn-sm" id="btn-clear-log">Bersihkan</button>
+    </div>
+    <div class="log-stream" id="log-stream"></div>
+  </aside>
+
+</main>
+
+<!-- ── New project dialog ──────────────────────────────────────────── -->
+<dialog class="modal" id="modal-new">
+  <form method="dialog" id="form-new">
+    <h2>Proyek baru</h2>
+
+    <label>
+      <span>Kategori</span>
+      <select name="category" id="f-category" required></select>
+    </label>
+
+    <label>
+      <span>Produk yang mau dipromosikan</span>
+      <input name="product" id="f-product" placeholder="contoh: tas Sophie Martin, matcha latte" required>
+      <small>Ini yang dijual. Ceritanya nanti dibangun di sekitarnya, bukan tentangnya.</small>
+    </label>
+
+    <label>
+      <span>Merek <em>(opsional)</em></span>
+      <input name="brand" id="f-brand" placeholder="contoh: Sophie Martin">
+    </label>
+
+    <div class="row">
+      <label>
+        <span>Durasi target</span>
+        <select name="durationSeconds" id="f-duration">
+          <option value="30">30 detik</option>
+          <option value="45" selected>45 detik</option>
+          <option value="60">60 detik</option>
+          <option value="90">90 detik</option>
+        </select>
+      </label>
+      <label>
+        <span>Mode visual</span>
+        <select name="mode" id="f-mode"></select>
+      </label>
+    </div>
+
+    <p class="estimate" id="f-estimate"></p>
+
+    <menu>
+      <button type="button" class="btn btn-ghost" id="btn-cancel">Batal</button>
+      <button type="submit" class="btn btn-primary">Buat proyek</button>
+    </menu>
+  </form>
+</dialog>
+
+<script src="/app.js" type="module"></script>
+</body>
+</html>
