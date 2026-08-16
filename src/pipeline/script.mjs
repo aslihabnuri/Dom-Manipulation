@@ -37,7 +37,10 @@ const SCRIPT_SCHEMA = {
           },
           onScreenText: {
             type: 'string',
-            description: 'Teks tekan layar opsional, maksimal 4 kata huruf kapital. Kosongkan kalau tidak perlu.',
+            description:
+              'Teks penekanan di layar, opsional. Maksimal 3 kata, tulis biasa (bukan huruf kapital semua). ' +
+              'Ini akan tampil besar di tengah — di latar gelap sebagai kartu serif, di latar kertas sebagai ' +
+              'sapuan stabilo kuning. Kosongkan kalau segmen ini tidak butuh penekanan.',
           },
           sfx: {
             type: 'string',
@@ -109,6 +112,8 @@ export async function writeScript({ topic, durationSeconds = 45, projectId, onPr
     '',
     'Bagi segmen ke lima bagian itu secara proporsional sesuai rentang detiknya.',
     'Isi onScreenText hanya di 3-5 segmen paling penting. Sisanya kosongkan.',
+    'onScreenText paling kuat kalau berupa satu-dua kata kunci yang persis diucapkan di',
+    'segmen itu — seperti penanda stabilo di buku. Bukan ringkasan, bukan judul.',
     'Isi sfx "riser" menjelang titik balik dan "drop" tepat di titik baliknya.',
   ]
     .filter(Boolean)

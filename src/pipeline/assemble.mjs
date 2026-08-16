@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { logger } from '../log.mjs';
-import { CANVAS, PALETTE, AUDIO, CAPTION_STYLE, RHYTHM } from '../vox.mjs';
+import { CANVAS, PALETTE, AUDIO, CAPTION_STYLE, RHYTHM, HIGHLIGHT, familyOf } from '../vox.mjs';
 import { planMotion } from './visuals.mjs';
 import {
   run,
@@ -49,6 +49,12 @@ export function resolveFonts() {
     ),
     card: pickFont(
       ['Playfair Display', 'DejaVu Serif', 'Liberation Serif', 'Georgia', 'Times New Roman'],
+      'DejaVu Serif',
+    ),
+    // The second reference sets highlighted words in a marker/brush face. Fall
+    // back to a heavy serif, which still reads as editorial under the ink.
+    highlight: pickFont(
+      ['Permanent Marker', 'Caveat', 'Bricolage Grotesque', 'DejaVu Serif', 'Georgia'],
       'DejaVu Serif',
     ),
   };
@@ -108,6 +114,9 @@ export function planShots(timeline, shots) {
         // Reuse the same still across its slices but change the move, so a long
         // line reads as several camera angles rather than one slow drift.
         sliceIndex: i,
+        // Carried through so the caption layer knows whether this moment sits on
+        // a dark or a light background, and can pick the matching card style.
+        family: familyOf(image.shotType),
       });
     }
   }
@@ -265,8 +274,16 @@ function dbToLinear(db) {
 
 /* ── Captions ──────────────────────────────────────────────────────────── */
 
-function buildCues(timeline, segments) {
+function buildCues(timeline, segments, shotPlan) {
   const cues = [];
+  let highlightIndex = 0;
+
+  /** Which background family is on screen at this moment. */
+  const familyAt = (time) => {
+    const shot = shotPlan.find((s) => time >= s.start && time < s.start + s.duration);
+    return shot?.family || 'dark';
+  };
+
   for (const entry of timeline.entries) {
     const segment = segments.find((s) => s.index === entry.segmentIndex);
     if (!segment) continue;
@@ -313,13 +330,21 @@ function buildCues(timeline, segments) {
     });
 
     // The big editorial statement card, when the writer asked for one. It sits
-    // centred and overlaps the caption, exactly as in the reference.
+    // centred and overlaps the caption, exactly as in the references.
+    //
+    // Which treatment it gets depends on what is behind it: light serif on a
+    // translucent panel over a dark frame, or the marker highlight over paper.
+    // Using the highlight on a dark frame would be wrong twice over — the ink
+    // would glow rather than mark, and the dark text would vanish.
     if (segment.onScreenText) {
+      const cardStart = entry.start + 0.1;
+      const onLightPaper = familyAt(cardStart) === 'light';
       cues.push({
-        kind: 'card',
+        kind: onLightPaper ? 'highlight' : 'card',
         text: segment.onScreenText,
-        start: entry.start + 0.1,
-        end: Math.min(entry.end, entry.start + 1.6),
+        start: cardStart,
+        end: Math.min(entry.end, cardStart + 1.6),
+        index: onLightPaper ? highlightIndex++ : 0,
       });
     }
   }
@@ -391,13 +416,16 @@ export async function assembleVideo({
   onProgress?.({ stage: 'rakit', message: 'Menulis takarir' });
   const fonts = resolveFonts();
   const assFile = buildAssFile({
-    cues: buildCues(timeline, segments),
+    cues: buildCues(timeline, segments, shotPlan),
     canvas: CANVAS,
     style: {
       fontName: fonts.caption,
       fontSize: CAPTION_STYLE.fontSize,
       cardFontName: fonts.card,
       cardFontSize: 118,
+      highlightFontName: fonts.highlight,
+      highlightFontSize: 104,
+      highlight: HIGHLIGHT,
       bold: true,
       letterSpacing: CAPTION_STYLE.letterSpacing,
       outlineWidth: CAPTION_STYLE.outlineWidth,

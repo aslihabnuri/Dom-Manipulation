@@ -27,13 +27,45 @@ export const PALETTE = {
   cream: '#F5F1E8',
   paper: '#E8E1D3',
   sepia: '#C9B99B',
+  newsprint: '#D9CDB8',
 
   // Type.
   textPrimary: '#F7F5F0',
   textMuted: '#A8A2B8',
+  inkOnPaper: '#1E1C18',
 
   // Sparingly, for emphasis frames.
   amber: '#F0A830',
+};
+
+/**
+ * The highlighter, from the second reference (@dodford's Premiere breakdown).
+ *
+ * Its colour picker reads H 58 / S 94 / B 100, which is #FFF70F — a saturated
+ * marker yellow, not a soft pastel. The tutorial's three load-bearing details:
+ *
+ *   1. Blend mode multiply, so the text darkens through the ink instead of
+ *      being covered by it.
+ *   2. Vertical scale squashed and the box sitting low, because a real marker
+ *      does not cover the full cap height.
+ *   3. A Crop effect animated left-to-right with ease-in — the stroke is drawn,
+ *      it does not fade in.
+ *
+ * libass reproduces all three: an opaque border box gives the ink, `\clip`
+ * animated through `\t` gives the wipe, and `\frz` gives the hand-drawn tilt.
+ */
+export const HIGHLIGHT = {
+  yellow: '#FFF70F',
+  cyan: '#3BE0F0', // the second reference uses this variant for one word
+  textColor: '#1E1C18',
+  // Fraction of font size the ink extends above/below the baseline box.
+  padTop: 0.66,
+  padBottom: 0.46,
+  padLeftRight: 26,
+  tiltDegrees: 1.8,
+  sweepMs: 420,
+  // Marker strokes are never perfectly level; alternate the tilt direction.
+  alternateTilt: true,
 };
 
 export const CANVAS = {
@@ -102,12 +134,19 @@ export const STRUCTURE = [
 ];
 
 /**
- * Shot archetypes seen in the reference. Each maps to a different image prompt
- * so a 40-shot video does not look like 40 variations of one picture.
+ * Shot archetypes.
+ *
+ * The two references show two different background families, and cutting
+ * between them is a large part of what gives the style its rhythm: dark
+ * editorial fields for collage and diagram work, light archival paper for
+ * documents and text cards. Each type declares its family so the shot planner
+ * can alternate deliberately rather than by accident.
  */
 export const SHOT_TYPES = {
+  /* ── Dark family ─────────────────────────────────────────────────── */
   cutoutCollage: {
     id: 'cutoutCollage',
+    family: 'dark',
     weight: 3,
     describe: (subject) =>
       `Editorial paper cut-out collage of ${subject}. Halftone-printed archival photograph with visible torn paper edges and a subtle drop shadow, ` +
@@ -116,6 +155,7 @@ export const SHOT_TYPES = {
   },
   archivalPhoto: {
     id: 'archivalPhoto',
+    family: 'dark',
     weight: 2,
     describe: (subject) =>
       `Archival documentary photograph of ${subject}, mid-20th-century press photo look. Grainy black and white with warm sepia cast, ` +
@@ -124,27 +164,15 @@ export const SHOT_TYPES = {
   },
   technicalDrawing: {
     id: 'technicalDrawing',
+    family: 'dark',
     weight: 2,
     describe: (subject) =>
       `Antique technical patent illustration of ${subject}. Fine cream line-work on a ${PALETTE.inkDeep} background, cross-section view with ` +
       `thin leader lines and unlabelled callout dots. Engraving and blueprint hybrid, precise and clinical. No text, no numbers, no annotations.`,
   },
-  engraving: {
-    id: 'engraving',
-    weight: 1,
-    describe: (subject) =>
-      `19th-century steel engraving of ${subject}. Dense cross-hatched linework in cream ink on aged ${PALETTE.paper} paper, ` +
-      `high detail, encyclopaedic illustration style. Slight paper texture and foxing. No text, no lettering.`,
-  },
-  macroTexture: {
-    id: 'macroTexture',
-    weight: 2,
-    describe: (subject) =>
-      `Extreme macro photograph of the surface texture of ${subject}. Shallow depth of field, raking side light revealing grain and fibre, ` +
-      `desaturated with a faint ${PALETTE.violet} colour cast in the shadows. Fills the frame. No text.`,
-  },
   mapDiagram: {
     id: 'mapDiagram',
+    family: 'dark',
     weight: 1,
     describe: (subject) =>
       `Minimal editorial map diagram showing ${subject}. Simplified cream coastlines on ${PALETTE.inkDeep}, thin ${PALETTE.violet} route lines ` +
@@ -152,12 +180,70 @@ export const SHOT_TYPES = {
   },
   objectOnVoid: {
     id: 'objectOnVoid',
+    family: 'dark',
     weight: 2,
     describe: (subject) =>
       `Single hero object — ${subject} — floating centred on a seamless ${PALETTE.inkDeep} background. Soft top-light with a long soft shadow, ` +
       `product-documentary lighting, muted colours, slight film grain. Editorial magazine still life. No text, no props, no background detail.`,
   },
+  macroTexture: {
+    id: 'macroTexture',
+    family: 'dark',
+    weight: 2,
+    describe: (subject) =>
+      `Extreme macro photograph of the surface texture of ${subject}. Shallow depth of field, raking side light revealing grain and fibre, ` +
+      `desaturated with a faint ${PALETTE.violet} colour cast in the shadows. Fills the frame. No text.`,
+  },
+
+  /* ── Light family ────────────────────────────────────────────────── */
+  agedNewsprint: {
+    id: 'agedNewsprint',
+    family: 'light',
+    weight: 2,
+    describe: (subject) =>
+      `Aged 1940s newspaper page about ${subject}, photographed flat. Yellowed ${PALETTE.newsprint} newsprint with visible fold creases, ` +
+      `foxing spots and torn edge. Dense columns of small blurred body type that is illegible, no readable words. ` +
+      `Soft even daylight, shallow depth of field falling off toward the edges. Archival document photography.`,
+  },
+  paperTexture: {
+    id: 'paperTexture',
+    family: 'light',
+    weight: 2,
+    describe: (subject) =>
+      `Sheet of aged cream ${PALETTE.cream} paper as a backdrop, faintly suggesting ${subject} through a soft watermark or ghosted impression. ` +
+      `Visible paper fibre, subtle water stains and foxing, one soft crease. Even overhead light, mostly empty space. ` +
+      `No text, no lettering, no writing of any kind.`,
+  },
+  engraving: {
+    id: 'engraving',
+    family: 'light',
+    weight: 2,
+    describe: (subject) =>
+      `19th-century steel engraving of ${subject}. Dense cross-hatched linework in dark ink on aged ${PALETTE.paper} paper, ` +
+      `high detail, encyclopaedic illustration style. Slight paper texture and foxing. No text, no lettering.`,
+  },
+  blueprintOnPaper: {
+    id: 'blueprintOnPaper',
+    family: 'light',
+    weight: 1,
+    describe: (subject) =>
+      `Technical construction drawing of ${subject} on aged drafting paper. Faded graphite and ink lines, dimension arrows with no numbers, ` +
+      `coffee ring stain in one corner, taped edge. Flat archival scan. No text, no annotations, no measurements.`,
+  },
+  concreteWall: {
+    id: 'concreteWall',
+    family: 'light',
+    weight: 1,
+    describe: (subject) =>
+      `Weathered pale concrete or plaster wall bearing faint traces of ${subject} — a ghost sign, a shadow, a worn painted mark. ` +
+      `Cracks, patina and uneven grey-cream tone. Raking daylight. Mostly empty surface. No readable text, no lettering.`,
+  },
 };
+
+/** Which background family a shot type belongs to. */
+export function familyOf(shotTypeId) {
+  return SHOT_TYPES[shotTypeId]?.family || 'dark';
+}
 
 /**
  * The negative prompt is doing real work here. Generated text inside an image is
@@ -173,19 +259,40 @@ export const NEGATIVE_PROMPT = [
   'stock photo look', 'smiling model', 'AI artifacts', 'blurry', 'low quality',
 ].join(', ');
 
-/** Weighted round-robin so consecutive shots never share an archetype. */
-export function planShotTypes(count) {
-  const pool = [];
+/**
+ * Plan the shot archetypes for a whole video.
+ *
+ * Two constraints, both taken from the references: consecutive shots never
+ * share an archetype, and the background family flips every few shots. The
+ * flip is the bigger effect — a run of dark frames followed by a bright paper
+ * frame is what makes the paper frame land, and it is why the second reference
+ * cuts from a black title card to yellowed newsprint.
+ */
+export function planShotTypes(count, { runLength = 3 } = {}) {
+  const byFamily = { dark: [], light: [] };
   for (const type of Object.values(SHOT_TYPES)) {
-    for (let i = 0; i < type.weight; i += 1) pool.push(type.id);
+    for (let i = 0; i < type.weight; i += 1) byFamily[type.family].push(type.id);
   }
+
   const plan = [];
   let previous = null;
+  // Open on the dark family: both references start dark and cut to paper.
+  let family = 'dark';
+  let sinceFlip = 0;
+
   for (let i = 0; i < count; i += 1) {
+    if (sinceFlip >= runLength) {
+      family = family === 'dark' ? 'light' : 'dark';
+      sinceFlip = 0;
+    }
+    const pool = byFamily[family];
     const candidates = pool.filter((id) => id !== previous);
-    const pick = candidates[(i * 7 + 3) % candidates.length];
+    const pick = candidates.length
+      ? candidates[(i * 7 + 3) % candidates.length]
+      : pool[i % pool.length];
     plan.push(pick);
     previous = pick;
+    sinceFlip += 1;
   }
   return plan;
 }

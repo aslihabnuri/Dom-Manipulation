@@ -73,9 +73,19 @@ export async function measureLoudness(file) {
   const stderr = await run([
     '-hide_banner', '-i', file, '-af', 'ebur128=peak=true', '-f', 'null', '-',
   ]);
-  const integrated = stderr.match(/I:\s+(-?[\d.]+)\s+LUFS/);
-  const range = stderr.match(/LRA:\s+(-?[\d.]+)\s+LU/);
-  const peak = stderr.match(/Peak:\s+(-?[\d.]+)\s+dBFS/);
+
+  // ebur128 prints a running measurement for every frame before the final
+  // report, and the early lines read -70 LUFS because too little audio has been
+  // seen to measure. Matching anywhere in the stream therefore picks up a
+  // meaningless value from the first moments of the file — parse only the
+  // trailing "Summary:" block.
+  const summaryAt = stderr.lastIndexOf('Summary:');
+  const summary = summaryAt === -1 ? '' : stderr.slice(summaryAt);
+
+  const integrated = summary.match(/I:\s+(-?[\d.]+)\s+LUFS/);
+  const range = summary.match(/LRA:\s+(-?[\d.]+)\s+LU/);
+  const peak = summary.match(/Peak:\s+(-?[\d.]+)\s+dBFS/);
+
   return {
     lufs: integrated ? Number.parseFloat(integrated[1]) : null,
     lra: range ? Number.parseFloat(range[1]) : null,
@@ -201,9 +211,71 @@ export function chunkCaption(text, maxChars, maxLines) {
   return chunks.length ? chunks : [''];
 }
 
+/** #RRGGBB → the &HBBGGRR byte order ASS expects. */
+function assColor(hex) {
+  const clean = hex.replace('#', '');
+  return `${clean.slice(4, 6)}${clean.slice(2, 4)}${clean.slice(0, 2)}`.toUpperCase();
+}
+
 /**
- * Build the burned-in caption track, matching the reference: small, uppercase,
- * bottom third, white on a translucent dark box.
+ * Rough text width in pixels.
+ *
+ * libass does the real layout, so this only has to be close enough to size the
+ * wipe rectangle — a little generous is harmless because the ink box only
+ * exists where the glyphs are, and revealing empty space either side shows
+ * nothing.
+ */
+function estimateTextWidth(text, fontSize, serif) {
+  const advance = serif ? 0.5 : 0.55;
+  return text.length * fontSize * advance;
+}
+
+/**
+ * A highlighter cue: dark text on a marker-yellow box that wipes in from the
+ * left, tilted a degree or two off level.
+ *
+ * `\clip` sets the visible rectangle and `\t` animates it, which is libass's
+ * equivalent of the Crop-effect keyframes the reference tutorial uses. The
+ * sweep therefore *draws* the stroke rather than fading it in, which is the
+ * whole point of the effect.
+ */
+function highlightOverride(cue, canvas, hl, fontSize, serif, lines) {
+  // Size the wipe to the longest line, and to however many lines libass will
+  // actually stack — a rectangle sized for one line would clip the second away
+  // permanently, not just during the sweep.
+  const longest = lines.reduce((a, b) => (a.length >= b.length ? a : b), '');
+  const width = Math.min(
+    estimateTextWidth(longest, fontSize, serif) + hl.padLeftRight * 2,
+    canvas.width - 80,
+  );
+  const lineHeight = fontSize * 1.2;
+  const blockHeight = lineHeight * lines.length;
+
+  const centerX = canvas.width / 2;
+  const centerY = canvas.height / 2;
+
+  const x1 = Math.round(centerX - width / 2);
+  const x2 = Math.round(centerX + width / 2);
+  const y1 = Math.round(centerY - blockHeight / 2 - fontSize * (hl.padTop - 0.6));
+  const y2 = Math.round(centerY + blockHeight / 2 + fontSize * hl.padBottom);
+
+  // Alternate the tilt so repeated highlights do not look stamped.
+  const tilt = hl.alternateTilt && cue.index % 2 === 1 ? -hl.tiltDegrees : hl.tiltDegrees;
+
+  return (
+    `{\\frz${tilt}` +
+    `\\clip(${x1},${y1},${x1},${y2})` +
+    `\\t(0,${hl.sweepMs},\\clip(${x1},${y1},${x2},${y2}))}`
+  );
+}
+
+/**
+ * Build the burned-in caption track.
+ *
+ * Three styles, each from a reference: the bottom-third caption pill and the
+ * centred serif statement card from the first, and the marker highlight from
+ * the second. Which card style a segment uses depends on whether its shot sits
+ * on a dark or a light background.
  */
 export function buildAssFile({ cues, canvas, style, target }) {
   const header = [
@@ -223,25 +295,47 @@ export function buildAssFile({ cues, canvas, style, target }) {
     `Style: Vox,${style.fontName},${style.fontSize},&H00FFFFFF,&H00FFFFFF,&H00000000,` +
       `&H${style.boxAlphaHex}000000,${style.bold ? -1 : 0},0,0,0,100,100,${style.letterSpacing},0,` +
       `3,${style.outlineWidth},0,2,80,80,${style.marginBottomPx},1`,
-    // A second style for the big editorial statement cards.
+    // Statement card for dark backgrounds: light serif on a translucent panel.
     `Style: VoxCard,${style.cardFontName},${style.cardFontSize},&H00F0F5F7,&H00F0F5F7,&H00000000,` +
       '&H80000000,-1,0,0,0,100,100,2,0,1,3,0,5,80,80,0,1',
+    // Statement card for light backgrounds: the marker highlight. BorderStyle 3
+    // turns the outline into an opaque box, which is the ink.
+    `Style: VoxHighlight,${style.highlightFontName},${style.highlightFontSize},` +
+      `&H00${assColor(style.highlight.textColor)},&H00${assColor(style.highlight.textColor)},` +
+      `&H00${assColor(style.highlight.yellow)},&H00000000,-1,0,0,0,100,100,1,0,3,` +
+      `${Math.round(style.highlightFontSize * 0.16)},0,5,80,80,0,1`,
     '',
     '[Events]',
     'Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text',
   ].join('\n');
 
   const events = cues.map((cue) => {
-    const styleName = cue.kind === 'card' ? 'VoxCard' : 'Vox';
-    const raw = style.uppercase && cue.kind !== 'card' ? cue.text.toUpperCase() : cue.text;
+    const styleName =
+      cue.kind === 'highlight' ? 'VoxHighlight' : cue.kind === 'card' ? 'VoxCard' : 'Vox';
+    const isCard = cue.kind === 'card' || cue.kind === 'highlight';
+    const raw = style.uppercase && !isCard ? cue.text.toUpperCase() : cue.text;
+
     // Cues arrive pre-chunked, so wrapping here only has to lay out the lines
     // that already fit; nothing can be dropped.
-    const wrapped = wrapLines(raw, cue.kind === 'card' ? 18 : style.maxCharsPerLine)
-      .map((line) => escapeAss(line))
-      .join('\\N');
-    // A short fade keeps cuts from strobing when captions change every second.
-    const fade = '{\\fad(90,90)}';
-    return `Dialogue: 0,${assTime(cue.start)},${assTime(cue.end)},${styleName},,0,0,0,,${fade}${wrapped}`;
+    const lines = wrapLines(raw, isCard ? 18 : style.maxCharsPerLine);
+    const wrapped = lines.map((line) => escapeAss(line)).join('\\N');
+
+    let override;
+    if (cue.kind === 'highlight') {
+      override = highlightOverride(
+        cue,
+        canvas,
+        style.highlight,
+        style.highlightFontSize,
+        true,
+        lines,
+      );
+    } else {
+      // A short fade keeps cuts from strobing when captions change every second.
+      override = '{\\fad(90,90)}';
+    }
+
+    return `Dialogue: 0,${assTime(cue.start)},${assTime(cue.end)},${styleName},,0,0,0,,${override}${wrapped}`;
   });
 
   const content = `${header}\n${events.join('\n')}\n`;

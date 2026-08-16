@@ -131,23 +131,70 @@ npm run cli -- normalize "Harganya Rp250.000 naik 70% sejak 1980-an."
 
 ## Kenapa videonya begini — hasil bedah referensi
 
-Video referensi yang kamu kirim dibedah dulu, dan angkanya jadi spesifikasi di
-[`src/vox.mjs`](src/vox.mjs):
+Dua video referensi yang kamu kirim dibedah dulu, dan angkanya jadi spesifikasi di
+[`src/vox.mjs`](src/vox.mjs).
+
+### Referensi 1 — ritme, warna, dan mixing
 
 | Yang diukur | Hasil | Dipakai untuk |
 |---|---|---|
 | Potongan gambar | **45 cut dalam 43 detik** ≈ 1 detik per shot | Ritme edit; segmen panjang otomatis dipecah jadi beberapa shot |
 | Jeda narasi | **cuma satu jeda 0,21 detik** dalam 43 detik | Narasi dibuat mengalir tanpa dead air |
-| Loudness | **-16,7 LUFS**, LRA 5,9 LU | Target mixing; hasil Naratif diukur -16,4 LUFS |
+| Loudness | **-16,7 LUFS**, LRA 5,9 LU | Target mixing; hasil Naratif diukur -16,5 LUFS |
 | Warna paling gelap | **#181319** — bukan hitam murni | Grading: `colorlevels` mengangkat titik hitam ke `#14111C` |
 | Rasio | 9:16 vertikal | Kanvas 1080×1920 |
 
-Poin terakhir itu justru yang paling ditekankan di video referensinya: latar Vox
-**tidak pernah hitam murni**. Ada *tint* yang mengangkat titik hitam sedikit ke arah ungu
-supaya kontrasnya halus. Hitam murni terlihat murah; `#14111C` terlihat editorial.
+Poin terakhir itu justru yang paling ditekankan di videonya: latar Vox **tidak pernah
+hitam murni**. Ada *tint* yang mengangkat titik hitam sedikit ke arah ungu supaya
+kontrasnya halus. Hitam murni terlihat murah; `#14111C` terlihat editorial.
 
-Gaya visualnya kolase potongan kertas, foto arsip, gambar teknis, dan ukiran — dengan
-aksen ungu Vox, tekstur grain, dan takarir kecil huruf kapital di sepertiga bawah.
+### Referensi 2 — stabilo dan latar kertas
+
+Video kedua (@dodford, "Fake highlights in Premiere Pro") menambahkan dua hal yang
+tidak ada di referensi pertama.
+
+**Efek stabilo.** Color picker-nya terbaca H 58 / S 94 / B 100 — yaitu **`#FFF70F`**,
+kuning spidol yang pekat, bukan pastel. Tiga detail yang menentukan:
+
+1. Blend mode **multiply**, jadi teks menggelap *lewat* tintanya, bukan tertutup.
+2. Skala vertikal dipendekkan dan kotaknya duduk agak rendah — spidol asli memang
+   tidak menutup seluruh tinggi huruf.
+3. Efek **Crop** dianimasikan kiri→kanan dengan **ease-in**: stroke-nya *digambar*,
+   bukan muncul memudar.
+
+Ketiganya bisa direproduksi persis di libass — kotak tinta dari `BorderStyle 3`,
+sapuan dari `\clip` yang dianimasikan lewat `\t`, dan miring tangan dari `\frz`:
+
+```
+{\frz1.8\clip(202,829,202,1133)\t(0,420,\clip(202,829,878,1133))}Belum pernah dicoba
+```
+
+**Latar kertas.** Referensi kedua sebagian besar berlatar terang: koran tua menguning,
+kertas dengan noda foxing, dinding beton pudar. Ini keluarga latar yang berbeda dari
+referensi pertama, dan pergantian di antara keduanya justru yang memberi ritme —
+frame kertas terasa terang karena datang setelah beberapa frame gelap.
+
+### Dua keluarga latar
+
+Setiap arketipe shot menyatakan keluarganya, dan perencana shot **berganti keluarga
+setiap tiga shot**:
+
+| Gelap | Terang |
+|---|---|
+| kolase potongan kertas | koran tua |
+| foto arsip | tekstur kertas |
+| gambar teknis | ukiran |
+| diagram peta | cetak biru di kertas |
+| objek di ruang kosong | dinding beton |
+| makro tekstur | |
+
+Keluarga latar juga menentukan bentuk kartu penekanan di tengah layar:
+
+- **Latar gelap** → kartu serif terang di atas panel gelap transparan.
+- **Latar kertas** → sapuan stabilo kuning dengan teks gelap.
+
+Ini bukan pilihan gaya semata. Stabilo di atas frame gelap akan salah dua kali:
+tintanya menyala alih-alih menandai, dan teks gelapnya hilang.
 
 ---
 

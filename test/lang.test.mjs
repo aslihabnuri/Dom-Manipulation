@@ -5,7 +5,11 @@ import { integerToWords, numberToWords, ordinalToWords } from '../src/lang/numbe
 import { normalizeForTTS, splitIntoUtterances, spellAcronym } from '../src/lang/normalize.mjs';
 import { lintScript, syllableCount } from '../src/lang/lint.mjs';
 import { align, verifyTake, tokenize } from '../src/lang/wer.mjs';
-import { chunkCaption } from '../src/ffmpeg.mjs';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import { chunkCaption, measureLoudness, probeToolchain, run } from '../src/ffmpeg.mjs';
+import { planShotTypes, familyOf, HIGHLIGHT } from '../src/vox.mjs';
 
 /* ── Numbers ───────────────────────────────────────────────────────── */
 
@@ -203,5 +207,57 @@ test('takarir: tiap baris menghormati batas karakter', () => {
       assert.ok(line.length <= 28, `baris kepanjangan: ${line}`);
     }
     assert.ok(chunk.split('\n').length <= 2);
+  }
+});
+
+/* ── Vox style: two background families ────────────────────────────── */
+
+test('rencana shot: keluarga latar berganti, tidak gelap terus', () => {
+  const plan = planShotTypes(24);
+  const families = plan.map(familyOf);
+  assert.ok(families.includes('dark'), 'harus ada shot latar gelap');
+  assert.ok(families.includes('light'), 'harus ada shot latar terang');
+});
+
+test('rencana shot: tidak ada arketipe kembar berurutan', () => {
+  const plan = planShotTypes(40);
+  for (let i = 1; i < plan.length; i += 1) {
+    assert.notEqual(plan[i], plan[i - 1], `arketipe kembar di posisi ${i}`);
+  }
+});
+
+test('rencana shot: pergantian keluarga mengikuti runLength', () => {
+  const plan = planShotTypes(12, { runLength: 3 });
+  const families = plan.map(familyOf);
+  // Tiga shot pertama satu keluarga, tiga berikutnya keluarga lain.
+  assert.equal(new Set(families.slice(0, 3)).size, 1);
+  assert.notEqual(families[0], families[3]);
+});
+
+test('stabilo: warna diambil dari color picker referensi kedua', () => {
+  assert.equal(HIGHLIGHT.yellow, '#FFF70F');
+  assert.ok(HIGHLIGHT.sweepMs > 0, 'sapuan harus punya durasi, bukan muncul mendadak');
+});
+
+/* ── Pengukuran audio ──────────────────────────────────────────────── */
+
+test('loudness dibaca dari blok ringkasan, bukan baris progres', async (t) => {
+  const tool = await probeToolchain();
+  if (!tool.ok) return t.skip('ffmpeg tidak tersedia');
+
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'naratif-'));
+  const file = path.join(dir, 'nada.wav');
+  try {
+    // Nada 3 detik pada -20 dBFS. ebur128 mencetak "I: -70.0 LUFS" di
+    // baris-baris awal sebelum cukup audio terukur; kalau parser mengambil
+    // kecocokan pertama, hasilnya -70 dan QC memberi peringatan palsu.
+    await run(['-hide_banner', '-y', '-f', 'lavfi',
+      '-i', 'sine=frequency=440:duration=3,volume=-20dB', '-ar', '48000', file]);
+
+    const m = await measureLoudness(file);
+    assert.ok(m.lufs !== null, 'loudness harus terbaca');
+    assert.ok(m.lufs > -60, `terbaca ${m.lufs} LUFS — parser mengambil baris progres, bukan ringkasan`);
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
   }
 });
