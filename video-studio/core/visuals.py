@@ -68,16 +68,30 @@ def unggah_gambar(api_key: str, berkas: Path, *, attempts: int = 3) -> str:
     raise KieError(f"Gagal mengunggah foto produk: {galat}")
 
 
+# Tanpa instruksi tegas, model image-to-image cenderung menyunting foto
+# aslinya, bukan menggambar ulangnya dengan gaya video. Kalimat ini yang
+# memaksa foto produk diterjemahkan menjadi ilustrasi vektor datar sambil
+# mempertahankan bentuk, warna, dan proporsi barang yang sebenarnya.
+INSTRUKSI_ACUAN = (
+    "Redraw the product from the reference photo as a flat 2D vector illustration "
+    "that matches the scene description below. Keep the product's exact silhouette, "
+    "proportions, colour and distinctive details faithful to the reference, but "
+    "render it with clean flat fills and simple geometric shapes — do not keep the "
+    "photographic texture, lighting or shadows of the original photo. "
+    "Do not copy any text, label, or lettering from the product packaging. "
+    "Scene: "
+)
+
+
 def _payload_gambar(prompt: str, model_kode: str, acuan: str | None) -> tuple[str, dict]:
     info = config.IMAGE_MODELS[model_kode]
     model_id = info["id"]
     payload: dict = {"prompt": prompt, "output_format": "png", "image_size": "9:16"}
     if acuan:
         # Varian "-edit" adalah yang menerima gambar acuan.
-        if model_id == "google/nano-banana":
+        if model_id in ("google/nano-banana", "google/nanobanana2"):
             model_id = "google/nano-banana-edit"
-        elif model_id == "google/nanobanana2":
-            model_id = "google/nano-banana-edit"
+        payload["prompt"] = INSTRUKSI_ACUAN + prompt
         payload["image_urls"] = [acuan]
     return model_id, payload
 
