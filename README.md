@@ -36,8 +36,8 @@ Masalah yang sama kalau baru ketahuan setelah video jadi, harganya satu render p
 
 ### Cara paling mudah: klik dua kali
 
-1. Buka **[halaman repo](https://github.com/aslihabnuri/Dom-Manipulation)**, klik tombol hijau
-   **Code**, lalu **Download ZIP**.
+1. **[Unduh ZIP-nya di sini](https://github.com/aslihabnuri/Dom-Manipulation/archive/refs/heads/claude/video-ai-soft-selling-app-rj9zpv.zip)**
+   — satu klik, langsung terunduh.
 2. Buka ZIP-nya, pindahkan foldernya ke tempat yang gampang dicari (misalnya Documents).
 3. Klik dua kali berkas peluncur sesuai sistemmu:
 
