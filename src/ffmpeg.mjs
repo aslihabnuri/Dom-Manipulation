@@ -201,14 +201,51 @@ function wrapLines(text, maxChars) {
  * which is both a comprehension bug and an accessibility one. Instead we return
  * every chunk and let the caller spread them across the segment's duration —
  * which is also what the reference does, changing captions roughly once a second.
+ *
+ * Chunks break at clause boundaries wherever one is available. Packing purely
+ * by character count puts the break wherever the line happens to run out, and
+ * a caption that ends "…menyukainya, karena" reads as a mistake even though
+ * every word is present: the viewer has to hold an unfinished clause across a
+ * cut. Commas are where a speaker pauses anyway, so cutting there keeps the
+ * caption and the voice agreeing about where the thought ends.
  */
 export function chunkCaption(text, maxChars, maxLines) {
-  const lines = wrapLines(text, maxChars);
+  const budget = maxChars * maxLines;
+  // Keep the punctuation on the phrase it closes — it is part of that phrase's
+  // width, and dropping it would change the wording on screen.
+  const phrases = String(text).match(/[^,;:]+[,;:]?/g)?.map((p) => p.trim()).filter(Boolean) || [];
+
   const chunks = [];
-  for (let i = 0; i < lines.length; i += maxLines) {
-    chunks.push(lines.slice(i, i + maxLines).join('\n'));
+  let current = '';
+  const flush = () => {
+    if (current) chunks.push(current);
+    current = '';
+  };
+
+  for (const phrase of phrases) {
+    if (phrase.length > budget) {
+      // A single clause too long for one card still has to be shown in full, so
+      // fall back to wrapping it by width.
+      flush();
+      const lines = wrapLines(phrase, maxChars);
+      for (let i = 0; i < lines.length; i += maxLines) {
+        chunks.push(lines.slice(i, i + maxLines).join('\n'));
+      }
+      continue;
+    }
+    const candidate = current ? `${current} ${phrase}` : phrase;
+    // Measure against the wrapped result, not raw length: wrapping can spill a
+    // string that fits the budget on paper onto an extra line.
+    if (current && wrapLines(candidate, maxChars).length > maxLines) {
+      flush();
+      current = phrase;
+    } else {
+      current = candidate;
+    }
   }
-  return chunks.length ? chunks : [''];
+  flush();
+
+  return chunks.length ? chunks.map((c) => wrapLines(c, maxChars).join('\n')) : [''];
 }
 
 /** #RRGGBB → the &HBBGGRR byte order ASS expects. */

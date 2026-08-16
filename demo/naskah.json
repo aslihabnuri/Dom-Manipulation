@@ -1,0 +1,104 @@
+{
+  "judul": "Kenapa Tas Selempang Tidak Pernah Hilang",
+  "produk": "tas Sophie Martin",
+  "segmen": [
+    {
+      "vo": "Tas selempang pertama bukan dibuat untuk gaya.",
+      "layar": "Bukan gaya",
+      "sfx": "whoosh",
+      "gambar": "a rigid leather postal satchel from the 1890s, worn and scuffed, floating centred on a seamless dark charcoal background, soft top light, long shadow",
+      "shot": "objectOnVoid"
+    },
+    {
+      "vo": "Dia lahir di gerbong kereta pos Prancis, akhir abad kesembilan belas.",
+      "layar": "",
+      "sfx": "paper",
+      "gambar": "interior of a 19th century French railway mail carriage, wooden sorting racks stuffed with envelopes, archival black and white press photograph, heavy film grain",
+      "shot": "archivalPhoto"
+    },
+    {
+      "vo": "Petugas pos butuh wadah yang bisa dikunci, dan tetap menempel di badan.",
+      "layar": "",
+      "sfx": null,
+      "gambar": "antique patent illustration of a lockable leather satchel with a strap mechanism, fine cream linework on dark background, cross-section, unlabelled callout dots",
+      "shot": "technicalDrawing"
+    },
+    {
+      "vo": "Maka dibuatlah kotak kulit keras, dengan tali menyilang dada.",
+      "layar": "",
+      "sfx": "click",
+      "gambar": "aged cream paper with a deep pressed impression of a leather shoulder strap and buckle lying diagonally across it, strong raking side light casting real shadows inside the embossed grooves, heavy visible paper fibre, foxing spots, one deep crease, warm cream tone, completely blank paper with no printed marks anywhere",
+      "shot": "paperTexture"
+    },
+    {
+      "vo": "Beratnya hampir tiga kilogram, dan bentuk itu bertahan puluhan tahun.",
+      "layar": "Tiga kilogram",
+      "sfx": "thud",
+      "gambar": "yellowed 1940s newspaper page, dense illegible columns, fold creases and foxing, torn edge, flat archival document photograph",
+      "shot": "agedNewsprint"
+    },
+    {
+      "vo": "Lalu perang datang, dan kulit jadi barang langka.",
+      "layar": "",
+      "sfx": "riser",
+      "gambar": "editorial paper cut-out collage of empty wooden supply crates, stacked and toppled, torn halftone newspaper textures behind them, thin violet connecting lines and small dots on a flat dark charcoal background, every surface completely blank and unmarked, no stamps, no labels, no printed characters of any kind",
+      "shot": "cutoutCollage"
+    },
+    {
+      "vo": "Perajin mulai memotong pola yang jauh lebih hemat bahan.",
+      "layar": "",
+      "sfx": "drop",
+      "gambar": "technical construction drawing of a soft bag pattern on aged drafting paper, faded graphite lines, dimension arrows without numbers, coffee ring stain, taped edge",
+      "shot": "blueprintOnPaper"
+    },
+    {
+      "vo": "Kotak kaku itu berubah jadi kantung lembut yang mengikuti tubuh.",
+      "layar": "",
+      "sfx": null,
+      "gambar": "19th century steel engraving of a soft draped leather pouch, dense cross-hatching in dark ink on aged paper, encyclopaedic illustration style",
+      "shot": "engraving"
+    },
+    {
+      "vo": "Perempuan pekerja langsung menyukainya, karena tangan mereka jadi bebas.",
+      "layar": "Tangan bebas",
+      "sfx": "whoosh",
+      "gambar": "archival documentary photograph of women office workers walking briskly on a city street in the 1940s, grainy black and white with warm sepia cast, dark field, generous negative space",
+      "shot": "archivalPhoto"
+    },
+    {
+      "vo": "Sejak itu, ukuran tas selalu mengikuti apa yang dibawa perempuan setiap hari.",
+      "layar": "",
+      "sfx": null,
+      "gambar": "extreme macro photograph of worn leather grain and stitching, shallow depth of field, raking side light, desaturated with faint violet in shadows",
+      "shot": "macroTexture"
+    },
+    {
+      "vo": "Dulu surat dan kunci, sekarang telepon genggam dan dompet tipis.",
+      "layar": "",
+      "sfx": "paper",
+      "gambar": "weathered pale plaster wall bearing the faint ghost outline of a hanging bag, cracks and patina, uneven grey cream tone, raking daylight",
+      "shot": "concreteWall"
+    },
+    {
+      "vo": "Itu sebabnya tas selempang tidak pernah benar-benar hilang dari pasaran.",
+      "layar": "",
+      "sfx": null,
+      "gambar": "minimal editorial map diagram of trade routes between Paris and Southeast Asia, simplified cream coastlines on dark charcoal, thin violet route lines and small glowing nodes, no labels",
+      "shot": "mapDiagram"
+    },
+    {
+      "vo": "Bentuknya berubah, tapi alasannya tetap sama sejak seratus tahun lalu.",
+      "layar": "",
+      "sfx": "riser",
+      "gambar": "editorial paper cut-out collage showing the silhouette evolution of a shoulder bag across four eras, halftone archival print, torn edges, violet dotted timeline on dark charcoal",
+      "shot": "cutoutCollage"
+    },
+    {
+      "vo": "Tangan yang bebas, dan barang yang aman.",
+      "layar": "Tidak pernah hilang",
+      "sfx": "drop",
+      "gambar": "single modern soft leather crossbody bag floating centred on seamless dark charcoal background, soft top light, long soft shadow, editorial product documentary lighting, muted colours",
+      "shot": "objectOnVoid"
+    }
+  ]
+}

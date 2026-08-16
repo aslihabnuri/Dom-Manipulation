@@ -30,8 +30,16 @@ function sentencesOf(text) {
   return (text.match(/[^.!?]+[.!?]*/g) || [text]).map((s) => s.trim()).filter(Boolean);
 }
 
+/**
+ * Split into words, keeping hyphenated reduplication as one token.
+ *
+ * Indonesian forms plurals, intensifiers and many ordinary words by repeating
+ * a stem across a hyphen: benar-benar, tiba-tiba, hati-hati, anak-anak. Split
+ * on the hyphen and every one of them looks like a stutter, so the doubled-word
+ * rule would reject correct Indonesian — the worst thing a linter can do.
+ */
 function wordsOf(text) {
-  return text.toLowerCase().match(/[a-zà-ÿ']+/g) || [];
+  return text.toLowerCase().match(/[a-zà-ÿ']+(?:-[a-zà-ÿ']+)*/g) || [];
 }
 
 /**

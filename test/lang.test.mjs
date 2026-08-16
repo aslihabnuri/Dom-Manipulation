@@ -10,6 +10,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { chunkCaption, measureLoudness, probeToolchain, run } from '../src/ffmpeg.mjs';
 import { planShotTypes, familyOf, HIGHLIGHT } from '../src/vox.mjs';
+import { spansFromWords } from '../src/pipeline/assemble.mjs';
 
 /* ── Numbers ───────────────────────────────────────────────────────── */
 
@@ -260,4 +261,67 @@ test('loudness dibaca dari blok ringkasan, bukan baris progres', async (t) => {
   } finally {
     fs.rmSync(dir, { recursive: true, force: true });
   }
+});
+
+test('linter: kata ulang berhubung tidak dianggap kata kembar', () => {
+  // Reduplikasi adalah pembentukan kata yang normal, bukan gagap.
+  for (const kalimat of [
+    'Dia benar-benar pergi.',
+    'Anak-anak bermain di halaman.',
+    'Tiba-tiba lampunya padam.',
+    'Hati-hati di jalan.',
+  ]) {
+    const r = lintScript(kalimat);
+    assert.ok(
+      !r.findings.some((f) => f.rule === 'kata-kembar'),
+      `salah tandai kata ulang: ${kalimat}`,
+    );
+  }
+});
+
+test('linter: gagap sungguhan tanpa tanda hubung tetap ditolak', () => {
+  const r = lintScript('Ini sangat sangat bagus.');
+  assert.ok(r.findings.some((f) => f.rule === 'kata-kembar' && f.severity === 'error'));
+});
+
+/* ── Captions: clause breaks and word-timed spans ───────────────────── */
+
+test('takarir: pecah di batas klausa, bukan di tengah frasa', () => {
+  const text = 'Perempuan pekerja langsung menyukainya, karena tangan mereka jadi bebas.';
+  const chunks = chunkCaption(text, 28, 2);
+  assert.equal(chunks.length, 2);
+  // Kartu pertama harus berhenti di koma, bukan menggantung di "karena".
+  assert.ok(chunks[0].replace(/\n/g, ' ').endsWith('menyukainya,'), chunks[0]);
+  assert.ok(chunks[1].replace(/\n/g, ' ').startsWith('karena'), chunks[1]);
+});
+
+test('takarir: klausa yang lebih panjang dari satu kartu tetap utuh', () => {
+  const text = 'kata '.repeat(30).trim(); // tanpa tanda baca sama sekali
+  const chunks = chunkCaption(text, 28, 2);
+  const rejoined = chunks.join(' ').replace(/\n/g, ' ').replace(/\s+/g, ' ').trim();
+  assert.equal(rejoined, text);
+});
+
+test('takarir: rentang waktu diambil dari batas kata sungguhan', () => {
+  const entry = {
+    duration: 4.0,
+    words: [
+      { teks: 'Satu', mulai: 0.0, durasi: 0.4 },
+      { teks: 'dua', mulai: 0.5, durasi: 0.4 },
+      { teks: 'tiga', mulai: 1.0, durasi: 0.5 },
+      { teks: 'empat', mulai: 2.0, durasi: 0.6 },
+    ],
+  };
+  const spans = spansFromWords(['Satu dua tiga,', 'empat.'], entry);
+  // Kartu pertama berakhir saat kata "tiga" selesai diucapkan (1.0 + 0.5).
+  assert.equal(Math.round(spans[0] * 1000), 1500);
+  // Kartu terakhir selalu sampai ujung audio, bukan ujung kata terakhir.
+  assert.equal(Math.round((spans[0] + spans[1]) * 1000), 4000);
+});
+
+test('takarir: jumlah kata tidak cocok maka mundur ke perkiraan', () => {
+  const entry = { duration: 3, words: [{ teks: 'Satu', mulai: 0, durasi: 0.4 }] };
+  // Dua kata di takarir, satu kata dilaporkan mesin: timing tidak bisa dipercaya.
+  assert.equal(spansFromWords(['Satu dua'], entry), null);
+  assert.equal(spansFromWords(['Satu'], { duration: 3, words: [] }), null);
 });

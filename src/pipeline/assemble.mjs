@@ -85,6 +85,10 @@ export async function buildTimeline(takes) {
       start: clock,
       duration,
       end: clock + duration,
+      // Present when the voice engine reported word boundaries. Optional on
+      // purpose: an engine that cannot report them still produces a usable
+      // video, just with captions timed by character count instead.
+      words: take.words || null,
     });
     clock += duration + gap;
   }
@@ -274,6 +278,41 @@ function dbToLinear(db) {
 
 /* ── Captions ──────────────────────────────────────────────────────────── */
 
+/**
+ * How long each caption chunk should stay up, measured from the voice itself.
+ *
+ * Returns null when the engine reported no word boundaries, or when the words
+ * it reported cannot be matched to the chunks — a silent mismatch here would
+ * desynchronise the whole segment, so a clean bail-out to the character-count
+ * estimate is safer than a partial answer.
+ */
+export function spansFromWords(chunks, entry) {
+  const words = entry.words;
+  if (!words?.length) return null;
+
+  const spans = [];
+  let cursor = 0;
+  let elapsed = 0;
+
+  for (let i = 0; i < chunks.length; i += 1) {
+    const count = chunks[i].split(/\s+/).filter(Boolean).length;
+    const last = words[cursor + count - 1];
+    if (!last) return null;
+    cursor += count;
+
+    // The final chunk runs to the end of the audio rather than to the end of
+    // the last word, so the caption does not blink off during the tail of the
+    // sentence — MP3 padding and the speaker's own decay both live in there.
+    const until = i === chunks.length - 1 ? entry.duration : last.mulai + last.durasi;
+    spans.push(Math.max(0, until - elapsed));
+    elapsed = until;
+  }
+
+  // Every word must be accounted for; a leftover means the caption text and the
+  // spoken text disagree, and the timings cannot be trusted.
+  return cursor === words.length ? spans : null;
+}
+
 function buildCues(timeline, segments, shotPlan) {
   const cues = [];
   let highlightIndex = 0;
@@ -289,15 +328,21 @@ function buildCues(timeline, segments, shotPlan) {
     if (!segment) continue;
 
     // A long line becomes several sequential caption cards rather than one
-    // truncated card. Time is shared out by character count, which tracks
-    // speech closely enough to stay in sync without word-level timestamps.
+    // truncated card.
     const chunks = chunkCaption(
       segment.voiceover,
       CAPTION_STYLE.maxCharsPerLine,
       CAPTION_STYLE.maxLines,
     );
-    const totalChars = chunks.reduce((sum, c) => sum + c.length, 0) || 1;
-    let spans = chunks.map((c) => entry.duration * (c.length / totalChars));
+    // Prefer real word timings: the card then changes on the frame the first
+    // word of the next chunk is spoken. Character count is a decent proxy but
+    // it drifts within a line — an unhurried opening clause followed by a
+    // rattled-off closing one puts the switch visibly early.
+    let spans = spansFromWords(chunks, entry) ||
+      (() => {
+        const totalChars = chunks.reduce((sum, c) => sum + c.length, 0) || 1;
+        return chunks.map((c) => entry.duration * (c.length / totalChars));
+      })();
 
     // A trailing fragment can end up with a fraction of a second, which is not
     // long enough to read. Lift anything under the floor and take the time back
