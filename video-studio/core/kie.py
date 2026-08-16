@@ -224,28 +224,21 @@ class KieClient:
         temperature: float | None = None,
         attempts: int = 3,
     ) -> str:
-        model = model or config.LLM_MODELS[config.DEFAULT_LLM]
-        messages: list[dict[str, Any]] = []
-        if system:
-            # Endpoint Kie tidak mengekspos parameter system terpisah,
-            # jadi instruksi sistem digabung sebagai giliran pertama.
-            messages.append({"role": "user", "content": system})
-            messages.append({"role": "assistant", "content": "Baik, saya mengerti."})
-        messages.append({"role": "user", "content": prompt})
+        """Kirim permintaan ke model teks, memilih jalur yang sesuai.
 
-        body: dict[str, Any] = {
-            "model": model,
-            "max_tokens": max_tokens,
-            "stream": True,
-            "messages": messages,
-        }
-        if temperature is not None:
-            body["temperature"] = temperature
+        Nilai `model` boleh berupa kode tingkatan ("cerdas") atau langsung
+        nama modelnya ("gemini-3-pro").
+        """
+        info = _info_model(model)
+        fn = self._chat_openai if info["jalur"] == "openai" else self._chat_claude
 
         last_err: Exception | None = None
         for i in range(attempts):
             try:
-                return self._chat_once(body)
+                return fn(
+                    info["id"], prompt, system=system,
+                    max_tokens=max_tokens, temperature=temperature,
+                )
             except KieError as exc:
                 last_err = exc
                 if not exc.retryable or i == attempts - 1:
@@ -257,6 +250,89 @@ class KieClient:
                     break
                 time.sleep(2**i)
         raise KieError(f"LLM gagal merespons: {last_err}")
+
+    def _chat_openai(
+        self,
+        model_id: str,
+        prompt: str,
+        *,
+        system: str = "",
+        max_tokens: int = 8000,
+        temperature: float | None = None,
+    ) -> str:
+        """Jalur utama. Bersih, tanpa system prompt sisipan dari Kie."""
+        messages: list[dict[str, Any]] = []
+        if system:
+            messages.append(
+                {"role": "system", "content": [{"type": "text", "text": system}]}
+            )
+        messages.append(
+            {"role": "user", "content": [{"type": "text", "text": prompt}]}
+        )
+        body: dict[str, Any] = {"messages": messages, "stream": False}
+        if temperature is not None:
+            body["temperature"] = temperature
+
+        resp = self._request(
+            "POST", config.kie_openai_endpoint(model_id), json=body, attempts=1
+        )
+        if resp.status_code != 200:
+            raise KieError(
+                _friendly(f"HTTP {resp.status_code}: {resp.text[:200]}"),
+                code=resp.status_code,
+                retryable=resp.status_code in _RETRYABLE_STATUS,
+            )
+        try:
+            data = resp.json()
+        except ValueError:
+            raise KieError("Balasan LLM bukan JSON yang bisa dibaca.", retryable=True)
+
+        pilihan = (data.get("choices") or [{}])[0]
+        isi = (pilihan.get("message") or {}).get("content", "")
+        if isinstance(isi, list):
+            # Sebagian model mengembalikan daftar blok konten.
+            isi = "".join(
+                b.get("text", "") for b in isi if isinstance(b, dict)
+            )
+        isi = (isi or "").strip()
+        if not isi:
+            raise KieError("LLM tidak mengembalikan teks apa pun.", retryable=True)
+        return isi
+
+    def _chat_claude(
+        self,
+        model_id: str,
+        prompt: str,
+        *,
+        system: str = "",
+        max_tokens: int = 8000,
+        temperature: float | None = None,
+    ) -> str:
+        """Jalur cadangan. Wajib stream, dan rawan ditolak oleh "Ask mode"."""
+        messages: list[dict[str, Any]] = []
+        if system:
+            # Endpoint ini tidak mengekspos parameter system terpisah,
+            # jadi instruksi sistem digabung sebagai giliran pertama.
+            messages.append({"role": "user", "content": system})
+            messages.append({"role": "assistant", "content": "Baik, saya mengerti."})
+        messages.append({"role": "user", "content": prompt})
+
+        body: dict[str, Any] = {
+            "model": model_id,
+            "max_tokens": max_tokens,
+            "stream": True,
+            "messages": messages,
+        }
+        if temperature is not None:
+            body["temperature"] = temperature
+        teks = self._chat_once(body)
+        if _terdengar_menolak(teks):
+            raise KieError(
+                "Model membalas dengan penolakan, bukan hasil yang diminta. "
+                "Ganti model ke Gemini di halaman Pengaturan.",
+                retryable=False,
+            )
+        return teks
 
     def _chat_once(self, body: dict[str, Any]) -> str:
         resp = self._session.post(
@@ -366,6 +442,36 @@ class KieClient:
                 if i < attempts - 1:
                     time.sleep(2**i)
         raise KieError(f"Gagal mengunduh berkas hasil: {last}")
+
+
+def _info_model(model: str | None) -> dict[str, str]:
+    """Terima kode tingkatan ("cerdas") atau nama model langsung."""
+    if not model:
+        return config.llm_info(config.DEFAULT_LLM)
+    if model in config.LLM_MODELS:
+        return config.llm_info(model)
+    for info in config.LLM_MODELS.values():
+        if info["id"] == model:
+            return info
+    # Nama tak dikenal: tebak jalurnya dari awalan nama model.
+    jalur = "claude" if model.startswith("claude") else "openai"
+    return {"id": model, "jalur": jalur, "label": model}
+
+
+# Kalimat khas ketika model menolak tugas karena persona "Ask mode".
+_TANDA_PENOLAKAN = (
+    "i'm in ask mode",
+    "isn't a coding question",
+    "is not a coding question",
+    "switch to agent mode",
+    "no codebase context",
+    "i cannot actually generate",
+)
+
+
+def _terdengar_menolak(teks: str) -> bool:
+    rendah = teks[:1200].lower()
+    return sum(tanda in rendah for tanda in _TANDA_PENOLAKAN) >= 2
 
 
 def _extract_urls(result_json: str | None) -> list[str]:

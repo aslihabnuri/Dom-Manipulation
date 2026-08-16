@@ -143,6 +143,25 @@ ilustrasinya tidak pernah rusak.
 Model AI-nya tetap tersedia di Pengaturan bila suatu saat kamu butuh untuk
 adegan tertentu.
 
+### Kenapa penulis naskahnya Gemini, bukan Claude
+
+Kie menyediakan dua jalur untuk model teks, dan keduanya berperilaku sangat
+berbeda.
+
+Jalur Claude (`/claude/v1/messages`) ternyata **disisipi system prompt "Ask
+mode"** oleh Kie — persona asisten pemrograman. Akibatnya, saat diminta menulis
+naskah atau meriset topik, modelnya sering menolak dan membalas kira-kira
+*"this isn't a coding question, switch to Agent mode"* alih-alih mengembalikan
+hasil yang diminta. Jalur ini juga menolak permintaan non-stream.
+
+Karena itu penulis naskah memakai **Gemini 3 Pro** lewat jalur
+`/<model>/v1/chat/completions`, yang bersih tanpa sisipan apa pun, mendukung
+peran system, dan jauh lebih murah — sekitar 0,02 kredit sekali panggil.
+
+Claude tetap tersedia di Pengaturan sebagai cadangan. Kalau suatu saat model
+membalas dengan penolakan, aplikasi mengenalinya dan memberi pesan yang jelas,
+bukan diam-diam menghasilkan naskah kosong.
+
 ### Soal dubbing Bahasa Indonesia
 
 ElevenLabs lewat Kie **sedang tidak berfungsi** saat aplikasi ini dibuat. Semua

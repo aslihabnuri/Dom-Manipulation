@@ -50,13 +50,39 @@ KIE_CREDIT = f"{KIE_BASE}/api/v1/chat/credit"
 KIE_CLAUDE_MESSAGES = f"{KIE_BASE}/claude/v1/messages"
 KIE_UPLOAD_BASE64 = f"{KIE_BASE}/api/v1/file-base64-upload"
 
-# Model teks. Kie hanya melayani Claude lewat SSE (stream=true wajib).
+# Model teks.
+#
+# Kie menyediakan dua jalur yang berperilaku sangat berbeda:
+#
+#   jalur "openai" : https://api.kie.ai/<model>/v1/chat/completions
+#                    Bersih, boleh non-stream, mendukung peran "system".
+#
+#   jalur "claude" : https://api.kie.ai/claude/v1/messages
+#                    WAJIB stream=true, dan proxy Kie menyuntikkan system
+#                    prompt "Ask mode" berisi persona asisten coding. Akibatnya
+#                    model sering MENOLAK tugas penulisan kreatif dan membalas
+#                    "this isn't a coding question" alih-alih JSON yang diminta.
+#                    Karena itu jalur ini bukan pilihan utama.
+#
+# Temuan di atas berasal dari pengujian langsung, bukan dokumentasi.
 LLM_MODELS = {
-    "cerdas": "claude-sonnet-4-5",
-    "terbaik": "claude-opus-4-5",
-    "cepat": "claude-haiku-4-5",
+    "cepat": {"id": "gemini-3-flash", "jalur": "openai", "label": "Cepat dan murah"},
+    "cerdas": {"id": "gemini-3-pro", "jalur": "openai", "label": "Cerdas (disarankan)"},
+    "claude": {
+        "id": "claude-sonnet-4-5",
+        "jalur": "claude",
+        "label": "Claude (cadangan, kadang menolak)",
+    },
 }
 DEFAULT_LLM = "cerdas"
+
+
+def llm_info(tier: str) -> dict:
+    return LLM_MODELS.get(tier) or LLM_MODELS[DEFAULT_LLM]
+
+
+def kie_openai_endpoint(model_id: str) -> str:
+    return f"{KIE_BASE}/{model_id}/v1/chat/completions"
 
 # Model gambar (storyboard).
 IMAGE_MODELS = {
@@ -227,10 +253,31 @@ class AppSettings:
             try:
                 data = json.loads(cls._PATH.read_text(encoding="utf-8"))
                 known = {f for f in cls.__dataclass_fields__ if not f.startswith("_")}
-                return cls(**{k: v for k, v in data.items() if k in known})
+                s = cls(**{k: v for k, v in data.items() if k in known})
+                s._bersihkan()
+                return s
             except (json.JSONDecodeError, TypeError, ValueError):
                 pass
         return cls()
+
+    def _bersihkan(self) -> None:
+        """Kembalikan pilihan yang sudah tidak ada ke nilai bawaan.
+
+        Daftar model bisa berubah antarversi aplikasi. Tanpa ini, pengaturan
+        lama membuat halaman Pengaturan gagal dimuat.
+        """
+        if self.llm_tier not in LLM_MODELS:
+            self.llm_tier = DEFAULT_LLM
+        if self.image_model not in IMAGE_MODELS:
+            self.image_model = DEFAULT_IMAGE_MODEL
+        if self.video_model not in VIDEO_MODELS:
+            self.video_model = DEFAULT_VIDEO_MODEL
+        if self.tts_provider not in TTS_PROVIDERS:
+            self.tts_provider = "gemini-kie"
+        if self.gemini_voice not in GEMINI_VOICES:
+            self.gemini_voice = DEFAULT_GEMINI_VOICE
+        if self.edge_voice not in EDGE_VOICES:
+            self.edge_voice = DEFAULT_EDGE_VOICE
 
     def save(self) -> None:
         data = {

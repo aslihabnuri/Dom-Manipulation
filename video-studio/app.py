@@ -168,11 +168,7 @@ def pengaturan_lanjutan() -> None:
             "Kecerdasan penulis naskah",
             list(config.LLM_MODELS),
             index=list(config.LLM_MODELS).index(s.llm_tier),
-            format_func=lambda k: {
-                "cepat": "Cepat dan murah",
-                "cerdas": "Cerdas (disarankan)",
-                "terbaik": "Paling bagus",
-            }[k],
+            format_func=lambda k: config.LLM_MODELS[k]["label"],
         )
         s.image_model = st.selectbox(
             "Model gambar",
@@ -352,7 +348,7 @@ def tahap_riset(p: Proyek) -> None:
             with st.spinner("Sedang meriset..."):
                 pipeline.jalankan_riset(
                     k, p, jumlah=jumlah, catatan=catatan, pakai_tren=pakai_tren,
-                    model=config.LLM_MODELS[PENGATURAN.llm_tier], lapor=lapor,
+                    model=PENGATURAN.llm_tier, lapor=lapor,
                 )
             st.rerun()
         except (KieError, ValueError) as exc:
@@ -427,7 +423,7 @@ def tahap_naskah(p: Proyek) -> None:
             with st.spinner("Menulis naskah..."):
                 pipeline.jalankan_naskah(
                     k, p, topik, durasi_target=durasi, jumlah_adegan=adegan,
-                    catatan=catatan, model=config.LLM_MODELS[PENGATURAN.llm_tier],
+                    catatan=catatan, model=PENGATURAN.llm_tier,
                     lapor=lapor,
                 )
             st.rerun()
@@ -644,7 +640,7 @@ def tahap_render(p: Proyek) -> None:
                         pakai_musik=musik, pakai_sfx=sfx,
                         butiran=halus, vignette=halus,
                         tampilkan_hook=hook,
-                        model_llm=config.LLM_MODELS[PENGATURAN.llm_tier],
+                        model_llm=PENGATURAN.llm_tier,
                         lapor=lapor,
                     )
                 st.balloons()
