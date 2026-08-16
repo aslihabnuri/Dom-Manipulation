@@ -184,14 +184,24 @@ def jalankan_storyboard(
         )
         suara[nomor] = hasil
         kredit_suara += hasil.kredit
+        tanda = "🔊" if hasil.mengalir else "⚠️"
         lapor(
-            f"🔊 Adegan {nomor}: {hasil.durasi:.1f} detik "
+            f"{tanda} Adegan {nomor}: {hasil.durasi:.1f} detik, "
+            f"{hasil.wpm:.0f} kata/menit, {hasil.jeda_per_kata:.2f} jeda/kata "
             f"({hasil.penyedia}, {hasil.kredit:.1f} kredit)."
         )
 
     if not suara:
         raise RuntimeError("Tidak ada satu pun suara yang berhasil dibuat.")
     proyek.tambah_kredit(kredit_suara, "Suara narator")
+
+    patah = [n for n, h in suara.items() if not h.mengalir]
+    if patah:
+        lapor(
+            f"⚠️ {len(patah)} adegan terdengar patah-patah (adegan "
+            f"{', '.join(map(str, sorted(patah)))}). Dengarkan dulu sebelum menyetujui; "
+            "kalau mengganggu, ganti suara di Pengaturan lalu buat ulang storyboard."
+        )
 
     # Durasi asli dari suara menggantikan perkiraan dari jumlah kata.
     for a in naskah.adegan:

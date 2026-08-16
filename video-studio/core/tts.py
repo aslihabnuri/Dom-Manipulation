@@ -18,6 +18,7 @@ disinkronkan tanpa menebak.
 from __future__ import annotations
 
 import json
+import re
 import subprocess
 from dataclasses import dataclass
 from pathlib import Path
@@ -34,6 +35,10 @@ class HasilSuara:
     durasi: float
     penyedia: str
     kredit: float = 0.0
+    # Diisi oleh gerbang mutu setelah suara jadi.
+    wpm: float = 0.0
+    jeda_per_kata: float = 0.0
+    mengalir: bool = True
 
 
 class TTSGagal(RuntimeError):
@@ -55,6 +60,63 @@ def durasi_audio(berkas: Path) -> float:
         return float(hasil.stdout.strip())
     except ValueError:
         return 0.0
+
+
+# Video acuan berjalan pada 167 kata/menit tanpa satu pun jeda di tengah
+# kalimat. Angka di bawah ini adalah batas kewajaran untuk narasi Indonesia.
+JEDA_PER_KATA_WAJAR = 0.25
+WPM_MINIMAL_WAJAR = 110
+
+
+def ukur_keterputusan(berkas: Path, jumlah_kata: int) -> dict[str, float]:
+    """Ukur seberapa patah-patah sebuah rekaman narasi.
+
+    Rasio keterputusan adalah banyaknya jeda di tengah kalimat dibagi jumlah
+    kata. Narasi yang mengalir bernilai mendekati nol; nilai di atas satu
+    berarti penutur berhenti setelah hampir setiap kata.
+
+    Metrik ini dipakai sebagai gerbang mutu supaya kesalahan pemilihan gaya
+    suara ketahuan sebelum seluruh naskah dibuatkan suaranya.
+    """
+    durasi = durasi_audio(berkas)
+    if durasi <= 0 or jumlah_kata <= 0:
+        return {"durasi": durasi, "wpm": 0.0, "jeda": 0, "jeda_per_kata": 0.0}
+
+    hasil = subprocess.run(
+        ["ffmpeg", "-hide_banner", "-i", str(berkas),
+         "-af", "silencedetect=noise=-38dB:d=0.06", "-f", "null", "-"],
+        capture_output=True, text=True,
+    )
+    mulai = [float(x) for x in re.findall(r"silence_start: ([\d.]+)", hasil.stderr)]
+    akhir = [float(x) for x in re.findall(r"silence_end: ([\d.]+)", hasil.stderr)]
+    # Keheningan di ujung rekaman tidak dihitung; yang mengganggu telinga
+    # adalah jeda di tengah kalimat.
+    tengah = [b - a for a, b in zip(mulai, akhir) if a > 0.05 and b < durasi - 0.05]
+
+    return {
+        "durasi": durasi,
+        "wpm": jumlah_kata / durasi * 60.0,
+        "jeda": len(tengah),
+        "jeda_per_kata": len(tengah) / jumlah_kata,
+        "total_jeda": sum(tengah),
+    }
+
+
+def periksa_narasi(berkas: Path, jumlah_kata: int) -> tuple[bool, str, dict]:
+    """Kembalikan (lolos, pesan, ukuran) untuk satu potongan narasi."""
+    u = ukur_keterputusan(berkas, jumlah_kata)
+    if u["jeda_per_kata"] > JEDA_PER_KATA_WAJAR:
+        return False, (
+            f"Narasi terdengar patah-patah: {u['jeda']} jeda untuk {jumlah_kata} kata "
+            f"({u['jeda_per_kata']:.2f} per kata, wajarnya di bawah {JEDA_PER_KATA_WAJAR}). "
+            "Ganti suara atau turunkan kecepatan di halaman Pengaturan."
+        ), u
+    if 0 < u["wpm"] < WPM_MINIMAL_WAJAR:
+        return False, (
+            f"Narasi terlalu lambat: {u['wpm']:.0f} kata per menit "
+            f"(wajarnya di atas {WPM_MINIMAL_WAJAR})."
+        ), u
+    return True, f"{u['wpm']:.0f} kata/menit, {u['jeda_per_kata']:.2f} jeda per kata", u
 
 
 def _rantai_tempo(kecepatan: float) -> list[str]:
@@ -147,23 +209,33 @@ def rapikan_ucapan(
 # ---------------------------------------------------------------------------
 # Penyedia 1 — Gemini TTS lewat Kie (utama, sudah diuji berhasil)
 # ---------------------------------------------------------------------------
-# Hasil pengukuran langsung pada kalimat Bahasa Indonesia yang sama
-# (12 kata), suara Callirrhoe, dengan style "Vocal Smile":
+# Pemilihan pace TIDAK boleh didasarkan pada kata per menit saja. Yang
+# menentukan enak atau tidaknya narasi adalah seberapa MENYAMBUNG ucapannya,
+# dan itu diukur dengan rasio keterputusan: berapa jeda per kata.
 #
-#   pace "The Drift"   sangat lambat
-#   pace "Staccato"    148 kata/menit   <- paling dekat dengan target
-#   pace "Rapid Fire"  180 kata/menit
-#   pace "Natural"     194 kata/menit
+# Pengukuran pada kalimat Bahasa Indonesia yang sama, suara Callirrhoe,
+# dibandingkan dengan video acuan (167 kata/menit, 0,00 jeda per kata):
 #
-# Catatan penting: style "Newscaster" menghasilkan hanya 53 kata/menit
-# karena model menyisipkan jeda dramatis panjang di antara frasa. Style itu
-# sengaja tidak dipakai. Ini temuan dari pengujian, bukan dari dokumentasi.
+#   pace          style          WPM   jeda/kata
+#   Staccato      Vocal Smile     86      1,13    <- berhenti di tiap kata
+#   Natural       Promo/Hype     140      0,67
+#   Natural       Vocal Smile    145      0,47
+#   Natural       (tanpa)        152      0,40
+#   Rapid Fire    Vocal Smile    156      0,13    <- dipakai sekarang
+#   Rapid Fire    (tanpa)        173      0,13
+#
+# "Staccato" secara harfiah berarti terputus-putus, dan model memang
+# menerjemahkannya begitu. Angka kata per menitnya sempat terlihat paling
+# dekat dengan target, tetapi hasil dengarnya patah setiap kata. Pace itu
+# sekarang tidak pernah dipakai.
+#
+# Style "Newscaster" juga dihindari: hasilnya 53 kata/menit dengan jeda
+# dramatis yang sangat panjang.
+#
+# Kecepatan halus diatur belakangan lewat penyesuaian tempo, yang sama sekali
+# tidak memengaruhi kemenyambungan ucapan.
 def _pace_dari_kecepatan(k: float) -> str:
-    if k <= 0.95:
-        return "The Drift"
-    if k <= 1.10:
-        return "Staccato"
-    return "Rapid Fire"
+    return "Natural" if k <= 0.90 else "Rapid Fire"
 
 
 def suara_gemini(
@@ -178,18 +250,23 @@ def suara_gemini(
 ) -> HasilSuara:
     profil = (
         gaya
-        or "Narator Indonesia profesional untuk video pendek. Suara hangat dan jelas. "
-        "Pelafalan Bahasa Indonesia baku dan tepat. Bicara mengalir tanpa jeda "
-        "dramatis di antara frasa. Tidak menggantung di akhir kalimat."
+        or "Pembaca berita Indonesia yang bicara mengalir dan menyambung, "
+        "tanpa jeda antarkata. Suara hangat dan jelas, pelafalan baku dan tepat. "
+        "Tidak menggantung di akhir kalimat."
     )
     payload = {
-        "temperature": 0.7,
+        # Suhu rendah menekan improvisasi model, termasuk kecenderungan
+        # menyelipkan jeda dramatis yang tidak diminta.
+        "temperature": 0.6,
         "scene": (
-            "Narasi video edukasi pendek berbahasa Indonesia untuk media sosial. "
-            "Tempo cepat dan padat, tanpa keheningan panjang di tengah kalimat."
+            "Narasi video edukasi pendek Bahasa Indonesia. Kalimat diucapkan "
+            "mengalir dalam satu tarikan napas, tanpa berhenti di antara kata."
         ),
         "sample_context": konteks
-        or "Bahasa Indonesia baku. Setiap kata diucapkan utuh, jelas, dan berurutan rapat.",
+        or (
+            "Bacakan seluruh kalimat secara menyambung dan mengalir. "
+            "Jangan memberi jeda di antara kata. Jeda hanya boleh di akhir kalimat."
+        ),
         "speakers": [
             {
                 "speaker_id": "Speaker 1",
@@ -372,6 +449,14 @@ def buat_suara(
             h.durasi = durasi_baru
         except subprocess.CalledProcessError:
             pass  # kalau perapian gagal, pakai audio apa adanya
+
+        # Gerbang mutu: pastikan narasinya mengalir, bukan patah tiap kata.
+        lolos, pesan, ukuran = periksa_narasi(h.berkas, jumlah_kata)
+        h.wpm = ukuran.get("wpm", 0.0)
+        h.jeda_per_kata = ukuran.get("jeda_per_kata", 0.0)
+        h.mengalir = lolos
+        if catat and not lolos:
+            catat(f"   ⚠️ {pesan}")
         return h
 
     for nama in urutan:
