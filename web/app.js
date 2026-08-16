@@ -478,6 +478,7 @@ function renderStoryboard(host) {
     const body = el('div', 'panel-body');
     body.append(el('p', 'panel-vo', panel.suara));
     if (panel.layar) body.append(el('p', 'panel-layar', `Teks besar di layar: "${panel.layar}"`));
+    if (panel.dariFotoProduk) body.append(el('p', 'panel-foto', 'Pakai foto produk kamu — tidak dibuat mesin'));
     if (panel.gambar) body.append(el('p', 'panel-gambar', `Gambar: ${panel.gambar}`));
     if (panel.gambarPrompt) {
       const prompt = el('details', 'panel-prompt');

@@ -48,6 +48,7 @@ export function buildStoryboard(project) {
       // image model is actually sent, and both are shown so the approval is
       // informed rather than trusting.
       gambar: segment.gambarIndonesia || null,
+      dariFotoProduk: Boolean(segment.useProductPhoto),
       gambarPrompt: segment.visualSubject || segment.imagePrompt || null,
       jenisShot: shotType,
       jenisShotLabel: labelOf(shotType),
@@ -80,6 +81,7 @@ export function buildStoryboard(project) {
       panelTerang: panels.filter((p) => p.latar === 'terang').length,
       kartuLayar: panels.filter((p) => p.layar).length,
       efekSuara: panels.filter((p) => p.sfx).length,
+      panelFotoProduk: panels.filter((p) => p.dariFotoProduk).length,
     },
     // Carried so the approval screen can show the language check next to the
     // script it applies to, rather than on a separate tab nobody opens.

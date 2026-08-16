@@ -273,6 +273,7 @@ export async function runVisuals(projectId, { onProgress } = {}) {
   const outDir = path.join(project.workDir, 'img');
   const visuals = await generateStills({
     segments: project.script.segments,
+    productPhoto: project.fotoProduk?.[0]?.file || null,
     outDir,
     projectId,
     onProgress,

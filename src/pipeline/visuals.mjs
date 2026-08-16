@@ -36,16 +36,28 @@ export const MODES = {
  * Generate one still per segment.
  * Images are generated 9:16 so no cropping is needed later.
  */
-export async function generateStills({ segments, outDir, projectId, onProgress }) {
+export async function generateStills({ segments, outDir, productPhoto, projectId, onProgress }) {
   fs.mkdirSync(outDir, { recursive: true });
-  const shotTypes = planShotTypes(segments.length);
+  const planned = planShotTypes(segments.length);
   const results = [];
 
   for (let i = 0; i < segments.length; i += 1) {
     const segment = segments[i];
-    const shotType = shotTypes[i];
-    const prompt = buildImagePrompt(segment.visualSubject, shotType);
+    const shotType = segment.shotType || planned[i];
     const target = path.join(outDir, `shot-${String(i).padStart(3, '0')}.png`);
+
+    // Shots that show the product itself use the creator's own photograph.
+    // Generating a lookalike would be both a wasted charge and a small lie —
+    // an affiliate video has to show the thing the viewer would actually
+    // receive, not a plausible imitation of it.
+    if (segment.useProductPhoto && productPhoto) {
+      fs.copyFileSync(productPhoto, target);
+      results.push({ index: i, file: target, shotType, prompt: null, ok: true, fromPhoto: true });
+      onProgress?.({ stage: 'visual', segment: i, message: `Gambar ${i + 1}: foto produk kamu` });
+      continue;
+    }
+
+    const prompt = buildImagePrompt(segment.visualSubject, shotType);
 
     onProgress?.({
       stage: 'visual',

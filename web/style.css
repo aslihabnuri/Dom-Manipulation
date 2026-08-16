@@ -850,6 +850,12 @@ ul, ol, menu { margin: 0; padding: 0; list-style: none; }
 
 .panel-layar { color: var(--violet); }
 
+.panel-foto {
+  margin: 4px 0 0;
+  font-size: 12.5px;
+  color: var(--ok);
+}
+
 /* ── Approval gate ─────────────────────────────────────────────────── */
 
 .gate {
