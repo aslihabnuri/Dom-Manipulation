@@ -337,6 +337,58 @@ def latar_gradasi(warna_atas: str, warna_bawah: str, *, radial: bool = False) ->
     )
 
 
+def kamera(
+    isi: str,
+    t: float,
+    *,
+    mode: str = "dorong",
+    kuat: float = 0.14,
+    geser: float = 0.0,
+) -> str:
+    """Bungkus seluruh adegan dengan gerak kamera.
+
+    Ini yang paling menentukan rasa animasinya. Pengukuran pada video acuan
+    memberi energi gerak 11,0 satuan per bingkai, sementara adegan yang hanya
+    berisi benda bergoyang pelan hanya mencapai 3,6. Kamera yang terus bergerak
+    membuat SETIAP piksel berubah di tiap bingkai, dan itu yang menutup
+    selisihnya.
+
+    mode: "dorong" mendekat, "tarik" menjauh, "kiri"/"kanan" menyapu.
+    """
+    p = max(0.0, min(1.0, t))
+    if mode == "tarik":
+        skala = 1.0 + kuat * (1 - p)
+    else:
+        skala = 1.0 + kuat * p
+    dx = dy = 0.0
+    if mode == "kiri":
+        dx = RENDER.width * geser * (0.5 - p)
+    elif mode == "kanan":
+        dx = -RENDER.width * geser * (0.5 - p)
+    elif mode == "naik":
+        dy = RENDER.height * geser * (0.5 - p)
+
+    cx, cy = RENDER.width / 2, RENDER.height / 2
+    return (
+        f'<g transform="translate({cx + dx:.2f},{cy + dy:.2f}) '
+        f'scale({skala:.4f}) translate({-cx:.2f},{-cy:.2f})">{isi}</g>'
+    )
+
+
+def masuk_geser(
+    t: float, mulai: float, lama: float, dari: float, ke: float
+) -> tuple[float, float]:
+    """Nilai posisi dan kadar tampil untuk benda yang meluncur masuk.
+
+    Mengembalikan (posisi, opasitas). Meluncur dari luar bingkai jauh lebih
+    banyak menghasilkan gerak daripada sekadar membesar di tempat.
+    """
+    if t < mulai:
+        return dari, 0.0
+    u = min(1.0, (t - mulai) / max(0.01, lama))
+    return antara(dari, ke, u, "keluar"), min(1.0, u * 3)
+
+
 def bungkus_svg(isi: str) -> str:
     return (
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{RENDER.width}" '
