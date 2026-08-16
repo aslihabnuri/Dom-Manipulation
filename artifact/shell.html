@@ -1,0 +1,855 @@
+<title>Pemeriksa Pelafalan</title>
+
+<style>
+/* ── Faces ─────────────────────────────────────────────────────────────
+   Inlined rather than linked: the artifact CSP blocks font CDNs, and a
+   silent fallback would break the metric match between the editor and the
+   mark-up layer sitting behind it. */
+@font-face {
+  font-family: "Naskah Serif";
+  src: url(data:font/ttf;base64,__FONT_SERIF__) format("truetype");
+  font-weight: 400; font-style: normal; font-display: block;
+}
+@font-face {
+  font-family: "Naskah Serif";
+  src: url(data:font/ttf;base64,__FONT_SERIF_ITALIC__) format("truetype");
+  font-weight: 400; font-style: italic; font-display: block;
+}
+@font-face {
+  font-family: "Naskah Sans";
+  src: url(data:font/ttf;base64,__FONT_SANS__) format("truetype");
+  font-weight: 400; font-style: normal; font-display: block;
+}
+@font-face {
+  font-family: "Naskah Sans";
+  src: url(data:font/ttf;base64,__FONT_SANS_BOLD__) format("truetype");
+  font-weight: 700; font-style: normal; font-display: block;
+}
+@font-face {
+  font-family: "Naskah Mono";
+  src: url(data:font/ttf;base64,__FONT_MONO__) format("truetype");
+  font-weight: 400; font-style: normal; font-display: block;
+}
+
+/* ── Tokens ────────────────────────────────────────────────────────────
+   Light is the bare :root. Dark is redefined twice — once for the
+   unstamped system-preference state, once for an explicit toggle — so all
+   three viewer states resolve. Components only ever read tokens. */
+:root {
+  --ground:      #E7E4DA;
+  --surface:     #F4F2EC;
+  --surface-2:   #FBFAF6;
+  --sheet:       #FFFEFB;
+  --line:        #D2CEC1;
+  --line-strong: #B8B3A3;
+
+  --text:        #1B1D26;
+  --text-soft:   #4E5163;
+  --text-faint:  #7C8096;
+
+  --marker:      #FFF70F;
+  --marker-ink:  #1B1D26;
+  --pen:         #C0392B;
+  --amber:       #A8701A;
+  --note:        #4A5578;
+
+  --pen-wash:    rgba(192, 57, 43, 0.10);
+  --amber-wash:  rgba(168, 112, 26, 0.10);
+  --note-wash:   rgba(74, 85, 120, 0.09);
+  --marker-wash: rgba(255, 247, 15, 0.55);
+
+  --focus:       #3B4C7A;
+
+  --step--1: 0.8125rem;
+  --step-0:  0.9375rem;
+  --step-1:  1.125rem;
+  --step-2:  1.5rem;
+  --step-3:  2.125rem;
+  --step-4:  3rem;
+
+  --gap:   1.5rem;
+  --gap-s: 0.75rem;
+  --r:     4px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground:      #14161F;
+    --surface:     #1B1E2A;
+    --surface-2:   #232739;
+    --sheet:       #1F2331;
+    --line:        #2E3346;
+    --line-strong: #444B66;
+
+    --text:        #EDEBE4;
+    --text-soft:   #ADB2C4;
+    --text-faint:  #767C94;
+
+    --marker:      #FFF70F;
+    --marker-ink:  #17191F;
+    --pen:         #F0776A;
+    --amber:       #E5A538;
+    --note:        #94A3CC;
+
+    --pen-wash:    rgba(240, 119, 106, 0.14);
+    --amber-wash:  rgba(229, 165, 56, 0.13);
+    --note-wash:   rgba(148, 163, 204, 0.11);
+    --marker-wash: rgba(255, 247, 15, 0.30);
+
+    --focus:       #93A6E0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:      #14161F;
+  --surface:     #1B1E2A;
+  --surface-2:   #232739;
+  --sheet:       #1F2331;
+  --line:        #2E3346;
+  --line-strong: #444B66;
+
+  --text:        #EDEBE4;
+  --text-soft:   #ADB2C4;
+  --text-faint:  #767C94;
+
+  --marker:      #FFF70F;
+  --marker-ink:  #17191F;
+  --pen:         #F0776A;
+  --amber:       #E5A538;
+  --note:        #94A3CC;
+
+  --pen-wash:    rgba(240, 119, 106, 0.14);
+  --amber-wash:  rgba(229, 165, 56, 0.13);
+  --note-wash:   rgba(148, 163, 204, 0.11);
+  --marker-wash: rgba(255, 247, 15, 0.30);
+
+  --focus:       #93A6E0;
+}
+
+/* ── Base ──────────────────────────────────────────────────────────── */
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--text);
+  font-family: "Naskah Sans", system-ui, sans-serif;
+  font-size: var(--step-0);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 { margin: 0; line-height: 1.15; text-wrap: balance; font-weight: 400; }
+p { margin: 0; }
+ul, ol { margin: 0; padding: 0; list-style: none; }
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.wrap {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 clamp(1rem, 4vw, 2.5rem);
+}
+
+.eyebrow {
+  font-size: var(--step--1);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  font-weight: 700;
+}
+
+/* ── Masthead ──────────────────────────────────────────────────────── */
+
+.masthead {
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+  padding: clamp(2rem, 5vw, 3.25rem) 0 clamp(1.5rem, 3vw, 2rem);
+}
+
+.masthead h1 {
+  font-family: "Naskah Serif", Georgia, serif;
+  font-size: var(--step-4);
+  letter-spacing: -0.01em;
+  margin-top: 0.5rem;
+}
+
+.masthead .lede {
+  margin-top: 0.9rem;
+  max-width: 62ch;
+  color: var(--text-soft);
+  font-size: var(--step-1);
+  line-height: 1.55;
+}
+
+.masthead .lede strong { color: var(--text); font-weight: 700; }
+
+/* ── Verdict ───────────────────────────────────────────────────────── */
+
+.verdict {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+  box-shadow: 0 1px 0 var(--line);
+}
+
+.verdict-inner {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 3vw, 2rem);
+  flex-wrap: wrap;
+  padding: 0.85rem 0;
+}
+
+.stamp {
+  font-family: "Naskah Serif", Georgia, serif;
+  font-size: var(--step-2);
+  letter-spacing: 0.02em;
+  padding: 0.1em 0.55em;
+  border: 2px solid currentColor;
+  border-radius: 2px;
+  white-space: nowrap;
+}
+
+.stamp[data-state="lolos"]  { color: var(--note); }
+.stamp[data-state="tolak"]  { color: var(--pen); background: var(--pen-wash); }
+.stamp[data-state="kosong"] { color: var(--text-faint); border-style: dashed; }
+
+.tally { display: flex; gap: 1.4rem; flex-wrap: wrap; }
+
+.tally div { display: flex; flex-direction: column; gap: 0.1rem; }
+
+.tally .n {
+  font-family: "Naskah Mono", ui-monospace, monospace;
+  font-size: var(--step-1);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+
+.tally .k {
+  font-size: var(--step--1);
+  color: var(--text-faint);
+  letter-spacing: 0.04em;
+}
+
+.tally .n[data-tone="pen"]   { color: var(--pen); }
+.tally .n[data-tone="amber"] { color: var(--amber); }
+
+/* ── Work area ─────────────────────────────────────────────────────── */
+
+main { padding: var(--gap) 0 4rem; }
+
+.desk {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: var(--gap);
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .desk { grid-template-columns: 1fr; }
+}
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  overflow: hidden;
+}
+
+.panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid var(--line);
+  background: var(--surface-2);
+}
+
+.panel-head h2 {
+  font-size: var(--step--1);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  font-weight: 700;
+}
+
+/* ── Manuscript editor ─────────────────────────────────────────────────
+   The mark-up layer sits behind a transparent textarea. Both share one
+   class for every metric that affects layout, so the marks land on the
+   words they belong to instead of drifting a line down. */
+
+.sheet { position: relative; background: var(--sheet); }
+
+.type,
+.type-layer {
+  font-family: "Naskah Serif", Georgia, serif;
+  font-size: 1.3125rem;
+  line-height: 1.72;
+  letter-spacing: 0;
+  padding: 1.15rem 1.15rem 2rem;
+  margin: 0;
+  border: 0;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  word-break: normal;
+  tab-size: 2;
+}
+
+.type-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  color: transparent;
+  overflow: hidden;
+}
+
+.type {
+  position: relative;
+  display: block;
+  width: 100%;
+  min-height: 340px;
+  background: transparent;
+  color: var(--text);
+  resize: vertical;
+  caret-color: var(--pen);
+}
+
+.type:focus { outline: none; }
+.sheet:focus-within { box-shadow: inset 0 0 0 2px var(--focus); }
+
+/* Proofreader's marks. Error gets the red pen, warning gets the marker —
+   the same marker used on screen in the videos this tool feeds. */
+mark.m {
+  color: inherit;
+  background: none;
+  border-radius: 1px;
+}
+mark.m-error {
+  background: var(--pen-wash);
+  box-shadow: inset 0 -0.14em 0 var(--pen);
+}
+mark.m-warn { background: var(--marker-wash); }
+mark.m-info { box-shadow: inset 0 -0.09em 0 var(--note); }
+
+/* ── Margin notes ──────────────────────────────────────────────────── */
+
+.notes { max-height: 640px; overflow-y: auto; }
+
+.note {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.7rem;
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid var(--line);
+  cursor: pointer;
+  background: none;
+  border-left: 0; border-right: 0; border-top: 0;
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  transition: background 120ms ease;
+}
+
+.note:hover, .note.is-active { background: var(--surface-2); }
+@media (prefers-reduced-motion: reduce) { .note { transition: none; } }
+
+.note .sev {
+  font-family: "Naskah Mono", monospace;
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.18em 0.45em;
+  border-radius: 2px;
+  height: fit-content;
+  margin-top: 0.15rem;
+  white-space: nowrap;
+}
+
+.note[data-sev="error"] .sev { background: var(--pen-wash);   color: var(--pen); }
+.note[data-sev="warn"]  .sev { background: var(--amber-wash); color: var(--amber); }
+.note[data-sev="info"]  .sev { background: var(--note-wash);  color: var(--note); }
+
+.note .rule {
+  font-family: "Naskah Mono", monospace;
+  font-size: var(--step--1);
+  color: var(--text-faint);
+}
+
+.note .msg { font-size: var(--step-0); margin-top: 0.1rem; }
+.note .fix { font-size: var(--step--1); color: var(--text-soft); margin-top: 0.25rem; }
+.note .fix b { color: var(--text); font-weight: 700; }
+
+.empty {
+  padding: 2.5rem 1.25rem;
+  text-align: center;
+  color: var(--text-faint);
+  font-size: var(--step--1);
+}
+
+.empty .big {
+  display: block;
+  font-family: "Naskah Serif", Georgia, serif;
+  font-style: italic;
+  font-size: var(--step-2);
+  color: var(--text-soft);
+  margin-bottom: 0.35rem;
+}
+
+/* ── Machine reading ───────────────────────────────────────────────── */
+
+.machine { margin-top: var(--gap); }
+
+.machine-body { padding: 1.15rem; }
+
+.spoken {
+  font-family: "Naskah Mono", ui-monospace, monospace;
+  font-size: var(--step-0);
+  line-height: 1.75;
+  color: var(--text);
+  background: var(--sheet);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  padding: 1rem 1.1rem;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}
+
+.swaps {
+  margin-top: 1rem;
+  overflow-x: auto;
+}
+
+.swaps table { border-collapse: collapse; width: 100%; font-size: var(--step--1); }
+
+.swaps th {
+  text-align: left;
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  font-weight: 700;
+  padding: 0 0.9rem 0.45rem 0;
+  white-space: nowrap;
+}
+
+.swaps td {
+  padding: 0.32rem 0.9rem 0.32rem 0;
+  border-top: 1px solid var(--line);
+  vertical-align: top;
+}
+
+.swaps td.was { color: var(--text-faint); font-family: "Naskah Mono", monospace; }
+.swaps td.now { font-family: "Naskah Mono", monospace; }
+.swaps td.kind { color: var(--note); white-space: nowrap; }
+
+/* ── Transcript check ──────────────────────────────────────────────── */
+
+.check { margin-top: var(--gap); }
+.check-body { padding: 1.15rem; display: grid; gap: 0.9rem; }
+
+.check p.why { font-size: var(--step--1); color: var(--text-soft); max-width: 66ch; }
+
+.check textarea {
+  font-family: "Naskah Mono", ui-monospace, monospace;
+  font-size: var(--step--1);
+  line-height: 1.7;
+  width: 100%;
+  min-height: 96px;
+  padding: 0.8rem 0.9rem;
+  background: var(--sheet);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  resize: vertical;
+}
+
+.check textarea:focus { outline: 2px solid var(--focus); outline-offset: -1px; }
+
+.wer-out {
+  display: flex;
+  align-items: baseline;
+  gap: 1.1rem;
+  flex-wrap: wrap;
+  padding: 0.8rem 0.95rem;
+  border-radius: var(--r);
+  border: 1px solid var(--line);
+  background: var(--sheet);
+}
+
+.wer-out .figure {
+  font-family: "Naskah Mono", monospace;
+  font-size: var(--step-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.wer-out[data-ok="true"]  .figure { color: var(--note); }
+.wer-out[data-ok="false"] .figure { color: var(--pen); }
+.wer-out .verdict-text { font-size: var(--step--1); color: var(--text-soft); }
+
+.misses { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+.miss {
+  font-family: "Naskah Mono", monospace;
+  font-size: var(--step--1);
+  padding: 0.2rem 0.5rem;
+  border-radius: 2px;
+  background: var(--pen-wash);
+  color: var(--text);
+  border: 1px solid var(--line);
+}
+
+.miss s { color: var(--pen); text-decoration-thickness: 1px; }
+.miss b { font-weight: 400; color: var(--text-soft); }
+
+/* ── Controls ──────────────────────────────────────────────────────── */
+
+.btn {
+  font: inherit;
+  font-size: var(--step--1);
+  font-weight: 700;
+  padding: 0.4rem 0.75rem;
+  border-radius: var(--r);
+  border: 1px solid var(--line-strong);
+  background: var(--surface);
+  color: var(--text-soft);
+  cursor: pointer;
+}
+
+.btn:hover { color: var(--text); border-color: var(--focus); }
+
+/* ── Colophon ──────────────────────────────────────────────────────── */
+
+.colophon {
+  border-top: 1px solid var(--line);
+  background: var(--surface);
+  padding: 2rem 0 2.5rem;
+  color: var(--text-soft);
+  font-size: var(--step--1);
+}
+
+.colophon h2 {
+  font-family: "Naskah Serif", Georgia, serif;
+  font-size: var(--step-1);
+  color: var(--text);
+  margin-bottom: 0.5rem;
+}
+
+.colophon p { max-width: 70ch; }
+.colophon p + p { margin-top: 0.6rem; }
+
+.colophon code {
+  font-family: "Naskah Mono", monospace;
+  font-size: 0.8125em;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  padding: 0.1em 0.35em;
+}
+</style>
+
+<header class="masthead">
+  <div class="wrap">
+    <p class="eyebrow">Naratif · alat bantu naskah</p>
+    <h1>Pemeriksa Pelafalan</h1>
+    <p class="lede">
+      Tempel naskah bahasa Indonesia, lihat di mana mesin <em>text-to-speech</em>
+      kemungkinan besar salah baca — <strong>sebelum</strong> kamu bayar dubbingnya.
+      Semua diperiksa di perangkatmu; tidak ada teks yang dikirim ke mana pun.
+    </p>
+  </div>
+</header>
+
+<div class="verdict">
+  <div class="wrap verdict-inner">
+    <span class="stamp" id="stamp" data-state="kosong">—</span>
+    <div class="tally" id="tally"></div>
+  </div>
+</div>
+
+<main class="wrap">
+  <div class="desk">
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Naskah</h2>
+        <button class="btn" id="btn-sample" type="button">Muat contoh</button>
+      </div>
+      <div class="sheet">
+        <div class="type-layer" id="layer" aria-hidden="true"></div>
+        <textarea class="type" id="script" spellcheck="false"
+          aria-label="Naskah bahasa Indonesia"
+          placeholder="Tempel naskahmu di sini…"></textarea>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head"><h2>Catatan pinggir</h2></div>
+      <div class="notes" id="notes"></div>
+    </section>
+
+  </div>
+
+  <section class="panel machine">
+    <div class="panel-head">
+      <h2>Yang benar-benar dibaca mesin</h2>
+      <span class="rule" id="swap-count"></span>
+    </div>
+    <div class="machine-body">
+      <div class="spoken" id="spoken"></div>
+      <div class="swaps" id="swaps"></div>
+    </div>
+  </section>
+
+  <section class="panel check">
+    <div class="panel-head"><h2>Cocokkan hasil dubbing</h2></div>
+    <div class="check-body">
+      <p class="why">
+        Pemeriksa di atas menebak masalah dari teks. Ini membuktikannya dari audio:
+        transkripsikan hasil dubbing, tempel di sini, dan lihat kata mana yang
+        benar-benar salah dibaca. Di atas 5% meleset, take itu sebaiknya diulang.
+      </p>
+      <textarea id="transcript" spellcheck="false"
+        aria-label="Transkrip hasil dubbing"
+        placeholder="Tempel transkrip hasil dubbing di sini…"></textarea>
+      <div class="wer-out" id="wer-out" hidden>
+        <span class="figure" id="wer-figure">—</span>
+        <span class="verdict-text" id="wer-verdict"></span>
+      </div>
+      <div class="misses" id="misses"></div>
+    </div>
+  </section>
+</main>
+
+<footer class="colophon">
+  <div class="wrap">
+    <h2>Kenapa alat ini ada</h2>
+    <p>
+      Mesin <em>text-to-speech</em> multibahasa menebak saat membaca bahasa Indonesia.
+      Tebakannya salah di tempat yang bisa diprediksi: angka dibaca dalam bahasa Inggris,
+      akronim dibaca sebagai kata, dan huruf <code>e</code> pepet tertukar dengan taling.
+      Yang terakhir bisa mengubah arti — <em>apel</em> buah dan <em>apel</em> upacara ditulis sama.
+    </p>
+    <p>
+      Mesin pemeriksa di halaman ini persis sama dengan yang dipakai aplikasi Naratif
+      untuk memblokir naskah sebelum tahap berbayar: <code>numbers</code>, <code>lexicon</code>,
+      <code>normalize</code>, <code>lint</code>, dan <code>wer</code> di-inline apa adanya, jadi
+      keduanya tidak mungkin berbeda pendapat.
+    </p>
+    <p>
+      Perakitan video, dubbing, dan generasi gambar tetap harus jalan di komputermu —
+      butuh ffmpeg dan kunci API, yang tidak bisa dijalankan halaman web.
+    </p>
+  </div>
+</footer>
+
+<script>
+/*__ENGINE__*/
+
+/* ── Sample ────────────────────────────────────────────────────────────
+   Deliberately flawed, so the tool demonstrates itself on load: a
+   homograph, raw numerals, an English loanword, a doubled word, and one
+   sentence past the breath limit. */
+const CONTOH = [
+  'Tas kulit pertama bukan lahir di butik, tapi di gerbong kereta pos.',
+  'Pada tahun 1860, petugas pos Prancis butuh wadah yang bisa dikunci.',
+  'Mereka memesan kotak kulit keras yang sangat sangat berat, dengan gesper besi di kedua sisinya, dan bentuk itu bertahan hampir seratus tahun tanpa ada yang berani mengubahnya sedikit pun.',
+  'Seorang perajin muda melihat pekerja kantor makan apel sambil menenteng berkas.',
+  'Dia memotong pola baru yang lebih ringan, dan brand kecilnya laku Rp250.000 per buah.',
+  'Bentuk itulah yang sekarang kamu sebut tas selempang.',
+].join(' ');
+
+/* ── Wiring ────────────────────────────────────────────────────────── */
+
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g,
+  (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+const el = {
+  script: $('script'), layer: $('layer'), notes: $('notes'),
+  stamp: $('stamp'), tally: $('tally'),
+  spoken: $('spoken'), swaps: $('swaps'), swapCount: $('swap-count'),
+  transcript: $('transcript'), werOut: $('wer-out'),
+  werFigure: $('wer-figure'), werVerdict: $('wer-verdict'), misses: $('misses'),
+};
+
+let findings = [];
+
+/**
+ * Locate each finding in the source text so the mark lands on the words it
+ * describes. Ranges are claimed first-come and never allowed to overlap —
+ * two marks on one span would nest badly and swallow the text between them.
+ */
+function markRanges(text, list) {
+  const taken = [];
+  const rank = { error: 0, warn: 1, info: 2 };
+  const ordered = [...list].sort((a, b) => rank[a.severity] - rank[b.severity]);
+
+  for (const f of ordered) {
+    const needle = String(f.context || '').trim();
+    if (needle.length < 2) continue;
+    let from = 0;
+    for (;;) {
+      const at = text.indexOf(needle, from);
+      if (at === -1) break;
+      const end = at + needle.length;
+      const clash = taken.some((r) => at < r.end && end > r.start);
+      if (!clash) {
+        taken.push({ start: at, end, severity: f.severity });
+        break;
+      }
+      from = at + 1;
+    }
+  }
+  return taken.sort((a, b) => a.start - b.start);
+}
+
+function renderLayer(text, list) {
+  const ranges = markRanges(text, list);
+  let html = '';
+  let cursor = 0;
+  for (const r of ranges) {
+    html += esc(text.slice(cursor, r.start));
+    html += '<mark class="m m-' + r.severity + '">' + esc(text.slice(r.start, r.end)) + '</mark>';
+    cursor = r.end;
+  }
+  // The trailing newline keeps the layer's last line from collapsing, which
+  // would shift every mark up by one line height.
+  html += esc(text.slice(cursor)) + '\n';
+  el.layer.innerHTML = html;
+}
+
+const SEV_LABEL = { error: 'tolak', warn: 'awas', info: 'catatan' };
+
+function renderNotes(list) {
+  if (!list.length) {
+    el.notes.innerHTML = el.script.value.trim()
+      ? '<div class="empty"><span class="big">Bersih.</span>' +
+        'Tidak ada risiko pelafalan yang terdeteksi di naskah ini.</div>'
+      : '<div class="empty"><span class="big">Menunggu naskah.</span>' +
+        'Tempel teks di sebelah kiri, atau muat contohnya.</div>';
+    return;
+  }
+
+  el.notes.innerHTML = list.map((f, i) =>
+    '<button class="note" type="button" data-sev="' + f.severity + '" data-i="' + i + '">' +
+      '<span class="sev">' + SEV_LABEL[f.severity] + '</span>' +
+      '<span>' +
+        '<span class="rule">' + esc(f.rule) + '</span>' +
+        '<div class="msg">' + esc(f.message) + '</div>' +
+        '<div class="fix">' + esc(f.fix) + '</div>' +
+      '</span>' +
+    '</button>').join('');
+}
+
+function renderTally(summary) {
+  const rows = [
+    ['kata', summary.words, null],
+    ['kalimat', summary.sentences, null],
+    ['perkiraan durasi', summary.estimatedSeconds + ' dtk', null],
+    ['pemblokir', summary.errors, summary.errors ? 'pen' : null],
+    ['peringatan', summary.warnings, summary.warnings ? 'amber' : null],
+  ];
+  el.tally.innerHTML = rows.map(([k, n, tone]) =>
+    '<div><span class="n"' + (tone ? ' data-tone="' + tone + '"' : '') + '>' + esc(n) + '</span>' +
+    '<span class="k">' + k + '</span></div>').join('');
+}
+
+function renderMachine(text) {
+  const { text: spoken, changes } = normalizeForTTS(text);
+  el.spoken.textContent = spoken || '—';
+  el.swapCount.textContent = changes.length
+    ? changes.length + ' penggantian'
+    : 'tidak ada yang perlu diganti';
+
+  if (!changes.length) { el.swaps.innerHTML = ''; return; }
+
+  el.swaps.innerHTML =
+    '<table><thead><tr><th>jenis</th><th>ditulis</th><th>dibaca</th></tr></thead><tbody>' +
+    changes.map((c) =>
+      '<tr><td class="kind">' + esc(c.kind) + '</td>' +
+      '<td class="was">' + esc(c.from) + '</td>' +
+      '<td class="now">' + esc(c.to) + '</td></tr>').join('') +
+    '</tbody></table>';
+}
+
+function runCheck() {
+  const text = el.script.value;
+  const result = lintScript(text);
+  findings = result.findings;
+
+  el.stamp.dataset.state = !text.trim() ? 'kosong' : result.ok ? 'lolos' : 'tolak';
+  el.stamp.textContent = !text.trim() ? '—' : result.ok ? 'Lolos' : 'Ditolak';
+
+  renderTally(result.summary);
+  renderNotes(findings);
+  renderLayer(text, findings);
+  renderMachine(text);
+  runWer();
+}
+
+function runWer() {
+  const script = el.script.value.trim();
+  const heard = el.transcript.value.trim();
+  if (!script || !heard) {
+    el.werOut.hidden = true;
+    el.misses.innerHTML = '';
+    return;
+  }
+  // Compare against the normalized text, since that is what the voice engine
+  // was actually given — comparing raw numerals would fail every time.
+  const spoken = normalizeForTTS(script).text;
+  const v = verifyTake(spoken, heard, 0.05);
+
+  el.werOut.hidden = false;
+  el.werOut.dataset.ok = String(v.ok);
+  el.werFigure.textContent = (v.wer * 100).toFixed(1) + '%';
+  el.werVerdict.textContent = v.verdict;
+
+  el.misses.innerHTML = v.mismatches.map((m) =>
+    '<span class="miss"><s>' + esc(m.expected || '—') + '</s> ' +
+    '<b>&rarr;</b> ' + esc(m.heard || '—') + '</span>').join('');
+}
+
+/* Keep the mark-up layer glued to the textarea while it scrolls. */
+el.script.addEventListener('scroll', () => {
+  el.layer.scrollTop = el.script.scrollTop;
+  el.layer.scrollLeft = el.script.scrollLeft;
+});
+
+let timer;
+const debounced = () => { clearTimeout(timer); timer = setTimeout(runCheck, 140); };
+el.script.addEventListener('input', debounced);
+el.transcript.addEventListener('input', () => { clearTimeout(timer); timer = setTimeout(runWer, 140); });
+
+el.notes.addEventListener('click', (event) => {
+  const button = event.target.closest('.note');
+  if (!button) return;
+  for (const n of el.notes.querySelectorAll('.note')) n.classList.remove('is-active');
+  button.classList.add('is-active');
+
+  const finding = findings[Number(button.dataset.i)];
+  const at = el.script.value.indexOf(String(finding.context || '').trim());
+  if (at === -1) return;
+  el.script.focus();
+  el.script.setSelectionRange(at, at + String(finding.context).trim().length);
+});
+
+$('btn-sample').addEventListener('click', () => {
+  el.script.value = CONTOH;
+  runCheck();
+  el.script.focus();
+});
+
+el.script.value = CONTOH;
+runCheck();
+</script>
