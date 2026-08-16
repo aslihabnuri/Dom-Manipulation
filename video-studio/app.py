@@ -17,6 +17,7 @@ from core import (
     research,
     script as script_mod,
     tts,
+    verify,
     visuals,
 )
 from core.categories import KATEGORI, arketipe_untuk, daftar_kategori
@@ -213,6 +214,25 @@ def pengaturan_lanjutan() -> None:
             "Kalau penyedia utama gagal, aplikasi otomatis pindah ke penyedia "
             "berikutnya tanpa menghentikan produksi."
         )
+
+        ada_whisper = verify.tersedia()
+        s.verify_pronunciation = st.checkbox(
+            "Periksa ucapan narator terhadap naskah",
+            value=s.verify_pronunciation and ada_whisper,
+            disabled=not ada_whisper,
+            help="Suara yang sudah jadi didengarkan ulang oleh mesin, lalu "
+                 "dibandingkan dengan naskahnya. Potongan yang salah ucap atau "
+                 "mengulang frasa dibuat ulang otomatis, maksimal tiga kali.",
+        )
+        if ada_whisper:
+            st.caption(
+                "Pemeriksaan berjalan di komputermu sendiri, gratis, dan menambah "
+                "sekitar sepuluh detik per adegan."
+            )
+        else:
+            st.caption(
+                "Belum aktif. Pasang dulu dengan perintah:  `pip install faster-whisper`"
+            )
 
         st.divider()
         st.markdown("**Kirim hasil ke Google Drive**")
@@ -609,6 +629,7 @@ def tahap_storyboard(p: Proyek) -> None:
                     voice_gemini=PENGATURAN.gemini_voice,
                     voice_edge=PENGATURAN.edge_voice,
                     kecepatan_suara=kecepatan,
+                    verifikasi_ucapan=PENGATURAN.verify_pronunciation,
                     lapor=lapor,
                 )
             st.rerun()

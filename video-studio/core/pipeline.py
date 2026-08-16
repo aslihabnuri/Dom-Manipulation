@@ -30,6 +30,7 @@ from . import (
     social,
     subtitles,
     tts,
+    verify,
     visuals,
 )
 from .categories import KATEGORI
@@ -40,6 +41,11 @@ Lapor = Callable[[str], None]
 
 # Jeda pendek antaradegan supaya narasi tidak terdengar tergesa.
 JEDA_ADEGAN = 0.18
+
+# Berapa kali satu potongan suara boleh dibuat ulang bila ucapannya menyimpang
+# dari naskah. Satu potongan hanya sekitar satu kredit, jauh lebih murah
+# daripada mengulang seluruh video.
+MAKS_PERCOBAAN_SUARA = 3
 
 
 def _nihil(_: str) -> None:
@@ -154,6 +160,7 @@ def jalankan_storyboard(
     voice_gemini: str = config.DEFAULT_GEMINI_VOICE,
     voice_edge: str = config.DEFAULT_EDGE_VOICE,
     kecepatan_suara: float = 1.0,
+    verifikasi_ucapan: bool = True,
     lapor: Lapor = _nihil,
 ) -> HasilStoryboard:
     kredit_awal = proyek.total_kredit
@@ -180,22 +187,56 @@ def jalankan_storyboard(
     suara: dict[int, tts.HasilSuara] = {}
     kredit_suara = 0.0
 
+    pakai_verifikasi = verifikasi_ucapan and verify.tersedia()
+    if verifikasi_ucapan and not pakai_verifikasi:
+        lapor(
+            "ℹ️ Verifikasi ucapan dilewati karena faster-whisper belum terpasang. "
+            "Pasang dengan:  pip install faster-whisper"
+        )
+
     for nomor, teks in naskah_suara:
         if not teks.strip():
             continue
         keluar = proyek.dir_suara / f"adegan_{nomor:02d}.wav"
-        hasil = tts.buat_suara(
-            klien, teks, keluar,
-            urutan=urutan_tts,
-            voice_gemini=voice_gemini,
-            voice_edge=voice_edge,
-            kecepatan=kecepatan_suara,
-            wpm_target=script.WPM,
-            catat=lapor,
-        )
+
+        # Sampai tiga kali percobaan. Mesin suara sesekali mengulang frasa atau
+        # salah melafalkan satu kata; membuat ulang jauh lebih murah daripada
+        # membiarkan cacat itu masuk ke video jadi.
+        hasil = None
+        for percobaan in range(1, MAKS_PERCOBAAN_SUARA + 1):
+            hasil = tts.buat_suara(
+                klien, teks, keluar,
+                urutan=urutan_tts,
+                voice_gemini=voice_gemini,
+                voice_edge=voice_edge,
+                kecepatan=kecepatan_suara,
+                wpm_target=script.WPM,
+                catat=lapor,
+            )
+            kredit_suara += hasil.kredit
+            if not pakai_verifikasi:
+                break
+            v = verify.periksa_berkas(keluar, teks)
+            hasil.terucap = v.terucap
+            hasil.sesuai_naskah = v.cocok
+            # Hanya cacat pasti — frasa terucap dua kali atau jumlah kata yang
+            # jauh melenceng — yang memicu pembuatan ulang. Kata yang sekadar
+            # terdengar berbeda cukup diberi tanda, karena pengenal ucapan
+            # sendiri kerap salah dengar dan kreditnya sayang kalau terbuang.
+            if not v.cacat_pasti:
+                if v.masalah and not v.cocok:
+                    lapor(f"   ℹ️ Adegan {nomor}: {v.ringkas}")
+                break
+            if percobaan < MAKS_PERCOBAAN_SUARA:
+                lapor(
+                    f"   🔁 Adegan {nomor} dibuat ulang ({percobaan} dari "
+                    f"{MAKS_PERCOBAAN_SUARA}): {v.ringkas}"
+                )
+            else:
+                lapor(f"   ⚠️ Adegan {nomor} masih menyimpang: {v.ringkas}")
+
         suara[nomor] = hasil
-        kredit_suara += hasil.kredit
-        tanda = "🔊" if hasil.mengalir else "⚠️"
+        tanda = "🔊" if hasil.mengalir and hasil.sesuai_naskah else "⚠️"
         lapor(
             f"{tanda} Adegan {nomor}: {hasil.durasi:.1f} detik, "
             f"{hasil.wpm:.0f} kata/menit, {hasil.jeda_per_kata:.2f} jeda/kata "
@@ -212,6 +253,25 @@ def jalankan_storyboard(
             f"⚠️ {len(patah)} adegan terdengar patah-patah (adegan "
             f"{', '.join(map(str, sorted(patah)))}). Dengarkan dulu sebelum menyetujui; "
             "kalau mengganggu, ganti suara di Pengaturan lalu buat ulang storyboard."
+        )
+
+    menyimpang = [n for n, h in suara.items() if not h.sesuai_naskah]
+    if menyimpang:
+        lapor(
+            f"⚠️ Adegan {', '.join(map(str, sorted(menyimpang)))} ucapannya masih "
+            "berbeda dari naskah setelah dibuat ulang. Dengarkan sendiri sebelum menyetujui."
+        )
+
+    # Pemeriksaan cadangan yang tidak butuh paket tambahan: adegan yang
+    # kecepatan bicaranya menyimpang jauh dari saudaranya biasanya memuat
+    # frasa yang terucap dua kali.
+    janggal = verify.cari_durasi_janggal({n: h.wpm for n, h in suara.items()})
+    janggal = [n for n in janggal if n not in menyimpang]
+    if janggal:
+        lapor(
+            f"⚠️ Kecepatan bicara adegan {', '.join(map(str, janggal))} menyimpang "
+            "jauh dari adegan lain. Itu sering menandakan ada kata atau frasa yang "
+            "terucap dua kali. Dengarkan potongan itu dengan teliti."
         )
 
     # Durasi asli dari suara menggantikan perkiraan dari jumlah kata.

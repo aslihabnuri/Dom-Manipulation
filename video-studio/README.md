@@ -222,8 +222,9 @@ otomatis pindah ke penyedia berikutnya tanpa menghentikan produksi:
 
 ### Bagaimana "slip of tongue" dicegah
 
-Kie tidak punya layanan *speech-to-text*, jadi hasil suara tidak bisa diperiksa
-otomatis oleh mesin. Pencegahannya dilakukan **sebelum** teks dikirim:
+Ada dua lapis pertahanan: sebelum suara dibuat, dan sesudahnya.
+
+**Lapis pertama — membersihkan naskah sebelum dikirim ke mesin suara:**
 
 - Semua angka diubah jadi kata: `1972` → *"seribu sembilan ratus tujuh puluh dua"*
 - Mata uang, persen, suhu, dan satuan ikut dieja
@@ -235,6 +236,42 @@ otomatis oleh mesin. Pencegahannya dilakukan **sebelum** teks dikirim:
 
 Kamu juga bisa menambah kamus sendiri di Pengaturan, satu baris per kata dengan
 format `kata=cara baca`.
+
+**Lapis kedua — mendengarkan kembali suara yang sudah jadi.**
+
+Naskah yang benar ternyata belum menjamin ucapan yang benar. Pada produksi
+sungguhan, mesin suara pernah menghasilkan ini:
+
+```
+naskah  : ...banyak orang keliru menilainya sebagai plastik biasa.
+terucap : ...banyak orang keliurum menilainya sebagai plastik biasa,
+          banyak orang keliurum menilainya sebagai plastik biasa.
+```
+
+Satu frasa terucap dua kali, dan "keliru" berubah jadi "keliurum". Tidak ada
+pemeriksaan teks yang bisa menangkap ini, karena naskahnya sendiri sudah benar.
+
+Karena itu aplikasi mendengarkan kembali setiap potongan suara, menuliskan apa
+yang terdengar, lalu membandingkannya dengan naskah. Potongan yang menyimpang
+**dibuat ulang otomatis**, sampai tiga kali, sebelum kamu sempat melihatnya.
+Satu potongan hanya sekitar satu kredit — jauh lebih murah daripada membiarkan
+cacatnya masuk ke video jadi.
+
+Nyalakan di Pengaturan, dan pasang dulu paketnya:
+
+```
+pip install faster-whisper
+```
+
+Pemeriksaan berjalan di komputermu sendiri, gratis, dan menambah sekitar
+sepuluh detik per adegan.
+
+**Kalau paket itu tidak dipasang**, aplikasi tetap punya jaring pengaman yang
+tidak butuh apa pun: kecepatan bicara tiap adegan dibandingkan dengan adegan
+lain di video yang sama. Frasa yang terucap dua kali membuat satu potongan jauh
+lebih panjang dari seharusnya, sehingga kecepatannya anjlok dan langsung
+ditandai. Pada kasus di atas, adegan yang cacat terbaca 113 kata per menit
+sementara tujuh adegan lainnya seragam di 157.
 
 Terakhir, semua suara dirapikan otomatis: keheningan panjang dipangkas dan tempo
 disamakan, supaya kecepatan bicara konsisten di seluruh video.

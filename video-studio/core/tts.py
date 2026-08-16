@@ -39,6 +39,9 @@ class HasilSuara:
     wpm: float = 0.0
     jeda_per_kata: float = 0.0
     mengalir: bool = True
+    # Diisi oleh verifikasi ucapan bila faster-whisper terpasang.
+    sesuai_naskah: bool = True
+    terucap: str = ""
 
 
 class TTSGagal(RuntimeError):
