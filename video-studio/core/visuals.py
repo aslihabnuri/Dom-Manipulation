@@ -73,17 +73,27 @@ def unggah_gambar(api_key: str, berkas: Path, *, attempts: int = 3) -> str:
 # memaksa foto produk diterjemahkan menjadi ilustrasi vektor datar sambil
 # mempertahankan bentuk, warna, dan proporsi barang yang sebenarnya.
 INSTRUKSI_ACUAN = (
-    "Redraw the product from the reference photo as a flat 2D vector illustration "
-    "that matches the scene description below. Keep the product's exact silhouette, "
-    "proportions, colour and distinctive details faithful to the reference, but "
-    "render it with clean flat fills and simple geometric shapes — do not keep the "
-    "photographic texture, lighting or shadows of the original photo. "
-    "Do not copy any text, label, or lettering from the product packaging. "
-    "Scene: "
+    "THE PRODUCT IN THE REFERENCE PHOTO IS THE HERO OF THIS SHOT. "
+    "Redraw that exact product as a flat 2D vector illustration and make it the "
+    "unmistakable focal point: large, centred, occupying roughly the middle third "
+    "of the frame, fully visible and never cropped. "
+    "Keep its silhouette, proportions, colour and distinctive details faithful to "
+    "the reference, but render it with clean flat fills and simple geometric shapes "
+    "— drop the photographic texture, lighting and shadows. "
+    "Do not copy any text, label, or lettering from the packaging; leave those "
+    "surfaces blank. "
+    "Everything described below is background context that must stay secondary to "
+    "the product and must not replace it with a different object. "
+    "Scene context: "
 )
 
 
-def _payload_gambar(prompt: str, model_kode: str, acuan: str | None) -> tuple[str, dict]:
+def _payload_gambar(
+    prompt: str,
+    model_kode: str,
+    acuan: str | None,
+    deskripsi_produk: str = "",
+) -> tuple[str, dict]:
     info = config.IMAGE_MODELS[model_kode]
     model_id = info["id"]
     payload: dict = {"prompt": prompt, "output_format": "png", "image_size": "9:16"}
@@ -91,7 +101,15 @@ def _payload_gambar(prompt: str, model_kode: str, acuan: str | None) -> tuple[st
         # Varian "-edit" adalah yang menerima gambar acuan.
         if model_id in ("google/nano-banana", "google/nanobanana2"):
             model_id = "google/nano-banana-edit"
-        payload["prompt"] = INSTRUKSI_ACUAN + prompt
+        # Keterangan produk dari pengguna ikut disertakan sebagai penjangkar
+        # warna. Tanpa ini model pernah menggambar matcha berwarna cokelat.
+        tambahan = (
+            f" The product is: {deskripsi_produk.strip()} "
+            "Any food or drink derived from this product must match its real colour."
+            if deskripsi_produk.strip()
+            else ""
+        )
+        payload["prompt"] = INSTRUKSI_ACUAN + prompt + tambahan
         payload["image_urls"] = [acuan]
     return model_id, payload
 
@@ -104,8 +122,11 @@ def buat_gambar_adegan(
     *,
     model_kode: str = config.DEFAULT_IMAGE_MODEL,
     acuan_url: str | None = None,
+    deskripsi_produk: str = "",
 ) -> HasilGambar:
-    model_id, payload = _payload_gambar(prompt, model_kode, acuan_url)
+    model_id, payload = _payload_gambar(
+        prompt, model_kode, acuan_url, deskripsi_produk
+    )
     hasil = klien.run_task(model_id, payload, max_wait=420)
     klien.download(hasil.first_url, keluar)
     return HasilGambar(nomor, keluar, hasil.credits, prompt, bool(acuan_url))
@@ -119,6 +140,7 @@ def buat_semua_gambar(
     model_kode: str = config.DEFAULT_IMAGE_MODEL,
     acuan_url: str | None = None,
     adegan_produk: set[int] | None = None,
+    deskripsi_produk: str = "",
     paralel: int = 3,
     catat: callable | None = None,
 ) -> list[HasilGambar]:
@@ -137,6 +159,7 @@ def buat_semua_gambar(
         return buat_gambar_adegan(
             klien, a.nomor, a.prompt_gambar, keluar,
             model_kode=model_kode, acuan_url=acuan,
+            deskripsi_produk=deskripsi_produk if acuan else "",
         )
 
     with ThreadPoolExecutor(max_workers=max(1, paralel)) as pool:

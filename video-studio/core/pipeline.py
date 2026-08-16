@@ -205,6 +205,7 @@ def jalankan_storyboard(
         model_kode=model_gambar,
         acuan_url=acuan_url,
         adegan_produk=adegan_produk,
+        deskripsi_produk=proyek.get("produk_deskripsi", ""),
         catat=lapor,
     )
     kredit_gambar = sum(g.kredit for g in gambar)
