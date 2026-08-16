@@ -371,11 +371,70 @@ def tersedia() -> bool:
     return True
 
 
-class Perender:
-    """Merender rangkaian SVG menjadi berkas PNG lewat Chromium headless."""
+def aset(
+    berkas: str | Path,
+    x: float,
+    y: float,
+    *,
+    lebar: float,
+    tinggi: float | None = None,
+    putar: float = 0.0,
+    opasitas: float = 1.0,
+    cermin: bool = False,
+    lebar_kali: float = 1.0,
+    tinggi_kali: float = 1.0,
+) -> str:
+    """Tempatkan satu berkas gambar berlatar transparan sebagai lapisan.
 
-    def __init__(self, lebar: int = RENDER.width, tinggi: int = RENDER.height):
+    Titik (x, y) adalah TENGAH BAWAH gambar, supaya benda berdiri di lantai
+    adegan. lebar_kali dan tinggi_kali dipakai untuk gerak memipih dan
+    memanjang, yang membuat benda terasa punya bobot.
+    """
+    tinggi = tinggi if tinggi is not None else lebar
+    w = lebar * lebar_kali
+    h = tinggi * tinggi_kali
+    # Skala cermin diterapkan pada sumbu x di sekitar titik acuan.
+    sx = -1 if cermin else 1
+    transformasi = f"translate({x:.2f},{y:.2f})"
+    if abs(putar) > 0.001:
+        transformasi += f" rotate({putar:.2f})"
+    if sx < 0:
+        transformasi += " scale(-1,1)"
+    nama = Path(berkas).name
+    return (
+        f'<g transform="{transformasi}" opacity="{opasitas:.3f}">'
+        f'<image href="{nama}" x="{-w/2:.2f}" y="{-h:.2f}" '
+        f'width="{w:.2f}" height="{h:.2f}" '
+        f'preserveAspectRatio="xMidYMax meet"/></g>'
+    )
+
+
+def bayangan(x: float, y: float, lebar: float, *, opasitas: float = 0.18) -> str:
+    """Bayangan lonjong di bawah benda. Membuatnya terasa menapak lantai."""
+    return (
+        f'<ellipse cx="{x:.1f}" cy="{y:.1f}" rx="{lebar*0.42:.1f}" '
+        f'ry="{lebar*0.10:.1f}" fill="#000000" opacity="{opasitas:.2f}"/>'
+    )
+
+
+class Perender:
+    """Merender rangkaian SVG menjadi berkas PNG lewat Chromium headless.
+
+    Bila folder_aset diisi, halaman dimuat dari folder itu sehingga elemen
+    <image> bisa merujuk berkas PNG lokal cukup dengan namanya. Menyisipkan
+    gambar sebagai data URI juga bisa, tetapi satu PNG seukuran seribu piksel
+    menjadi sekitar satu megabyte teks, dan mengirimnya ulang di setiap
+    bingkai membuat render berkali-kali lebih lambat.
+    """
+
+    def __init__(
+        self,
+        lebar: int = RENDER.width,
+        tinggi: int = RENDER.height,
+        folder_aset: Path | None = None,
+    ):
         self.lebar, self.tinggi = lebar, tinggi
+        self.folder_aset = Path(folder_aset) if folder_aset else None
         self._pw = None
         self._browser = None
         self._page = None
@@ -385,7 +444,8 @@ class Perender:
 
         self._pw = sync_playwright().start()
         exe = chromium_tersedia()
-        opsi = {"args": ["--no-sandbox", "--disable-gpu", "--hide-scrollbars"]}
+        opsi = {"args": ["--no-sandbox", "--disable-gpu", "--hide-scrollbars",
+                         "--allow-file-access-from-files"]}
         if exe:
             opsi["executable_path"] = exe
         self._browser = self._pw.chromium.launch(**opsi)
@@ -393,10 +453,17 @@ class Perender:
             viewport={"width": self.lebar, "height": self.tinggi},
             device_scale_factor=1,
         )
-        self._page.set_content(
+        badan = (
             "<body style='margin:0;padding:0;overflow:hidden'>"
             "<div id='panggung'></div></body>"
         )
+        if self.folder_aset:
+            self.folder_aset.mkdir(parents=True, exist_ok=True)
+            halaman = self.folder_aset / "_panggung.html"
+            halaman.write_text(badan, encoding="utf-8")
+            self._page.goto(halaman.resolve().as_uri())
+        else:
+            self._page.set_content(badan)
         return self
 
     def __exit__(self, *_exc) -> None:
@@ -410,6 +477,21 @@ class Perender:
     def bingkai(self, svg: str, keluar: Path) -> Path:
         self._page.evaluate(
             "svg => { document.getElementById('panggung').innerHTML = svg; }", svg
+        )
+        # Pastikan seluruh gambar sudah termuat sebelum layar ditangkap,
+        # kalau tidak bingkai pertama bisa keluar kosong.
+        self._page.evaluate(
+            """() => Promise.all(
+                [...document.querySelectorAll('image')].map(el => {
+                    const href = el.getAttribute('href');
+                    if (!href) return null;
+                    return new Promise(res => {
+                        const im = new Image();
+                        im.onload = im.onerror = res;
+                        im.src = href;
+                    });
+                }).filter(Boolean)
+            )"""
         )
         self._page.screenshot(path=str(keluar))
         return keluar
@@ -439,11 +521,13 @@ def render_adegan(
     *,
     fps: int = RENDER.fps,
     folder_kerja: Path | None = None,
+    folder_aset: Path | None = None,
     lapor=None,
 ) -> Path:
     """Render satu adegan animasi.
 
     fungsi_bingkai(t) menerima waktu 0..1 dan mengembalikan isi SVG.
+    folder_aset berisi berkas PNG aktor yang dirujuk oleh elemen <image>.
     """
     jumlah = max(2, int(round(durasi * fps)))
     kerja = folder_kerja or (keluar.parent / f".bingkai_{keluar.stem}")
@@ -451,7 +535,9 @@ def render_adegan(
         shutil.rmtree(kerja, ignore_errors=True)
     kerja.mkdir(parents=True)
 
-    with Perender() as r:
+    # Bingkai ditulis ke dalam folder aset supaya elemen <image> yang merujuk
+    # nama berkas saja tetap ketemu.
+    with Perender(folder_aset=folder_aset) as r:
         for i in range(jumlah):
             t = i / (jumlah - 1)
             r.bingkai(bungkus_svg(fungsi_bingkai(t)), kerja / f"f_{i:05d}.png")
