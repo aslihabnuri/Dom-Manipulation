@@ -25,6 +25,7 @@ from . import (
     audio as audio_mod,
     config,
     drive,
+    idn,
     research,
     script,
     social,
@@ -148,6 +149,90 @@ def perkiraan_biaya_storyboard(
         "suara": biaya_suara,
         "total": round(biaya_gambar + biaya_suara, 1),
     }
+
+
+@dataclass
+class HasilUjiCoba:
+    gambar: Path | None
+    suara: Path | None
+    kredit: float
+    lolos: bool
+    catatan: list[str]
+
+
+def uji_satu_adegan(
+    klien: KieClient,
+    proyek: Proyek,
+    naskah: script.Naskah,
+    *,
+    nomor: int = 1,
+    model_gambar: str = config.DEFAULT_IMAGE_MODEL,
+    urutan_tts: list[str] | None = None,
+    voice_gemini: str = config.DEFAULT_GEMINI_VOICE,
+    voice_edge: str = config.DEFAULT_EDGE_VOICE,
+    kecepatan_suara: float = 1.0,
+    verifikasi_ucapan: bool = True,
+    lapor: Lapor = _nihil,
+) -> HasilUjiCoba:
+    """Buat satu adegan saja sebagai contoh, sebelum membayar seluruh set.
+
+    Storyboard delapan adegan menghabiskan sekitar empat puluh kredit. Kalau
+    ada yang salah pada pilihan suara, gaya gambar, atau naskahnya, kesalahan
+    itu terjadi delapan kali sekaligus.
+
+    Uji coba satu adegan memotong risiko itu menjadi sekitar lima kredit.
+    Pengguna bisa melihat satu gambar dan mendengar satu potongan suara lebih
+    dulu, baru memutuskan melanjutkan.
+    """
+    adegan = next((a for a in naskah.adegan if a.nomor == nomor), None)
+    if adegan is None:
+        raise ValueError(f"Adegan {nomor} tidak ada di naskah.")
+
+    catatan: list[str] = []
+    kredit_awal = proyek.total_kredit
+    folder = proyek.folder / "ujicoba"
+    folder.mkdir(exist_ok=True)
+
+    lapor(f"Membuat contoh adegan {nomor}...")
+    teks = idn.normalisasi(adegan.narasi).hasil
+    berkas_suara = folder / f"contoh_{nomor:02d}.wav"
+    hasil_suara = tts.buat_suara(
+        klien, teks, berkas_suara,
+        urutan=urutan_tts, voice_gemini=voice_gemini, voice_edge=voice_edge,
+        kecepatan=kecepatan_suara, wpm_target=script.WPM, catat=lapor,
+    )
+    proyek.tambah_kredit(hasil_suara.kredit, "Uji coba suara")
+
+    if not hasil_suara.mengalir:
+        catatan.append(
+            f"Suara terdengar patah-patah ({hasil_suara.jeda_per_kata:.2f} jeda per kata). "
+            "Ganti suara atau kecepatan sebelum melanjutkan."
+        )
+    if verifikasi_ucapan and verify.tersedia():
+        v = verify.periksa_berkas(berkas_suara, teks)
+        if v.cacat_pasti:
+            catatan.append(f"Ucapan menyimpang dari naskah: {v.ringkas}")
+        elif not v.cocok:
+            catatan.append(f"Perlu didengar sendiri: {v.ringkas}")
+
+    berkas_gambar = folder / f"contoh_{nomor:02d}.png"
+    try:
+        g = visuals.buat_gambar_adegan(
+            klien, nomor, adegan.prompt_gambar, berkas_gambar,
+            model_kode=model_gambar,
+        )
+        proyek.tambah_kredit(g.kredit, "Uji coba gambar")
+    except KieError as exc:
+        catatan.append(f"Gambar gagal dibuat: {exc}")
+        berkas_gambar = None
+
+    dipakai = proyek.total_kredit - kredit_awal
+    lolos = not catatan
+    lapor(
+        f"Uji coba selesai, {dipakai:.1f} kredit. "
+        + ("Semua baik." if lolos else f"{len(catatan)} hal perlu diperhatikan.")
+    )
+    return HasilUjiCoba(berkas_gambar, berkas_suara, dipakai, lolos, catatan)
 
 
 def jalankan_storyboard(

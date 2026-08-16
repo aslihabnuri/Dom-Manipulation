@@ -610,6 +610,66 @@ def tahap_storyboard(p: Proyek) -> None:
         help="Video acuan berjalan cukup cepat. 1,05 sampai 1,15 terasa pas.",
     )
 
+    urutan_tts = [PENGATURAN.tts_provider] + [
+        x for x in config.DEFAULT_TTS_CHAIN if x != PENGATURAN.tts_provider
+    ]
+
+    # --- Uji coba satu adegan ------------------------------------------------
+    with st.container(border=True):
+        st.markdown("**Uji coba satu adegan dulu** — sangat disarankan")
+        st.caption(
+            f"Buat satu gambar dan satu potongan suara saja (sekitar 5 kredit) "
+            f"untuk memastikan pilihan suara dan gaya gambarnya sudah pas. "
+            f"Kalau langsung membuat semuanya dan ternyata ada yang salah, "
+            f"kerugiannya {biaya['total']:.0f} kredit, bukan 5."
+        )
+        if st.button("🧪 Buat contoh 1 adegan", use_container_width=True):
+            k = klien()
+            if not k:
+                st.error("API key Kie belum diisi.")
+            else:
+                wadah = st.empty()
+                try:
+                    with st.spinner("Membuat contoh..."):
+                        uji = pipeline.uji_satu_adegan(
+                            k, p, naskah,
+                            model_gambar=PENGATURAN.image_model,
+                            urutan_tts=urutan_tts,
+                            voice_gemini=PENGATURAN.gemini_voice,
+                            voice_edge=PENGATURAN.edge_voice,
+                            kecepatan_suara=kecepatan,
+                            verifikasi_ucapan=PENGATURAN.verify_pronunciation,
+                            lapor=buat_pelapor(wadah),
+                        )
+                    p.set(
+                        "ujicoba",
+                        {
+                            "gambar": str(uji.gambar) if uji.gambar else "",
+                            "suara": str(uji.suara) if uji.suara else "",
+                            "kredit": uji.kredit,
+                            "lolos": uji.lolos,
+                            "catatan": uji.catatan,
+                        },
+                    )
+                    st.rerun()
+                except (KieError, RuntimeError, ValueError) as exc:
+                    st.error(f"Uji coba gagal: {exc}")
+
+        uji = p.get("ujicoba")
+        if uji:
+            k1, k2 = st.columns([1, 1.4])
+            with k1:
+                if uji.get("gambar") and Path(uji["gambar"]).exists():
+                    st.image(uji["gambar"], use_container_width=True)
+            with k2:
+                if uji.get("suara") and Path(uji["suara"]).exists():
+                    st.audio(uji["suara"])
+                st.caption(f"Terpakai {uji.get('kredit', 0):.1f} kredit.")
+                if uji.get("lolos"):
+                    st.success("Pemeriksaan otomatis lolos. Aman dilanjutkan.")
+                for c in uji.get("catatan", []):
+                    st.warning(c)
+
     if st.button(label, type="primary", use_container_width=True):
         k = klien()
         if not k:
@@ -617,15 +677,12 @@ def tahap_storyboard(p: Proyek) -> None:
             return
         wadah = st.empty()
         lapor = buat_pelapor(wadah)
-        urutan = [PENGATURAN.tts_provider] + [
-            x for x in config.DEFAULT_TTS_CHAIN if x != PENGATURAN.tts_provider
-        ]
         try:
             with st.spinner("Membuat gambar dan suara. Bisa beberapa menit..."):
                 pipeline.jalankan_storyboard(
                     k, p, naskah,
                     model_gambar=PENGATURAN.image_model,
-                    urutan_tts=urutan,
+                    urutan_tts=urutan_tts,
                     voice_gemini=PENGATURAN.gemini_voice,
                     voice_edge=PENGATURAN.edge_voice,
                     kecepatan_suara=kecepatan,
