@@ -73,6 +73,56 @@ export function ensureDirs() {
 }
 
 /**
+ * Write API keys from the setup screen into .env and apply them immediately.
+ *
+ * Keys arrive through the UI rather than a text editor, because asking someone
+ * to hand-edit a dotfile is the step that stops a non-developer from ever
+ * reaching the app. Only the keys actually supplied are touched, so re-running
+ * setup to change one key does not wipe the others.
+ */
+export function saveKeys(keys) {
+  const file = path.join(ROOT, '.env');
+  const existing = fs.existsSync(file) ? fs.readFileSync(file, 'utf8') : '';
+  const lines = existing.split('\n');
+
+  const upsert = (key, value) => {
+    if (value === undefined || value === null) return;
+    const trimmed = String(value).trim();
+    const index = lines.findIndex((l) => l.trim().startsWith(`${key}=`));
+    if (!trimmed) {
+      if (index !== -1) lines.splice(index, 1);
+      return;
+    }
+    const line = `${key}=${trimmed}`;
+    if (index === -1) lines.push(line);
+    else lines[index] = line;
+  };
+
+  upsert('ANTHROPIC_API_KEY', keys.anthropicKey);
+  upsert('KIE_API_KEY', keys.kieKey);
+  upsert('ELEVENLABS_API_KEY', keys.elevenLabsKey);
+  if (keys.voice) upsert('TTS_VOICE', keys.voice);
+
+  // Drop blank lines so repeated saves cannot accumulate them, but keep any
+  // comments the user added by hand.
+  const content = `${lines.filter((l) => l.trim()).join('\n')}\n`;
+  fs.writeFileSync(file, content, { mode: 0o600 });
+
+  // Apply without a restart so the user goes straight from setup to working.
+  if (keys.anthropicKey !== undefined) config.anthropicKey = String(keys.anthropicKey).trim();
+  if (keys.kieKey !== undefined) config.kieKey = String(keys.kieKey).trim();
+  if (keys.elevenLabsKey !== undefined) config.elevenLabsKey = String(keys.elevenLabsKey).trim();
+  if (keys.voice) config.tts.voice = String(keys.voice).trim();
+
+  return capabilities();
+}
+
+/** True when the app has the minimum it needs to do anything useful. */
+export function isConfigured() {
+  return Boolean(config.anthropicKey) && Boolean(config.kieKey);
+}
+
+/**
  * Which capabilities are actually usable right now. The UI and CLI both render
  * this so a missing key shows up as a clear message instead of a stack trace
  * halfway through a paid render.

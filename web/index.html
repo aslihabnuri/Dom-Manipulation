@@ -17,8 +17,52 @@
       <p>Studio video soft-selling gaya Vox — F&amp;B dan Fashion</p>
     </div>
   </div>
-  <div class="health" id="health"></div>
+  <div class="health-wrap">
+    <div class="health" id="health"></div>
+    <button class="btn btn-ghost btn-sm" id="btn-settings">Pengaturan</button>
+  </div>
 </header>
+
+<!-- Setup gate. Shown until the app has the keys it needs, and reachable
+     afterwards from Pengaturan, so nobody has to edit a file by hand. -->
+<div class="setup" id="setup" hidden>
+  <div class="setup-card">
+    <p class="setup-eyebrow">Langkah terakhir</p>
+    <h2 id="setup-title">Sambungkan kunci API</h2>
+    <p class="setup-lede" id="setup-lede">
+      Naratif menyimpan kunci ini di komputermu sendiri, di berkas <code>.env</code>.
+      Tidak dikirim ke mana pun selain ke layanan yang bersangkutan.
+    </p>
+
+    <label class="field">
+      <span class="field-label">Anthropic <b class="req">wajib</b></span>
+      <input type="password" id="key-anthropic" placeholder="sk-ant-..." autocomplete="off" spellcheck="false">
+      <small>Untuk riset topik, naskah, pemeriksa bahasa, dan caption.
+        Ambil di <span class="link-ish">console.anthropic.com &rsaquo; Settings &rsaquo; API Keys</span></small>
+    </label>
+
+    <label class="field">
+      <span class="field-label">KIE <b class="req">wajib</b></span>
+      <input type="password" id="key-kie" placeholder="kunci KIE" autocomplete="off" spellcheck="false">
+      <small>Untuk gambar, dubbing, dan transkripsi.
+        Ambil di <span class="link-ish">kie.ai &rsaquo; API Key</span></small>
+    </label>
+
+    <label class="field">
+      <span class="field-label">ElevenLabs <b class="opt">opsional</b></span>
+      <input type="password" id="key-eleven" placeholder="kosongkan kalau belum punya" autocomplete="off" spellcheck="false">
+      <small>Kalau diisi, dubbing lewat ElevenLabs langsung, jadi kualitasnya lebih terkontrol dan
+        bisa pakai suara kloning sendiri. Kalau kosong, dubbing lewat KIE.</small>
+    </label>
+
+    <div class="setup-actions">
+      <button class="btn btn-primary" id="btn-save-keys">Simpan &amp; uji koneksi</button>
+      <button class="btn btn-ghost" id="btn-skip-setup" hidden>Nanti saja</button>
+    </div>
+
+    <div class="setup-result" id="setup-result" hidden></div>
+  </div>
+</div>
 
 <main class="layout">
 

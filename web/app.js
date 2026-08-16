@@ -39,6 +39,80 @@ async function boot() {
   await refreshProjects();
   connectLogs();
   wireEvents();
+  wireSetup();
+
+  // Nothing in the app works without keys, so the gate opens itself on a
+  // fresh install rather than letting the first click fail somewhere deeper.
+  const { configured } = await api('/api/setup');
+  if (!configured) openSetup({ firstRun: true });
+}
+
+/* ── Setup gate ───────────────────────────────────────────────────── */
+
+function openSetup({ firstRun = false } = {}) {
+  $('setup').hidden = false;
+  $('setup-title').textContent = firstRun ? 'Sambungkan kunci API' : 'Pengaturan kunci API';
+  $('btn-skip-setup').hidden = firstRun;
+  $('setup-result').hidden = true;
+  $('key-anthropic').focus();
+}
+
+function closeSetup() {
+  $('setup').hidden = true;
+}
+
+function renderSetupResult(tests) {
+  const host = $('setup-result');
+  host.hidden = false;
+  const row = (name, result) =>
+    `<div class="line"><b>${name}</b>` +
+    `<span class="${result.ok ? 'ok' : 'bad'}">${result.ok ? 'tersambung' : 'gagal'}</span>` +
+    (result.ok ? '' : `<span class="why">${escapeHtml(result.why || '')}</span>`) +
+    '</div>';
+  host.innerHTML = row('Claude', tests.claude) + row('KIE', tests.kie);
+}
+
+function wireSetup() {
+  $('btn-settings').addEventListener('click', () => openSetup());
+  $('btn-skip-setup').addEventListener('click', closeSetup);
+
+  $('btn-save-keys').addEventListener('click', async () => {
+    const button = $('btn-save-keys');
+    button.disabled = true;
+    button.textContent = 'Menyimpan…';
+    try {
+      await api('/api/setup', {
+        method: 'POST',
+        body: {
+          anthropicKey: $('key-anthropic').value.trim(),
+          kieKey: $('key-kie').value.trim(),
+          elevenLabsKey: $('key-eleven').value.trim(),
+        },
+      });
+
+      button.textContent = 'Menguji koneksi…';
+      const tests = await api('/api/setup/test', { method: 'POST' });
+      renderSetupResult(tests);
+
+      // Reflect the new capabilities in the header immediately.
+      state.meta = await api('/api/meta');
+      renderHealth();
+
+      if (tests.claude.ok && tests.kie.ok) {
+        button.textContent = 'Siap';
+        setTimeout(closeSetup, 1100);
+      } else {
+        button.textContent = 'Simpan & uji lagi';
+      }
+    } catch (error) {
+      $('setup-result').hidden = false;
+      $('setup-result').innerHTML =
+        `<div class="line"><span class="bad">${escapeHtml(error.message)}</span></div>`;
+      button.textContent = 'Simpan & uji koneksi';
+    } finally {
+      button.disabled = false;
+    }
+  });
 }
 
 function renderHealth() {

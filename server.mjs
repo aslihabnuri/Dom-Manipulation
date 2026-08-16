@@ -2,7 +2,8 @@ import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { config, ensureDirs, capabilities } from './src/config.mjs';
+import { spawn } from 'node:child_process';
+import { config, ensureDirs, capabilities, saveKeys, isConfigured } from './src/config.mjs';
 import { logger, subscribe } from './src/log.mjs';
 import { listProjects, getProject, deleteProject, costForProject, usedTopics } from './src/store.mjs';
 import { CATEGORIES, ANGLES } from './src/pipeline/research.mjs';
@@ -187,6 +188,36 @@ const server = http.createServer(async (req, res) => {
       return json(res, 200, { topics: usedTopics().slice(0, 100) });
     }
 
+    /* ── Setup ───────────────────────────────────────────────────────── */
+
+    if (route === '/api/setup' && req.method === 'GET') {
+      return json(res, 200, { configured: isConfigured(), capabilities: capabilities() });
+    }
+
+    if (route === '/api/setup' && req.method === 'POST') {
+      const body = await readBody(req);
+      if (!body.anthropicKey && !body.kieKey && !body.elevenLabsKey && !body.voice) {
+        return json(res, 400, { error: 'Tidak ada yang diisi.' });
+      }
+      const caps = saveKeys(body);
+      log.info('Kunci API disimpan lewat layar setup');
+      return json(res, 200, { configured: isConfigured(), capabilities: caps });
+    }
+
+    /* Verify the saved keys actually authenticate, so a typo surfaces here
+       rather than halfway through a paid production run. */
+    if (route === '/api/setup/test' && req.method === 'POST') {
+      const [claude, kie] = await Promise.all([
+        config.anthropicKey
+          ? import('./src/claude.mjs').then((m) => m.ping())
+          : Promise.resolve({ ok: false, why: 'Belum diisi' }),
+        config.kieKey
+          ? import('./src/kie.mjs').then((m) => m.ping())
+          : Promise.resolve({ ok: false, why: 'Belum diisi' }),
+      ]);
+      return json(res, 200, { claude, kie });
+    }
+
     /* ── Projects ────────────────────────────────────────────────────── */
     if (route === '/api/projects' && req.method === 'GET') {
       const projects = listProjects().map((p) => ({
@@ -288,11 +319,37 @@ const server = http.createServer(async (req, res) => {
   }
 });
 
+/**
+ * Open the studio in the default browser.
+ *
+ * The launcher scripts are double-clicked, not typed, so nobody is watching a
+ * terminal for a URL to copy. Failure here is not worth reporting loudly — the
+ * URL is printed either way.
+ */
+function openBrowser(url) {
+  const command =
+    process.platform === 'darwin' ? 'open'
+      : process.platform === 'win32' ? 'cmd'
+        : 'xdg-open';
+  const args = process.platform === 'win32' ? ['/c', 'start', '', url] : [url];
+  try {
+    spawn(command, args, { stdio: 'ignore', detached: true }).unref();
+  } catch {
+    // Headless machine or no desktop session; the printed URL is the fallback.
+  }
+}
+
 ensureDirs();
 server.listen(config.port, () => {
-  const caps = capabilities();
-  log.info(`Naratif berjalan di http://localhost:${config.port}`);
-  for (const [name, cap] of Object.entries(caps)) {
+  const url = `http://localhost:${config.port}`;
+  log.info(`Naratif siap di ${url}`);
+
+  if (!isConfigured()) {
+    log.info('Kunci API belum lengkap — halaman setup akan terbuka di browser.');
+  }
+  for (const [name, cap] of Object.entries(capabilities())) {
     if (!cap.ready) log.warn(`${name}: ${cap.why}`);
   }
+
+  if (process.env.NARATIF_NO_OPEN !== '1') openBrowser(url);
 });

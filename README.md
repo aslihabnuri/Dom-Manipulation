@@ -18,7 +18,6 @@ Masalah yang sama kalau baru ketahuan setelah video jadi, harganya satu render p
 ## Daftar isi
 
 - [Pasang](#pasang)
-- [Kunci API yang dibutuhkan](#kunci-api-yang-dibutuhkan)
 - [Mulai cepat](#mulai-cepat)
 - [Kenapa videonya begini — hasil bedah referensi](#kenapa-videonya-begini--hasil-bedah-referensi)
 - [Mesin bahasa Indonesia](#mesin-bahasa-indonesia)
@@ -35,97 +34,79 @@ Masalah yang sama kalau baru ketahuan setelah video jadi, harganya satu render p
 
 ## Pasang
 
-Butuh **Node.js 20+** dan **ffmpeg**.
+### Cara paling mudah: klik dua kali
+
+1. Buka **[halaman repo](https://github.com/aslihabnuri/Dom-Manipulation)**, klik tombol hijau
+   **Code**, lalu **Download ZIP**.
+2. Buka ZIP-nya, pindahkan foldernya ke tempat yang gampang dicari (misalnya Documents).
+3. Klik dua kali berkas peluncur sesuai sistemmu:
+
+| Sistem | Berkas |
+|---|---|
+| macOS | `Mulai Naratif (Mac).command` |
+| Windows | `Mulai Naratif (Windows).bat` |
+| Linux | `Mulai Naratif (Linux).sh` |
+
+Peluncurnya memeriksa dan memasang sendiri Node.js dan ffmpeg kalau belum ada,
+menyiapkan aplikasinya, lalu membuka browser. **Kunci API diisi di halaman yang
+terbuka itu**, bukan di berkas teks.
+
+Sekali selesai, seterusnya cukup klik dua kali berkas yang sama.
+
+> **macOS** akan menolak berkas yang diunduh dari internet pada percobaan pertama
+> (*"cannot be opened because it is from an unidentified developer"*). Klik kanan
+> berkasnya, pilih **Open**, lalu **Open** sekali lagi di kotak yang muncul. Cukup
+> sekali; setelah itu klik dua kali biasa sudah jalan.
+
+> **Windows** mungkin menampilkan layar biru *"Windows protected your PC"*. Klik
+> **More info**, lalu **Run anyway**.
+
+Jendela hitam yang muncul itu cuma penunjuk kemajuan. Kamu tidak perlu mengetik
+apa pun di sana. Biarkan terbuka selama memakai aplikasi; menutupnya menghentikan
+studio.
+
+### Kalau kamu terbiasa dengan terminal
 
 ```bash
-# 1. Dependensi Node (cuma satu: SDK Anthropic)
+git clone https://github.com/aslihabnuri/Dom-Manipulation.git
+cd Dom-Manipulation
 npm install
-
-# 2. ffmpeg — WAJIB punya libass, kalau tidak takarir tidak bisa dibakar
-#    macOS
-brew install ffmpeg
-#    Ubuntu / Debian
-sudo apt install ffmpeg
-#    Windows
-winget install ffmpeg
-
-# 3. Salin konfigurasi dan isi kuncinya
-cp .env.example .env
-
-# 4. Pastikan semuanya siap
-npm run doctor
+npm start          # membuka browser sendiri
 ```
 
-`npm run doctor` akan bilang persis komponen mana yang belum siap:
+Kunci API tetap bisa diisi lewat layar setup di browser, atau langsung ke `.env`
+kalau lebih suka. `npm run doctor` menampilkan komponen mana yang belum siap.
 
-```
-komponen           status  catatan
-ANTHROPIC_API_KEY  ada     claude-opus-5
-KIE_API_KEY        ada     google/nano-banana-pro
-Dubbing            siap    lewat kie
-ffmpeg             ada     7.0.2
-libass (takarir)   ada     takarir bisa dibakar
-zoompan (gerak)    ada     gerak kamera aktif
-```
+### Yang dibutuhkan
 
-Tambahkan `--live` untuk benar-benar menguji koneksi ke API (memakai sedikit kuota).
+Peluncur memasang keduanya otomatis, jadi ini cuma untuk pemasangan manual:
 
----
-
-## Kunci API yang dibutuhkan
-
-| Kunci | Wajib? | Untuk apa | Ambil di |
-|---|---|---|---|
-| `ANTHROPIC_API_KEY` | **Wajib** | Riset topik, naskah, QC bahasa, caption | [console.anthropic.com](https://console.anthropic.com/settings/keys) |
-| `KIE_API_KEY` | **Wajib** | Gambar, dubbing, transkripsi | [kie.ai](https://kie.ai/api-key) |
-| `ELEVENLABS_API_KEY` | Opsional | Dubbing langsung, tanpa lewat KIE | [elevenlabs.io](https://elevenlabs.io/app/settings/api-keys) |
-
-Kalau `ELEVENLABS_API_KEY` diisi, Naratif memakai itu untuk dubbing dan transkripsi
-(kontrol lebih penuh, bisa pakai *voice cloning* sendiri). Kalau kosong, semuanya lewat KIE.
+- **Node.js 20+**
+- **ffmpeg dengan libass** — libass yang membakar takarir ke video. Tanpa itu,
+  videonya jadi tanpa teks sama sekali dan tidak ada pesan error.
 
 ---
 
 ## Mulai cepat
 
-### Lewat aplikasi web
+Setelah peluncur berjalan dan kunci API terisi, semuanya di satu layar:
 
-```bash
-npm start
-# buka http://localhost:4300
-```
+1. Klik **+ Baru**, pilih kategori (F&B atau Fashion), isi produknya.
+2. Klik **Riset topik** — muncul enam usulan sudut cerita dengan skor kekuatan
+   hook dan skor kehalusan jualan.
+3. Pilih satu, klik **Pakai topik ini**.
+4. Periksa naskah dan temuan bahasanya, lalu lanjut tahap demi tahap.
+   Atau klik **Jalankan semua** untuk sekali jalan sampai caption jadi.
 
-Alurnya kelihatan sebagai pipeline di atas layar. Setiap tahap punya tombol sendiri,
-jadi kamu bisa berhenti dan memeriksa hasil sebelum lanjut ke tahap yang lebih mahal.
+Tiap tahap punya tombolnya sendiri, jadi kamu bisa berhenti dan memeriksa hasil
+sebelum masuk ke tahap yang lebih mahal.
 
-### Lewat terminal
+### Memeriksa naskah tanpa membuka aplikasi
 
-```bash
-# 1. Buat proyek
-npm run cli -- new --category fashion --product "tas Sophie Martin" --brand "Sophie Martin"
-#    → Proyek dibuat: proj_a1b2c3
-#      Perkiraan biaya: $1.84
-
-# 2. Jalankan semuanya
-npm run cli -- run proj_a1b2c3
-```
-
-Atau jalankan bertahap supaya bisa memeriksa di tiap titik:
-
-```bash
-npm run cli -- research proj_a1b2c3          # lihat 6 usulan topik
-npm run cli -- script proj_a1b2c3 --topic 2  # tulis naskah dari topik nomor 2
-npm run cli -- run proj_a1b2c3 --topic 2     # lanjutkan sampai selesai
-```
-
-### Alat bahasa (gratis, tanpa API)
-
-Dua perintah ini jalan tanpa kunci apa pun — berguna untuk memeriksa naskah yang kamu
-tulis sendiri:
-
-```bash
-npm run cli -- lint "Dia makan apel sambil bawa brand tas mewah di tahun 1945."
-npm run cli -- normalize "Harganya Rp250.000 naik 70% sejak 1980-an."
-```
+Ada versi web dari pemeriksa bahasanya yang jalan tanpa instalasi dan tanpa kunci
+API, cocok dibuka dari HP: **[Pemeriksa Pelafalan](https://claude.ai/code/artifact/568e5970-baba-48a7-b96e-e1d97311f174)**.
+Sumbernya ada di [`artifact/`](artifact) dan dibangun dari modul yang sama persis
+dengan aplikasinya, jadi keduanya tidak mungkin berbeda pendapat.
 
 ---
 
