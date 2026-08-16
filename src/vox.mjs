@@ -146,6 +146,7 @@ export const SHOT_TYPES = {
   /* ── Dark family ─────────────────────────────────────────────────── */
   cutoutCollage: {
     id: 'cutoutCollage',
+    label: 'Kolase potongan kertas',
     family: 'dark',
     weight: 3,
     describe: (subject) =>
@@ -155,6 +156,7 @@ export const SHOT_TYPES = {
   },
   archivalPhoto: {
     id: 'archivalPhoto',
+    label: 'Foto arsip lama',
     family: 'dark',
     weight: 2,
     describe: (subject) =>
@@ -164,6 +166,7 @@ export const SHOT_TYPES = {
   },
   technicalDrawing: {
     id: 'technicalDrawing',
+    label: 'Gambar paten teknis',
     family: 'dark',
     weight: 2,
     describe: (subject) =>
@@ -172,6 +175,7 @@ export const SHOT_TYPES = {
   },
   mapDiagram: {
     id: 'mapDiagram',
+    label: 'Peta diagram',
     family: 'dark',
     weight: 1,
     describe: (subject) =>
@@ -180,6 +184,7 @@ export const SHOT_TYPES = {
   },
   objectOnVoid: {
     id: 'objectOnVoid',
+    label: 'Produk di latar polos',
     family: 'dark',
     weight: 2,
     describe: (subject) =>
@@ -188,6 +193,7 @@ export const SHOT_TYPES = {
   },
   macroTexture: {
     id: 'macroTexture',
+    label: 'Makro tekstur',
     family: 'dark',
     weight: 2,
     describe: (subject) =>
@@ -198,6 +204,7 @@ export const SHOT_TYPES = {
   /* ── Light family ────────────────────────────────────────────────── */
   agedNewsprint: {
     id: 'agedNewsprint',
+    label: 'Koran menguning',
     family: 'light',
     weight: 2,
     describe: (subject) =>
@@ -207,6 +214,7 @@ export const SHOT_TYPES = {
   },
   paperTexture: {
     id: 'paperTexture',
+    label: 'Kertas tua',
     family: 'light',
     weight: 2,
     describe: (subject) =>
@@ -216,6 +224,7 @@ export const SHOT_TYPES = {
   },
   engraving: {
     id: 'engraving',
+    label: 'Ukiran gaya abad 19',
     family: 'light',
     weight: 2,
     describe: (subject) =>
@@ -224,6 +233,7 @@ export const SHOT_TYPES = {
   },
   blueprintOnPaper: {
     id: 'blueprintOnPaper',
+    label: 'Sketsa teknis di kertas',
     family: 'light',
     weight: 1,
     describe: (subject) =>
@@ -232,6 +242,7 @@ export const SHOT_TYPES = {
   },
   concreteWall: {
     id: 'concreteWall',
+    label: 'Dinding berpatina',
     family: 'light',
     weight: 1,
     describe: (subject) =>
@@ -239,6 +250,11 @@ export const SHOT_TYPES = {
       `Cracks, patina and uneven grey-cream tone. Raking daylight. Mostly empty surface. No readable text, no lettering.`,
   },
 };
+
+/** Plain-Indonesian name for a shot type, for anything a person reads. */
+export function labelOf(shotTypeId) {
+  return SHOT_TYPES[shotTypeId]?.label || shotTypeId;
+}
 
 /** Which background family a shot type belongs to. */
 export function familyOf(shotTypeId) {

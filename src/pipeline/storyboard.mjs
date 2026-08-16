@@ -1,4 +1,4 @@
-import { CANVAS, RHYTHM, SHOT_TYPES, familyOf, planShotTypes } from '../vox.mjs';
+import { CANVAS, RHYTHM, familyOf, labelOf, planShotTypes } from '../vox.mjs';
 import { logger } from '../log.mjs';
 
 const log = logger('papan-cerita');
@@ -20,7 +20,10 @@ export function buildStoryboard(project) {
   if (!script) throw new Error('Naskah belum ada.');
 
   const segments = script.segments;
-  const shotTypes = planShotTypes(segments.length);
+  // The script may already carry a shot type per segment. Planning a fresh one
+  // here would show the reviewer a different video from the one that renders.
+  const planned = planShotTypes(segments.length);
+  const shotTypes = segments.map((s, i) => s.shotType || planned[i]);
 
   // Indonesian documentary narration runs about 2.6 words a second. Close
   // enough to show a per-shot duration that will not surprise anyone later.
@@ -41,9 +44,13 @@ export function buildStoryboard(project) {
       takarir: segment.voiceover,
       layar: segment.onScreenText || null,
       sfx: segment.sfx || null,
-      gambar: segment.visualSubject || segment.imagePrompt || null,
+      // Indonesian is what the reviewer reads; the English prompt is what the
+      // image model is actually sent, and both are shown so the approval is
+      // informed rather than trusting.
+      gambar: segment.gambarIndonesia || null,
+      gambarPrompt: segment.visualSubject || segment.imagePrompt || null,
       jenisShot: shotType,
-      jenisShotLabel: SHOT_TYPES[shotType]?.id || shotType,
+      jenisShotLabel: labelOf(shotType),
       latar: familyOf(shotType) === 'light' ? 'terang' : 'gelap',
       // A line long enough to need more than one shot gets cut; saying so here
       // avoids the storyboard promising fewer pictures than the video shows.

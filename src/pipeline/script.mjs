@@ -35,6 +35,12 @@ const SCRIPT_SCHEMA = {
             type: 'string',
             description: 'Subjek gambar dalam BAHASA INGGRIS untuk segmen ini. Konkret dan bisa digambar.',
           },
+          gambarIndonesia: {
+            type: 'string',
+            description:
+              'Terjemahan singkat visualSubject ke bahasa Indonesia, maksimal 12 kata. ' +
+              'Ini yang dibaca kreator waktu meninjau papan cerita, jadi harus jelas tanpa istilah teknis.',
+          },
           onScreenText: {
             type: 'string',
             description:
@@ -47,7 +53,7 @@ const SCRIPT_SCHEMA = {
             description: 'Efek suara: none, whoosh, thud, paper, click, riser, drop',
           },
         },
-        required: ['section', 'voiceover', 'visualSubject', 'onScreenText', 'sfx'],
+        required: ['section', 'voiceover', 'visualSubject', 'gambarIndonesia', 'onScreenText', 'sfx'],
         additionalProperties: false,
       },
     },
@@ -79,7 +85,8 @@ ATURAN CERITA:
 - Penutup harus menggema, bukan mengajak.
 - Setiap segmen = satu kalimat = satu gambar. Itu ritme visualnya.
 
-visualSubject WAJIB bahasa Inggris, konkret, dan tanpa nama merek.`;
+visualSubject WAJIB bahasa Inggris, konkret, dan tanpa nama merek.
+gambarIndonesia WAJIB bahasa Indonesia dan singkat — itu yang dibaca kreator saat menyetujui.`;
 
 /**
  * @param {object} options
@@ -181,6 +188,7 @@ export async function writeScript({ topic, durationSeconds = 45, projectId, onPr
       ttsText: normalized.text,
       normalizations: normalized.changes,
       visualSubject: segment.visualSubject,
+      gambarIndonesia: segment.gambarIndonesia || null,
       onScreenText: (segment.onScreenText || '').trim(),
       sfx: segment.sfx && segment.sfx !== 'none' ? segment.sfx : null,
     };

@@ -14,6 +14,7 @@ const state = {
   projects: [],
   current: null,
   activeTab: 'produk',
+  estimate: null,
   poller: null,
 };
 
@@ -208,6 +209,9 @@ async function refreshProjects() {
 async function openProject(id) {
   const { project } = await api(`/api/projects/${id}`);
   state.current = project;
+  state.estimate = await api(`/api/projects/${id}/estimate`)
+    .then((r) => r.estimate)
+    .catch(() => null);
   $('empty-state').classList.add('hidden');
   $('project-view').classList.remove('hidden');
   renderProject();
@@ -466,7 +470,7 @@ function renderStoryboard(host) {
     const meta = el('div', 'panel-meta');
     meta.append(el('span', 'panel-no', String(panel.nomor)));
     meta.append(el('span', 'panel-time', `${panel.mulai}s · ${panel.detik}s`));
-    meta.append(el('span', 'panel-shot', `${panel.jenisShot} · latar ${panel.latar}`));
+    meta.append(el('span', 'panel-shot', `${panel.jenisShotLabel} · latar ${panel.latar}`));
     if (panel.potongan > 1) meta.append(el('span', 'panel-shot', `${panel.potongan} potongan`));
     if (panel.sfx) meta.append(el('span', 'panel-sfx', `sfx: ${panel.sfx}`));
     item.append(meta);
@@ -475,6 +479,12 @@ function renderStoryboard(host) {
     body.append(el('p', 'panel-vo', panel.suara));
     if (panel.layar) body.append(el('p', 'panel-layar', `Teks besar di layar: "${panel.layar}"`));
     if (panel.gambar) body.append(el('p', 'panel-gambar', `Gambar: ${panel.gambar}`));
+    if (panel.gambarPrompt) {
+      const prompt = el('details', 'panel-prompt');
+      prompt.append(el('summary', null, 'Perintah ke mesin gambar'));
+      prompt.append(el('p', null, panel.gambarPrompt));
+      body.append(prompt);
+    }
     item.append(body);
 
     list.append(item);
@@ -482,6 +492,23 @@ function renderStoryboard(host) {
   host.append(list);
 
   const gate = el('div', 'gate');
+
+  // The number belongs next to the button that commits to it, not on another tab.
+  const biaya = state.estimate;
+  if (biaya && !approved) {
+    const cost = el('div', 'gate-cost');
+    cost.append(el('span', 'gate-cost-num', `$${biaya.total.toFixed(2)}`));
+    cost.append(
+      el(
+        'span',
+        'gate-cost-note',
+        `perkiraan biaya sisa produksi · gambar $${biaya.visuals.toFixed(2)} · ` +
+          `dubbing $${biaya.dubbing.toFixed(2)} · naskah $${biaya.claude.toFixed(2)}`,
+      ),
+    );
+    gate.append(cost);
+  }
+
   if (approved) {
     gate.append(el('p', 'ok', `Disetujui pada ${new Date(project.persetujuan.pada).toLocaleString('id-ID')}.`));
     const actions = el('div', 'stage-actions');
