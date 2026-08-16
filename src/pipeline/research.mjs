@@ -106,6 +106,7 @@ export async function researchTopics({
   category,
   product,
   brand,
+  produk = null,
   count = 6,
   audience = 'dewasa muda Indonesia, 20-35 tahun',
   projectId,
@@ -122,9 +123,32 @@ export async function researchTopics({
   const offset = history.length % ANGLES.length;
   const rotated = [...ANGLES.slice(offset), ...ANGLES.slice(0, offset)];
 
+  // What the photo showed, when there was a photo. Research written from the
+  // product name alone is research about a category — it would fit anyone's
+  // bag. These lines are what tie the story to this specific object.
+  const dariFoto = produk
+    ? [
+        '',
+        'DARI FOTO PRODUK YANG DIUNGGAH:',
+        `- Jenis: ${produk.jenis}`,
+        `- Bahan: ${produk.bahan}`,
+        `- Warna: ${produk.warna}`,
+        `- Gaya: ${produk.gaya}`,
+        `- Ciri yang terlihat: ${produk.ciri.join('; ')}`,
+        `- Pembeli yang paling mungkin: ${produk.pembeli}`,
+        '',
+        'Sudut cerita yang sudah diusulkan dari foto itu:',
+        produk.sudutCerita.map((a) => `- ${a.judul} — ${a.kenapaNyambung}`).join('\n'),
+        '',
+        'Topik yang kamu usulkan HARUS tersambung ke ciri yang benar-benar terlihat di foto,',
+        'bukan ke kategori produknya secara umum.',
+      ].join('\n')
+    : '';
+
   const prompt = [
     `Produk yang akan dipromosikan secara halus: ${product}`,
     brand ? `Merek: ${brand}` : '',
+    dariFoto,
     `Kategori: ${cat.label}`,
     `Lensa penceritaan: ${cat.lens}`,
     `Target penonton: ${audience}`,

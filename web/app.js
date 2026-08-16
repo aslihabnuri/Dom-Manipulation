@@ -13,7 +13,7 @@ const state = {
   meta: null,
   projects: [],
   current: null,
-  activeTab: 'topik',
+  activeTab: 'produk',
   poller: null,
 };
 
@@ -273,8 +273,10 @@ function renderActiveTab() {
   host.innerHTML = '';
 
   ({
+    produk: renderProduct,
     topik: renderTopics,
     naskah: renderScript,
+    papan: renderStoryboard,
     dubbing: renderDubbing,
     visual: renderVisuals,
     hasil: renderResult,
@@ -298,6 +300,224 @@ function stageButton(host, label, path, body) {
   });
   host.append(button);
   return button;
+}
+
+/* ── Tab: product photo ───────────────────────────────────────────── */
+
+/** Read a picked file as the data URL the upload route expects. */
+function readAsDataUrl(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = () => reject(new Error(`Gagal membaca ${file.name}`));
+    reader.readAsDataURL(file);
+  });
+}
+
+function renderProduct(host) {
+  const project = state.current;
+  const photos = project.fotoProduk || [];
+
+  const intro = el('p', 'muted');
+  intro.textContent = photos.length
+    ? 'Cerita dan gambarnya dibuat dari foto ini. Ganti fotonya kalau produknya berbeda.'
+    : 'Mulai dari sini. Unggah foto produk kamu — semua cerita dan gambar video dibuat dari foto ini, bukan dari tebakan.';
+  host.append(intro);
+
+  const picker = el('div', 'stage-actions');
+  const input = el('input');
+  input.type = 'file';
+  input.accept = 'image/jpeg,image/png,image/webp';
+  input.multiple = true;
+  input.style.display = 'none';
+
+  const pick = el('button', 'btn btn-primary', photos.length ? 'Tambah foto' : 'Pilih foto produk');
+  pick.addEventListener('click', () => input.click());
+
+  input.addEventListener('change', async () => {
+    if (!input.files.length) return;
+    pick.disabled = true;
+    pick.textContent = 'Mengunggah…';
+    try {
+      const foto = await Promise.all([...input.files].map(readAsDataUrl));
+      await api(`/api/projects/${project.id}/foto`, { method: 'POST', body: { foto } });
+      await openProject(project.id);
+    } catch (error) {
+      alert(error.message);
+    } finally {
+      pick.disabled = false;
+      pick.textContent = 'Pilih foto produk';
+      input.value = '';
+    }
+  });
+
+  picker.append(pick, input);
+  if (photos.length) {
+    const clear = el('button', 'btn btn-ghost', 'Hapus semua foto');
+    clear.addEventListener('click', async () => {
+      if (!confirm('Hapus semua foto produk?')) return;
+      await api(`/api/projects/${project.id}/foto`, { method: 'DELETE' });
+      await openProject(project.id);
+    });
+    picker.append(clear);
+  }
+  host.append(picker);
+
+  if (photos.length) {
+    const strip = el('div', 'foto-strip');
+    for (const foto of photos) {
+      const figure = el('figure', 'foto');
+      const img = el('img');
+      img.src = `/media?file=${encodeURIComponent(foto.file)}`;
+      img.alt = 'Foto produk';
+      figure.append(img);
+      strip.append(figure);
+    }
+    host.append(strip);
+  }
+
+  if (!photos.length) return;
+
+  const produk = project.produk;
+  if (!produk) {
+    const actions = el('div', 'stage-actions');
+    host.append(actions);
+    stageButton(actions, 'Baca fotonya', '/produk');
+    return;
+  }
+
+  const card = el('div', 'card');
+  card.append(el('h3', null, produk.jenis));
+  const facts = el('dl', 'facts');
+  for (const [label, value] of [
+    ['Bahan', produk.bahan],
+    ['Warna', produk.warna],
+    ['Gaya', produk.gaya],
+    ['Pembeli', produk.pembeli],
+  ]) {
+    facts.append(el('dt', null, label), el('dd', null, value));
+  }
+  card.append(facts);
+  card.append(el('h4', null, 'Yang terlihat di foto'));
+  const ciri = el('ul', 'bullets');
+  for (const c of produk.ciri) ciri.append(el('li', null, c));
+  card.append(ciri);
+
+  card.append(el('h4', null, 'Sudut cerita yang bisa dipakai'));
+  for (const sudut of produk.sudutCerita) {
+    const angle = el('div', 'angle');
+    angle.append(el('strong', null, sudut.judul));
+    angle.append(el('p', 'muted', sudut.kenapaNyambung));
+    card.append(angle);
+  }
+  host.append(card);
+
+  const actions = el('div', 'stage-actions');
+  host.append(actions);
+  stageButton(actions, 'Baca ulang fotonya', '/produk');
+  stageButton(actions, 'Lanjut → riset cerita', '/research');
+}
+
+/* ── Tab: storyboard ──────────────────────────────────────────────── */
+
+function renderStoryboard(host) {
+  const project = state.current;
+  const board = project.papanCerita;
+
+  if (!board) {
+    host.append(
+      el('p', 'muted', 'Papan cerita belum ada. Selesaikan naskahnya dulu, lalu tekan "Siapkan papan cerita".'),
+    );
+    const actions = el('div', 'stage-actions');
+    host.append(actions);
+    if (project.script) stageButton(actions, 'Susun papan cerita', '/papan-cerita');
+    return;
+  }
+
+  const approved = Boolean(project.persetujuan?.disetujui);
+
+  const head = el('div', 'card');
+  head.append(el('h3', null, board.judul));
+  const r = board.ringkasan;
+  head.append(
+    el(
+      'p',
+      'muted',
+      `${r.panelCount} panel · ${r.shotCount} shot · ~${r.totalSeconds} detik · ` +
+        `rata-rata ${r.rataRataShot}s per shot · ${r.kartuLayar} kartu teks · ${r.efekSuara} efek suara`,
+    ),
+  );
+  if (board.pemeriksaBahasa) {
+    const lint = board.pemeriksaBahasa;
+    head.append(
+      el(
+        'p',
+        lint.errors ? 'warn' : 'muted',
+        `Pemeriksa bahasa: ${lint.errors} error, ${lint.warnings} peringatan, ${lint.words} kata.`,
+      ),
+    );
+  }
+  host.append(head);
+
+  const list = el('ol', 'panels');
+  for (const panel of board.panels) {
+    const item = el('li', `panel-row is-${panel.latar}`);
+
+    const meta = el('div', 'panel-meta');
+    meta.append(el('span', 'panel-no', String(panel.nomor)));
+    meta.append(el('span', 'panel-time', `${panel.mulai}s · ${panel.detik}s`));
+    meta.append(el('span', 'panel-shot', `${panel.jenisShot} · latar ${panel.latar}`));
+    if (panel.potongan > 1) meta.append(el('span', 'panel-shot', `${panel.potongan} potongan`));
+    if (panel.sfx) meta.append(el('span', 'panel-sfx', `sfx: ${panel.sfx}`));
+    item.append(meta);
+
+    const body = el('div', 'panel-body');
+    body.append(el('p', 'panel-vo', panel.suara));
+    if (panel.layar) body.append(el('p', 'panel-layar', `Teks besar di layar: "${panel.layar}"`));
+    if (panel.gambar) body.append(el('p', 'panel-gambar', `Gambar: ${panel.gambar}`));
+    item.append(body);
+
+    list.append(item);
+  }
+  host.append(list);
+
+  const gate = el('div', 'gate');
+  if (approved) {
+    gate.append(el('p', 'ok', `Disetujui pada ${new Date(project.persetujuan.pada).toLocaleString('id-ID')}.`));
+    const actions = el('div', 'stage-actions');
+    stageButton(actions, 'Buat videonya sekarang', '/run');
+    const undo = el('button', 'btn btn-ghost', 'Tarik persetujuan');
+    undo.addEventListener('click', async () => {
+      await api(`/api/projects/${project.id}/batalkan-persetujuan`, { method: 'POST' });
+      await openProject(project.id);
+    });
+    actions.append(undo);
+    gate.append(actions);
+  } else {
+    gate.append(
+      el(
+        'p',
+        null,
+        'Sampai sini belum ada biaya sama sekali. Begitu kamu setuju, dubbing dan gambar mulai dibuat.',
+      ),
+    );
+    const actions = el('div', 'stage-actions');
+    const approve = el('button', 'btn btn-primary', 'Setujui dan buat video');
+    approve.addEventListener('click', async () => {
+      approve.disabled = true;
+      try {
+        await api(`/api/projects/${project.id}/setujui`, { method: 'POST', body: {} });
+        await openProject(project.id);
+      } catch (error) {
+        alert(error.message);
+        approve.disabled = false;
+      }
+    });
+    actions.append(approve);
+    stageButton(actions, 'Susun ulang papan cerita', '/papan-cerita');
+    gate.append(actions);
+  }
+  host.append(gate);
 }
 
 /* ── Tab: topics ──────────────────────────────────────────────────── */
@@ -775,9 +995,11 @@ function wireEvents() {
     });
   }
 
+  // Deliberately stops at the storyboard. The button that spends money lives on
+  // the storyboard itself, next to the thing being paid for.
   $('btn-runall').addEventListener('click', async () => {
-    if (!confirm('Jalankan seluruh alur sampai selesai? Tahap berbayar akan dieksekusi.')) return;
-    await api(`/api/projects/${state.current.id}/run`, { method: 'POST', body: {} });
+    await api(`/api/projects/${state.current.id}/siapkan`, { method: 'POST', body: {} });
+    state.activeTab = 'papan';
     startPolling();
   });
 

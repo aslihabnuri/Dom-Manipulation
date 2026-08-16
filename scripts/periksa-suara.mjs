@@ -33,7 +33,7 @@ const sukuKata = (kata) => Math.max(1, (kata.match(/[aiueo]/g) || []).length);
 let masalah = 0;
 
 for (const [i, segmen] of naskah.segmen.entries()) {
-  const take = suara.segmen.find((s) => s.index === i);
+  const take = suara.segments.find((s) => s.index === i);
   if (!take) {
     console.error(`  ${i + 1}  TIDAK ADA REKAMAN`);
     masalah += 1;
@@ -41,7 +41,7 @@ for (const [i, segmen] of naskah.segmen.entries()) {
   }
 
   const diharapkan = kataDari(segmen.vo);
-  const diucapkan = take.kata.map((k) => k.teks.toLowerCase().replace(/[^a-zà-ÿ'-]/g, ''));
+  const diucapkan = take.words.map((k) => k.text.toLowerCase().replace(/[^a-zà-ÿ'-]/g, ''));
 
   const beda = diharapkan.length !== diucapkan.length ||
     diharapkan.some((w, j) => w !== diucapkan[j]);
@@ -53,21 +53,21 @@ for (const [i, segmen] of naskah.segmen.entries()) {
     continue;
   }
 
-  const buruSuru = take.kata.filter((k) => k.durasi / sukuKata(k.teks) < MIN_DETIK_PER_SUKU);
+  const buruSuru = take.words.filter((k) => k.duration / sukuKata(k.text) < MIN_DETIK_PER_SUKU);
   if (buruSuru.length) {
     console.error(
-      `  ${i + 1}  TERLALU CEPAT: ${buruSuru.map((k) => `${k.teks} (${k.durasi.toFixed(2)}s)`).join(', ')}`,
+      `  ${i + 1}  TERLALU CEPAT: ${buruSuru.map((k) => `${k.text} (${k.duration.toFixed(2)}s)`).join(', ')}`,
     );
     masalah += 1;
     continue;
   }
 
-  console.log(`  ${i + 1}  ok  ${diharapkan.length} kata  ${take.detik.toFixed(2)}s`);
+  console.log(`  ${i + 1}  ok  ${diharapkan.length} kata  ${take.seconds.toFixed(2)}s`);
 }
 
-const totalKata = suara.segmen.reduce((n, s) => n + s.kata.length, 0);
+const totalKata = suara.segments.reduce((n, s) => n + s.words.length, 0);
 console.log(
   `\n${masalah === 0 ? 'LOLOS' : `${masalah} MASALAH`} · ` +
-    `${totalKata} kata terverifikasi · ${suara.total_detik}s`,
+    `${totalKata} kata terverifikasi · ${suara.totalSeconds}s`,
 );
 process.exit(masalah === 0 ? 0 : 1);

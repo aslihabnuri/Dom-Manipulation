@@ -28,10 +28,10 @@ const segments = naskah.segmen.map((s, i) => ({
   sfx: s.sfx || null,
 }));
 
-const takes = suara.segmen.map((s) => ({
+const takes = suara.segments.map((s) => ({
   segmentIndex: s.index,
   file: s.file,
-  words: s.kata,
+  words: s.words,
 }));
 
 const shots = naskah.segmen.map((s, i) => {

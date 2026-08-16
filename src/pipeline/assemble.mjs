@@ -303,7 +303,7 @@ export function spansFromWords(chunks, entry) {
     // The final chunk runs to the end of the audio rather than to the end of
     // the last word, so the caption does not blink off during the tail of the
     // sentence — MP3 padding and the speaker's own decay both live in there.
-    const until = i === chunks.length - 1 ? entry.duration : last.mulai + last.durasi;
+    const until = i === chunks.length - 1 ? entry.duration : last.start + last.duration;
     spans.push(Math.max(0, until - elapsed));
     elapsed = until;
   }

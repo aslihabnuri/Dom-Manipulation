@@ -6,7 +6,7 @@ yang dirancang supaya video bisa jadi sekali produksi, tanpa revisi.
 
 ```
 riset topik → naskah + QC bahasa → dubbing + verifikasi → gambar → rakit video → QC teknis → caption
-   murah            murah              sedang            mahal      gratis        gratis     murah
+   murah            murah               gratis            mahal      gratis        gratis     murah
 ```
 
 Urutannya sengaja begitu: **semua yang bisa salah dan murah diperiksa dulu**, sebelum satu
@@ -47,9 +47,10 @@ Masalah yang sama kalau baru ketahuan setelah video jadi, harganya satu render p
 | Windows | `Mulai Naratif (Windows).bat` |
 | Linux | `Mulai Naratif (Linux).sh` |
 
-Peluncurnya memeriksa dan memasang sendiri Node.js dan ffmpeg kalau belum ada,
-menyiapkan aplikasinya, lalu membuka browser. **Kunci API diisi di halaman yang
-terbuka itu**, bukan di berkas teks.
+Peluncurnya memeriksa dan memasang sendiri Node.js, ffmpeg dan mesin suara kalau
+belum ada, menyiapkan aplikasinya, lalu membuka browser. **Kunci API diisi di
+halaman yang terbuka itu**, bukan di berkas teks. Dubbing bahasa Indonesia tidak
+butuh kunci apa pun.
 
 Sekali selesai, seterusnya cukup klik dua kali berkas yang sama.
 
@@ -84,6 +85,9 @@ Peluncur memasang keduanya otomatis, jadi ini cuma untuk pemasangan manual:
 - **Node.js 20+**
 - **ffmpeg dengan libass** — libass yang membakar takarir ke video. Tanpa itu,
   videonya jadi tanpa teks sama sekali dan tidak ada pesan error.
+- **Python 3 dengan `edge-tts`** (`pip install edge-tts`) — hanya untuk dubbing.
+  Tanpa ini riset, naskah, gambar dan perakitan tetap jalan; yang berhenti cuma
+  suaranya.
 
 ---
 
@@ -233,16 +237,46 @@ WARN   campur-inggris
 Kalau pemeriksa menolak, naskahnya **dikirim balik ke Claude dengan temuan yang persis**,
 bukan disuruh "coba lagi". Maksimal tiga putaran perbaikan.
 
+### Dubbing bahasa Indonesia — gratis, tanpa kunci API
+
+Suaranya pakai **suara neural bahasa Indonesia dari Microsoft Edge**
+([`src/tts/edge.mjs`](src/tts/edge.mjs)). Dua pilihan:
+
+| Suara | Karakter |
+|---|---|
+| `id-ID-GadisNeural` | Perempuan, hangat. Bawaan. |
+| `id-ID-ArdiNeural` | Laki-laki, tenang. Lebih dekat ke narator dokumenter. |
+
+Dua-duanya dilatih dari penutur Indonesia asli, bukan model bahasa Inggris yang
+disuruh membaca teks Indonesia — jadi *pepet* dan *taling* jatuh di tempat yang
+benar. **Tidak perlu akun, tidak perlu kunci API, tidak ada biaya.**
+
+Ini juga yang membuat aturan "sekali jadi" jadi murah: kalau satu kalimat
+terdengar kurang pas, mengulangnya tidak keluar biaya sama sekali.
+
 ### Verifikasi dubbing — ini kuncinya
 
-Pemeriksa memprediksi masalah dari teks. Yang benar-benar membuktikan dubbing bersih
-adalah ini ([`src/lang/wer.mjs`](src/lang/wer.mjs)):
+Pemeriksa bahasa memprediksi masalah dari teks. Yang membuktikan hasil dubbing
+benar-benar bersih adalah pemeriksaan setelah suaranya jadi.
 
-> Setiap segmen disuarakan → **ditranskripsi ulang** dengan *speech-to-text* →
-> dibandingkan kata per kata dengan naskah aslinya.
+Mesin Edge melaporkan **setiap kata yang diucapkan**, berikut waktu mulai dan
+durasinya. Naratif mencocokkan daftar itu dengan naskah:
 
-Kalau selisihnya (Word Error Rate) di atas 5%, segmen itu **otomatis diulang** dengan
-setelan suara yang lebih stabil — sampai tiga kali, makin konservatif tiap kali:
+> Ada kata yang hilang? Tergabung dengan kata sebelahnya? Tertukar urutannya?
+> Diucapkan terlalu cepat sampai suku katanya tertelan?
+
+Empat hal itu justru yang lolos kalau naskahnya cuma dibaca ulang dengan mata.
+Yang **tidak** bisa dibuktikan cara ini adalah pelafalannya benar — itu tugas
+pemeriksa bahasa, dan itu jalan sebelum satu sen pun keluar.
+
+Batas waktu kata dipakai lagi di tahap perakitan: takarir berganti tepat di
+frame kata pertamanya diucapkan, bukan ditebak dari rata-rata kecepatan bicara.
+
+**Kalau pakai ElevenLabs** (isi `ELEVENLABS_API_KEY`), verifikasinya beda dan
+lebih kuat: tiap segmen ditranskripsi ulang dengan *speech-to-text* lalu
+dibandingkan kata per kata ([`src/lang/wer.mjs`](src/lang/wer.mjs)). Kalau
+selisihnya di atas 5%, segmen itu otomatis diulang dengan setelan lebih stabil —
+sampai tiga kali:
 
 | Percobaan | Setelan | Alasan |
 |---|---|---|
@@ -250,27 +284,14 @@ setelan suara yang lebih stabil — sampai tiga kali, makin konservatif tiap kal
 | 2 | stability 0.85, style 0 | Kurang ekspresif, jauh lebih bisa ditebak |
 | 3 | stability 0.95, style 0, speed 0.92 | Pelan itu lebih mudah dibaca mesin |
 
-Dan UI menunjukkan persis kata mana yang salah dengar:
-
-```
-WER 14.3%   sophie → sopi
-```
-
-Ongkos verifikasi ini beberapa sen per video. Menemukan masalah yang sama setelah
-video jadi ongkosnya satu render penuh.
-
 ### Kalau dubbing masih kurang
 
-Suara ElevenLabs direkam oleh penutur bahasa Inggris. Sebagian membawa sedikit aksen
-ke bahasa Indonesia. `npm run cli -- voices` memberi daftar yang paling cocok untuk
-narasi dokumenter — mulai dari **Brian**.
-
-Kalau setelah dicoba masih kurang natural, alternatifnya:
-
-1. **Voice cloning ElevenLabs** — rekam 3 menit suara penutur Indonesia asli, buat
-   *Instant Voice Clone*, lalu isi `TTS_VOICE` dengan voice ID-nya dan `ELEVENLABS_API_KEY`.
-   Ini yang paling bagus hasilnya, dan mesin verifikasi tetap jalan sama persis.
-2. **Dubber manusia** — jalankan sampai tahap naskah, ambil teksnya dari
+1. **Ganti suara** — coba `id-ID-ArdiNeural` kalau `Gadis` kurang cocok untuk
+   topiknya. Gratis, jadi cobanya sebanyak apa pun tidak masalah.
+2. **Voice cloning ElevenLabs** — rekam 3 menit suara penutur Indonesia asli,
+   buat *Instant Voice Clone*, lalu isi `TTS_VOICE` dengan voice ID-nya dan
+   `ELEVENLABS_API_KEY`. Hasilnya paling bagus, dan verifikasi transkripsi jalan.
+3. **Dubber manusia** — jalankan sampai tahap naskah, ambil teksnya dari
    `data/projects.json`, rekam sendiri, lalu taruh file per segmen di
    `tmp/<projectId>/vo/seg-000.mp3` dan seterusnya, lalu lanjut dari tahap `assemble`.
 
@@ -286,7 +307,7 @@ bukan lanjut dan boros.
 | Gerbang | Memeriksa | Kalau gagal |
 |---|---|---|
 | Naskah | 0 error pemeriksa bahasa | Berhenti sebelum keluar biaya dubbing |
-| Dubbing | Semua segmen WER ≤ 5% | Berhenti sebelum keluar biaya gambar |
+| Dubbing | Semua kata terucap, tidak ada yang tertelan | Berhenti sebelum keluar biaya gambar |
 | Visual | Semua gambar berhasil | Berhenti sebelum perakitan |
 | QC teknis | Lihat tabel di bawah | Video ditandai bermasalah |
 
@@ -440,7 +461,7 @@ Perkiraan untuk video 45 detik (~39 segmen), mode `collage`:
 | Tahap | Perkiraan |
 |---|---|
 | Claude (riset, naskah, caption) | ~$0,24 |
-| Dubbing + verifikasi transkripsi | ~$0,98 |
+| Dubbing (suara Edge) | gratis |
 | Gambar (39 buah) | ~$1,50 |
 | Perakitan + QC | gratis (lokal) |
 | **Total** | **~$2,70** |
@@ -540,9 +561,9 @@ tidak perlu mengulang tahap lain.
 **`Batas biaya terlampaui`**
 Naikkan `MAX_COST_PER_VIDEO_USD` di `.env`, atau pendekkan durasi target.
 
-**Dubbing terdengar seperti orang asing berbahasa Indonesia**
-Coba suara lain (`npm run cli -- voices`), atau pakai voice cloning ElevenLabs dengan
-rekaman penutur Indonesia. Lihat [Kalau dubbing masih kurang](#kalau-dubbing-masih-kurang).
+**Dubbing terdengar kurang pas**
+Ganti suara (`npm run cli -- voices`) — gratis, jadi bebas dicoba berkali-kali.
+Lihat [Kalau dubbing masih kurang](#kalau-dubbing-masih-kurang).
 
 **Gambar tidak nyambung dengan narasinya**
 `visualSubject` ditulis oleh Claude dalam bahasa Inggris per segmen. Kalau meleset,

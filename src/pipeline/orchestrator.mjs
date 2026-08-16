@@ -6,6 +6,8 @@ import { newId, saveProject, getProject, markTopicUsed, costForProject } from '.
 import { researchTopics } from './research.mjs';
 import { writeScript } from './script.mjs';
 import { dubScript } from './voice.mjs';
+import { readProduct } from './product.mjs';
+import { buildStoryboard } from './storyboard.mjs';
 import { generateStills } from './visuals.mjs';
 import { assembleVideo } from './assemble.mjs';
 import { inspectVideo, reviewReadiness } from './qc.mjs';
@@ -25,8 +27,11 @@ const log = logger('produksi');
  */
 
 export const STAGES = [
+  { id: 'produk', label: 'Baca foto produk', paid: 'ringan' },
   { id: 'riset', label: 'Riset topik', paid: 'ringan' },
   { id: 'naskah', label: 'Naskah + QC bahasa', paid: 'ringan' },
+  { id: 'papan-cerita', label: 'Papan cerita untuk ditinjau', paid: 'gratis' },
+  { id: 'persetujuan', label: 'Menunggu persetujuan kamu', paid: 'gratis' },
   { id: 'dubbing', label: 'Dubbing + verifikasi transkripsi', paid: 'sedang' },
   { id: 'visual', label: 'Generasi gambar', paid: 'berat' },
   { id: 'rakit', label: 'Perakitan video', paid: 'gratis' },
@@ -76,8 +81,12 @@ export function createProject({ category, product, brand, durationSeconds = 45, 
     brand: brand || null,
     durationSeconds,
     mode,
+    fotoProduk: [],
+    produk: null,
     topics: [],
     chosenTopic: null,
+    papanCerita: null,
+    persetujuan: null,
     script: null,
     dub: null,
     visuals: null,
@@ -99,6 +108,76 @@ function stamp(project, stage, status, detail) {
 
 /* ── Individual stages ─────────────────────────────────────────────────── */
 
+/**
+ * The approval gate.
+ *
+ * Everything downstream of the storyboard costs money and cannot be undone by
+ * looking at it again. This is the one place that decides whether that is
+ * allowed to start, and it answers to a click from the person paying — not to
+ * a flag, a default, or a stage that decided the previous stage went well
+ * enough to keep going.
+ */
+export function requireApproval(project, stage) {
+  if (project.persetujuan?.disetujui) return;
+  throw new Error(
+    `Tahap "${stage}" butuh persetujuan kamu dulu. ` +
+      'Buka papan ceritanya, periksa, lalu tekan "Setujui dan buat video".',
+  );
+}
+
+/** Record the go-ahead. Reversible until the first paid stage actually runs. */
+export function approve(projectId, { catatan } = {}) {
+  const project = getProject(projectId);
+  if (!project.papanCerita) throw new Error('Papan cerita belum dibuat.');
+  project.persetujuan = {
+    disetujui: true,
+    pada: new Date().toISOString(),
+    catatan: catatan || null,
+    // Pinned to the storyboard that was actually reviewed. Rewriting the script
+    // after approval clears this, so nobody can approve one video and render
+    // another.
+    papanCeritaPada: project.papanCerita.dibuatPada,
+  };
+  return stamp(project, 'persetujuan', 'disetujui', catatan || 'Disetujui');
+}
+
+export function withdrawApproval(projectId) {
+  const project = getProject(projectId);
+  project.persetujuan = null;
+  return stamp(project, 'persetujuan', 'papan-cerita', 'Persetujuan ditarik');
+}
+
+export async function runProduct(projectId, { hint } = {}) {
+  let project = getProject(projectId);
+  if (!project) throw new Error(`Proyek ${projectId} tidak ditemukan`);
+  if (!project.fotoProduk?.length) {
+    throw new Error('Unggah foto produknya dulu — riset dan naskah dibuat dari foto itu.');
+  }
+
+  const produk = await readProduct({
+    files: project.fotoProduk.map((f) => f.file),
+    category: project.category,
+    hint: hint || project.product,
+    projectId,
+  });
+
+  project.produk = produk;
+  return stamp(project, 'produk', 'produk', `${produk.jenis} — ${produk.sudutCerita.length} sudut cerita`);
+}
+
+export async function runStoryboard(projectId) {
+  let project = getProject(projectId);
+  project.papanCerita = buildStoryboard(project);
+  // A new storyboard invalidates any approval of the old one.
+  project.persetujuan = null;
+  return stamp(
+    project,
+    'papan-cerita',
+    'papan-cerita',
+    `${project.papanCerita.ringkasan.panelCount} panel, ~${project.papanCerita.ringkasan.totalSeconds}s`,
+  );
+}
+
 export async function runResearch(projectId, { count = 6, audience } = {}) {
   let project = getProject(projectId);
   if (!project) throw new Error(`Proyek ${projectId} tidak ditemukan`);
@@ -107,6 +186,9 @@ export async function runResearch(projectId, { count = 6, audience } = {}) {
     category: project.category,
     product: project.product,
     brand: project.brand,
+    // What the photo actually shows. Without it the research writes about the
+    // product category; with it, about the thing in the picture.
+    produk: project.produk,
     count,
     audience,
     projectId,
@@ -145,6 +227,7 @@ export async function runScript(projectId, { topicIndex = 0, onProgress } = {}) 
 
 export async function runDubbing(projectId, { onProgress } = {}) {
   let project = getProject(projectId);
+  requireApproval(project, 'dubbing');
   if (!project.script) throw new Error('Naskah belum ada.');
 
   const outDir = path.join(project.workDir, 'vo');
@@ -161,6 +244,9 @@ export async function runDubbing(projectId, { onProgress } = {}) {
     takes: dub.takes.map((t) => ({
       segmentIndex: t.segmentIndex,
       file: t.file,
+      // Word boundaries, when the engine reported them. The assembler cuts the
+      // captions on these, so they have to survive being written to the project.
+      words: t.words || null,
       ok: t.ok,
       wer: t.check.wer,
       transcript: t.transcript,
@@ -181,6 +267,7 @@ export async function runDubbing(projectId, { onProgress } = {}) {
 
 export async function runVisuals(projectId, { onProgress } = {}) {
   let project = getProject(projectId);
+  requireApproval(project, 'gambar');
   if (!project.script) throw new Error('Naskah belum ada.');
 
   const outDir = path.join(project.workDir, 'img');
@@ -205,11 +292,16 @@ export async function runVisuals(projectId, { onProgress } = {}) {
 
 export async function runAssembly(projectId, { musicFile, onProgress } = {}) {
   let project = getProject(projectId);
+  requireApproval(project, 'perakitan');
   if (!project.dub || !project.visuals) throw new Error('Dubbing atau visual belum siap.');
 
   const result = await assembleVideo({
     segments: project.script.segments,
-    takes: project.dub.takes.map((t) => ({ segmentIndex: t.segmentIndex, file: t.file })),
+    takes: project.dub.takes.map((t) => ({
+      segmentIndex: t.segmentIndex,
+      file: t.file,
+      words: t.words || null,
+    })),
     shots: project.visuals.shots,
     workDir: path.join(project.workDir, 'rakit'),
     outputFile: project.outputFile,
@@ -261,10 +353,73 @@ export async function runCaptions(projectId) {
 /* ── Full run ──────────────────────────────────────────────────────────── */
 
 /**
- * Run every stage back to back, stopping at the first gate that fails.
- * `autoApprove` skips the pause between gates for headless runs.
+ * Everything that is free and reversible: read the photo, research the story,
+ * write the script, lay out the storyboard. Then stop.
+ *
+ * This is the half of the pipeline that runs on one click, and it deliberately
+ * ends before anything is bought or rendered. The point is not to save the
+ * couple of dollars — it is that a story built from the wrong reading of the
+ * product is wrong all the way down, and the only person who can catch that is
+ * the one who owns the product. Asking them after the render is asking too
+ * late.
+ */
+export async function runUntilStoryboard(projectId, { topicIndex = 0, hint, onProgress } = {}) {
+  const report = { projectId, stages: [], ok: false };
+  const emit = (stage, message, extra) => {
+    onProgress?.({ stage, message, ...extra });
+    log.info(`[${stage}] ${message}`);
+  };
+
+  let project = getProject(projectId);
+
+  if (project.fotoProduk?.length && !project.produk) {
+    emit('produk', 'Membaca foto produk');
+    await runProduct(projectId, { hint });
+    report.stages.push({ stage: 'produk', ok: true });
+  }
+
+  if (!project.topics.length) {
+    emit('riset', 'Meriset sudut cerita');
+    await runResearch(projectId);
+    report.stages.push({ stage: 'riset', ok: true });
+  }
+
+  emit('naskah', 'Menulis naskah');
+  const scriptStep = await runScript(projectId, { topicIndex, onProgress });
+  report.stages.push({ stage: 'naskah', ok: scriptStep.gate.ok, gate: scriptStep.gate });
+  if (!scriptStep.gate.ok) {
+    throw new Error(`Naskah tidak lolos QC bahasa:\n- ${scriptStep.gate.blockers.join('\n- ')}`);
+  }
+
+  emit('papan-cerita', 'Menyusun papan cerita');
+  const boardStep = await runStoryboard(projectId);
+  report.stages.push({ stage: 'papan-cerita', ok: true });
+
+  project = getProject(projectId);
+  const estimate = estimateCost({
+    segmentCount: project.script.segments.length,
+    mode: project.mode,
+  });
+  emit('persetujuan', 'Papan cerita siap ditinjau', { estimate });
+
+  return {
+    ...report,
+    ok: true,
+    project: boardStep.project || getProject(projectId),
+    papanCerita: getProject(projectId).papanCerita,
+    estimate,
+    stoppedAt: 'persetujuan',
+  };
+}
+
+/**
+ * Run every paid stage back to back, stopping at the first gate that fails.
+ *
+ * Only reachable after approval — the gate is checked here as well as inside
+ * each stage, so a caller that skips the stages cannot skip the consent.
  */
 export async function runAll(projectId, { topicIndex = 0, musicFile, autoApprove = true, onProgress } = {}) {
+  requireApproval(getProject(projectId), 'produksi');
   const project = getProject(projectId);
   const budget = config.maxCostPerVideoUsd;
   const report = { projectId, stages: [], ok: false };
@@ -285,23 +440,10 @@ export async function runAll(projectId, { topicIndex = 0, musicFile, autoApprove
   };
 
   try {
-    if (!project.topics.length) {
-      emit('riset', 'Meriset topik');
-      await runResearch(projectId);
-      report.stages.push({ stage: 'riset', ok: true });
-    }
-
-    checkBudget('naskah');
-    emit('naskah', 'Menulis naskah');
-    const scriptStep = await runScript(projectId, { topicIndex, onProgress });
-    report.stages.push({ stage: 'naskah', ok: scriptStep.gate.ok, gate: scriptStep.gate });
-    if (!scriptStep.gate.ok && !autoApprove) return { ...report, stoppedAt: 'naskah' };
-    if (!scriptStep.gate.ok) {
-      throw new Error(`Naskah tidak lolos QC bahasa:\n- ${scriptStep.gate.blockers.join('\n- ')}`);
-    }
-
+    // Rewriting the script here would render something other than what was
+    // approved, so this path never touches it.
     const estimate = estimateCost({
-      segmentCount: scriptStep.script.segments.length,
+      segmentCount: project.script.segments.length,
       mode: project.mode,
     });
     emit('naskah', `Perkiraan biaya sisa produksi: $${estimate.total.toFixed(2)}`, { estimate });

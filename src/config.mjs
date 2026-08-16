@@ -49,11 +49,14 @@ export const config = {
   elevenLabsKey: process.env.ELEVENLABS_API_KEY || '',
 
   claudeModel: process.env.CLAUDE_MODEL || 'claude-opus-5',
-  kieImageModel: process.env.KIE_IMAGE_MODEL || 'google/nano-banana-pro',
+  // nano-banana-pro is not enabled on every KIE account and answers a request
+  // for it with a flat "model not supported"; plain nano-banana is.
+  kieImageModel: process.env.KIE_IMAGE_MODEL || 'google/nano-banana',
   kieVideoModel: process.env.KIE_VIDEO_MODEL || 'veo3_fast',
 
   tts: {
-    voice: process.env.TTS_VOICE || 'Brian',
+    // An Edge voice ID by default, matching the default dubbing engine.
+    voice: process.env.TTS_VOICE || 'id-ID-GadisNeural',
     stability: num(process.env.TTS_STABILITY, 0.55),
     similarity: num(process.env.TTS_SIMILARITY, 0.8),
     style: num(process.env.TTS_STYLE, 0.1),
@@ -137,10 +140,13 @@ export function capabilities() {
       ready: Boolean(config.kieKey),
       why: config.kieKey ? '' : 'KIE_API_KEY belum diisi di .env',
     },
+    // Dubbing is always ready: the default engine is Microsoft Edge's
+    // Indonesian neural voices, which need no account and cost nothing. A key
+    // only buys a different voice, never the ability to dub at all.
     dubbing: {
-      ready: Boolean(config.elevenLabsKey || config.kieKey),
-      provider: config.elevenLabsKey ? 'elevenlabs-langsung' : 'kie',
-      why: config.elevenLabsKey || config.kieKey ? '' : 'Butuh KIE_API_KEY atau ELEVENLABS_API_KEY',
+      ready: true,
+      provider: config.elevenLabsKey ? 'elevenlabs-langsung' : 'edge',
+      why: '',
     },
   };
 }

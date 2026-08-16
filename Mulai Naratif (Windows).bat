@@ -14,7 +14,7 @@ echo.
 
 REM ---- Node -------------------------------------------------------------
 echo.
-echo 1/4  Memeriksa Node.js
+echo 1/5  Memeriksa Node.js
 where node >nul 2>&1
 if errorlevel 1 (
   echo   ! Node.js belum terpasang.
@@ -37,7 +37,7 @@ if errorlevel 1 (
 
 REM ---- ffmpeg -----------------------------------------------------------
 echo.
-echo 2/4  Memeriksa ffmpeg
+echo 2/5  Memeriksa ffmpeg
 where ffmpeg >nul 2>&1
 if errorlevel 1 (
   echo   ! ffmpeg belum terpasang.
@@ -63,9 +63,44 @@ if errorlevel 1 (
   )
 )
 
+REM ---- Suara ------------------------------------------------------------
+REM The Indonesian voices run through a small Python helper. Unlike Node and
+REM ffmpeg it is not fatal to miss it: scripts and images still work, only the
+REM dubbing stops, so this step warns instead of halting.
+echo.
+echo 3/5  Memeriksa suara
+where python >nul 2>&1
+if errorlevel 1 (
+  echo   ! Python 3 belum ada - dubbing tidak akan jalan.
+  where winget >nul 2>&1
+  if errorlevel 1 (
+    start "" "https://www.python.org/downloads/"
+    echo   Pasang Python dari halaman yang terbuka, lalu jalankan berkas ini lagi.
+  ) else (
+    echo   Memasang lewat winget...
+    winget install --id Python.Python.3.12 -e --accept-source-agreements --accept-package-agreements
+    echo   + Python terpasang. Tutup jendela ini dan jalankan lagi supaya PATH terbaca.
+    call :berhenti "Perlu dijalankan ulang sekali."
+  )
+) else (
+  python -c "import edge_tts" >nul 2>&1
+  if errorlevel 1 (
+    echo   Memasang mesin suara, sekali saja...
+    python -m pip install --quiet edge-tts
+    python -c "import edge_tts" >nul 2>&1
+    if errorlevel 1 (
+      echo   ! Mesin suara gagal dipasang. Gambar dan naskah tetap jalan, dubbing tidak.
+    ) else (
+      echo   + Suara Indonesia siap
+    )
+  ) else (
+    echo   + Suara Indonesia siap
+  )
+)
+
 REM ---- Dependensi -------------------------------------------------------
 echo.
-echo 3/4  Menyiapkan aplikasi
+echo 4/5  Menyiapkan aplikasi
 if not exist "node_modules" (
   echo   Mengunduh dependensi, sekali saja...
   call npm install --no-audit --no-fund
@@ -77,9 +112,10 @@ if not exist "node_modules" (
 
 REM ---- Jalan ------------------------------------------------------------
 echo.
-echo 4/4  Menjalankan studio
+echo 5/5  Menjalankan studio
 echo   Browser akan terbuka sendiri.
 echo   Kunci API diisi di halaman itu, bukan di sini.
+echo   Dubbing bahasa Indonesia tidak butuh kunci apa pun.
 echo.
 echo   Biarkan jendela ini terbuka selama memakai aplikasi.
 echo   Untuk berhenti: tutup jendela ini.

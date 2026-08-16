@@ -306,10 +306,10 @@ test('takarir: rentang waktu diambil dari batas kata sungguhan', () => {
   const entry = {
     duration: 4.0,
     words: [
-      { teks: 'Satu', mulai: 0.0, durasi: 0.4 },
-      { teks: 'dua', mulai: 0.5, durasi: 0.4 },
-      { teks: 'tiga', mulai: 1.0, durasi: 0.5 },
-      { teks: 'empat', mulai: 2.0, durasi: 0.6 },
+      { text: 'Satu', start: 0.0, duration: 0.4 },
+      { text: 'dua', start: 0.5, duration: 0.4 },
+      { text: 'tiga', start: 1.0, duration: 0.5 },
+      { text: 'empat', start: 2.0, duration: 0.6 },
     ],
   };
   const spans = spansFromWords(['Satu dua tiga,', 'empat.'], entry);
@@ -320,7 +320,7 @@ test('takarir: rentang waktu diambil dari batas kata sungguhan', () => {
 });
 
 test('takarir: jumlah kata tidak cocok maka mundur ke perkiraan', () => {
-  const entry = { duration: 3, words: [{ teks: 'Satu', mulai: 0, durasi: 0.4 }] };
+  const entry = { duration: 3, words: [{ text: 'Satu', start: 0, duration: 0.4 }] };
   // Dua kata di takarir, satu kata dilaporkan mesin: timing tidak bisa dipercaya.
   assert.equal(spansFromWords(['Satu dua'], entry), null);
   assert.equal(spansFromWords(['Satu'], { duration: 3, words: [] }), null);

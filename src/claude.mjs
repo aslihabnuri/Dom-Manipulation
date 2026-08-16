@@ -40,6 +40,7 @@ export async function ask({
   system,
   prompt,
   schema,
+  images = [],
   maxTokens = 16000,
   effort = 'high',
   projectId,
@@ -47,12 +48,22 @@ export async function ask({
 }) {
   const anthropic = getClient();
 
+  // Images first, then the instruction. Claude reads a prompt that refers to
+  // "the photo" more reliably when the photo is already in context.
+  const content = [
+    ...images.map((image) => ({
+      type: 'image',
+      source: { type: 'base64', media_type: image.mediaType, data: image.base64 },
+    })),
+    { type: 'text', text: prompt },
+  ];
+
   const request = {
     model: config.claudeModel,
     max_tokens: maxTokens,
     thinking: { type: 'adaptive' },
     output_config: { effort },
-    messages: [{ role: 'user', content: prompt }],
+    messages: [{ role: 'user', content }],
   };
 
   if (system) {

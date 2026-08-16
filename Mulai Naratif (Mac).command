@@ -29,7 +29,7 @@ printf "\n  ${VIOLET}◐${OFF}  ${BOLD}Naratif${OFF}\n"
 printf "  ${DIM}Studio video soft-selling gaya Vox${OFF}\n"
 
 # ── Node ────────────────────────────────────────────────────────────────
-step "1/4  Memeriksa Node.js"
+step "1/5  Memeriksa Node.js"
 if command -v node >/dev/null 2>&1; then
   VERSI=$(node -v | sed 's/v//' | cut -d. -f1)
   if [ "$VERSI" -lt 20 ]; then
@@ -56,7 +56,7 @@ else
 fi
 
 # ── ffmpeg ──────────────────────────────────────────────────────────────
-step "2/4  Memeriksa ffmpeg"
+step "2/5  Memeriksa ffmpeg"
 if command -v ffmpeg >/dev/null 2>&1; then
   ok "ffmpeg siap"
   # libass is what burns the captions in; without it the render silently
@@ -81,8 +81,30 @@ else
   fi
 fi
 
+# ── Suara ───────────────────────────────────────────────────────────────
+# The Indonesian voices run through a small Python helper. macOS ships Python 3
+# already; only the edge-tts package has to be added.
+step "3/5  Memeriksa suara"
+if command -v python3 >/dev/null 2>&1; then
+  if python3 -c "import edge_tts" >/dev/null 2>&1; then
+    ok "Suara Indonesia siap"
+  else
+    say "Memasang mesin suara, sekali saja…"
+    python3 -m pip install --user --quiet edge-tts >/dev/null 2>&1 \
+      || python3 -m pip install --user --quiet --break-system-packages edge-tts >/dev/null 2>&1
+    if python3 -c "import edge_tts" >/dev/null 2>&1; then
+      ok "Suara Indonesia siap"
+    else
+      warn "Mesin suara gagal dipasang. Gambar dan naskah tetap jalan, dubbing tidak."
+    fi
+  fi
+else
+  warn "Python 3 belum ada — dubbing tidak akan jalan."
+  say "Pasang lewat: brew install python"
+fi
+
 # ── Dependensi ──────────────────────────────────────────────────────────
-step "3/4  Menyiapkan aplikasi"
+step "4/5  Menyiapkan aplikasi"
 if [ ! -d node_modules ]; then
   say "Mengunduh dependensi, sekali saja…"
   npm install --no-audit --no-fund || berhenti "Gagal memasang dependensi."
@@ -92,9 +114,10 @@ else
 fi
 
 # ── Jalan ───────────────────────────────────────────────────────────────
-step "4/4  Menjalankan studio"
+step "5/5  Menjalankan studio"
 say "Browser akan terbuka sendiri."
 say "Kunci API diisi di halaman itu, bukan di sini."
+say "Dubbing bahasa Indonesia tidak butuh kunci apa pun."
 printf "\n  ${DIM}Biarkan jendela ini terbuka selama memakai aplikasi.${OFF}\n"
 printf "  ${DIM}Untuk berhenti: tutup jendela ini.${OFF}\n\n"
 

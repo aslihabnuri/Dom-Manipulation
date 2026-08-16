@@ -80,7 +80,7 @@
     <div class="empty" id="empty-state">
       <span class="empty-mark">◐</span>
       <h2>Belum ada proyek dipilih</h2>
-      <p>Buat proyek baru untuk mulai. Alurnya: riset topik → naskah → dubbing → gambar → video → caption.</p>
+      <p>Buat proyek baru untuk mulai. Alurnya: unggah foto produk → riset cerita → papan cerita → <strong>kamu setujui</strong> → dubbing → gambar → video → caption.</p>
       <button class="btn btn-primary" id="btn-new-2">Buat proyek pertama</button>
     </div>
 
@@ -93,23 +93,27 @@
         <div class="project-actions">
           <span class="cost" id="pv-cost"></span>
           <button class="btn btn-ghost btn-sm" id="btn-delete">Hapus</button>
-          <button class="btn btn-primary" id="btn-runall">Jalankan semua</button>
+          <button class="btn btn-primary" id="btn-runall">Siapkan papan cerita</button>
         </div>
       </div>
 
       <ol class="pipeline" id="pipeline"></ol>
 
       <div class="tabs" id="tabs">
-        <button class="tab is-active" data-tab="topik">Topik</button>
+        <button class="tab is-active" data-tab="produk">Produk</button>
+        <button class="tab" data-tab="topik">Topik</button>
         <button class="tab" data-tab="naskah">Naskah</button>
+        <button class="tab" data-tab="papan">Papan cerita</button>
         <button class="tab" data-tab="dubbing">Dubbing</button>
         <button class="tab" data-tab="visual">Visual</button>
         <button class="tab" data-tab="hasil">Hasil</button>
         <button class="tab" data-tab="caption">Caption</button>
       </div>
 
-      <div class="tab-body" id="tab-topik"></div>
+      <div class="tab-body" id="tab-produk"></div>
+      <div class="tab-body hidden" id="tab-topik"></div>
       <div class="tab-body hidden" id="tab-naskah"></div>
+      <div class="tab-body hidden" id="tab-papan"></div>
       <div class="tab-body hidden" id="tab-dubbing"></div>
       <div class="tab-body hidden" id="tab-visual"></div>
       <div class="tab-body hidden" id="tab-hasil"></div>

@@ -34,7 +34,7 @@ clear
 printf "\n  ${VIOLET}◐${OFF}  ${BOLD}Naratif${OFF}\n"
 printf "  ${DIM}Studio video soft-selling gaya Vox${OFF}\n"
 
-step "1/4  Memeriksa Node.js"
+step "1/5  Memeriksa Node.js"
 if command -v node >/dev/null 2>&1 && [ "$(node -v | sed 's/v//' | cut -d. -f1)" -ge 20 ]; then
   ok "Node.js $(node -v)"
 else
@@ -43,7 +43,7 @@ else
   ok "Node.js $(node -v)"
 fi
 
-step "2/4  Memeriksa ffmpeg"
+step "2/5  Memeriksa ffmpeg"
 if command -v ffmpeg >/dev/null 2>&1; then
   ok "ffmpeg siap"
   if ffmpeg -hide_banner -filters 2>/dev/null | grep -q '\bsubtitles\b'; then
@@ -57,16 +57,36 @@ else
   ok "ffmpeg terpasang"
 fi
 
-step "3/4  Menyiapkan aplikasi"
+step "3/5  Memeriksa suara"
+# Dubbing bahasa Indonesia lewat pembantu Python kecil; tidak butuh kunci API.
+if ! command -v python3 >/dev/null 2>&1; then
+  warn "Python 3 belum ada. Memasang…"
+  pasang python3 python3-pip || warn "Gagal memasang Python 3 — dubbing tidak akan jalan."
+fi
+if python3 -c "import edge_tts" >/dev/null 2>&1; then
+  ok "Suara Indonesia siap"
+else
+  say "Memasang mesin suara, sekali saja…"
+  python3 -m pip install --user --quiet edge-tts >/dev/null 2>&1 \
+    || python3 -m pip install --user --quiet --break-system-packages edge-tts >/dev/null 2>&1
+  if python3 -c "import edge_tts" >/dev/null 2>&1; then
+    ok "Suara Indonesia siap"
+  else
+    warn "Mesin suara gagal dipasang. Gambar dan naskah tetap jalan, dubbing tidak."
+  fi
+fi
+
+step "4/5  Menyiapkan aplikasi"
 if [ ! -d node_modules ]; then
   say "Mengunduh dependensi, sekali saja…"
   npm install --no-audit --no-fund || berhenti "Gagal memasang dependensi."
 fi
 ok "Dependensi siap"
 
-step "4/4  Menjalankan studio"
+step "5/5  Menjalankan studio"
 say "Browser akan terbuka sendiri."
 say "Kunci API diisi di halaman itu, bukan di sini."
+say "Dubbing bahasa Indonesia tidak butuh kunci apa pun."
 printf "\n  ${DIM}Biarkan jendela ini terbuka. Untuk berhenti: tutup jendela ini.${OFF}\n\n"
 
 npm start

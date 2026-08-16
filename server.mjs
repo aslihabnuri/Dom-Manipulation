@@ -7,7 +7,7 @@ import { config, ensureDirs, capabilities, saveKeys, isConfigured } from './src/
 import { logger, subscribe } from './src/log.mjs';
 import { listProjects, getProject, deleteProject, costForProject, usedTopics } from './src/store.mjs';
 import { CATEGORIES, ANGLES } from './src/pipeline/research.mjs';
-import { SUGGESTED_VOICES } from './src/pipeline/voice.mjs';
+import { suggestedVoices } from './src/pipeline/voice.mjs';
 import { MODES } from './src/pipeline/visuals.mjs';
 import { probeToolchain } from './src/ffmpeg.mjs';
 import {
@@ -22,7 +22,14 @@ import {
   runQc,
   runCaptions,
   runAll,
+  runProduct,
+  runStoryboard,
+  runUntilStoryboard,
+  approve,
+  withdrawApproval,
 } from './src/pipeline/orchestrator.mjs';
+import { mediaTypeOf } from './src/pipeline/product.mjs';
+import { saveProject } from './src/store.mjs';
 
 const log = logger('server');
 const WEB_DIR = path.join(path.dirname(fileURLToPath(import.meta.url)), 'web');
@@ -60,6 +67,29 @@ async function readBody(req) {
   } catch {
     return {};
   }
+}
+
+/** Cap on one uploaded photo. Phone cameras clear 10 MB; nothing legitimate clears 25. */
+const MAX_FOTO_BYTES = 25 * 1024 * 1024;
+
+/**
+ * Decode one `data:` URL from the browser's file picker.
+ *
+ * Photos come in as data URLs rather than multipart so the whole API stays
+ * JSON. The trade is a third more bytes on the wire, which for a handful of
+ * product photos over localhost is not a trade at all.
+ */
+function decodeFoto(dataUrl, index) {
+  const match = /^data:([\w/+.-]+);base64,(.+)$/s.exec(String(dataUrl || ''));
+  if (!match) throw new Error(`Foto ${index + 1} tidak terbaca.`);
+  const [, mediaType, base64] = match;
+  const buffer = Buffer.from(base64, 'base64');
+  if (buffer.length > MAX_FOTO_BYTES) {
+    throw new Error(`Foto ${index + 1} lebih dari 25 MB. Perkecil dulu.`);
+  }
+  const ext = { 'image/jpeg': '.jpg', 'image/png': '.png', 'image/webp': '.webp' }[mediaType];
+  if (!ext) throw new Error(`Foto ${index + 1} formatnya ${mediaType} — pakai JPG, PNG, atau WEBP.`);
+  return { buffer, ext, mediaType };
 }
 
 /**
@@ -170,7 +200,7 @@ const server = http.createServer(async (req, res) => {
         categories: Object.values(CATEGORIES),
         angles: ANGLES,
         stages: STAGES,
-        voices: SUGGESTED_VOICES,
+        voices: suggestedVoices(),
         modes: Object.values(MODES),
         capabilities: capabilities(),
         toolchain,
@@ -281,10 +311,82 @@ const server = http.createServer(async (req, res) => {
         });
       }
 
+      /* ── Foto produk ───────────────────────────────────────────────── */
+      if (action === '/foto' && req.method === 'POST') {
+        const body = await readBody(req);
+        const incoming = Array.isArray(body.foto) ? body.foto : [body.foto].filter(Boolean);
+        if (!incoming.length) return json(res, 400, { error: 'Belum ada foto yang dipilih.' });
+
+        const dir = path.join(project.workDir, 'produk');
+        fs.mkdirSync(dir, { recursive: true });
+        const saved = [];
+        try {
+          incoming.forEach((dataUrl, i) => {
+            const { buffer, ext, mediaType } = decodeFoto(dataUrl, i);
+            const file = path.join(dir, `foto-${String(project.fotoProduk.length + i).padStart(2, '0')}${ext}`);
+            fs.writeFileSync(file, buffer);
+            saved.push({ file, mediaType, bytes: buffer.length });
+          });
+        } catch (error) {
+          return json(res, 400, { error: error.message });
+        }
+
+        project.fotoProduk = [...(project.fotoProduk || []), ...saved];
+        // A new photo means the old reading described something else.
+        project.produk = null;
+        project.persetujuan = null;
+        saveProject(project);
+        log.info(`${saved.length} foto produk diunggah`, { projectId });
+        return json(res, 201, { fotoProduk: project.fotoProduk });
+      }
+
+      if (action === '/foto' && req.method === 'DELETE') {
+        for (const foto of project.fotoProduk || []) fs.rmSync(foto.file, { force: true });
+        project.fotoProduk = [];
+        project.produk = null;
+        project.persetujuan = null;
+        saveProject(project);
+        return json(res, 200, { fotoProduk: [] });
+      }
+
+      /* ── Papan cerita dan persetujuan ──────────────────────────────── */
+      if (action === '/papan-cerita' && req.method === 'GET') {
+        if (!project.papanCerita) {
+          return json(res, 404, { error: 'Papan cerita belum dibuat.' });
+        }
+        return json(res, 200, {
+          papanCerita: project.papanCerita,
+          produk: project.produk,
+          persetujuan: project.persetujuan,
+          estimate: estimateCost({
+            segmentCount: project.script?.segments.length || 0,
+            mode: project.mode,
+          }),
+        });
+      }
+
+      if (action === '/setujui' && req.method === 'POST') {
+        const body = await readBody(req);
+        try {
+          const updated = approve(projectId, { catatan: body.catatan });
+          log.info('Papan cerita disetujui', { projectId });
+          return json(res, 200, { project: updated });
+        } catch (error) {
+          return json(res, 409, { error: error.message });
+        }
+      }
+
+      if (action === '/batalkan-persetujuan' && req.method === 'POST') {
+        return json(res, 200, { project: withdrawApproval(projectId) });
+      }
+
       /* ── Stage triggers ────────────────────────────────────────────── */
       if (req.method === 'POST') {
         const body = await readBody(req);
         const stages = {
+          '/produk': () => runProduct(projectId, body),
+          '/papan-cerita': () => runStoryboard(projectId),
+          '/siapkan': (emit) => runUntilStoryboard(projectId, { ...body, onProgress: emit }),
           '/research': (emit) => runResearch(projectId, body),
           '/script': (emit) => runScript(projectId, { ...body, onProgress: emit }),
           '/dub': (emit) => runDubbing(projectId, { onProgress: emit }),
