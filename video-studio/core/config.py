@@ -243,7 +243,17 @@ class AppSettings:
     edge_voice: str = DEFAULT_EDGE_VOICE
     motion_mode: str = "hemat"  # "hemat" | "campuran" | "premium"
     verify_pronunciation: bool = False
+    # Pengiriman hasil ke Google Drive.
+    drive_metode: str = "otomatis"  # "otomatis" | "folder" | "rclone" | "mati"
+    drive_folder: str = ""
+    drive_remote: str = ""
+    drive_folder_fnb: str = "seruputsejarah"
+    drive_folder_fashion: str = "benangmerah"
     extra: dict = field(default_factory=dict)
+
+    @property
+    def peta_folder_drive(self) -> dict[str, str]:
+        return {"fnb": self.drive_folder_fnb, "fashion": self.drive_folder_fashion}
 
     _PATH = CACHE_DIR / "settings.json"
 

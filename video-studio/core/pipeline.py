@@ -20,7 +20,18 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Callable
 
-from . import assemble, audio as audio_mod, config, research, script, social, subtitles, tts, visuals
+from . import (
+    assemble,
+    audio as audio_mod,
+    config,
+    drive,
+    research,
+    script,
+    social,
+    subtitles,
+    tts,
+    visuals,
+)
 from .categories import KATEGORI
 from .kie import KieClient, KieError
 from .store import Proyek
@@ -284,6 +295,11 @@ def jalankan_render(
     tampilkan_hook: bool = True,
     buat_caption: bool = True,
     model_llm: str | None = None,
+    kirim_drive: bool = True,
+    drive_metode: str = "otomatis",
+    drive_folder: str = "",
+    drive_remote: str = "",
+    peta_folder_drive: dict[str, str] | None = None,
     lapor: Lapor = _nihil,
 ) -> dict:
     """Rakit video akhir. Tahap ini tidak memakai kredit sama sekali."""
@@ -404,6 +420,26 @@ def jalankan_render(
         except (KieError, ValueError) as exc:
             lapor(f"⚠️ Caption gagal dibuat: {exc}. Video tetap selesai.")
 
+    # --- Kirim ke Google Drive -------------------------------------------------
+    hasil_drive = None
+    if kirim_drive:
+        berkas_kirim = [video, srt] + [
+            f for f in proyek.dir_hasil.iterdir()
+            if f.is_file() and f.suffix in (".txt", ".json")
+        ]
+        hasil_drive = drive.kirim(
+            berkas_kirim, naskah.kategori,
+            metode=drive_metode,
+            folder_drive=drive_folder,
+            remote_rclone=drive_remote,
+            nama_proyek=proyek.nama,
+            peta_folder=peta_folder_drive,
+        )
+        if hasil_drive.berhasil:
+            lapor(f"☁️ Terkirim ke Drive: {hasil_drive.tujuan}")
+        else:
+            lapor(f"☁️ Belum terkirim ke Drive. {hasil_drive.pesan}")
+
     proyek.set(
         "hasil",
         {
@@ -413,6 +449,15 @@ def jalankan_render(
             "ukuran_mb": laporan.ukuran_mb,
             "lufs": laporan.lufs,
             "masalah": laporan.masalah,
+            "drive": (
+                {
+                    "berhasil": hasil_drive.berhasil,
+                    "tujuan": hasil_drive.tujuan,
+                    "pesan": hasil_drive.pesan,
+                }
+                if hasil_drive
+                else None
+            ),
         },
     )
     proyek.naik_tahap("selesai")

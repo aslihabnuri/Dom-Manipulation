@@ -9,7 +9,16 @@ from pathlib import Path
 
 import streamlit as st
 
-from core import assemble, config, pipeline, research, script as script_mod, tts, visuals
+from core import (
+    assemble,
+    config,
+    drive,
+    pipeline,
+    research,
+    script as script_mod,
+    tts,
+    visuals,
+)
 from core.categories import KATEGORI, arketipe_untuk, daftar_kategori
 from core.idn import muat_kamus, normalisasi, simpan_kamus
 from core.kie import KieClient, KieError
@@ -204,6 +213,58 @@ def pengaturan_lanjutan() -> None:
             "Kalau penyedia utama gagal, aplikasi otomatis pindah ke penyedia "
             "berikutnya tanpa menghentikan produksi."
         )
+
+        st.divider()
+        st.markdown("**Kirim hasil ke Google Drive**")
+        st.caption("Video, takarir, dan caption otomatis masuk ke folder kategorinya.")
+
+        st_drive = drive.status()
+        if st_drive["folder_ditemukan"]:
+            st.success(f"Folder Drive ditemukan: {st_drive['folder_ditemukan']}")
+        elif st_drive["rclone_remote"]:
+            st.success(f"rclone siap: {', '.join(st_drive['rclone_remote'])}")
+        else:
+            st.warning(
+                "Belum ada cara mengirim ke Drive. Paling mudah: pasang "
+                "Google Drive for Desktop, lalu buka ulang aplikasi ini."
+            )
+
+        s.drive_metode = st.selectbox(
+            "Cara mengirim",
+            ["otomatis", "folder", "rclone", "mati"],
+            index=["otomatis", "folder", "rclone", "mati"].index(s.drive_metode),
+            format_func=lambda m: {
+                "otomatis": "Otomatis (disarankan)",
+                "folder": "Folder Google Drive di komputer",
+                "rclone": "rclone",
+                "mati": "Jangan kirim",
+            }[m],
+        )
+        if s.drive_metode in ("otomatis", "folder"):
+            s.drive_folder = st.text_input(
+                "Lokasi folder Drive (kosongkan untuk deteksi otomatis)",
+                value=s.drive_folder,
+                placeholder=st_drive["folder_ditemukan"] or "G:/My Drive",
+            )
+        if s.drive_metode in ("otomatis", "rclone") and st_drive["rclone_remote"]:
+            s.drive_remote = st.selectbox(
+                "Remote rclone",
+                st_drive["rclone_remote"],
+                index=(
+                    st_drive["rclone_remote"].index(s.drive_remote)
+                    if s.drive_remote in st_drive["rclone_remote"]
+                    else 0
+                ),
+            )
+
+        k1, k2 = st.columns(2)
+        s.drive_folder_fnb = k1.text_input(
+            "Folder Food & Beverage", value=s.drive_folder_fnb
+        )
+        s.drive_folder_fashion = k2.text_input(
+            "Folder Fashion", value=s.drive_folder_fashion
+        )
+
         s.save()
 
         st.markdown("**Kamus pengucapan**")
@@ -641,6 +702,11 @@ def tahap_render(p: Proyek) -> None:
                         butiran=halus, vignette=halus,
                         tampilkan_hook=hook,
                         model_llm=PENGATURAN.llm_tier,
+                        kirim_drive=PENGATURAN.drive_metode != "mati",
+                        drive_metode=PENGATURAN.drive_metode,
+                        drive_folder=PENGATURAN.drive_folder,
+                        drive_remote=PENGATURAN.drive_remote,
+                        peta_folder_drive=PENGATURAN.peta_folder_drive,
                         lapor=lapor,
                     )
                 st.balloons()

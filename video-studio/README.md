@@ -104,6 +104,49 @@ Perakitan video tidak memakai kredit sama sekali. Hasilnya:
 - Berkas takarir `.srt`
 - Daftar periksa sebelum unggah
 
+Semua berkas itu juga otomatis disalin ke Google Drive, ke folder sesuai
+kategorinya.
+
+---
+
+## Kirim otomatis ke Google Drive
+
+Setiap video yang selesai langsung masuk ke folder kategorinya:
+
+| Kategori | Folder tujuan |
+|---|---|
+| Food & Beverage | `seruputsejarah` |
+| Fashion | `benangmerah` |
+
+Di dalamnya dibuatkan subfolder per proyek, misalnya
+`seruputsejarah/2026-08-16 Nomukita Matcha Uji/`, berisi video, takarir,
+caption, dan naskahnya. Nama folder bisa diganti di halaman Pengaturan.
+
+### Cara termudah — tanpa pengaturan apa pun
+
+Pasang **Google Drive for Desktop** dari
+<https://www.google.com/drive/download/>, lalu buka ulang aplikasi ini.
+Aplikasi akan menemukan sendiri folder Drive di komputermu dan menyalin
+hasilnya ke sana. Drive yang mengurus pengunggahannya.
+
+Tidak ada API key, tidak ada token, tidak ada yang bisa kedaluwarsa.
+
+Cara ini dipilih dengan sengaja. Mengunggah lewat API Google memerlukan
+pendaftaran proyek Google Cloud, layar persetujuan OAuth, dan berkas
+kredensial — beban yang tidak sepadan, apalagi berkas videonya belasan megabyte.
+
+### Alternatif — rclone
+
+Kalau tidak memakai Drive Desktop, pasang [rclone](https://rclone.org/downloads/)
+lalu jalankan `rclone config` sekali untuk menyambungkan akun Google Drive-mu.
+Setelah itu aplikasi memanggil `rclone copy` sendiri.
+
+### Kalau keduanya tidak ada
+
+Aplikasi tetap menyelesaikan videonya seperti biasa dan memberitahu bahwa
+berkasnya belum terkirim. Semua hasil tetap tersimpan di folder `projects/`
+dan bisa kamu unggah sendiri kapan saja.
+
 ---
 
 ## Perkiraan biaya
