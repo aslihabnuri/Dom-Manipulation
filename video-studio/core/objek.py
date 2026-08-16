@@ -323,13 +323,28 @@ def panah_turun(x: float, y: float, *, panjang: float = 140.0, skala: float = 1.
     return _g(isi, x, y, skala)
 
 
-def topi_petani(x: float, y: float, *, skala: float = 1.0) -> str:
-    """Caping, dipasang di atas kepala tokoh."""
-    isi = (
-        f'<path d="M -110 0 Q 0 -18 110 0 Q 0 -105 -110 0 Z" fill="{JINGGA}"/>'
-        f'<path d="M -110 0 Q 0 16 110 0" fill="none" stroke="{COKELAT}" stroke-width="8"/>'
+def topi_petani(x: float, y: float, *, jari_kepala: float = 120.0) -> str:
+    """Caping. Lebarnya diturunkan dari ukuran kepala supaya selalu menaungi.
+
+    Percobaan pertama memakai lebar tetap dua ratus dua puluh piksel. Pada
+    kepala berjari-jari seratus dua puluh piksel, topi itu justru lebih sempit
+    dari kepalanya sendiri dan sama sekali tidak terbaca sebagai topi.
+    """
+    w = jari_kepala * 2.6
+    h = jari_kepala * 1.10
+    return _g(
+        # Kerucut caping
+        f'<path d="M {-w*0.5:.0f} 0 Q 0 {h*0.26:.0f} {w*0.5:.0f} 0 '
+        f'Q 0 {-h:.0f} {-w*0.5:.0f} 0 Z" fill="{JINGGA}"/>'
+        # Garis anyaman
+        f'<path d="M {-w*0.32:.0f} {-h*0.26:.0f} Q 0 {-h*0.58:.0f} '
+        f'{w*0.32:.0f} {-h*0.26:.0f}" fill="none" stroke="{COKELAT}" '
+        f'stroke-width="6" opacity="0.5"/>'
+        # Tepi bawah yang menegaskan lengkungan
+        f'<path d="M {-w*0.5:.0f} 0 Q 0 {h*0.26:.0f} {w*0.5:.0f} 0" '
+        f'fill="none" stroke="{COKELAT}" stroke-width="7"/>',
+        x, y,
     )
-    return _g(isi, x, y, skala)
 
 
 def gedung(x: float, y: float, *, lebar: float = 120.0, tinggi: float = 300.0,
