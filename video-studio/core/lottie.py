@@ -63,6 +63,99 @@ class LottieGagal(RuntimeError):
 
 
 # ---------------------------------------------------------------------------
+# Pencarian katalog
+# ---------------------------------------------------------------------------
+# Titik GraphQL publik LottieFiles. Terbuka tanpa login dan hanya melayani
+# animasi yang memang dibagikan untuk umum, sehingga aplikasi bisa memilih
+# sendiri tanpa perlu pengguna menyalin tautan satu per satu.
+GRAPHQL = "https://graphql.lottiefiles.com/"
+
+_KUERI_CARI = """
+query($q: String!, $n: Int!) {
+  searchPublicAnimations(query: $q, first: $n) {
+    edges { node {
+      id name jsonUrl lottieUrl bgColor
+      createdBy { username }
+    } }
+  }
+}
+"""
+
+
+@dataclass
+class HasilCari:
+    id: int
+    nama: str
+    json_url: str
+    pembuat: str
+    latar: str = ""
+
+
+def cari(kata: str, jumlah: int = 8) -> list[HasilCari]:
+    """Cari animasi umum di katalog LottieFiles."""
+    try:
+        r = requests.post(
+            GRAPHQL,
+            json={"query": _KUERI_CARI, "variables": {"q": kata, "n": jumlah}},
+            timeout=45,
+            headers={"Content-Type": "application/json"},
+        )
+        r.raise_for_status()
+        data = r.json()
+    except (requests.RequestException, ValueError) as exc:
+        raise LottieGagal(f"Pencarian LottieFiles gagal: {exc}") from exc
+
+    tepi = (
+        (data.get("data") or {}).get("searchPublicAnimations", {}).get("edges") or []
+    )
+    keluar: list[HasilCari] = []
+    for e in tepi:
+        n = e.get("node") or {}
+        if not n.get("jsonUrl"):
+            continue
+        keluar.append(
+            HasilCari(
+                id=int(n.get("id") or 0),
+                nama=str(n.get("name") or "").strip(),
+                json_url=n["jsonUrl"],
+                pembuat=str((n.get("createdBy") or {}).get("username") or "").lstrip("/"),
+                latar=str(n.get("bgColor") or ""),
+            )
+        )
+    return keluar
+
+
+def cari_terbaik(
+    kata: str,
+    *,
+    min_lapisan: int = 6,
+    min_bingkai: int = 30,
+    jumlah_dicoba: int = 8,
+) -> tuple[HasilCari, Path] | None:
+    """Cari lalu pilih animasi yang paling layak dipakai.
+
+    Hasil pencarian tidak selalu berupa animasi yang bagus; banyak yang cuma
+    ikon berputar dengan dua lapisan. Penyaringan di sini memastikan yang
+    dipilih punya cukup lapisan dan cukup panjang untuk terasa sebagai adegan.
+    """
+    calon = cari(kata, jumlah_dicoba)
+    terbaik = None
+    for c in calon:
+        try:
+            f = ambil(c.json_url, nama=f"cari_{c.id}")
+            info = baca(f)
+        except (LottieGagal, ValueError, OSError):
+            continue
+        lapisan = len(json.loads(f.read_text(encoding="utf-8")).get("layers", []))
+        if lapisan < min_lapisan or info.bingkai < min_bingkai:
+            continue
+        skor = lapisan + info.bingkai / 30
+        if terbaik is None or skor > terbaik[0]:
+            terbaik = (skor, c, f)
+    return (terbaik[1], terbaik[2]) if terbaik else None
+
+
+# ---------------------------------------------------------------------------
 # Pengambilan berkas
 # ---------------------------------------------------------------------------
 def _pastikan_pemutar() -> Path:
