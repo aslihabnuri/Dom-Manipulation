@@ -23,6 +23,7 @@ from __future__ import annotations
 import hashlib
 import json
 import re
+import threading
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -74,6 +75,13 @@ class Aktor:
         return self.berkas.exists() and self.berkas.stat().st_size > 1000
 
 
+# Aktor dibuat beberapa sekaligus, dan tanpa kunci ini tiga thread yang
+# membaca lalu menulis ulang seluruh berkas indeks akan saling menimpa.
+# Pada percobaan pertama, sebelas aktor berhasil dibuat tetapi hanya empat
+# yang tercatat.
+_KUNCI_INDEKS = threading.Lock()
+
+
 def _muat_indeks() -> dict:
     if _INDEKS.exists():
         try:
@@ -83,8 +91,14 @@ def _muat_indeks() -> dict:
     return {}
 
 
-def _simpan_indeks(d: dict) -> None:
-    _INDEKS.write_text(json.dumps(d, indent=2, ensure_ascii=False), encoding="utf-8")
+def _catat_indeks(kunci: str, data: dict) -> None:
+    """Tambahkan satu entri tanpa menghapus entri yang ditulis thread lain."""
+    with _KUNCI_INDEKS:
+        d = _muat_indeks()
+        d[kunci] = data
+        _INDEKS.write_text(
+            json.dumps(d, indent=2, ensure_ascii=False), encoding="utf-8"
+        )
 
 
 def _slug(teks: str) -> str:
@@ -123,12 +137,12 @@ def buat_aktor(
     """
     kunci = kunci_aktor(nama, deskripsi + (acuan_produk or ""), bernyawa)
     berkas = AKTOR_DIR / f"{kunci}.png"
-    indeks = _muat_indeks()
 
     if berkas.exists() and not paksa_ulang:
         if lapor:
             lapor(f"♻️ Aktor '{nama}' diambil dari cache, tanpa biaya.")
-        return Aktor(kunci, berkas, indeks.get(kunci, {}).get("prompt", ""), 0.0, True)
+        tercatat = _muat_indeks().get(kunci, {})
+        return Aktor(kunci, berkas, tercatat.get("prompt", ""), 0.0, True)
 
     prompt = susun_prompt(deskripsi, bernyawa=bernyawa)
     kredit = 0.0
@@ -168,8 +182,7 @@ def buat_aktor(
     kredit += potong.credits
     klien.download(potong.first_url, berkas)
 
-    indeks[kunci] = {"nama": nama, "prompt": prompt, "kredit": kredit}
-    _simpan_indeks(indeks)
+    _catat_indeks(kunci, {"nama": nama, "prompt": prompt, "kredit": kredit})
     if lapor:
         lapor(f"✅ Aktor '{nama}' siap ({kredit:.0f} kredit).")
     return Aktor(kunci, berkas, prompt, kredit, False)
