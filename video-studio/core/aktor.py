@@ -35,6 +35,10 @@ AKTOR_DIR = CACHE_DIR / "aktor"
 AKTOR_DIR.mkdir(parents=True, exist_ok=True)
 _INDEKS = AKTOR_DIR / "indeks.json"
 
+# Satu-satunya tempat nama model pembuang latar ditulis, supaya pecah.py
+# dan modul lain tidak menyalin namanya sendiri-sendiri.
+MODEL_POTONG = "recraft/remove-background"
+
 BIAYA_GAMBAR = 4.0
 BIAYA_POTONG = 1.0
 BIAYA_AKTOR = BIAYA_GAMBAR + BIAYA_POTONG
@@ -177,7 +181,7 @@ def buat_aktor(
     if lapor:
         lapor(f"✂️ Memotong latar '{nama}'...")
     potong = klien.run_task(
-        "recraft/remove-background", {"image": url_mentah}, max_wait=300
+        MODEL_POTONG, {"image": url_mentah}, max_wait=300
     )
     kredit += potong.credits
     klien.download(potong.first_url, berkas)
