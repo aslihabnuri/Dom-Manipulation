@@ -167,7 +167,7 @@ def gabung_audio(
     *,
     isyarat_sfx: list[tuple[float, str, float]] | None = None,
     musik: Path | None = None,
-    volume_musik: float = 0.14,
+    volume_musik: float = 0.9,
     volume_sfx: float = 0.5,
     lufs: float = RENDER.lufs,
 ) -> Path:
@@ -207,9 +207,25 @@ def gabung_audio(
         masukan += ["-i", str(musik)]
         bagian.append(f"[{idx}:a]volume={volume_musik:.3f}[musikmentah]")
         bagian.append("[narasi]asplit=2[narasi_out][narasi_kunci]")
+        # Penekanan otomatis harus LEMBUT. Setelan lama, ambang 0,03 dengan
+        # rasio 9 banding 1, praktis menghapus musiknya: narasi selalu jauh
+        # di atas ambang serendah itu, jadi penekanan penuh berjalan terus.
+        #
+        # Terukur sebagai selisih gelombang terhadap campuran tanpa musik:
+        #
+        #     ambang 0,03  rasio 9     volume 0,14   -> -68 dBFS  (tak terdengar)
+        #     ambang 0,03  rasio 9     volume 0,42   -> -59 dBFS
+        #     ambang 0,30  rasio 2     volume 0,60   -> -38 dBFS
+        #     ambang 0,70  rasio 1,5   volume 0,90   -> -33 dBFS  (dipakai)
+        #
+        # Yang paling mengecoh: menaikkan volume musik saja TIDAK menolong.
+        # Dengan rasio setinggi itu, kompresor menarik musik kembali ke
+        # sekitar ambangnya berapa pun masukannya, jadi 0,14 dan 0,42
+        # menghasilkan campuran yang nyaris sama persis. Rasionya yang
+        # harus turun, bukan volumenya yang dinaikkan.
         bagian.append(
             "[musikmentah][narasi_kunci]sidechaincompress="
-            "threshold=0.03:ratio=9:attack=8:release=320[musik]"
+            "threshold=0.7:ratio=1.5:attack=25:release=420[musik]"
         )
         label_campur = ["[narasi_out]"] + label_campur[1:] + ["[musik]"]
         idx += 1
