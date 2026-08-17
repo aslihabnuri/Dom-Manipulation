@@ -244,21 +244,31 @@ class Kamera:
 
     def pada(self, t: float, T: float) -> tuple[float, float, float]:
         u = t / max(0.001, T)
-        z, gx, gy = 1.045, 0.0, 0.0
+        z, gx, gy = 1.075, 0.0, 0.0
         k = self.kuat
+        # Amplitudo sengaja besar. Versi pertama menggeser sembilan puluh
+        # piksel selama lima detik, yaitu 0,6 piksel per bingkai, dan
+        # gerak sepelan itu tidak terbaca sama sekali: seperempat bingkai
+        # terhitung diam meski kameranya "bergerak". Acuan hanya 2 sampai
+        # 4 persen bingkai diam.
         if self.gerak == "maju":
-            z = 1.0 + 0.085 * u * k
+            z = 1.0 + 0.17 * u * k
         elif self.gerak == "mundur":
-            z = 1.0 + 0.085 * (1 - u) * k
+            z = 1.0 + 0.17 * (1 - u) * k
         elif self.gerak == "geser":
-            z = 1.06
-            gx = (u - 0.5) * 90 * k
+            z = 1.10
+            gx = (u - 0.5) * 210 * k
         elif self.gerak == "tegak":
-            z = 1.06
-            gy = (u - 0.5) * 110 * k
+            z = 1.10
+            gy = (u - 0.5) * 250 * k
         elif self.gerak == "berlapis":
-            z = 1.05 + 0.02 * u * k
-            gx = math.sin(u * math.pi) * 26 * k
+            z = 1.08 + 0.05 * u * k
+            gx = math.sin(u * math.pi) * 80 * k
+            gy = math.sin(u * math.pi * 2) * 26 * k
+        elif self.gerak == "diam":
+            # Bahkan "diam" tetap merayap sedikit, supaya tidak ada bingkai
+            # yang benar-benar identik dengan bingkai sebelumnya.
+            z = 1.075 + 0.022 * u * k
         # Getaran benturan: gelombang yang meredam cepat, dipicu saat potongan
         # menghantam tempatnya. Ini yang memberi bobot pada pendaratan.
         for hit in self.benturan:
@@ -357,9 +367,15 @@ def render_bidikan(
 # Profil gerak video acuan, diukur langsung dari contoh milik vox-director
 # supaya kita punya angka pembanding, bukan perasaan:
 #
-#     tang      rata  4,4   puncak 65,9   diam  3,5%
-#     money     rata  7,6   puncak 40,3   diam  2,0%
-#     football  rata 12,4   puncak 46,7   diam 13,6%
+#     tang      rata  5,8   puncak 84,1   diam  2,5%
+#     money     rata  8,1   puncak 85,3   diam  3,5%
+#     football  rata  6,1   puncak 75,7   diam 18,8%
+#
+# Angka ini sempat salah sekali. Semula ukur_gerak mengambil bingkai dari
+# DEPAN saja, jadi patokannya cuma menggambarkan delapan detik pertama tiap
+# video acuan, dan perbandingan antarversi kita ikut menyesatkan. Sesudah
+# pengambilan contoh disebar merata, puncaknya ternyata jauh lebih tinggi
+# daripada yang dikira.
 #
 # Dua hal yang dibaca dari angka ini. Rata-ratanya sedang saja, jadi gerak
 # tidak perlu ramai terus-menerus. Tapi puncaknya tinggi sekali, empat puluh
@@ -367,7 +383,7 @@ def render_bidikan(
 # melainkan dari POTONGAN ANTARBIDIKAN. Video satu bidikan tidak akan pernah
 # mencapainya. Itu sebabnya alur.pecah_bidikan memotong tiap empat sampai
 # enam detik.
-ACUAN_GERAK = {"rata": (4.0, 12.5), "puncak_minimum": 38.0, "diam_maksimum": 14.0}
+ACUAN_GERAK = {"rata": (5.0, 12.5), "puncak_minimum": 50.0, "diam_maksimum": 19.0}
 
 
 def nilai_gerak(ukuran: dict, *, satu_bidikan: bool = False) -> list[str]:
@@ -398,14 +414,33 @@ def ukur_gerak(video: Path, *, contoh: int = 240) -> dict:
     import numpy as np
     from tempfile import TemporaryDirectory
 
+    # Contoh diambil merata sepanjang video, bukan dipotong dari depan.
+    #
+    # Sebelumnya semua bingkai diekstrak lalu diambil empat ratus yang
+    # pertama. Pada video empat puluh detik, empat ratus bingkai hanya
+    # sampai detik ketiga belas, jadi angka yang keluar cuma menggambarkan
+    # tiga adegan awal dan lima adegan sisanya tidak pernah terukur. Itu
+    # sempat membuat perbandingan antarversi menyesatkan: yang berubah
+    # ternyata bagian yang kebetulan ikut terukur, bukan mutunya.
+    #
+    # Yang dibandingkan tetap DUA BINGKAI BERSEBELAHAN pada laju aslinya.
+    # Menjarangkan bingkai dulu lalu membandingkannya akan melipatgandakan
+    # selisih, dan angkanya tidak lagi sebanding dengan patokan acuan.
     with TemporaryDirectory() as td:
         subprocess.run(
             ["ffmpeg", "-v", "error", "-i", str(video), "-vf", "scale=320:-2",
-             f"{td}/f%04d.png"], check=True)
-        berkas = sorted(Path(td).glob("*.png"))[:contoh]
-        arr = [np.asarray(Image.open(p).convert("L"), dtype=np.float32) for p in berkas]
-    if len(arr) < 2:
-        return {"rata": 0.0, "puncak": 0.0, "diam_persen": 100.0}
-    d = np.array([np.abs(arr[i - 1] - arr[i]).mean() for i in range(1, len(arr))])
-    return {"rata": float(d.mean()), "puncak": float(d.max()),
-            "diam_persen": float((d < 0.35).mean() * 100)}
+             f"{td}/f%05d.png"], check=True)
+        berkas = sorted(Path(td).glob("*.png"))
+        if len(berkas) < 2:
+            return {"rata": 0.0, "puncak": 0.0, "diam_persen": 100.0}
+        # Pasangan bertetangga, disebar merata dari awal sampai akhir.
+        n = min(contoh, len(berkas) - 1)
+        indeks = [1 + round(i * (len(berkas) - 2) / max(1, n - 1)) for i in range(n)]
+        arr = []
+        for i in indeks:
+            a = np.asarray(Image.open(berkas[i - 1]).convert("L"), dtype=np.float32)
+            b = np.asarray(Image.open(berkas[i]).convert("L"), dtype=np.float32)
+            arr.append(np.abs(a - b).mean())
+        d = np.array(arr)
+        return {"rata": float(d.mean()), "puncak": float(d.max()),
+                "diam_persen": float((d < 0.35).mean() * 100)}
