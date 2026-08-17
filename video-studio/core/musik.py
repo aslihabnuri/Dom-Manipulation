@@ -51,6 +51,23 @@ class Lagu:
     kredit: float
 
 
+def gaya_dari_suasana(nama_tema: str, nama_suasana: str | None = None) -> str:
+    """Gaya musik dari pasangan tema dan suasana.
+
+    Tema menentukan BUNYI apa yang dipakai, suasana menentukan BAGAIMANA
+    dimainkan. Koto Jepang bisa terdengar tenang atau mendesak tergantung
+    tempo dan tangga nadanya, dan yang menentukan itu suasananya.
+
+    Ini dipakai supaya lagu dan narator berangkat dari sumber yang sama.
+    Sebelumnya keduanya dipilih terpisah, dan hasilnya musik muram
+    berpasangan dengan narator yang gembira.
+    """
+    from .suasana import suasana as _suasana
+
+    s = _suasana(nama_suasana)
+    return gaya_dari_tema(nama_tema, s.musik)
+
+
 def gaya_dari_tema(nama_tema: str, suasana: str = "") -> str:
     """Terjemahkan tema tampilan jadi gaya musik yang sepadan.
 

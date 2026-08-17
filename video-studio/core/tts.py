@@ -250,17 +250,21 @@ def suara_gemini(
     kecepatan: float = 1.0,
     gaya: str = "",
     konteks: str = "",
+    nama_suasana: str | None = None,
 ) -> HasilSuara:
-    profil = (
-        gaya
-        or "Pembaca berita Indonesia yang bicara mengalir dan menyambung, "
-        "tanpa jeda antarkata. Suara hangat dan jelas, pelafalan baku dan tepat. "
-        "Tidak menggantung di akhir kalimat."
-    )
+    # Suasana menyetel watak narator, gaya, dan suhunya sekaligus. Tanpa
+    # ini, narator terdengar gembira di atas musik yang muram, dan video
+    # terasa janggal walau sulit ditunjuk letaknya.
+    from .suasana import suasana as _suasana
+
+    s = _suasana(nama_suasana)
+    profil = gaya or s.watak_suara
     payload = {
         # Suhu rendah menekan improvisasi model, termasuk kecenderungan
-        # menyelipkan jeda dramatis yang tidak diminta.
-        "temperature": 0.6,
+        # menyelipkan jeda dramatis yang tidak diminta. Cerita muram
+        # memakai suhu lebih rendah lagi supaya model tidak menambahkan
+        # keceriaan sendiri.
+        "temperature": s.suhu,
         "scene": (
             "Narasi video edukasi pendek Bahasa Indonesia. Kalimat diucapkan "
             "mengalir dalam satu tarikan napas, tanpa berhenti di antara kata."
@@ -276,9 +280,19 @@ def suara_gemini(
                 "voice_name": voice,
                 "accent": "Neutral",
                 "audio_profile": profil,
-                # "Newscaster" membuat model menyisipkan jeda dramatis yang
-                # sangat panjang. "Vocal Smile" jauh lebih rapat temponya.
-                "style": "Vocal Smile",
+                # Gaya diambil dari suasana, dan boleh KOSONG.
+                #
+                # "Vocal Smile" dulu dipatok mati karena temponya rapat,
+                # tetapi namanya harfiah: model menyuarakannya sambil
+                # tersenyum. Untuk cerita muram itu salah rasa.
+                #
+                # Tabel pengukuran di atas menunjukkan jalan keluarnya:
+                # "Rapid Fire" tanpa style sama sekali menghasilkan jeda
+                # per kata yang SAMA (0,13), hanya kata per menitnya lebih
+                # tinggi. Jadi melepas senyumnya tidak mengorbankan
+                # kemenyambungan sedikit pun; yang perlu dirapikan cuma
+                # temponya, dan itu memang sudah dikerjakan belakangan.
+                **({"style": s.gaya_suara} if s.gaya_suara else {}),
                 "pace": _pace_dari_kecepatan(kecepatan),
             }
         ],
@@ -428,6 +442,7 @@ def buat_suara(
     kecepatan: float = 1.0,
     wpm_target: int = 150,
     catat: callable | None = None,
+    nama_suasana: str | None = None,
 ) -> HasilSuara:
     """Coba tiap penyedia berurutan sampai ada yang berhasil.
 
@@ -468,7 +483,8 @@ def buat_suara(
                 if not klien:
                     raise TTSGagal("Klien Kie belum siap.")
                 return _rapikan(suara_gemini(
-                    klien, teks, keluar, voice=voice_gemini, kecepatan=kecepatan
+                    klien, teks, keluar, voice=voice_gemini, kecepatan=kecepatan,
+                    nama_suasana=nama_suasana
                 ))
             if nama == "elevenlabs-kie":
                 if not klien:
