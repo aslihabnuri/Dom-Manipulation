@@ -1,0 +1,261 @@
+/* ============================================================
+   Rute — design tokens
+   Palette anchored on a deep oxidised-teal (OKLCH hue 178).
+   Day shading uses an ORDINAL ramp, not categorical hues:
+   a trip's days are an ordered sequence, so lightness is the
+   honest channel. Both ramps pass the ordinal validator
+   (monotone L, adjacent dL >= 0.06, light end clears 2:1).
+   ============================================================ */
+
+:root {
+  color-scheme: light;
+
+  /* --- surfaces: pure white body, teal-tinted panels ------- */
+  --bg:            #ffffff;
+  --surface:       #f4f8f7;
+  --surface-sunk:  #e8eeed;
+  --surface-hi:    #ffffff;
+  --line:          #dae2df;
+  --line-soft:     #e8eeed;
+  --line-strong:   #c8d2cf;
+
+  /* --- ink ------------------------------------------------- */
+  --ink:           #101816;  /* 17.4:1 on white */
+  --ink-2:         #3b4542;  /*  9.4:1 */
+  --ink-muted:     #505b58;  /*  6.7:1 — still passes AA body */
+  --ink-onbrand:   #ffffff;
+
+  /* --- brand ------------------------------------------------ */
+  --brand:         #026a5b;  /* white text on this: 5.9:1 */
+  --brand-hi:      #0a5448;
+  --brand-ink:     #045648;  /* brand-coloured text on white: 7.2:1 */
+  --brand-soft:    #e4f4f0;
+  --brand-soft-hi: #d1ece4;
+  --brand-ring:    rgba(2, 106, 91, 0.32);
+
+  /* --- status (icon + label always accompany colour) -------- */
+  --ok:            #0ca30c;
+  --ok-ink:        #006b2d;
+  --ok-soft:       #e6f6e9;
+  --warn:          #fab219;
+  --warn-ink:      #7d4b06;
+  --warn-soft:     #fdf1d9;
+  --alert:         #d03b3b;
+  --alert-ink:     #a51e24;
+  --alert-soft:    #fbe9e9;
+
+  /* --- day ordinal ramp (light) ----------------------------- */
+  --day-1: #5cb4a1;
+  --day-2: #37a08c;
+  --day-3: #0f8b77;
+  --day-4: #007463;
+  --day-5: #045d50;
+  --day-6: #09483d;
+  --day-7: #08332b;
+
+  --day-1-ink: #08332b;
+  --day-2-ink: #ffffff;
+  --day-3-ink: #ffffff;
+  --day-4-ink: #ffffff;
+  --day-5-ink: #ffffff;
+  --day-6-ink: #ffffff;
+  --day-7-ink: #ffffff;
+
+  /* --- data viz --------------------------------------------- */
+  --viz-bar:       #07816f;
+  --viz-bar-soft:  #cfe8e2;
+  --viz-grid:      #e8eeed;
+  --viz-axis:      #c8d2cf;
+  --viz-track:     #eef3f2;
+
+  /* --- geometry --------------------------------------------- */
+  --r-xs: 4px;
+  --r-sm: 6px;
+  --r-md: 10px;
+  --r-lg: 14px;
+  --r-xl: 20px;
+  --r-pill: 999px;
+
+  /* --- 4pt spacing scale ------------------------------------- */
+  --s-1:  4px;
+  --s-2:  8px;
+  --s-3:  12px;
+  --s-4:  16px;
+  --s-5:  20px;
+  --s-6:  24px;
+  --s-8:  32px;
+  --s-10: 40px;
+  --s-12: 48px;
+  --s-16: 64px;
+
+  /* --- elevation --------------------------------------------- */
+  --sh-sm: 0 1px 2px rgba(16, 24, 22, .06), 0 1px 1px rgba(16, 24, 22, .04);
+  --sh-md: 0 4px 12px rgba(16, 24, 22, .07), 0 1px 3px rgba(16, 24, 22, .05);
+  --sh-lg: 0 16px 40px rgba(16, 24, 22, .12), 0 2px 8px rgba(16, 24, 22, .06);
+  --sh-focus: 0 0 0 3px var(--brand-ring);
+
+  /* --- type --------------------------------------------------
+     Product register: one family, fixed rem scale, ratio ~1.15 */
+  --font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  --font-num: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  --t-2xs: 0.6875rem; /* 11 */
+  --t-xs:  0.75rem;   /* 12 */
+  --t-sm:  0.8125rem; /* 13 */
+  --t-md:  0.875rem;  /* 14 — UI default */
+  --t-base:0.9375rem; /* 15 — body copy */
+  --t-lg:  1.0625rem; /* 17 */
+  --t-xl:  1.25rem;   /* 20 */
+  --t-2xl: 1.5rem;    /* 24 */
+  --t-3xl: 1.875rem;  /* 30 */
+
+  /* --- semantic z-scale --------------------------------------- */
+  --z-base:      0;
+  --z-sticky:    10;
+  --z-mapfab:    20;
+  --z-rail:      30;
+  --z-scrim:     40;
+  --z-drawer:    50;
+  --z-modal:     60;
+  --z-toast:     70;
+
+  /* --- motion -------------------------------------------------- */
+  --ease-out: cubic-bezier(.22, 1, .36, 1);       /* quint */
+  --ease-in-out: cubic-bezier(.65, 0, .35, 1);
+  --dur-1: 120ms;
+  --dur-2: 180ms;
+  --dur-3: 260ms;
+
+  --rail-w: 216px;
+  --map-w: clamp(340px, 30vw, 460px);
+}
+
+/* ============================================================
+   Dark theme — selected steps, not an inverted flip.
+   Declared under both the OS media query and the explicit
+   [data-theme] stamp so the toggle wins in both directions.
+   ============================================================ */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg:            #070b0a;
+  --surface:       #101615;
+  --surface-sunk:  #0b100f;
+  --surface-hi:    #1a2220;
+  --line:          #28312f;
+  --line-soft:     #1a2220;
+  --line-strong:   #3a4441;
+
+  --ink:           #f0f5f3;
+  --ink-2:         #b6c0be;
+  --ink-muted:     #919d9a;  /* 6.9:1 on --bg */
+  --ink-onbrand:   #04120f;
+
+  --brand:         #56b9a5;
+  --brand-hi:      #7ed0be;
+  --brand-ink:     #56b9a5;  /* 7.4:1 on --bg */
+  --brand-soft:    #132924;
+  --brand-soft-hi: #14342e;
+  --brand-ring:    rgba(86, 185, 165, 0.38);
+
+  --ok:            #0ca30c;
+  --ok-ink:        #46c46a;
+  --ok-soft:       #0e2416;
+  --warn:          #fab219;
+  --warn-ink:      #e0a92e;
+  --warn-soft:     #2a2108;
+  --alert:         #d03b3b;
+  --alert-ink:     #f0736f;
+  --alert-soft:    #2c1414;
+
+  /* day ramp re-stepped for the dark surface, light -> dark
+     reversed so day 1 stays the quietest mark */
+  --day-1: #0c4d42;
+  --day-2: #106355;
+  --day-3: #167a69;
+  --day-4: #26907d;
+  --day-5: #41a692;
+  --day-6: #65baa8;
+  --day-7: #8ccdbe;
+
+  --day-1-ink: #ffffff;
+  --day-2-ink: #ffffff;
+  --day-3-ink: #ffffff;
+  --day-4-ink: #ffffff;
+  --day-5-ink: #04120f;
+  --day-6-ink: #04120f;
+  --day-7-ink: #04120f;
+
+  --viz-bar:       #339d89;
+  --viz-bar-soft:  #17332d;
+  --viz-grid:      #1a2220;
+  --viz-axis:      #28312f;
+  --viz-track:     #131a19;
+
+  --sh-sm: 0 1px 2px rgba(0, 0, 0, .5);
+  --sh-md: 0 4px 14px rgba(0, 0, 0, .55);
+  --sh-lg: 0 18px 44px rgba(0, 0, 0, .62);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+
+    --bg:            #070b0a;
+    --surface:       #101615;
+    --surface-sunk:  #0b100f;
+    --surface-hi:    #1a2220;
+    --line:          #28312f;
+    --line-soft:     #1a2220;
+    --line-strong:   #3a4441;
+
+    --ink:           #f0f5f3;
+    --ink-2:         #b6c0be;
+    --ink-muted:     #919d9a;
+    --ink-onbrand:   #04120f;
+
+    --brand:         #56b9a5;
+    --brand-hi:      #7ed0be;
+    --brand-ink:     #56b9a5;
+    --brand-soft:    #132924;
+    --brand-soft-hi: #14342e;
+    --brand-ring:    rgba(86, 185, 165, 0.38);
+
+    --ok:            #0ca30c;
+    --ok-ink:        #46c46a;
+    --ok-soft:       #0e2416;
+    --warn:          #fab219;
+    --warn-ink:      #e0a92e;
+    --warn-soft:     #2a2108;
+    --alert:         #d03b3b;
+    --alert-ink:     #f0736f;
+    --alert-soft:    #2c1414;
+
+    --day-1: #0c4d42;
+    --day-2: #106355;
+    --day-3: #167a69;
+    --day-4: #26907d;
+    --day-5: #41a692;
+    --day-6: #65baa8;
+    --day-7: #8ccdbe;
+
+    --day-1-ink: #ffffff;
+    --day-2-ink: #ffffff;
+    --day-3-ink: #ffffff;
+    --day-4-ink: #ffffff;
+    --day-5-ink: #04120f;
+    --day-6-ink: #04120f;
+    --day-7-ink: #04120f;
+
+    --viz-bar:       #339d89;
+    --viz-bar-soft:  #17332d;
+    --viz-grid:      #1a2220;
+    --viz-axis:      #28312f;
+    --viz-track:     #131a19;
+
+    --sh-sm: 0 1px 2px rgba(0, 0, 0, .5);
+    --sh-md: 0 4px 14px rgba(0, 0, 0, .55);
+    --sh-lg: 0 18px 44px rgba(0, 0, 0, .62);
+  }
+}
