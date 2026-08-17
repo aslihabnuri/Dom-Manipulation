@@ -138,5 +138,7 @@ def buat_musik(
     if lapor:
         lapor(f"Lagu siap: {keluar.name} ({kredit} kredit)")
 
-    from .audio import durasi_audio
+    # durasi_audio tinggal di tts.py, bukan audio.py, karena di situ ia
+    # pertama kali dibutuhkan untuk mengukur panjang narasi.
+    from .tts import durasi_audio
     return Lagu(keluar, nama or judul, durasi_audio(keluar), kredit)
