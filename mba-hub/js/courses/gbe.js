@@ -60,7 +60,31 @@ window.MBA_COURSES.gbe = {
     ]
   },
 
-  /* 9 lingkungan + sesi presentasi; PPT dipetakan ke hari kuliah blok */
+  /* ---------- PEMETAAN FILE MATERI → SESI ----------
+     Keputusan berbasis silabus MAN 6521 (daftar 9 lingkungan) +
+     prefiks tanggal pada nama file (0223/0224/0225/0226 = hari ke-1..4
+     kuliah blok angkatan sebelumnya, dipetakan ke 31 Agu–3 Sep 2026). ---------- */
+  materialMap: [
+    { file: "20260223_Syllabus GBE Agustus 2024_Prof Agus Sartono.pptx", sessions: [1], part: "Seluruh deck",
+      why: "Silabus Sesi 1 = \"Penjelasan mata kuliah\". Prefiks 0223 = hari ke-1 → 31 Agustus 2026.", confidence: "pasti" },
+    { file: "20260223_economic-environment_Sahadewo.pptx", sessions: [2], part: "Seluruh deck",
+      why: "Silabus Sesi 2 = \"Lingkungan Ekonomi\". Prefiks 0223 = hari ke-1, dibawakan setelah penjelasan mata kuliah.", confidence: "pasti" },
+    { file: "20260223_GBE Natural Environment 2022_Pak Andhika.pdf", sessions: [3], part: "Seluruh deck",
+      why: "Silabus menempatkan \"Lingkungan Alami (natural)\" sebagai topik tersendiri. Prefiks 0223 = masih hari ke-1 (sesi sore).", confidence: "tinggi" },
+    { file: "20260224_Social Environment_MBA UGM 2026_Desideria.pptx", sessions: [4], part: "Seluruh deck",
+      why: "Silabus = \"Lingkungan Sosial dan Budaya\". Prefiks 0224 = hari ke-2 → 1 September 2026.", confidence: "pasti" },
+    { file: "20260224_GBE Political Environment Sem 2_Hempri Suyatna.pptx", sessions: [5], part: "Seluruh deck",
+      why: "Silabus = \"Lingkungan Politik Nasional dan Internasional\". Prefiks 0224 = hari ke-2.", confidence: "pasti" },
+    { file: "20260225_GBE-demographical environment-Ibu Amelia.pdf", sessions: [6], part: "Seluruh deck",
+      why: "Silabus = \"Lingkungan Demografi\". Prefiks 0225 = hari ke-3 → 2 September 2026.", confidence: "pasti" },
+    { file: "20260226_NEW. GBE MMTech_Env_SKW_FD_Pak Wirawan.pdf", sessions: [7], part: "Seluruh deck",
+      why: "Silabus = \"Lingkungan Teknologi\". Prefiks 0226 = hari ke-4 → 3 September 2026.", confidence: "pasti" },
+    { file: "20260226_Ferry MM - Hukum dan Hukum Bisnis (Mahasiswa).pptx", sessions: [8], part: "Seluruh deck",
+      why: "Silabus = \"Lingkungan Hukum Bisnis Indonesia\". Prefiks 0226 = hari ke-4.", confidence: "tinggi" },
+    { file: "(belum ada)", sessions: [9, 10], part: "Lingkungan Hukum Bisnis Internasional &amp; Lingkungan Pemerintahan",
+      why: "Dua dari sembilan lingkungan di silabus belum punya file di Drive. Mintalah ke koordinator atau teman sekelas.", confidence: "belum tersedia" }
+  ],
+
   sessions: [
     { id: 1, date: "2026-08-31", dateLabel: "31 Agustus 2026 · Hari 1", topic: "Penjelasan Mata Kuliah & Silabus",
       subtopics: ["Pengantar GBE", "Aturan main & tugas akhir"], readings: ["Silabus GBE"],

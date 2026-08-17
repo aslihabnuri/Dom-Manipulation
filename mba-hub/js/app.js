@@ -180,6 +180,28 @@
       <h1 class="view-title">Silabus &amp; Jadwal 12 Sesi</h1>
       <p class="view-sub">Klik "Tandai selesai" setelah kamu mempelajari materi sesi tersebut. Sesi dengan tanggal
       yang sudah lewat ditandai otomatis pada garis waktu.</p>
+      ${DATA.materialMap ? `
+      <details class="card mm-block">
+        <summary class="mq-summary">
+          <span class="mq-title">🗂️ Peta Materi → Pertemuan</span>
+          <span class="mq-count">${DATA.materialMap.length} pemetaan</span>
+        </summary>
+        <p class="mq-hint">File materi di Drive tidak selalu bernama sesuai nomor pertemuan. Berikut keputusan
+        penempatannya <b>berdasarkan silabus</b>, lengkap dengan alasannya — supaya kamu tahu file mana dibaca untuk
+        pertemuan mana.</p>
+        <div class="mm-list">
+          ${DATA.materialMap.map((m) => `
+            <div class="mm-item mm-${m.confidence.split(" ")[0]}">
+              <div class="mm-head">
+                <b>${esc(m.file)}</b>
+                <span class="mm-ses">${m.sessions.length > 1 ? "Sesi " + m.sessions.join(" &amp; ") : "Sesi " + m.sessions[0]}</span>
+              </div>
+              <div class="mm-part"><b>Bagian:</b> ${m.part}</div>
+              <div class="mm-why"><b>Alasan:</b> ${m.why}</div>
+              <span class="mm-conf">tingkat keyakinan: ${esc(m.confidence)}</span>
+            </div>`).join("")}
+        </div>
+      </details>` : ""}
       <div class="timeline">
         ${DATA.sessions.map((s) => {
           const isDone = done.includes(s.id);

@@ -60,6 +60,70 @@ window.MBA_COURSES.bes = {
     ]
   },
 
+  /* ---------- PEMETAAN FILE MATERI → PERTEMUAN ----------
+     Keputusan berbasis silabus MAN5522 (kolom "Reference" tiap sesi).
+     Deck Prof. Eko mengikuti struktur buku Velasquez (ada di daftar
+     recommended readings), sehingga bagian-bagiannya tersebar ke
+     beberapa pertemuan, bukan hanya satu. ---------- */
+  materialMap: [
+    {
+      file: "Chapter_1_with_Explanatory_Notes.pptx",
+      sessions: [1],
+      part: "Seluruh deck (15 slide)",
+      why: "Silabus Sesi 1 = \"Syllabus, class management, and introduction to business ethics · Introducing Business Ethics\" dengan referensi CM1. Deck ini memang berjudul \"Slide pointers for Chapter 1\" dan isinya persis: definisi BE, etika vs hukum, morality–ethics–theory, globalisasi, sustainability, kasus Global McEthics.",
+      confidence: "pasti"
+    },
+    {
+      file: "Chapter_2_Slides_and_Explanatory_Notes.pptx",
+      sessions: [2],
+      part: "Seluruh deck",
+      why: "Silabus Sesi 2 = \"Framing Business Ethics\" dengan referensi CM2. File ini sempat ada di Drive tetapi kini tidak ditemukan — kalau diupload ulang, tempatnya di Pertemuan 2.",
+      confidence: "pasti (file hilang dari Drive)"
+    },
+    {
+      file: "Materi Etika Bisnis-Terbaru.pptx (deck Prof. Eko)",
+      sessions: [1],
+      part: "Bagian pembuka: isu domestik & internasional · stakeholder primer–sekunder · Triple Bottom Line (Savitz) · sebelas peran perusahaan (de Woot) · definisi ethics/morality/BE · why business ethics · contoh korporasi · relativisme etika · individu vs korporasi · systemic issues",
+      why: "Semua topik ini adalah materi pengantar yang di silabus masuk Sesi 1 (CM1). Inilah bagian deck yang dipakai pada pertemuan pertama.",
+      confidence: "pasti"
+    },
+    {
+      file: "Materi Etika Bisnis-Terbaru.pptx (deck Prof. Eko)",
+      sessions: [3],
+      part: "Bagian teori: konsep hak (legal vs moral) · John Locke &amp; hak alamiah · Adam Smith &amp; pasar bebas beserta kritiknya · hak negatif vs positif · contractual rights &amp; duties · Kant's categorical imperative · masalah utilitarianisme (kasus Pinto) · keterbatasan pengukuran",
+      why: "Silabus Sesi 3 = \"Evaluating Business Ethics\" (CM3) yang membahas teori-teori etika normatif. Seluruh bagian ini adalah teori etika, jadi tempatnya di Pertemuan 3 — bukan Pertemuan 1 atau 2.",
+      confidence: "tinggi"
+    },
+    {
+      file: "Materi Etika Bisnis-Terbaru.pptx (deck Prof. Eko)",
+      sessions: [7],
+      part: "Ethics of Job Discrimination: definisi · bentuk diskriminasi · affirmative action · diskriminasi dan hukum · analisis lewat utility, rights, dan justice",
+      why: "Silabus Sesi 7 = \"Employees and Business Ethics\" (CM7). Diskriminasi kerja adalah isu ketenagakerjaan, jadi masuk pertemuan itu.",
+      confidence: "tinggi"
+    },
+    {
+      file: "Materi Etika Bisnis-Terbaru.pptx (deck Prof. Eko)",
+      sessions: [8],
+      part: "The Ethics of Consumer Production and Marketing: contract view · due care theory · social cost view · etika periklanan · privasi konsumen · kasus gagal ginjal akut (sirop obat)",
+      why: "Silabus Sesi 8 = \"Consumers and Business Ethics\" (CM8). Seluruh bagian ini tentang kewajiban produsen terhadap konsumen.",
+      confidence: "tinggi"
+    },
+    {
+      file: "Materi Etika Bisnis-Terbaru.pptx (deck Prof. Eko)",
+      sessions: [11],
+      part: "Business System: kebijakan industri pemerintah · haruskah pemerintah mengatur atau melepas · market system vs command system · mixed system · perbandingan negara liberal dan tersentralisasi",
+      why: "Silabus Sesi 11 = \"Government, Regulation, and Business Ethics\" (CM11). Pertanyaan sejauh mana negara mengatur pasar adalah inti pertemuan itu. (Sebagian bisa muncul lagi di Sesi 3 sebagai isu sistemik.)",
+      confidence: "sedang"
+    },
+    {
+      file: "Materi Etika Bisnis-Terbaru.pptx (deck Prof. Eko)",
+      sessions: [12],
+      part: "Ethics and the Environment (polusi, perubahan iklim, ecological ethics, environmental rights, private vs social cost, konservasi sumber daya, sustainability issues) + Isu Teknologi (AI, integritas pengguna)",
+      why: "Silabus tidak punya sesi khusus lingkungan; Sesi 12 = \"Future Perspectives, Corporate Governance, and Business Ethics (including Ethics and Technology)\" (CM12) adalah tempat paling tepat untuk keberlanjutan jangka panjang dan teknologi. Pengantar ringkasnya tetap dipakai di Sesi 1 lewat Triple Bottom Line.",
+      confidence: "sedang"
+    }
+  ],
+
   sessions: [
     { id: 1, date: "2026-08-15", dateLabel: "15 Agustus 2026", topic: "Pengantar & Introducing Business Ethics",
       subtopics: ["Silabus & manajemen kelas", "Introducing business ethics"], readings: ["Silabus", "CM bab 1"], caseStudy: "Global McEthics (McDonald's)",

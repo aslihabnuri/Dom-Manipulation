@@ -1844,3 +1844,37 @@ mark.hl--noted::after {
 .prep-concept span { font-size: 0.82rem; color: var(--ink-soft); line-height: 1.55; }
 .prep-read { list-style: none; margin: 0 0 0.3rem; }
 .prep-read li { font-size: 0.87rem; color: var(--ink-soft); padding: 0.2rem 0; }
+
+/* peta materi -> pertemuan */
+.mm-block { margin-bottom: 1.25rem; padding: 0; overflow: hidden; background: var(--paper); border: 1px solid var(--line-strong); border-radius: 12px; }
+.mm-block[open] { padding-bottom: 1rem; }
+.mm-block .mq-hint, .mm-block .mm-list { padding-left: 1.2rem; padding-right: 1.2rem; }
+.mm-list { display: flex; flex-direction: column; gap: 0.5rem; }
+
+.mm-item {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--gold);
+  border-radius: 10px;
+  padding: 0.7rem 0.9rem;
+}
+
+.mm-item.mm-tinggi { border-left-color: var(--gold-bright); }
+.mm-item.mm-sedang { border-left-color: var(--ink-faint); }
+.mm-item.mm-belum { border-left-color: var(--red); opacity: 0.85; }
+.mm-head { display: flex; gap: 0.6rem; align-items: baseline; justify-content: space-between; flex-wrap: wrap; margin-bottom: 0.35rem; }
+.mm-head b { font-family: var(--mono); font-size: 0.78rem; color: var(--ink); }
+
+.mm-ses {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  background: var(--panel);
+  color: var(--gold-bright);
+  white-space: nowrap;
+}
+
+.mm-part, .mm-why { font-size: 0.8rem; color: var(--ink-soft); line-height: 1.5; margin-bottom: 0.25rem; }
+.mm-part b, .mm-why b { color: var(--ink); }
+.mm-conf { font-family: var(--mono); font-size: 0.66rem; color: var(--ink-faint); }
