@@ -434,7 +434,17 @@ def jalankan_render(
     *,
     klien: KieClient | None = None,
     pakai_musik: bool = True,
-    pakai_sfx: bool = True,
+    # Efek suara dimatikan secara bawaan.
+    #
+    # Video acuan tidak memakainya sama sekali: tahap audionya hanya narasi
+    # per adegan ditambah satu musik instrumental. Satu-satunya sebutan
+    # efek suara di sana justru perintah kepada mesin suara supaya TIDAK
+    # menambahkan efek apa pun.
+    #
+    # Bunyi penegas di tiap pergantian adegan terdengar mengganggu, dan
+    # memang tidak ada yang perlu ditegaskan: potongannya sudah jatuh tepat
+    # di ketukan lagu, jadi musiknya sendiri yang menandai perpindahan.
+    pakai_sfx: bool = False,
     butiran: bool = True,
     vignette: bool = True,
     tampilkan_hook: bool = True,
