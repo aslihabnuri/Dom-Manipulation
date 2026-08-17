@@ -510,12 +510,19 @@ def aset(
     cermin: bool = False,
     lebar_kali: float = 1.0,
     tinggi_kali: float = 1.0,
+    poros: tuple[float, float] = (0.5, 1.0),
 ) -> str:
     """Tempatkan satu berkas gambar berlatar transparan sebagai lapisan.
 
     Titik (x, y) adalah TENGAH BAWAH gambar, supaya benda berdiri di lantai
     adegan. lebar_kali dan tinggi_kali dipakai untuk gerak memipih dan
     memanjang, yang membuat benda terasa punya bobot.
+
+    poros adalah titik putar sebagai pecahan kotak gambar: (0,0) pojok kiri
+    atas, (1,1) pojok kanan bawah. Bawaan (0.5, 1.0) berarti tengah bawah,
+    cocok untuk benda yang berdiri di lantai. Untuk potongan tubuh, poros
+    diletakkan di sendinya: kepala berputar di leher (0.5, 1.0), lengan
+    berputar di bahu, misalnya (0.9, 0.05) untuk lengan kiri.
     """
     tinggi = tinggi if tinggi is not None else lebar
     w = lebar * lebar_kali
@@ -527,12 +534,16 @@ def aset(
         transformasi += f" rotate({putar:.2f})"
     if sx < 0:
         transformasi += " scale(-1,1)"
+    # Gambar digeser supaya poros yang diminta jatuh tepat di titik (x, y).
+    px, py = poros
+    ox = -w * px
+    oy = -h * py
     nama = Path(berkas).name
     return (
         f'<g transform="{transformasi}" opacity="{opasitas:.3f}">'
-        f'<image href="{nama}" x="{-w/2:.2f}" y="{-h:.2f}" '
+        f'<image href="{nama}" x="{ox:.2f}" y="{oy:.2f}" '
         f'width="{w:.2f}" height="{h:.2f}" '
-        f'preserveAspectRatio="xMidYMax meet"/></g>'
+        f'preserveAspectRatio="none"/></g>'
     )
 
 

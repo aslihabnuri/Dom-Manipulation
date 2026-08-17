@@ -129,7 +129,9 @@ def _escape(teks: str) -> str:
 # Titik pasang teks di layar, dihitung dari atas dalam piksel.
 # Video acuan menaruh pita pembuka di sekitar sepertiga atas layar, label
 # sorotan tepat di atas takarir, dan takarir di seperlima bawah.
-Y_HOOK_ATAS = int(RENDER.height * 0.30)
+# Kartu pembuka duduk di pita atas, bukan di tengah layar. Di tengah ia
+# menutupi wajah tokoh, dan wajah adalah hal pertama yang dilihat penonton.
+Y_HOOK_ATAS = int(RENDER.height * 0.13)
 Y_HOOK_BAWAH = Y_HOOK_ATAS + 132
 Y_SOROTAN = int(RENDER.height * 0.735)
 Y_SOROTAN_SUB = Y_SOROTAN + 78
