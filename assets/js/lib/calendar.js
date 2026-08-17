@@ -162,7 +162,29 @@ window.Cal = (function () {
     return 'https://calendar.google.com/calendar/render?' + params.join('&');
   }
 
+  /**
+   * Menyimpan berkas. Di halaman biasa lewat blob URL; di halaman
+   * artifact lewat kapabilitas unduhan, yang meminta persetujuan
+   * pembaca dan hanya menerima daftar ekstensi tertentu — .ics tidak
+   * termasuk, jadi di sana ia disimpan sebagai .txt.
+   *
+   * @returns {Promise<{via:string, filename:string}>}
+   *          ditolak dengan {code, message} kalau gagal.
+   */
   function download(filename, text, mime) {
+    if (window.RUTE_ARTIFACT && window.claude && typeof window.claude.use === 'function') {
+      return window.claude.use('downloads').then(function (dl) {
+        if (!dl) return blobDownload(filename, text, mime);
+        var safe = filename.replace(/\.ics$/i, '.txt');
+        return dl.save({ filename: safe, data: text }).then(function () {
+          return { via: 'capability', filename: safe };
+        });
+      });
+    }
+    return blobDownload(filename, text, mime);
+  }
+
+  function blobDownload(filename, text, mime) {
     var blob = new Blob([text], { type: (mime || 'text/calendar') + ';charset=utf-8' });
     var url = URL.createObjectURL(blob);
     var a = document.createElement('a');
@@ -172,6 +194,7 @@ window.Cal = (function () {
     a.click();
     document.body.removeChild(a);
     setTimeout(function () { URL.revokeObjectURL(url); }, 1500);
+    return Promise.resolve({ via: 'blob', filename: filename });
   }
 
   function slug(s) {

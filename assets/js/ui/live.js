@@ -278,12 +278,14 @@ window.LiveView = (function () {
         U.el('h2', { class: 'panel__title', text: 'Bawa ke kalender' }),
         U.el('span', { class: 'panel__sub', text: 'Tanpa login, tanpa izin apa pun' })
       ]),
-      U.el('p', { class: 'detail__prose', text: 'Unduh satu berkas .ics berisi seluruh trip, lalu impor sekali jalan ke Google Calendar lewat Setelan → Impor & ekspor. Tiap acara sudah membawa lokasi, perkiraan biaya, dan pengingat 30 menit sebelumnya.' }),
+      U.el('p', { class: 'detail__prose', text: window.RUTE_ARTIFACT
+        ? 'Simpan seluruh trip sebagai satu berkas kalender, lalu impor sekali jalan lewat Google Calendar → Setelan → Impor & ekspor. Halaman ini hanya boleh menyimpan berkas .txt, jadi ganti akhirannya jadi .ics dulu. Tiap acara sudah membawa lokasi, perkiraan biaya, dan pengingat 30 menit sebelumnya.'
+        : 'Unduh satu berkas .ics berisi seluruh trip, lalu impor sekali jalan ke Google Calendar lewat Setelan → Impor & ekspor. Tiap acara sudah membawa lokasi, perkiraan biaya, dan pengingat 30 menit sebelumnya.' }),
       U.el('div', { class: 'empty__actions' }, [
         U.el('button', {
           class: 'btn btn--primary', type: 'button', disabled: !hasDates,
           onclick: App.exportIcs
-        }, [U.icon('cal', 'ico--sm'), U.el('span', { text: 'Unduh seluruh trip (.ics)' })]),
+        }, [U.icon('cal', 'ico--sm'), U.el('span', { text: window.RUTE_ARTIFACT ? 'Simpan seluruh trip' : 'Unduh seluruh trip (.ics)' })]),
         U.el('a', {
           class: 'btn', href: 'https://calendar.google.com/calendar/u/0/r/settings/export',
           target: '_blank', rel: 'noopener'

@@ -144,9 +144,11 @@ window.App = (function () {
     var live = computed.totalLegs ? computed.liveLegs + '/' + computed.totalLegs : null;
     host.appendChild(U.el('p', {
       class: 'legend__note', style: 'margin-top:6px',
-      text: !Store.get().liveRouting
-        ? 'Garis putus-putus = perkiraan garis lurus. Aktifkan rute jalan sebenarnya di Pengaturan.'
-        : (live ? live + ' ruas memakai rute jalan sebenarnya.' : 'Menghitung rute…')
+      text: window.RUTE_ARTIFACT
+        ? 'Garis putus-putus = jarak lurus antar titik; jarak dan waktu di timeline sudah dikoreksi faktor jalan.'
+        : (!Store.get().liveRouting
+          ? 'Garis putus-putus = perkiraan garis lurus. Aktifkan rute jalan sebenarnya di Pengaturan.'
+          : (live ? live + ' ruas memakai rute jalan sebenarnya.' : 'Menghitung rute…'))
     }));
   }
 
@@ -162,6 +164,7 @@ window.App = (function () {
   /* ---------- rute nyata ---------- */
 
   function warmRoutes(force) {
+    if (window.RUTE_ARTIFACT) return;   /* tidak boleh menghubungi jaringan */
     var trip = Store.get();
     if (!trip.liveRouting && !force) return;
     if (warming) return;
@@ -212,8 +215,26 @@ window.App = (function () {
     var events = Cal.collect(trip, computed);
     if (!events.length) { Shell.toast('Belum ada kegiatan untuk diekspor.'); return; }
 
-    Cal.download(Cal.slug(trip.name) + '.ics', ics);
-    Shell.toast(events.length + ' acara diunduh. Impor lewat Google Calendar → Setelan → Impor & ekspor.');
+    Cal.download(Cal.slug(trip.name) + '.ics', ics).then(function (res) {
+      Shell.toast(res.via === 'capability'
+        ? events.length + ' acara tersimpan sebagai ' + res.filename +
+          '. Ganti akhirannya jadi .ics, lalu impor di Google Calendar → Setelan → Impor & ekspor.'
+        : events.length + ' acara diunduh. Impor lewat Google Calendar → Setelan → Impor & ekspor.');
+    }).catch(function (e) {
+      Shell.toast(downloadError(e, 'Berkas kalender tidak tersimpan.'));
+    });
+  }
+
+  /** Pesan yang menjelaskan kenapa penyimpanan gagal, bukan sekadar "gagal". */
+  function downloadError(e, fallback) {
+    var code = e && e.code;
+    if (code === 'declined') return 'Penyimpanan dibatalkan.';
+    if (code === 'too_large') return 'Berkasnya terlalu besar untuk disimpan dari halaman ini.';
+    if (code === 'rate_limited') return 'Tunggu sebentar, lalu coba simpan lagi.';
+    if (code === 'rejected_extension' || code === 'extension_not_enabled') {
+      return 'Jenis berkas ini tidak bisa disimpan dari halaman ini. Salin datanya lewat Simpan / muat.';
+    }
+    return fallback;
   }
 
   function openDataPanel() {
@@ -232,7 +253,9 @@ window.App = (function () {
         U.el('button', {
           class: 'btn', type: 'button', text: 'Unduh berkas .json',
           onclick: function () {
-            Cal.download(Cal.slug(trip.name) + '.json', Store.exportJson(), 'application/json');
+            Cal.download(Cal.slug(trip.name) + '.json', Store.exportJson(), 'application/json')
+              .then(function (res) { Shell.toast('Tersimpan sebagai ' + res.filename + '.'); })
+              .catch(function (e) { Shell.toast(downloadError(e, 'Berkas tidak tersimpan.')); });
           }
         }),
         U.el('button', {
@@ -406,7 +429,10 @@ window.App = (function () {
 
     if (Store.get().liveRouting) setTimeout(function () { warmRoutes(); }, 800);
 
-    if (RMap.isFallback()) {
+    /* Di halaman artifact peta skematik memang pilihannya, bukan
+       kegagalan — jangan memunculkan peringatan untuk sesuatu yang
+       normal. Legenda peta sudah menjelaskan modenya. */
+    if (RMap.isFallback() && !window.RUTE_ARTIFACT) {
       setTimeout(function () {
         Shell.toast('Peta jalan tidak bisa dimuat — memakai peta skematik. Semua fitur lain tetap jalan.');
       }, 1200);

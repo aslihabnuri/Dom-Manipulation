@@ -10,10 +10,20 @@ window.Shell = (function () {
 
   /* ---------- tema ---------- */
 
+  /* Penampil artifact menandai <html data-theme="..."> sesuai pilihan
+     pembacanya. Kalau pengaturan aplikasi masih "ikuti perangkat",
+     tanda itu milik pembaca — jangan dicabut, karena mencabutnya
+     berarti mengabaikan pilihan yang sudah dia buat. */
+  var hostTheme = document.documentElement.getAttribute('data-theme');
+
   function applyTheme(pref) {
     var root = document.documentElement;
-    if (pref === 'auto') root.removeAttribute('data-theme');
-    else root.setAttribute('data-theme', pref);
+    if (pref === 'auto') {
+      if (hostTheme) root.setAttribute('data-theme', hostTheme);
+      else root.removeAttribute('data-theme');
+    } else {
+      root.setAttribute('data-theme', pref);
+    }
   }
 
   function currentEffectiveTheme() {
@@ -206,30 +216,41 @@ window.Shell = (function () {
       ])
     ]));
 
-    /* Rute nyata */
-    var liveWrap = U.el('div', { class: 'fieldset' }, [
-      U.el('h3', { class: 'fieldset__legend', text: 'Akurasi jarak & waktu' }),
-      (function () {
-        var cb = U.el('input', { type: 'checkbox', id: 'setLive', checked: trip.liveRouting });
-        cb.addEventListener('change', function () {
-          Store.update('ubah mode rute', function (t) { t.liveRouting = cb.checked; });
-          if (cb.checked) App.warmRoutes();
-        });
-        return U.el('label', { class: 'checkline', for: 'setLive' }, [cb, U.el('span', { text: 'Hitung rute jalan sebenarnya' })]);
-      })(),
-      U.el('p', { class: 'field__hint', text: 'Mengambil jarak dan durasi mengemudi asli dari layanan rute OpenStreetMap. Butuh internet; hasilnya disimpan agar tidak diminta berulang. Kalau gagal, aplikasi otomatis kembali ke estimasi.' }),
-      U.el('div', { class: 'chiprow' }, [
-        U.el('button', {
-          class: 'btn btn--sm', type: 'button', text: 'Hitung ulang sekarang',
-          onclick: function () { App.warmRoutes(true); }
-        }),
-        U.el('button', {
-          class: 'btn btn--sm', type: 'button', text: 'Hapus cache rute',
-          onclick: function () { Geo.clearCache(); toast('Cache rute dihapus.'); App.refresh(); }
-        })
-      ])
-    ]);
-    drawerBody.appendChild(liveWrap);
+    /* Rute nyata — hanya relevan kalau halaman boleh menghubungi
+       jaringan. Halaman artifact tidak boleh, jadi di sana bagian ini
+       menjelaskan keadaannya alih-alih menawarkan tombol yang tidak
+       akan pernah berhasil. */
+    if (window.RUTE_ARTIFACT) {
+      drawerBody.appendChild(U.el('div', { class: 'fieldset' }, [
+        U.el('h3', { class: 'fieldset__legend', text: 'Akurasi jarak & waktu' }),
+        U.el('p', { class: 'field__hint', text: 'Halaman ini tidak boleh menghubungi layanan luar, jadi semua jarak dan waktu tempuh memakai estimasi: jarak lurus dikali faktor jalan, dibagi kecepatan rata-rata, ditambah waktu parkir dan pengali jam sibuk.' }),
+        U.el('p', { class: 'field__hint', text: 'Untuk angka jalan sebenarnya, pakai tautan "buka rute" di tiap ruas perjalanan — itu membuka Google Maps dengan titik awal dan tujuan yang sudah terisi.' })
+      ]));
+    } else {
+      var liveWrap = U.el('div', { class: 'fieldset' }, [
+        U.el('h3', { class: 'fieldset__legend', text: 'Akurasi jarak & waktu' }),
+        (function () {
+          var cb = U.el('input', { type: 'checkbox', id: 'setLive', checked: trip.liveRouting });
+          cb.addEventListener('change', function () {
+            Store.update('ubah mode rute', function (t) { t.liveRouting = cb.checked; });
+            if (cb.checked) App.warmRoutes();
+          });
+          return U.el('label', { class: 'checkline', for: 'setLive' }, [cb, U.el('span', { text: 'Hitung rute jalan sebenarnya' })]);
+        })(),
+        U.el('p', { class: 'field__hint', text: 'Mengambil jarak dan durasi mengemudi asli dari layanan rute OpenStreetMap. Butuh internet; hasilnya disimpan agar tidak diminta berulang. Kalau gagal, aplikasi otomatis kembali ke estimasi.' }),
+        U.el('div', { class: 'chiprow' }, [
+          U.el('button', {
+            class: 'btn btn--sm', type: 'button', text: 'Hitung ulang sekarang',
+            onclick: function () { App.warmRoutes(true); }
+          }),
+          U.el('button', {
+            class: 'btn btn--sm', type: 'button', text: 'Hapus cache rute',
+            onclick: function () { Geo.clearCache(); toast('Cache rute dihapus.'); App.refresh(); }
+          })
+        ])
+      ]);
+      drawerBody.appendChild(liveWrap);
+    }
 
     /* Tampilan */
     drawerBody.appendChild(U.el('div', { class: 'fieldset' }, [
