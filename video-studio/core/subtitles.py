@@ -2,9 +2,11 @@
 
 Tiga jenis teks yang dipakai:
 
-  1. Kartu pembuka  — pita miring warna kuning dengan tulisan hitam tebal,
-     muncul di dua detik pertama. Ini yang menahan jempol penonton.
-  2. Label sorotan  — kotak berwarna berisi satu atau dua kata kapital,
+  1. Kartu pembuka  — pita miring warna krim kertas dengan tulisan hitam
+     tebal, muncul di dua detik pertama. Ini yang menahan jempol penonton.
+     Dimatikan lewat tampilkan_hook bila judulnya sudah dipanggang ke
+     dalam poster, supaya tidak ada dua judul di layar.
+  2. Label sorotan  — kotak krim berisi satu atau dua kata kapital,
      muncul di tengah bawah untuk menegaskan kata kunci adegan.
   3. Takarir jalan  — dua sampai empat kata putih di bagian bawah layar,
      berganti mengikuti ucapan narator.
@@ -28,6 +30,13 @@ HITAM = "&H00000000"
 KUNING = "&H0000E5FF"
 GARIS_GELAP = "&HC0000000"
 BAYANG = "&H80000000"
+
+# Kotak sorotan dulu berwarna kuning menyala. Di atas poster kolase yang
+# paletnya merah bata, hijau teh, dan krim kertas, kuning itu berteriak
+# sendirian dan langsung terbaca sebagai tempelan yang bukan bagian dari
+# kolasenya. Krim kertas menyatu dengan bahan posternya dan tetap terbaca
+# karena hurufnya hitam pekat.
+KRIM = "&H00D8EEF6"
 
 
 @dataclass
@@ -156,9 +165,9 @@ YCbCr Matrix: TV.709
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
 Style: Takarir,Poppins SemiBold,{ukuran_takarir},{PUTIH},{PUTIH},{GARIS_GELAP},{BAYANG},0,0,0,0,100,100,0,0,1,5,3,2,90,90,{margin_bawah},1
-Style: Sorotan,Poppins ExtraBold,{ukuran_sorotan},{HITAM},{HITAM},{KUNING},{KUNING},0,0,0,0,100,100,2,0,3,16,0,5,80,80,0,1
+Style: Sorotan,Poppins ExtraBold,{ukuran_sorotan},{HITAM},{HITAM},{KRIM},{KRIM},0,0,0,0,100,100,2,0,3,16,0,5,80,80,0,1
 Style: SorotanSub,Poppins SemiBold,42,{PUTIH},{PUTIH},{GARIS_GELAP},{BAYANG},0,0,0,0,100,100,0,0,1,4,2,5,80,80,0,1
-Style: Hook,Poppins ExtraBold,{ukuran_hook},{HITAM},{HITAM},{KUNING},{KUNING},0,0,0,0,100,100,1,0,3,22,0,5,70,70,0,1
+Style: Hook,Poppins ExtraBold,{ukuran_hook},{HITAM},{HITAM},{KRIM},{KRIM},0,0,0,0,100,100,1,0,3,22,0,5,70,70,0,1
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
