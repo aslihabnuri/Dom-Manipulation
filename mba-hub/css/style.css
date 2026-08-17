@@ -1802,3 +1802,45 @@ mark.hl--noted::after {
   .jd-what { grid-area: what; }
   .crumb { order: 3; width: 100%; }
 }
+
+/* venn hukum vs etika */
+.ve-a { fill: rgba(38, 33, 25, 0.10); stroke: var(--ink-soft); stroke-width: 1.5; }
+.ve-b { fill: rgba(217, 165, 33, 0.18); stroke: var(--gold); stroke-width: 1.5; }
+.ve-label { font-family: var(--sans); font-size: 13px; font-weight: 800; fill: var(--ink); letter-spacing: 0.06em; }
+.ve-sub { font-family: var(--sans); font-size: 10px; fill: var(--ink-soft); }
+.ve-note { font-family: var(--sans); font-size: 10px; font-style: italic; fill: var(--ink-faint); }
+
+/* bahan bacaan persiapan */
+.prep-head { display: flex; align-items: center; gap: 0.7rem; flex-wrap: wrap; margin-bottom: 0.7rem; }
+
+.prep-flag {
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 0.3rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(63, 107, 79, 0.12);
+  border: 1px solid rgba(63, 107, 79, 0.4);
+  color: var(--green);
+}
+
+.prep-when { font-family: var(--mono); font-size: 0.75rem; color: var(--gold); font-weight: 700; }
+
+.prep-card { max-width: 78ch; }
+.prep-intro { font-size: 0.97rem; line-height: 1.7; color: var(--ink-soft); }
+.prep-concepts { display: flex; flex-direction: column; gap: 0.5rem; }
+
+.prep-concept {
+  display: flex;
+  gap: 0.7rem;
+  align-items: flex-start;
+  background: var(--paper-deep);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.65rem 0.85rem;
+}
+
+.prep-concept b { font-size: 0.88rem; display: block; color: var(--ink); }
+.prep-concept span { font-size: 0.82rem; color: var(--ink-soft); line-height: 1.55; }
+.prep-read { list-style: none; margin: 0 0 0.3rem; }
+.prep-read li { font-size: 0.87rem; color: var(--ink-soft); padding: 0.2rem 0; }

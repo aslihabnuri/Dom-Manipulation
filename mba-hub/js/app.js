@@ -380,6 +380,115 @@
       </figure>`;
     },
 
+    /* ---------- visual Business Ethics ---------- */
+    besMoralityStack() {
+      return `<figure class="visual-block">
+        <div class="cascade">
+          <div class="cascade-box"><b>1. Morality</b><span>Norma, nilai &amp; keyakinan yang tertanam sosial —
+            mendefinisikan benar-salah bagi individu/komunitas</span></div>
+          <div class="cascade-arrow" aria-hidden="true">↓</div>
+          <div class="cascade-box"><b>2. Ethics</b><span>Studi sistematis atas moralitas: menerapkan nalar untuk
+            merumuskan aturan &amp; prinsip benar-salah</span></div>
+          <div class="cascade-arrow" aria-hidden="true">↓</div>
+          <div class="cascade-box cascade-box--ops"><b>3. Ethical Theory</b><span>Kerangka terstruktur hasilnya:
+            utilitarianisme · hak · keadilan · virtue ethics · ethics of care</span></div>
+        </div>
+        <figcaption>Dari norma yang ada → refleksi atasnya → kerangka analisis yang bisa dipertanggungjawabkan</figcaption>
+      </figure>`;
+    },
+
+    besLawEthics() {
+      return `<figure class="visual-block">
+        <svg viewBox="0 0 400 210" role="img" aria-label="Irisan hukum dan etika">
+          <circle cx="150" cy="100" r="78" class="ve-a"></circle>
+          <circle cx="250" cy="100" r="78" class="ve-b"></circle>
+          <text class="ve-label" x="96" y="98" text-anchor="middle">HUKUM</text>
+          <text class="ve-sub" x="96" y="116" text-anchor="middle">standar minimum</text>
+          <text class="ve-label" x="306" y="98" text-anchor="middle">ETIKA</text>
+          <text class="ve-sub" x="306" y="116" text-anchor="middle">benar secara moral</text>
+          <text class="ve-sub" x="200" y="92" text-anchor="middle">irisan:</text>
+          <text class="ve-sub" x="200" y="108" text-anchor="middle">aturan dasar</text>
+          <text class="ve-note" x="96" y="192" text-anchor="middle">legal tapi tidak etis</text>
+          <text class="ve-note" x="306" y="192" text-anchor="middle">etis meski belum diatur</text>
+        </svg>
+        <figcaption>"Business ethics begins where the law ends" — kepatuhan hukum adalah lantai, bukan plafon</figcaption>
+      </figure>`;
+    },
+
+    besIssues() {
+      const dom = ["Jiwasraya &amp; Asabri", "Garuda Indonesia", "Deforestasi", "Lapindo", "Tambang emas ilegal",
+        "Impor/ekspor ilegal", "Pekerja migran ilegal", "Investasi bodong", "Sirop obat batuk (gagal ginjal)"];
+      const intl = ["Krisis subprime mortgage", "Enron", "HIH Insurance", "Pan Pharmaceutical",
+        "Kasus pengungsi", "Pemanasan global", "Polusi global", "Pengungsi Rohingya"];
+      return `<figure class="visual-block">
+        <div class="gs-grid">
+          <div class="gs-head gs-head--s">🇮🇩 ISU DOMESTIK (INDONESIA)</div>
+          <div class="gs-head gs-head--g">🌍 ISU INTERNASIONAL</div>
+          <div class="gs-cell gs-cell--s">${dom.map((x) => "• " + x).join("<br>")}</div>
+          <div class="gs-cell gs-cell--g">${intl.map((x) => "• " + x).join("<br>")}</div>
+        </div>
+        <p class="viz-hint">Tema lintas kasus: bencana alam · teknologi baru · ketenagakerjaan · kesenjangan (gini ratio) ·
+        penegakan hukum · investasi &amp; keuangan · kesehatan &amp; produk konsumen</p>
+        <figcaption>Daftar isu pembuka kuliah — bahan diskusi dan soal ujian banyak berangkat dari sini</figcaption>
+      </figure>`;
+    },
+
+    besStakeholders() {
+      return `<figure class="visual-block">
+        <div class="stk-grid">
+          <div class="glr-card"><b>Karyawan &amp; serikat</b><span>menjual tenaga · upah, kondisi kerja, hak</span></div>
+          <div class="glr-card"><b>Pemegang saham &amp; kreditor</b><span>menanamkan modal · imbal hasil, transparansi</span></div>
+          <div class="glr-card"><b>Pemasok</b><span>menjual bahan · harga adil, pembayaran tepat waktu</span></div>
+          <div class="glr-card"><b>Distributor &amp; pengecer</b><span>menyalurkan produk</span></div>
+          <div class="glr-card glr-card--center"><b>PERUSAHAAN</b><span>pemilik &amp; manajer — pusat semua klaim yang bersaing</span></div>
+          <div class="glr-card"><b>Pelanggan</b><span>membeli produk · keamanan, harga, informasi jujur</span></div>
+        </div>
+        <p class="viz-hint">↑ <b>Stakeholder primer</b> — terhubung lewat transaksi ekonomi langsung (termasuk kompetitor)</p>
+        <div class="stk-grid" style="margin-top:0.5rem">
+          <div class="glr-card"><b>Pemerintah</b><span>pusat, daerah, asing · regulasi &amp; pajak</span></div>
+          <div class="glr-card"><b>Komunitas lokal</b><span>lapangan kerja &amp; lingkungan</span></div>
+          <div class="glr-card"><b>Media</b><span>citra &amp; publisitas</span></div>
+          <div class="glr-card"><b>Kelompok aktivis sosial</b><span>tuntutan sosial</span></div>
+          <div class="glr-card"><b>Kelompok pendukung bisnis</b><span>nasihat &amp; riset</span></div>
+          <div class="glr-card"><b>Masyarakat umum</b><span>opini positif / negatif</span></div>
+        </div>
+        <p class="viz-hint">↑ <b>Stakeholder sekunder</b> — memengaruhi &amp; dipengaruhi tanpa transaksi langsung</p>
+        <figcaption>Peta stakeholder — langkah pertama menganalisis setiap kasus etika</figcaption>
+      </figure>`;
+    },
+
+    besTBL() {
+      return `<figure class="visual-block">
+        <div class="adv-cards">
+          <div class="adv-card"><div class="adv-ico">💰</div><b>Economics</b><span>Penjualan · laba · ROI</span>
+            <em>pajak dibayar · aliran uang · lapangan kerja tercipta</em></div>
+          <div class="adv-card"><div class="adv-ico">🌱</div><b>Environment</b><span>Kualitas udara &amp; air</span>
+            <em>penggunaan energi · limbah yang dihasilkan</em></div>
+          <div class="adv-card"><div class="adv-ico">🤝</div><b>Social</b><span>Praktik ketenagakerjaan</span>
+            <em>dampak komunitas · HAM · tanggung jawab produk</em></div>
+        </div>
+        <figcaption>Triple bottom line (Savitz 2006) — tiga dimensi dengan ukuran konkretnya masing-masing</figcaption>
+      </figure>`;
+    },
+
+    besRegions() {
+      return `<figure class="visual-block">
+        <div class="glr-grid">
+          <div class="glr-card"><span class="glr-ic">🇪🇺</span><b>Eropa</b>
+            <span>Kontrol sosial kolektif · pemerintah &amp; serikat pekerja sentral · kerangka hukum hasil negosiasi ·
+            orientasi multi-stakeholder</span></div>
+          <div class="glr-card"><span class="glr-ic">🇺🇸</span><b>Amerika Utara</b>
+            <span>Tanggung jawab individu · korporasi sebagai aktor kunci · kode etik · fokus pada pelanggaran &amp;
+            situasi pengambilan keputusan</span></div>
+          <div class="glr-card"><span class="glr-ic">🌏</span><b>Asia</b>
+            <span>Diskresi manajemen puncak · pemerintah &amp; korporasi sebagai aktor kunci · tata kelola &amp;
+            akuntabilitas · pendekatan stakeholder implisit</span></div>
+        </div>
+        <p class="viz-hint">⚠️ Pola perbandingan umum, bukan stereotip untuk setiap negara atau organisasi</p>
+        <figcaption>Etika bisnis dimaknai berbeda antar-kawasan — dipengaruhi budaya, institusi, dan sistem ekonomi</figcaption>
+      </figure>`;
+    },
+
     /* ---------- komponen interaktif ---------- */
     objTabs() {
       const tabs = [
@@ -982,6 +1091,7 @@
   function viewMateri(id) {
     const s = getSession(id) || getSession(1);
     const available = DATA.sessions.filter((x) => x.summary).map((x) => x.id);
+    const prepIds = (window.MBA_PREP && window.MBA_PREP[CUR_ID]) ? Object.keys(window.MBA_PREP[CUR_ID]).map(Number) : [];
     let body;
     if (s.summary) {
       const mqAnswers = store.get("mq_answers", {});
@@ -1011,14 +1121,49 @@
           <div class="accordion-body">${inlineVisuals(sec.body)}${renderVisuals(sec)}${questionBlock(sec, i)}</div>
         </details>`).join("");
     } else {
-      body = `
-      <div class="card empty-state">
-        <div class="big">🗂️</div>
-        <p><strong>Materi sesi ini belum ditambahkan.</strong></p>
-        <p>Setelah pertemuan berlangsung, upload slide ke folder Drive lalu tambahkan rangkumannya
-        di <code>js/data.js</code> (field <code>summary</code> pada sesi ${s.id}) — flashcards dan kuisnya juga bisa ditambah di file yang sama.</p>
-        <p style="margin-top:0.8rem">Bacaan untuk persiapan: ${s.readings.length ? esc(s.readings.join(" · ")) : "—"}</p>
-      </div>`;
+      const prep = (window.MBA_PREP && window.MBA_PREP[CUR_ID]) ? window.MBA_PREP[CUR_ID][s.id] : null;
+      if (prep) {
+        const d = s.date ? daysUntil(s.date) : null;
+        const when = d === null ? "Jadwal menyusul"
+          : d > 0 ? `Kelas ${d} hari lagi — waktunya menyiapkan diri`
+          : d === 0 ? "Kelas hari ini!"
+          : "Kelas sudah berlangsung — materi resminya menyusul";
+        body = `
+        <div class="prep-head">
+          <span class="prep-flag">📚 Bahan Bacaan Persiapan</span>
+          <span class="prep-when">${when}</span>
+        </div>
+        <div class="card card-pad prep-card">
+          <p class="prep-intro">${esc(prep.intro)}</p>
+
+          <h4 class="sub-h">Konsep yang perlu dikuasai sebelum masuk kelas</h4>
+          <div class="prep-concepts">
+            ${prep.concepts.map(([term, desc], i) => `
+              <div class="prep-concept">
+                <span class="mq-num">${i + 1}</span>
+                <div><b>${esc(term)}</b><span>${esc(desc)}</span></div>
+              </div>`).join("")}
+          </div>
+
+          <h4 class="sub-h">Yang dibaca</h4>
+          <ul class="prep-read">${prep.read.map((r) => `<li>📖 ${esc(r)}</li>`).join("")}</ul>
+
+          <h4 class="sub-h">Bawa pertanyaan ini ke kelas</h4>
+          <ol class="obj-list">${prep.questions.map((q) => `<li>${esc(q)}</li>`).join("")}</ol>
+
+          <div class="key-box"><strong>💡 Cara pakai:</strong> baca konsep di atas sekitar 20–30 menit sebelum kelas,
+          lalu buka bacaannya. Anda tidak perlu paham sempurna — cukup <em>kenali istilahnya</em> supaya penjelasan
+          dosen terasa seperti pengulangan, bukan hal baru. Seusai kelas, isi menu
+          <a href="#/${CUR_ID}/kelas/${s.id}"><b>Catatan Kelas</b></a> selagi ingatannya segar.</div>
+        </div>`;
+      } else {
+        body = `
+        <div class="card empty-state">
+          <div class="big">🗂️</div>
+          <p><strong>Materi sesi ini belum ditambahkan.</strong></p>
+          <p style="margin-top:0.8rem">Bacaan untuk persiapan: ${s.readings.length ? esc(s.readings.join(" · ")) : "—"}</p>
+        </div>`;
+      }
     }
 
     return `
@@ -1026,12 +1171,12 @@
       <p class="eyebrow">Rangkuman Materi</p>
       <h1 class="view-title">Materi per Pertemuan</h1>
       <p class="view-sub">Angka bergaris emas menandakan sesi yang materinya sudah tersedia.
-        Tiap bagian diberi penanda sumber: <span class="src-badge src-badge--ppt">📽️ Slide dosen</span> = dibahas
+        Sesi yang belum diajarkan menampilkan <b>bahan bacaan persiapan</b>. Tiap bagian diberi penanda sumber: <span class="src-badge src-badge--ppt">📽️ Slide dosen</span> = dibahas
         di kelas, <span class="src-badge src-badge--book">📖 Buku</span> = pengayaan dari buku referensi.
         <br>🖍️ <strong>Blok (seleksi) kalimat mana pun</strong> untuk menandainya dan menambahkan catatan penjelasan
         dosen — lalu klik kalimat berstabilo untuk melihat atau mengedit catatannya. Semua tanda tersimpan otomatis
         dan terkumpul juga di menu Catatan.</p>
-      ${sessionPicker(s.id, available, "#/" + CUR_ID + "/materi")}
+      ${sessionPicker(s.id, available.concat(prepIds.filter((i) => available.indexOf(i) === -1)), "#/" + CUR_ID + "/materi")}
       <div class="materi-header">
         <h2>Sesi ${s.id} — ${esc(s.topic)}</h2>
         <div class="meta">
