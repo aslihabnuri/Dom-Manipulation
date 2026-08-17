@@ -409,6 +409,15 @@ def iris_pita(
 
     Pita dibuat saling menindih sebanyak luber piksel supaya, sesudah
     semuanya mendarat, tidak ada garis rambut yang tersisa di sambungan.
+
+    Satu akibat yang harus diingat pemakainya. Pita bersebelahan tidak
+    boleh diberi ayunan sendiri-sendiri, karena goyangan yang berbeda
+    membuka garis potong yang seharusnya tersembunyi. Berarti sesudah
+    semua pita mendarat, tidak ada lagi yang bergerak selain kamera. Kalau
+    kameranya kebetulan diam, adegan itu benar-benar membeku: pada
+    percobaan pertama adegan enam dan delapan melonjak ke 76 dan 78 persen
+    bingkai diam, dari sebelumnya 22 persen. Jadi adegan yang panelnya
+    dibelah begini wajib diberi kamera yang bergerak.
     """
     x0, y0, x1, y1 = kotak
     tinggi = (y1 - y0) / jumlah
