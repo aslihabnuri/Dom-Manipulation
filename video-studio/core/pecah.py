@@ -310,6 +310,99 @@ def _gunting_berbayar(klien, potongan: Image.Image, keluar_dir: Path, nama: str)
         mentah.unlink(missing_ok=True)
 
 
+def _sumber_terbersih(im: Image.Image, kotak: tuple[int, int, int, int]) -> tuple[int, int]:
+    """Cari daerah kertas paling polos di sekitar kotak, untuk bahan tambalan.
+
+    Memilih daerah sumber dengan menebak arah, misalnya "ambil dari bawah",
+    sering meleset: yang terambil malah tepi kertas sobek atau tulisan lain.
+
+    Tetapi memilih yang paling rata saja juga salah, dan itu terbukti:
+    daerah paling rata di poster kita justru MARJIN MERAH di luar kartu,
+    jadi tulisan krem tertambal balok merah. Kerataan harus dipasangkan
+    dengan kemiripan warna terhadap kertas di sekeliling tulisan itu.
+    """
+    x0, y0, x1, y1 = kotak
+    w, h = x1 - x0, y1 - y0
+    a = np.asarray(im, dtype=np.float32)
+
+    # Warna kertas yang benar diambil dari pita tepat di kiri dan kanan
+    # tulisan, karena di situ pasti kertas yang sama.
+    pita = []
+    if x0 - w // 3 >= 0:
+        pita.append(a[y0:y1, max(0, x0 - w // 3):x0].reshape(-1, 3))
+    if x1 + w // 3 <= im.width:
+        pita.append(a[y0:y1, x1:min(im.width, x1 + w // 3)].reshape(-1, 3))
+    acuan = (np.median(np.concatenate(pita), axis=0) if pita
+             else np.median(a[y0:y1, x0:x1].reshape(-1, 3), axis=0))
+
+    terbaik, nilai_terbaik = None, None
+    for dy in range(-3 * h, 3 * h + 1, max(4, h // 4)):
+        for dx in range(-3 * w, 3 * w + 1, max(6, w // 6)):
+            sx, sy = x0 + dx, y0 + dy
+            if sx < 0 or sy < 0 or sx + w > im.width or sy + h > im.height:
+                continue
+            if abs(dx) < w * 0.6 and abs(dy) < h * 0.6:
+                continue                       # jangan menyalin dirinya sendiri
+            petak = a[sy:sy + h, sx:sx + w]
+            ragam = float(petak.std(axis=(0, 1)).mean())
+            beda = float(np.abs(petak.reshape(-1, 3).mean(axis=0) - acuan).mean())
+            # Warna dibobot berat: kertas seragam yang salah warna jauh
+            # lebih merusak daripada kertas sewarna yang sedikit bertekstur.
+            nilai = beda * 3.0 + ragam
+            if nilai_terbaik is None or nilai < nilai_terbaik:
+                nilai_terbaik, terbaik = nilai, (sx, sy)
+    return terbaik or (x0, max(0, y0 - h - 4))
+
+
+def tambal(
+    sumber: Path,
+    keluar: Path,
+    kotak: tuple[int, int, int, int],
+    *,
+    ambil_dari: tuple[int, int] | None = None,
+    lembut: int = 6,
+) -> Path:
+    """Tutup satu daerah poster dengan tekstur dari daerah lain di dekatnya.
+
+    Model gambar menulis judul pendek dengan rapi, tetapi sering mengarang
+    baris tambahan yang tidak diminta dan mengejanya ngawur. Poster kedua
+    kita menulis judulnya benar lalu menambahkan subjudul "WERORLY IPUS"
+    yang tidak berarti apa-apa.
+
+    Menagih ulang berarti membayar lagi tanpa jaminan barisnya tidak
+    muncul lagi. Menambalnya di sini gratis dan pasti: tekstur kertas di
+    sebelahnya disalin menimpa tulisan itu, lalu tepinya dilembutkan
+    supaya sambungannya tidak terlihat. Teks yang memang penting sebaiknya
+    ditumpangkan belakangan sebagai takarir, bukan dipanggang ke gambar.
+
+    ambil_dari adalah pojok kiri atas daerah yang disalin. Bila kosong,
+    tekstur diambil dari tepat di bawah daerah yang ditambal.
+    """
+    im = Image.open(sumber).convert("RGB")
+    x0, y0, x1, y1 = kotak
+    w, h = x1 - x0, y1 - y0
+    if ambil_dari is None:
+        ambil_dari = _sumber_terbersih(im, kotak)
+    ax, ay = ambil_dari
+    tempelan = im.crop((ax, ay, ax + w, ay + h))
+
+    # Tepi tempelan dibuat memudar supaya sambungannya tidak berupa garis.
+    #
+    # Bulunya harus mengecil mengikuti daerahnya. Pada percobaan pertama
+    # bulu delapan piksel dikenakan pada daerah setinggi lima puluh piksel,
+    # dan kaburnya bertemu di tengah sehingga bagian tengah tambalan pun
+    # ikut tembus pandang: tulisan yang mau dihapus masih membayang.
+    bulu = max(1, min(lembut, w // 6, h // 6))
+    topeng = Image.new("L", (w, h), 0)
+    ImageDraw.Draw(topeng).rectangle([bulu, bulu, w - bulu - 1, h - bulu - 1], fill=255)
+    topeng = topeng.filter(ImageFilter.GaussianBlur(bulu / 2.0))
+
+    im.paste(tempelan, (x0, y0), topeng)
+    keluar.parent.mkdir(parents=True, exist_ok=True)
+    im.save(keluar)
+    return keluar
+
+
 def kisi_bantu(poster: Path, keluar: Path, *, langkah: int = 100) -> Path:
     """Tempelkan kisi berlabel di atas poster, untuk membaca koordinat kotak.
 
