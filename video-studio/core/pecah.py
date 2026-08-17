@@ -388,6 +388,38 @@ def temukan_panel(
     return sorted(kotak, key=lambda k: k[1])
 
 
+def iris_pita(
+    kotak: tuple[int, int, int, int],
+    jumlah: int = 3,
+    *,
+    luber: int = 26,
+) -> list[tuple[int, int, int, int]]:
+    """Bagi satu kotak besar menjadi beberapa pita mendatar yang bertindih.
+
+    Dipakai saat pencarian panel cuma menemukan satu gumpalan besar, yaitu
+    ketika panel-panelnya saling bersentuhan sehingga terbaca menyatu.
+    Tanpa ini, adegan itu hanya punya satu potongan: ia muncul sekali lalu
+    tidak terjadi apa-apa lagi, dan adegannya terasa mati. Terukur pada
+    adegan tiga: gerak 3,56 dengan 30 persen bingkai diam, jauh di bawah
+    adegan lain.
+
+    Membelahnya sah karena posternya memang kita minta tersusun sebagai
+    tiga pita bertumpuk, jadi garis potong mendatar jatuh di antara isi,
+    bukan membelah isinya.
+
+    Pita dibuat saling menindih sebanyak luber piksel supaya, sesudah
+    semuanya mendarat, tidak ada garis rambut yang tersisa di sambungan.
+    """
+    x0, y0, x1, y1 = kotak
+    tinggi = (y1 - y0) / jumlah
+    pita = []
+    for i in range(jumlah):
+        a = int(y0 + i * tinggi) - (luber if i else 0)
+        b = int(y0 + (i + 1) * tinggi) + (luber if i < jumlah - 1 else 0)
+        pita.append((x0, max(y0, a), x1, min(y1, b)))
+    return pita
+
+
 def _sumber_terbersih(im: Image.Image, kotak: tuple[int, int, int, int]) -> tuple[int, int]:
     """Cari daerah kertas paling polos di sekitar kotak, untuk bahan tambalan.
 
