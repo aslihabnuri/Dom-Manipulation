@@ -161,6 +161,45 @@ def musik_ambient(durasi: float, keluar: Path, *, nada_dasar: float = 110.0) -> 
 # ---------------------------------------------------------------------------
 # Penataan akhir
 # ---------------------------------------------------------------------------
+# Jarak yang dituju antara narator dan musik, dalam desibel.
+#
+# Di bawah delapan, musik mulai berebut ruang dengan narator dan kalimat
+# jadi sulit ditangkap. Di atas enam belas, musiknya praktis tidak
+# terdengar dan videonya terasa kering. Dua belas ada di tengah, dan
+# terbukti nyaman pada pengukuran narasi hangat maupun muram.
+JARAK_MUSIK_DB = 12.0
+
+
+def _rms_db(berkas: Path) -> float:
+    """Kerasnya sebuah berkas audio, diukur sebagai rata-rata, dalam dBFS."""
+    hasil = subprocess.run(
+        ["ffmpeg", "-hide_banner", "-i", str(berkas), "-af", "volumedetect",
+         "-f", "null", "-"], capture_output=True, text=True)
+    for baris in hasil.stderr.splitlines():
+        if "mean_volume" in baris:
+            try:
+                return float(baris.split("mean_volume:")[1].split("dB")[0])
+            except (IndexError, ValueError):
+                break
+    return -20.0
+
+
+def _volume_relatif(narasi: Path, musik: Path, bawaan: float, jarak_db: float) -> float:
+    """Pengali volume musik supaya ia duduk jarak_db di bawah narasi.
+
+    Kalau salah satu berkas gagal diukur, nilai bawaan dipakai apa adanya
+    daripada menghasilkan campuran yang timpang.
+    """
+    n_db, m_db = _rms_db(narasi), _rms_db(musik)
+    if n_db <= -60 or m_db <= -60:
+        return bawaan
+    # Musik harus turun sebanyak selisihnya, ditambah jarak yang dituju.
+    perlu_db = (n_db - jarak_db) - m_db
+    pengali = 10 ** (perlu_db / 20.0)
+    # Dibatasi supaya kesalahan pengukuran tidak menghasilkan nilai liar.
+    return max(0.05, min(2.5, pengali))
+
+
 def gabung_audio(
     narasi: Path,
     keluar: Path,
@@ -205,6 +244,18 @@ def gabung_audio(
     # Musik latar dengan penekanan otomatis.
     if musik and musik.exists():
         masukan += ["-i", str(musik)]
+        # Volume musik disetel RELATIF terhadap kerasnya narasi, bukan
+        # dipatok angka tetap.
+        #
+        # Alasannya ketahuan waktu suasana narator diubah jadi muram:
+        # penyampaian yang menahan diri otomatis lebih pelan, sehingga
+        # musik dengan volume tetap jadi terlalu dekat. Terukur jaraknya
+        # turun dari 11,1 dB ke 5,8 dB hanya karena suasananya berganti,
+        # padahal setelan musiknya sama persis.
+        #
+        # Dengan menyetel relatif, tiap suasana, tiap suara, dan tiap lagu
+        # menghasilkan jarak yang sama tanpa perlu disetel tangan.
+        volume_musik = _volume_relatif(narasi, musik, volume_musik, JARAK_MUSIK_DB)
         bagian.append(f"[{idx}:a]volume={volume_musik:.3f}[musikmentah]")
         bagian.append("[narasi]asplit=2[narasi_out][narasi_kunci]")
         # Penekanan otomatis harus LEMBUT. Setelan lama, ambang 0,03 dengan
