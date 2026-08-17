@@ -56,13 +56,88 @@ def pantul(t: float) -> float:
     return 1 + c * (t - 1) ** 3 + 1.70158 * (t - 1) ** 2
 
 
+def bezier(x1: float, y1: float, x2: float, y2: float):
+    """Kurva easing kubik seperti yang dipakai CSS dan perkakas motion design.
+
+    Standar industri dinyatakan sebagai cubic-bezier, bukan rumus buatan
+    sendiri. Memakai kurva yang sama membuat gerakannya terasa benar bagi
+    mata yang terbiasa dengan animasi antarmuka.
+    """
+
+    def bx(t: float) -> float:
+        u = 1 - t
+        return 3 * u * u * t * x1 + 3 * u * t * t * x2 + t * t * t
+
+    def by(t: float) -> float:
+        u = 1 - t
+        return 3 * u * u * t * y1 + 3 * u * t * t * y2 + t * t * t
+
+    def f(x: float) -> float:
+        if x <= 0:
+            return 0.0
+        if x >= 1:
+            return 1.0
+        # Cari t sehingga bx(t) = x, dengan bagi dua. Cukup cepat dan stabil.
+        lo, hi = 0.0, 1.0
+        for _ in range(24):
+            mid = (lo + hi) / 2
+            if bx(mid) < x:
+                lo = mid
+            else:
+                hi = mid
+        return by((lo + hi) / 2)
+
+    return f
+
+
+# Kurva baku dari pustaka prinsip motion design. Nama Indonesia dipakai di
+# pemanggilan, tetapi angkanya persis mengikuti standar aslinya.
+_MD3_EMPHASIZED = bezier(0.05, 0.7, 0.1, 1.0)    # masuk, paling sering dipakai
+_MD3_ACCELERATE = bezier(0.3, 0.0, 1.0, 1.0)     # keluar
+_PREMIUM = bezier(0.4, 0.0, 0.2, 1.0)            # elegan, tanpa lewat sasaran
+_SNAPPY = bezier(0.2, 0.0, 0.0, 1.0)             # tegas
+_BOUNCE_SETTLE = bezier(0.175, 0.885, 0.32, 1.275)  # mendarat dengan pantulan kecil
+
 EASING = {
     "linear": linear,
     "halus": halus,
     "keluar": keluar_kuat,
     "masuk": masuk_kuat,
     "pantul": pantul,
+    # Kurva standar industri
+    "tegas": _SNAPPY,
+    "elegan": _PREMIUM,
+    "masuk-tegas": _MD3_EMPHASIZED,
+    "keluar-cepat": _MD3_ACCELERATE,
+    "mendarat": _BOUNCE_SETTLE,
 }
+
+
+# --------------------------------------------------------------------------
+# Penjadwal berbasis detik
+# --------------------------------------------------------------------------
+def isyarat(
+    detik: float,
+    mulai: float,
+    lama: float,
+    *,
+    easing: str = "masuk-tegas",
+    tunda: float = 0.0,
+) -> float:
+    """Kemajuan 0..1 sebuah gerakan, dihitung dalam DETIK sungguhan.
+
+    Selama ini gerakan dijadwalkan dengan pecahan durasi adegan, sehingga
+    satu gerakan masuk bisa memakan dua detik penuh. Pustaka prinsip motion
+    design menyatakan kartu seharusnya masuk dalam 200 sampai 350 milidetik,
+    dan seluruh rangkaian bertingkat tidak boleh lebih dari 500 milidetik.
+    Menjadwalkan dalam detik membuat aturan itu bisa dipatuhi.
+    """
+    t0 = mulai + tunda
+    if detik <= t0:
+        return 0.0
+    if detik >= t0 + lama:
+        return 1.0
+    return EASING.get(easing, halus)((detik - t0) / lama)
 
 
 def antara(a: float, b: float, t: float, easing: str = "halus") -> float:
