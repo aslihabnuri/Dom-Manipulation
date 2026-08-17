@@ -310,6 +310,84 @@ def _gunting_berbayar(klien, potongan: Image.Image, keluar_dir: Path, nama: str)
         mentah.unlink(missing_ok=True)
 
 
+def _komponen(topeng: Image.Image, luas_minimum: int = 400) -> list[tuple[int, int, int, int]]:
+    """Kotak pembatas tiap gumpalan pekat yang terpisah, dari topeng hitam putih.
+
+    Perambatan dipakai berulang kali karena scipy tidak tersedia di sini,
+    dan perambatan bawaan Pillow ditulis dalam C sehingga tetap cepat.
+    """
+    kerja = topeng.copy()
+    lebar, tinggi = kerja.size
+    hasil = []
+    tanda = 1
+    while tanda < 240:
+        arr = np.asarray(kerja, dtype=np.uint8)
+        sisa = np.argwhere(arr == 255)
+        if len(sisa) == 0:
+            break
+        y, x = sisa[0]
+        ImageDraw.floodfill(kerja, (int(x), int(y)), tanda, thresh=0)
+        titik = np.argwhere(np.asarray(kerja, dtype=np.uint8) == tanda)
+        tanda += 1
+        if len(titik) < luas_minimum:
+            continue
+        ys, xs = titik[:, 0], titik[:, 1]
+        hasil.append((int(xs.min()), int(ys.min()), int(xs.max()) + 1, int(ys.max()) + 1))
+    return hasil
+
+
+def temukan_panel(
+    poster: Path,
+    *,
+    toleransi: float = 30.0,
+    bagian_minimum: float = 0.035,
+) -> list[tuple[int, int, int, int]]:
+    """Temukan sendiri panel-panel terang di atas latar berwarna pekat.
+
+    Poster kita berbentuk beberapa panel kertas terang yang ditempel di atas
+    satu warna pekat. Bentuk itu bisa dikenali tanpa dibaca tangan: buang
+    warna latarnya, lalu yang tersisa sebagai gumpalan besar adalah
+    panelnya.
+
+    Ini yang membuat seluruh jalur bisa berjalan sendiri. Membaca koordinat
+    delapan poster satu per satu lewat kisi memang bisa, tetapi berarti
+    setiap video baru menuntut kerja tangan lagi, padahal yang diminta
+    adalah cukup menyerahkan foto produk.
+
+    Kotak dikembalikan berurutan dari atas ke bawah.
+    """
+    im = Image.open(poster).convert("RGB")
+    a = np.asarray(im, dtype=np.float32)
+    h, w = a.shape[:2]
+    warna = _warna_tepi(im, tebal=max(8, min(h, w) // 40))
+
+    kabur = np.asarray(im.filter(ImageFilter.GaussianBlur(3)), dtype=np.float32)
+    jarak = np.sqrt(((kabur - warna) ** 2).sum(axis=2))
+    bukan_latar = (jarak >= toleransi).astype(np.uint8) * 255
+
+    # Lubang kecil di dalam panel ditutup dulu supaya satu panel tidak
+    # terpecah jadi banyak gumpalan oleh tulisan gelap di dalamnya.
+    topeng = Image.fromarray(bukan_latar, "L")
+    topeng = topeng.filter(ImageFilter.MaxFilter(9)).filter(ImageFilter.MinFilter(9))
+
+    # Lalu dikikis, dan ini yang menentukan berhasil atau tidak. Pita
+    # selotip menyambungkan panel yang satu ke panel di bawahnya, sehingga
+    # ketiganya terbaca sebagai satu gumpalan raksasa. Selotip lebarnya
+    # cuma puluhan piksel sedangkan panelnya ratusan, jadi pengikisan
+    # secukupnya memutus jembatan tipis itu tanpa melukai panelnya.
+    kikis = max(3, int(min(h, w) * 0.022)) | 1        # harus ganjil
+    inti = topeng.filter(ImageFilter.MinFilter(kikis))
+
+    luas_minimum = int(h * w * bagian_minimum)
+    kotak = _komponen(inti, luas_minimum=luas_minimum)
+
+    # Kotak dikembalikan ke ukuran sebelum dikikis.
+    lega = kikis // 2 + 2
+    kotak = [(max(0, x0 - lega), max(0, y0 - lega),
+              min(w, x1 + lega), min(h, y1 + lega)) for x0, y0, x1, y1 in kotak]
+    return sorted(kotak, key=lambda k: k[1])
+
+
 def _sumber_terbersih(im: Image.Image, kotak: tuple[int, int, int, int]) -> tuple[int, int]:
     """Cari daerah kertas paling polos di sekitar kotak, untuk bahan tambalan.
 
