@@ -74,6 +74,44 @@ KEPADATAN = (
     "dense and busy like a real hand-assembled scrapbook page, with no large empty areas."
 )
 
+# Adegan, bukan kartu potret.
+#
+# Kesalahan yang membuat poster pertama kalah jauh dari acuan: adegannya
+# ditulis "seorang petani teh berdiri di tepi kebunnya", jadi yang keluar
+# satu orang berdiri menghadap kamera di tengah kartu. Poster acuan selalu
+# berisi beberapa tokoh yang sedang MENGERJAKAN sesuatu dan berbeda-beda
+# kegiatannya: kaisar dengan pengiringnya, kafilah menyeberangi gunung,
+# dua pedagang bertukar barang.
+#
+# Sama seperti pelajaran "kebun teh" kemarin: yang ditulis, itu yang
+# didapat. Kalau tokoh jamak dan kegiatannya tidak disebut, model tidak
+# akan mengarangnya sendiri.
+BERADEGAN = (
+    "Populate the scene with THREE OR MORE figures, each doing something specific and "
+    "different from the others: working, carrying, bending, reaching, weighing, handing "
+    "something over. Show an action already in progress. Never a single person standing "
+    "still and facing the viewer, and never a posed portrait."
+)
+
+# Komposisi untuk bingkai tegak.
+#
+# Poster acuan berbingkai mendatar, jadi adegannya bisa dibentang ke
+# samping: kafilah menyeberangi gunung dari kiri ke kanan. Bingkai tegak
+# tidak punya ruang itu. Kalau adegan mendatar dipaksakan ke bingkai tegak,
+# hasilnya satu benda di tengah dengan ruang kosong di atas dan bawah,
+# dan itulah yang terjadi pada poster pertama.
+#
+# Jalan keluarnya menyusun ke ATAS, bukan ke samping: tiga pita mendatar
+# yang bertumpuk dan saling menindih.
+TEGAK_BERTINGKAT = (
+    "The frame is tall and narrow, so build the composition as THREE STACKED HORIZONTAL "
+    "BANDS reading top to bottom instead of spreading it sideways: a distant background "
+    "band across the top, a midground band carrying the main action through the middle, "
+    "and one large foreground element cut off by the bottom edge. Let the bands overlap "
+    "and interlock so the eye travels downward through the frame, and keep every band "
+    "filled so there is no empty strip at the top or bottom."
+)
+
 # Syarat latar, dan ini bukan soal selera melainkan soal biaya.
 #
 # Potongan digunting dari poster secara gratis dengan cara membuang warna
@@ -208,11 +246,16 @@ def prompt_poster(
     rasio: str = "9:16",
     dengan_judul: bool = True,
     acuan_produk: str = "",
+    beradegan: bool = True,
 ) -> str:
     """Susun perintah gambar untuk satu poster kolase, lima bagian.
 
     dengan_judul dimatikan untuk bidikan detail, supaya judul hanya muncul
     sekali per beat dan tidak bertabrakan saat dua bidikan disambung.
+
+    beradegan dimatikan kalau posternya memang harus memuat satu benda
+    saja, misalnya bidikan detail produk. Untuk bidikan lebar biarkan
+    menyala, kalau tidak yang keluar satu tokoh berdiri di tengah kartu.
     """
     g = tema(nama_tema)
     blok = f"{g.idiom}. Palette: {g.warna}. {MEKANIKA.format(latar=latar)} " \
@@ -225,8 +268,12 @@ def prompt_poster(
         kepala = (" No big headline in this shot, only a small paper accent; "
                   "it is a cut-in detail.")
     produk = f" {acuan_produk.strip()}" if acuan_produk.strip() else ""
-    return (f"{blok} SCENE as layered paper cut-outs: {adegan}. {PISAHKAN} {KEPADATAN} "
-            f"{LATAR_TERPISAH}{produk}{kepala} Aspect ratio {rasio}, high resolution.")
+    # Aturan komposisi tegak hanya disertakan kalau bingkainya memang tegak.
+    tegak = f" {TEGAK_BERTINGKAT}" if rasio in ("9:16", "3:4", "9:21") else ""
+    isi = f" {BERADEGAN}" if beradegan else ""
+    return (f"{blok} SCENE as layered paper cut-outs: {adegan}.{isi} {PISAHKAN}{tegak} "
+            f"{KEPADATAN} {LATAR_TERPISAH}{produk}{kepala} "
+            f"Aspect ratio {rasio}, high resolution.")
 
 
 # Kunci produk, dipakai kalau posternya harus memuat foto produk sungguhan.
