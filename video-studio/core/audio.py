@@ -161,13 +161,24 @@ def musik_ambient(durasi: float, keluar: Path, *, nada_dasar: float = 110.0) -> 
 # ---------------------------------------------------------------------------
 # Penataan akhir
 # ---------------------------------------------------------------------------
-# Jarak yang dituju antara narator dan musik, dalam desibel.
+# Jarak yang dituju antara narator dan musik SEBELUM ditekan, dalam desibel.
 #
-# Di bawah delapan, musik mulai berebut ruang dengan narator dan kalimat
-# jadi sulit ditangkap. Di atas enam belas, musiknya praktis tidak
-# terdengar dan videonya terasa kering. Dua belas ada di tengah, dan
-# terbukti nyaman pada pengukuran narasi hangat maupun muram.
-JARAK_MUSIK_DB = 12.0
+# Angka ini semula dua belas, hasil tebakan saya sendiri tentang "rentang
+# sehat", dan musiknya tetap terdengar terlalu kecil oleh pemakainya.
+#
+# Satu ukuran yang sempat menyesatkan perlu dicatat supaya tidak dipakai
+# lagi: membandingkan bagian keras dan bagian pelan dari campuran akhir.
+# Menurut ukuran itu, campuran kita (14,8 dB) bahkan sudah lebih bermusik
+# daripada acuan (15,9 dB), padahal telinga mengatakan sebaliknya.
+# Penyebabnya loudnorm di ujung rantai: menambah musik menaikkan
+# kenyaringan keseluruhan, lalu loudnorm menurunkan seisi trek, sehingga
+# selisih kedua bagian nyaris tidak berubah.
+#
+# Ukuran yang benar adalah kerasnya MUSIK SAJA SAAT NARATOR BICARA,
+# dihitung sebagai selisih terhadap campuran tanpa musik. Itulah
+# satu-satunya saat yang menentukan, karena narasi kita rapat dan nyaris
+# tidak punya sela panjang.
+JARAK_MUSIK_DB = 3.0
 
 
 def _rms_db(berkas: Path) -> float:
@@ -258,25 +269,31 @@ def gabung_audio(
         volume_musik = _volume_relatif(narasi, musik, volume_musik, JARAK_MUSIK_DB)
         bagian.append(f"[{idx}:a]volume={volume_musik:.3f}[musikmentah]")
         bagian.append("[narasi]asplit=2[narasi_out][narasi_kunci]")
-        # Penekanan otomatis harus LEMBUT. Setelan lama, ambang 0,03 dengan
-        # rasio 9 banding 1, praktis menghapus musiknya: narasi selalu jauh
-        # di atas ambang serendah itu, jadi penekanan penuh berjalan terus.
+        # Penekanan LEMBUT, dan ini berlawanan dengan dugaan yang wajar.
         #
-        # Terukur sebagai selisih gelombang terhadap campuran tanpa musik:
+        # Video acuan memakai penekanan kuat (ambang 0,02 rasio 12), jadi
+        # saya sempat menirunya. Hasilnya justru paling buruk. Diukur
+        # sebagai kerasnya musik SAAT NARATOR BICARA, yaitu satu-satunya
+        # saat yang menentukan musik terdengar atau tidak pada narasi rapat
+        # seperti punya kita:
         #
-        #     ambang 0,03  rasio 9     volume 0,14   -> -68 dBFS  (tak terdengar)
-        #     ambang 0,03  rasio 9     volume 0,42   -> -59 dBFS
-        #     ambang 0,30  rasio 2     volume 0,60   -> -38 dBFS
-        #     ambang 0,70  rasio 1,5   volume 0,90   -> -33 dBFS  (dipakai)
+        #     ambang/rasio     jarak 12 dB   jarak 6 dB   jarak 3 dB
+        #     0,02 / 12          -50,5        -44,4        -41,5
+        #     0,30 / 3           -31,9        -26,1        -23,4
+        #     0,70 / 1,5         -30,9        -25,2        -22,5   <- dipakai
         #
-        # Yang paling mengecoh: menaikkan volume musik saja TIDAK menolong.
-        # Dengan rasio setinggi itu, kompresor menarik musik kembali ke
-        # sekitar ambangnya berapa pun masukannya, jadi 0,14 dan 0,42
-        # menghasilkan campuran yang nyaris sama persis. Rasionya yang
-        # harus turun, bukan volumenya yang dinaikkan.
+        # Sebabnya: rasio tinggi menggilas masukan yang keras justru lebih
+        # dalam, sehingga menaikkan volume malah membuatnya makin hilang.
+        # Campuran acuan bisa memakai rasio tinggi karena narasinya diberi
+        # ruang lain dan trek akhirnya tidak dinormalkan ulang seperti
+        # milik kita.
+        #
+        # Yang benar untuk kita: masukan keras, ditekan lembut. Musik jadi
+        # terdengar DI BAWAH suara narator, bukan cuma di sela-selanya, dan
+        # itu penting karena narasi kita nyaris tanpa sela panjang.
         bagian.append(
             "[musikmentah][narasi_kunci]sidechaincompress="
-            "threshold=0.7:ratio=1.5:attack=25:release=420[musik]"
+            "threshold=0.7:ratio=1.5:attack=15:release=380[musik]"
         )
         label_campur = ["[narasi_out]"] + label_campur[1:] + ["[musik]"]
         idx += 1
