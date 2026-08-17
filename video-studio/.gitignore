@@ -1,0 +1,24 @@
+# Kunci API — jangan pernah masuk ke repositori
+.env
+*.env
+!.env.example
+
+# Berkas kerja dan hasil
+projects/
+.cache/
+*.mp4
+*.wav
+*.mp3
+*.part
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+*.egg-info/
+
+# Sistem
+.DS_Store
+Thumbs.db

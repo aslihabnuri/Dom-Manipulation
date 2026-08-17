@@ -1,0 +1,14 @@
+streamlit>=1.38
+requests>=2.31
+edge-tts>=6.1
+
+# Animasi vektor. Menggerakkan tokoh dengan rig selang karet lalu merender
+# tiap bingkai lewat Chromium headless. Tidak memakai kredit sama sekali.
+# Setelah dipasang, jalankan sekali:  playwright install chromium
+playwright>=1.40
+
+# Opsional tetapi sangat disarankan.
+# Mendengarkan kembali suara yang sudah jadi lalu membandingkannya dengan
+# naskah, sehingga frasa yang terucap dua kali atau kata yang salah lafal
+# ketahuan dan dibuat ulang otomatis. Berjalan di komputer sendiri, gratis.
+faster-whisper>=1.0
