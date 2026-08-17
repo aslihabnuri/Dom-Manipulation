@@ -61,6 +61,19 @@ PISAHKAN = (
     "Do not blend or merge the pieces into one continuous illustration."
 )
 
+# Kepadatan. Poster acuan yang kita tuju penuh dari tepi ke tepi: benda
+# utama, benda pendukung, guntingan koran, pita selotip, serpihan segitiga
+# dan zigzag, semuanya bertumpuk. Poster kita sebelumnya terlalu lapang,
+# dan bidang kosong itulah yang membuatnya terasa seperti gambar anak-anak
+# alih-alih kolase editorial.
+KEPADATAN = (
+    "Fill the whole frame edge to edge with layered material: the main subject, two or "
+    "three supporting objects, torn newspaper clippings with real printed columns, strips "
+    "of washi tape, ticket stubs and small labels, plus scattered geometric paper "
+    "confetti (triangles, circles, zigzags) tucked behind and between the pieces. Rich, "
+    "dense and busy like a real hand-assembled scrapbook page, with no large empty areas."
+)
+
 # Syarat latar, dan ini bukan soal selera melainkan soal biaya.
 #
 # Potongan digunting dari poster secara gratis dengan cara membuang warna
@@ -212,7 +225,7 @@ def prompt_poster(
         kepala = (" No big headline in this shot, only a small paper accent; "
                   "it is a cut-in detail.")
     produk = f" {acuan_produk.strip()}" if acuan_produk.strip() else ""
-    return (f"{blok} SCENE as layered paper cut-outs: {adegan}. {PISAHKAN} "
+    return (f"{blok} SCENE as layered paper cut-outs: {adegan}. {PISAHKAN} {KEPADATAN} "
             f"{LATAR_TERPISAH}{produk}{kepala} Aspect ratio {rasio}, high resolution.")
 
 

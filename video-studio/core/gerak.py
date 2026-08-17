@@ -354,6 +354,40 @@ def render_bidikan(
     return keluar
 
 
+# Profil gerak video acuan, diukur langsung dari contoh milik vox-director
+# supaya kita punya angka pembanding, bukan perasaan:
+#
+#     tang      rata  4,4   puncak 65,9   diam  3,5%
+#     money     rata  7,6   puncak 40,3   diam  2,0%
+#     football  rata 12,4   puncak 46,7   diam 13,6%
+#
+# Dua hal yang dibaca dari angka ini. Rata-ratanya sedang saja, jadi gerak
+# tidak perlu ramai terus-menerus. Tapi puncaknya tinggi sekali, empat puluh
+# ke atas, dan puncak setinggi itu tidak datang dari benda yang bergoyang
+# melainkan dari POTONGAN ANTARBIDIKAN. Video satu bidikan tidak akan pernah
+# mencapainya. Itu sebabnya alur.pecah_bidikan memotong tiap empat sampai
+# enam detik.
+ACUAN_GERAK = {"rata": (4.0, 12.5), "puncak_minimum": 38.0, "diam_maksimum": 14.0}
+
+
+def nilai_gerak(ukuran: dict, *, satu_bidikan: bool = False) -> list[str]:
+    """Bandingkan hasil ukur dengan profil acuan. Mengembalikan keluhan."""
+    keluhan = []
+    lo, hi = ACUAN_GERAK["rata"]
+    if ukuran["rata"] < lo:
+        keluhan.append(f"gerak rata-rata {ukuran['rata']:.1f}, di bawah acuan {lo}")
+    elif ukuran["rata"] > hi:
+        keluhan.append(f"gerak rata-rata {ukuran['rata']:.1f}, di atas acuan {hi}, mungkin terlalu ramai")
+    if ukuran["diam_persen"] > ACUAN_GERAK["diam_maksimum"]:
+        keluhan.append(f"bingkai diam {ukuran['diam_persen']:.0f}%, acuan di bawah {ACUAN_GERAK['diam_maksimum']:.0f}%")
+    # Puncak hanya berarti untuk video utuh; satu bidikan memang tidak punya
+    # potongan, jadi menuntut puncak tinggi di situ salah kaprah.
+    if not satu_bidikan and ukuran["puncak"] < ACUAN_GERAK["puncak_minimum"]:
+        keluhan.append(f"puncak {ukuran['puncak']:.0f}, di bawah {ACUAN_GERAK['puncak_minimum']:.0f}; "
+                       "potongan antarbidikan kurang, video akan terasa panjang")
+    return keluhan
+
+
 def ukur_gerak(video: Path, *, contoh: int = 240) -> dict:
     """Ukur seberapa banyak yang benar-benar bergerak di sebuah video.
 
