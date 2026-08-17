@@ -54,6 +54,48 @@ class Suasana:
 
 
 SUASANA: dict[str, Suasana] = {
+    "sedih": Suasana(
+        "sedih", "Sedih",
+        "",
+        "Narator Indonesia yang berbicara dengan nada sendu dan menahan "
+        "haru, pelan dan lembut, seperti menceritakan kehilangan. Tidak "
+        "meratap dan tidak berlebihan. Bicara mengalir dan menyambung "
+        "tanpa jeda antarkata, pelafalan baku.",
+        0.4,
+        "sorrowful and tender, slow, solo strings over sparse piano, minor "
+        "key, quiet and intimate, instrumental only, leaves room for a narrator",
+        ("tinta-timur", "koran-editorial", "deco-emas")),
+    "kecewa": Suasana(
+        "kecewa", "Kecewa",
+        "",
+        "Narator Indonesia yang terdengar kecewa dan pasrah, nada turun di "
+        "akhir kalimat, datar dan lelah tetapi tetap jelas. Tidak marah dan "
+        "tidak memelas. Bicara mengalir dan menyambung tanpa jeda antarkata.",
+        0.4,
+        "disillusioned and weary, slow, muted brass and low piano, minor "
+        "key, resigned, sparse instrumental, no build",
+        ("koran-editorial", "tinta-timur", "swiss-bersih")),
+    "marah": Suasana(
+        "marah", "Marah",
+        "",
+        "Narator Indonesia yang terdengar geram dan menuntut, nada tegas "
+        "dan menekan, tempo agak cepat. Tidak berteriak dan tidak histeris, "
+        "marahnya tertahan. Bicara mengalir dan menyambung tanpa jeda "
+        "antarkata, pelafalan baku.",
+        0.5,
+        "angry and confrontational, driving percussion, distorted low "
+        "guitar, insistent rhythm, minor key, instrumental only",
+        ("zine-punk", "koran-editorial", "retro-amerika")),
+    "gembira": Suasana(
+        "gembira", "Gembira",
+        "Vocal Smile",
+        "Narator Indonesia yang riang dan ringan, terdengar senang, tempo "
+        "hidup. Bicara mengalir dan menyambung tanpa jeda antarkata, "
+        "pelafalan baku.",
+        0.7,
+        "joyful and bright, major key, light percussion, playful melody, "
+        "uplifting instrumental",
+        ("retro-amerika", "deco-emas", "koran-editorial")),
     "muram": Suasana(
         "muram", "Muram dan serius",
         "",                       # sengaja kosong: tanpa senyum
@@ -117,13 +159,23 @@ def suasana(nama: str | None) -> Suasana:
 # Kata-kata penanda, dipakai untuk menebak suasana dari naskahnya sendiri
 # supaya pemakai tidak perlu memilih apa pun.
 _PENANDA = {
-    "muram": ("bangkrut", "terancam", "punah", "hilang", "menyusut", "tergilas",
-              "sepi", "ditinggalkan", "kalah", "sulit", "krisis", "tragis",
-              "gulung tikar", "kewalahan", "turun", "anjlok"),
-    "mendesak": ("palsu", "tiruan", "bahaya", "awas", "waspada", "curang",
-                 "menipu", "racun", "ilegal", "darurat"),
+    "sedih": ("sedih", "duka", "kehilangan", "meninggal", "berpisah", "pilu",
+              "menangis", "air mata", "terakhir kali", "tinggal kenangan",
+              "punah", "hilang selamanya"),
+    "kecewa": ("kecewa", "menyerah", "pasrah", "sia-sia", "gagal", "percuma",
+               "ditinggalkan", "dilupakan", "tidak dihargai", "merugi"),
+    "marah": ("marah", "geram", "curang", "menipu", "dibohongi", "serakah",
+              "eksploitasi", "memeras", "seenaknya", "tidak adil", "rakus",
+              "dirampas"),
+    "muram": ("bangkrut", "terancam", "menyusut", "tergilas", "sepi", "kalah",
+              "sulit", "krisis", "tragis", "gulung tikar", "kewalahan",
+              "turun", "anjlok", "meredup"),
+    "mendesak": ("palsu", "tiruan", "bahaya", "awas", "waspada", "racun",
+                 "ilegal", "darurat", "segera", "sebelum terlambat"),
     "bersemangat": ("meledak", "viral", "tren", "menjamur", "melonjak",
                     "laris", "rekor", "booming"),
+    "gembira": ("gembira", "senang", "bahagia", "riang", "seru", "asyik",
+                "menyenangkan", "tawa", "merayakan"),
     "tenang": ("warisan", "tradisi", "seremonial", "autentik", "asli",
                "kerajinan", "sabar", "perlahan", "turun-temurun"),
 }
