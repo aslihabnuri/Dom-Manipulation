@@ -13,6 +13,7 @@ from .pipeline import SessionInput, run_session, slugify
 
 EPILOG = """\
 contoh:
+  clipper web                                               # aplikasi klik-klik di browser
   clipper run --source ./Live/2026-08-18 --date 2026-08-18
   clipper run --video live.mp4 --performance perf.csv --live-start "2026-08-18 19:00"
   clipper analyze --video live.mp4 --performance perf.csv   # skor saja, tanpa render
@@ -83,6 +84,11 @@ def build_parser() -> argparse.ArgumentParser:
 
     ledger = sub.add_parser("ledger", help="lihat riwayat klip yang sudah dibuat")
     ledger.add_argument("--mark-published", help="tandai satu berkas keluaran sebagai sudah diunggah")
+
+    web = sub.add_parser("web", help="buka aplikasi klik-klik di browser (tanpa mengetik perintah)")
+    web.add_argument("--folder", help="folder induk yang berisi folder-folder live")
+    web.add_argument("--port", type=int, default=8765, help="port server lokal")
+    web.add_argument("--no-browser", action="store_true", help="jangan buka browser otomatis")
 
     sub.add_parser("init", help="tulis clipper.yaml berisi seluruh opsi beserta nilai bawaan")
     return parser
@@ -262,6 +268,16 @@ def cmd_ledger(args: argparse.Namespace, config: Config) -> int:
     return 0
 
 
+def cmd_web(args: argparse.Namespace, config: Config) -> int:
+    from .web import serve
+
+    serve(
+        root=args.folder, config=config, port=args.port,
+        open_browser=not args.no_browser,
+    )
+    return 0
+
+
 def cmd_init(config: Config) -> int:
     target = Path("clipper.yaml")
     if target.exists():
@@ -306,6 +322,8 @@ def main(argv: list[str] | None = None) -> int:
             return cmd_check(args, config)
         if args.command == "ledger":
             return cmd_ledger(args, config)
+        if args.command == "web":
+            return cmd_web(args, config)
         if args.command == "init":
             return cmd_init(config)
     except KeyboardInterrupt:

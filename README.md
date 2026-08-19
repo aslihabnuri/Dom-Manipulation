@@ -13,6 +13,22 @@ utama Anda soal pelanggaran.
 
 ---
 
+## Bukan programmer?
+
+Jangan baca halaman ini. Buka **[PANDUAN.md](PANDUAN.md)** — panduan klik-klik
+tanpa satu pun perintah yang perlu diketik.
+
+Ada dua cara pakai tanpa menyentuh terminal:
+
+- **[Buka di Google Colab](https://colab.research.google.com/github/aslihabnuri/Dom-Manipulation/blob/claude/tiktok-live-clipper-app-1c0qai/Clipper_TikTok_LIVE.ipynb)**
+  — tanpa pasang apa pun, membaca Google Drive langsung tanpa unduh video.
+- **Klik dua kali** `Buka Aplikasi (Mac).command` atau `Buka Aplikasi (Windows).bat`
+  — aplikasi terbuka di browser komputer Anda.
+
+Sisa dokumen ini untuk penggunaan lewat baris perintah.
+
+---
+
 ## Instalasi
 
 Butuh Python 3.10+ dan ffmpeg.
@@ -31,7 +47,7 @@ Paket opsional dan gunanya:
 
 | Extra | Untuk apa | Tanpa ini |
 |---|---|---|
-| `transcribe` | subtitle terbakar & pemindaian klaim lisan | klip tetap jadi, tapi tanpa teks — dan itu melemahkan sisi originalitasnya |
+| `transcribe` | subtitle terbakar, caption dari isi video, pemindaian klaim lisan | klip tetap jadi, tapi tanpa teks — dan itu melemahkan sisi originalitasnya |
 | `xlsx` | membaca laporan `.xlsx` | ekspor laporan sebagai CSV |
 | `drive` | tarik berkas langsung dari Google Drive | unduh manual, atau pakai `rclone` |
 
@@ -56,6 +72,9 @@ Live/
 
 Nama berkas atau nama folder boleh memuat tanggal dalam format apa pun yang umum:
 `2026-08-18`, `18-08-2026`, atau `20260818`.
+
+Berkas subtitle `.srt` yang diletakkan di folder yang sama akan dipakai langsung,
+sehingga tidak perlu transkripsi ulang.
 
 ### 2. Laporan performa
 
@@ -139,6 +158,31 @@ sinyal:
 **Langkah 3 — rapikan.** Titik potong digeser ke batas kalimat terdekat dari
 transkrip, sehingga klip tidak pernah dibuka di tengah kata.
 
+## Caption yang mengikuti isi video
+
+Caption tidak disusun dari template yang cuma berganti tanggal — enam klip akan
+terbaca seperti unggahan borongan, dan itu justru melawan aturan "setiap unggahan
+membawa nilai baru".
+
+Sebagai gantinya, fakta diambil dari transkrip klip itu sendiri:
+
+| Yang diambil | Contoh |
+|---|---|
+| Harga yang benar-benar dibayar | "dari Rp129.000 **jadi Rp89.000**" → `Rp89.000`, bukan harga jangkar |
+| Bahan | `katun combed`, `linen` — frasa dua kata tetap utuh |
+| Ukuran & warna | `S, M, L, XL` · `hitam, navy, maroon` |
+| Penawaran | `gratis ongkir`, `flash sale`, `bundling` |
+| Jenis momen | CTA / harga / promo / demo — menentukan kalimat penutup |
+| Kategori produk | menentukan hashtag: `#fashionmurah`, `#skincareroutine`, … |
+
+Tiga varian gaya dibuat untuk tiap klip supaya satu batch tidak seragam.
+Tidak ada yang dikarang: kalau transkrip tipis, caption tetap pendek dan jujur
+alih-alih diisi klaim yang tidak didukung videonya.
+
+```bash
+clipper run --video live.mp4 --performance performa.csv   # caption ada di report.md
+```
+
 ## Yang diperiksa sebelum render
 
 | Pemeriksaan | Tindakan |
@@ -197,6 +241,7 @@ aturan yang kebetulan salah tangkap untuk katalog Anda.
 
 | Perintah | Fungsi |
 |---|---|
+| `clipper web` | buka aplikasi klik-klik di browser |
 | `clipper run` | seluruh alur, sampai klip jadi |
 | `clipper analyze` | skor dan pilih momen, tanpa render |
 | `clipper doctor` | cek lingkungan dan pemetaan kolom |

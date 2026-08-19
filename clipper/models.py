@@ -150,7 +150,26 @@ class ClipResult:
     caption: str
     findings: list[Finding] = field(default_factory=list)
     rendered: bool = False
+    # Overlay text is held here rather than on the Candidate so a front end can
+    # edit it between analysis and render without touching scoring state.
+    info: str = ""
+    thumbnail: str | None = None
+    # Alternative caption drafts, so the operator can switch style rather than
+    # rewrite from scratch. ``caption`` always holds the one in use.
+    caption_options: list[str] = field(default_factory=list)
+
+    @property
+    def hook(self) -> str:
+        return self.candidate.hook
+
+    @hook.setter
+    def hook(self, value: str) -> None:
+        self.candidate.hook = value
 
     @property
     def blocked(self) -> bool:
         return any(f.blocking for f in self.findings)
+
+    @property
+    def overlay_text(self) -> str:
+        return f"{self.hook} {self.info}".strip()

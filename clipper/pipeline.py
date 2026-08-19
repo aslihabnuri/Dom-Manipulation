@@ -12,9 +12,10 @@ from .audio import rms_envelope
 from .compliance import dedupe, linter
 from .compliance.rules import load_rules
 from .config import Config
+from .edit import caption as caption_mod
 from .edit import overlay as overlay_mod
 from .edit.captions import build_ass, write_ass
-from .edit.cut import render_clip
+from .edit.cut import extract_thumbnail, render_clip
 from .ffmpeg import MediaInfo, probe
 from .ingest.performance import load_performance
 from .models import Candidate, ClipResult, Finding, HourScore, Transcript
@@ -31,6 +32,16 @@ class SessionInput:
     session_id: str
     live_start: datetime | None = None
     transcript_path: Path | None = None
+    # Front ends that already know where output belongs set these directly,
+    # instead of getting a session_id subfolder appended to the config paths.
+    output_dir: Path | None = None
+    work_dir: Path | None = None
+
+    def resolved_output_dir(self, config: Config) -> Path:
+        return self.output_dir or config.path("paths.output_dir") / self.session_id
+
+    def resolved_work_dir(self, config: Config) -> Path:
+        return self.work_dir or config.path("paths.work_dir") / self.session_id
 
 
 @dataclass
@@ -40,27 +51,22 @@ class SessionOutput:
     info: MediaInfo | None = None
     transcript: Transcript | None = None
     fingerprint: str = ""
+    ledger: dedupe.Ledger | None = None
 
 
-def build_caption(candidate: Candidate, overlay: overlay_mod.OverlayText, session_id: str) -> str:
-    """Draft the upload caption.
+def build_captions(candidate: Candidate, hook: str, session_id: str) -> list[str]:
+    """Draft caption options for one clip, from what the clip actually says."""
+    return caption_mod.build_captions(
+        candidate.transcript_text,
+        hook=hook,
+        hour_label=candidate.source_hour.label,
+        session_id=session_id,
+    )
 
-    Written as context the viewer does not get from the video alone -- which is
-    also what makes the post carry new value rather than being a bare re-upload.
-    """
-    lines: list[str] = []
-    if overlay.hook:
-        lines.append(overlay.hook.rstrip(".") + ".")
 
-    price = overlay_mod.find_price(candidate.transcript_text)
-    detail = f"Potongan LIVE {session_id} jam {candidate.source_hour.label}"
-    if price:
-        detail += f" - {price}"
-    lines.append(detail + ".")
-    lines.append("Detail lengkap & stok terbaru ada di keranjang.")
-    lines.append("")
-    lines.append("#tiktokshop #livehighlight #rekomendasiproduk")
-    return "\n".join(lines)
+def build_caption(candidate: Candidate, overlay, session_id: str) -> str:
+    """The caption a clip ships with by default."""
+    return build_captions(candidate, getattr(overlay, "hook", ""), session_id)[0]
 
 
 def _transcribe_hours(
@@ -98,14 +104,16 @@ def _transcribe_hours(
     return merged if merged.segments else None
 
 
-def run_session(
+def analyze_session(
     session: SessionInput,
     config: Config,
     log: Logger = print,
-    render: bool = True,
-    dry_run: bool = False,
 ) -> SessionOutput:
-    """Score, refine, lint and render clips for one live session."""
+    """Everything up to but not including rendering.
+
+    Split out so a front end can show the proposed clips, let the operator fix
+    the overlay text, and only then pay the cost of encoding.
+    """
     problems = config.validate()
     if problems:
         raise ValueError("konfigurasi bermasalah:\n  - " + "\n  - ".join(problems))
@@ -125,7 +133,7 @@ def run_session(
     if not scored:
         raise ValueError(
             "tidak ada baris performa yang jatuh di dalam durasi rekaman. "
-            "Periksa --live-start: jam pada laporan harus sesuai dengan awal rekaman."
+            "Periksa jam mulai rekaman: jam pada laporan harus sesuai dengan awal rekaman."
         )
 
     out.hours = select_hours(scored, config)
@@ -153,78 +161,158 @@ def run_session(
     candidates = sorted(candidates, key=lambda c: c.score, reverse=True)[:max_clips]
     candidates.sort(key=lambda c: c.segment.start)
 
-    ledger = dedupe.Ledger.load(config.path("paths.ledger"))
+    out.ledger = dedupe.Ledger.load(config.path("paths.ledger"))
     out.fingerprint = dedupe.fingerprint_source(session.video, out.info.duration)
     rules = load_rules(config.get("compliance.rules_file"))
 
-    output_dir = config.path("paths.output_dir") / session.session_id
-    work_dir = config.path("paths.work_dir") / session.session_id
-
-    log(f"Menyiapkan {len(candidates)} klip...")
-    for index, candidate in enumerate(candidates, 1):
-        text = candidate.transcript_text
-        ov = overlay_mod.suggest(text, candidate.source_hour.label, candidate.score)
+    log(f"Memeriksa {len(candidates)} kandidat klip...")
+    for candidate in candidates:
+        ov = overlay_mod.suggest(
+            candidate.transcript_text, candidate.source_hour.label, candidate.score
+        )
         candidate.hook = ov.hook
-        caption = build_caption(candidate, ov, session.session_id)
+        options = build_captions(candidate, ov.hook, session.session_id)
 
-        envelope = None
+        result = ClipResult(
+            candidate=candidate, video_path=None, caption=options[0],
+            info=ov.info, caption_options=options,
+        )
+        result.findings = _lint(result, session, config, out, rules, candidates)
+        out.results.append(result)
+
+    return out
+
+
+def _lint(
+    result: ClipResult,
+    session: SessionInput,
+    config: Config,
+    out: SessionOutput,
+    rules,
+    batch: list[Candidate],
+) -> list[Finding]:
+    """Run every compliance check for one clip, most severe first."""
+    candidate = result.candidate
+
+    envelope = None
+    try:
+        envelope = rms_envelope(
+            str(session.video), candidate.segment.start, candidate.segment.duration, hop=0.2
+        )
+    except Exception:
+        pass
+
+    findings = linter.lint_candidate(
+        candidate, config,
+        video_path=session.video, transcript=out.transcript,
+        caption=result.caption, overlay_text=result.overlay_text,
+        rules=rules, envelope=envelope,
+    )
+    if out.ledger is not None:
+        findings += dedupe.check_duplicate(
+            candidate, out.ledger, out.fingerprint, config, batch
+        )
+
+    # Duplicate findings are appended after linting, so re-sort to keep the most
+    # severe first -- callers surface findings[0].
+    severity_order = {"block": 0, "warn": 1, "info": 2}
+    findings.sort(key=lambda f: (severity_order.get(f.severity, 3), f.rule_id))
+    return findings
+
+
+def relint(
+    result: ClipResult,
+    session: SessionInput,
+    config: Config,
+    out: SessionOutput,
+) -> list[ClipResult]:
+    """Re-check one clip after its hook or caption was edited."""
+    rules = load_rules(config.get("compliance.rules_file"))
+    result.findings = _lint(
+        result, session, config, out, rules, [r.candidate for r in out.results]
+    )
+    return out.results
+
+
+def render_result(
+    result: ClipResult,
+    session: SessionInput,
+    config: Config,
+    out: SessionOutput,
+    log: Logger = print,
+    thumbnail: bool = False,
+) -> ClipResult:
+    """Encode one analysed clip, using whatever overlay text it now carries."""
+    candidate = result.candidate
+    stem = f"{session.session_id}_{candidate.slug}"
+    output_dir = session.resolved_output_dir(config)
+    work_dir = session.resolved_work_dir(config)
+
+    width = int(config.get("render.width", 1080))
+    height = int(config.get("render.height", 1920))
+    ov = overlay_mod.OverlayText(hook=result.hook, info=result.info)
+
+    ass = build_ass(
+        out.transcript, candidate.segment.start, candidate.segment.end, config,
+        extra_styles=overlay_mod.style_lines(config, width, height),
+        extra_events=overlay_mod.render_events(ov, candidate.segment.duration, config),
+    )
+    ass_path = write_ass(ass, work_dir / f"{stem}.ass")
+    target = output_dir / f"{stem}.mp4"
+
+    try:
+        rendered = render_clip(
+            session.video, candidate.segment, target, config,
+            ass_path=ass_path, title=f"{session.session_id} {candidate.source_hour.label}",
+        )
+    except Exception as exc:
+        result.findings.append(Finding("render.failed", "warn", f"Render gagal: {exc}"))
+        log(f"  render gagal: {exc}")
+        return result
+
+    result.video_path = str(rendered)
+    result.rendered = True
+
+    if thumbnail:
         try:
-            envelope = rms_envelope(
-                str(session.video), candidate.segment.start, candidate.segment.duration, hop=0.2
-            )
+            result.thumbnail = str(extract_thumbnail(
+                session.video, candidate.segment.start + 1.0,
+                work_dir / f"{stem}.jpg", config,
+            ))
         except Exception:
             pass
 
-        findings = linter.lint_candidate(
-            candidate, config,
-            video_path=session.video, transcript=out.transcript,
-            caption=caption, overlay_text=f"{ov.hook} {ov.info}".strip(),
-            rules=rules, envelope=envelope,
+    if out.ledger is not None:
+        out.ledger.add(
+            candidate, session.session_id, out.fingerprint,
+            output=str(rendered), caption=result.caption,
         )
-        findings += dedupe.check_duplicate(candidate, ledger, out.fingerprint, config, candidates)
-        # Duplicate findings are appended after linting, so re-sort to keep the
-        # most severe first -- the console and report both surface findings[0].
-        severity_order = {"block": 0, "warn": 1, "info": 2}
-        findings.sort(key=lambda f: (severity_order.get(f.severity, 3), f.rule_id))
+    log(f"  dirender: {rendered.name}")
+    return result
 
-        result = ClipResult(candidate=candidate, video_path=None, caption=caption, findings=findings)
 
+def run_session(
+    session: SessionInput,
+    config: Config,
+    log: Logger = print,
+    render: bool = True,
+    dry_run: bool = False,
+) -> SessionOutput:
+    """Score, refine, lint and render clips for one live session."""
+    out = analyze_session(session, config, log)
+
+    log(f"Menyiapkan {len(out.results)} klip...")
+    for index, result in enumerate(out.results, 1):
         if result.blocked:
-            blocker = next(f for f in findings if f.blocking)
+            blocker = next(f for f in result.findings if f.blocking)
             log(f"  [{index}] DIBLOKIR: {blocker.message[:100]}")
         elif render and not dry_run:
-            stem = f"{session.session_id}_{candidate.slug}"
-            width = int(config.get("render.width", 1080))
-            height = int(config.get("render.height", 1920))
-            ass = build_ass(
-                out.transcript, candidate.segment.start, candidate.segment.end, config,
-                extra_styles=overlay_mod.style_lines(config, width, height),
-                extra_events=overlay_mod.render_events(ov, candidate.segment.duration, config),
-            )
-            ass_path = write_ass(ass, work_dir / f"{stem}.ass")
-            target = output_dir / f"{stem}.mp4"
-            try:
-                rendered = render_clip(
-                    session.video, candidate.segment, target, config,
-                    ass_path=ass_path, title=f"{session.session_id} {candidate.source_hour.label}",
-                )
-                result.video_path = str(rendered)
-                result.rendered = True
-                ledger.add(candidate, session.session_id, out.fingerprint,
-                           output=str(rendered), caption=caption)
-                log(f"  [{index}] dirender: {rendered.name}")
-            except Exception as exc:
-                result.findings.append(
-                    Finding("render.failed", "warn", f"Render gagal: {exc}")
-                )
-                log(f"  [{index}] render gagal: {exc}")
+            render_result(result, session, config, out, log=lambda m: log(f"  [{index}]{m}"))
         else:
-            log(f"  [{index}] {candidate.slug} siap (dry-run, tidak dirender)")
+            log(f"  [{index}] {result.candidate.slug} siap (dry-run, tidak dirender)")
 
-        out.results.append(result)
-
-    if not dry_run:
-        ledger.save()
+    if not dry_run and out.ledger is not None:
+        out.ledger.save()
     return out
 
 

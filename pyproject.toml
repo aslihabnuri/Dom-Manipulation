@@ -38,4 +38,4 @@ clipper = "clipper.cli:main"
 include = ["clipper*"]
 
 [tool.setuptools.package-data]
-clipper = ["py.typed"]
+clipper = ["py.typed", "assets/*.html"]

@@ -1,0 +1,578 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mesin Clipper TikTok LIVE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#14120f; --panel:#1c1916; --panel-2:#232019; --line:#332d25; --line-soft:#2a251f;
+  --text:#f4efe6; --muted:#a2978a; --faint:#6f665c;
+  --amber:#f0a830; --amber-deep:#c9842097; --amber-glow:#f0a83022;
+  --ok:#63bd80; --warn:#e0a33e; --bad:#e27363;
+  --ok-bg:#63bd8018; --warn-bg:#e0a33e18; --bad-bg:#e2736318;
+  --display:"Bricolage Grotesque","Trebuchet MS",sans-serif;
+  --body:"Public Sans","Helvetica Neue",Helvetica,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --r:14px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--ink); color:var(--text); font-family:var(--body);
+  font-size:15px; line-height:1.6; -webkit-font-smoothing:antialiased;
+  background-image:
+    radial-gradient(900px 420px at 12% -8%, #2a221733 0%, transparent 70%),
+    radial-gradient(700px 380px at 92% 4%, #f0a8300d 0%, transparent 65%);
+  background-attachment:fixed;
+}
+/* Fine grain so the dark panels read as a physical surface, not flat fill. */
+body::before{
+  content:""; position:fixed; inset:0; pointer-events:none; z-index:0; opacity:.035;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/></filter><rect width='140' height='140' filter='url(%23n)'/></svg>");
+}
+.wrap{position:relative; z-index:1; max-width:800px; margin:0 auto; padding:44px 22px 90px}
+
+/* ---------- masthead ---------- */
+.mast{display:flex; align-items:flex-start; gap:16px; margin-bottom:34px}
+.lamp{
+  width:11px; height:11px; border-radius:50%; margin-top:13px; flex:none;
+  background:var(--amber); box-shadow:0 0 0 4px var(--amber-glow), 0 0 18px var(--amber);
+}
+.lamp.busy{animation:breathe 1.5s ease-in-out infinite}
+@keyframes breathe{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.45;transform:scale(.82)}}
+h1{
+  font-family:var(--display); font-weight:800; font-size:clamp(27px,4.6vw,38px);
+  letter-spacing:-.025em; line-height:1.08; margin:0;
+}
+.tagline{color:var(--muted); font-size:14.5px; margin:7px 0 0; max-width:52ch}
+
+/* ---------- panels ---------- */
+.panel{
+  background:linear-gradient(180deg,var(--panel-2),var(--panel));
+  border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 24px 24px; margin-bottom:16px; position:relative;
+  box-shadow:0 1px 0 #ffffff08 inset, 0 12px 30px -22px #000;
+  opacity:0; transform:translateY(12px);
+  animation:rise .5s cubic-bezier(.2,.7,.3,1) forwards;
+}
+@keyframes rise{to{opacity:1;transform:none}}
+.panel:nth-of-type(1){animation-delay:.04s}
+.panel:nth-of-type(2){animation-delay:.10s}
+.panel:nth-of-type(3){animation-delay:.16s}
+.panel:nth-of-type(4){animation-delay:.22s}
+.panel.disabled{opacity:.42; pointer-events:none; filter:saturate(.4)}
+
+.head{margin-bottom:4px}
+.step,.tag{
+  display:block; font-family:var(--mono); font-size:10.5px; font-weight:600;
+  text-transform:uppercase; letter-spacing:.14em; margin-bottom:5px;
+}
+.step{color:var(--amber)}
+.tag{color:var(--faint)}
+h2{font-family:var(--display); font-weight:700; font-size:18px; letter-spacing:-.015em; margin:0}
+.hint{color:var(--muted); font-size:13.5px; margin:2px 0 16px; max-width:62ch}
+.hint b{color:var(--text); font-weight:600}
+
+/* ---------- controls ---------- */
+label.field{display:block; font-size:12px; color:var(--faint); text-transform:uppercase;
+  letter-spacing:.09em; font-weight:600; margin:0 0 6px}
+select,input[type=text],textarea{
+  width:100%; background:#100e0c; color:var(--text); font-family:var(--body); font-size:15px;
+  border:1px solid var(--line); border-radius:9px; padding:11px 13px; transition:.16s;
+}
+textarea{resize:vertical; min-height:62px; line-height:1.5}
+select:focus,input:focus,textarea:focus{
+  outline:none; border-color:var(--amber); box-shadow:0 0 0 3px var(--amber-glow)
+}
+.row{display:flex; gap:14px; flex-wrap:wrap}
+.row>*{flex:1 1 190px; min-width:0}
+.clock input{font-family:var(--mono); font-size:19px; letter-spacing:.04em; text-align:center}
+
+.slider{display:flex; align-items:center; gap:14px}
+input[type=range]{flex:1; -webkit-appearance:none; appearance:none; background:transparent; height:26px}
+input[type=range]::-webkit-slider-runnable-track{height:5px; border-radius:99px; background:var(--line)}
+input[type=range]::-moz-range-track{height:5px; border-radius:99px; background:var(--line)}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none; width:19px; height:19px; border-radius:50%; margin-top:-7px;
+  background:var(--amber); border:none; cursor:pointer; box-shadow:0 0 0 4px var(--amber-glow)
+}
+input[type=range]::-moz-range-thumb{
+  width:19px;height:19px;border-radius:50%;background:var(--amber);border:none;cursor:pointer
+}
+.count{font-family:var(--mono); font-size:25px; font-weight:600; width:2.1ch; text-align:right}
+
+.choice{display:flex; gap:11px; flex-wrap:wrap; margin-top:2px}
+.choice label{
+  flex:1 1 210px; border:1px solid var(--line); border-radius:10px; padding:12px 14px;
+  cursor:pointer; transition:.16s; background:#100e0c;
+}
+.choice label:hover{border-color:#4a4136}
+.choice input{position:absolute; opacity:0; pointer-events:none}
+.choice input:checked+span{color:var(--text)}
+.choice label:has(input:checked){border-color:var(--amber); background:var(--amber-glow)}
+.choice span{display:block; font-size:14px; font-weight:600; color:var(--muted)}
+.choice small{display:block; color:var(--faint); font-size:12.5px; font-weight:400; margin-top:3px; line-height:1.45}
+
+/* ---------- found files ---------- */
+.found{margin-top:14px; border-top:1px dashed var(--line-soft); padding-top:14px; display:grid; gap:7px}
+.found div{display:flex; gap:9px; align-items:baseline; font-size:13.5px}
+.found .tick{font-family:var(--mono); flex:none; width:14px}
+.found .yes .tick{color:var(--ok)} .found .no .tick{color:var(--bad)}
+.found .no{color:var(--muted)}
+.found code{font-family:var(--mono); font-size:12.5px; color:var(--text); word-break:break-all}
+
+/* ---------- buttons ---------- */
+.go{
+  width:100%; margin-top:6px; border:none; border-radius:11px; cursor:pointer;
+  font-family:var(--display); font-weight:700; font-size:16.5px; letter-spacing:-.01em;
+  padding:16px 20px; color:#221803; transition:.16s;
+  background:linear-gradient(180deg,#ffc457,var(--amber));
+  box-shadow:0 1px 0 #fff6 inset, 0 8px 22px -12px #f0a83099;
+}
+.go:hover:not(:disabled){transform:translateY(-1px); box-shadow:0 1px 0 #fff6 inset, 0 12px 26px -12px #f0a830bb}
+.go:active:not(:disabled){transform:translateY(1px)}
+.go:disabled{opacity:.35; cursor:not-allowed; transform:none}
+.ghost{
+  background:transparent; color:var(--muted); border:1px solid var(--line);
+  border-radius:9px; padding:9px 15px; font-family:var(--body); font-size:13.5px;
+  cursor:pointer; transition:.16s;
+}
+.ghost:hover{color:var(--text); border-color:#4a4136}
+
+/* ---------- console ---------- */
+.console{
+  margin-top:16px; background:#0c0b09; border:1px solid var(--line); border-radius:10px;
+  padding:15px 17px; font-family:var(--mono); font-size:12.5px; line-height:1.75;
+  color:var(--muted); max-height:230px; overflow-y:auto; white-space:pre-wrap; word-break:break-word;
+}
+.console.hide{display:none}
+.console b{color:var(--amber); font-weight:400}
+.scan{height:2px; background:var(--line); border-radius:99px; overflow:hidden; margin-top:13px}
+.scan.hide{display:none}
+.scan i{display:block; height:100%; width:36%; border-radius:99px; background:var(--amber);
+  animation:sweep 1.15s ease-in-out infinite}
+@keyframes sweep{0%{transform:translateX(-100%)}100%{transform:translateX(320%)}}
+
+/* ---------- timeline ---------- */
+.tl{margin:20px 0 4px}
+.tl-bar{position:relative; height:38px; background:#100e0c; border:1px solid var(--line);
+  border-radius:8px; overflow:hidden}
+.tl-hour{position:absolute; top:0; bottom:0; background:var(--amber); opacity:.16}
+.tl-hour.hi{opacity:.34}
+.tl-clip{position:absolute; top:0; bottom:0; background:var(--amber); box-shadow:0 0 12px var(--amber)}
+.tl-legend{display:flex; justify-content:space-between; font-family:var(--mono);
+  font-size:11px; color:var(--faint); margin-top:6px}
+
+/* ---------- clips ---------- */
+.clip{
+  background:linear-gradient(180deg,var(--panel-2),var(--panel));
+  border:1px solid var(--line); border-radius:var(--r); padding:20px 22px; margin-bottom:14px;
+  opacity:0; transform:translateY(10px); animation:rise .45s cubic-bezier(.2,.7,.3,1) forwards;
+}
+.clip.off{opacity:.45}
+.clip-top{display:flex; align-items:center; gap:11px; flex-wrap:wrap; margin-bottom:3px}
+.badge{font-family:var(--mono); font-size:10.5px; font-weight:600; letter-spacing:.08em;
+  padding:3px 9px; border-radius:99px; flex:none}
+.badge.ok{background:var(--ok-bg); color:var(--ok)}
+.badge.warn{background:var(--warn-bg); color:var(--warn)}
+.badge.bad{background:var(--bad-bg); color:var(--bad)}
+.tc{font-family:var(--mono); font-size:15px; font-weight:600; letter-spacing:.02em}
+.meta{color:var(--faint); font-size:12.5px; margin:0 0 15px}
+.meta em{font-style:normal; color:var(--muted)}
+.pair{display:grid; gap:13px; margin-bottom:13px}
+.notes{display:grid; gap:8px; margin:4px 0 13px}
+.note{font-size:13px; line-height:1.55; padding:11px 14px; border-radius:9px;
+  display:grid; grid-template-columns:auto 1fr; gap:4px 10px; align-items:baseline}
+.note .chip{font-family:var(--mono); font-size:10px; font-weight:600; letter-spacing:.1em;
+  text-transform:uppercase; padding:2px 7px; border-radius:5px; white-space:nowrap}
+.note.warn{background:var(--warn-bg); color:#e8d2a8}
+.note.warn .chip{background:#e0a33e2e; color:var(--warn)}
+.note.bad{background:var(--bad-bg); color:#f0c0b8}
+.note.bad .chip{background:#e273632e; color:var(--bad)}
+/* Recessed well, so the host's own words read as quoted material rather than
+   as another alert. */
+.spoken{font-size:13px; color:var(--muted); font-style:italic; line-height:1.6;
+  background:#100e0c; border:1px solid var(--line-soft); border-radius:9px;
+  padding:11px 14px; margin:0 0 13px}
+.cap{margin:4px 0 14px; padding:14px; border-radius:10px; background:#100e0c;
+  border:1px solid var(--line-soft)}
+.cap-top{display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:7px}
+.ghost.small{padding:5px 11px; font-size:12px; border-radius:7px}
+.cap textarea{background:#0c0b09; font-size:14px; line-height:1.55}
+.cap-note{font-size:12px; color:var(--faint); line-height:1.5; margin:8px 0 0}
+.cap-note b{color:var(--muted); font-weight:600}
+.take{display:flex; align-items:center; gap:10px; cursor:pointer; user-select:none; font-size:14px}
+.take input{width:17px; height:17px; accent-color:var(--amber); cursor:pointer}
+.take.locked{opacity:.5; cursor:not-allowed}
+video{width:100%; max-width:250px; border-radius:10px; margin-top:12px; display:block; background:#000}
+
+.done{background:var(--ok-bg); border:1px solid #63bd8040; border-radius:var(--r);
+  padding:20px 22px; margin-bottom:16px}
+.done h2{color:var(--ok); margin-bottom:6px}
+.done code{font-family:var(--mono); font-size:12.5px; color:var(--text); word-break:break-all}
+.hidden{display:none}
+::-webkit-scrollbar{width:9px;height:9px}
+::-webkit-scrollbar-thumb{background:var(--line); border-radius:99px}
+::-webkit-scrollbar-track{background:transparent}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="mast">
+    <span class="lamp" id="lamp"></span>
+    <div>
+      <h1>Mesin Clipper TikTok&nbsp;LIVE</h1>
+      <p class="tagline">Memotong bagian live yang penontonnya ramai <b>dan</b> sales-nya tinggi, lalu memeriksanya sebelum Anda unggah.</p>
+    </div>
+  </header>
+
+  <section class="panel">
+    <div class="head"><span class="step">Langkah 1</span><h2>Pilih folder live Anda</h2></div>
+    <p class="hint">Folder yang berisi rekaman live <b>dan</b> berkas data performa dari Seller Center.</p>
+    <div class="row">
+      <div style="flex:3 1 320px">
+        <label class="field" for="folder">Folder</label>
+        <select id="folder"><option>Mencari…</option></select>
+      </div>
+      <div style="flex:0 0 auto; align-self:flex-end">
+        <button class="ghost" id="rescan">Segarkan daftar</button>
+      </div>
+    </div>
+    <div class="found" id="found"></div>
+  </section>
+
+  <section class="panel">
+    <div class="head"><span class="step">Langkah 2</span><h2>Jam berapa rekaman dimulai?</h2></div>
+    <p class="hint">Lihat jam pada <b>detik pertama</b> video. Kalau ini meleset, jam pada laporan tidak akan cocok dengan isi rekaman.</p>
+    <div class="row">
+      <div class="clock" style="flex:0 0 150px">
+        <label class="field" for="clock">Jam mulai</label>
+        <input type="text" id="clock" value="19:00" inputmode="numeric" autocomplete="off">
+      </div>
+      <div style="flex:1 1 260px">
+        <label class="field" for="count">Jumlah klip</label>
+        <div class="slider">
+          <input type="range" id="count" min="1" max="12" value="6">
+          <span class="count" id="countOut">6</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="head"><span class="step">Langkah 3</span><h2>Bentuk video</h2></div>
+    <p class="hint">Rekaman live biasanya melebar. Keduanya menghasilkan video tegak 9:16 untuk TikTok.</p>
+    <div class="choice">
+      <label>
+        <input type="radio" name="frame" value="blur" checked>
+        <span>Seluruh layar terlihat<small>Sisi atas–bawah diisi latar buram. Tidak ada yang terpotong.</small></span>
+      </label>
+      <label>
+        <input type="radio" name="frame" value="cover">
+        <span>Potong bagian tengah<small>Penuh layar, tapi sisi kiri–kanan terbuang.</small></span>
+      </label>
+    </div>
+  </section>
+
+  <section class="panel">
+    <button class="go" id="find">Cari Momen Terbaik</button>
+    <div class="scan hide" id="scan"><i></i></div>
+    <div class="console hide" id="log"></div>
+  </section>
+
+  <div id="timeline" class="hidden"></div>
+  <div id="clips"></div>
+  <div id="tail"></div>
+
+</div>
+
+<script>
+const TOKEN = "__TOKEN__";
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, c =>
+  ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const rupiah = (n) => "Rp" + Math.round(n).toLocaleString("id-ID");
+
+let sessions = [];
+let clips = [];
+let busy = false;
+
+async function api(path, options = {}) {
+  const sep = path.includes("?") ? "&" : "?";
+  const res = await fetch(path + sep + "t=" + encodeURIComponent(TOKEN), {
+    ...options,
+    headers: { "Content-Type": "application/json", "X-Clipper-Token": TOKEN, ...(options.headers || {}) },
+  });
+  const data = await res.json().catch(() => ({ error: "jawaban tidak terbaca" }));
+  if (!res.ok) throw new Error(data.error || ("gagal: " + res.status));
+  return data;
+}
+
+function setBusy(on) {
+  busy = on;
+  $("lamp").classList.toggle("busy", on);
+  $("scan").classList.toggle("hide", !on);
+  document.querySelectorAll(".go").forEach(b => b.disabled = on);
+}
+
+function say(lines) {
+  const box = $("log");
+  box.classList.remove("hide");
+  box.innerHTML = lines.map(l => esc(l)).join("\n");
+  box.scrollTop = box.scrollHeight;
+}
+
+/* ---------- folders ---------- */
+
+async function loadSessions() {
+  try {
+    const data = await api("/api/sessions");
+    sessions = data.sessions;
+    const sel = $("folder");
+    if (!sessions.length) {
+      sel.innerHTML = "<option>Tidak ada rekaman ditemukan</option>";
+      $("found").innerHTML =
+        `<div class="no"><span class="tick">✕</span><span>Tidak ada video di <code>${esc(data.root)}</code>. ` +
+        `Pastikan rekaman live sudah selesai diunggah ke Google Drive.</span></div>`;
+      $("find").disabled = true;
+      return;
+    }
+    sel.innerHTML = sessions.map(s =>
+      `<option value="${s.index}">${esc(s.name)}${s.ready ? " — " + esc(s.size) : " — belum lengkap"}</option>`
+    ).join("");
+    showFound();
+  } catch (err) {
+    $("found").innerHTML = `<div class="no"><span class="tick">✕</span><span>${esc(err.message)}</span></div>`;
+  }
+}
+
+function showFound() {
+  const s = sessions[+$("folder").value];
+  if (!s) return;
+  const line = (ok, label, value) =>
+    `<div class="${ok ? "yes" : "no"}"><span class="tick">${ok ? "✓" : "✕"}</span>` +
+    `<span>${label}: ${ok ? `<code>${esc(value)}</code>` : "tidak ditemukan di folder ini"}</span></div>`;
+
+  let html = line(!!s.video, "Rekaman", s.video) + line(!!s.performance, "Data performa", s.performance);
+  if (s.transcript) html += line(true, "Teks/subtitle", s.transcript + " — dipakai langsung");
+  if (!s.ready) {
+    html += `<div class="no" style="margin-top:4px"><span class="tick">!</span><span>Folder ini belum bisa diproses. ` +
+            `Rekaman live dan berkas data performa harus ada di folder yang sama.</span></div>`;
+  }
+  $("found").innerHTML = html;
+  $("find").disabled = !s.ready;
+  if (s.date) $("clock").placeholder = "19:00";
+}
+
+/* ---------- job polling ---------- */
+
+async function runJob(path, body) {
+  const { job } = await api(path, { method: "POST", body: JSON.stringify(body) });
+  while (true) {
+    await new Promise(r => setTimeout(r, 700));
+    const snap = await api("/api/job/" + job);
+    say(snap.lines);
+    if (snap.status === "done") return snap.payload;
+    if (snap.status === "error") throw new Error(snap.error);
+  }
+}
+
+/* ---------- timeline ---------- */
+
+function drawTimeline(tl) {
+  if (!tl || !tl.duration) { $("timeline").classList.add("hidden"); return; }
+  const pct = (v) => (100 * v / tl.duration).toFixed(3) + "%";
+  const best = Math.max(...tl.hours.map(h => h.score), 0.0001);
+
+  const hours = tl.hours.map(h =>
+    `<div class="tl-hour ${h.score >= best * 0.9 ? "hi" : ""}" style="left:${pct(h.start)};width:${pct(h.end - h.start)}" title="Jam ${esc(h.label)}"></div>`
+  ).join("");
+  const marks = clips.map(c =>
+    `<div class="tl-clip" style="left:${pct(c.start)};width:max(3px,${pct(c.end - c.start)})" title="${esc(c.start_label)}"></div>`
+  ).join("");
+
+  const hrs = Math.floor(tl.duration / 3600), mins = Math.round((tl.duration % 3600) / 60);
+  $("timeline").className = "panel tl";
+  $("timeline").innerHTML =
+    `<div class="head"><span class="tag">Ringkasan</span><h2>Letak klip di dalam live</h2></div>
+     <p class="hint">Blok redup = jam yang terpilih. Garis terang = klip yang diusulkan.</p>
+     <div class="tl-bar">${hours}${marks}</div>
+     <div class="tl-legend"><span>awal live</span><span>durasi ${hrs}j ${mins}m</span><span>akhir</span></div>`;
+}
+
+/* ---------- clip cards ---------- */
+
+function drawClips() {
+  if (!clips.length) {
+    $("clips").innerHTML = `<div class="panel"><p class="hint" style="margin:0">Tidak ada momen yang memenuhi syarat. ` +
+      `Coba naikkan jumlah klip, atau periksa lagi jam mulai rekaman.</p></div>`;
+    return;
+  }
+
+  $("clips").innerHTML = clips.map((c, i) => {
+    const bad = c.findings.filter(f => f.severity === "block");
+    const warn = c.findings.filter(f => f.severity === "warn");
+    const badge = bad.length ? `<span class="badge bad">TIDAK BOLEH</span>`
+                : warn.length ? `<span class="badge warn">PERIKSA DULU</span>`
+                : `<span class="badge ok">AMAN</span>`;
+
+    const notes = c.findings.map(f =>
+      `<div class="note ${f.severity === "block" ? "bad" : "warn"}">` +
+      `<span class="chip">${f.severity === "block" ? "Tidak boleh" : "Periksa"}</span>` +
+      `<span>${esc(f.message)}</span></div>`
+    ).join("");
+
+    const spoken = c.spoken
+      ? `<p class="spoken">“${esc(c.spoken.length > 300 ? c.spoken.slice(0, 300) + "…" : c.spoken)}”</p>`
+      : "";
+
+    const preview = c.rendered && c.video
+      ? `<video controls preload="metadata" src="/api/video?path=${encodeURIComponent(c.video)}&t=${encodeURIComponent(TOKEN)}"></video>`
+      : "";
+
+    return `<article class="clip" style="animation-delay:${(i * 0.05).toFixed(2)}s" data-i="${c.index}">
+      <div class="clip-top">${badge}<span class="tc">${esc(c.start_label)} – ${esc(c.end_label)}</span></div>
+      <p class="meta">${Math.round(c.duration)} detik · dari jam <em>${esc(c.hour)}</em> ·
+        penonton <em>${c.viewers.toLocaleString("id-ID")}</em> · sales <em>${rupiah(c.gmv)}</em></p>
+      ${notes ? `<div class="notes">${notes}</div>` : ""}
+      ${spoken}
+      <div class="pair">
+        <div>
+          <label class="field">Kalimat besar di atas video</label>
+          <textarea class="hook" placeholder="Contoh: Kaos katun premium, adem dipakai seharian">${esc(c.hook)}</textarea>
+        </div>
+        <div>
+          <label class="field">Baris kecil — harga atau nama produk</label>
+          <input type="text" class="info" value="${esc(c.info)}" placeholder="Contoh: Rp45.000 — stok terbatas">
+        </div>
+      </div>
+      <div class="cap">
+        <div class="cap-top">
+          <label class="field" style="margin:0">Caption untuk diunggah</label>
+          <button type="button" class="ghost small rewrite" data-i="${c.index}">Tulis ulang</button>
+        </div>
+        <textarea class="caption" rows="7">${esc(c.caption)}</textarea>
+        <p class="cap-note">Disusun dari yang benar-benar diucapkan di klip ini &mdash; harga, bahan, ukuran, promo. Klik <b>Tulis ulang</b> untuk gaya lain.</p>
+      </div>
+      <label class="take ${bad.length ? "locked" : ""}">
+        <input type="checkbox" class="pick" ${bad.length ? "disabled" : "checked"}>
+        <span>${bad.length ? "Klip ini tidak bisa dibuat" : "Buat klip ini"}</span>
+      </label>
+      ${preview}
+    </article>`;
+  }).join("");
+
+  document.querySelectorAll(".pick").forEach(box => {
+    box.addEventListener("change", (e) =>
+      e.target.closest(".clip").classList.toggle("off", !e.target.checked));
+  });
+
+  document.querySelectorAll(".rewrite").forEach(btn => {
+    btn.addEventListener("click", () => rewriteCaption(btn));
+  });
+
+  $("tail").innerHTML = `<div class="panel"><button class="go" id="make">Buat Klip Terpilih</button>
+    <p class="hint" style="margin:12px 0 0;text-align:center">Bagian ini paling lama — biarkan jendela ini terbuka.</p></div>`;
+  $("make").addEventListener("click", render);
+}
+
+function collect() {
+  return [...document.querySelectorAll(".clip")].map(el => ({
+    index: +el.dataset.i,
+    hook: el.querySelector(".hook").value,
+    info: el.querySelector(".info").value,
+    caption: el.querySelector(".caption").value,
+    take: el.querySelector(".pick").checked,
+  }));
+}
+
+/* Cycle through the drafts. The hook feeds the caption, so if it changed since
+   the last draft we ask the server for a fresh set rather than cycling stale
+   text that no longer matches what the video will say. */
+async function rewriteCaption(btn) {
+  const card = btn.closest(".clip");
+  const clip = clips.find(c => c.index === +btn.dataset.i);
+  const box = card.querySelector(".caption");
+  const hook = card.querySelector(".hook").value.trim();
+  const label = btn.textContent;
+
+  try {
+    btn.disabled = true;
+    if (hook !== (clip.hook || "").trim()) {
+      btn.textContent = "Menulis…";
+      const out = await api("/api/caption", {
+        method: "POST", body: JSON.stringify({ index: clip.index, hook }),
+      });
+      clip.caption_options = out.options;
+      clip.hook = hook;
+      clip.pick = 0;
+    } else {
+      clip.pick = ((clip.pick ?? 0) + 1) % (clip.caption_options?.length || 1);
+    }
+    box.value = (clip.caption_options || [box.value])[clip.pick ?? 0];
+  } catch (err) {
+    say([...$("log").innerText.split("\n"), "Gagal menulis caption: " + err.message]);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = label;
+  }
+}
+
+/* ---------- actions ---------- */
+
+async function find() {
+  if (busy) return;
+  setBusy(true);
+  $("timeline").classList.add("hidden");
+  $("clips").innerHTML = ""; $("tail").innerHTML = "";
+  try {
+    const out = await runJob("/api/analyze", {
+      session: +$("folder").value,
+      clock: $("clock").value,
+      count: +$("count").value,
+      reframe: document.querySelector("input[name=frame]:checked").value,
+    });
+    clips = out.clips || [];
+    drawTimeline(out.timeline);
+    drawClips();
+  } catch (err) {
+    say([...$("log").innerText.split("\n"), "", "Gagal: " + err.message]);
+  } finally { setBusy(false); }
+}
+
+async function render() {
+  if (busy) return;
+  setBusy(true);
+  try {
+    const out = await runJob("/api/render", { clips: collect() });
+    clips = out.clips || clips;
+    const done = clips.filter(c => c.rendered);
+    drawClips();
+    $("tail").innerHTML = `<div class="done">
+      <div class="head"><span class="tag">Beres</span><h2>Selesai — ${done.length} klip jadi</h2></div>
+      <p class="hint" style="margin-bottom:8px">Tersimpan di:</p>
+      <code>${esc(out.folder)}</code>
+      <p class="hint" style="margin:14px 0 0">Buka folder itu, unduh klipnya ke HP, lalu unggah ke TikTok.
+      Caption tiap klip ada di kartunya masing-masing di atas — tinggal salin.
+      <b>Tonton dulu tiap klip sampai habis</b> — pemeriksaan otomatis hanya membaca teks dan suara, bukan gambar.</p>
+    </div>`;
+  } catch (err) {
+    say([...$("log").innerText.split("\n"), "", "Gagal: " + err.message]);
+  } finally { setBusy(false); }
+}
+
+/* ---------- wiring ---------- */
+
+$("folder").addEventListener("change", showFound);
+$("rescan").addEventListener("click", loadSessions);
+$("count").addEventListener("input", (e) => $("countOut").textContent = e.target.value);
+$("find").addEventListener("click", find);
+loadSessions();
+</script>
+</body>
+</html>

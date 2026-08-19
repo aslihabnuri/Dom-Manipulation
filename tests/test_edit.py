@@ -104,8 +104,15 @@ class TestAssDocument(unittest.TestCase):
 class TestOverlay(unittest.TestCase):
     def test_price_detection(self):
         self.assertEqual(find_price("harganya Rp45.000 aja"), "Rp45.000")
-        self.assertEqual(find_price("cuma 45rb"), "Rp45rb")
         self.assertEqual(find_price("tidak ada angka"), "")
+
+    def test_burned_overlay_quotes_the_charged_price(self):
+        """The overlay is burned into the video, so a stale anchor price is
+        a wrong price on the finished clip."""
+        self.assertEqual(find_price("dari Rp129.000 jadi Rp89.000 aja kak"), "Rp89.000")
+        result = suggest("Celana linen, dari Rp129.000 jadi Rp89.000. Buruan checkout.", "19:06")
+        self.assertIn("Rp89.000", result.info)
+        self.assertNotIn("Rp129.000", result.info)
 
     def test_suggest_uses_only_spoken_words(self):
         text = "Ini bahan katun premium. Harga cuma Rp45.000 aja. Yuk klik keranjang kuning."

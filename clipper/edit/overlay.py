@@ -12,12 +12,9 @@ import re
 from dataclasses import dataclass
 
 from ..config import Config
+from .caption import _PRICE, _find_price
 from .captions import ass_time, escape
 
-_PRICE = re.compile(
-    r"(?:rp\.?\s*)?(\d{1,3}(?:[.,]\d{3})+|\d+(?:[.,]\d+)?\s*(?:rb|ribu|jt|juta|k))\b",
-    re.IGNORECASE,
-)
 _STOPWORDS = {
     "yang", "untuk", "dengan", "adalah", "kalau", "sudah", "biar", "aja", "nih",
     "kak", "ya", "sih", "deh", "banget", "gitu", "jadi", "terus", "kayak", "emang",
@@ -89,11 +86,12 @@ def render_events(overlay: OverlayText, clip_duration: float, config: Config) ->
 
 
 def find_price(text: str) -> str:
-    match = _PRICE.search(text or "")
-    if not match:
-        return ""
-    raw = match.group(0).strip()
-    return raw if raw.lower().startswith("rp") else f"Rp{raw}"
+    """The price actually being charged, shared with the caption writer.
+
+    Burning "Rp129.000" over a clip where the host said "jadi Rp89.000" would
+    put a wrong price on the video itself, so this must stay discount-aware.
+    """
+    return _find_price(text or "")
 
 
 def suggest(transcript_text: str, hour_label: str = "", score: float = 0.0) -> OverlayText:
