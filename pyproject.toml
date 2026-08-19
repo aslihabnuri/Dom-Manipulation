@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tiktok-live-clipper"
+version = "0.1.0"
+description = "Potong momen terbaik dari rekaman TikTok LIVE berdasarkan data penonton dan sales, lengkap dengan pemeriksaan kepatuhan."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+keywords = ["tiktok", "live", "clipper", "video", "ffmpeg", "live-commerce"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Topic :: Multimedia :: Video",
+    "Environment :: Console",
+]
+
+# The core pipeline runs on the standard library plus ffmpeg. Everything that
+# would drag in a heavy stack is optional and degrades gracefully.
+dependencies = ["PyYAML>=6.0"]
+
+[project.optional-dependencies]
+xlsx = ["openpyxl>=3.1"]
+transcribe = ["faster-whisper>=1.0"]
+drive = ["google-api-python-client>=2.100", "google-auth-oauthlib>=1.2"]
+all = [
+    "openpyxl>=3.1",
+    "faster-whisper>=1.0",
+    "google-api-python-client>=2.100",
+    "google-auth-oauthlib>=1.2",
+]
+
+[project.scripts]
+clipper = "clipper.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["clipper*"]
+
+[tool.setuptools.package-data]
+clipper = ["py.typed"]

@@ -1,0 +1,23 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+venv/
+
+# Runtime output: recordings, renders, transcripts and the clip ledger.
+work/
+output/
+*.mp4
+*.mov
+*.mkv
+*.flv
+*.ass
+*.srt
+clipper.yaml
+clipper.json
+
+# Google Drive OAuth material must never be committed.
+credentials.json
+token.json
