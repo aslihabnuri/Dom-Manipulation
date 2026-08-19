@@ -29,9 +29,13 @@ CATEGORIES: dict[str, tuple[str, ...]] = {
         "sepatu", "sandal", "sneakers", "heels", "flatshoes", "boots",
         "tas", "ransel", "totebag", "slingbag", "dompet", "koper",
     ),
+    "aksesoris": (
+        "jam tangan", "jamtangan", "kalung", "gelang", "cincin", "anting",
+        "kacamata", "ikat pinggang", "bros", "scrunchie", "jepit rambut",
+    ),
     "skincare": (
         "serum", "toner", "moisturizer", "sunscreen", "sabun", "facial wash",
-        "masker", "krim", "cream", "essence", "micellar", "acne", "skincare",
+        "masker", "essence", "micellar", "acne", "skincare", "krim", "cream",
     ),
     "makeup": (
         "lipstik", "lip tint", "bedak", "foundation", "cushion", "maskara",
@@ -60,6 +64,15 @@ MATERIALS = (
 # fashion clip and skin in a skincare clip, so it needs a qualifier.
 AMBIGUOUS_MATERIALS: dict[str, tuple[str, ...]] = {
     "kulit": ("kulit asli", "kulit sintetis", "kulit sapi", "bahan kulit", "kulit premium"),
+}
+
+# Kata yang menandai produk hanya bila konteksnya cocok. "krim" adalah nama
+# warna sepopuler nama produk; tanpa penjaga ini, live jam tangan warna krim
+# ikut ditandai sebagai konten skincare, lengkap dengan hashtag-nya.
+AMBIGUOUS_CATEGORY: dict[str, tuple[str, tuple[str, ...]]] = {
+    "krim": ("skincare", ("wajah", "muka", "kulit wajah", "malam", "siang",
+                          "pelembab", "jerawat", "flek", "oles")),
+    "cream": ("skincare", ("wajah", "muka", "night", "day", "moistur", "acne")),
 }
 COLORS = (
     "hitam", "putih", "navy", "maroon", "cream", "krem", "mocha", "abu", "abu-abu",
@@ -104,6 +117,7 @@ BEAT_CUES: dict[str, tuple[tuple[str, float], ...]] = {
 
 HASHTAGS: dict[str, tuple[str, ...]] = {
     "fashion": ("#ootd", "#fashionmurah", "#bajumurah"),
+    "aksesoris": ("#jamtangan", "#aksesoris", "#ootd"),
     "sepatu_tas": ("#sepatumurah", "#tasmurah", "#ootd"),
     "skincare": ("#skincareroutine", "#skincaremurah", "#glowingskin"),
     "makeup": ("#makeuptutorial", "#makeupmurah", "#beautytips"),
@@ -216,14 +230,24 @@ def _find_price(text: str) -> str:
 
 
 def _find_category(lowered: str) -> tuple[str, str]:
-    """Return (category key, the specific product word that matched)."""
-    best: tuple[int, str, str] | None = None
+    """Return (category key, the specific product word that matched).
+
+    Longer product names win at equal position, so "jam tangan" is not lost to
+    a bare "jam" appearing earlier in the sentence.
+    """
+    best: tuple[int, int, str, str] | None = None
     for category, words in CATEGORIES.items():
         for word in words:
             match = _word_pattern(word).search(lowered)
-            if match and (best is None or match.start() < best[0]):
-                best = (match.start(), category, word)
-    return (best[1], best[2]) if best else ("", "")
+            if not match:
+                continue
+            guard = AMBIGUOUS_CATEGORY.get(word)
+            if guard and not any(hint in lowered for hint in guard[1]):
+                continue
+            key = (match.start(), -len(word))
+            if best is None or key < (best[0], best[1]):
+                best = (match.start(), -len(word), category, word)
+    return (best[2], best[3]) if best else ("", "")
 
 
 def _find_materials(lowered: str) -> list[str]:

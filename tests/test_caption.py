@@ -1,6 +1,7 @@
 """Caption generation from what the clip actually says."""
 
 import unittest
+from pathlib import Path
 
 from clipper.edit.caption import (
     build_caption, build_captions, extract_facts, _find_price, _normalise_size, _word_in,
@@ -89,6 +90,72 @@ class TestCategoryAndBeat(unittest.TestCase):
 
     def test_offers_detected(self):
         self.assertIn("gratis ongkir", extract_facts(KAOS).offers)
+
+
+class TestAccessoriesAndColourWords(unittest.TestCase):
+    """A real watch live was tagged #skincareroutine because "warna krim"
+    matched the skincare product "krim", and watches were in no category."""
+
+    def test_watches_are_recognised(self):
+        facts = extract_facts("Jam tangannya bahan slepnya dari kulit sintetis")
+        self.assertEqual(facts.category, "aksesoris")
+        self.assertEqual(facts.product, "jam tangan")
+
+    def test_colour_krim_is_not_a_skincare_product(self):
+        facts = extract_facts("kasi tau warna krimnya warna krim tunjukin kalian")
+        self.assertEqual(facts.category, "")
+
+    def test_krim_with_skincare_context_still_counts(self):
+        self.assertEqual(extract_facts("krim malam ini bagus untuk wajah").category, "skincare")
+
+    def test_colour_cream_does_not_hijack_a_clothing_clip(self):
+        facts = extract_facts("kaosnya ada warna cream dan hitam, bahan katun")
+        self.assertEqual(facts.category, "fashion")
+        self.assertEqual(facts.product, "kaos")
+
+    def test_watch_hashtags(self):
+        self.assertIn("#jamtangan", build_caption("jam tangan ini water resistant"))
+
+    def test_longer_product_name_wins(self):
+        """"jam tangan" must not lose to a bare earlier word."""
+        self.assertEqual(extract_facts("jam tangan water resistant").product, "jam tangan")
+
+
+class TestVocabularyIntegrity(unittest.TestCase):
+    """A blind string replace once inserted the product word list into the
+    hashtag table, and the duplicate key silently won -- watch clips then
+    carried un-hashed words like "jam tangan" in place of tags."""
+
+    def test_no_duplicate_keys_in_any_table(self):
+        import ast
+        import inspect
+
+        from clipper.edit import caption as module
+
+        # Resolved from the module itself, so the test does not depend on cwd.
+        source = Path(inspect.getfile(module)).read_text(encoding="utf-8")
+        for node in ast.walk(ast.parse(source)):
+            if isinstance(node, ast.Dict):
+                keys = [k.value for k in node.keys if isinstance(k, ast.Constant)]
+                self.assertEqual(len(keys), len(set(keys)), f"kunci ganda: {keys}")
+
+    def test_every_hashtag_starts_with_hash(self):
+        from clipper.edit.caption import HASHTAGS
+        for category, tags in HASHTAGS.items():
+            for tag in tags:
+                self.assertTrue(tag.startswith("#"), f"{category}: {tag!r}")
+
+    def test_every_category_has_hashtags(self):
+        from clipper.edit.caption import CATEGORIES, HASHTAGS
+        for category in CATEGORIES:
+            self.assertIn(category, HASHTAGS, f"kategori {category} tanpa hashtag")
+
+    def test_generated_tags_are_all_hashes(self):
+        from clipper.edit.caption import build_hashtags, extract_facts
+        for text in ("jam tangan water resistant", "kaos katun warna hitam",
+                     "serum untuk wajah", "keripik pedas enak"):
+            for tag in build_hashtags(extract_facts(text)):
+                self.assertTrue(tag.startswith("#"), f"{text}: {tag!r}")
 
 
 class TestCaptionOutput(unittest.TestCase):
