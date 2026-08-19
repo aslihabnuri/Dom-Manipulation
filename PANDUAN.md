@@ -100,6 +100,26 @@ memakai aplikasinya — itu mesinnya. Tutup jendela itu kalau sudah selesai.
 
 ---
 
+## Kalau ada berkas "rencana" di folder
+
+Kadang keputusannya sudah disiapkan lebih dulu — misalnya Anda minta Claude
+menganalisis data performa Anda, lalu ia menaruh berkas `rencana-klip.json`
+di folder live.
+
+Kalau berkas itu ada, aplikasi akan:
+
+- **mengisi sendiri** jam mulai, jumlah klip, dan bentuk video
+- menampilkan panel **"Rencana siap"** berisi blok mana saja yang dipilih dan alasannya
+- mengganti tulisan tombol jadi **"Jalankan Rencana"**
+
+Anda tidak perlu mengisi apa pun. Cukup klik tombolnya.
+
+Berkas rencana hanya menentukan **blok jam mana** yang dipotong dan pengaturannya.
+Titik potong persisnya, teks di video, dan caption tetap ditentukan aplikasi dari
+suara di rekaman — karena hanya aplikasi yang bisa mendengar videonya.
+
+Kalau Anda ingin memilih sendiri, hapus saja berkas rencananya.
+
 ## Yang Anda lihat di aplikasi
 
 ### Langkah 1 — Pilih folder live

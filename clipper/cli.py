@@ -9,11 +9,13 @@ from pathlib import Path
 
 from . import report
 from .config import DEFAULTS, Config
+from .plan import PLAN_FILENAME
 from .pipeline import SessionInput, run_session, slugify
 
 EPILOG = """\
 contoh:
   clipper web                                               # aplikasi klik-klik di browser
+  clipper plan --performance perf.xlsx --live-start "2026-06-28 11:59"
   clipper run --source ./Live/2026-08-18 --date 2026-08-18
   clipper run --video live.mp4 --performance perf.csv --live-start "2026-08-18 19:00"
   clipper analyze --video live.mp4 --performance perf.csv   # skor saja, tanpa render
@@ -89,6 +91,20 @@ def build_parser() -> argparse.ArgumentParser:
     web.add_argument("--folder", help="folder induk yang berisi folder-folder live")
     web.add_argument("--port", type=int, default=8765, help="port server lokal")
     web.add_argument("--no-browser", action="store_true", help="jangan buka browser otomatis")
+
+    plan = sub.add_parser(
+        "plan",
+        help="susun rencana dari data performa saja, tanpa menyentuh video",
+    )
+    plan.add_argument("--performance", required=True, help="laporan performa (CSV/XLSX)")
+    plan.add_argument("--live-start", type=_parse_datetime, required=True,
+                      help='waktu detik ke-0 rekaman, mis. "2026-06-28 11:59"')
+    plan.add_argument("--session-id", help="nama sesi (default: tanggal live-start)")
+    plan.add_argument("--video", default="", help="nama berkas video, sekadar pencatat")
+    plan.add_argument("--max-clips", type=int, default=6)
+    plan.add_argument("--reframe", choices=["blur", "cover"], default="blur")
+    plan.add_argument("--note", default="", help="catatan untuk yang menjalankan")
+    plan.add_argument("--out", help=f"tujuan penulisan (default: ./{PLAN_FILENAME})")
 
     sub.add_parser("init", help="tulis clipper.yaml berisi seluruh opsi beserta nilai bawaan")
     return parser
@@ -268,6 +284,44 @@ def cmd_ledger(args: argparse.Namespace, config: Config) -> int:
     return 0
 
 
+def cmd_plan(args: argparse.Namespace, config: Config) -> int:
+    """Decide which blocks to clip from the performance report alone.
+
+    Useful when whoever does the analysis cannot reach the recording -- the
+    plan file is tiny, the recording never moves.
+    """
+    from .ingest.performance import load_performance
+    from .plan import PLAN_FILENAME, build_plan, write_plan
+    from .scoring.score import score_hours, select_hours
+
+    config.data["scoring"]["max_clips_per_session"] = args.max_clips
+    rows = load_performance(args.performance, base_date=args.live_start)
+    scored = score_hours(rows, config, live_start=args.live_start)
+    if not scored:
+        print("error: tidak ada baris performa yang bisa dipetakan", file=sys.stderr)
+        return 1
+
+    selected = select_hours(scored, config)
+    plan = build_plan(
+        session_id=args.session_id or args.live_start.strftime("%Y-%m-%d"),
+        scored=scored, selected=selected, live_start=args.live_start,
+        video=args.video, reframe=args.reframe, max_clips=args.max_clips,
+        note=args.note,
+    )
+
+    print("Semua blok, dari yang terbaik:")
+    for hour in scored:
+        bar = "#" * int(hour.score * 18)
+        mark = " <- dipilih" if hour in selected else ""
+        print(f"  {hour.label:<7} skor {hour.score:.2f} {bar:<18} "
+              f"penonton {hour.row.viewers:>8,.0f}  sales {hour.row.gmv:>14,.0f}{mark}")
+
+    target = write_plan(plan, args.out or PLAN_FILENAME)
+    print(f"\nRencana ditulis: {target}")
+    print("Taruh berkas ini di folder live Anda, lalu buka aplikasinya.")
+    return 0
+
+
 def cmd_web(args: argparse.Namespace, config: Config) -> int:
     from .web import serve
 
@@ -322,6 +376,8 @@ def main(argv: list[str] | None = None) -> int:
             return cmd_check(args, config)
         if args.command == "ledger":
             return cmd_ledger(args, config)
+        if args.command == "plan":
+            return cmd_plan(args, config)
         if args.command == "web":
             return cmd_web(args, config)
         if args.command == "init":

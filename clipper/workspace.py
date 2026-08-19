@@ -11,6 +11,7 @@ from datetime import date
 from pathlib import Path
 
 from .ingest.drive import DATA_SUFFIXES, VIDEO_SUFFIXES, parse_date_in_name
+from .plan import find_plan
 
 # Folders that never hold a live recording, skipped while scanning.
 SKIP_DIRS = {
@@ -40,6 +41,8 @@ class FoundSession:
     live_date: date | None = None
     # An existing subtitle/transcript file, used instead of re-transcribing.
     transcript: Path | None = None
+    # A plan file, if someone prepared the decisions ahead of time.
+    plan: Path | None = None
 
     @property
     def ready(self) -> bool:
@@ -75,6 +78,8 @@ class FoundSession:
             lines.append("Data   : tidak ditemukan di folder ini")
         if self.transcript:
             lines.append(f"Teks   : {self.transcript.name} (dipakai, tidak transkrip ulang)")
+        if self.plan:
+            lines.append(f"Rencana: {self.plan.name} (semua pengaturan sudah disiapkan)")
         return lines
 
 
@@ -93,8 +98,12 @@ def _pick_transcript(files: list[Path]) -> Path | None:
     subs = [f for f in files if f.suffix.lower() in {".srt", ".vtt"}]
     if subs:
         return max(subs, key=lambda f: f.stat().st_size)
-    named = [f for f in files if f.suffix.lower() == ".json" and "transkrip" in f.name.lower()]
-    named += [f for f in files if f.suffix.lower() == ".json" and "transcript" in f.name.lower()]
+    named = [
+        f for f in files
+        if f.suffix.lower() == ".json"
+        and ("transkrip" in f.name.lower() or "transcript" in f.name.lower())
+        and "rencana" not in f.name.lower()
+    ]
     return named[0] if named else None
 
 
@@ -106,6 +115,7 @@ def inspect_folder(folder: str | Path) -> FoundSession:
     video = _pick_video(files)
     perf = _pick_performance(files)
     transcript = _pick_transcript(files)
+    plan = find_plan(root)
 
     live_date = parse_date_in_name(root.name)
     if live_date is None and video is not None:
@@ -114,7 +124,7 @@ def inspect_folder(folder: str | Path) -> FoundSession:
         live_date = parse_date_in_name(perf.name)
 
     return FoundSession(folder=root, video=video, performance=perf,
-                        live_date=live_date, transcript=transcript)
+                        live_date=live_date, transcript=transcript, plan=plan)
 
 
 def scan(root: str | Path, max_depth: int = 4, limit: int = 400) -> list[FoundSession]:

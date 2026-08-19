@@ -29,6 +29,7 @@ from .pipeline import (
     SessionInput, analyze_session, build_captions, relint, render_result,
 )
 from .report import fmt_time, render_markdown, write_markdown
+from .plan import load_plan
 from .workspace import default_root, human_size, scan
 
 ASSETS = Path(__file__).parent / "assets"
@@ -218,6 +219,7 @@ class Handler(BaseHTTPRequestHandler):
                         "size": human_size(s.video.stat().st_size) if s.video else None,
                         "performance": s.performance.name if s.performance else None,
                         "transcript": s.transcript.name if s.transcript else None,
+                        "plan": _plan_payload(s),
                         "date": s.live_date.isoformat() if s.live_date else None,
                     }
                     for i, s in enumerate(self.state.sessions)
@@ -325,10 +327,20 @@ class Handler(BaseHTTPRequestHandler):
             state.config.data["paths"]["output_dir"] = str(klip)
             state.config.data["paths"]["ledger"] = str(klip / "riwayat.json")
 
+            plan = None
+            if found.plan:
+                try:
+                    plan = load_plan(found.plan)
+                    job.log(f"Memakai rencana: {found.plan.name}")
+                    for line in plan.summary():
+                        job.log(f"  {line}")
+                except (ValueError, FileNotFoundError) as exc:
+                    job.log(f"Rencana diabaikan ({exc})")
+
             state.session = SessionInput(
                 video=found.video, performance=found.performance,
                 session_id=found.session_id, live_start=live_start,
-                transcript_path=found.transcript,
+                transcript_path=found.transcript, plan=plan,
                 output_dir=klip, work_dir=klip / ".kerja",
             )
             state.output = analyze_session(state.session, state.config, log=job.log)
@@ -405,6 +417,32 @@ class Handler(BaseHTTPRequestHandler):
             job.log(f"Selesai. Klip tersimpan di: {folder}")
 
         return state.start("render", work)
+
+
+def _plan_payload(found) -> dict[str, Any] | None:
+    """Summarise a plan file so the browser can pre-fill and explain itself."""
+    if not found.plan:
+        return None
+    try:
+        plan = load_plan(found.plan)
+    except (ValueError, FileNotFoundError) as exc:
+        return {"file": found.plan.name, "error": str(exc)}
+
+    start = plan.live_start_dt
+    return {
+        "file": found.plan.name,
+        "clock": start.strftime("%H:%M") if start else "",
+        "max_clips": plan.max_clips,
+        "reframe": plan.reframe,
+        "note": plan.note,
+        "created_by": plan.created_by,
+        "created_at": plan.created_at,
+        "blocks": [
+            {"label": b.label, "score": b.score, "viewers": b.viewers,
+             "gmv": b.gmv, "why": b.why}
+            for b in plan.blocks
+        ],
+    }
 
 
 def _parse_clock(text: str, day=None):

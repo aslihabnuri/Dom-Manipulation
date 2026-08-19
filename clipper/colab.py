@@ -17,6 +17,7 @@ from datetime import datetime
 from pathlib import Path
 
 from .config import Config
+from .plan import load_plan
 from .pipeline import (
     SessionInput, analyze_session, build_captions, relint, render_result,
 )
@@ -193,6 +194,20 @@ class ClipperApp:
             mark = "&#10003;" if ok else "&#10007;"
             lines.append(f'<span class="{css}">{mark}</span> <span class="clp-mono">{text}</span>')
 
+        if session.plan:
+            try:
+                plan = load_plan(session.plan)
+                if plan.live_start_dt:
+                    self.clock.value = plan.live_start_dt.strftime("%H:%M")
+                self.count.value = max(1, min(12, int(plan.max_clips)))
+                if plan.reframe in ("blur", "cover"):
+                    self.frame.value = plan.reframe
+                self.find_btn.description = "Jalankan Rencana"
+            except (ValueError, FileNotFoundError):
+                pass
+        else:
+            self.find_btn.description = "Cari Momen Terbaik"
+
         hint = ""
         if not session.ready:
             hint = ('<p class="clp-note clp-bad">Folder ini belum lengkap. Pastikan rekaman live '
@@ -234,10 +249,20 @@ class ClipperApp:
             self.config.data["paths"]["output_dir"] = str(klip)
             self.config.data["paths"]["ledger"] = str(klip / "riwayat.json")
 
+            plan = None
+            if found.plan:
+                try:
+                    plan = load_plan(found.plan)
+                    print(f"Memakai rencana: {found.plan.name}")
+                    for line in plan.summary():
+                        print(f"  {line}")
+                except (ValueError, FileNotFoundError) as exc:
+                    print(f"Rencana diabaikan ({exc})")
+
             self.session = SessionInput(
                 video=found.video, performance=found.performance,
                 session_id=found.session_id, live_start=live_start,
-                transcript_path=found.transcript,
+                transcript_path=found.transcript, plan=plan,
                 output_dir=klip, work_dir=klip / ".kerja",
             )
 

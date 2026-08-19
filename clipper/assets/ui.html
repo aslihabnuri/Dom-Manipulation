@@ -210,6 +210,11 @@ input[type=range]::-moz-range-thumb{
 .take.locked{opacity:.5; cursor:not-allowed}
 video{width:100%; max-width:250px; border-radius:10px; margin-top:12px; display:block; background:#000}
 
+.plan-t{width:100%; border-collapse:collapse; margin-top:12px; font-size:13.5px}
+.plan-t th{text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:.08em;
+  color:var(--faint); font-weight:600; padding:0 12px 7px 0; border-bottom:1px solid var(--line)}
+.plan-t td{padding:8px 12px 8px 0; border-bottom:1px solid var(--line-soft); color:var(--muted)}
+.plan-t td.tc{font-family:var(--mono); color:var(--text)}
 .done{background:var(--ok-bg); border:1px solid #63bd8040; border-radius:var(--r);
   padding:20px 22px; margin-bottom:16px}
 .done h2{color:var(--ok); margin-bottom:6px}
@@ -278,6 +283,8 @@ video{width:100%; max-width:250px; border-radius:10px; margin-top:12px; display:
       </label>
     </div>
   </section>
+
+  <div id="plan" class="hidden"></div>
 
   <section class="panel">
     <button class="go" id="find">Cari Momen Terbaik</button>
@@ -366,7 +373,46 @@ function showFound() {
   }
   $("found").innerHTML = html;
   $("find").disabled = !s.ready;
-  if (s.date) $("clock").placeholder = "19:00";
+  applyPlan(s.plan);
+}
+
+/* A plan file means the decisions were made elsewhere: fill every control from
+   it and say so, so nothing is left for the operator to work out. */
+function applyPlan(plan) {
+  const banner = $("plan");
+  $("find").textContent = "Cari Momen Terbaik";
+
+  if (!plan) { banner.className = "hidden"; banner.innerHTML = ""; return; }
+
+  if (plan.error) {
+    banner.className = "panel";
+    banner.innerHTML = `<div class="head"><span class="tag">Rencana</span><h2>Berkas rencana tidak terbaca</h2></div>
+      <p class="hint" style="margin:0"><code>${esc(plan.file)}</code> — ${esc(plan.error)}<br>
+      Aplikasi akan memilih sendiri seperti biasa.</p>`;
+    return;
+  }
+
+  if (plan.clock) $("clock").value = plan.clock;
+  if (plan.max_clips) { $("count").value = plan.max_clips; $("countOut").textContent = plan.max_clips; }
+  if (plan.reframe) {
+    const radio = document.querySelector(`input[name=frame][value="${plan.reframe}"]`);
+    if (radio) radio.checked = true;
+  }
+  $("find").textContent = "Jalankan Rencana";
+
+  const rows = (plan.blocks || []).map(b =>
+    `<tr><td class="tc">${esc(b.label)}</td>
+     <td>${Number(b.viewers).toLocaleString("id-ID")}</td>
+     <td>${rupiah(b.gmv)}</td><td class="tc">${Number(b.score).toFixed(2)}</td></tr>`).join("");
+
+  banner.className = "panel";
+  banner.innerHTML = `<div class="head"><span class="tag">Rencana siap</span>
+      <h2>Semua pengaturan sudah diisi</h2></div>
+    <p class="hint">Dari <code>${esc(plan.file)}</code>${plan.created_at ? " — " + esc(plan.created_at) : ""}.
+      Blok di bawah sudah dipilih dari data performa Anda. Tinggal klik tombolnya.</p>
+    ${rows ? `<table class="plan-t"><thead><tr><th>Blok</th><th>Penonton</th><th>Sales</th><th>Skor</th></tr></thead>
+      <tbody>${rows}</tbody></table>` : ""}
+    ${plan.note ? `<p class="hint" style="margin:12px 0 0">${esc(plan.note)}</p>` : ""}`;
 }
 
 /* ---------- job polling ---------- */

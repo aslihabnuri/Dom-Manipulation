@@ -19,6 +19,7 @@ from .edit.cut import extract_thumbnail, render_clip
 from .ffmpeg import MediaInfo, probe
 from .ingest.performance import load_performance
 from .models import Candidate, ClipResult, Finding, HourScore, Transcript
+from .plan import ClipPlan, restrict_to_plan
 from .scoring.refine import refine_hour
 from .scoring.score import score_hours, select_hours
 
@@ -32,6 +33,8 @@ class SessionInput:
     session_id: str
     live_start: datetime | None = None
     transcript_path: Path | None = None
+    # A plan decided elsewhere from the performance report alone.
+    plan: ClipPlan | None = None
     # Front ends that already know where output belongs set these directly,
     # instead of getting a session_id subfolder appended to the config paths.
     output_dir: Path | None = None
@@ -136,8 +139,12 @@ def analyze_session(
             "Periksa jam mulai rekaman: jam pada laporan harus sesuai dengan awal rekaman."
         )
 
-    out.hours = select_hours(scored, config)
-    log(f"Jam terpilih: {', '.join(h.label for h in out.hours)}")
+    if session.plan is not None and session.plan.blocks:
+        out.hours = restrict_to_plan(scored, session.plan)
+        log(f"Mengikuti rencana: {', '.join(h.label for h in out.hours)}")
+    else:
+        out.hours = select_hours(scored, config)
+        log(f"Jam terpilih: {', '.join(h.label for h in out.hours)}")
 
     # Transcript drives caption burn-in, moment refinement and claim scanning.
     if session.transcript_path and session.transcript_path.exists():

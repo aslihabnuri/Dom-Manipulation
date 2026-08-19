@@ -158,6 +158,28 @@ sinyal:
 **Langkah 3 — rapikan.** Titik potong digeser ke batas kalimat terdekat dari
 transkrip, sehingga klip tidak pernah dibuka di tengah kata.
 
+## Memisahkan keputusan dari eksekusi
+
+Rekaman live berukuran gigabyte dan tidak selalu bisa dipindahkan; laporan
+performanya cuma puluhan kilobyte. Jadi keduanya bisa dipisah: analisis
+dikerjakan di tempat yang hanya punya laporan performa, mesin yang memegang
+video tinggal menjalankannya.
+
+```bash
+# Di mana pun, hanya bermodal laporan performa:
+clipper plan --performance trend_stats.xlsx \
+             --live-start "2026-06-28 11:59" \
+             --out rencana-klip.json
+```
+
+Taruh `rencana-klip.json` di folder live. Aplikasi akan mendeteksinya, mengisi
+seluruh pengaturan sendiri, dan menjalankan blok yang sudah dipilih.
+
+Pembagian tugasnya disengaja. Rencana boleh menentukan apa pun yang bisa
+diturunkan dari laporan performa — blok mana, urutannya, pengaturan render.
+Rencana **tidak** menentukan detik persisnya, teks di layar, atau caption,
+karena ketiganya butuh audio, dan audio hanya ada di mesin yang merender.
+
 ## Caption yang mengikuti isi video
 
 Caption tidak disusun dari template yang cuma berganti tanggal — enam klip akan
@@ -242,6 +264,7 @@ aturan yang kebetulan salah tangkap untuk katalog Anda.
 | Perintah | Fungsi |
 |---|---|
 | `clipper web` | buka aplikasi klik-klik di browser |
+| `clipper plan` | susun rencana dari data performa saja, tanpa menyentuh video |
 | `clipper run` | seluruh alur, sampai klip jadi |
 | `clipper analyze` | skor dan pilih momen, tanpa render |
 | `clipper doctor` | cek lingkungan dan pemetaan kolom |
