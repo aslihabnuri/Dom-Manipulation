@@ -151,6 +151,12 @@ Untuk bentuk video:
 Tunggu. Aplikasi sedang membaca rekaman dan menghitung jam mana yang paling
 bagus. Belum ada video yang dibuat di tahap ini, jadi relatif cepat.
 
+Kalau videonya besar dan ada di Google Drive, akan muncul tulisan
+**"menyalin ... ke disk lokal supaya cepat"** dengan angka persen. Itu normal
+dan hanya sekali. Google Drive lambat kalau file besar dibaca berulang-ulang,
+dan aplikasi ini membacanya beberapa kali. Menyalin dulu jauh lebih cepat
+daripada tidak.
+
 ---
 
 ## Membaca hasilnya

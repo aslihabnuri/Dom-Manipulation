@@ -18,6 +18,7 @@ from pathlib import Path
 
 from .config import Config
 from .plan import load_plan
+from .staging import default_stage_dir, stage
 from .pipeline import (
     SessionInput, analyze_session, build_captions, relint, render_result,
 )
@@ -268,6 +269,11 @@ class ClipperApp:
 
             self.find_btn.disabled = True
             try:
+                # Drive is a FUSE mount; this pipeline reads the recording many
+                # times over, so one local copy beats many slow remote reads.
+                self.session.video = stage(
+                    found.video, default_stage_dir(), log=print
+                )
                 print("Membaca rekaman dan data performa...")
                 self.output = analyze_session(self.session, self.config, log=print)
             except Exception as exc:

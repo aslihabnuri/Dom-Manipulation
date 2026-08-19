@@ -158,6 +158,17 @@ sinyal:
 **Langkah 3 — rapikan.** Titik potong digeser ke batas kalimat terdekat dari
 transkrip, sehingga klip tidak pernah dibuka di tengah kata.
 
+## Rekaman di Drive disalin dulu ke disk lokal
+
+Google Drive di Colab adalah mount FUSE. Pipeline ini membaca rekaman
+berulang-ulang -- probe, ukur level audio per blok, transkripsi, lalu encode
+tiap klip -- dan tiap langkah itu seek plus baca panjang. Di FUSE, itu
+mendominasi waktu jalan dan sesekali putus.
+
+Jadi rekaman disalin sekali ke disk lokal lebih dulu, lalu semuanya jadi baca
+lokal. Penyalinan dilewati bila videonya kecil, sudah lokal, atau ruang lokal
+tidak cukup; salinan yang terputus dibuang, tidak pernah dipakai setengah jadi.
+
 ## Memisahkan keputusan dari eksekusi
 
 Rekaman live berukuran gigabyte dan tidak selalu bisa dipindahkan; laporan

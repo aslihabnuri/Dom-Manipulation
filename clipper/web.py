@@ -30,6 +30,7 @@ from .pipeline import (
 )
 from .report import fmt_time, render_markdown, write_markdown
 from .plan import load_plan
+from .staging import default_stage_dir, stage
 from .workspace import default_root, human_size, scan
 
 ASSETS = Path(__file__).parent / "assets"
@@ -342,6 +343,9 @@ class Handler(BaseHTTPRequestHandler):
                 session_id=found.session_id, live_start=live_start,
                 transcript_path=found.transcript, plan=plan,
                 output_dir=klip, work_dir=klip / ".kerja",
+            )
+            state.session.video = stage(
+                found.video, default_stage_dir(), log=job.log
             )
             state.output = analyze_session(state.session, state.config, log=job.log)
 
