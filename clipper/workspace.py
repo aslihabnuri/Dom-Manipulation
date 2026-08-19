@@ -127,11 +127,24 @@ def inspect_folder(folder: str | Path) -> FoundSession:
                         live_date=live_date, transcript=transcript, plan=plan)
 
 
-def scan(root: str | Path, max_depth: int = 4, limit: int = 400) -> list[FoundSession]:
+# Real Drive layouts nest deeper than you would guess. One user's recordings sat
+# at MyDrive/<client>/<brand>/Raw Data Live Video/Video/<date>, which is six
+# levels down -- a shallower cap silently found nothing at all.
+DEFAULT_DEPTH = 6
+MAX_FOLDERS = 4000
+
+
+def scan(
+    root: str | Path,
+    max_depth: int = DEFAULT_DEPTH,
+    limit: int = 400,
+    max_folders: int = MAX_FOLDERS,
+) -> list[FoundSession]:
     """Find every folder under ``root`` that contains a recording.
 
-    Depth-limited and count-limited so scanning a whole Google Drive stays
-    quick rather than walking every folder the user owns.
+    Breadth-first and bounded three ways -- depth, sessions found, and folders
+    visited -- so scanning a large Google Drive stays quick without missing
+    deeply nested live folders.
     """
     base = Path(root).expanduser()
     if not base.is_dir():
@@ -140,9 +153,11 @@ def scan(root: str | Path, max_depth: int = 4, limit: int = 400) -> list[FoundSe
     found: list[FoundSession] = []
     seen_videos: set[Path] = set()
     queue: list[tuple[Path, int]] = [(base, 0)]
+    visited = 0
 
-    while queue and len(found) < limit:
+    while queue and len(found) < limit and visited < max_folders:
         folder, depth = queue.pop(0)
+        visited += 1
         try:
             entries = list(folder.iterdir())
         except (PermissionError, OSError):
