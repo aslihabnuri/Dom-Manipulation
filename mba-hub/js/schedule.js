@@ -104,6 +104,19 @@ window.MBA_SCHEDULE = {
     { id: "t-bes-ind", course: "bes", title: "Tugas individu BES — ringkasan bab 1 halaman + jawaban kasus maks. 2 halaman",
       due: "2026-08-28", note: "Berulang tiap sesi; sesuaikan tanggalnya dengan sesi berikutnya." },
     { id: "t-bes-group", course: "bes", title: "Presentasi kelompok BES (diskusi kasus, 15 menit)",
-      due: "2026-08-29", note: "Kelompok non-presenter wajib memberi pertanyaan & masukan konstruktif." }
+      due: "2026-08-29", note: "Kelompok non-presenter wajib memberi pertanyaan & masukan konstruktif." },
+
+    { id: "t-sm-diary-1", course: "sm", title: "Learning Diary SM — Sesi 1 (esai reflektif, posting ke grup WA)",
+      due: "2026-08-21", note: "WAJIB setiap sesi. Bukan catatan mentah: esai reflektif berisi argumen utama + interpretasi & pertanyaan sendiri." },
+    { id: "t-sm-diary-2", course: "sm", title: "Learning Diary SM — Sesi 2 (esai reflektif, posting ke grup WA)",
+      due: "2026-08-22", note: "Isi menu Catatan Kelas dulu, lalu ubah kolom 'Poin utama' + 'Pertanyaan saya' jadi paragraf reflektif." },
+    { id: "t-sm-case-airasia", course: "sm", title: "⭐ KELOMPOK 3: Case Presentation AirAsia + Chapter Presentation Bab 3",
+      due: "2026-09-12", note: "Laporan tertulis min. 1000 kata (A4, spasi 1,5, Times 12) dipublikasikan ke kelas SEBELUM presentasi. Email: SMJKT_Group 3_Aslih_Case AirAsia." },
+    { id: "t-sm-4dx", course: "sm", title: "⭐ KELOMPOK 3: Framework Presentation 4DX + Chapter Presentation Bab 10",
+      due: "2026-11-07", note: "Laporan tertulis 2 halaman + slide 15 menit. Jelaskan dimensi, definisi, dan manfaat dalam konteks bisnis internasional." },
+    { id: "t-sm-termpaper", course: "sm", title: "Term Paper SM (40% nilai) — 10–15 halaman, organisasi nyata",
+      due: "2026-12-12", note: "Struktur wajib 7 bagian: Executive Summary · Company & Industry Context · Strategic Diagnosis · Holistic Strategic Recommendation · Strategic Implementation · Strategic Impact Evaluation · References. Pilih perusahaannya sejak awal semester!" },
+    { id: "t-sm-framework-report", course: "sm", title: "Kumpulkan laporan Strategic Framework (2 halaman)",
+      due: "2026-12-12", note: "Silabus: framework report is due on the final exam session." }
   ]
 };

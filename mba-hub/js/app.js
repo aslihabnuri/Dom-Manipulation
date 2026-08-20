@@ -126,6 +126,20 @@
             </div>
           </section>
 
+          ${DATA.myGroupInfo ? `
+          <section class="card card-pad grp-card">
+            <h3>⭐ Kelompok ${DATA.myGroupInfo.number} — tugasmu</h3>
+            <p class="grp-mem">${DATA.myGroupInfo.members.map((m) => esc(m)).join(" · ")}</p>
+            <div class="ag-list">
+              ${DATA.myGroupInfo.duties.map((d) => `<a class="ag-row" href="#/${CUR_ID}/materi/${d.session}" style="--c:${DATA.meta.accent}">
+                <span class="ag-date"><b>${fmtShort(d.date)}</b><small>Sesi ${d.session}</small></span>
+                <span class="ag-body"><b>${esc(d.type)}</b><small>${esc(d.detail)}</small></span>
+              </a>`).join("")}
+            </div>
+            <p class="grp-note"><b>Format email:</b> <code>${esc(DATA.myGroupInfo.emailFormat)}</code></p>
+            <p class="grp-note">${esc(DATA.myGroupInfo.caseReportSpec)}</p>
+          </section>` : ""}
+
           <section class="card card-pad">
             <h3>📌 Tugas terdekat</h3>
             ${(() => {
@@ -399,6 +413,166 @@
           <div class="mx-xlabel">Local responsiveness →</div>
         </div>
         <figcaption>Empat strategi operasi global (HRM Gambar 2.9) — posisikan perusahaan pada dua sumbu ini</figcaption>
+      </figure>`;
+    },
+
+    /* ---------- visual Strategic Management ---------- */
+    smAssessment() {
+      return `<figure class="visual-block">
+        <div class="adv-cards">
+          <div class="adv-card"><div class="adv-ico">📝</div><b>UTS</b><span style="font-size:1.4rem;color:var(--gold)">40%</span><em>ujian tengah semester</em></div>
+          <div class="adv-card"><div class="adv-ico">📄</div><b>Term Paper</b><span style="font-size:1.4rem;color:var(--gold)">40%</span><em>individu, 10–15 halaman</em></div>
+          <div class="adv-card"><div class="adv-ico">🙋</div><b>Partisipasi</b><span style="font-size:1.4rem;color:var(--ink-soft)">10%</span><em>termasuk pertanyaan ke presenter</em></div>
+          <div class="adv-card"><div class="adv-ico">👥</div><b>Group Report</b><span style="font-size:1.4rem;color:var(--ink-soft)">10%</span><em>laporan kelompok</em></div>
+        </div>
+        <figcaption>Silabus baru 2026 — 80% nilai ada di UTS dan Term Paper individu</figcaption>
+      </figure>`;
+    },
+
+    smTermPaper() {
+      const s = [
+        ["Executive Summary", "isu strategis & rekomendasi kunci"],
+        ["Company and Industry Context", "didukung data"],
+        ["Strategic Diagnosis", "analisis internal & eksternal memakai konsep/kerangka"],
+        ["Holistic Strategic Recommendation", "strategi terpilih & justifikasinya"],
+        ["Strategic Implementation", "KPI, timeline, kepemilikan, sumber daya, mitigasi risiko"],
+        ["Strategic Impact Evaluation", "metrik, trade-off, risiko, horizon waktu"],
+        ["References and Data Appendices", "sumber & lampiran data"]
+      ];
+      return `<figure class="visual-block">
+        <div class="prep-concepts">
+          ${s.map(([t, d], i) => `<div class="prep-concept"><span class="mq-num">${i + 1}</span>
+            <div><b>${t}</b><span>${d}</span></div></div>`).join("")}
+        </div>
+        <figcaption>Struktur wajib Term Paper — gunakan judul-judul ini persis</figcaption>
+      </figure>`;
+    },
+
+    smCaseMethod() {
+      return `<figure class="visual-block">
+        <div class="cascade">
+          <div class="cascade-box"><b>1. THE PROBLEM</b><span>Penghalang (barrier) yang menghambat pencapaian tujuan (goals)</span></div>
+          <div class="cascade-arrow" aria-hidden="true">↓</div>
+          <div class="cascade-box"><b>2. THE ALTERNATIVES</b><span>Strategi-strategi yang bersaing — diberi judul, <em>tanpa</em> argumen pro-kontra</span></div>
+          <div class="cascade-arrow" aria-hidden="true">↓</div>
+          <div class="cascade-box"><b>3. THE ISSUES</b><span>Kekuatan penyebab, dirumuskan sebagai pertanyaan eksplisit</span></div>
+          <div class="cascade-arrow" aria-hidden="true">↓</div>
+          <div class="cascade-box cascade-box--ops"><b>4. THE CONCLUSION</b><span>Sintesis bertingkat + argumen kuantitatif → alternatif terbaik</span></div>
+        </div>
+        <figcaption>Metode analisis kasus resmi dosen (Silabus Appendix 3) — dipakai untuk semua laporan &amp; presentasi kasus</figcaption>
+      </figure>`;
+    },
+
+    smThreeQuestions() {
+      return `<figure class="visual-block">
+        <div class="glr-grid">
+          <div class="glr-card"><span class="glr-ic">📍</span><b>Di mana kita bersaing?</b>
+            <span>Pasar, segmen pelanggan, geografi, lini produk — dan yang sama pentingnya: di mana kita TIDAK bersaing</span></div>
+          <div class="glr-card"><span class="glr-ic">💎</span><b>Bagaimana kita menciptakan nilai?</b>
+            <span>Proposisi nilai bagi pelanggan: mengapa mereka memilih kita dan bukan yang lain</span></div>
+          <div class="glr-card"><span class="glr-ic">🏆</span><b>Bagaimana kita menang?</b>
+            <span>Sumber keunggulan kompetitif yang bisa dipertahankan terhadap peniruan</span></div>
+        </div>
+        <p class="viz-hint">Setiap jawaban adalah <b>pilihan</b> — dan tiap pilihan berarti mengatakan tidak pada sesuatu</p>
+        <figcaption>Tiga pertanyaan yang harus dijawab sebuah strategi</figcaption>
+      </figure>`;
+    },
+
+    smFiveStrategies() {
+      return `<figure class="visual-block">
+        <div class="mx-wrap">
+          <div class="mx-ylabel">Cakupan pasar ↑</div>
+          <div class="mx-grid">
+            <div class="mx-cell mx-warn"><b>Low-Cost Provider</b><span>biaya keseluruhan terendah untuk pasar luas</span></div>
+            <div class="mx-cell mx-good"><b>Broad Differentiation</b><span>atribut yang membedakan bagi pasar luas</span></div>
+            <div class="mx-cell mx-neutral"><b>Focused Low-Cost</b><span>biaya rendah untuk ceruk sempit</span></div>
+            <div class="mx-cell mx-neutral"><b>Focused Differentiation</b><span>diferensiasi untuk ceruk sempit</span></div>
+          </div>
+          <div class="mx-xlabel">Basis keunggulan: biaya → diferensiasi</div>
+        </div>
+        <div class="cascade" style="margin-top:0.6rem">
+          <div class="cascade-box cascade-box--ops"><b>Best-Cost Provider</b>
+            <span>Menggabungkan keduanya: atribut lebih baik <em>dengan</em> biaya lebih rendah — posisi paling sulit dipertahankan</span></div>
+        </div>
+        <figcaption>Lima pendekatan strategi kompetitif (Thompson &amp; Strickland) — diperdalam di Bab 5</figcaption>
+      </figure>`;
+    },
+
+    smDeliberateEmergent() {
+      return `<figure class="visual-block">
+        <svg viewBox="0 0 420 190" role="img" aria-label="Strategi aktual = deliberate + emergent">
+          <defs>
+            <marker id="deArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" class="ef-arrowhead"></path>
+            </marker>
+          </defs>
+          <text class="radar-label" x="14" y="46">Rencana</text>
+          <text class="radar-label" x="14" y="62">awal</text>
+          <line x1="80" y1="55" x2="330" y2="55" class="lof-line" marker-end="url(#deArrow)"></line>
+          <text class="ef-note" x="150" y="44">strategi deliberate (direncanakan)</text>
+          <line x1="150" y1="120" x2="335" y2="72" class="ef-move" marker-end="url(#deArrow)"></line>
+          <line x1="215" y1="150" x2="338" y2="86" class="ef-move" marker-end="url(#deArrow)"></line>
+          <text class="ef-note" x="60" y="128">perkembangan tak terduga →</text>
+          <text class="ef-note" x="60" y="160">langkah pesaing, teknologi, krisis →</text>
+          <text class="ef-note ef-note--gold" x="196" y="112">strategi emergent (adaptif)</text>
+          <circle cx="345" cy="70" r="8" class="ef-dot"></circle>
+          <text class="radar-label" x="358" y="60">Strategi</text>
+          <text class="radar-label" x="358" y="76">aktual</text>
+        </svg>
+        <figcaption>Strategi yang benar-benar dijalankan = bagian yang direncanakan + bagian yang muncul dari adaptasi</figcaption>
+      </figure>`;
+    },
+
+    smBusinessModel() {
+      return `<figure class="visual-block">
+        <div class="flowviz">
+          <div class="flow-box">
+            <div class="flow-tag">Strategi</div>
+            <div class="flow-main">Bagaimana bersaing?</div>
+            <div class="flow-sub">pilihan pasar, nilai, dan cara menang</div>
+          </div>
+          <div class="flow-arrow" aria-hidden="true">→</div>
+          <div class="flow-box flow-box--dark">
+            <div class="flow-tag">Business Model</div>
+            <div class="flow-main">Apakah menghasilkan uang?</div>
+            <div class="flow-sub">value proposition (V−P) + profit formula (P−C)</div>
+          </div>
+        </div>
+        <p class="viz-hint">V = nilai yang dirasakan pelanggan · P = harga · C = biaya. Strategi bagus + profit formula rusak = kebangkrutan yang terencana rapi</p>
+        <figcaption>Strategi menjawab cara bersaing; business model menguji apakah cara itu layak secara ekonomi</figcaption>
+      </figure>`;
+    },
+
+    smThreeTests() {
+      return `<figure class="visual-block">
+        <div class="glr-grid">
+          <div class="glr-card"><span class="glr-ic">🧩</span><b>1. Fit Test</b>
+            <span><b>External fit</b> — cocok dengan industri, persaingan, tren, kebutuhan pelanggan.<br>
+            <b>Internal fit</b> — cocok dengan sumber daya &amp; kapabilitas.<br>
+            <b>Dynamic fit</b> — mampu menyesuaikan saat kondisi berubah.</span></div>
+          <div class="glr-card"><span class="glr-ic">🛡️</span><b>2. Competitive Advantage Test</b>
+            <span>Apakah menghasilkan keunggulan kompetitif yang <em>berkelanjutan</em>? Makin besar dan makin tahan lama, makin kuat strateginya. Sekadar menyamai pesaing = gagal.</span></div>
+          <div class="glr-card"><span class="glr-ic">📈</span><b>3. Performance Test</b>
+            <span>Apakah kinerja membaik? Dua indikator: profitabilitas &amp; kekuatan finansial, serta kekuatan kompetitif &amp; posisi pasar.</span></div>
+        </div>
+        <p class="viz-hint">⚠️ Strategi yang menang harus lulus <b>ketiganya</b> — bukan salah satu</p>
+        <figcaption>Tiga tes strategi yang menang — alat evaluasi paling praktis untuk bagian "Conclusion" analisis kasus</figcaption>
+      </figure>`;
+    },
+
+    smEisenhower() {
+      return `<figure class="visual-block">
+        <div class="mx-wrap">
+          <div class="mx-ylabel">Penting ↑</div>
+          <div class="mx-grid">
+            <div class="mx-cell mx-bad"><b>1. Lakukan sekarang</b><span>Penting &amp; mendesak — krisis, tenggat hari ini</span></div>
+            <div class="mx-cell mx-good"><b>2. Jadwalkan</b><span>Penting tapi tidak mendesak — <em>di sinilah seluruh pekerjaan strategis berada</em></span></div>
+            <div class="mx-cell mx-warn"><b>3. Delegasikan</b><span>Mendesak tapi tidak penting — interupsi, sebagian rapat &amp; email</span></div>
+            <div class="mx-cell mx-neutral"><b>4. Hapus</b><span>Tidak penting &amp; tidak mendesak — pemborosan waktu</span></div>
+          </div>
+          <div class="mx-xlabel">← Mendesak · Tidak mendesak →</div>
+        </div>
+        <figcaption>Eisenhower Matrix (framework Kelompok 1) — menjelaskan mengapa pekerjaan strategis selalu terancam tergeser</figcaption>
       </figure>`;
     },
 
@@ -1758,6 +1932,111 @@
     return ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"][parseDate(iso).getDay()];
   }
 
+  /* ---------- Studi Kasus (teaching cases ala HBS) ---------- */
+  const caseState = { open: null };
+
+  function viewKasus(id) {
+    const list = DATA.cases || [];
+    if (!list.length) {
+      return `<div class="view"><h1 class="view-title">Studi Kasus</h1>
+        <div class="card empty-state"><div class="big">📁</div>
+        <p><strong>Belum ada studi kasus untuk mata kuliah ini.</strong></p></div></div>`;
+    }
+    const cur = list.find((c, i) => (id ? i + 1 === id : i === 0)) || list[0];
+
+    const secHtml = cur.sections.map((s, i) => `
+      <details class="card accordion" ${i === 0 ? "open" : ""}>
+        <summary><span class="acc-title">${esc(s.heading)}</span></summary>
+        <div class="accordion-body">${s.body}</div>
+      </details>`).join("");
+
+    const exHtml = (cur.exhibits || []).map((ex) => `
+      <div class="card card-pad ex-block">
+        <h3>${esc(ex.title)}</h3>
+        <div class="ex-scroll"><table class="ex-table">
+          ${ex.rows.map((r, i) => `<tr>${r.map((c) => i === 0 ? `<th>${c}</th>` : `<td>${c}</td>`).join("")}</tr>`).join("")}
+        </table></div>
+        ${ex.note ? `<p class="ex-note">${esc(ex.note)}</p>` : ""}
+      </div>`).join("");
+
+    const g = cur.guide;
+    const answers = store.get("case_notes", {});
+
+    return `
+    <div class="view">
+      <p class="eyebrow">${esc(DATA.meta.short)} · Teaching Case</p>
+      <h1 class="view-title">Studi Kasus</h1>
+      <p class="view-sub">Bacaan kasus lengkap bergaya MBA: narasi, exhibit data, pertanyaan diskusi, dan panduan
+      analisis mengikuti metode empat komponen dari silabus dosen.</p>
+
+      <div class="session-picker">
+        ${list.map((c, i) => `<button data-goto="#/${CUR_ID}/kasus/${i + 1}"
+          class="${c.id === cur.id ? "active" : ""} has-content" title="${esc(c.title)}">${i + 1}</button>`).join("")}
+      </div>
+
+      <div class="case-head">
+        ${cur.badge ? `<span class="case-badge">${esc(cur.badge)}</span>` : ""}
+        <h2>${esc(cur.title)}</h2>
+        <p class="case-sub">${esc(cur.subtitle)}</p>
+        <div class="meta">
+          <span class="tag">📅 Untuk Sesi ${cur.forSession}</span>
+          <span class="tag">⏱️ ±${cur.readingTime} menit baca</span>
+          <span class="tag tag--case">🎯 ${esc(cur.decisionMaker)}</span>
+        </div>
+        <div class="case-dp"><b>Titik keputusan:</b> ${esc(cur.decisionPoint)}</div>
+        <div class="case-src">📖 ${esc(cur.officialSource)}</div>
+        <div class="case-rel"><b>Relevansi:</b> ${esc(cur.relevance)}</div>
+      </div>
+
+      ${secHtml}
+
+      <h3 class="case-h3">📊 Exhibits</h3>
+      ${exHtml}
+
+      <h3 class="case-h3">💬 Pertanyaan Diskusi</h3>
+      <div class="card card-pad">
+        <p class="mq-hint">Kerjakan sebelum kelas. Jawabanmu tersimpan otomatis dan bisa langsung dipakai
+        sebagai bahan 5 slide atau pertanyaan untuk kelompok penyaji.</p>
+        ${cur.questions.map((q, i) => {
+          const key = cur.id + "-" + i;
+          return `<div class="mq-item">
+            <p class="mq-q"><span class="mq-num">Q${i + 1}</span> ${esc(q)}</p>
+            <textarea class="mq-answer" data-case="${key}" rows="3"
+              placeholder="Jawabanmu…">${esc(answers[key] || "")}</textarea>
+          </div>`;
+        }).join("")}
+        <div class="notes-status" id="caseStatus">Tersimpan otomatis saat kamu mengetik.</div>
+      </div>
+
+      <h3 class="case-h3">🧭 Panduan Analisis — Metode Empat Komponen Dosen</h3>
+      <div class="card card-pad">
+        <div class="prep-concepts">
+          <div class="prep-concept"><span class="mq-num">1</span><div><b>The Problem</b><span>${esc(g.problem)}</span></div></div>
+          <div class="prep-concept"><span class="mq-num">2</span><div><b>The Alternatives</b><span>${esc(g.alternatives)}</span></div></div>
+          <div class="prep-concept"><span class="mq-num">3</span><div><b>The Issues</b><span>${esc(g.issues)}</span></div></div>
+          <div class="prep-concept"><span class="mq-num">4</span><div><b>The Conclusion</b><span>${esc(g.conclusion)}</span></div></div>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  let caseTimer = null;
+  function bindKasus() {
+    const status = document.getElementById("caseStatus");
+    app.querySelectorAll("[data-case]").forEach((ta) => {
+      ta.addEventListener("input", () => {
+        clearTimeout(caseTimer);
+        if (status) status.textContent = "Menyimpan…";
+        caseTimer = setTimeout(() => {
+          const a = store.get("case_notes", {});
+          a[ta.dataset.case] = ta.value;
+          store.set("case_notes", a);
+          if (status) status.textContent = "✓ Tersimpan " + new Date().toLocaleTimeString("id-ID");
+        }, 400);
+      });
+    });
+  }
+
   /* ---------- Jadwal ---------- */
   function viewJadwal() {
     const mine = courseEvents(CUR_ID).sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time));
@@ -1949,7 +2228,7 @@
   }
 
   const NAV_ITEMS = [
-    ["dashboard", "Dashboard"], ["silabus", "Silabus"], ["materi", "Materi"],
+    ["dashboard", "Dashboard"], ["silabus", "Silabus"], ["materi", "Materi"], ["kasus", "Studi Kasus"],
     ["jadwal", "Jadwal"], ["tugas", "Tugas"], ["kelas", "Catatan Kelas"],
     ["flashcards", "Flashcards"], ["kuis", "Kuis"], ["catatan", "Catatan"]
   ];
@@ -1959,6 +2238,7 @@
     const items = NAV_ITEMS.filter(([v]) => {
       if (v === "kuis") return (DATA.quizzes || []).length;
       if (v === "flashcards") return (DATA.flashcards || []).length;
+      if (v === "kasus") return (DATA.cases || []).length;
       return true;
     });
     if ((DATA.meta.tools || []).indexOf("productivity") !== -1) items.push(["kalkulator", "Kalkulator"]);
@@ -1985,6 +2265,7 @@
       dashboard: () => viewDashboard(),
       silabus: () => viewSilabus(),
       materi: () => viewMateri(param || 1),
+      kasus: () => viewKasus(param),
       jadwal: () => viewJadwal(),
       tugas: () => viewTugas(),
       kelas: () => viewKelas(param),
@@ -2002,6 +2283,7 @@
     if (view === "kalkulator") calcCompute();
     if (view === "catatan") bindNotes();
     if (view === "kelas") bindKelas();
+    if (view === "kasus") bindKasus();
     window.scrollTo({ top: 0 });
   }
 

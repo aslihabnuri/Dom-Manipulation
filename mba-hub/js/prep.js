@@ -409,136 +409,136 @@ window.MBA_PREP = {
         "Bagaimana perusahaan membangun relasi dengan pemerintah tanpa melanggar batas etis? (kaitkan dengan BES sesi 11)"] }
   },
 
-  /* =================== STRATEGIC MANAGEMENT =================== */
+  /* =================== STRATEGIC MANAGEMENT (SILABUS BARU 2026) =================== */
   sm: {
-    3: { intro: "Setelah tahu ke mana perusahaan menuju (Sesi 2), sesi ini menganalisis medannya: seberapa menarik industri kita dan kekuatan apa yang menekan profitabilitas.",
+    3: { intro: "Bab 2 membahas KEPEMIMPINAN dalam merumuskan dan mengeksekusi strategi — lima tahap proses manajemen strategik yang menjadi kerangka seluruh mata kuliah.",
       concepts: [
-        ["PESTEL", "Analisis lingkungan makro: politik, ekonomi, sosial-budaya, teknologi, ekologi, legal — bersinggungan langsung dengan mata kuliah GBE Anda."],
-        ["Porter's Five Forces", "Rivalitas, pendatang potensial, produk substitusi, daya tawar pemasok, daya tawar pembeli. Kuasai cara menilai kuat-lemahnya tiap kekuatan."],
-        ["Driving forces", "Kekuatan yang mengubah struktur industri: teknologi, regulasi, perubahan preferensi."],
-        ["Industry value chain", "Di mana nilai tercipta sepanjang rantai industri, dan di mana marginnya menumpuk."],
-        ["Strategic group mapping", "Memetakan pesaing berdasarkan dua dimensi strategis untuk melihat siapa lawan langsung Anda."],
-        ["Key success factors (KSF)", "Faktor yang menentukan menang-kalah di industri tersebut."]
+        ["Lima tahap proses strategik", "1) Kembangkan visi strategis, misi & nilai; 2) tetapkan tujuan; 3) rumuskan strategi; 4) eksekusi; 5) pantau, evaluasi & koreksi."],
+        ["Visi vs misi vs nilai", "Visi = ke mana kita menuju (masa depan). Misi = siapa kita & apa yang kita kerjakan sekarang. Nilai = keyakinan yang memandu perilaku."],
+        ["Financial vs strategic objectives", "Target keuangan vs target posisi pasar & daya saing. Balanced scorecard menyeimbangkan keduanya."],
+        ["Empat level strategi", "Corporate, business, functional, dan operating strategy — semuanya harus selaras."],
+        ["Peran dewan direksi", "Corporate governance: mengawasi agar manajemen menjalankan strategi demi kepentingan pemegang saham."],
+        ["Framework Kelompok 2: SCP", "Structure–Conduct–Performance: struktur industri memengaruhi perilaku perusahaan, yang memengaruhi kinerjanya."]
       ],
-      read: ["TPGS bab 3", "Porter (1980) bab 1, 3, 4, 7, 8"],
-      questions: ["Untuk industri yang saya kenal, kekuatan mana dari lima forces yang paling menekan laba — dan apa yang bisa dilakukan manajemen terhadapnya?",
-        "Apakah analisis five forces masih memadai untuk industri platform digital? Apa yang terlewat?"] },
+      read: ["Thompson & Strickland Bab 2"],
+      questions: ["Apakah visi perusahaan tempat Anda bekerja benar-benar memengaruhi keputusan harian, atau hanya pajangan?",
+        "Bagaimana paradigma SCP menjelaskan mengapa industri tertentu selalu lebih menguntungkan daripada yang lain?"] },
 
-    4: { intro: "Kebalikan dari Sesi 3: alih-alih melihat ke luar, sesi ini melihat ke dalam — sumber daya dan kapabilitas apa yang benar-benar membuat perusahaan unggul.",
+    4: { intro: "⭐ INI SESI KELOMPOK ANDA. Bab 3 tentang analisis lingkungan eksternal, dan Kelompok 3 mempresentasikan bab ini SEKALIGUS kasus AirAsia. Persiapan harus dimulai jauh hari.",
       concepts: [
-        ["SWOT yang benar", "Kekuatan/kelemahan bersifat internal dan relatif terhadap pesaing, bukan daftar keinginan."],
-        ["Resource-based view (RBV)", "Keunggulan berasal dari sumber daya yang bernilai dan sulit ditiru, bukan dari posisi pasar semata."],
-        ["Uji VRIO", "Valuable, Rare, costly to Imitate, Organized to capture value — kerangka wajib hafal."],
-        ["Core competence", "Kapabilitas lintas fungsi yang menjadi akar banyak produk sekaligus."],
-        ["Value chain analysis (Porter)", "Aktivitas primer dan pendukung; di mana perusahaan menambah nilah unik."],
-        ["Benchmarking & analisis biaya", "Membandingkan biaya aktivitas dengan pesaing untuk menemukan sumber ketidakunggulan."]
+        ["PESTEL", "Analisis makro: politik, ekonomi, sosial, teknologi, ekologi, legal — bersinggungan dengan mata kuliah GBE Anda."],
+        ["Porter's Five Forces", "Rivalitas, pendatang baru, substitusi, daya tawar pemasok & pembeli. Kuasai cara MENILAI kuat-lemahnya tiap kekuatan, bukan hanya menyebutkannya."],
+        ["Driving forces", "Kekuatan yang mengubah struktur industri: teknologi, regulasi, perubahan preferensi, globalisasi."],
+        ["Strategic group mapping", "Memetakan pesaing pada dua dimensi strategis untuk melihat siapa lawan langsung."],
+        ["Key success factors", "Faktor yang menentukan menang-kalah di industri; biasanya hanya 3–5, bukan daftar panjang."],
+        ["Menilai daya tarik industri", "Kesimpulan akhir analisis eksternal: apakah industri ini layak dimasuki/ditinggali?"]
       ],
-      read: ["TPGS bab 4", "Porter (1980) bab 2, 5, 6"],
-      questions: ["Sumber daya perusahaan saya yang mana yang benar-benar lolos keempat uji VRIO?",
-        "Apa beda 'kami punya karyawan bagus' dengan core competence yang sesungguhnya?"] },
+      read: ["Thompson & Strickland Bab 3", "Grant (2010) Ch.4 — kasus AirAsia", "Buka menu Studi Kasus di aplikasi ini untuk case primer AirAsia"],
+      questions: ["Untuk presentasi kelompok: kekuatan mana dari Five Forces yang paling menekan profitabilitas maskapai berbiaya rendah Asia Tenggara?",
+        "Bagaimana strategic group map industri penerbangan kawasan ini — di kelompok mana AirAsia berada, dan siapa lawan langsungnya?"] },
 
-    5: { intro: "Dari analisis ke pilihan: bagaimana perusahaan memutuskan cara bersaing di satu bisnis tertentu.",
+    5: { intro: "Setelah melihat ke luar (Bab 3), Bab 4 melihat ke dalam: sumber daya dan kapabilitas apa yang benar-benar membuat perusahaan unggul.",
       concepts: [
-        ["Lima strategi generik", "Low-cost provider, broad differentiation, focused low-cost, focused differentiation, best-cost provider."],
-        ["Syarat keberhasilan tiap strategi", "Kondisi pasar dan kapabilitas yang harus dimiliki agar strategi itu berhasil."],
-        ["Risiko tiap strategi", "Kapan diferensiasi menjadi mahal tanpa dihargai pasar; kapan kepemimpinan biaya terkejar."],
-        ["Stuck in the middle", "Bahaya mencoba semua strategi sekaligus tanpa sistem aktivitas yang koheren."],
-        ["Sumber keunggulan biaya", "Skala, pengalaman, efisiensi rantai nilai, dan desain ulang proses."],
-        ["Sumber diferensiasi", "Atribut produk, layanan, merek, dan pengalaman pelanggan."]
+        ["SWOT yang benar", "Kekuatan/kelemahan bersifat internal dan RELATIF terhadap pesaing — bukan daftar keinginan."],
+        ["Resource-based view", "Keunggulan berasal dari sumber daya yang bernilai & sulit ditiru, bukan hanya dari posisi pasar."],
+        ["Uji VRIN/VRIO", "Valuable, Rare, Inimitable, Non-substitutable (atau Organized) — kerangka wajib hafal."],
+        ["Value chain analysis", "Aktivitas primer & pendukung; di mana perusahaan menambah nilai unik dan di mana biayanya bocor."],
+        ["Competitive strength assessment", "Pembobotan faktor untuk membandingkan kekuatan perusahaan vs pesaing secara kuantitatif."],
+        ["Benchmarking", "Membandingkan biaya & kinerja aktivitas dengan pesaing terbaik."]
       ],
-      read: ["TPGS bab 5"],
+      read: ["Thompson & Strickland Bab 4", "Grant (2010) Ch.6 — Manchester United"],
+      questions: ["Sumber daya apa dari Manchester United yang lolos uji VRIN — dan apakah Sir Alex Ferguson sendiri termasuk sumber daya atau justru risiko?",
+        "Bagaimana klub menggantikan kapabilitas yang melekat pada satu orang?"] },
+
+    6: { intro: "Bab 5 memperdalam lima pendekatan strategi kompetitif yang sudah diperkenalkan di Bab 1 — kapan masing-masing berhasil dan kapan gagal.",
+      concepts: [
+        ["Low-cost provider", "Sumber keunggulan biaya: skala, pengalaman, efisiensi rantai nilai, desain ulang proses."],
+        ["Broad differentiation", "Sumber diferensiasi: atribut produk, layanan, merek, pengalaman. Syaratnya: pelanggan mau membayar lebih."],
+        ["Focused strategies", "Melayani ceruk sempit dengan biaya rendah atau diferensiasi; risikonya ceruk menghilang atau dimasuki pemain besar."],
+        ["Best-cost provider", "Posisi paling sulit: atribut lebih baik DENGAN biaya lebih rendah."],
+        ["Risiko tiap strategi", "Kapan diferensiasi jadi mahal tanpa dihargai; kapan kepemimpinan biaya terkejar."],
+        ["Framework Kelompok 5: Benchmarking", "Teknik membandingkan kinerja dengan praktik terbaik industri."]
+      ],
+      read: ["Thompson & Strickland Bab 5"],
       questions: ["Perusahaan Indonesia mana yang menurut Anda berhasil menjalankan best-cost provider strategy? Apa buktinya?",
-        "Bagaimana membedakan diferensiasi yang bernilai dari sekadar biaya tambahan?"] },
+        "Kapan benchmarking justru berbahaya bagi strategi — karena membuat semua pemain menjadi serupa?"] },
 
-    6: { intro: "Setelah memilih strategi dasar, sesi ini membahas manuver untuk memperkuat posisi: kapan menyerang, kapan bertahan, seberapa luas bermain.",
+    7: { intro: "Sesi ini mencakup DUA bab dalam dua hari: Bab 6 (melengkapi strategi kompetitif) pada 23 Okt, dan Bab 7 (bersaing di pasar asing) pada 24 Okt dengan kasus Apple iPhone.",
       concepts: [
-        ["Strategic offensives & defenses", "Serangan pada kelemahan pesaing, blue ocean, dan langkah bertahan."],
-        ["Timing", "Keunggulan dan kerugian menjadi first mover versus fast follower."],
-        ["Scope of operations", "Integrasi vertikal, outsourcing, aliansi strategis, dan merger-akuisisi."],
-        ["Industri terfragmentasi", "Strategi bersaing ketika tidak ada pemain dominan."],
-        ["Evolusi industri", "Menyesuaikan strategi saat industri tumbuh, matang, atau menurun."],
-        ["Aliansi & kemitraan", "Kapan bermitra lebih baik daripada membangun atau membeli."]
+        ["Strategic offensives & defenses", "Kapan menyerang, kapan bertahan; blue ocean strategy."],
+        ["Timing: first mover vs fast follower", "Keunggulan dan kerugian bergerak lebih dulu."],
+        ["Scope of operations", "Integrasi vertikal, outsourcing, aliansi strategis, merger & akuisisi."],
+        ["Mengapa go international", "Akses pasar, biaya lebih rendah, sumber daya, penyebaran risiko."],
+        ["Multidomestic vs global vs transnational", "Adaptasi lokal vs standardisasi global vs keduanya — sama dengan matriks di mata kuliah OTM Anda."],
+        ["Framework Kelompok 6: BCG Matrix", "Star, cash cow, question mark, dog — beserta keterbatasannya."]
       ],
-      read: ["TPGS bab 6", "Porter (1980) bab 9–12", "TPGS Kasus 12"],
-      questions: ["Kapan menjadi first mover justru merugikan? Beri contoh dari industri teknologi.",
-        "Untuk industri terfragmentasi seperti kuliner Indonesia, strategi konsolidasi seperti apa yang masuk akal?"] },
+      read: ["Thompson & Strickland Bab 6", "Thompson & Strickland Bab 7"],
+      questions: ["Apple menjual produk yang nyaris identik di seluruh dunia — apakah itu global strategy murni, atau ada adaptasi lokal yang tak terlihat?",
+        "Kapan menjadi first mover justru merugikan? Beri contoh dari industri teknologi."] },
 
-    7: { intro: "Sesi terakhir sebelum UTS: bagaimana bersaing ketika melewati batas negara. Bersinggungan langsung dengan materi operasi global OTM Anda.",
+    8: { intro: "Naik ke level korporat: strategi mengelola sekelompok bisnis. Pertanyaan intinya — apakah induk perusahaan benar-benar menambah nilai?",
       concepts: [
-        ["Mengapa go international", "Akses pasar, biaya lebih rendah, sumber daya, dan penyebaran risiko."],
-        ["Perbedaan antar-negara", "Biaya, budaya, regulasi, dan nilai tukar sebagai penentu strategi."],
-        ["Opsi masuk pasar", "Ekspor, lisensi, waralaba, aliansi, joint venture, dan anak perusahaan penuh."],
-        ["Multi-domestic vs global strategy", "Adaptasi lokal versus standardisasi global — persis matriks yang Anda pelajari di OTM."],
-        ["Transnational strategy", "Menggabungkan efisiensi global dengan responsivitas lokal."],
-        ["Bersaing di pasar berkembang", "Strategi menghadapi pemain lokal dan kondisi institusi yang berbeda."]
+        ["Kapan diversifikasi masuk akal", "Uji daya tarik industri, uji biaya masuk, uji better-off."],
+        ["Related vs unrelated diversification", "Strategic fit lintas rantai nilai versus konglomerasi murni."],
+        ["Evaluasi portofolio bisnis", "Menilai daya tarik industri, kekuatan kompetitif tiap unit, dan kecocokan strategisnya."],
+        ["Alokasi sumber daya", "Unit mana didanai, dipertahankan, atau dilepas."],
+        ["Restrukturisasi", "Divestasi, spin-off, retrenchment."],
+        ["Kasus New York Times", "Transformasi media cetak ke digital — diversifikasi atau transformasi model bisnis?"]
       ],
-      read: ["TPGS bab 7", "Porter (1980) bab 13"],
-      questions: ["Untuk merek Indonesia yang ekspansi regional, opsi masuk pasar mana yang paling masuk akal dan mengapa?",
-        "Apa yang membuat strategi transnasional begitu sulit dieksekusi?"] },
+      read: ["Thompson & Strickland Bab 8"],
+      questions: ["Konglomerat Indonesia yang Anda kenal: apakah induknya benar-benar menambah nilai, atau anak usahanya lebih baik berdiri sendiri?",
+        "New York Times berhasil bertransisi ke digital sementara banyak media gagal — apa yang membedakan?"] },
 
-    8: { intro: "Naik satu level: dari strategi satu bisnis ke strategi perusahaan multi-bisnis. Pertanyaan intinya — apakah induk perusahaan benar-benar menambah nilai?",
+    9: { intro: "⭐ SESI KELOMPOK ANDA LAGI. Bab 10 tentang membangun organisasi yang mampu mengeksekusi strategi, dan Kelompok 3 juga membawakan framework 4 Disciplines of Execution.",
       concepts: [
-        ["Kapan diversifikasi masuk akal", "Uji daya tarik industri, uji biaya masuk, dan uji better-off."],
-        ["Diversifikasi terkait vs tak terkait", "Strategic fit lintas rantai nilai versus konglomerasi murni."],
-        ["Corporate & parenting advantage", "Nilai tambah yang hanya bisa diberikan induk perusahaan."],
-        ["Growth-share matrix (BCG)", "Star, cash cow, question mark, dog — beserta keterbatasannya."],
-        ["Sembilan langkah evaluasi", "Prosedur TPGS mengevaluasi strategi perusahaan terdiversifikasi."],
-        ["Restrukturisasi portofolio", "Divestasi, spin-off, dan retrenchment."]
+        ["Tiga komponen membangun organisasi", "Staffing (orang yang tepat), membangun kapabilitas inti, dan menstrukturkan organisasi."],
+        ["Membangun kapabilitas", "Tiga cara: mengembangkan internal, mengakuisisi lewat M&A, atau bermitra."],
+        ["Struktur mengikuti strategi", "Menyelaraskan struktur organisasi dengan aktivitas kritis strategi."],
+        ["Sentralisasi vs desentralisasi", "Keputusan mana yang ditarik ke pusat dan mana yang didelegasikan."],
+        ["4DX — 4 Disciplines of Execution", "1) Fokus pada Wildly Important Goal; 2) bertindak pada lead measures; 3) pasang compelling scoreboard; 4) ciptakan cadence of accountability."],
+        ["Lead vs lag measures", "Lag = hasil akhir (tak bisa diubah lagi); lead = perilaku yang bisa dipengaruhi dan meramalkan hasil. Inti 4DX."]
       ],
-      read: ["TPGS bab 8", "Porter (1980) bab 14–16", "TPGS Kasus 21"],
-      questions: ["Konglomerat Indonesia yang Anda kenal: apakah induknya benar-benar menambah nilai, atau anak usahanya akan lebih baik berdiri sendiri?",
-        "Mengapa banyak diversifikasi tak terkait gagal menciptakan nilai?"] },
+      read: ["Thompson & Strickland Bab 10", "McChesney, Covey & Huling — The 4 Disciplines of Execution"],
+      questions: ["Untuk presentasi framework: apa dimensi & ukuran 4DX, bagaimana didefinisikan, dan apa manfaatnya dalam konteks bisnis internasional? (Silabus meminta ketiganya.)",
+        "Mengapa organisasi gagal mengeksekusi strategi yang semua orang setujui?"] },
 
-    9: { intro: "Lanjutan strategi korporat dengan penekanan pada analisis portofolio dan pengambilan keputusan alokasi sumber daya lintas unit bisnis.",
+    10: { intro: "Bab 11: mengelola operasi internal agar strategi benar-benar berjalan — alokasi sumber daya, kebijakan, sistem, dan imbalan.",
       concepts: [
-        ["Menilai strategic fit", "Kecocokan rantai nilai, teknologi, merek, dan distribusi antar unit bisnis."],
-        ["Kecukupan sumber daya", "Apakah induk sanggup mendanai seluruh portofolio."],
-        ["Prioritas alokasi modal", "Unit mana yang didanai, dipertahankan, atau dilepas."],
-        ["Sinergi nyata vs sinergi di atas kertas", "Mengapa sinergi sering gagal terwujud setelah akuisisi."],
-        ["Strategi masuk & keluar", "Akuisisi, pengembangan internal, joint venture; serta kapan keluar."],
-        ["Kinerja portofolio", "Mengukur apakah keseluruhan lebih bernilai daripada jumlah bagiannya."]
+        ["Alokasi sumber daya", "Anggaran sebagai alat implementasi strategi, bukan sekadar administrasi keuangan."],
+        ["Kebijakan & prosedur", "Kapan aturan membantu eksekusi, kapan justru membunuh inisiatif."],
+        ["Process management tools", "TQM, Six Sigma, business process reengineering — bersinggungan dengan OTM Anda."],
+        ["Sistem informasi", "Data operasional untuk memantau eksekusi secara real time."],
+        ["Sistem imbalan", "Mengaitkan insentif dengan pencapaian strategi — dan risiko insentif yang salah arah."],
+        ["Framework Kelompok 4: Agile & Lean Startup", "Iterasi cepat, MVP, build-measure-learn."]
       ],
-      read: ["TPGS bab 8 (lanjutan)", "TPGS Kasus 22"],
-      questions: ["Apa indikator paling awal bahwa sebuah akuisisi tidak akan menghasilkan sinergi yang dijanjikan?",
-        "Bagaimana induk perusahaan memutuskan melepas unit bisnis yang masih menguntungkan?"] },
+      read: ["Thompson & Strickland Bab 11"],
+      questions: ["Sistem insentif seperti apa yang justru merusak eksekusi strategi? (kaitkan dengan mata kuliah Business Ethics Anda)",
+        "Apakah metode Agile cocok untuk semua jenis organisasi, atau ada prasyaratnya?"] },
 
-    10: { intro: "Sesi yang paling bersinggungan dengan mata kuliah Business Ethics Anda: menghubungkan strategi dengan etika, tanggung jawab sosial, dan keberlanjutan lingkungan.",
+    11: { intro: "Bab 12: budaya korporat dan kepemimpinan — faktor yang paling sering menentukan berhasil-tidaknya eksekusi strategi.",
       concepts: [
-        ["Strategi & standar etika", "Etika sebagai bagian strategi, bukan pelengkap; biaya nyata dari kegagalan etis."],
-        ["Universalisme vs relativisme etika", "Perdebatan yang sama persis dengan yang Anda temui di BES Sesi 1."],
+        ["Budaya korporat", "Nilai, keyakinan, dan praktik yang membentuk 'cara kami bekerja di sini'."],
+        ["Budaya sehat vs tidak sehat", "Budaya adaptif & berkinerja tinggi versus budaya politis, insular, atau tidak etis."],
+        ["Menyelaraskan budaya dengan strategi", "Mengubah budaya jauh lebih lambat daripada mengubah strategi."],
+        ["Kepemimpinan eksekusi", "Peran pemimpin: hadir di lapangan, mendorong perbaikan, menegakkan standar etis."],
+        ["Mengelola perubahan budaya", "Langkah substantif vs simbolik."],
+        ["Kasus Renault-Nissan", "Aliansi lintas budaya Prancis–Jepang: bagaimana dua budaya korporat yang sangat berbeda dikelola."]
+      ],
+      read: ["Thompson & Strickland Bab 12"],
+      questions: ["Mengapa aliansi Renault-Nissan bertahan lama padahal banyak merger lintas budaya gagal — dan mengapa akhirnya tetap bergoncang?",
+        "Apakah budaya benar-benar 'memakan strategi untuk sarapan'? Setujukah Anda?"] },
+
+    12: { intro: "Bab 9: menghubungkan strategi dengan etika, tanggung jawab sosial, dan keberlanjutan lingkungan — bersinggungan langsung dengan mata kuliah Business Ethics Anda. Catatan: tanggal sesi ini di silabus tampak salah ketik, konfirmasikan ke dosen.",
+      concepts: [
+        ["Strategi & standar etika", "Etika sebagai bagian strategi, bukan pelengkap; biaya nyata kegagalan etis."],
+        ["Universalisme vs relativisme etika", "Perdebatan yang sama persis dengan BES Sesi 1 Anda."],
         ["CSR & shared value", "Dari filantropi menuju penciptaan nilai bersama (Porter & Kramer)."],
-        ["Sustainability strategy", "Menyusun strategi yang layak secara lingkungan dan sosial dalam jangka panjang."],
-        ["Triple bottom line", "Kerangka yang juga Anda pelajari di BES — perhatikan bagaimana SM memakainya untuk keputusan strategis."],
-        ["Business case keberlanjutan", "Kapan keberlanjutan meningkatkan laba dan kapan menuntut trade-off nyata."]
+        ["Sustainability & ESG", "Silabus baru secara eksplisit menyebut ESG dan SDGs sebagai capaian pembelajaran (CG4)."],
+        ["Triple bottom line", "Kerangka yang juga Anda pelajari di Business Ethics."],
+        ["Kasus Nike in Indonesia", "Kontroversi ketenagakerjaan di rantai pasok — kasus klasik tanggung jawab lintas batas."]
       ],
-      read: ["TPGS bab 9", "TPGS Kasus 31"],
-      questions: ["Apakah ada bukti bahwa perusahaan yang lebih etis berkinerja finansial lebih baik — atau sebaliknya?",
-        "Bagaimana menyusun strategi keberlanjutan yang bukan sekadar greenwashing?"] },
-
-    11: { intro: "Strategi yang bagus gagal karena eksekusi yang buruk. Sesi ini membahas cara menerjemahkan strategi menjadi struktur, kapabilitas, dan tindakan.",
-      concepts: [
-        ["Kerangka 7S McKinsey", "Strategy, structure, systems, staff, skills, style, shared values — semua harus saling cocok."],
-        ["Pendekatan 8S", "Silabus menyebut 7S + Sustainability sebagai pendekatan terintegrasi."],
-        ["Membangun kapabilitas organisasi", "Mengembangkan, mengakuisisi, atau bermitra untuk kapabilitas yang dibutuhkan strategi."],
-        ["Desain struktur organisasi", "Menyelaraskan struktur dengan aktivitas kritis strategi."],
-        ["Alokasi sumber daya & kebijakan", "Anggaran dan prosedur sebagai alat implementasi."],
-        ["Manajemen perubahan", "Mengatasi resistensi saat strategi menuntut cara kerja baru."]
-      ],
-      read: ["TPGS bab 10"],
-      questions: ["Dari tujuh elemen 7S, mana yang paling sering diabaikan saat perusahaan menjalankan strategi baru?",
-        "Apakah struktur mengikuti strategi, atau justru struktur yang membatasi strategi yang mungkin?"] },
-
-    12: { intro: "Sesi penutup: mengelola operasi internal, mengevaluasi hasil strategi, serta peran budaya dan kepemimpinan — sekaligus persiapan UAS.",
-      concepts: [
-        ["Mengelola operasi internal", "Sistem informasi, praktik terbaik, perbaikan berkelanjutan, dan sistem imbalan."],
-        ["Evaluasi & kontrol strategik", "Menetapkan ukuran, membandingkan hasil, dan mengoreksi arah."],
-        ["Balanced scorecard", "Empat perspektif untuk memantau eksekusi strategi."],
-        ["Budaya korporat", "Budaya yang sehat vs tidak sehat; menyelaraskan budaya dengan strategi."],
-        ["Kepemimpinan strategik", "Peran pemimpin dalam mendorong eksekusi dan perubahan."],
-        ["Sintesis mata kuliah", "Merangkai analisis (bab 3–4) → pilihan (bab 5–8) → eksekusi (bab 10–12)."]
-      ],
-      read: ["TPGS bab 12", "TPGS Kasus 25", "Untuk UAS: TPGS bab 8–12"],
-      questions: ["Mengapa budaya sering disebut 'memakan strategi untuk sarapan'? Setujukah Anda?",
-        "Ukuran apa yang paling awal menunjukkan bahwa eksekusi strategi sedang melenceng?"] }
+      read: ["Thompson & Strickland Bab 9"],
+      questions: ["Dalam kasus Nike di Indonesia, sejauh mana perusahaan bertanggung jawab atas praktik pemasoknya?",
+        "Apakah ada bukti perusahaan yang lebih etis berkinerja finansial lebih baik — atau justru sebaliknya?"] }
   }
 };

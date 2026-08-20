@@ -1878,3 +1878,56 @@ mark.hl--noted::after {
 .mm-part, .mm-why { font-size: 0.8rem; color: var(--ink-soft); line-height: 1.5; margin-bottom: 0.25rem; }
 .mm-part b, .mm-why b { color: var(--ink); }
 .mm-conf { font-family: var(--mono); font-size: 0.66rem; color: var(--ink-faint); }
+
+/* ---------------- Studi kasus (teaching case) ---------------- */
+.case-head {
+  background: var(--card);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  padding: 1.2rem 1.4rem;
+  margin-bottom: 1.25rem;
+  box-shadow: var(--shadow);
+}
+
+.case-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  background: var(--gold-bright);
+  color: var(--panel);
+  margin-bottom: 0.5rem;
+}
+
+.case-head h2 { font-family: var(--serif); font-size: 1.5rem; font-weight: 600; line-height: 1.25; }
+.case-sub { font-family: var(--serif); font-style: italic; font-size: 0.98rem; color: var(--ink-soft); margin: 0.3rem 0 0.7rem; }
+.case-dp, .case-src, .case-rel { font-size: 0.8rem; color: var(--ink-soft); margin-top: 0.45rem; line-height: 1.5; }
+.case-dp b, .case-rel b { color: var(--ink); }
+.case-src { font-family: var(--mono); font-size: 0.72rem; color: var(--gold); }
+.case-h3 { font-family: var(--serif); font-size: 1.2rem; font-weight: 600; margin: 1.6rem 0 0.7rem; }
+
+.ex-block { margin-bottom: 0.75rem; }
+.ex-scroll { overflow-x: auto; }
+
+.ex-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; min-width: 480px; }
+.ex-table th {
+  background: var(--panel);
+  color: var(--gold-bright);
+  font-weight: 700;
+  text-align: left;
+  padding: 0.5rem 0.7rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.03em;
+}
+.ex-table td { padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
+.ex-table tr:nth-child(even) td { background: var(--paper-deep); }
+.ex-table td:first-child { font-weight: 600; color: var(--ink); }
+.ex-note { font-size: 0.74rem; color: var(--ink-faint); font-style: italic; margin-top: 0.55rem; }
+
+/* panel kelompok saya */
+.grp-card { border-color: var(--gold); }
+.grp-mem { font-size: 0.78rem; color: var(--ink-faint); margin-bottom: 0.7rem; }
+.grp-note { font-size: 0.75rem; color: var(--ink-soft); margin-top: 0.5rem; line-height: 1.5; }
+.grp-note code { font-family: var(--mono); font-size: 0.72rem; background: var(--paper-deep); padding: 0.1rem 0.35rem; border-radius: 5px; }
