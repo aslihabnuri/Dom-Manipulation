@@ -44,54 +44,58 @@ Bukan kesalahan, tapi kalau penulisannya seragam antara video, banner, dan capti
 
 ## Pilihan caption
 
-Baris pertama adalah yang terlihat sebelum "selengkapnya". Semua hook di bawah 40 karakter.
+Baris pertama adalah yang terlihat sebelum "selengkapnya". Panjangnya sengaja berbeda-beda: satu baris untuk scroll cepat, daftar panjang untuk yang berhenti membaca.
 
-### 1. Understatement — paling dekat ke nada brand
+**Soal emoji:** hanya yang monokrom. 🖤 🤍 🩲 ▪️ mengikuti palet brand; 🔥 💯 🚀 ✨ tidak dipakai karena itu padanan visual dari kata-kata yang dilarang hal. 35.
+
+### 1. Satu baris — paling cepat dibaca
 
 ```
-Six details you will never notice.
-That is what a brief done properly feels like.
+Six details you will never notice. That is the point. 🖤
+```
+
+### 2. Dua baris
+
+```
+Worn all day. Noticed by no one. 🩲
 Find your fit.
 ```
 
-### 2. Seharian
+### 3. Daftar lengkap — untuk yang berhenti dan membaca
 
 ```
-Worn all day. Noticed by no one.
-Moisture wicking, odor resistant, tagless.
-Built for everyday performance.
+The Brief, refined. 🖤
+
+▪️ 3x softer than cotton
+▪️ Moisture wicking
+▪️ Soft stretch waistband
+▪️ Odor resistant
+▪️ 3D contour pouch
+▪️ Tagless
+
+Explore the collection.
 ```
 
-### 3. Craft — baris pertamanya dari narasi hal. 33
+### 4. Empat baris — craft, dari narasi hal. 33
 
 ```
 Every detail is created with purpose.
-Including the tag we left out.
+Including the tag we left out. 🤍
+Soft, breathable, built to hold its shape.
 Discover comfort.
 ```
 
-### 4. Kain, memakai klaim 3x dari videonya
+### 5. Dua baris — gerak
 
 ```
-Three times softer than cotton.
-Moisture wicking, odor resistant, tag free.
-Experience true comfort.
+It moves when you move. 🩲
+Contoured, tagless, cut to stay put. Made to move with you.
 ```
 
-### 5. Gerak
+### 6. Satu baris — memakai klaim 3x dari videonya
 
 ```
-It moves when you move.
-Contoured, tagless, and cut to stay put.
-Made to move with you.
-```
-
-### 6. Produk di depan
-
-```
-The Brief, refined.
-Soft, breathable, tagless, and built to hold its shape.
-Explore the collection.
+Three times softer than cotton. 🤍 Experience true comfort.
 ```
 
 ---
@@ -106,7 +110,7 @@ Explore the collection.
 | `Every detail is created with purpose` | narasi hal. 33 |
 | `refined`, `detail`, `fit`, `breathable` | kosakata hal. 35 |
 
-**Audit:** nol kata terlarang hal. 35, nol em dash, nol tanda seru, nol emoji, nol kapital berteriak.
+**Audit:** nol kata terlarang hal. 35, nol em dash, nol tanda seru, nol kapital berteriak. Emoji dipakai atas permintaan Anda, dibatasi ke set monokrom 🖤 🤍 🩲 ▪️ supaya tetap sejalan dengan palet.
 
 ---
 

@@ -21,63 +21,56 @@ Sisanya justru menguntungkan. Kalimat kunci brand di hal. 28 berbunyi *"It's not
 
 ## Pilihan caption
 
-Baris pertama adalah yang terlihat sebelum "selengkapnya". Semua hook di bawah 40 karakter jadi tidak ada yang terpotong.
+Baris pertama adalah yang terlihat sebelum "selengkapnya". Panjangnya sengaja berbeda-beda.
 
-### 1. Understatement — paling dekat ke nada brand
+**Soal emoji:** hanya yang monokrom. 🖤 🤍 🩲 ▪️ mengikuti palet brand; 🔥 💯 🚀 ✨ tidak dipakai karena itu padanan visual dari kata-kata yang dilarang hal. 35.
 
-```
-Not made to be loud.
-Made to be right.
-Coming soon.
-
-Tailored. Original. Innovation.
-```
-
-Baris pertamanya mengambil langsung kalimat kunci hal. 28: *"It's not about standing out loudly."*
-
-### 2. Palet — cocok dengan videonya yang monokrom
+### 1. Satu baris — understatement, paling dekat ke nada brand
 
 ```
-Black. White. Nothing else.
+Not made to be loud. Made to be right. 🖤 Coming soon.
+```
+
+### 2. Empat baris — palet, cocok dengan videonya yang monokrom
+
+```
+Black. White. Nothing else. 🖤🤍
 Three essentials, refined to the seam.
 Coming soon.
-```
-
-### 3. Craft, dengan tanggal
-
-```
-Every detail is created with purpose.
-The next one is nearly here.
-[DATE].
-```
-
-Baris pertamanya dari narasi brand hal. 33.
-
-### 4. Product-forward — paling kuat untuk jangkauan
-
-```
-Singlet. Boxer. Boxer brief.
-One standard for cut, fabric and fit.
-Coming soon to Toni Black.
-```
-
-Satu-satunya opsi yang menyebut produknya. Caption TikTok terindeks pencarian, jadi ini yang paling mudah ditemukan.
-
-### 5. Redefined Essentials — frasa resmi dari daftar CTA hal. 29
-
-```
-Redefined essentials.
-Cut, fabric and fit, reconsidered.
-Coming soon.
-```
-
-### 6. Ajakan menandai tanggal
-
-```
-The next one is nearly here.
-Mark the date: [DATE]
 
 Tailored. Original. Innovation.
+```
+
+### 3. Dua baris — craft, dari narasi hal. 33
+
+```
+Every detail is created with purpose. 🤍
+The next one is nearly here. [DATE].
+```
+
+### 4. Daftar — untuk yang berhenti membaca
+
+```
+Redefined essentials, coming soon. 🖤
+
+▪️ Singlet
+▪️ Boxer
+▪️ Boxer brief
+
+One standard for cut, fabric and fit. [DATE].
+```
+
+### 5. Satu baris — produk di depan
+
+```
+Singlet, boxer, boxer brief. 🩲 One standard. Coming soon.
+```
+
+### 6. Dua baris — ajakan menandai tanggal
+
+```
+The next one is nearly here. 🖤
+Mark the date: [DATE]. Tailored. Original. Innovation.
 ```
 
 ---
@@ -94,7 +87,7 @@ Semua kata bertumpu pada daftar hal. 35, bukan dikarang:
 
 `Redefined Essentials` diambil utuh dari daftar CTA resmi hal. 29 (Product/Collection). `Tailored. Original. Innovation.` adalah tagline resmi.
 
-**Audit:** nol kata terlarang hal. 35, nol em dash, nol tanda seru, nol emoji, nol kapital berteriak.
+**Audit:** nol kata terlarang hal. 35, nol em dash, nol tanda seru, nol kapital berteriak. Emoji dipakai atas permintaan Anda, dibatasi ke set monokrom 🖤 🤍 🩲 ▪️.
 
 ---
 

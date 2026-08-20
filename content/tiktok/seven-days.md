@@ -20,57 +20,55 @@ Sudut itu juga pas dengan persona hal. 32 yang paling mungkin membeli underwear 
 
 ## Pilihan caption
 
-Baris pertama adalah yang terlihat sebelum "selengkapnya". Semua hook di bawah 40 karakter.
+Baris pertama adalah yang terlihat sebelum "selengkapnya". Panjangnya sengaja berbeda-beda.
 
-### 1. Paling lugas
+**Soal emoji:** hanya yang monokrom. 🖤 🤍 🩲 ▪️ 🕐 mengikuti palet brand; 🔥 💯 🚀 ✨ tidak dipakai karena itu padanan visual dari kata-kata yang dilarang hal. 35.
 
-```
-Seven days. One standard.
-A clean pair for every one of them.
-Explore the collection.
-```
-
-### 2. Everyday — CTA resmi hal. 29
+### 1. Satu baris
 
 ```
-Monday through Sunday, covered.
-Same cut, same fabric, same fit, all week.
+Seven days. One standard. 🕐 A clean pair for each.
+```
+
+### 2. Daftar — untuk yang berhenti membaca
+
+```
+Monday through Sunday, covered. 🖤
+
+▪️ Same cut
+▪️ Same fabric
+▪️ Same fit
+
 Elevate your everyday.
 ```
 
-### 3. Understatement — satu keputusan yang hilang
+### 3. Dua baris — understatement, paling dekat ke nada brand
 
 ```
-One less thing to think about.
+One less thing to think about. 🩲
 The week, already handled.
-
-Tailored. Original. Innovation.
 ```
 
-Paling dekat ke *calm confidence* hal. 35, dan paling pas untuk Sean.
-
-### 4. Konsistensi
+### 4. Empat baris — konsistensi
 
 ```
 Tuesday or Saturday, same standard.
-Cut, fabric and fit, kept consistent.
+Cut, fabric and fit, kept consistent. 🤍
+Nothing to decide on a Monday morning.
 Built for everyday performance.
 ```
 
-### 5. Mengikuti konsep jamnya
+### 5. Satu baris — mengikuti konsep jamnya
 
 ```
-Set your week to it.
-Seven days, one drawer, nothing to decide.
-Find your fit.
+Set your week to it. 🕐 Seven days, nothing to decide.
 ```
 
-### 6. Essentials
+### 6. Dua baris — essentials
 
 ```
-Redefined essentials.
-Built to be worn all week, not just on the good days.
-Discover comfort.
+Redefined essentials. 🖤
+Built to be worn all week, not just on the good days. Discover comfort.
 ```
 
 ---
@@ -84,7 +82,7 @@ Discover comfort.
 | `Tailored. Original. Innovation.` | tagline resmi |
 | `standard`, `consistent`, `handled` | register *honest* dan *understated* hal. 35 |
 
-**Audit:** nol kata terlarang hal. 35, nol em dash, nol tanda seru, nol emoji, nol kapital berteriak.
+**Audit:** nol kata terlarang hal. 35, nol em dash, nol tanda seru, nol kapital berteriak. Emoji dipakai atas permintaan Anda, dibatasi ke set monokrom 🖤 🤍 🩲 ▪️ 🕐.
 
 ---
 
