@@ -1,6 +1,6 @@
 /* ============================================================
    General Business Environment (MAN 6521)
-   Koordinator: Prof. Dr. Sony Warsono, MAFIS., Akt. — 3 SKS
+   Koordinator: Prof. Dr. Sony Warsono, MAFIS., Akt., 3 SKS
    Kuliah blok di MM Jogja, 31 Agustus – 3 September 2026.
    Tanpa buku teks tunggal: tiap lingkungan dibawakan dosen berbeda
    dengan modul/PPT masing-masing.
@@ -16,11 +16,11 @@ window.MBA_COURSES.gbe = {
     icon: "🌐",
     accent: "#a4432f",
     lecturer: "Prof. Dr. Sony Warsono, MAFIS., Akt. (koordinator)",
-    lecturerNote: "Team teaching — tiap lingkungan dibawakan dosen berbeda",
+    lecturerNote: "Team teaching: tiap lingkungan dibawakan dosen yang berbeda",
     sks: 3,
     sessionsTotal: 10,
     hasBook: false,
-    bookNote: "Tidak memakai buku teks tunggal — materi berupa modul & PPT per dosen, dilengkapi bahan bacaan mandiri.",
+    bookNote: "Tidak memakai buku teks tunggal, materi berupa modul & PPT per dosen, dilengkapi bahan bacaan mandiri.",
     tools: [],
     driveFolder: "https://drive.google.com/drive/folders/1qnI_Atb36OZFTRX7W-XOGKnmAA550IaS",
     status: "Kuliah blok 31 Agu – 3 Sep · 8 PPT tersedia"
@@ -28,9 +28,9 @@ window.MBA_COURSES.gbe = {
   course: {
     title: "General Business Environment",
     codes: "MAN 6521",
-    program: "Magister Business Administration — Universitas Gadjah Mada",
+    program: "Magister Business Administration, Universitas Gadjah Mada",
     semester: "Semester 2 · Kelas S51A · Kuliah blok di MM Jogja",
-    classCode: "—",
+    classCode: "–",
     lecturer: {
       name: "Prof. Dr. Sony Warsono, MAFIS., Akt.",
       dept: "Koordinator mata kuliah · team teaching lintas bidang",
@@ -47,7 +47,7 @@ window.MBA_COURSES.gbe = {
       { label: "Presentasi makalah akhir", weight: 15 }
     ],
     references: [
-      { code: "MOD", text: "Materi pembelajaran dikompilasi dalam modul berisi bahan bacaan & studi kasus tiap topik — tidak ada buku teks tunggal." },
+      { code: "MOD", text: "Materi pembelajaran dikompilasi dalam modul berisi bahan bacaan & studi kasus tiap topik, tidak ada buku teks tunggal." },
       { code: "PPT", text: "Slide dari masing-masing dosen pengampu topik (tersedia di folder Presentasi GBE)." },
       { code: "MANDIRI", text: "Mahasiswa sangat didorong mengeksplorasi bahan bacaan tambahan untuk setiap topik." }
     ],
@@ -56,7 +56,7 @@ window.MBA_COURSES.gbe = {
       "Mengidentifikasi faktor lingkungan penting, menganalisis pola & tren, serta menerjemahkannya menjadi peluang dan tantangan organisasi.",
       "Menganalisis bagaimana faktor lingkungan memengaruhi keputusan bisnis beserta implikasinya.",
       "Mengembangkan dan memformulasikan strategi bisnis yang lebih baik.",
-      "Memiliki perspektif lebih lebar, visioner, dan sadar lingkungan dalam keputusan manajerial — setiap topik didiskusikan dari perspektif seorang CEO."
+      "Memiliki perspektif lebih lebar, visioner, dan sadar lingkungan dalam keputusan manajerial. Setiap topik didiskusikan dari perspektif seorang CEO."
     ]
   },
 

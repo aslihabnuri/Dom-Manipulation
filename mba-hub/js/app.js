@@ -1,5 +1,5 @@
 /* ============================================================
-   OTM Study Hub — App Logic
+   OTM Study Hub: App Logic
    SPA sederhana berbasis hash routing. Progres (sesi selesai,
    penguasaan flashcard, skor kuis, catatan) disimpan di
    localStorage browser.
@@ -83,14 +83,14 @@
     const bestScores = store.get("quiz_best", {});
     const best1 = bestScores["1"];
 
-    const countdownText = dd === 0 ? "Hari ini!" : dd === 1 ? "Besok" : `${dd} hari lagi`;
+    const countdownText = dd === 0 ? "Hari ini" : dd === 1 ? "Besok" : `${dd} hari lagi`;
 
     return `
     <div class="view">
       <section class="hero">
         <p class="eyebrow">${esc(c.semester)} · ${esc(c.codes)}</p>
         <h1>${esc(DATA.meta.name.replace(/ ([^ ]+)$/, ""))} <em>${esc((DATA.meta.name.split(" ").pop()))}</em></h1>
-        <p>Teman belajarmu untuk 12 sesi ke depan — rangkuman materi, flashcards, kuis, kalkulator produktivitas,
+        <p>Pendamping belajar Anda selama 12 sesi: rangkuman materi, flashcards, kuis, kalkulator produktivitas,
         dan catatan pribadi, semuanya dari materi kuliah di folder Drive <strong>"Semester 2 - MBA UGM"</strong>.</p>
         <div class="hero-meta">
           <span class="chip chip--gold">Dosen: ${esc(c.lecturer.name)}</span>
@@ -109,7 +109,7 @@
                 <div class="m">${MONTHS_ID[nsDate.getMonth()]}</div>
               </div>
               <div>
-                <h4>Sesi ${ns.id} — ${esc(ns.topic)}</h4>
+                <h4>Sesi ${ns.id}: ${esc(ns.topic)}</h4>
                 <div class="muted">${ns.readings.length ? "Bacaan: " + esc(ns.readings.join(" · ")) : "Tanpa bacaan wajib"}</div>
                 ${ns.caseStudy ? `<div class="muted">${esc(ns.caseStudy)}</div>` : ""}
                 <span class="countdown-pill">⏳ ${countdownText}</span>
@@ -118,17 +118,17 @@
           </section>
 
           <section class="card card-pad">
-            <h3>Progres belajarmu</h3>
+            <h3>Progres belajar Anda</h3>
             <div class="stat-row">
               <div class="stat"><div class="n">${done.length}<span style="font-size:0.9rem;color:var(--ink-faint)">/${DATA.sessions.length}</span></div><div class="l">Sesi selesai</div></div>
               <div class="stat"><div class="n">${mastered.length}<span style="font-size:0.9rem;color:var(--ink-faint)">/${(DATA.flashcards || []).length}</span></div><div class="l">Kartu dikuasai</div></div>
-              <div class="stat"><div class="n">${best1 != null ? best1 + "%" : "—"}</div><div class="l">Skor kuis terbaik</div></div>
+              <div class="stat"><div class="n">${best1 != null ? best1 + "%" : "–"}</div><div class="l">Skor kuis terbaik</div></div>
             </div>
           </section>
 
           ${DATA.myGroupInfo ? `
           <section class="card card-pad grp-card">
-            <h3>⭐ Kelompok ${DATA.myGroupInfo.number} — tugasmu</h3>
+            <h3>⭐ Kelompok ${DATA.myGroupInfo.number}: tugas Anda</h3>
             <p class="grp-mem">${DATA.myGroupInfo.members.map((m) => esc(m)).join(" · ")}</p>
             <div class="ag-list">
               ${DATA.myGroupInfo.duties.map((d) => `<a class="ag-row" href="#/${CUR_ID}/materi/${d.session}" style="--c:${DATA.meta.accent}">
@@ -192,7 +192,7 @@
     <div class="view">
       <p class="eyebrow">Course Plan S51A</p>
       <h1 class="view-title">Silabus &amp; Jadwal 12 Sesi</h1>
-      <p class="view-sub">Klik "Tandai selesai" setelah kamu mempelajari materi sesi tersebut. Sesi dengan tanggal
+      <p class="view-sub">Klik "Tandai selesai" setelah Anda mempelajari materi sesi tersebut. Sesi dengan tanggal
       yang sudah lewat ditandai otomatis pada garis waktu.</p>
       ${DATA.materialMap ? `
       <details class="card mm-block">
@@ -201,7 +201,7 @@
           <span class="mq-count">${DATA.materialMap.length} pemetaan</span>
         </summary>
         <p class="mq-hint">File materi di Drive tidak selalu bernama sesuai nomor pertemuan. Berikut keputusan
-        penempatannya <b>berdasarkan silabus</b>, lengkap dengan alasannya — supaya kamu tahu file mana dibaca untuk
+        penempatannya <b>berdasarkan silabus</b>, lengkap dengan alasannya, supaya Anda tahu file mana dibaca untuk
         pertemuan mana.</p>
         <div class="mm-list">
           ${DATA.materialMap.map((m) => `
@@ -278,7 +278,7 @@
             <div class="flow-sub">memenuhi kebutuhan pelanggan</div>
           </div>
         </div>
-        <figcaption>Model input–transformation–output — inti dari semua operasi</figcaption>
+        <figcaption>Model input–transformation–output: inti dari semua operasi</figcaption>
       </figure>`;
     },
 
@@ -300,7 +300,7 @@
             <span class="vv-note">${note}</span>
           </div>`).join("")}
         </div>
-        <figcaption>The Four Vs — titik emas menunjukkan konfigurasi berbiaya rendah (gaya hotelF1); kebalikannya bergaya Ski Verbier Exclusive</figcaption>
+        <figcaption>The Four Vs: titik emas menunjukkan konfigurasi berbiaya rendah (gaya hotelF1); kebalikannya bergaya Ski Verbier Exclusive</figcaption>
       </figure>`;
     },
 
@@ -331,10 +331,10 @@
           ${labels}
         </svg>
         <div class="viz-legend">
-          <span><i class="lg-dot lg-dot--gold"></i> Taksi — unggul speed &amp; flexibility</span>
-          <span><i class="lg-dot lg-dot--ink"></i> Bus — unggul cost &amp; dependability</span>
+          <span><i class="lg-dot lg-dot--gold"></i> Taksi, unggul speed &amp; flexibility</span>
+          <span><i class="lg-dot lg-dot--ink"></i> Bus, unggul cost &amp; dependability</span>
         </div>
-        <figcaption>Polar diagram — makin jauh dari pusat, makin penting objective tersebut bagi operasi itu</figcaption>
+        <figcaption>Polar diagram: semakin jauh dari pusat, semakin penting objective tersebut bagi operasi itu</figcaption>
       </figure>`;
     },
 
@@ -364,14 +364,14 @@
         <div class="mx-wrap">
           <div class="mx-ylabel">Kinerja vs kompetitor ↑</div>
           <div class="mx-grid">
-            <div class="mx-cell mx-neutral"><b>Excess?</b><span>kinerja tinggi tapi tak penting — alihkan sumber daya?</span></div>
-            <div class="mx-cell mx-good"><b>Appropriate</b><span>di atas batas layak — pertahankan</span></div>
-            <div class="mx-cell mx-warn"><b>Improve</b><span>di bawah batas layak — kandidat perbaikan</span></div>
-            <div class="mx-cell mx-bad"><b>Urgent action</b><span>penting bagi pelanggan tapi kalah dari kompetitor — perbaiki segera</span></div>
+            <div class="mx-cell mx-neutral"><b>Excess?</b><span>kinerja tinggi tetapi tak penting: alihkan sumber daya?</span></div>
+            <div class="mx-cell mx-good"><b>Appropriate</b><span>di atas batas layak: pertahankan</span></div>
+            <div class="mx-cell mx-warn"><b>Improve</b><span>di bawah batas layak: kandidat perbaikan</span></div>
+            <div class="mx-cell mx-bad"><b>Urgent action</b><span>penting bagi pelanggan tetapi kalah dari kompetitor: perbaiki segera</span></div>
           </div>
           <div class="mx-xlabel">Kepentingan bagi pelanggan →</div>
         </div>
-        <figcaption>Importance–performance matrix — memprioritaskan faktor kompetitif mana yang harus diperbaiki dulu</figcaption>
+        <figcaption>Importance–performance matrix: memprioritaskan faktor kompetitif mana yang harus diperbaiki dulu</figcaption>
       </figure>`;
     },
 
@@ -390,13 +390,13 @@
       return `<figure class="visual-block">
         <div class="swot-grid">
           <div class="swot-side">Internal</div>
-          <div class="mx-cell mx-good"><b>S — Strengths</b><span>kekuatan: core competencies, KSF yang dikuasai</span></div>
-          <div class="mx-cell mx-warn"><b>W — Weaknesses</b><span>kelemahan yang harus dihindari strategi</span></div>
+          <div class="mx-cell mx-good"><b>S: Strengths</b><span>kekuatan: core competencies, KSF yang dikuasai</span></div>
+          <div class="mx-cell mx-warn"><b>W: Weaknesses</b><span>kelemahan yang harus dihindari strategi</span></div>
           <div class="swot-side">Eksternal</div>
-          <div class="mx-cell mx-good"><b>O — Opportunities</b><span>peluang pasar &amp; teknologi untuk dieksploitasi</span></div>
-          <div class="mx-cell mx-bad"><b>T — Threats</b><span>ancaman: five forces, perubahan lingkungan</span></div>
+          <div class="mx-cell mx-good"><b>O: Opportunities</b><span>peluang pasar &amp; teknologi untuk dieksploitasi</span></div>
+          <div class="mx-cell mx-bad"><b>T: Threats</b><span>ancaman: five forces, perubahan lingkungan</span></div>
         </div>
-        <figcaption>SWOT analysis — titik awal pengembangan &amp; evaluasi strategi</figcaption>
+        <figcaption>SWOT analysis: titik awal pengembangan dan evaluasi strategi</figcaption>
       </figure>`;
     },
 
@@ -405,14 +405,14 @@
         <div class="mx-wrap">
           <div class="mx-ylabel">Cost reduction ↑</div>
           <div class="mx-grid">
-            <div class="mx-cell mx-warn"><b>Global</b><span>sentralisasi, standardisasi, skala ekonomi — Caterpillar, Texas Instruments</span></div>
+            <div class="mx-cell mx-warn"><b>Global</b><span>sentralisasi, standardisasi, skala ekonomi: Caterpillar, Texas Instruments</span></div>
             <div class="mx-cell mx-good"><b>Transnational</b><span>efisiensi global + responsivitas lokal sekaligus</span></div>
-            <div class="mx-cell mx-neutral"><b>International</b><span>ekspor &amp; lisensi — paling mudah, paling sedikit keunggulan</span></div>
-            <div class="mx-cell mx-warn"><b>Multidomestic</b><span>desentralisasi demi pasar lokal — Heinz</span></div>
+            <div class="mx-cell mx-neutral"><b>International</b><span>ekspor &amp; lisensi: paling mudah, paling sedikit keunggulan</span></div>
+            <div class="mx-cell mx-warn"><b>Multidomestic</b><span>desentralisasi demi pasar lokal: Heinz</span></div>
           </div>
           <div class="mx-xlabel">Local responsiveness →</div>
         </div>
-        <figcaption>Empat strategi operasi global (HRM Gambar 2.9) — posisikan perusahaan pada dua sumbu ini</figcaption>
+        <figcaption>Empat strategi operasi global (HRM Gambar 2.9): posisikan perusahaan pada dua sumbu ini</figcaption>
       </figure>`;
     },
 
@@ -425,7 +425,7 @@
           <div class="adv-card"><div class="adv-ico">🙋</div><b>Partisipasi</b><span style="font-size:1.4rem;color:var(--ink-soft)">10%</span><em>termasuk pertanyaan ke presenter</em></div>
           <div class="adv-card"><div class="adv-ico">👥</div><b>Group Report</b><span style="font-size:1.4rem;color:var(--ink-soft)">10%</span><em>laporan kelompok</em></div>
         </div>
-        <figcaption>Silabus baru 2026 — 80% nilai ada di UTS dan Term Paper individu</figcaption>
+        <figcaption>Silabus baru 2026: 80% nilai ada di UTS dan Term Paper individu</figcaption>
       </figure>`;
     },
 
@@ -444,7 +444,7 @@
           ${s.map(([t, d], i) => `<div class="prep-concept"><span class="mq-num">${i + 1}</span>
             <div><b>${t}</b><span>${d}</span></div></div>`).join("")}
         </div>
-        <figcaption>Struktur wajib Term Paper — gunakan judul-judul ini persis</figcaption>
+        <figcaption>Struktur wajib Term Paper: gunakan judul-judul ini persis</figcaption>
       </figure>`;
     },
 
@@ -453,13 +453,13 @@
         <div class="cascade">
           <div class="cascade-box"><b>1. THE PROBLEM</b><span>Penghalang (barrier) yang menghambat pencapaian tujuan (goals)</span></div>
           <div class="cascade-arrow" aria-hidden="true">↓</div>
-          <div class="cascade-box"><b>2. THE ALTERNATIVES</b><span>Strategi-strategi yang bersaing — diberi judul, <em>tanpa</em> argumen pro-kontra</span></div>
+          <div class="cascade-box"><b>2. THE ALTERNATIVES</b><span>Strategi-strategi yang bersaing: diberi judul, <em>tanpa</em> argumen pro-kontra</span></div>
           <div class="cascade-arrow" aria-hidden="true">↓</div>
           <div class="cascade-box"><b>3. THE ISSUES</b><span>Kekuatan penyebab, dirumuskan sebagai pertanyaan eksplisit</span></div>
           <div class="cascade-arrow" aria-hidden="true">↓</div>
           <div class="cascade-box cascade-box--ops"><b>4. THE CONCLUSION</b><span>Sintesis bertingkat + argumen kuantitatif → alternatif terbaik</span></div>
         </div>
-        <figcaption>Metode analisis kasus resmi dosen (Silabus Appendix 3) — dipakai untuk semua laporan &amp; presentasi kasus</figcaption>
+        <figcaption>Metode analisis kasus resmi dosen (Silabus Appendix 3): dipakai untuk semua laporan &amp; presentasi kasus</figcaption>
       </figure>`;
     },
 
@@ -467,13 +467,13 @@
       return `<figure class="visual-block">
         <div class="glr-grid">
           <div class="glr-card"><span class="glr-ic">📍</span><b>Di mana kita bersaing?</b>
-            <span>Pasar, segmen pelanggan, geografi, lini produk — dan yang sama pentingnya: di mana kita TIDAK bersaing</span></div>
+            <span>Pasar, segmen pelanggan, geografi, lini produk, dan yang sama pentingnya: di mana kita <em>tidak</em> bersaing</span></div>
           <div class="glr-card"><span class="glr-ic">💎</span><b>Bagaimana kita menciptakan nilai?</b>
             <span>Proposisi nilai bagi pelanggan: mengapa mereka memilih kita dan bukan yang lain</span></div>
           <div class="glr-card"><span class="glr-ic">🏆</span><b>Bagaimana kita menang?</b>
             <span>Sumber keunggulan kompetitif yang bisa dipertahankan terhadap peniruan</span></div>
         </div>
-        <p class="viz-hint">Setiap jawaban adalah <b>pilihan</b> — dan tiap pilihan berarti mengatakan tidak pada sesuatu</p>
+        <p class="viz-hint">Setiap jawaban adalah <b>pilihan</b>: dan tiap pilihan berarti mengatakan tidak pada sesuatu</p>
         <figcaption>Tiga pertanyaan yang harus dijawab sebuah strategi</figcaption>
       </figure>`;
     },
@@ -492,9 +492,9 @@
         </div>
         <div class="cascade" style="margin-top:0.6rem">
           <div class="cascade-box cascade-box--ops"><b>Best-Cost Provider</b>
-            <span>Menggabungkan keduanya: atribut lebih baik <em>dengan</em> biaya lebih rendah — posisi paling sulit dipertahankan</span></div>
+            <span>Menggabungkan keduanya: atribut lebih baik <em>dengan</em> biaya lebih rendah, posisi paling sulit dipertahankan</span></div>
         </div>
-        <figcaption>Lima pendekatan strategi kompetitif (Thompson &amp; Strickland) — diperdalam di Bab 5</figcaption>
+        <figcaption>Lima pendekatan strategi kompetitif (Thompson &amp; Strickland): diperdalam di Bab 5</figcaption>
       </figure>`;
     },
 
@@ -547,16 +547,16 @@
       return `<figure class="visual-block">
         <div class="glr-grid">
           <div class="glr-card"><span class="glr-ic">🧩</span><b>1. Fit Test</b>
-            <span><b>External fit</b> — cocok dengan industri, persaingan, tren, kebutuhan pelanggan.<br>
-            <b>Internal fit</b> — cocok dengan sumber daya &amp; kapabilitas.<br>
-            <b>Dynamic fit</b> — mampu menyesuaikan saat kondisi berubah.</span></div>
+            <span><b>External fit</b>: cocok dengan industri, persaingan, tren, kebutuhan pelanggan.<br>
+            <b>Internal fit</b>: cocok dengan sumber daya &amp; kapabilitas.<br>
+            <b>Dynamic fit</b>: mampu menyesuaikan saat kondisi berubah.</span></div>
           <div class="glr-card"><span class="glr-ic">🛡️</span><b>2. Competitive Advantage Test</b>
-            <span>Apakah menghasilkan keunggulan kompetitif yang <em>berkelanjutan</em>? Makin besar dan makin tahan lama, makin kuat strateginya. Sekadar menyamai pesaing = gagal.</span></div>
+            <span>Apakah menghasilkan keunggulan kompetitif yang <em>berkelanjutan</em>? Semakin besar dan semakin tahan lama, semakin kuat strateginya. Sekadar menyamai pesaing = gagal.</span></div>
           <div class="glr-card"><span class="glr-ic">📈</span><b>3. Performance Test</b>
             <span>Apakah kinerja membaik? Dua indikator: profitabilitas &amp; kekuatan finansial, serta kekuatan kompetitif &amp; posisi pasar.</span></div>
         </div>
-        <p class="viz-hint">⚠️ Strategi yang menang harus lulus <b>ketiganya</b> — bukan salah satu</p>
-        <figcaption>Tiga tes strategi yang menang — alat evaluasi paling praktis untuk bagian "Conclusion" analisis kasus</figcaption>
+        <p class="viz-hint">⚠️ Strategi yang menang harus lulus <b>ketiganya</b>: bukan salah satu</p>
+        <figcaption>Tiga tes strategi yang menang: alat evaluasi paling praktis untuk bagian "Conclusion" analisis kasus</figcaption>
       </figure>`;
     },
 
@@ -565,14 +565,14 @@
         <div class="mx-wrap">
           <div class="mx-ylabel">Penting ↑</div>
           <div class="mx-grid">
-            <div class="mx-cell mx-bad"><b>1. Lakukan sekarang</b><span>Penting &amp; mendesak — krisis, tenggat hari ini</span></div>
-            <div class="mx-cell mx-good"><b>2. Jadwalkan</b><span>Penting tapi tidak mendesak — <em>di sinilah seluruh pekerjaan strategis berada</em></span></div>
-            <div class="mx-cell mx-warn"><b>3. Delegasikan</b><span>Mendesak tapi tidak penting — interupsi, sebagian rapat &amp; email</span></div>
-            <div class="mx-cell mx-neutral"><b>4. Hapus</b><span>Tidak penting &amp; tidak mendesak — pemborosan waktu</span></div>
+            <div class="mx-cell mx-bad"><b>1. Lakukan sekarang</b><span>Penting &amp; mendesak: krisis, tenggat hari ini</span></div>
+            <div class="mx-cell mx-good"><b>2. Jadwalkan</b><span>Penting tetapi tidak mendesak: <em>di sinilah seluruh pekerjaan strategis berada</em></span></div>
+            <div class="mx-cell mx-warn"><b>3. Delegasikan</b><span>Mendesak tetapi tidak penting: interupsi, sebagian rapat &amp; email</span></div>
+            <div class="mx-cell mx-neutral"><b>4. Hapus</b><span>Tidak penting &amp; tidak mendesak: pemborosan waktu</span></div>
           </div>
           <div class="mx-xlabel">← Mendesak · Tidak mendesak →</div>
         </div>
-        <figcaption>Eisenhower Matrix (framework Kelompok 1) — menjelaskan mengapa pekerjaan strategis selalu terancam tergeser</figcaption>
+        <figcaption>Eisenhower Matrix (framework Kelompok 1): menjelaskan mengapa pekerjaan strategis selalu terancam tergeser</figcaption>
       </figure>`;
     },
 
@@ -580,8 +580,7 @@
     besMoralityStack() {
       return `<figure class="visual-block">
         <div class="cascade">
-          <div class="cascade-box"><b>1. Morality</b><span>Norma, nilai &amp; keyakinan yang tertanam sosial —
-            mendefinisikan benar-salah bagi individu/komunitas</span></div>
+          <div class="cascade-box"><b>1. Morality</b><span>Norma, nilai &amp; keyakinan yang tertanam sosial: mendefinisikan benar-salah bagi individu/komunitas</span></div>
           <div class="cascade-arrow" aria-hidden="true">↓</div>
           <div class="cascade-box"><b>2. Ethics</b><span>Studi sistematis atas moralitas: menerapkan nalar untuk
             merumuskan aturan &amp; prinsip benar-salah</span></div>
@@ -604,10 +603,10 @@
           <text class="ve-sub" x="306" y="116" text-anchor="middle">benar secara moral</text>
           <text class="ve-sub" x="200" y="92" text-anchor="middle">irisan:</text>
           <text class="ve-sub" x="200" y="108" text-anchor="middle">aturan dasar</text>
-          <text class="ve-note" x="96" y="192" text-anchor="middle">legal tapi tidak etis</text>
+          <text class="ve-note" x="96" y="192" text-anchor="middle">legal tetapi tidak etis</text>
           <text class="ve-note" x="306" y="192" text-anchor="middle">etis meski belum diatur</text>
         </svg>
-        <figcaption>"Business ethics begins where the law ends" — kepatuhan hukum adalah lantai, bukan plafon</figcaption>
+        <figcaption>"Business ethics begins where the law ends": kepatuhan hukum adalah lantai, bukan plafon</figcaption>
       </figure>`;
     },
 
@@ -625,7 +624,7 @@
         </div>
         <p class="viz-hint">Tema lintas kasus: bencana alam · teknologi baru · ketenagakerjaan · kesenjangan (gini ratio) ·
         penegakan hukum · investasi &amp; keuangan · kesehatan &amp; produk konsumen</p>
-        <figcaption>Daftar isu pembuka kuliah — bahan diskusi dan soal ujian banyak berangkat dari sini</figcaption>
+        <figcaption>Daftar isu pembuka kuliah: bahan diskusi dan soal ujian banyak berangkat dari sini</figcaption>
       </figure>`;
     },
 
@@ -636,10 +635,10 @@
           <div class="glr-card"><b>Pemegang saham &amp; kreditor</b><span>menanamkan modal · imbal hasil, transparansi</span></div>
           <div class="glr-card"><b>Pemasok</b><span>menjual bahan · harga adil, pembayaran tepat waktu</span></div>
           <div class="glr-card"><b>Distributor &amp; pengecer</b><span>menyalurkan produk</span></div>
-          <div class="glr-card glr-card--center"><b>PERUSAHAAN</b><span>pemilik &amp; manajer — pusat semua klaim yang bersaing</span></div>
+          <div class="glr-card glr-card--center"><b>PERUSAHAAN</b><span>pemilik &amp; manajer: pusat semua klaim yang bersaing</span></div>
           <div class="glr-card"><b>Pelanggan</b><span>membeli produk · keamanan, harga, informasi jujur</span></div>
         </div>
-        <p class="viz-hint">↑ <b>Stakeholder primer</b> — terhubung lewat transaksi ekonomi langsung (termasuk kompetitor)</p>
+        <p class="viz-hint">↑ <b>Stakeholder primer</b>: terhubung lewat transaksi ekonomi langsung (termasuk kompetitor)</p>
         <div class="stk-grid" style="margin-top:0.5rem">
           <div class="glr-card"><b>Pemerintah</b><span>pusat, daerah, asing · regulasi &amp; pajak</span></div>
           <div class="glr-card"><b>Komunitas lokal</b><span>lapangan kerja &amp; lingkungan</span></div>
@@ -648,8 +647,8 @@
           <div class="glr-card"><b>Kelompok pendukung bisnis</b><span>nasihat &amp; riset</span></div>
           <div class="glr-card"><b>Masyarakat umum</b><span>opini positif / negatif</span></div>
         </div>
-        <p class="viz-hint">↑ <b>Stakeholder sekunder</b> — memengaruhi &amp; dipengaruhi tanpa transaksi langsung</p>
-        <figcaption>Peta stakeholder — langkah pertama menganalisis setiap kasus etika</figcaption>
+        <p class="viz-hint">↑ <b>Stakeholder sekunder</b>: memengaruhi &amp; dipengaruhi tanpa transaksi langsung</p>
+        <figcaption>Peta stakeholder: langkah pertama menganalisis setiap kasus etika</figcaption>
       </figure>`;
     },
 
@@ -663,7 +662,7 @@
           <div class="adv-card"><div class="adv-ico">🤝</div><b>Social</b><span>Praktik ketenagakerjaan</span>
             <em>dampak komunitas · HAM · tanggung jawab produk</em></div>
         </div>
-        <figcaption>Triple bottom line (Savitz 2006) — tiga dimensi dengan ukuran konkretnya masing-masing</figcaption>
+        <figcaption>Triple bottom line (Savitz 2006): tiga dimensi dengan ukuran konkretnya masing-masing</figcaption>
       </figure>`;
     },
 
@@ -681,14 +680,14 @@
             akuntabilitas · pendekatan stakeholder implisit</span></div>
         </div>
         <p class="viz-hint">⚠️ Pola perbandingan umum, bukan stereotip untuk setiap negara atau organisasi</p>
-        <figcaption>Etika bisnis dimaknai berbeda antar-kawasan — dipengaruhi budaya, institusi, dan sistem ekonomi</figcaption>
+        <figcaption>Etika bisnis dimaknai berbeda antar-kawasan: dipengaruhi budaya, institusi, dan sistem ekonomi</figcaption>
       </figure>`;
     },
 
     /* ---------- komponen interaktif ---------- */
     objTabs() {
       const tabs = [
-        ["Quality", `<p><strong>Melakukan hal yang benar</strong> — sesuai kebutuhan pelanggan; bangun sistem total
+        ["Quality", `<p><strong>Melakukan hal yang benar</strong>: sesuai kebutuhan pelanggan; bangun sistem total
           quality management. Dua jalur menuju profit: <em>sales gain</em> (respons membaik, harga fleksibel, reputasi
           naik) dan <em>reduced costs</em> (produktivitas naik; biaya rework, scrap &amp; garansi turun). Kualitas juga
           menaikkan dependability: proses yang benar sejak awal jarang meleset jadwal.</p>
@@ -696,17 +695,17 @@
         ["Speed", `<p><strong>Waktu antara pelanggan meminta dan menerima</strong> produk/jasa. Respons cepat ke luar
           ditopang kecepatan di dalam: pengambilan keputusan, pergerakan material, dan aliran informasi yang cepat.</p>
           <div class="fx-chips"><span>Eksternal: respons cepat memenangkan order</span><span>Internal: persediaan turun &amp; risiko turun (ramalan jangka pendek lebih akurat)</span></div>`],
-        ["Dependability", `<p><strong>Menepati janji waktu</strong> — pelanggan menerima tepat saat dibutuhkan atau
-          sesuai yang dijanjikan. Uniknya, dependability baru bisa dinilai <em>setelah</em> penyampaian — tapi seiring
+        ["Dependability", `<p><strong>Menepati janji waktu</strong>: pelanggan menerima tepat saat dibutuhkan atau
+          sesuai yang dijanjikan. Uniknya, dependability baru bisa dinilai <em>setelah</em> penyampaian, tetapi seiring
           waktu menumpuk jadi reputasi, dan <strong>dalam jangka panjang bisa mengalahkan semua kriteria lain</strong>.</p>
           <div class="fx-chips"><span>Eksternal: kepercayaan &amp; loyalitas</span><span>Internal: stabilitas, hemat waktu &amp; uang</span></div>`],
-        ["Flexibility", `<p><strong>Kemampuan berubah</strong> — empat tipe yang dibutuhkan pelanggan:
+        ["Flexibility", `<p><strong>Kemampuan berubah</strong> dalam empat tipe yang dibutuhkan pelanggan:
           <em>product/service</em> (produk baru), <em>mix</em> (bauran), <em>volume</em> (tingkat output), dan
           <em>delivery</em> (waktu penyampaian).</p>
           <div class="fx-chips"><span>Eksternal: mengikuti perubahan kebutuhan</span><span>Internal: mempercepat respons, menghemat waktu, menjaga dependability saat gangguan</span></div>`],
         ["Cost", `<p><strong>Biaya serendah mungkin yang masih kompatibel</strong> dengan level quality, speed,
           dependability &amp; flexibility yang dibutuhkan pelanggan. Kuncinya: secara internal cost
-          <em>dipengaruhi keempat objective lain</em> — memperbaiki Q-S-D-F adalah cara paling sehat menurunkan biaya.
+          <em>dipengaruhi keempat objective lain</em>: memperbaiki Q-S-D-F adalah cara paling sehat menurunkan biaya.
           Ukuran yang paling sering dipakai: produktivitas.</p>
           <div class="fx-chips"><span>Eksternal: harga kompetitif / margin lebih tebal</span><span>Internal: muara dari keempat objective lainnya</span></div>`]
       ];
@@ -715,7 +714,7 @@
           ${tabs.map(([t], i) => `<button type="button" data-vtab="${i}" class="${i === 0 ? "active" : ""}">${t}</button>`).join("")}
         </div>
         ${tabs.map(([, c], i) => `<div class="vtab-panel ${i === 0 ? "active" : ""}">${c}</div>`).join("")}
-        <p class="viz-hint">👆 Klik tiap objective — perhatikan setiap objective punya efek eksternal (dilihat pelanggan) dan internal (memengaruhi biaya)</p>
+        <p class="viz-hint">👆 Klik tiap objective. Perhatikan setiap objective punya efek eksternal (dilihat pelanggan) dan internal (memengaruhi biaya)</p>
       </div>`;
     },
 
@@ -741,7 +740,7 @@
           <div class="exp-body"><p>❓ ${q1}</p><p>❓ ${q2}</p></div>
         </div>`).join("")}
       </div>
-      <p class="viz-hint">👆 Klik tiap keputusan untuk melihat dua pertanyaan kuncinya — hafalkan kesepuluhnya, ini peta seluruh mata kuliah</p>`;
+      <p class="viz-hint">👆 Klik tiap keputusan untuk melihat dua pertanyaan kuncinya, hafalkan kesepuluhnya, ini peta seluruh mata kuliah</p>`;
     },
 
     fromTo() {
@@ -765,7 +764,7 @@
       ];
       return `<figure class="visual-block">
         <div class="vv-int">
-          <p class="vv-int-hint">🎛️ <strong>Coba sendiri:</strong> geser posisi sebuah bisnis (bisnismu?) di tiap
+          <p class="vv-int-hint">🎛️ <strong>Coba sendiri:</strong> geser posisi sebuah bisnis (misalnya bisnis Anda sendiri) di tiap
           dimensi, lalu lihat perkiraan konsekuensi biaya unitnya.</p>
           ${rows.map(([label, dir]) => `
           <div class="vv-row">
@@ -787,12 +786,12 @@
 
     goodsServices() {
       const rows = [
-        ["Intangible — yang dibeli adalah pengalaman terbang", "Tangible — kursinya itu sendiri"],
+        ["Intangible, yang dibeli adalah pengalaman terbang", "Tangible, kursinya itu sendiri"],
         ["Diproduksi & dikonsumsi bersamaan (potong rambut)", "Bisa disimpan sebagai persediaan"],
         ["Unik per pelanggan (investasi, perawatan medis)", "Produk serupa jutaan unit (iPhone)"],
-        ["Interaksi pelanggan tinggi — itulah yang dibayar", "Keterlibatan pelanggan terbatas"],
+        ["Interaksi pelanggan tinggi, itulah yang dibayar", "Keterlibatan pelanggan terbatas"],
         ["Definisi produk berubah-ubah (polis asuransi)", "Terstandardisasi"],
-        ["Berbasis pengetahuan — sulit diotomasi (hukum, medis)", "Standar & tangible — mudah diotomasi"],
+        ["Berbasis pengetahuan (sulit diotomasi (hukum, medis)", "Standar & tangible) mudah diotomasi"],
         ["Lokasi tersebar: toko, rumah, via internet", "Diproduksi di fasilitas tetap"],
         ["Kualitas subjektif, sulit dievaluasi", "Kualitas terukur objektif (kekuatan baut)"],
         ["Tak bisa dijual ulang (konser, layanan medis)", "Sering punya nilai sisa"]
@@ -827,7 +826,7 @@
         <div class="glr-card glr-card--center"><b>OPERASI</b><span>top management: profit layak & inovasi · staf: upah adil, kondisi kerja, pengembangan karier</span></div>
         <div class="glr-card"><b>Pelanggan</b><span>harga pantas, layanan baik, kualitas terjaga</span></div>
       </div>
-      <p class="viz-hint">Tuntutan-tuntutan ini kerap saling bertentangan — menyeimbangkannya adalah tugas operations manager</p>`;
+      <p class="viz-hint">Tuntutan-tuntutan ini kerap saling bertentangan, menyeimbangkannya adalah tugas operations manager</p>`;
     },
 
     fiveForces() {
@@ -839,23 +838,23 @@
           <div class="persp-cell persp-cell--h"><i>←</i><b>Daya tawar pelanggan</b><span>seberapa mudah pelanggan menuntut/pindah?</span></div>
           <div class="persp-cell persp-cell--v"><i>↑</i><b>Produk substitusi</b><span>apa penggantinya di luar industri?</span></div>
         </div>
-        <figcaption>Five forces model (Porter) — makin kuat kelima kekuatan, makin sulit industrinya</figcaption>
+        <figcaption>Five forces model (Porter): semakin kuat kelima kekuatan, semakin sulit industrinya</figcaption>
       </figure>`;
     },
 
     topdownCascade() {
       return `<figure class="visual-block">
         <div class="cascade">
-          <div class="cascade-box"><b>Corporate strategy — Micray Group percetakan</b>
+          <div class="cascade-box"><b>Corporate strategy: Micray Group percetakan</b>
             <span>"Berspesialisasi di bisnis kemasan (packaging) · menjadi pemain besar di semua pasarnya"</span></div>
           <div class="cascade-arrow" aria-hidden="true">↓</div>
-          <div class="cascade-box"><b>Business strategy — unit kemasan konsumen</b>
+          <div class="cascade-box"><b>Business strategy: unit kemasan konsumen</b>
             <span>Pertumbuhan volume cepat · layanan cepat · skala ekonomi</span></div>
           <div class="cascade-arrow" aria-hidden="true">↓</div>
           <div class="cascade-box cascade-box--ops"><b>Operations strategy</b>
             <span>Ekspansi kapasitas · toleransi over-capacity jangka pendek · buka lokasi baru</span></div>
         </div>
-        <figcaption>Top-down: hierarki strategi grup jasa percetakan — tiap level menerjemahkan level di atasnya</figcaption>
+        <figcaption>Top-down: hierarki strategi grup jasa percetakan, tiap level menerjemahkan level di atasnya</figcaption>
       </figure>`;
     },
 
@@ -882,7 +881,7 @@
              <text class="owc-axis" x="80" y="100">qualifying level</text>`)}
           ${chart("Less important", "M 26 74 L 136 56")}
         </div>
-        <figcaption>Manfaat kompetitif vs kinerja (sumbu x: kinerja →) — investasi besar hanya untuk winners;
+        <figcaption>Manfaat kompetitif vs kinerja (sumbu x: kinerja →): investasi besar hanya untuk winners;
         qualifiers cukup lolos qualifying level; less important nyaris datar</figcaption>
       </figure>`;
     },
@@ -901,7 +900,7 @@
           <div class="persp-cell persp-cell--v"><i>↑</i><b>Bottom-up</b>
             <span>eksperimen desain "modular"; pelanggan bingung inovasi terus-menerus &amp; biaya naik</span></div>
         </div>
-        <figcaption>Micraytech — empat perspektif direkonsiliasi menjadi satu kalimat strategi di tengah</figcaption>
+        <figcaption>Micraytech: empat perspektif direkonsiliasi menjadi satu kalimat strategi di tengah</figcaption>
       </figure>`;
     },
 
@@ -931,7 +930,7 @@
           <text class="radar-label" x="266" y="212">Y</text>
           <text class="ef-note ef-note--red" x="200" y="232">kapabilitas tak termanfaatkan → boros</text>
         </svg>
-        <figcaption>Line of fit — A→B: naik kelas dengan tuntutan pasar &amp; kapabilitas bergerak bersama.
+        <figcaption>Line of fit. Jalur A→B: naik kelas dengan tuntutan pasar &amp; kapabilitas bergerak bersama.
         X dan Y sama-sama keluar jalur, dengan risiko yang berbeda</figcaption>
       </figure>`;
     },
@@ -947,7 +946,7 @@
           <div class="flow-arrow" aria-hidden="true">→</div>
           <div class="stage-box">4<br><b>Control</b><span>mengoreksi</span></div>
         </div>
-        <div class="stages-loop">↻ hasil control mengalir kembali ke formulation — strategi adalah proses berdaur, bukan dokumen sekali jadi</div>
+        <div class="stages-loop">↻ hasil control mengalir kembali ke formulation, strategi adalah proses berdaur, bukan dokumen sekali jadi</div>
         <figcaption>Empat tahap proses operations strategy</figcaption>
       </figure>`;
     },
@@ -991,10 +990,10 @@
           ${dot(170, 170, "X", -16, 4, true)}
         </svg>
         <div class="viz-legend">
-          <span><b>①</b> X → B : perbaikan <em>menuju</em> frontier — variety &amp; efisiensi naik bersamaan, tanpa trade-off</span>
+          <span><b>①</b> X → B : perbaikan <em>menuju</em> frontier, variety &amp; efisiensi naik bersamaan, tanpa trade-off</span>
           <span><b>②</b> B → B1 : investasi (teknologi/metode baru) <em>menggeser</em> frontier itu sendiri</span>
         </div>
-        <figcaption>Trade-off &amp; efficient frontier — A, B, C, D sudah di frontier: menaikkan satu objective berarti
+        <figcaption>Trade-off dan efficient frontier. A, B, C, D sudah di frontier: menaikkan satu objective berarti
         mengorbankan yang lain. X masih di dalam: bisa memperbaiki keduanya sekaligus. Melampaui frontier hanya lewat investasi.</figcaption>
       </figure>`;
     },
@@ -1018,7 +1017,7 @@
           <span>kontrol biaya, pertahankan posisi</span>
           <span>efisiensi, pangkas lini</span>
         </div>
-        <figcaption>Product life cycle — tiap fase menggeser prioritas strategi operasi</figcaption>
+        <figcaption>Product life cycle: tiap fase menggeser prioritas strategi operasi</figcaption>
       </figure>`;
     }
   };
@@ -1036,7 +1035,7 @@
   }
 
   // token [[visual:nama]] di dalam body digantikan diagramnya di posisi itu,
-  // dan token [[slide:N|caption]] menyematkan capture halaman PPT dosen —
+  // dan token [[slide:N|caption]] menyematkan capture halaman PPT dosen,
   // sehingga tiap visual menempel tepat di bawah pembahasannya
   function inlineVisuals(body) {
     return body
@@ -1048,7 +1047,7 @@
         return `
         <figure class="visual-block visual-block--img">
           <img src="${src}" alt="Slide ${n}: ${esc(caption)}" loading="lazy">
-          <figcaption>📸 Slide dosen (hal. ${n}) — ${esc(caption)}</figcaption>
+          <figcaption>📸 Slide dosen (hal. ${n}): ${esc(caption)}</figcaption>
         </figure>`;
       });
   }
@@ -1298,13 +1297,13 @@
             <span class="mq-title">💬 Bahan Diskusi dengan Dosen</span>
             <span class="mq-count">${sec.questions.length} pertanyaan</span>
           </summary>
-          <p class="mq-hint">Pertanyaan siap-tanya untuk memancing diskusi di kelas (modal partisipasi 10%!). Buka
-          "Kenapa menarik" untuk memahami angle-nya, lalu catat jawaban &amp; diskusi dosen di kolomnya — tersimpan otomatis.</p>
+          <p class="mq-hint">Pertanyaan siap-tanya untuk memancing diskusi di kelas (bobot partisipasi 10%). Buka
+          "Mengapa menarik" untuk memahami angle-nya, lalu catat jawaban &amp; diskusi dosen di kolomnya, tersimpan otomatis.</p>
           ${sec.questions.map((qq, qi) => {
             const key = `${s.id}-${i}-${qi}`;
             return `<div class="mq-item">
               <p class="mq-q"><span class="mq-num">T${qi + 1}</span> ${esc(qq.q)}</p>
-              <details class="mq-guide"><summary>💡 Kenapa menarik &amp; follow-up</summary><p>${esc(qq.guide)}</p></details>
+              <details class="mq-guide"><summary>💡 Mengapa menarik &amp; follow-up</summary><p>${esc(qq.guide)}</p></details>
               <textarea class="mq-answer" data-mq="${key}" rows="3"
                 placeholder="Catat jawaban & diskusi dosen di sini…">${esc(mqAnswers[key] || "")}</textarea>
             </div>`;
@@ -1321,9 +1320,9 @@
       if (prep) {
         const d = s.date ? daysUntil(s.date) : null;
         const when = d === null ? "Jadwal menyusul"
-          : d > 0 ? `Kelas ${d} hari lagi — waktunya menyiapkan diri`
-          : d === 0 ? "Kelas hari ini!"
-          : "Kelas sudah berlangsung — materi resminya menyusul";
+          : d > 0 ? `Kelas berlangsung ${d} hari lagi. Waktunya menyiapkan diri.`
+          : d === 0 ? "Kelas berlangsung hari ini"
+          : "Kelas sudah berlangsung, materi resminya menyusul";
         body = `
         <div class="prep-head">
           <span class="prep-flag">📚 Bahan Bacaan Persiapan</span>
@@ -1348,7 +1347,7 @@
           <ol class="obj-list">${prep.questions.map((q) => `<li>${esc(q)}</li>`).join("")}</ol>
 
           <div class="key-box"><strong>💡 Cara pakai:</strong> baca konsep di atas sekitar 20–30 menit sebelum kelas,
-          lalu buka bacaannya. Anda tidak perlu paham sempurna — cukup <em>kenali istilahnya</em> supaya penjelasan
+          lalu buka bacaannya. Anda tidak perlu paham sempurna, cukup <em>kenali istilahnya</em> supaya penjelasan
           dosen terasa seperti pengulangan, bukan hal baru. Seusai kelas, isi menu
           <a href="#/${CUR_ID}/kelas/${s.id}"><b>Catatan Kelas</b></a> selagi ingatannya segar.</div>
         </div>`;
@@ -1357,7 +1356,7 @@
         <div class="card empty-state">
           <div class="big">🗂️</div>
           <p><strong>Materi sesi ini belum ditambahkan.</strong></p>
-          <p style="margin-top:0.8rem">Bacaan untuk persiapan: ${s.readings.length ? esc(s.readings.join(" · ")) : "—"}</p>
+          <p style="margin-top:0.8rem">Bacaan untuk persiapan: ${s.readings.length ? esc(s.readings.join(" · ")) : "–"}</p>
         </div>`;
       }
     }
@@ -1370,11 +1369,11 @@
         Sesi yang belum diajarkan menampilkan <b>bahan bacaan persiapan</b>. Tiap bagian diberi penanda sumber: <span class="src-badge src-badge--ppt">📽️ Slide dosen</span> = dibahas
         di kelas, <span class="src-badge src-badge--book">📖 Buku</span> = pengayaan dari buku referensi.
         <br>🖍️ <strong>Blok (seleksi) kalimat mana pun</strong> untuk menandainya dan menambahkan catatan penjelasan
-        dosen — lalu klik kalimat berstabilo untuk melihat atau mengedit catatannya. Semua tanda tersimpan otomatis
+        dosen, lalu klik kalimat berstabilo untuk melihat atau mengedit catatannya. Semua tanda tersimpan otomatis
         dan terkumpul juga di menu Catatan.</p>
       ${sessionPicker(s.id, available.concat(prepIds.filter((i) => available.indexOf(i) === -1)), "#/" + CUR_ID + "/materi")}
       <div class="materi-header">
-        <h2>Sesi ${s.id} — ${esc(s.topic)}</h2>
+        <h2>Sesi ${s.id}: ${esc(s.topic)}</h2>
         <div class="meta">
           <span class="tag">📅 ${esc(s.dateLabel)}</span>
           ${s.summary ? `<span class="tag">⏱️ ±${Math.max(1, Math.round(s.summary.map((x) => x.body.replace(/<[^>]+>/g, " ")).join(" ").split(/\s+/).length / 180))} menit baca</span>` : ""}
@@ -1418,7 +1417,7 @@
         <div class="card empty-state">
           <div class="big">🃏</div>
           <p><strong>Belum ada flashcard untuk sesi ini.</strong></p>
-          <p>Kartu akan ditambahkan setelah materi pertemuannya tersedia. Coba Sesi 1 dulu!</p>
+          <p>Kartu akan ditambahkan setelah materi pertemuannya tersedia. Mulailah dari Sesi 1.</p>
         </div>
       </div>`;
     }
@@ -1439,7 +1438,7 @@
     <div class="view">
       <p class="eyebrow">Hafalan Konsep</p>
       <h1 class="view-title">Flashcards</h1>
-      <p class="view-sub">Klik kartu untuk membalik. Tandai "Sudah paham" agar penguasaanmu terekam — kartu bisa diacak ulang kapan saja.</p>
+      <p class="view-sub">Klik kartu untuk membalik. Tandai "Sudah paham" agar penguasaan Anda terekam, kartu bisa diacak ulang kapan saja.</p>
       ${sessionPicker(fcState.session, available, "#/" + CUR_ID + "/flashcards")}
 
       <div class="fc-controls">
@@ -1519,7 +1518,7 @@
         <div class="card empty-state">
           <div class="big">📝</div>
           <p><strong>Belum ada kuis untuk sesi ini.</strong></p>
-          <p>Soal ditambahkan setelah materi pertemuannya tersedia. Mulai dari kuis Sesi 1!</p>
+          <p>Soal ditambahkan setelah materi pertemuannya tersedia. Mulailah dari kuis Sesi 1.</p>
         </div>
       </div>`;
     }
@@ -1530,9 +1529,9 @@
       const b = best[String(quizState.session)];
       return `<div class="view">${header}
         <div class="card quiz-result quiz-shell">
-          <p class="eyebrow">Sesi ${quizState.session} — ${esc(s.topic)}</p>
+          <p class="eyebrow">Sesi ${quizState.session}: ${esc(s.topic)}</p>
           <div class="verdict">${quiz.questions.length} soal pilihan ganda</div>
-          <p>Setiap jawaban langsung diberi pembahasan. ${b != null ? `Skor terbaikmu sejauh ini: <b>${b}%</b>.` : "Belum pernah dikerjakan."}</p>
+          <p>Setiap jawaban langsung diberi pembahasan. ${b != null ? `Skor terbaik Anda sejauh ini: <b>${b}%</b>.` : "Belum pernah dikerjakan."}</p>
           <button class="btn btn--primary" data-quiz-start>Mulai kuis →</button>
         </div>
       </div>`;
@@ -1540,10 +1539,10 @@
 
     if (quizState.finished) {
       const pct = Math.round((quizState.score / quiz.questions.length) * 100);
-      const verdict = pct >= 85 ? "Luar biasa — siap menghadapi ujian!" :
-        pct >= 70 ? "Bagus! Ulangi bagian yang keliru." :
-        pct >= 50 ? "Cukup — baca lagi rangkuman materinya." :
-        "Jangan menyerah — pelajari flashcards lalu coba lagi.";
+      const verdict = pct >= 85 ? "Sangat baik. Penguasaan materi Anda sudah siap diuji." :
+        pct >= 70 ? "Baik. Tinjau kembali bagian yang masih keliru." :
+        pct >= 50 ? "Cukup. Baca kembali rangkuman materinya." :
+        "Belum memadai. Pelajari flashcards, lalu ulangi kuisnya.";
       return `<div class="view">${header}
         <div class="card quiz-result quiz-shell">
           <div class="score">${pct}%</div>
@@ -1616,19 +1615,19 @@
       <p class="eyebrow">Alat Hitung · Materi Sesi 1</p>
       <h1 class="view-title">Kalkulator Produktivitas</h1>
       <p class="view-sub">Bandingkan dua skenario (mis. sebelum vs sesudah investasi teknologi) seperti contoh
-      Collins Title di slide kuliah. Nilai awal sudah diisi dengan angka contoh tersebut — silakan ganti.</p>
+      Collins Title di slide kuliah. Nilai awal sudah diisi dengan angka contoh tersebut, silakan ganti.</p>
 
       <div class="card card-pad">
         <div class="calc-grid">
           <div class="calc-col">
-            <h4>Skenario A — Sebelum</h4>
+            <h4>Skenario A: Sebelum</h4>
             <div class="field"><label>Output (unit per hari)</label><input type="number" id="aOut" value="8" step="any"></div>
             <div class="field"><label>Total jam kerja per hari</label><input type="number" id="aHours" value="32" step="any"></div>
             <div class="field"><label>Biaya tenaga kerja ($ / hari)</label><input type="number" id="aLabor" value="640" step="any"></div>
             <div class="field"><label>Biaya lain: overhead, material, energi, modal ($ / hari)</label><input type="number" id="aOther" value="400" step="any"></div>
           </div>
           <div class="calc-col">
-            <h4>Skenario B — Sesudah</h4>
+            <h4>Skenario B: Sesudah</h4>
             <div class="field"><label>Output (unit per hari)</label><input type="number" id="bOut" value="14" step="any"></div>
             <div class="field"><label>Total jam kerja per hari</label><input type="number" id="bHours" value="32" step="any"></div>
             <div class="field"><label>Biaya tenaga kerja ($ / hari)</label><input type="number" id="bLabor" value="640" step="any"></div>
@@ -1636,7 +1635,7 @@
           </div>
         </div>
         <div class="calc-results" id="calcResults"></div>
-        <p class="calc-note">Rumus — Labor productivity = output ÷ jam kerja (single-factor). Multifactor productivity =
+        <p class="calc-note">Rumus: Labor productivity = output ÷ jam kerja (single-factor). Multifactor productivity =
         output ÷ (biaya tenaga kerja + biaya lain). Multifactor memberi gambaran lebih lengkap karena mencakup semua biaya.</p>
       </div>
     </div>`;
@@ -1652,7 +1651,7 @@
 
     const lp = (s) => (s.hours > 0 ? s.out / s.hours : NaN);
     const mfp = (s) => (s.cost > 0 ? s.out / s.cost : NaN);
-    const fmt = (v, d) => (isNaN(v) ? "—" : v.toFixed(d));
+    const fmt = (v, d) => (isNaN(v) ? "–" : v.toFixed(d));
     const delta = (a, b) => (isNaN(a) || isNaN(b) || a === 0 ? null : ((b - a) / a) * 100);
 
     const dLp = delta(lp(A), lp(B));
@@ -1661,9 +1660,9 @@
       `<span class="val ${d >= 0 ? "up" : "down"}">${d >= 0 ? "▲" : "▼"} ${Math.abs(d).toFixed(1)}%</span>`;
 
     out.innerHTML = `
-      <div class="result-line"><span>Labor productivity (unit/jam) — A → B</span>
+      <div class="result-line"><span>Labor productivity (unit/jam): A → B</span>
         <span><span class="val">${fmt(lp(A), 4)}</span> → <span class="val">${fmt(lp(B), 4)}</span> ${deltaHtml(dLp)}</span></div>
-      <div class="result-line"><span>Multifactor productivity (unit/$) — A → B</span>
+      <div class="result-line"><span>Multifactor productivity (unit/$): A → B</span>
         <span><span class="val">${fmt(mfp(A), 4)}</span> → <span class="val">${fmt(mfp(B), 4)}</span> ${deltaHtml(dMfp)}</span></div>`;
   }
 
@@ -1693,21 +1692,21 @@
           }).join("")}
         </nav>
         <div class="notes-editor">
-          <textarea id="noteArea" placeholder="Catatanmu untuk Sesi ${notesState.session} — ${esc(s.topic)}…">${esc(text)}</textarea>
-          <div class="notes-status" id="noteStatus">Tersimpan otomatis saat kamu mengetik.</div>
+          <textarea id="noteArea" placeholder="Catatan Anda untuk Sesi ${notesState.session}: ${esc(s.topic)}…">${esc(text)}</textarea>
+          <div class="notes-status" id="noteStatus">Tersimpan otomatis saat Anda mengetik.</div>
           ${(() => {
             const anns = getAnns().filter((a) => a.session === notesState.session);
             if (!anns.length) {
-              return `<p class="ann-empty">Belum ada kalimat yang kamu tandai di materi sesi ini.
+              return `<p class="ann-empty">Belum ada kalimat yang Anda tandai di materi sesi ini.
                 Buka <a href="#/${CUR_ID}/materi/${notesState.session}">Materi Sesi ${notesState.session}</a>, blok kalimat
-                yang dibahas dosen, lalu tambahkan catatan — semuanya akan terkumpul di sini.</p>`;
+                yang dibahas dosen, lalu tambahkan catatan. Semuanya akan terkumpul di sini.</p>`;
             }
-            return `<h3 class="ann-heading">🖍️ Kalimat yang kamu tandai di materi (${anns.length})</h3>
+            return `<h3 class="ann-heading">🖍️ Kalimat yang Anda tandai di materi (${anns.length})</h3>
             <div class="ann-list">
               ${anns.map((a) => `
                 <div class="ann-item">
                   <blockquote>“${esc(a.text)}”</blockquote>
-                  ${a.note ? `<p class="ann-note">📝 ${esc(a.note)}</p>` : `<p class="ann-note ann-note--empty">Belum ada catatan — klik kalimatnya di materi untuk menambahkan.</p>`}
+                  ${a.note ? `<p class="ann-note">📝 ${esc(a.note)}</p>` : `<p class="ann-note ann-note--empty">Belum ada catatan, klik kalimatnya di materi untuk menambahkan.</p>`}
                   <div class="ann-item-actions">
                     <a class="btn btn--small btn--ghost" href="#/${CUR_ID}/materi/${a.session}">Buka di materi</a>
                     <button class="btn btn--small btn--red-outline" data-ann-del="${a.id}">Hapus</button>
@@ -1766,10 +1765,10 @@
   function eventTitle(ev) {
     const c = COURSES[ev.course];
     const short = c ? c.meta.short : "";
-    if (ev.type === "exam") return `${short} — ${ev.label}`;
-    if (ev.type === "presentation") return `${short} — ${ev.label}`;
+    if (ev.type === "exam") return `${short}: ${ev.label}`;
+    if (ev.type === "presentation") return `${short}: ${ev.label}`;
     if (ev.type === "holiday") return ev.label;
-    if (ev.type === "block") return `${short} — Kuliah blok (${ev.note || ""})`.trim();
+    if (ev.type === "block") return `${short}: Kuliah blok (${ev.note || ""})`.trim();
     return `${short} Sesi ${ev.session}`;
   }
 
@@ -1833,7 +1832,7 @@
     if (t.done) return `<span class="tk-badge tk-done">✓ selesai</span>`;
     const d = daysUntil(t.due);
     if (d < 0) return `<span class="tk-badge tk-late">terlewat ${Math.abs(d)} hari</span>`;
-    if (d === 0) return `<span class="tk-badge tk-now">hari ini!</span>`;
+    if (d === 0) return `<span class="tk-badge tk-now">hari ini</span>`;
     if (d <= 7) return `<span class="tk-badge tk-soon">${d} hari lagi</span>`;
     return `<span class="tk-badge">${d} hari lagi</span>`;
   }
@@ -1869,7 +1868,7 @@
         <div class="hc-bar"><i style="transform:scaleX(${(done / total).toFixed(3)})"></i></div>
         <div class="hc-foot">
           <span>${done}/${total} sesi dipelajari (${pct}%)</span>
-          ${next ? `<span class="hc-next">⏭ ${fmtShort(next.date)} · ${SCHEDULE.slots[next.time] || next.time}</span>` : `<span class="hc-next">—</span>`}
+          ${next ? `<span class="hc-next">⏭ ${fmtShort(next.date)} · ${SCHEDULE.slots[next.time] || next.time}</span>` : `<span class="hc-next">–</span>`}
         </div>
       </a>`;
     }).join("");
@@ -1879,7 +1878,7 @@
       <section class="hero hero--home">
         <p class="eyebrow">${esc(SCHEDULE.program)}</p>
         <h1>MBA UGM <em>Study Hub</em></h1>
-        <p>Semua mata kuliah Semester 2 dalam satu tempat — materi, jadwal, tugas, dan catatan kelas.
+        <p>Semua mata kuliah Semester 2 dalam satu tempat: materi, jadwal, tugas, dan catatan kelas.
         Pilih mata kuliah untuk masuk ke dashboard-nya.</p>
         <div class="hero-meta">
           <span class="chip chip--gold">${esc(SCHEDULE.semester)}</span>
@@ -1995,20 +1994,20 @@
 
       <h3 class="case-h3">💬 Pertanyaan Diskusi</h3>
       <div class="card card-pad">
-        <p class="mq-hint">Kerjakan sebelum kelas. Jawabanmu tersimpan otomatis dan bisa langsung dipakai
+        <p class="mq-hint">Kerjakan sebelum kelas. Jawaban Anda tersimpan otomatis dan bisa langsung dipakai
         sebagai bahan 5 slide atau pertanyaan untuk kelompok penyaji.</p>
         ${cur.questions.map((q, i) => {
           const key = cur.id + "-" + i;
           return `<div class="mq-item">
             <p class="mq-q"><span class="mq-num">Q${i + 1}</span> ${esc(q)}</p>
             <textarea class="mq-answer" data-case="${key}" rows="3"
-              placeholder="Jawabanmu…">${esc(answers[key] || "")}</textarea>
+              placeholder="Jawaban Anda…">${esc(answers[key] || "")}</textarea>
           </div>`;
         }).join("")}
-        <div class="notes-status" id="caseStatus">Tersimpan otomatis saat kamu mengetik.</div>
+        <div class="notes-status" id="caseStatus">Tersimpan otomatis saat Anda mengetik.</div>
       </div>
 
-      <h3 class="case-h3">🧭 Panduan Analisis — Metode Empat Komponen Dosen</h3>
+      <h3 class="case-h3">🧭 Panduan Analisis: Metode Empat Komponen Dosen</h3>
       <div class="card card-pad">
         <div class="prep-concepts">
           <div class="prep-concept"><span class="mq-num">1</span><div><b>The Problem</b><span>${esc(g.problem)}</span></div></div>
@@ -2059,8 +2058,7 @@
       <p class="eyebrow">${esc(DATA.meta.short)} · ${esc(SCHEDULE.semester)}</p>
       <h1 class="view-title">Jadwal Kuliah</h1>
       <p class="view-sub">Diambil dari jadwal resmi SEMBA 51-A. Klik <b>+ Kalender</b> untuk memasukkan satu sesi ke
-        Google Calendar, atau impor sekali seluruh semester lewat file <code>.ics</code> yang dikirim terpisah —
-        file itu sudah berisi pengingat otomatis <b>H-1</b> dan <b>2 jam sebelum kelas</b>.</p>
+        Google Calendar, atau impor sekali seluruh semester lewat file <code>.ics</code> yang dikirim terpisah, file itu sudah berisi pengingat otomatis <b>H-1</b> dan <b>2 jam sebelum kelas</b>.</p>
       <div class="card card-pad">
         <div class="jd-legend">
           <span><i class="lg-dot" style="background:var(--gold-bright)"></i> Kuliah</span>
@@ -2079,8 +2077,7 @@
     <div class="view">
       <p class="eyebrow">${esc(DATA.meta.short)}</p>
       <h1 class="view-title">Tugas &amp; Tenggat</h1>
-      <p class="view-sub">Tugas bawaan diambil dari silabus. Tambahkan tugas sendiri saat dosen memberi PR —
-        yang tenggatnya dekat otomatis muncul di halaman depan dan di dashboard mata kuliah.</p>
+      <p class="view-sub">Tugas bawaan diambil dari silabus. Tambahkan tugas sendiri saat dosen memberi PR, yang tenggatnya dekat otomatis muncul di halaman depan dan di dashboard mata kuliah.</p>
 
       <div class="card card-pad" style="margin-bottom:1.25rem">
         <h3>Tambah tugas baru</h3>
@@ -2097,7 +2094,7 @@
           <button class="tk-check" data-task-toggle="${t.id}" aria-label="Tandai selesai">${t.done ? "✓" : ""}</button>
           <div class="tk-body">
             <b>${esc(t.title)}</b>
-            <small>Tenggat: ${t.due ? fmtShort(t.due) + " " + parseDate(t.due).getFullYear() : "—"}${t.note ? " · " + esc(t.note) : ""}</small>
+            <small>Tenggat: ${t.due ? fmtShort(t.due) + " " + parseDate(t.due).getFullYear() : "–"}${t.note ? " · " + esc(t.note) : ""}</small>
           </div>
           ${taskBadge(t)}
           ${SCHEDULE.defaultTasks.some((d) => d.id === t.id) ? "" : `<button class="btn btn--small btn--red-outline" data-task-del="${t.id}">Hapus</button>`}
@@ -2110,7 +2107,7 @@
     ["poin", "🎯 Poin utama yang ditekankan dosen", "Apa inti penjelasan hari ini? Tulis 3–5 poin dengan kalimat sendiri."],
     ["contoh", "🏢 Contoh / kasus yang disebut di kelas", "Perusahaan, kejadian, atau angka yang dipakai dosen sebagai ilustrasi."],
     ["istilah", "📖 Istilah & konsep baru", "Istilah yang baru Anda dengar beserta arti singkatnya."],
-    ["beda", "🔍 Yang berbeda dari slide/buku", "Penjelasan lisan dosen yang tidak ada di slide — biasanya ini yang keluar di ujian."],
+    ["beda", "🔍 Yang berbeda dari slide/buku", "Penjelasan lisan dosen yang tidak ada di slide. Biasanya ini yang keluar di ujian."],
     ["tugas", "📌 Tugas / arahan yang disebut", "PR, bacaan berikutnya, aturan presentasi, atau bocoran ujian."],
     ["tanya", "❓ Pertanyaan saya yang belum terjawab", "Untuk ditanyakan pertemuan depan atau dicari sendiri."]
   ];
@@ -2130,14 +2127,14 @@
     <div class="view">
       <p class="eyebrow">${esc(DATA.meta.short)} · Rekap Pembahasan Kelas</p>
       <h1 class="view-title">Catatan Kelas</h1>
-      <p class="view-sub">Tempat menyusun kembali <b>apa yang dibahas dosen di kelas</b> — terstruktur dalam enam bagian
+      <p class="view-sub">Tempat menyusun kembali <b>apa yang dibahas dosen di kelas</b>: terstruktur dalam enam bagian
         agar mudah dipelajari ulang menjelang ujian. Isi seusai kelas selagi ingatannya segar; tersimpan otomatis.
         Kalau Anda punya rekaman/transkrip, tempel poin-poinnya ke sini lalu rapikan.</p>
 
       ${sessionPicker(cur, sessions.filter((x) => filled(x.id)).map((x) => x.id), "#/" + CUR_ID + "/kelas")}
 
       <div class="materi-header">
-        <h2>Sesi ${s.id} — ${esc(s.topic)}</h2>
+        <h2>Sesi ${s.id}: ${esc(s.topic)}</h2>
         <div class="meta">
           <span class="tag">📅 ${esc(s.dateLabel)}</span>
           ${s.lecturerTopic ? `<span class="tag">👤 ${esc(s.lecturerTopic)}</span>` : ""}
@@ -2151,15 +2148,15 @@
             <textarea id="kl-${key}" data-kelas="${key}" data-kelas-session="${cur}" rows="4">${esc(n[key] || "")}</textarea>
           </div>`).join("")}
       </div>
-      <div class="notes-status" id="kelasStatus">Tersimpan otomatis saat kamu mengetik.</div>
+      <div class="notes-status" id="kelasStatus">Tersimpan otomatis saat Anda mengetik.</div>
 
       <div class="card card-pad" style="margin-top:1.25rem">
         <h3>💡 Cara memakai halaman ini</h3>
         <ol class="obj-list">
-          <li>Segera setelah kelas, isi kolom <b>Poin utama</b> — 3–5 kalimat, pakai bahasa sendiri (ini yang membuat ingatan bertahan).</li>
+          <li>Segera setelah kelas, isi kolom <b>Poin utama</b>: 3–5 kalimat, pakai bahasa sendiri (ini yang membuat ingatan bertahan).</li>
           <li>Isi <b>Yang berbeda dari slide</b>: penjelasan lisan dosen yang tidak tertulis. Bagian ini paling bernilai saat ujian.</li>
           <li>Catat <b>Tugas/arahan</b>, lalu segera pindahkan ke menu <b>Tugas</b> supaya muncul sebagai pengingat bertenggat.</li>
-          <li>Pertanyaan yang belum terjawab dibawa ke pertemuan berikutnya — sekaligus modal nilai partisipasi.</li>
+          <li>Pertanyaan yang belum terjawab dibawa ke pertemuan berikutnya, sekaligus modal nilai partisipasi.</li>
           <li>Kalau ada dokumen ringkasan panjang (mis. hasil transkrip rekaman), simpan di Drive dan tempel <b>intisarinya</b> di sini.</li>
         </ol>
         ${DATA.meta.driveFolder ? `<p style="margin-top:0.6rem"><a class="btn btn--small" href="${DATA.meta.driveFolder}" target="_blank" rel="noopener">📁 Buka folder ${esc(DATA.meta.short)} di Drive</a></p>` : ""}
@@ -2192,7 +2189,7 @@
       const title = document.getElementById("tkTitle").value.trim();
       const due = document.getElementById("tkDue").value;
       const note = document.getElementById("tkNote").value.trim();
-      if (!title || !due) { alert("Isi judul tugas dan tanggal tenggatnya dulu ya."); return; }
+      if (!title || !due) { alert("Isi judul tugas dan tanggal tenggatnya terlebih dahulu."); return; }
       const custom = store.get("!tasks", []);
       custom.push({ id: "u" + Date.now(), course: CUR_ID, title, due, note });
       store.set("!tasks", custom);
@@ -2353,13 +2350,13 @@
       const verdict = box.querySelector(".vv-verdict");
       if (score >= 70) {
         label.textContent = "rendah";
-        verdict.textContent = "≈ profil hotelF1: standar, efisien, murah — cocok bersaing lewat cost leadership.";
+        verdict.textContent = "≈ profil hotelF1: standar, efisien, murah. Cocok bersaing lewat cost leadership.";
       } else if (score <= 30) {
         label.textContent = "tinggi";
-        verdict.textContent = "≈ profil Ski Verbier Exclusive: bespoke & mahal — harus dijual dengan harga premium (differentiation).";
+        verdict.textContent = "≈ profil Ski Verbier Exclusive: bespoke & mahal, harus dijual dengan harga premium (differentiation).";
       } else {
         label.textContent = "sedang";
-        verdict.textContent = "Posisi campuran — pastikan strategi harga & layananmu konsisten dengan posisi ini.";
+        verdict.textContent = "Posisi campuran. Pastikan strategi harga dan layanan Anda konsisten dengan posisi ini.";
       }
     }
     if (e.target.matches(".mq-answer")) {
