@@ -13,6 +13,7 @@ from . import __version__
 from . import caption as modul_caption
 from . import config as konfigurasi
 from . import fonts as modul_font
+from . import produk as modul_produk
 from .ffmpeg import FFmpegGagal, FFmpegTidakDitemukan
 from .pipeline import Permintaan, proses
 from .probe import periksa
@@ -59,6 +60,23 @@ def _nama_keluaran(masukan: str, tujuan: str, varian: int, total_varian: int) ->
             return f"{akar}{akhiran}{ekst}"
         return tujuan
     return os.path.join(tujuan, f"{dasar}_edit{akhiran}.mp4")
+
+
+def _kumpulkan_produk(a: argparse.Namespace) -> List:
+    """Ubah semua opsi --sisip / --tempel / --endcard menjadi daftar Aset."""
+    hasil: List = []
+    for spec in a.sisip or []:
+        hasil.append(modul_produk.urai(spec, "sisip"))
+    for spec in a.tempel or []:
+        aset = modul_produk.urai(spec, "tempel")
+        aset.posisi = a.tempel_posisi
+        aset.lebar = a.tempel_lebar
+        hasil.append(aset)
+    if a.endcard:
+        hasil.append(modul_produk.urai(a.endcard, "endcard"))
+    for aset in hasil:
+        aset.periksa()
+    return hasil
 
 
 def _terapkan_opsi(pengaturan: Dict[str, Any], a: argparse.Namespace) -> Dict[str, Any]:
@@ -215,6 +233,8 @@ def buat_parser() -> argparse.ArgumentParser:
   python3 edit.py --semua --preset kuat
   python3 edit.py video.mp4 --varian 3
   python3 edit.py video.mp4 --auto-teks --handle "@akunku"
+  python3 edit.py video.mp4 --sisip "produk.jpg,5,2.5,Serum Vitamin C"
+  python3 edit.py video.mp4 --tempel "produk.jpg,3,4,Rp 89.000" --endcard "produk.jpg,3,Cek keranjang"
   python3 edit.py --info
 """,
     )
@@ -229,6 +249,18 @@ def buat_parser() -> argparse.ArgumentParser:
     t.add_argument("--auto-teks", action="store_true", help="buat subtitle otomatis dari suara video")
     t.add_argument("--bahasa", default="id", help="bahasa untuk subtitle otomatis (bawaan: id)")
     t.add_argument("--model", default="small", help="ukuran model subtitle: tiny/base/small/medium")
+
+    pr = p.add_argument_group("Sisipan produk")
+    pr.add_argument("--sisip", action="append", default=[], metavar="FOTO,MULAI,LAMA,LABEL",
+                    help="potong ke foto produk sepenuh layar, suara asli tetap jalan")
+    pr.add_argument("--tempel", action="append", default=[], metavar="FOTO,MULAI,LAMA,LABEL",
+                    help="tampilkan foto produk sebagai kartu kecil di sudut")
+    pr.add_argument("--endcard", default="", metavar="FOTO,LAMA,LABEL",
+                    help="foto produk sepenuh layar di akhir video")
+    pr.add_argument("--tempel-posisi", default="kanan-bawah",
+                    choices=sorted(modul_produk.POSISI), help="letak kartu produk")
+    pr.add_argument("--tempel-lebar", type=float, default=0.34,
+                    help="lebar kartu produk sebagai porsi lebar layar (bawaan 0.34)")
 
     g = p.add_argument_group("Gaya tampilan")
     g.add_argument("--font", default="", help="nama font, mis. Montserrat / Poppins / Anton")
@@ -282,6 +314,12 @@ def main(argv: List[str] | None = None) -> int:
     pengaturan = _terapkan_opsi(pengaturan, a)
     preset = a.preset or pengaturan["anti_duplikat"].get("preset", "seimbang")
 
+    try:
+        daftar_produk = _kumpulkan_produk(a)
+    except (ValueError, FileNotFoundError) as e:
+        print(f"{MERAH}{e}{RESET}")
+        return 2
+
     daftar_video = _kumpulkan(a.video, a.semua)
     if not daftar_video:
         print(f"{KUNING}Tidak ada video untuk diproses.{RESET}")
@@ -317,7 +355,7 @@ def main(argv: List[str] | None = None) -> int:
             permintaan = Permintaan(
                 masukan=berkas, keluaran=tujuan,
                 judul=a.judul, caption=a.caption, handle=a.handle,
-                subtitle=subtitle, preset=preset,
+                subtitle=subtitle, preset=preset, produk=daftar_produk,
                 seed=a.seed, varian=varian, pengaturan=pengaturan,
             )
             try:

@@ -14,6 +14,7 @@ from . import config as konfigurasi
 from . import fonts as modul_font
 from .ffmpeg import ffmpeg_bin, jalankan_dengan_progres, punya_filter
 from .probe import InfoVideo, periksa
+from . import produk as modul_produk
 from .textstyle import PembuatASS
 from .unique import Rencana, buat_rencana
 
@@ -29,6 +30,7 @@ class Permintaan:
     handle: str = ""
     subtitle: Sequence[Tuple[float, float, str]] = field(default_factory=list)
     subtitle_waktu_sumber: bool = True   # waktu subtitle mengikuti video asli
+    produk: Sequence["modul_produk.Aset"] = field(default_factory=list)
     preset: str = "seimbang"
     seed: Optional[int] = None
     varian: int = 0
@@ -99,6 +101,7 @@ def _rantai_video(
     video_cfg: Dict[str, Any],
     berkas_ass: Optional[str],
     folder_font: Optional[str],
+    rakitan: Optional["modul_produk.Rakitan"] = None,
 ) -> str:
     """Bangun filtergraph video: mulai dari label [0:v], berakhir di label [v]."""
     graf: List[str] = []
@@ -199,20 +202,31 @@ def _rantai_video(
         akhir.append(f"setpts=PTS/{rencana.kecepatan:.6f}")
     akhir.append(f"fps={rencana.fps:.5f}")
 
-    # ---- Tahap 7: teks ditempel PALING AKHIR ---------------------------
-    # supaya tulisan tidak ikut tercermin, terputar, atau terzoom.
+    graf.append(f"{arus}" + ",".join(akhir) + "[dasar]")
+    arus = "[dasar]"
+
+    # ---- Tahap 7: sisipan produk ---------------------------------------
+    # Ditempel setelah semua perubahan gambar, supaya foto produknya tetap
+    # tajam dan tidak ikut tercermin, terputar, atau kena butiran.
+    if rakitan is not None and rakitan.graf:
+        graf.extend(rakitan.graf)
+        arus = rakitan.arus
+
+    # ---- Tahap 8: teks ditempel PALING AKHIR ---------------------------
+    # supaya tulisan selalu berada di lapisan teratas dan tetap terbaca.
+    penutup: List[str] = []
     if berkas_ass:
         bagian = f"ass=filename={_jalur_filter(berkas_ass)}"
         if folder_font:
             bagian += f":fontsdir={_jalur_filter(folder_font)}"
-        akhir.append(bagian)
-
-    akhir.append("format=yuv420p")
-    graf.append(f"{arus}" + ",".join(akhir) + "[v]")
+        penutup.append(bagian)
+    penutup.append("format=yuv420p")
+    graf.append(f"{arus}" + ",".join(penutup) + "[v]")
     return ";".join(graf)
 
 
-def _rantai_audio(rencana: Rencana, audio_cfg: Dict[str, Any], label_masuk: str) -> str:
+def _rantai_audio(rencana: Rencana, audio_cfg: Dict[str, Any], label_masuk: str,
+                  panjangkan: float = 0.0) -> str:
     langkah: List[str] = ["aresample=48000"]
 
     if abs(rencana.kecepatan - 1.0) > 0.0005:
@@ -232,6 +246,10 @@ def _rantai_audio(rencana: Rencana, audio_cfg: Dict[str, Any], label_masuk: str)
         langkah.append("loudnorm=I=-14:TP=-1.5:LRA=11")
 
     langkah.append("aresample=48000:first_pts=0")
+    if panjangkan > 0:
+        # Keheningan sepanjang endcard. Sengaja dibatasi: apad tanpa batas
+        # membuat ffmpeg menahan paket audio tanpa henti sampai kehabisan buffer.
+        langkah.append(f"apad=pad_dur={panjangkan + 0.5:.3f}")
     return f"{label_masuk}" + ",".join(langkah) + "[a]"
 
 
@@ -263,20 +281,40 @@ def bangun_perintah(permintaan: Permintaan, kerja: str) -> Tuple[List[str], Renc
         durasi_potong = 0.0
     durasi_akhir = (durasi_potong / rencana.kecepatan) if durasi_diketahui else 0.0
 
+    # --- sisipan produk ---------------------------------------------------
+    # Dirakit lebih dulu karena endcard menambah durasi, dan labelnya ikut
+    # ditulis ke berkas teks yang sama supaya fontnya seragam.
+    tambah_senyap = (not info.ada_audio) and bool(audio_cfg.get("tambah_audio_senyap", True))
+    indeks_produk_awal = 2 if tambah_senyap else 1
+
+    daftar_produk = list(permintaan.produk or [])
+    if daftar_produk:
+        daftar_produk = modul_produk.geser_waktu(
+            daftar_produk, rencana.potong_awal, rencana.kecepatan, durasi_akhir
+        )
+    rakitan = modul_produk.rakit(
+        daftar_produk, "[dasar]", lebar, tinggi, rencana.fps,
+        indeks_produk_awal, durasi_akhir,
+    )
+    durasi_total = durasi_akhir + rakitan.tambahan_durasi
+
     # --- teks -------------------------------------------------------------
     font = modul_font.pilih(gaya_cfg.get("font", "Montserrat"), bool(gaya_cfg.get("font_tebal", True)))
     # Kalau durasi tidak diketahui, pakai batas longgar supaya teks tetap tampil.
-    durasi_teks = (durasi_akhir + 1.0) if durasi_diketahui else 36000.0
+    durasi_teks = (durasi_total + 1.0) if durasi_diketahui else 36000.0
     pembuat = PembuatASS(
         lebar=lebar, tinggi=tinggi,
         keluarga_font=font.keluarga, gaya=gaya_cfg, durasi=durasi_teks,
     )
+    # Teks utama berhenti sebelum endcard, supaya tidak menutupi foto produk.
+    batas_teks = (durasi_akhir if rakitan.tambahan_durasi > 0 and durasi_diketahui
+                  else durasi_teks)
     if permintaan.judul:
-        akhir = permintaan.judul_detik if permintaan.judul_detik > 0 else durasi_teks
-        pembuat.judul(permintaan.judul, 0.0, min(akhir, durasi_teks))
+        akhir = permintaan.judul_detik if permintaan.judul_detik > 0 else batas_teks
+        pembuat.judul(permintaan.judul, 0.0, min(akhir, batas_teks))
     if permintaan.caption:
-        akhir = permintaan.caption_detik if permintaan.caption_detik > 0 else durasi_teks
-        pembuat.caption(permintaan.caption, 0.0, min(akhir, durasi_teks))
+        akhir = permintaan.caption_detik if permintaan.caption_detik > 0 else batas_teks
+        pembuat.caption(permintaan.caption, 0.0, min(akhir, batas_teks))
     handle = permintaan.handle or gaya_cfg.get("handle", "")
     if handle:
         pembuat.handle(handle)
@@ -287,6 +325,8 @@ def bangun_perintah(permintaan: Permintaan, kerja: str) -> Tuple[List[str], Renc
                 potongan, rencana.potong_awal, rencana.kecepatan, durasi_teks
             )
         pembuat.subtitle(potongan)
+    if rakitan.label:
+        pembuat.label_produk(rakitan.label)
 
     berkas_ass = None
     folder_font = None
@@ -309,16 +349,22 @@ def bangun_perintah(permintaan: Permintaan, kerja: str) -> Tuple[List[str], Renc
         perintah += ["-t", f"{durasi_potong:.3f}"]
     perintah += ["-i", permintaan.masukan]
 
-    tambah_senyap = (not info.ada_audio) and bool(audio_cfg.get("tambah_audio_senyap", True))
     if tambah_senyap:
-        panjang_senyap = (durasi_akhir + 1) if durasi_diketahui else 36000.0
+        panjang_senyap = (durasi_total + 1) if durasi_diketahui else 36000.0
         perintah += ["-f", "lavfi", "-t", f"{panjang_senyap:.3f}", "-i", "anullsrc=r=48000:cl=stereo"]
 
-    graf_video = _rantai_video(info, rencana, lebar, tinggi, video_cfg, berkas_ass, folder_font)
+    perintah += rakitan.masukan
+
+    graf_video = _rantai_video(
+        info, rencana, lebar, tinggi, video_cfg, berkas_ass, folder_font, rakitan
+    )
     bagian = [graf_video]
     pakai_audio = info.ada_audio or tambah_senyap
+    # Endcard memperpanjang gambar; audionya diberi keheningan supaya tidak
+    # berhenti di tengah dan tidak memotong video.
+    pad_audio = rakitan.tambahan_durasi
     if info.ada_audio:
-        bagian.append(_rantai_audio(rencana, audio_cfg, "[0:a]"))
+        bagian.append(_rantai_audio(rencana, audio_cfg, "[0:a]", pad_audio))
     elif tambah_senyap:
         bagian.append("[1:a]aresample=48000[a]")
 
@@ -340,6 +386,10 @@ def bangun_perintah(permintaan: Permintaan, kerja: str) -> Tuple[List[str], Renc
         perintah += ["-c:a", "aac", "-b:a", str(audio_cfg.get("bitrate", "128k")), "-ar", "48000", "-ac", "2"]
     if tambah_senyap:
         perintah += ["-shortest"]
+    elif rakitan.tambahan_durasi > 0:
+        # Batasi panjang keluaran secara tegas supaya keheningan tambahan
+        # tidak membuat berkasnya lebih panjang dari gambarnya.
+        perintah += ["-t", f"{durasi_total:.3f}"]
 
     perintah += [
         "-map_metadata", "-1",

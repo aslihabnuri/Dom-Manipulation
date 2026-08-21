@@ -162,6 +162,14 @@ class PembuatASS:
             tag = f"{{\\an2\\pos({x},{y})}}"
         self._tambah("Handle", 0.0, self.durasi, tag, isi)
 
+    def label_produk(self, daftar: Sequence[Tuple[float, float, str, str, int, int, int]]) -> None:
+        """Label nama/harga produk. Posisi sudah dihitung oleh modul produk."""
+        for mulai, selesai, teks, gaya, x, y, an in daftar:
+            isi = bungkus(bersihkan(teks), int(self.gaya.get("maks_karakter_baris", 22)) + 4)
+            if not isi:
+                continue
+            self._tambah(gaya, float(mulai), float(selesai), f"{{\\an{an}\\pos({x},{y})}}", isi)
+
     def subtitle(self, potongan: Sequence[Tuple[float, float, str]]) -> None:
         x = self.lebar // 2
         y = int(round(float(self.gaya.get("posisi_subtitle", 0.74)) * self.tinggi))
@@ -195,6 +203,8 @@ class PembuatASS:
             self._blok_gaya("Judul", self._ukuran("ukuran_judul", 68), tebal),
             self._blok_gaya("Caption", self._ukuran("ukuran_caption", 52), tebal),
             self._blok_gaya("Sub", self._ukuran("ukuran_subtitle", 62), tebal),
+            self._blok_gaya("LabelBesar", self._ukuran("ukuran_label_produk", 56), tebal),
+            self._blok_gaya("LabelKecil", self._ukuran("ukuran_label_kecil", 34), tebal),
             self._blok_gaya(
                 "Handle",
                 self._ukuran("ukuran_handle", 32),

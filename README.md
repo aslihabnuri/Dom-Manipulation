@@ -94,7 +94,7 @@ pencocokan konten — sekaligus terlihat rapi.
 - Penyeragaman tingkat kekerasan suara
 - Pengodean ulang dengan frame rate, kualitas, dan jarak keyframe yang berbeda
 - Penghapusan seluruh metadata bawaan video sumber
-- Opsional: balik gambar kiri-kanan dan bingkai latar blur
+- Opsional: balik gambar kiri-kanan, bingkai latar blur, dan sisipan produk
 
 Angka-angkanya diacak per video, tapi tetap bisa diulang: video yang sama
 dengan varian yang sama selalu menghasilkan angka yang sama.
@@ -156,7 +156,55 @@ Itu yang paling banyak menaikkan skor, karena komposisi gambarnya ikut berubah.
 
 ---
 
-## 6. Subtitle otomatis (opsional)
+## 6. Menyisipkan produk
+
+Untuk mengganti produk di dalam video tanpa rekam ulang. Ada tiga cara,
+dan semua labelnya memakai font yang sama dengan teks lain.
+
+| Cara | Yang terjadi | Paling cocok untuk |
+|------|--------------|--------------------|
+| **sisip** | Gambar dipotong ke foto produk sepenuh layar, suara aslinya tetap jalan | Produk yang dipegang tangan dan bergerak |
+| **tempel** | Foto produk muncul sebagai kartu kecil di sudut, gambar asli tetap terlihat | Menyebut produk sambil tetap terlihat wajahnya |
+| **endcard** | Foto produk sepenuh layar di akhir, video jadi lebih panjang | Ajakan beli di penutup |
+
+```bash
+# potong ke foto produk di detik ke-5 selama 2,5 detik
+python3 edit.py video.mp4 --sisip "produk.jpg,5,2.5,Serum Vitamin C"
+
+# kartu kecil di sudut kiri bawah
+python3 edit.py video.mp4 --tempel "produk.jpg,3,4,Rp 89.000" --tempel-posisi kiri-bawah
+
+# ajakan beli di akhir video selama 3 detik
+python3 edit.py video.mp4 --endcard "produk.jpg,3,Cek keranjang kuning"
+
+# ketiganya sekaligus
+python3 edit.py video.mp4 \
+  --sisip "produk.jpg,5,2.5,Serum Vitamin C" \
+  --tempel "produk.jpg,9,3,Rp 89.000" \
+  --endcard "produk.jpg,3,Cek keranjang kuning"
+```
+
+Urutan isian: `foto, mulai, lama, label` — kecuali endcard yang cukup
+`foto, lama, label` karena selalu di akhir.
+
+Waktu `mulai` dihitung dari **video aslinya**, bukan hasil editnya. Jadi
+tinggal lihat videonya, catat detik ke berapa produknya disebut, dan tulis
+angka itu. Penyesuaiannya diurus otomatis walaupun videonya dipotong dan
+diubah kecepatannya.
+
+Di halaman browser, semua ini ada di bagian **3. Sisipan produk** — tinggal
+tarik foto produknya dan isi detiknya.
+
+### Kenapa produknya tidak diganti langsung di dalam gambar?
+
+Mengganti barang yang dipegang tangan dan ikut bergerak butuh rotoscoping per
+frame: bentuk, sudut, bayangan, dan pantulan cahayanya berubah terus. Yang
+otomatis hasilnya terlihat menempel dan bergoyang. Cutaway justru lebih rapi,
+lebih cepat, dan produknya bisa diganti kapan saja tanpa menyentuh rekaman asli.
+
+---
+
+## 7. Subtitle otomatis (opsional)
 
 ```bash
 pip install faster-whisper
@@ -169,7 +217,7 @@ sama seperti teks lainnya. Model diunduh otomatis saat pertama kali dipakai
 
 ---
 
-## 7. Isi folder
+## 8. Isi folder
 
 ```
 edit.py           <- jalankan lewat baris perintah
@@ -184,7 +232,7 @@ vidclean/         <- mesin di baliknya
 
 ---
 
-## 8. Kalau ada masalah
+## 9. Kalau ada masalah
 
 | Masalah | Penyebab & solusi |
 |---------|-------------------|
@@ -192,13 +240,14 @@ vidclean/         <- mesin di baliknya
 | Teks kepotong di tepi | Perpendek teksnya, atau kecilkan `maks_karakter_baris` di `config.json` |
 | Teks terlalu kecil/besar | Ubah `ukuran_judul` di `config.json` |
 | Skor rendah terus | Preset `kuat` + Bingkai 90% + nyalakan cermin |
+| Foto produk kepotong | Foto dipotong agar menutup layar penuh. Pakai foto tegak (9:16) atau mode `tempel` |
 | Prosesnya lama | Wajar: video 1 menit butuh sekitar 1-3 menit. Ubah `preset_encode` jadi `"veryfast"` di `config.json` untuk mempercepat |
 | Suara hilang | Video sumber memang tidak punya audio — otomatis diberi audio senyap |
 | Halaman browser tidak terbuka | Buka manual `http://127.0.0.1:7860` |
 
 ---
 
-## 9. Yang perlu diketahui
+## 10. Yang perlu diketahui
 
 Aplikasi ini mengubah **jejak teknis** video: piksel, durasi, warna, audio, dan
 metadata. Itu memang yang dipakai sistem pencocokan konten untuk mengenali video

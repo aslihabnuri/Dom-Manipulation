@@ -22,6 +22,7 @@ from urllib.parse import parse_qs, urlparse
 from . import caption as modul_caption
 from . import config as konfigurasi
 from . import fonts as modul_font
+from . import produk as modul_produk
 from .pipeline import Permintaan, proses
 from .similarity import bandingkan
 
@@ -157,7 +158,46 @@ def _perbarui(id_kerja: str, **nilai) -> None:
             _pekerjaan[id_kerja].update(nilai)
 
 
-def _kerjakan(id_kerja: str, sumber: str, nama_asli: str, opsi: Dict[str, str]) -> None:
+def _susun_produk(foto: Optional[str], opsi: Dict[str, str]) -> List:
+    """Bangun daftar Aset produk dari isian formulir."""
+    if not foto:
+        return []
+
+    def angka(kunci: str, bawaan: float) -> float:
+        try:
+            return float(opsi.get(kunci) or bawaan)
+        except (TypeError, ValueError):
+            return bawaan
+
+    hasil: List = []
+    mode = opsi.get("produk_mode") or "sisip"
+    if mode in ("sisip", "tempel"):
+        aset = modul_produk.Aset(
+            berkas=foto,
+            mulai=max(0.0, angka("produk_mulai", 3.0)),
+            lama=max(0.5, angka("produk_lama", 2.5)),
+            mode=mode,
+            label=(opsi.get("produk_label") or "").strip(),
+        )
+        if mode == "tempel":
+            aset.posisi = opsi.get("produk_posisi") or "kanan-bawah"
+            aset.lebar = angka("produk_lebar", 0.34)
+        hasil.append(aset)
+
+    if opsi.get("produk_endcard") == "on":
+        hasil.append(modul_produk.Aset(
+            berkas=foto,
+            lama=max(1.0, angka("produk_endcard_lama", 3.0)),
+            mode="endcard",
+            label=(opsi.get("produk_endcard_label") or "").strip(),
+        ))
+    for aset in hasil:
+        aset.periksa()
+    return hasil
+
+
+def _kerjakan(id_kerja: str, sumber: str, nama_asli: str, opsi: Dict[str, str],
+              foto_produk: Optional[str] = None) -> None:
     try:
         pengaturan = konfigurasi.muat()
         gaya, video, anti = pengaturan["gaya"], pengaturan["video"], pengaturan["anti_duplikat"]
@@ -180,6 +220,12 @@ def _kerjakan(id_kerja: str, sumber: str, nama_asli: str, opsi: Dict[str, str]) 
 
         preset = opsi.get("preset") or "seimbang"
         varian_total = max(1, min(5, int(opsi.get("varian") or 1)))
+
+        try:
+            daftar_produk = _susun_produk(foto_produk, opsi)
+        except Exception as e:  # noqa: BLE001
+            daftar_produk = []
+            _perbarui(id_kerja, pesan=f"Sisipan produk dilewati: {e}")
 
         subtitle: List = []
         if opsi.get("auto_teks") == "on":
@@ -216,6 +262,7 @@ def _kerjakan(id_kerja: str, sumber: str, nama_asli: str, opsi: Dict[str, str]) 
                     masukan=sumber, keluaran=tujuan,
                     judul=opsi.get("judul", ""), caption=opsi.get("caption", ""),
                     handle=opsi.get("handle", ""), subtitle=subtitle,
+                    produk=daftar_produk,
                     preset=preset, varian=varian, pengaturan=pengaturan,
                 ),
                 kabar=kabar,
@@ -251,10 +298,13 @@ def _kerjakan(id_kerja: str, sumber: str, nama_asli: str, opsi: Dict[str, str]) 
             rincian=traceback.format_exc() if os.environ.get("VIDCLEAN_DEBUG") else "",
         )
     finally:
-        try:
-            os.remove(sumber)
-        except OSError:
-            pass
+        for berkas in (sumber, foto_produk):
+            if not berkas:
+                continue
+            try:
+                os.remove(berkas)
+            except OSError:
+                pass
 
 
 # ---------------------------------------------------------------------------
@@ -319,6 +369,7 @@ class Penangan(BaseHTTPRequestHandler):
                 "font": modul_font.keluarga_tersedia(),
                 "preset": [{"nama": n, "label": konfigurasi.PRESET[n]["label"]}
                            for n in konfigurasi.NAMA_PRESET],
+                "posisi_produk": sorted(modul_produk.POSISI),
                 "auto_teks": modul_caption.tersedia(),
                 "bawaan": konfigurasi.muat(),
             })
@@ -370,11 +421,16 @@ class Penangan(BaseHTTPRequestHandler):
             self._json(400, {"galat": f"Gagal membaca unggahan: {e}"})
             return
 
-        if not berkas:
+        video_terunggah = [b for b in berkas if b[0] == "video"]
+        foto_terunggah = [b for b in berkas if b[0] == "produk"]
+        if not video_terunggah:
+            video_terunggah = [b for b in berkas if b[0] != "produk"]
+        if not video_terunggah:
             self._json(400, {"galat": "Videonya belum dipilih"})
             return
 
-        _, nama_asli, sumber = berkas[0]
+        _, nama_asli, sumber = video_terunggah[0]
+        foto_produk = foto_terunggah[0][2] if foto_terunggah else None
         id_kerja = uuid.uuid4().hex
         with _kunci:
             _pekerjaan[id_kerja] = {
@@ -383,7 +439,11 @@ class Penangan(BaseHTTPRequestHandler):
                 "nama_asli": html.escape(nama_asli), "hasil": [],
                 "mulai": time.time(),
             }
-        threading.Thread(target=_kerjakan, args=(id_kerja, sumber, nama_asli, kolom), daemon=True).start()
+        threading.Thread(
+            target=_kerjakan,
+            args=(id_kerja, sumber, nama_asli, kolom, foto_produk),
+            daemon=True,
+        ).start()
         self._json(200, {"id": id_kerja})
 
 

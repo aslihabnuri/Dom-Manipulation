@@ -28,6 +28,11 @@
     cursor:pointer;transition:.15s;background:var(--panel-2)}
   #drop:hover,#drop.aktif{border-color:var(--aksen);background:#22182052}
   #drop .ikon{font-size:34px;line-height:1}
+  .drop-kecil{border:2px dashed var(--garis);border-radius:12px;padding:20px;text-align:center;
+    cursor:pointer;transition:.15s;background:var(--panel-2);font-size:14px}
+  .drop-kecil:hover,.drop-kecil.aktif{border-color:var(--aksen-2)}
+  .drop-kecil span{display:block;color:var(--redup);font-size:12.5px;margin-top:3px}
+  #namaProduk{margin-top:8px;font-size:13px;color:var(--aksen-2);word-break:break-all}
   #drop b{display:block;margin-top:10px;font-size:15px}
   #drop span{color:var(--redup);font-size:13px}
   #namaBerkas{margin-top:12px;font-size:14px;color:var(--aksen-2);word-break:break-all}
@@ -124,8 +129,65 @@
       <div id="catatanSub" class="meta"></div>
     </div>
 
+
     <div class="kartu">
-      <h2>3. Tingkat perubahan</h2>
+      <h2>3. Sisipan produk <span style="color:var(--redup);font-weight:400">(opsional)</span></h2>
+      <p class="ket">Foto produk disisipkan ke dalam video. Cara ini dipakai kalau produk di
+        videonya mau diganti tanpa rekam ulang.</p>
+
+      <div id="dropProduk" class="drop-kecil">
+        <b>Klik atau tarik foto produk ke sini</b>
+        <span>JPG atau PNG</span>
+        <div id="namaProduk"></div>
+      </div>
+      <input type="file" id="produk" name="produk" accept="image/*" hidden>
+
+      <div id="opsiProduk" style="display:none;margin-top:16px">
+        <div class="baris">
+          <div class="kolom">
+            <label for="produk_mode">Cara menampilkan</label>
+            <select id="produk_mode" name="produk_mode">
+              <option value="sisip">Potong ke foto produk (sepenuh layar)</option>
+              <option value="tempel">Kartu kecil di sudut layar</option>
+              <option value="tidak">Hanya dipakai untuk endcard</option>
+            </select>
+          </div>
+          <div class="kolom">
+            <label for="produk_label">Tulisan pendamping</label>
+            <input type="text" id="produk_label" name="produk_label" placeholder="mis. Serum Vitamin C - Rp 89.000">
+          </div>
+        </div>
+        <div class="baris">
+          <div class="kolom">
+            <label for="produk_mulai">Muncul di detik ke berapa</label>
+            <input type="number" id="produk_mulai" name="produk_mulai" value="3" min="0" step="0.5">
+          </div>
+          <div class="kolom">
+            <label for="produk_lama">Tampil berapa detik</label>
+            <input type="number" id="produk_lama" name="produk_lama" value="2.5" min="0.5" step="0.5">
+          </div>
+        </div>
+        <div class="meta" id="ketProdukMode"></div>
+
+        <div class="cek">
+          <input type="checkbox" id="produk_endcard" name="produk_endcard">
+          <label for="produk_endcard" style="margin:0;color:var(--teks)">Tampilkan juga sepenuh layar di akhir video</label>
+        </div>
+        <div class="baris" id="opsiEndcard" style="display:none">
+          <div class="kolom">
+            <label for="produk_endcard_lama">Lama endcard (detik)</label>
+            <input type="number" id="produk_endcard_lama" name="produk_endcard_lama" value="3" min="1" step="0.5">
+          </div>
+          <div class="kolom">
+            <label for="produk_endcard_label">Ajakan di endcard</label>
+            <input type="text" id="produk_endcard_label" name="produk_endcard_label" placeholder="mis. Cek keranjang kuning">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="kartu">
+      <h2>4. Tingkat perubahan</h2>
       <p class="ket">Makin kuat, makin beda dari video asli &mdash; tapi makin terasa perubahannya.</p>
       <div class="baris">
         <div class="kolom">
@@ -267,6 +329,41 @@ function perbaruiNama(){
   $('#tombol').disabled = false;
 }
 
+// ---- foto produk ----
+const dropProduk = $('#dropProduk'), produk = $('#produk');
+dropProduk.addEventListener('click', () => produk.click());
+['dragenter','dragover'].forEach(e => dropProduk.addEventListener(e, ev => {
+  ev.preventDefault(); dropProduk.classList.add('aktif');
+}));
+['dragleave','drop'].forEach(e => dropProduk.addEventListener(e, ev => {
+  ev.preventDefault(); dropProduk.classList.remove('aktif');
+}));
+dropProduk.addEventListener('drop', ev => {
+  if (ev.dataTransfer.files.length) { produk.files = ev.dataTransfer.files; namaProdukBaru(); }
+});
+produk.addEventListener('change', namaProdukBaru);
+function namaProdukBaru(){
+  const f = produk.files[0];
+  $('#opsiProduk').style.display = f ? 'block' : 'none';
+  $('#namaProduk').textContent = f ? f.name : '';
+  ketProdukMode();
+}
+function ketProdukMode(){
+  const m = $('#produk_mode').value;
+  const teks = {
+    sisip: 'Gambar dipotong ke foto produk, suara aslinya tetap jalan. Paling rapi untuk produk yang dipegang tangan.',
+    tempel: 'Foto produk muncul sebagai kartu kecil, gambar aslinya tetap terlihat.',
+    tidak: 'Foto hanya dipakai di endcard, tidak muncul di tengah video.'
+  };
+  $('#ketProdukMode').textContent = teks[m] || '';
+  const sembunyi = (m === 'tidak');
+  $('#produk_mulai').closest('.baris').style.display = sembunyi ? 'none' : 'grid';
+}
+$('#produk_mode').addEventListener('change', ketProdukMode);
+$('#produk_endcard').addEventListener('change', () => {
+  $('#opsiEndcard').style.display = $('#produk_endcard').checked ? 'grid' : 'none';
+});
+
 // ---- kirim ----
 $('#form').addEventListener('submit', async (ev) => {
   ev.preventDefault();
@@ -277,6 +374,12 @@ $('#form').addEventListener('submit', async (ev) => {
   ['judul','caption','handle','preset','varian','font','ukuran_judul','rasio','bingkai','cermin']
     .forEach(k => data.append(k, $('#'+k).value));
   data.append('warna', $('#warna').value);
+  if (produk.files[0]) {
+    data.append('produk', produk.files[0]);
+    ['produk_mode','produk_mulai','produk_lama','produk_label',
+     'produk_endcard_lama','produk_endcard_label'].forEach(k => data.append(k, $('#'+k).value));
+    if ($('#produk_endcard').checked) data.append('produk_endcard','on');
+  }
   if ($('#auto_teks').checked) data.append('auto_teks','on');
   if ($('#kotak').checked) data.append('kotak','on');
 
