@@ -69,6 +69,27 @@ Hasil tersimpan di folder `output/`.
 
 ---
 
+## 2b. Racik: menjahit ulang beberapa video jadi editan baru
+
+Kalau satu video tetap kena flag "Unoriginal content", artinya sistemnya
+mengenali ADEGANNYA - dan itu tidak bisa dilawan dengan filter. Jawabannya
+adalah membuat urutan adegan yang memang belum pernah ada:
+
+```bash
+python3 racik.py video1.mp4 video2.mp4 video3.mp4 --judul "Tas viral itu"
+python3 racik.py folder_video/ --durasi 25 --potong-atas 0.08 --varian 3
+```
+
+Yang terjadi:
+1. tiap video dipecah menjadi shot (deteksi pergantian adegan)
+2. shot dipilih bergantian antar sumber, 1,6-3,4 detik per shot,
+   dan pembukanya diambil dari TENGAH video - bukan detik-detik pertama
+   yang paling mudah dikenali
+3. dijahit jadi satu video master, lalu diproses mesin anti duplikat v2
+
+`--varian 3` menghasilkan tiga racikan dengan urutan berbeda dari bahan
+yang sama.
+
 ## 3. Tiga tingkat perubahan (preset)
 
 | Preset       | Yang dilakukan                                                                 | Cocok untuk |
