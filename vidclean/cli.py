@@ -107,6 +107,10 @@ def _terapkan_opsi(pengaturan: Dict[str, Any], a: argparse.Namespace) -> Dict[st
         anti["potong_tepi"] = a.potong_tepi
     if a.tanpa_dinamis:
         anti["dinamis"] = False
+    if a.potong_atas is not None:
+        video["potong_atas"] = a.potong_atas
+    if a.tanpa_potongan_zoom:
+        anti["potongan_zoom"] = False
     return pengaturan
 
 
@@ -287,6 +291,10 @@ def buat_parser() -> argparse.ArgumentParser:
                    help="cold-open: ulangi cuplikan menarik di detik pertama, mis. 12.5,1.8")
     a.add_argument("--tanpa-dinamis", action="store_true",
                    help="matikan gerak dinamis & kecepatan berlapis (cara lama)")
+    a.add_argument("--potong-atas", type=float, default=None, metavar="PORSI",
+                   help="buang bagian atas layar, mis. 0.09 untuk menghapus watermark/logo")
+    a.add_argument("--tanpa-potongan-zoom", action="store_true",
+                   help="matikan jump-cut zoom antar babak")
     a.add_argument("--seed", type=int, help="angka acak tetap (hasil bisa diulang persis)")
 
     l = p.add_argument_group("Lain-lain")

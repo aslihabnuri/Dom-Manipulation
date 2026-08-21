@@ -48,6 +48,8 @@ BAWAAN: Dict[str, Any] = {
         "kualitas": 21,           # CRF dasar: makin kecil makin bagus (18-26)
         "latar_blur": True,       # isi ruang kosong dengan latar blur, bukan bar hitam
         "bingkai_latar": "",      # "" = ikuti preset. "blur" | "gelap" (gradasi netral)
+        "potong_atas": 0.0,       # porsi atas layar yang dibuang, mis. 0.09 untuk
+                                  # menghapus watermark/logo yang menempel di atas
         "bingkai": 0,             # 0 = mati. Isi 0.90-0.95 untuk mengecilkan gambar
                                   # di atas latar blur (paling ampuh lawan deteksi duplikat)
         "preset_encode": "medium",
@@ -62,6 +64,7 @@ BAWAAN: Dict[str, Any] = {
         "cermin": None,           # None = ikuti preset, True/False = paksa
         "potong_tepi": None,      # None = ikuti preset (persen tepi yang dibuang)
         "dinamis": True,          # gerak dinamis + kecepatan berlapis (rekomendasi: True)
+        "potongan_zoom": True,    # jump-cut zoom antar babak - terbaca sebagai editan kreatif
         "target_skor": 80,        # edit ulang otomatis sampai skor tercapai (0 = sekali saja)
     },
 }
@@ -95,6 +98,7 @@ PRESET: Dict[str, Dict[str, Any]] = {
         "drift_geser": (0.001, 0.002),
         "kurva": (0.006, 0.014),
         "eq_jalur": 1,
+        "punch": (0.0, 0.0),
     },
     "seimbang": {
         "label": "Seimbang - rekomendasi harian, aman dilihat tapi cukup beda secara teknis",
@@ -121,6 +125,7 @@ PRESET: Dict[str, Dict[str, Any]] = {
         "drift_geser": (0.002, 0.004),
         "kurva": (0.010, 0.022),
         "eq_jalur": 2,
+        "punch": (1.06, 1.10),
     },
     "kuat": {
         "label": "Kuat - perubahan paling agresif (termasuk cermin), untuk video yang sering kena flag",
@@ -147,6 +152,7 @@ PRESET: Dict[str, Dict[str, Any]] = {
         "drift_geser": (0.003, 0.006),
         "kurva": (0.014, 0.028),
         "eq_jalur": 2,
+        "punch": (1.08, 1.13),
     },
     "maksimal": {
         "label": "Maksimal - semua teknik dinamis + bingkai blur, tanpa membalik gambar (teks tetap terbaca)",
@@ -173,8 +179,7 @@ PRESET: Dict[str, Dict[str, Any]] = {
         "drift_geser": (0.003, 0.006),
         "kurva": (0.016, 0.032),
         "eq_jalur": 3,
-        "bingkai_bawaan": 0.90,
-        "bingkai_latar": "gelap",
+        "punch": (1.09, 1.14),
     },
 }
 

@@ -106,6 +106,13 @@ perubahan yang BERGERAK:
 - **Cold-open manual** — `--hook 12.5,1.8` mengulang cuplikan detik 12,5
   sepanjang 1,8 detik di pembuka. Gaya edit yang lazim di TikTok sekaligus
   perubahan struktural yang paling kuat.
+- **Potongan zoom (jump-cut)** — babak selang-seling ditampilkan lebih dekat
+  (+6–14%), jadi tiap pergantian babak framingnya berganti seperti editan
+  potong-sambung manual. Ini yang membuat video terbaca sebagai "editan
+  kreatif baru", bukan unggahan ulang. Matikan dengan `--tanpa-potongan-zoom`.
+- **Buang watermark** — `--potong-atas 0.09` membuang 9% bagian atas layar.
+  Penting: pesan "Unoriginal content" TikTok secara eksplisit menyebut video
+  bisa dianggap tidak orisinal *kalau ada watermark atau logo di atasnya*.
 
 Matikan semua ini dengan `--tanpa-dinamis` (kembali ke perilaku lama) atau
 `--target-skor 0` (tanpa edit ulang otomatis).

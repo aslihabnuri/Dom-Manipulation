@@ -32,6 +32,7 @@
     "kualitas": 21,
     "latar_blur": true,
     "bingkai_latar": "",
+    "potong_atas": 0.0,
     "bingkai": 0,
     "preset_encode": "medium"
   },
@@ -45,6 +46,7 @@
     "cermin": null,
     "potong_tepi": null,
     "dinamis": true,
+    "potongan_zoom": true,
     "target_skor": 80
   }
 }

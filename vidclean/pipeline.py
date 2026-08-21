@@ -196,6 +196,14 @@ def _rantai_video(
     # ---- Tahap 1: perlakuan pada gambar sumber -------------------------
     awal: List[str] = []
 
+    # Buang area atas (watermark/logo yang menempel) - sebelum apa pun.
+    pa = float(video_cfg.get("potong_atas", 0) or 0)
+    pa = max(0.0, min(0.25, pa))
+    if pa > 0.005:
+        awal.append(
+            f"crop=iw:floor(ih*{1 - pa:.5f}/2)*2:0:floor(ih*{pa:.5f})"
+        )
+
     p = rencana.potong_tepi
     if p > 0:
         sisa = 1 - 2 * p
@@ -300,6 +308,29 @@ def _rantai_video(
             graf.append(f"[bkbg2][bkfg2]overlay=(W-w)/2:(H-h)/2:format=auto[bk]")
         arus = "[bk]"
 
+    # ---- Tahap 4b: potongan zoom (jump-cut) ----------------------------
+    # Babak terpilih ditampilkan lebih dekat; tiap pergantian babak framing
+    # berganti - pola editan potong-sambung yang lazim dibuat manual.
+    if rencana.punch_kuat > 1.01 and rencana.punch_babak and rencana.segmen:
+        akumulasi = 0.0
+        batas_babak: List[Tuple[float, float]] = []
+        for t0, t1, v in rencana.segmen:
+            panjang = (t1 - t0) / v
+            batas_babak.append((akumulasi, akumulasi + panjang))
+            akumulasi += panjang
+        rentang_punch = [batas_babak[i] for i in rencana.punch_babak if i < len(batas_babak)]
+        if rentang_punch:
+            aktif = "+".join(f"between(t,{a:.3f},{b:.3f})" for a, b in rentang_punch)
+            pw, ph = _genap(lebar * rencana.punch_kuat), _genap(tinggi * rencana.punch_kuat)
+            graf.append(f"{arus}split=2[pn0][pn1]")
+            graf.append(
+                f"[pn1]scale={pw}:{ph}:flags=lanczos,crop={lebar}:{tinggi}[pn2]"
+            )
+            graf.append(
+                f"[pn0][pn2]overlay=0:0:format=auto:enable='{aktif}'[punch]"
+            )
+            arus = "[punch]"
+
     # ---- Tahap 5: warna, kurva, ketajaman, butiran ---------------------
     akhir: List[str] = []
     akhir.append(
@@ -395,6 +426,10 @@ def bangun_perintah(permintaan: Permintaan, kerja: str) -> Tuple[List[str], Renc
 
     info = periksa(permintaan.masukan)
     preset = konfigurasi.ambil_preset(permintaan.preset)
+    if permintaan.hook_lama > 0:
+        # Cold-open sudah mengacak bagian awal; jangan sampai potongan awal
+        # justru memakan cuplikan pembukanya.
+        preset["potong_awal"] = (0.0, 0.0)
     rencana = buat_rencana(
         info, preset, pengaturan,
         seed=permintaan.seed, varian=permintaan.varian, nama_preset=permintaan.preset,
@@ -602,7 +637,23 @@ def proses(permintaan: Permintaan, kabar: Callable[[int], None] | None = None) -
             sumber_baru = _pra_hook(
                 permintaan.masukan, permintaan.hook_mulai, permintaan.hook_lama, kerja
             )
-            permintaan = dataclasses.replace(permintaan, masukan=sumber_baru)
+            # Seluruh isi asli kini mundur sejauh hook_lama; waktu subtitle dan
+            # sisipan produk (yang ditulis pada lini masa asli) ikut digeser.
+            geser = permintaan.hook_lama
+            subtitle_baru = permintaan.subtitle
+            if permintaan.subtitle_waktu_sumber and permintaan.subtitle:
+                subtitle_baru = [(m + geser, t + geser, teks)
+                                 for m, t, teks in permintaan.subtitle]
+            produk_baru = []
+            for aset in (permintaan.produk or []):
+                salinan = modul_produk.Aset(**{**aset.__dict__})
+                if salinan.mode != "endcard":
+                    salinan.mulai += geser
+                produk_baru.append(salinan)
+            permintaan = dataclasses.replace(
+                permintaan, masukan=sumber_baru,
+                subtitle=subtitle_baru, produk=produk_baru,
+            )
 
         perintah, rencana, asal, berkas_ass, label_font = bangun_perintah(permintaan, kerja)
         asal = asal_asli
@@ -655,7 +706,7 @@ def proses_hingga_target(
     upaya = [
         {},
         {"preset": "maksimal", "varian_tambah": 101},
-        {"preset": "maksimal", "varian_tambah": 202, "bingkai": 0.88, "hook": True},
+        {"preset": "maksimal", "varian_tambah": 202, "hook": True, "potong_tepi": 0.045},
     ]
 
     # Cold-open menggeser seluruh lini masa - hanya dipakai kalau videonya
@@ -675,6 +726,8 @@ def proses_hingga_target(
             pengaturan_u = copy.deepcopy(pengaturan)
             if "bingkai" in u:
                 pengaturan_u.setdefault("video", {})["bingkai"] = u["bingkai"]
+            if "potong_tepi" in u:
+                pengaturan_u.setdefault("anti_duplikat", {})["potong_tepi"] = u["potong_tepi"]
 
             path_u = f"{permintaan.keluaran}.coba{nomor}.mp4"
             sementara.append(path_u)

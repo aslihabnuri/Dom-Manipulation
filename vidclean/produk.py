@@ -130,12 +130,18 @@ def rakit(
     indeks = indeks_awal
     nomor = 0
 
+    # Posisi mulai tiap endcard dihitung lewat akumulasi eksplisit - .index()
+    # akan salah kalau ada dua endcard yang isinya identik.
+    awal_endcard: Dict[int, float] = {}
+    akumulasi_ec = durasi_video
+    for e in endcard:
+        awal_endcard[id(e)] = akumulasi_ec
+        akumulasi_ec += e.lama
+
     for aset in list(tempelan) + list(endcard):
         aset.periksa()
         if aset.mode == "endcard":
-            mulai = durasi_video + sum(
-                e.lama for e in endcard[: endcard.index(aset)]
-            )
+            mulai = awal_endcard[id(aset)]
         else:
             mulai = max(0.0, aset.mulai)
         selesai = mulai + aset.lama

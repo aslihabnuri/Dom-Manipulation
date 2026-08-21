@@ -65,6 +65,8 @@ class Rencana:
     kurva_b: float = 0.0
     eq_jalur: List[Tuple[int, float]] = field(default_factory=list)
     #      ^ (frekuensi Hz, penguatan dB) - pita EQ audio acak
+    punch_kuat: float = 0.0          # kekuatan zoom jump-cut (0 = mati)
+    punch_babak: List[int] = field(default_factory=list)   # babak mana yang di-zoom
 
     def as_dict(self) -> Dict[str, Any]:
         return asdict(self)
@@ -82,6 +84,11 @@ class Rencana:
             f"Zoom {(self.zoom - 1) * 100:+.1f}% dan bingkai digeser "
             f"{self.geser_x * 100:+.1f}% / {self.geser_y * 100:+.1f}%"
         )
+        if self.punch_kuat > 1.01 and self.punch_babak:
+            b.append(
+                f"Potongan zoom (jump-cut) di {len(self.punch_babak)} babak "
+                f"(+{(self.punch_kuat - 1) * 100:.0f}%) - framing berganti seperti editan manual"
+            )
         if self.dinamis and (self.drift_putar_amp > 0 or self.drift_x_amp > 0):
             b.append(
                 "Gerak dinamis: bingkai berayun sangat pelan "
@@ -250,6 +257,20 @@ def buat_rencana(
     if dinamis:
         zoom = max(zoom, 1.04)   # ruang gerak untuk ayunan bingkai
 
+    # Jump-cut zoom: babak selang-seling (mulai dari babak acak) di-zoom lebih
+    # dekat, sehingga tiap perpindahan babak framingnya berganti - terlihat
+    # seperti editan potong-sambung yang disengaja.
+    punch_kuat = 0.0
+    punch_babak: List[int] = []
+    p_lo, p_hi = preset.get("punch", (0.0, 0.0))
+    if (dinamis and p_hi > 1.01 and len(segmen) >= 2
+            and bool(ad.get("potongan_zoom", True))):
+        punch_kuat = round(acak.uniform(p_lo, p_hi), 4)
+        mulai_dari = acak.choice([0, 1])
+        punch_babak = [i for i in range(len(segmen)) if i % 2 == mulai_dari]
+        if not punch_babak:
+            punch_babak = [0]
+
     return Rencana(
         seed=seed,
         varian=varian,
@@ -291,4 +312,6 @@ def buat_rencana(
         kurva_g=kurva(),
         kurva_b=kurva(),
         eq_jalur=eq_jalur,
+        punch_kuat=punch_kuat,
+        punch_babak=punch_babak,
     )
