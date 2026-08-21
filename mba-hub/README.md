@@ -23,6 +23,10 @@ mba-hub/
   js/courses/bes.js     : data BES
   js/courses/gbe.js     : data GBE
   js/courses/sm.js      : data, materi, dan studi kasus SM
+  js/cases/otm.js       : 11 teaching case OTM (Sesi 1 sampai 11)
+  js/cases/bes.js       : 12 teaching case BES (Sesi 1 sampai 12)
+  js/cases/gbe.js       :  9 teaching case GBE (Sesi 2 sampai 10)
+  js/cases/sm.js        :  9 teaching case SM tambahan (Sesi 3 sampai 12)
   js/app.js             : router multi-mata-kuliah & seluruh view
   img/                  : capture slide dosen
 ```
@@ -37,7 +41,7 @@ Rute: `#/` = pemilih mata kuliah, `#/<kode>/<view>` = view per mata kuliah
 - **Jadwal**: jadwal resmi SEMBA 51-A per mata kuliah + tombol "+ Kalender" (Google Calendar)
 - **Tugas**: tugas bawaan silabus + tugas tambahan sendiri, dengan badge tenggat
 - **Catatan Kelas**: enam kolom terstruktur untuk merekam pembahasan dosen
-- **Studi Kasus**: bacaan kasus lengkap dengan exhibit, pertanyaan diskusi, dan panduan analisis
+- **Studi Kasus**: 44 teaching case bergaya Harvard, satu per bab untuk keempat mata kuliah, lengkap dengan narasi, exhibit data, pertanyaan diskusi yang jawabannya tersimpan otomatis, dan panduan analisis empat komponen. Tiap halaman materi menautkan kasus untuk sesi tersebut.
 - **Materi / Flashcards / Kuis / Catatan / Kalkulator**: sama seperti aplikasi OTM lama
 
 Semua progres tersimpan di `localStorage`, dipisah per mata kuliah (kunci `<kode>_*`),

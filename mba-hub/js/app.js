@@ -1380,8 +1380,21 @@
           ${s.readings.map((r) => `<span class="tag tag--reading">📖 ${esc(r)}</span>`).join("")}
           ${s.caseStudy ? `<span class="tag tag--case">💼 ${esc(s.caseStudy)}</span>` : ""}
         </div>
+        ${caseLinkFor(s.id)}
       </div>
       ${body}
+    </div>`;
+  }
+
+  function caseLinkFor(sessionId) {
+    const list = (DATA.cases || []).filter((c) => c.forSession === sessionId);
+    if (!list.length) return "";
+    const idx = (c) => (DATA.cases || []).indexOf(c) + 1;
+    return `<div class="case-link">
+      <span class="case-link-ico">📁</span>
+      <div><b>Studi kasus untuk sesi ini</b>
+        <span>${list.map((c) => `<a href="#/${CUR_ID}/kasus/${idx(c)}">${esc(c.title)}</a>`).join(" · ")}</span>
+      </div>
     </div>`;
   }
 
@@ -1934,6 +1947,11 @@
   /* ---------- Studi Kasus (teaching cases ala HBS) ---------- */
   const caseState = { open: null };
 
+  function sessionTopic(n) {
+    const s = (DATA.sessions || []).find((x) => x.id === n);
+    return s ? s.topic : "";
+  }
+
   function viewKasus(id) {
     const list = DATA.cases || [];
     if (!list.length) {
@@ -1965,12 +1983,12 @@
     <div class="view">
       <p class="eyebrow">${esc(DATA.meta.short)} · Teaching Case</p>
       <h1 class="view-title">Studi Kasus</h1>
-      <p class="view-sub">Bacaan kasus lengkap bergaya MBA: narasi, exhibit data, pertanyaan diskusi, dan panduan
-      analisis mengikuti metode empat komponen dari silabus dosen.</p>
+      <p class="view-sub">Satu bacaan kasus bergaya Harvard untuk tiap bab: narasi lengkap, exhibit data, pertanyaan
+      diskusi, dan panduan analisis. Pakai sebagai bahan bacaan pendamping sebelum masuk kelas.</p>
 
       <div class="session-picker">
         ${list.map((c, i) => `<button data-goto="#/${CUR_ID}/kasus/${i + 1}"
-          class="${c.id === cur.id ? "active" : ""} has-content" title="${esc(c.title)}">${i + 1}</button>`).join("")}
+          class="${c.id === cur.id ? "active" : ""} has-content" title="Sesi ${c.forSession}: ${esc(c.title)}">${c.forSession}</button>`).join("")}
       </div>
 
       <div class="case-head">
@@ -1978,7 +1996,7 @@
         <h2>${esc(cur.title)}</h2>
         <p class="case-sub">${esc(cur.subtitle)}</p>
         <div class="meta">
-          <span class="tag">📅 Untuk Sesi ${cur.forSession}</span>
+          <span class="tag">📅 Sesi ${cur.forSession}: ${esc(sessionTopic(cur.forSession))}</span>
           <span class="tag">⏱️ ±${cur.readingTime} menit baca</span>
           <span class="tag tag--case">🎯 ${esc(cur.decisionMaker)}</span>
         </div>
@@ -2007,7 +2025,7 @@
         <div class="notes-status" id="caseStatus">Tersimpan otomatis saat Anda mengetik.</div>
       </div>
 
-      <h3 class="case-h3">🧭 Panduan Analisis: Metode Empat Komponen Dosen</h3>
+      <h3 class="case-h3">🧭 Panduan Analisis: Empat Komponen</h3>
       <div class="card card-pad">
         <div class="prep-concepts">
           <div class="prep-concept"><span class="mq-num">1</span><div><b>The Problem</b><span>${esc(g.problem)}</span></div></div>

@@ -1931,3 +1931,17 @@ mark.hl--noted::after {
 .grp-mem { font-size: 0.78rem; color: var(--ink-faint); margin-bottom: 0.7rem; }
 .grp-note { font-size: 0.75rem; color: var(--ink-soft); margin-top: 0.5rem; line-height: 1.5; }
 .grp-note code { font-family: var(--mono); font-size: 0.72rem; background: var(--paper-deep); padding: 0.1rem 0.35rem; border-radius: 5px; }
+
+/* ---------- Tautan studi kasus di halaman materi ---------- */
+.case-link {
+  display: flex; gap: 0.7rem; align-items: flex-start;
+  margin-top: 0.9rem; padding: 0.75rem 0.9rem;
+  border: 1px solid var(--rule); border-radius: 10px;
+  background: color-mix(in srgb, var(--gold) 7%, transparent);
+}
+.case-link-ico { font-size: 1.1rem; line-height: 1.3; }
+.case-link b { display: block; font-family: var(--sans); font-size: 0.78rem;
+  letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-soft); }
+.case-link span a { color: var(--ink); text-decoration: underline;
+  text-decoration-color: var(--gold); text-underline-offset: 3px; }
+.case-link span a:hover { color: var(--gold); }
