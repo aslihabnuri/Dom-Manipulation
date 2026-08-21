@@ -204,7 +204,50 @@ lebih cepat, dan produknya bisa diganti kapan saja tanpa menyentuh rekaman asli.
 
 ---
 
-## 7. Subtitle otomatis (opsional)
+## 7. Membuat foto produk dengan AI (opsional)
+
+Kalau punya kunci API [kie.ai](https://kie.ai), foto produknya bisa dibuat atau
+dipercantik langsung dari sini, lalu disisipkan ke video.
+
+### Mengisi kunci API
+
+Jangan pernah menempelkan kunci API ke dalam percakapan atau ke berkas yang
+ikut ter-commit. Pilih salah satu:
+
+1. **Paling aman** — isi environment variable `KIE_API_KEY` di pengaturan
+   environment Claude Code ([dokumentasinya di sini](https://code.claude.com/docs/en/claude-code-on-the-web)).
+2. Buat berkas `.env` di folder aplikasi:
+   ```
+   KIE_API_KEY=kunci_anda_di_sini
+   ```
+   Contohnya ada di `.env.contoh`. Berkas `.env` sudah masuk daftar abaikan git.
+
+### Memakainya
+
+```bash
+# percantik foto produk yang sudah ada
+python3 aset.py foto_produk.jpg --perintah "foto produk di atas meja marmer,
+    cahaya studio lembut, latar bersih, format tegak"
+
+# lalu sisipkan ke video
+python3 edit.py video.mp4 --sisip "assets/produk/foto_produk_ai.png,5,2.5,Serum Vitamin C"
+```
+
+Daftar model terbaru dan harganya ada di [kie.ai/market](https://kie.ai/market).
+Model bawaan untuk mengolah foto adalah `qwen/image-to-image`; model lain
+dipilih lewat `--model`.
+
+### Yang TIDAK bisa dilakukan lewat API ini
+
+kie.ai menyediakan model **pembuat** gambar dan video baru. Tidak ada model
+face swap, dan tidak ada model yang mengubah video yang sudah ada. Jadi kunci
+API ini tidak bisa dipakai untuk mengganti wajah atau produk di dalam rekaman.
+Kegunaannya adalah membuat bahan yang nanti disisipkan — foto produk, klip
+produk, dan gambar endcard.
+
+---
+
+## 8. Subtitle otomatis (opsional)
 
 ```bash
 pip install faster-whisper
@@ -217,22 +260,25 @@ sama seperti teks lainnya. Model diunduh otomatis saat pertama kali dipakai
 
 ---
 
-## 8. Isi folder
+## 9. Isi folder
 
 ```
 edit.py           <- jalankan lewat baris perintah
 app.py            <- jalankan lewat browser
+aset.py           <- buat foto produk dengan AI (butuh kunci kie.ai)
+.env              <- kunci API (dibuat sendiri, tidak ikut ter-commit)
 config.json       <- setelan gaya tetap (silakan diubah)
 input/            <- taruh video yang mau diedit di sini
 output/           <- hasil edit muncul di sini
 assets/fonts/     <- font yang dipakai
+assets/produk/    <- foto produk hasil AI
 assets/ui.html    <- tampilan halaman browser
 vidclean/         <- mesin di baliknya
 ```
 
 ---
 
-## 9. Kalau ada masalah
+## 10. Kalau ada masalah
 
 | Masalah | Penyebab & solusi |
 |---------|-------------------|
@@ -247,7 +293,7 @@ vidclean/         <- mesin di baliknya
 
 ---
 
-## 10. Yang perlu diketahui
+## 11. Yang perlu diketahui
 
 Aplikasi ini mengubah **jejak teknis** video: piksel, durasi, warna, audio, dan
 metadata. Itu memang yang dipakai sistem pencocokan konten untuk mengenali video

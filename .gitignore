@@ -5,6 +5,11 @@ input/*
 !input/.gitkeep
 input/.unggahan/
 
+# kunci API - JANGAN PERNAH di-commit
+.env
+.env.*
+!.env.contoh
+
 # python
 __pycache__/
 *.py[cod]
