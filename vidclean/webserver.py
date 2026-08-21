@@ -23,8 +23,7 @@ from . import caption as modul_caption
 from . import config as konfigurasi
 from . import fonts as modul_font
 from . import produk as modul_produk
-from .pipeline import Permintaan, proses
-from .similarity import bandingkan
+from .pipeline import Permintaan, proses, proses_hingga_target
 
 AKAR = konfigurasi.AKAR
 FOLDER_UI = os.path.join(AKAR, "assets")
@@ -257,7 +256,7 @@ def _kerjakan(id_kerja: str, sumber: str, nama_asli: str, opsi: Dict[str, str],
                 menyeluruh = int((v + persen / 100) / varian_total * 100)
                 _perbarui(id_kerja, persen=min(99, menyeluruh))
 
-            hasil = proses(
+            hasil, skor, catatan = proses_hingga_target(
                 Permintaan(
                     masukan=sumber, keluaran=tujuan,
                     judul=opsi.get("judul", ""), caption=opsi.get("caption", ""),
@@ -267,13 +266,8 @@ def _kerjakan(id_kerja: str, sumber: str, nama_asli: str, opsi: Dict[str, str],
                 ),
                 kabar=kabar,
             )
-
-            skor = None
-            try:
-                _perbarui(id_kerja, tahap="Menghitung skor anti duplikat...")
-                skor = bandingkan(hasil.asal, hasil.hasil, hasil.rencana)
-            except Exception:  # noqa: BLE001
-                pass
+            if catatan:
+                _perbarui(id_kerja, pesan=" | ".join(catatan))
 
             hasil_semua.append({
                 "nama": nama_keluar,

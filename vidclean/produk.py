@@ -235,21 +235,23 @@ def rakit(
     return hasil
 
 
-def geser_waktu(aset_list: Sequence[Aset], potong_awal: float, kecepatan: float,
+def geser_waktu(aset_list: Sequence[Aset], potong_awal: float, peta,
                 durasi_akhir: float) -> List[Aset]:
-    """Pindahkan waktu produk dari lini masa video asli ke lini masa hasil edit."""
+    """Pindahkan waktu produk dari lini masa video asli ke lini masa hasil edit.
+
+    `peta` adalah fungsi pemetaan waktu (bisa piecewise kalau kecepatan
+    videonya berlapis), dibuat oleh pipeline.
+    """
     hasil: List[Aset] = []
     for a in aset_list:
         if a.mode == "endcard":
             hasil.append(a)
             continue
-        mulai = (a.mulai - potong_awal) / kecepatan
-        lama = a.lama / kecepatan
-        if mulai + lama <= 0:
+        mulai = peta(a.mulai - potong_awal)
+        selesai = peta(a.mulai - potong_awal + a.lama)
+        lama = selesai - mulai
+        if lama <= 0.05:
             continue
-        if mulai < 0:
-            lama += mulai
-            mulai = 0.0
         if durasi_akhir > 0:
             lama = min(lama, max(0.2, durasi_akhir - mulai))
             if mulai >= durasi_akhir:

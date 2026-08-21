@@ -31,6 +31,7 @@
     "fps": 30,
     "kualitas": 21,
     "latar_blur": true,
+    "bingkai_latar": "",
     "bingkai": 0,
     "preset_encode": "medium"
   },
@@ -42,6 +43,8 @@
   "anti_duplikat": {
     "preset": "seimbang",
     "cermin": null,
-    "potong_tepi": null
+    "potong_tepi": null,
+    "dinamis": true,
+    "target_skor": 80
   }
 }

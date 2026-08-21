@@ -15,7 +15,7 @@ from . import config as konfigurasi
 from . import fonts as modul_font
 from . import produk as modul_produk
 from .ffmpeg import FFmpegGagal, FFmpegTidakDitemukan
-from .pipeline import Permintaan, proses
+from .pipeline import Permintaan, proses, proses_hingga_target
 from .probe import periksa
 from .similarity import bandingkan
 
@@ -105,6 +105,8 @@ def _terapkan_opsi(pengaturan: Dict[str, Any], a: argparse.Namespace) -> Dict[st
         anti["cermin"] = False
     if a.potong_tepi is not None:
         anti["potong_tepi"] = a.potong_tepi
+    if a.tanpa_dinamis:
+        anti["dinamis"] = False
     return pengaturan
 
 
@@ -129,7 +131,7 @@ def _cek_sistem() -> int:
     import tempfile
 
     from .ffmpeg import ffmpeg_bin, ffprobe_bin, punya_filter
-    from .pipeline import Permintaan, proses
+    from .pipeline import Permintaan, proses, proses_hingga_target
 
     lolos = True
 
@@ -279,6 +281,12 @@ def buat_parser() -> argparse.ArgumentParser:
     a.add_argument("--tanpa-cermin", action="store_true", help="paksa jangan balik gambar")
     a.add_argument("--potong-tepi", type=float, help="porsi tepi yang dibuang, mis. 0.04")
     a.add_argument("--varian", type=int, default=1, help="buat berapa versi berbeda per video")
+    a.add_argument("--target-skor", type=float, default=None,
+                   help="edit ulang otomatis sampai skor tercapai (bawaan 80; 0 = sekali saja)")
+    a.add_argument("--hook", default="", metavar="MULAI,LAMA",
+                   help="cold-open: ulangi cuplikan menarik di detik pertama, mis. 12.5,1.8")
+    a.add_argument("--tanpa-dinamis", action="store_true",
+                   help="matikan gerak dinamis & kecepatan berlapis (cara lama)")
     a.add_argument("--seed", type=int, help="angka acak tetap (hasil bisa diulang persis)")
 
     l = p.add_argument_group("Lain-lain")
@@ -350,6 +358,17 @@ def main(argv: List[str] | None = None) -> int:
                 except Exception as e:
                     print(f"{KUNING}  Subtitle otomatis gagal: {e}{RESET}")
 
+        hook_mulai = hook_lama = 0.0
+        if a.hook:
+            try:
+                bagian_hook = [float(x) for x in a.hook.split(",")]
+                hook_mulai, hook_lama = bagian_hook[0], (bagian_hook[1] if len(bagian_hook) > 1 else 1.6)
+            except (ValueError, IndexError):
+                print(f"{KUNING}  --hook diabaikan (format: MULAI,LAMA - mis. 12.5,1.8){RESET}")
+        if hook_lama > 0 and subtitle:
+            print(f"{KUNING}  Catatan: --hook menggeser lini masa; subtitle otomatis dilewati.{RESET}")
+            subtitle = []
+
         for varian in range(varian_total):
             tujuan = _nama_keluaran(berkas, a.keluar, varian, varian_total)
             permintaan = Permintaan(
@@ -357,6 +376,7 @@ def main(argv: List[str] | None = None) -> int:
                 judul=a.judul, caption=a.caption, handle=a.handle,
                 subtitle=subtitle, preset=preset, produk=daftar_produk,
                 seed=a.seed, varian=varian, pengaturan=pengaturan,
+                hook_mulai=hook_mulai, hook_lama=hook_lama,
             )
             try:
                 lebar_bar = 28
@@ -365,17 +385,24 @@ def main(argv: List[str] | None = None) -> int:
                     isi = int(persen / 100 * lebar_bar)
                     print(f"\r  [{'#' * isi}{'.' * (lebar_bar - isi)}] {persen:3d}%", end="", flush=True)
 
-                hasil = proses(permintaan, kabar=kabar)
+                skor = None
+                catatan: List[str] = []
+                if a.tanpa_skor:
+                    hasil = proses(permintaan, kabar=kabar)
+                else:
+                    hasil, skor, catatan = proses_hingga_target(
+                        permintaan, kabar=kabar, target=a.target_skor
+                    )
                 print("\r" + " " * (lebar_bar + 12) + "\r", end="")
 
                 print(f"  {HIJAU}Selesai{RESET} -> {TEBAL}{hasil.keluaran}{RESET}")
+                for baris_catatan in catatan:
+                    print(f"  {ABU}{baris_catatan}{RESET}")
                 print(f"  {ABU}asal : {hasil.asal.ringkas()}{RESET}")
                 print(f"  {ABU}hasil: {hasil.hasil.ringkas()}{RESET}")
                 print(f"  {ABU}font : {hasil.font_dipakai} | waktu proses {hasil.lama_proses} detik{RESET}")
 
-                skor = None
-                if not a.tanpa_skor:
-                    skor = bandingkan(hasil.asal, hasil.hasil, hasil.rencana)
+                if skor is not None:
                     warna = HIJAU if skor.skor >= 60 else (KUNING if skor.skor >= 40 else MERAH)
                     print(f"  Skor anti duplikat: {warna}{TEBAL}{skor.skor}/100{RESET} - {skor.penilaian}")
 

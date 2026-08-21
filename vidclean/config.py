@@ -47,6 +47,7 @@ BAWAAN: Dict[str, Any] = {
         "fps": 30,
         "kualitas": 21,           # CRF dasar: makin kecil makin bagus (18-26)
         "latar_blur": True,       # isi ruang kosong dengan latar blur, bukan bar hitam
+        "bingkai_latar": "",      # "" = ikuti preset. "blur" | "gelap" (gradasi netral)
         "bingkai": 0,             # 0 = mati. Isi 0.90-0.95 untuk mengecilkan gambar
                                   # di atas latar blur (paling ampuh lawan deteksi duplikat)
         "preset_encode": "medium",
@@ -57,9 +58,11 @@ BAWAAN: Dict[str, Any] = {
         "bitrate": "128k",
     },
     "anti_duplikat": {
-        "preset": "seimbang",     # "aman" | "seimbang" | "kuat"
+        "preset": "seimbang",     # "aman" | "seimbang" | "kuat" | "maksimal"
         "cermin": None,           # None = ikuti preset, True/False = paksa
         "potong_tepi": None,      # None = ikuti preset (persen tepi yang dibuang)
+        "dinamis": True,          # gerak dinamis + kecepatan berlapis (rekomendasi: True)
+        "target_skor": 80,        # edit ulang otomatis sampai skor tercapai (0 = sekali saja)
     },
 }
 
@@ -87,6 +90,11 @@ PRESET: Dict[str, Dict[str, Any]] = {
         "nada_suara": (0.995, 1.005),
         "potong_tepi": 0.0,
         "ubah_fps": False,
+        "segmen": (1, 2),
+        "drift_putar": (0.03, 0.09),
+        "drift_geser": (0.001, 0.002),
+        "kurva": (0.006, 0.014),
+        "eq_jalur": 1,
     },
     "seimbang": {
         "label": "Seimbang - rekomendasi harian, aman dilihat tapi cukup beda secara teknis",
@@ -108,6 +116,11 @@ PRESET: Dict[str, Dict[str, Any]] = {
         "nada_suara": (0.985, 1.015),
         "potong_tepi": 0.02,
         "ubah_fps": True,
+        "segmen": (2, 3),
+        "drift_putar": (0.06, 0.18),
+        "drift_geser": (0.002, 0.004),
+        "kurva": (0.010, 0.022),
+        "eq_jalur": 2,
     },
     "kuat": {
         "label": "Kuat - perubahan paling agresif (termasuk cermin), untuk video yang sering kena flag",
@@ -129,6 +142,39 @@ PRESET: Dict[str, Dict[str, Any]] = {
         "nada_suara": (0.970, 1.030),
         "potong_tepi": 0.045,
         "ubah_fps": True,
+        "segmen": (3, 4),
+        "drift_putar": (0.10, 0.30),
+        "drift_geser": (0.003, 0.006),
+        "kurva": (0.014, 0.028),
+        "eq_jalur": 2,
+    },
+    "maksimal": {
+        "label": "Maksimal - semua teknik dinamis + bingkai blur, tanpa membalik gambar (teks tetap terbaca)",
+        "cermin": False,
+        "zoom": (1.055, 1.085),
+        "geser": (-0.016, 0.016),
+        "putar": (-0.40, 0.40),
+        "kecepatan": (0.940, 1.060),
+        "kecerahan": (-0.040, 0.040),
+        "kontras": (0.940, 1.070),
+        "saturasi": (0.900, 1.100),
+        "gamma": (0.940, 1.070),
+        "warna_hue": (-7.0, 7.0),
+        "butiran": (8, 14),
+        "ketajaman": (0.30, 0.70),
+        "vignette": 0.14,
+        "potong_awal": (0.30, 0.90),
+        "potong_akhir": (0.30, 0.90),
+        "nada_suara": (0.975, 1.025),
+        "potong_tepi": 0.03,
+        "ubah_fps": True,
+        "segmen": (3, 4),
+        "drift_putar": (0.12, 0.32),
+        "drift_geser": (0.003, 0.006),
+        "kurva": (0.016, 0.032),
+        "eq_jalur": 3,
+        "bingkai_bawaan": 0.90,
+        "bingkai_latar": "gelap",
     },
 }
 

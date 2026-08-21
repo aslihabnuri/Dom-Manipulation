@@ -74,12 +74,41 @@ Hasil tersimpan di folder `output/`.
 | Preset       | Yang dilakukan                                                                 | Cocok untuk |
 |--------------|--------------------------------------------------------------------------------|-------------|
 | `aman`       | Perubahan sangat halus, mata hampir tidak bisa membedakan                        | Video yang tampilannya tidak boleh berubah |
-| `seimbang`   | **Bawaan.** Zoom, geser bingkai, putar halus, geser warna, ubah kecepatan, butiran | Pemakaian harian |
-| `kuat`       | Semua di atas + **balik gambar kiri-kanan** + potongan tepi lebih besar           | Video yang sering kena flag |
+| `seimbang`   | **Bawaan.** Semua teknik dinamis dengan takaran sedang                            | Pemakaian harian |
+| `kuat`       | Takaran lebih besar + **balik gambar kiri-kanan** + potongan tepi lebih besar     | Video tanpa teks tertanam |
+| `maksimal`   | Takaran terbesar + **bingkai gradasi gelap** otomatis, TANPA membalik gambar      | Video yang sering kena flag tapi ada teks/logo |
 
 Ditambah opsi **Bingkai** (`--bingkai 0.90`): gambar dikecilkan di atas latar blur.
 Ini mengubah komposisi gambar secara menyeluruh, jadi **paling ampuh** melawan
 pencocokan konten — sekaligus terlihat rapi.
+
+### Mesin dinamis (v2)
+
+Perubahan yang konstan (zoom tetap, warna tetap, kecepatan tetap) mudah
+dinormalkan oleh sistem pencocok konten. Karena itu mesin v2 membuat
+perubahan yang BERGERAK:
+
+- **Gerak dinamis** — bingkai berayun sangat pelan (putaran ±0,3°, geseran
+  ±0,5%, periode belasan detik). Mata tidak melihatnya, tapi tiap frame punya
+  geometri unik.
+- **Kecepatan berlapis** — video dibagi 2–4 babak dengan kecepatan berbeda
+  (misal 0,97 / 1,03 / 0,98), jadi penyelarasan waktu antar video menjadi
+  non-linear dan tidak bisa dikoreksi dengan satu angka.
+- **Grading kurva warna** — histogram warna digeser non-linear per kanal,
+  bukan sekadar terang/gelap rata.
+- **EQ audio acak** — 1–3 pita frekuensi digeser maksimal ±1,2 dB; tidak
+  terdengar, tapi spektrum sidik jari audionya berubah.
+- **Edit ulang otomatis** — hasil diukur dengan pengukur adversarial; kalau
+  skornya di bawah target (`target_skor`, bawaan 80), video otomatis diedit
+  ulang dengan takaran lebih kuat (sampai 3 percobaan), lalu dipilih yang
+  terbaik. Percobaan terakhir menambah **cold-open**: cuplikan menarik dari
+  tengah video diulang 1,6 detik di awal, menggeser seluruh lini masa.
+- **Cold-open manual** — `--hook 12.5,1.8` mengulang cuplikan detik 12,5
+  sepanjang 1,8 detik di pembuka. Gaya edit yang lazim di TikTok sekaligus
+  perubahan struktural yang paling kuat.
+
+Matikan semua ini dengan `--tanpa-dinamis` (kembali ke perilaku lama) atau
+`--target-skor 0` (tanpa edit ulang otomatis).
 
 ### Apa saja yang diubah di setiap video
 
@@ -151,8 +180,15 @@ Ditambah poin dari perubahan durasi, resolusi, frame rate, audio, dan metadata.
 | 40-59   | Cukup — sebaiknya naikkan ke preset `kuat` |
 | 0-39    | Kurang — pakai preset `kuat`, nyalakan cermin, atau pakai bingkai |
 
-Kalau skornya rendah padahal sudah preset `kuat`, nyalakan **Bingkai 90%**.
-Itu yang paling banyak menaikkan skor, karena komposisi gambarnya ikut berubah.
+Sejak v2, skor dihitung dengan **pencocokan adversarial**: tiap cuplikan
+video asli dibandingkan dengan beberapa titik waktu di video hasil, lalu
+diambil yang paling mirip — meniru pencocok yang tahan pergeseran waktu.
+Akibatnya angka skor v2 lebih rendah dari v1 untuk video yang sama; itu
+disengaja, karena skor lama terbukti terlalu murah hati.
+
+Kalau skornya rendah, mesin sudah otomatis mengedit ulang lebih kuat
+(lihat `target_skor`). Yang paling menaikkan skor: preset `maksimal`
+(bingkai gradasi gelap) dan `--hook` (cold-open).
 
 ---
 
