@@ -18,9 +18,12 @@ import tempfile
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from vidclean import config as konfigurasi                     # noqa: E402
+from vidclean import musik as modul_musik                      # noqa: E402
 from vidclean import racik as modul_racik                      # noqa: E402
 from vidclean.cli import EKSTENSI_VIDEO, FOLDER_KELUAR         # noqa: E402
+from vidclean.ffmpeg import ffmpeg_bin, jalankan               # noqa: E402
 from vidclean.pipeline import Permintaan, proses_hingga_target # noqa: E402
+from vidclean.probe import periksa                             # noqa: E402
 
 
 def main() -> int:
@@ -37,6 +40,12 @@ def main() -> int:
     p.add_argument("--preset", default="maksimal", choices=konfigurasi.NAMA_PRESET)
     p.add_argument("--potong-atas", type=float, default=0.0,
                    help="buang bagian atas layar (hapus watermark), mis. 0.08")
+    p.add_argument("--lagu", default="", metavar="MODE",
+                   help='musik latar: "otomatis" (lagu lo-fi orisinal dibuatkan), '
+                        'path berkas mp3/wav milik sendiri, atau kosong (tanpa musik)')
+    p.add_argument("--volume-lagu", type=float, default=1.0, help="volume musik (bawaan 1.0)")
+    p.add_argument("--volume-asli", type=float, default=0.25,
+                   help="volume suara asli di bawah musik (bawaan 0.25)")
     p.add_argument("--look", default="hangat",
                    choices=["", "bersih", "hangat", "sinematik"],
                    help="grading warna seragam (bawaan: hangat)")
@@ -75,6 +84,12 @@ def main() -> int:
     os.makedirs(FOLDER_KELUAR, exist_ok=True)
     gagal = 0
 
+    print("Memindai semua sumber (sekali untuk semua racikan)...")
+    pustaka = modul_racik.bangun_pustaka(
+        berkas, hapus_teks=not a.tanpa_hapus_teks,
+        kabar=lambda pesan: print(f"  ... {pesan}"),
+    )
+
     for varian in range(max(1, a.varian)):
         akhiran = f"_v{varian + 1}" if a.varian > 1 else ""
         if a.keluar:
@@ -95,8 +110,39 @@ def main() -> int:
                 hapus_teks=not a.tanpa_hapus_teks,
                 transisi=not a.tanpa_transisi,
                 gerak=not a.tanpa_gerak,
+                pustaka=pustaka,
                 kabar=lambda pesan: print(f"  ... {pesan}"),
             )
+
+            # --- musik latar ---
+            if a.lagu:
+                durasi_master = periksa(master).durasi
+                if a.lagu.lower() in ("otomatis", "auto"):
+                    lagu = os.path.join(kerja, "lagu.wav")
+                    print(f"  ... membuat lagu lo-fi orisinal (seed {seed or varian})")
+                    modul_musik.buat_lagu(lagu, durasi_master + 1.0,
+                                          seed=(seed or 0) + varian * 31)
+                else:
+                    lagu = a.lagu
+                    if not os.path.exists(lagu):
+                        raise FileNotFoundError(f"Berkas lagu tidak ada: {lagu}")
+                print("  ... mencampur musik ke video")
+                master_musik = os.path.join(kerja, "master_musik.mp4")
+                fade_keluar = max(0.0, durasi_master - 1.2)
+                jalankan([
+                    ffmpeg_bin(), "-hide_banner", "-loglevel", "error", "-y",
+                    "-i", master, "-i", lagu,
+                    "-filter_complex",
+                    f"[0:a]volume={a.volume_asli:.3f}[a0];"
+                    f"[1:a]volume={a.volume_lagu:.3f},"
+                    f"afade=t=in:d=0.6,afade=t=out:st={fade_keluar:.3f}:d=1.2[a1];"
+                    f"[a0][a1]amix=inputs=2:duration=first:normalize=0,"
+                    f"alimiter=limit=0.95[a]",
+                    "-map", "0:v", "-map", "[a]",
+                    "-c:v", "copy", "-c:a", "aac", "-b:a", "192k",
+                    master_musik,
+                ], timeout=1800)
+                master = master_musik
 
             print("  ... memproses anti duplikat")
             hasil, skor, catatan = proses_hingga_target(

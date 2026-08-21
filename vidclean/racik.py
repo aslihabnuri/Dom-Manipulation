@@ -229,8 +229,12 @@ def jahit(
         vb, ab = label_v[nomor], label_a[nomor]
         keluar_v, keluar_a = f"[cv{nomor}]", f"[ca{nomor}]"
         if pakai_dissolve:
+            # xfade menuntut kedua masukan bertimebase sama; cabang zoompan
+            # (1/30) dan hasil concat (1/1000000) berbeda, jadi disamakan dulu.
+            graf.append(f"{arus_v}settb=AVTB[tb{nomor}a]")
+            graf.append(f"{vb}settb=AVTB[tb{nomor}b]")
             graf.append(
-                f"{arus_v}{vb}xfade=transition=fade:duration={TD}:"
+                f"[tb{nomor}a][tb{nomor}b]xfade=transition=fade:duration={TD}:"
                 f"offset={panjang - TD:.3f}{keluar_v}"
             )
             graf.append(f"{arus_a}{ab}acrossfade=d={TD}:c1=tri:c2=tri{keluar_a}")
@@ -261,24 +265,12 @@ def jahit(
 
 
 # ---------------------------------------------------------------------------
-def racik(
+def bangun_pustaka(
     sumber: Sequence[str],
-    keluaran_master: str,
-    target_durasi: float = 21.0,
-    seed: Optional[int] = None,
     hapus_teks: bool = True,
-    transisi: bool = True,
-    gerak: bool = True,
     kabar=None,
-) -> Tuple[str, List[Shot]]:
-    """Pindai semua sumber, susun urutan baru yang estetik, jahit jadi master."""
-    if len(sumber) < 1:
-        raise ValueError("Minimal satu video sumber")
-
-    if seed is None:
-        seed = sum(os.path.getsize(s) for s in sumber) % (10 ** 9)
-    acak = random.Random(seed)
-
+) -> Tuple[Dict[int, List[Shot]], Dict[int, float]]:
+    """Pindai semua sumber sekali; hasilnya bisa dipakai banyak racikan."""
     perpustakaan: Dict[int, List[Shot]] = {}
     durasi_sumber: Dict[int, float] = {}
     ocr_aktif = hapus_teks and teksvideo.tersedia()
@@ -300,6 +292,32 @@ def racik(
         if kabar and ocr_aktif:
             berteks = sum(1 for s in daftar if s.berteks)
             kabar(f"  {len(daftar)} shot, {berteks} mengandung teks (akan dihindari)")
+
+    return perpustakaan, durasi_sumber
+
+
+def racik(
+    sumber: Sequence[str],
+    keluaran_master: str,
+    target_durasi: float = 21.0,
+    seed: Optional[int] = None,
+    hapus_teks: bool = True,
+    transisi: bool = True,
+    gerak: bool = True,
+    pustaka: Optional[Tuple[Dict[int, List[Shot]], Dict[int, float]]] = None,
+    kabar=None,
+) -> Tuple[str, List[Shot]]:
+    """Pindai semua sumber, susun urutan baru yang estetik, jahit jadi master."""
+    if len(sumber) < 1:
+        raise ValueError("Minimal satu video sumber")
+
+    if seed is None:
+        seed = sum(os.path.getsize(s) for s in sumber) % (10 ** 9)
+    acak = random.Random(seed)
+
+    if pustaka is None:
+        pustaka = bangun_pustaka(sumber, hapus_teks, kabar)
+    perpustakaan, durasi_sumber = pustaka
 
     terpilih = pilih_shot(perpustakaan, target_durasi, acak, durasi_sumber)
     if not terpilih:

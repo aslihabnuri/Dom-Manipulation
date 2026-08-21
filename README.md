@@ -88,7 +88,32 @@ Yang terjadi:
 3. dijahit jadi satu video master, lalu diproses mesin anti duplikat v2
 
 `--varian 3` menghasilkan tiga racikan dengan urutan berbeda dari bahan
-yang sama.
+yang sama (sumber cukup dipindai sekali).
+
+### Musik latar
+
+```bash
+python3 racik.py folder_video/ --lagu otomatis          # lagu lo-fi orisinal dibuatkan
+python3 racik.py folder_video/ --lagu laguku.mp3        # pakai lagu sendiri
+```
+
+`--lagu otomatis` mensintesis lagu lo-fi chill yang benar-benar orisinal
+(bukan diambil dari mana pun), jadi bebas klaim hak cipta audio dan aman
+untuk konten komersial. Tiap racikan mendapat lagu berbeda - tempo, nada
+dasar, dan progresinya diundi. Suara asli video tetap terdengar pelan di
+bawah musik (`--volume-asli`, bawaan 0.25; `--volume-lagu`, bawaan 1.0).
+
+Untuk jangkauan maksimal, menambah lagu tren dari library TikTok saat
+mengunggah tetap lebih baik - lagu tren ikut mendorong distribusi. Fitur
+ini untuk video yang memang butuh musik tertanam di berkasnya.
+
+### Editan estetik
+
+Racik memoles hasil jahitan seperti editor manusia: teks tertanam di
+footage dideteksi (OCR tiap 0,7 detik) dan shot-nya dihindari, tiap shot
+diberi gerakan Ken Burns bergantian, sebagian sambungan memakai dissolve,
+ritme potongan diatur (pendek di awal sebagai hook), ditutup fade pelan,
+dan diberi grading warna seragam (`--look bersih / hangat / sinematik`).
 
 ## 3. Tiga tingkat perubahan (preset)
 
