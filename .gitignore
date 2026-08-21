@@ -1,0 +1,16 @@
+# hasil dan bahan kerja
+output/*
+!output/.gitkeep
+input/*
+!input/.gitkeep
+input/.unggahan/
+
+# python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# sistem
+.DS_Store
+Thumbs.db

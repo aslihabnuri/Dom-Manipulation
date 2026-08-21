@@ -1,0 +1,6 @@
+# Aplikasi ini berjalan tanpa paket tambahan apa pun.
+# Yang wajib ada di komputer hanyalah ffmpeg (lihat README bagian 2).
+
+# Opsional - hanya kalau mau memakai subtitle otomatis:
+#   pip install faster-whisper
+faster-whisper>=1.0 ; extra == "subtitle"

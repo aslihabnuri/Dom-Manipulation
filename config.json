@@ -1,0 +1,47 @@
+{
+  "gaya": {
+    "font": "Montserrat",
+    "font_tebal": true,
+    "warna_teks": "#FFFFFF",
+    "warna_garis": "#000000",
+    "tebal_garis": 4,
+    "bayangan": 1,
+    "kotak_latar": false,
+    "warna_kotak": "#000000",
+    "transparansi_kotak": 45,
+    "ukuran_judul": 68,
+    "ukuran_caption": 52,
+    "ukuran_subtitle": 62,
+    "ukuran_handle": 32,
+    "huruf_besar_judul": true,
+    "maks_karakter_baris": 22,
+    "jarak_huruf": 0.0,
+    "posisi_judul": 0.13,
+    "posisi_caption": 0.8,
+    "posisi_subtitle": 0.74,
+    "margin_samping": 0.09,
+    "handle": "",
+    "posisi_handle": "atas",
+    "transparansi_handle": 35
+  },
+  "video": {
+    "rasio": "9:16",
+    "lebar": 1080,
+    "tinggi": 1920,
+    "fps": 30,
+    "kualitas": 21,
+    "latar_blur": true,
+    "bingkai": 0,
+    "preset_encode": "medium"
+  },
+  "audio": {
+    "normalisasi": true,
+    "tambah_audio_senyap": true,
+    "bitrate": "128k"
+  },
+  "anti_duplikat": {
+    "preset": "seimbang",
+    "cermin": null,
+    "potong_tepi": null
+  }
+}

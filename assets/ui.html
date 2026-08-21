@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Editor Video Anti Duplikat</title>
+<style>
+  :root{
+    --bg:#0e1117; --panel:#161b24; --panel-2:#1d2430; --garis:#2a3341;
+    --teks:#e8edf5; --redup:#93a1b5; --aksen:#ff3b6b; --aksen-2:#00e0c6;
+    --ok:#2ecc71; --warn:#f5a623; --bad:#ff5555; --radius:14px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--teks);
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.55;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:920px;margin:0 auto;padding:28px 20px 80px}
+  header{text-align:center;margin-bottom:26px}
+  header h1{margin:0 0 6px;font-size:26px;letter-spacing:-.4px}
+  header p{margin:0;color:var(--redup);font-size:14px}
+  .kartu{background:var(--panel);border:1px solid var(--garis);border-radius:var(--radius);
+    padding:20px;margin-bottom:18px}
+  .kartu h2{margin:0 0 4px;font-size:15px;letter-spacing:.2px}
+  .kartu .ket{color:var(--redup);font-size:13px;margin:0 0 16px}
+
+  /* area unggah */
+  #drop{border:2px dashed var(--garis);border-radius:var(--radius);padding:34px 20px;text-align:center;
+    cursor:pointer;transition:.15s;background:var(--panel-2)}
+  #drop:hover,#drop.aktif{border-color:var(--aksen);background:#22182052}
+  #drop .ikon{font-size:34px;line-height:1}
+  #drop b{display:block;margin-top:10px;font-size:15px}
+  #drop span{color:var(--redup);font-size:13px}
+  #namaBerkas{margin-top:12px;font-size:14px;color:var(--aksen-2);word-break:break-all}
+
+  /* form */
+  .baris{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:640px){.baris{grid-template-columns:1fr}}
+  label{display:block;font-size:13px;color:var(--redup);margin-bottom:6px}
+  input[type=text],select,input[type=number]{width:100%;padding:10px 12px;border-radius:10px;
+    border:1px solid var(--garis);background:var(--panel-2);color:var(--teks);font-size:14px;
+    font-family:inherit}
+  input[type=text]:focus,select:focus,input[type=number]:focus{outline:none;border-color:var(--aksen)}
+  input[type=color]{width:100%;height:42px;padding:3px;border-radius:10px;border:1px solid var(--garis);
+    background:var(--panel-2);cursor:pointer}
+  .kolom{margin-bottom:14px}
+  .cek{display:flex;align-items:center;gap:9px;margin:10px 0;font-size:14px;color:var(--teks)}
+  .cek input{width:17px;height:17px;accent-color:var(--aksen);cursor:pointer}
+  details summary{cursor:pointer;color:var(--redup);font-size:13px;padding:6px 0;user-select:none}
+  details[open] summary{margin-bottom:12px;color:var(--teks)}
+
+  button.utama{width:100%;padding:15px;border:none;border-radius:12px;background:var(--aksen);
+    color:#fff;font-size:16px;font-weight:600;cursor:pointer;font-family:inherit;transition:.15s}
+  button.utama:hover:not(:disabled){filter:brightness(1.12)}
+  button.utama:disabled{opacity:.45;cursor:not-allowed}
+
+  /* progres */
+  #kerja{display:none}
+  .bar{height:9px;background:var(--panel-2);border-radius:99px;overflow:hidden;margin:14px 0 8px}
+  .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--aksen),var(--aksen-2));
+    transition:width .3s}
+  #tahap{font-size:14px}
+  #pesan{font-size:13px;color:var(--redup);min-height:18px}
+
+  /* hasil */
+  #hasil{display:none}
+  .hasil-item{border:1px solid var(--garis);border-radius:var(--radius);padding:16px;margin-bottom:14px;
+    background:var(--panel-2);display:grid;grid-template-columns:150px 1fr;gap:16px}
+  @media(max-width:640px){.hasil-item{grid-template-columns:1fr}}
+  .hasil-item video{width:100%;border-radius:10px;background:#000;display:block}
+  .skor{display:inline-block;padding:4px 11px;border-radius:99px;font-size:13px;font-weight:600;
+    margin-bottom:8px}
+  .skor.ok{background:#0f3d2a;color:#5ff0a5} .skor.warn{background:#3d3210;color:#ffd66b}
+  .skor.bad{background:#3d1414;color:#ff8e8e}
+  .meta{font-size:12.5px;color:var(--redup);margin:2px 0}
+  .unduh{display:inline-block;margin-top:10px;padding:9px 16px;border-radius:10px;background:var(--aksen-2);
+    color:#04201c;text-decoration:none;font-weight:600;font-size:14px}
+  .unduh:hover{filter:brightness(1.1)}
+  ul.rinci{margin:10px 0 0;padding-left:18px;color:var(--redup);font-size:12.5px}
+  ul.rinci li{margin:2px 0}
+  .galat{background:#3d1414;border:1px solid #6b2020;color:#ffb3b3;padding:14px;border-radius:12px;
+    font-size:14px;white-space:pre-wrap}
+  footer{text-align:center;color:var(--redup);font-size:12.5px;margin-top:26px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Editor Video Anti Duplikat</h1>
+    <p>Upload video &rarr; otomatis diedit ulang &rarr; siap diunggah kembali</p>
+  </header>
+
+  <form id="form">
+    <div class="kartu">
+      <h2>1. Pilih video</h2>
+      <p class="ket">Tarik videonya ke kotak di bawah, atau klik untuk memilih dari komputer.</p>
+      <div id="drop">
+        <div class="ikon">&#127909;</div>
+        <b>Klik atau tarik video ke sini</b>
+        <span>MP4, MOV, MKV, WEBM &mdash; maksimal 600 MB</span>
+        <div id="namaBerkas"></div>
+      </div>
+      <input type="file" id="berkas" name="video" accept="video/*" hidden>
+    </div>
+
+    <div class="kartu">
+      <h2>2. Teks di video</h2>
+      <p class="ket">Kosongkan saja kalau videonya tidak perlu tulisan.</p>
+      <div class="kolom">
+        <label for="judul">Teks atas (hook)</label>
+        <input type="text" id="judul" name="judul" placeholder="mis. Jangan skip, ini penting">
+      </div>
+      <div class="kolom">
+        <label for="caption">Teks bawah</label>
+        <input type="text" id="caption" name="caption" placeholder="mis. Simpan dulu sebelum hilang">
+      </div>
+      <div class="kolom">
+        <label for="handle">Nama akun kecil (watermark)</label>
+        <input type="text" id="handle" name="handle" placeholder="mis. @akunku">
+      </div>
+      <div class="cek">
+        <input type="checkbox" id="auto_teks" name="auto_teks">
+        <label for="auto_teks" style="margin:0;color:var(--teks)">Buatkan subtitle otomatis dari suara video</label>
+      </div>
+      <div id="catatanSub" class="meta"></div>
+    </div>
+
+    <div class="kartu">
+      <h2>3. Tingkat perubahan</h2>
+      <p class="ket">Makin kuat, makin beda dari video asli &mdash; tapi makin terasa perubahannya.</p>
+      <div class="baris">
+        <div class="kolom">
+          <label for="preset">Preset</label>
+          <select id="preset" name="preset"></select>
+        </div>
+        <div class="kolom">
+          <label for="varian">Jumlah versi yang dibuat</label>
+          <select id="varian" name="varian">
+            <option value="1">1 versi</option>
+            <option value="2">2 versi berbeda</option>
+            <option value="3">3 versi berbeda</option>
+          </select>
+        </div>
+      </div>
+      <div id="ketPreset" class="meta"></div>
+
+      <details>
+        <summary>Pengaturan lanjutan (gaya huruf, warna, bentuk layar)</summary>
+        <div class="baris">
+          <div class="kolom">
+            <label for="font">Font (dipakai sama di semua video)</label>
+            <select id="font" name="font"></select>
+          </div>
+          <div class="kolom">
+            <label for="warna">Warna teks</label>
+            <input type="color" id="warna" name="warna" value="#ffffff">
+          </div>
+        </div>
+        <div class="baris">
+          <div class="kolom">
+            <label for="ukuran_judul">Ukuran huruf judul</label>
+            <input type="number" id="ukuran_judul" name="ukuran_judul" min="30" max="140" step="2">
+          </div>
+          <div class="kolom">
+            <label for="rasio">Bentuk layar</label>
+            <select id="rasio" name="rasio">
+              <option value="9:16">9:16 &mdash; vertikal penuh (TikTok/Reels)</option>
+              <option value="asli">Ikuti ukuran asli video</option>
+            </select>
+          </div>
+        </div>
+        <div class="baris">
+          <div class="kolom">
+            <label for="bingkai">Bingkai (gambar dikecilkan di atas latar blur)</label>
+            <select id="bingkai" name="bingkai">
+              <option value="0">Mati &mdash; gambar penuh layar</option>
+              <option value="0.94">Tipis (94%)</option>
+              <option value="0.90">Sedang (90%) &mdash; paling ampuh</option>
+              <option value="0.85">Tebal (85%)</option>
+            </select>
+          </div>
+          <div class="kolom">
+            <label for="cermin">Balik gambar kiri-kanan</label>
+            <select id="cermin" name="cermin">
+              <option value="">Ikuti preset</option>
+              <option value="on">Ya, balik</option>
+              <option value="off">Jangan balik</option>
+            </select>
+          </div>
+        </div>
+        <div class="cek">
+          <input type="checkbox" id="kotak" name="kotak">
+          <label for="kotak" style="margin:0;color:var(--teks)">Beri kotak gelap di belakang teks</label>
+        </div>
+      </details>
+    </div>
+
+    <button class="utama" id="tombol" type="submit" disabled>Edit Video Sekarang</button>
+  </form>
+
+  <div class="kartu" id="kerja">
+    <h2 id="tahap">Menyiapkan...</h2>
+    <div class="bar"><i id="isiBar"></i></div>
+    <p id="pesan"></p>
+  </div>
+
+  <div id="hasil"></div>
+
+  <footer>Semua proses berjalan di komputer ini. Video tidak dikirim ke mana pun.</footer>
+</div>
+
+<script>
+const $ = (s) => document.querySelector(s);
+let presetInfo = {};
+
+// ---- muat pilihan dari server ----
+fetch('/api/pilihan').then(r => r.json()).then(d => {
+  const sPreset = $('#preset');
+  d.preset.forEach(p => {
+    presetInfo[p.nama] = p.label;
+    const o = document.createElement('option');
+    o.value = p.nama;
+    o.textContent = p.nama.charAt(0).toUpperCase() + p.nama.slice(1);
+    sPreset.appendChild(o);
+  });
+  sPreset.value = (d.bawaan.anti_duplikat && d.bawaan.anti_duplikat.preset) || 'seimbang';
+  tampilkanKetPreset();
+
+  const sFont = $('#font');
+  [...new Set(d.font)].forEach(f => {
+    const o = document.createElement('option'); o.value = f; o.textContent = f; sFont.appendChild(o);
+  });
+  if (d.bawaan.gaya) {
+    sFont.value = d.bawaan.gaya.font || d.font[0];
+    $('#warna').value = d.bawaan.gaya.warna_teks || '#ffffff';
+    $('#ukuran_judul').value = d.bawaan.gaya.ukuran_judul || 68;
+  }
+  if (d.bawaan.video) $('#rasio').value = d.bawaan.video.rasio || '9:16';
+
+  if (!d.auto_teks) {
+    $('#auto_teks').disabled = true;
+    $('#catatanSub').textContent = 'Subtitle otomatis belum aktif. Jalankan: pip install faster-whisper';
+  } else {
+    $('#catatanSub').textContent = 'Subtitle otomatis butuh waktu tambahan (kira-kira selama durasi videonya).';
+  }
+}).catch(() => { $('#catatanSub').textContent = 'Gagal memuat pilihan dari server.'; });
+
+function tampilkanKetPreset(){ $('#ketPreset').textContent = presetInfo[$('#preset').value] || ''; }
+$('#preset').addEventListener('change', tampilkanKetPreset);
+
+// ---- pilih berkas ----
+const drop = $('#drop'), berkas = $('#berkas');
+drop.addEventListener('click', () => berkas.click());
+['dragenter','dragover'].forEach(e => drop.addEventListener(e, ev => {
+  ev.preventDefault(); drop.classList.add('aktif');
+}));
+['dragleave','drop'].forEach(e => drop.addEventListener(e, ev => {
+  ev.preventDefault(); drop.classList.remove('aktif');
+}));
+drop.addEventListener('drop', ev => {
+  if (ev.dataTransfer.files.length) { berkas.files = ev.dataTransfer.files; perbaruiNama(); }
+});
+berkas.addEventListener('change', perbaruiNama);
+function perbaruiNama(){
+  const f = berkas.files[0];
+  if (!f) { $('#tombol').disabled = true; $('#namaBerkas').textContent = ''; return; }
+  $('#namaBerkas').textContent = f.name + '  (' + (f.size/1048576).toFixed(1) + ' MB)';
+  $('#tombol').disabled = false;
+}
+
+// ---- kirim ----
+$('#form').addEventListener('submit', async (ev) => {
+  ev.preventDefault();
+  if (!berkas.files[0]) return;
+
+  const data = new FormData();
+  data.append('video', berkas.files[0]);
+  ['judul','caption','handle','preset','varian','font','ukuran_judul','rasio','bingkai','cermin']
+    .forEach(k => data.append(k, $('#'+k).value));
+  data.append('warna', $('#warna').value);
+  if ($('#auto_teks').checked) data.append('auto_teks','on');
+  if ($('#kotak').checked) data.append('kotak','on');
+
+  $('#tombol').disabled = true;
+  $('#tombol').textContent = 'Sedang diproses...';
+  $('#hasil').style.display = 'none';
+  $('#hasil').innerHTML = '';
+  $('#kerja').style.display = 'block';
+  $('#tahap').textContent = 'Mengunggah video...';
+  $('#isiBar').style.width = '0%';
+  $('#pesan').textContent = '';
+
+  let jawab;
+  try {
+    const r = await fetch('/api/proses', { method:'POST', body:data });
+    jawab = await r.json();
+    if (!r.ok) throw new Error(jawab.galat || 'Gagal mengunggah');
+  } catch (e) { return tampilGagal(e.message); }
+
+  pantau(jawab.id);
+});
+
+function pantau(id){
+  const timer = setInterval(async () => {
+    let d;
+    try { d = await (await fetch('/api/status?id=' + id)).json(); }
+    catch { return; }
+    $('#tahap').textContent = d.tahap || '';
+    $('#isiBar').style.width = (d.persen || 0) + '%';
+    $('#pesan').textContent = d.pesan || '';
+    if (d.status === 'selesai') { clearInterval(timer); tampilHasil(d); }
+    else if (d.status === 'gagal') { clearInterval(timer); tampilGagal(d.galat, d.rincian); }
+  }, 900);
+}
+
+function kelasSkor(s){ return s >= 60 ? 'ok' : (s >= 40 ? 'warn' : 'bad'); }
+
+function tampilHasil(d){
+  $('#kerja').style.display = 'none';
+  $('#tombol').disabled = false;
+  $('#tombol').textContent = 'Edit Video Sekarang';
+
+  const kotak = $('#hasil');
+  kotak.style.display = 'block';
+  kotak.innerHTML = '<div class="kartu"><h2>Selesai &#127881;</h2>' +
+    '<p class="ket">Klik tombol unduh untuk menyimpan videonya, lalu unggah ke TikTok.</p>' +
+    d.hasil.map(h => `
+      <div class="hasil-item">
+        <video src="${h.url}" controls preload="metadata" playsinline></video>
+        <div>
+          ${h.skor !== null ? `<span class="skor ${kelasSkor(h.skor)}">Skor anti duplikat ${h.skor}/100</span>` : ''}
+          <div class="meta">${h.penilaian || ''}</div>
+          <div class="meta">Hasil: ${h.hasil}</div>
+          <div class="meta">Asal&nbsp;: ${h.asal}</div>
+          <div class="meta">Font: ${h.font} &middot; diproses ${h.detik} detik</div>
+          <a class="unduh" href="/unduh/${h.nama}" download>&#11015; Unduh video</a>
+          <details><summary>Lihat perubahan yang diterapkan</summary>
+            <ul class="rinci">${h.perubahan.map(p => '<li>' + p + '</li>').join('')}</ul>
+          </details>
+        </div>
+      </div>`).join('') + '</div>';
+  kotak.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function tampilGagal(pesan, rincian){
+  $('#kerja').style.display = 'none';
+  $('#tombol').disabled = false;
+  $('#tombol').textContent = 'Edit Video Sekarang';
+  const kotak = $('#hasil');
+  kotak.style.display = 'block';
+  kotak.innerHTML = '<div class="kartu"><h2>Gagal memproses</h2><div class="galat">' +
+    (pesan || 'Terjadi kesalahan') + (rincian ? '\n\n' + rincian : '') + '</div></div>';
+}
+</script>
+</body>
+</html>
