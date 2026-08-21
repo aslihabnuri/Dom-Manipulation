@@ -91,6 +91,8 @@ def _terapkan_opsi(pengaturan: Dict[str, Any], a: argparse.Namespace) -> Dict[st
         gaya["ukuran_judul"] = a.ukuran_judul
     if a.kotak:
         gaya["kotak_latar"] = True
+    if a.look:
+        gaya["look"] = a.look
     if a.handle:
         gaya["handle"] = a.handle
     if a.rasio:
@@ -274,6 +276,8 @@ def buat_parser() -> argparse.ArgumentParser:
     g.add_argument("--warna-garis", default="", help="warna garis tepi teks, mis. #000000")
     g.add_argument("--ukuran-judul", type=int, help="ukuran huruf judul (bawaan 68)")
     g.add_argument("--kotak", action="store_true", help="beri kotak latar di belakang teks")
+    g.add_argument("--look", default="", choices=["", "bersih", "hangat", "sinematik"],
+                   help="grading warna seragam untuk semua video")
     g.add_argument("--rasio", choices=["9:16", "asli"], help="bentuk layar hasil")
     g.add_argument("--bingkai", type=float, help="kecilkan gambar di atas latar blur, mis. 0.92")
     g.add_argument("--kualitas", type=int, help="CRF 18-26, makin kecil makin jernih (bawaan 21)")

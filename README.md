@@ -97,7 +97,7 @@ yang sama.
 | `aman`       | Perubahan sangat halus, mata hampir tidak bisa membedakan                        | Video yang tampilannya tidak boleh berubah |
 | `seimbang`   | **Bawaan.** Semua teknik dinamis dengan takaran sedang                            | Pemakaian harian |
 | `kuat`       | Takaran lebih besar + **balik gambar kiri-kanan** + potongan tepi lebih besar     | Video tanpa teks tertanam |
-| `maksimal`   | Takaran terbesar + **bingkai gradasi gelap** otomatis, TANPA membalik gambar      | Video yang sering kena flag tapi ada teks/logo |
+| `maksimal`   | Takaran terbesar + potongan zoom, TANPA membalik gambar                            | Video yang sering kena flag tapi ada teks/logo |
 
 Ditambah opsi **Bingkai** (`--bingkai 0.90`): gambar dikecilkan di atas latar blur.
 Ini mengubah komposisi gambar secara menyeluruh, jadi **paling ampuh** melawan
@@ -215,8 +215,8 @@ Akibatnya angka skor v2 lebih rendah dari v1 untuk video yang sama; itu
 disengaja, karena skor lama terbukti terlalu murah hati.
 
 Kalau skornya rendah, mesin sudah otomatis mengedit ulang lebih kuat
-(lihat `target_skor`). Yang paling menaikkan skor: preset `maksimal`
-(bingkai gradasi gelap) dan `--hook` (cold-open).
+(lihat `target_skor`). Yang paling menaikkan skor: `racik.py` (jahit ulang
+antar video) dan `--hook` (cold-open).
 
 ---
 

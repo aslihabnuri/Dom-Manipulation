@@ -187,6 +187,10 @@ def buat_rencana(
     if seed is None:
         sidik = _sidik_berkas(info.berkas)
         seed = int(sidik[:12], 16) + varian * 7919
+    else:
+        # Seed eksplisit pun harus berbeda antar varian - kalau tidak,
+        # percobaan eskalasi menghasilkan angka yang nyaris sama.
+        seed = int(seed) + varian * 7919
     acak = random.Random(seed)
 
     def rentang(kunci: str, bawaan=(0.0, 0.0)) -> float:

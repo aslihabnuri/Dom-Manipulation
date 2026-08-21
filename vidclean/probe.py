@@ -6,7 +6,7 @@ import json
 import os
 from dataclasses import dataclass, asdict
 
-from .ffmpeg import ffprobe_bin, jalankan
+from .ffmpeg import ffmpeg_bin, ffprobe_bin, jalankan
 
 
 @dataclass
@@ -51,6 +51,28 @@ def _pecahan(teks: str) -> float:
         return float(teks)
     except (ValueError, ZeroDivisionError):
         return 0.0
+
+
+def _ukur_durasi_decode(berkas: str) -> float:
+    """Durasi lewat decode penuh, dibaca dari kemajuan 'out_time' ffmpeg."""
+    import subprocess
+
+    try:
+        hasil = subprocess.run(
+            [ffmpeg_bin(), "-hide_banner", "-nostats", "-i", berkas,
+             "-map", "0:v:0", "-f", "null", "-progress", "pipe:1", "-"],
+            capture_output=True, text=True, timeout=600,
+        )
+    except Exception:  # noqa: BLE001
+        return 0.0
+    detik = 0.0
+    for baris in hasil.stdout.splitlines():
+        if baris.startswith("out_time_us="):
+            try:
+                detik = max(detik, float(baris.split("=", 1)[1]) / 1_000_000.0)
+            except ValueError:
+                continue
+    return round(detik, 3)
 
 
 def periksa(berkas: str) -> InfoVideo:
@@ -100,6 +122,13 @@ def periksa(berkas: str) -> InfoVideo:
                 break
         except (TypeError, ValueError):
             continue
+
+    if durasi <= 0.0:
+        # Wadah tidak menyimpan durasi (stream mentah / berkas cacat).
+        # Ukur lewat decode penuh - lambat tapi hanya terjadi pada kasus
+        # langka ini, dan tanpa angka durasi pipa hilir bisa menghasilkan
+        # keluaran bermasalah (mis. audio senyap berjam-jam).
+        durasi = _ukur_durasi_decode(berkas)
 
     return InfoVideo(
         berkas=berkas,

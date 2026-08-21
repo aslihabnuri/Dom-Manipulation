@@ -292,7 +292,8 @@ def _rantai_video(
             # Gradasi gelap netral: area tepi sama sekali tidak berkorelasi
             # dengan video asli - paling ampuh untuk konten yang seragam.
             graf.append(
-                f"gradients=s={lebar}x{tinggi}:c0=0x0d0d12:c1=0x1c1c24:"
+                f"gradients=s={lebar}x{tinggi}:rate={rencana.fps:.5f}:"
+                f"c0=0x0d0d12:c1=0x1c1c24:"
                 f"x0={lebar // 2}:y0=0:x1={lebar // 2}:y1={tinggi}:d=36000[bkbg2]"
             )
             graf.append(f"{arus}scale={bw}:{bh}:flags=lanczos[bkfg2]")
@@ -342,6 +343,21 @@ def _rantai_video(
     )
     if abs(rencana.hue) >= 0.05:
         akhir.append(f"hue=h={rencana.hue:.3f}")
+
+    # Grading "look" - nada warna seragam yang dipilih pengguna, supaya semua
+    # video di akun terasa satu gaya. Diterapkan SEBELUM kurva acak.
+    look = str(video_cfg.get("look", "")).lower()
+    if look == "bersih":
+        akhir.append("curves=master='0/0.015 0.5/0.52 1/0.995'")
+        akhir.append("eq=saturation=1.05:contrast=1.02")
+    elif look == "hangat":
+        akhir.append("colortemperature=temperature=5900")
+        akhir.append("curves=master='0/0.01 0.5/0.515 1/1'")
+        akhir.append("eq=saturation=1.03")
+    elif look == "sinematik":
+        akhir.append("colorbalance=bs=0.05:bh=-0.02:rh=0.02")
+        akhir.append("curves=master='0/0.03 0.5/0.5 1/0.97'")
+        akhir.append("eq=saturation=0.93:contrast=1.06")
 
     # Grading kurva: menggeser histogram warna secara non-linear.
     if abs(rencana.kurva_m) + abs(rencana.kurva_r) + abs(rencana.kurva_g) + abs(rencana.kurva_b) > 0.001:
@@ -440,6 +456,7 @@ def bangun_perintah(permintaan: Permintaan, kerja: str) -> Tuple[List[str], Renc
         video_cfg["bingkai"] = float(preset.get("bingkai_bawaan", 0) or 0)
     if not video_cfg.get("bingkai_latar"):
         video_cfg["bingkai_latar"] = preset.get("bingkai_latar", "blur")
+    video_cfg["look"] = str(gaya_cfg.get("look", "") or "")
 
     lebar, tinggi = _kanvas(info, video_cfg)
 
@@ -720,6 +737,7 @@ def proses_hingga_target(
     catatan: List[str] = []
     terbaik = None       # (Hasil, Kemiripan, path_sementara)
     sementara: List[str] = []
+    galat_terakhir: Optional[Exception] = None
 
     try:
         for nomor, u in enumerate(upaya, start=1):
@@ -742,7 +760,14 @@ def proses_hingga_target(
                 ganti["hook_lama"] = 1.6
             p_u = dataclasses.replace(permintaan, **ganti)
 
-            hasil = proses(p_u, kabar)
+            try:
+                hasil = proses(p_u, kabar)
+            except Exception as galat:  # noqa: BLE001
+                # Satu percobaan gagal tidak boleh membuang hasil percobaan
+                # lain yang sudah jadi.
+                catatan.append(f"Percobaan {nomor} gagal: {galat}")
+                galat_terakhir = galat
+                continue
             skor = bandingkan(hasil.asal, hasil.hasil, hasil.rencana)
             tanda_hook = " + cold-open" if p_u.hook_lama > 0 and permintaan.hook_lama <= 0 else ""
             catatan.append(
@@ -754,19 +779,26 @@ def proses_hingga_target(
             if skor.skor >= target:
                 break
 
-        assert terbaik is not None
+        if terbaik is None:
+            raise galat_terakhir or RuntimeError("Semua percobaan gagal")
         hasil, skor, path_terbaik = terbaik
-        shutil.move(path_terbaik, permintaan.keluaran)
-        hasil.keluaran = permintaan.keluaran
-        hasil.hasil.berkas = permintaan.keluaran
         if skor.skor < target:
             catatan.append(
                 f"Target {target:.0f} belum tercapai; dipakai percobaan terbaik ({skor.skor}/100)."
             )
         return hasil, skor, catatan
     finally:
+        # Hasil terbaik SELALU dipindahkan ke tujuan (juga saat percobaan lain
+        # melempar error), dan semua berkas percobaan lain dibersihkan.
+        if terbaik is not None and os.path.exists(terbaik[2]):
+            try:
+                shutil.move(terbaik[2], permintaan.keluaran)
+                terbaik[0].keluaran = permintaan.keluaran
+                terbaik[0].hasil.berkas = permintaan.keluaran
+            except OSError:
+                pass
         for path in sementara:
-            if path != (terbaik[2] if terbaik else "") and os.path.exists(path):
+            if os.path.exists(path):
                 try:
                     os.remove(path)
                 except OSError:

@@ -37,6 +37,13 @@ def main() -> int:
     p.add_argument("--preset", default="maksimal", choices=konfigurasi.NAMA_PRESET)
     p.add_argument("--potong-atas", type=float, default=0.0,
                    help="buang bagian atas layar (hapus watermark), mis. 0.08")
+    p.add_argument("--look", default="hangat",
+                   choices=["", "bersih", "hangat", "sinematik"],
+                   help="grading warna seragam (bawaan: hangat)")
+    p.add_argument("--tanpa-hapus-teks", action="store_true",
+                   help="jangan periksa/hapus teks tertanam di footage")
+    p.add_argument("--tanpa-transisi", action="store_true", help="semua sambungan potongan tegas")
+    p.add_argument("--tanpa-gerak", action="store_true", help="tanpa gerakan Ken Burns per shot")
     p.add_argument("--seed", type=int, default=None, help="angka acak tetap")
     p.add_argument("--varian", type=int, default=1, help="buat berapa racikan berbeda")
     p.add_argument("--target-skor", type=float, default=None)
@@ -62,6 +69,8 @@ def main() -> int:
     pengaturan = konfigurasi.muat()
     if a.potong_atas:
         pengaturan["video"]["potong_atas"] = a.potong_atas
+    if a.look:
+        pengaturan["gaya"]["look"] = a.look
 
     os.makedirs(FOLDER_KELUAR, exist_ok=True)
     gagal = 0
@@ -83,6 +92,9 @@ def main() -> int:
                 seed = sum(os.path.getsize(b) for b in berkas) % (10 ** 9) + varian * 7919
             modul_racik.racik(
                 berkas, master, target_durasi=a.durasi, seed=seed,
+                hapus_teks=not a.tanpa_hapus_teks,
+                transisi=not a.tanpa_transisi,
+                gerak=not a.tanpa_gerak,
                 kabar=lambda pesan: print(f"  ... {pesan}"),
             )
 

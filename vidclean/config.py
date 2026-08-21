@@ -37,6 +37,7 @@ BAWAAN: Dict[str, Any] = {
         "posisi_subtitle": 0.74,
         "margin_samping": 0.09,
         "handle": "",
+        "look": "",                  # grading seragam: "" | "bersih" | "hangat" | "sinematik"
         "posisi_handle": "atas",
         "transparansi_handle": 35,
     },
@@ -155,7 +156,7 @@ PRESET: Dict[str, Dict[str, Any]] = {
         "punch": (1.08, 1.13),
     },
     "maksimal": {
-        "label": "Maksimal - semua teknik dinamis + bingkai blur, tanpa membalik gambar (teks tetap terbaca)",
+        "label": "Maksimal - semua teknik dinamis dengan takaran terbesar, tanpa membalik gambar (teks tetap terbaca)",
         "cermin": False,
         "zoom": (1.055, 1.085),
         "geser": (-0.016, 0.016),

@@ -39,8 +39,8 @@ class Kemiripan:
         if self.skor >= 60:
             return "AMAN - perbedaannya sudah memadai"
         if self.skor >= 40:
-            return "CUKUP - sebaiknya naikkan preset atau nyalakan bingkai"
-        return "KURANG - masih terlalu mirip, pakai preset 'maksimal' + bingkai"
+            return "CUKUP - sebaiknya naikkan preset atau pakai racik.py"
+        return "KURANG - masih terlalu mirip, pakai racik.py (jahit ulang antar video)"
 
 
 def _sidik(berkas: str, detik: float) -> Optional[Tuple[int, int]]:
