@@ -12,7 +12,7 @@ window.MBA_COURSES.bes = {
     name: "Business Ethics for Business Sustainability",
     short: "BES",
     icon: "⚖️",
-    accent: "#3f6b4f",
+    accent: "#0A7A63",
     lecturer: "Prof. Dr. Eko Suwardi, M.Sc.",
     lecturerNote: "Koordinator RPKPS: Amin Wibowo, Ph.D.",
     sks: 3,

@@ -20,7 +20,7 @@ window.MBA_COURSES.sm = {
     name: "Strategic Management",
     short: "SM",
     icon: "♟️",
-    accent: "#2f5d7c",
+    accent: "#6B3AF0",
     lecturer: "Dr. Rangga Almahendra, S.T., M.M.",
     lecturerNote: "Silabus baru 2026 · Anda di Kelompok 3",
     sks: 3,

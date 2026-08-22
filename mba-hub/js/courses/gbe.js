@@ -14,7 +14,7 @@ window.MBA_COURSES.gbe = {
     name: "General Business Environment",
     short: "GBE",
     icon: "🌐",
-    accent: "#a4432f",
+    accent: "#C2185B",
     lecturer: "Prof. Dr. Sony Warsono, MAFIS., Akt. (koordinator)",
     lecturerNote: "Team teaching: tiap lingkungan dibawakan dosen yang berbeda",
     sks: 3,

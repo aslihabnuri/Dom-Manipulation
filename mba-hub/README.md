@@ -43,6 +43,7 @@ Rute: `#/` = pemilih mata kuliah, `#/<kode>/<view>` = view per mata kuliah
 - **Tugas**: tugas bawaan silabus + tugas tambahan sendiri, dengan badge tenggat
 - **Catatan Kelas**: enam kolom terstruktur untuk merekam pembahasan dosen
 - **Studi Kasus**: 44 teaching case bergaya Harvard, satu per bab untuk keempat mata kuliah, lengkap dengan narasi, exhibit data, pertanyaan diskusi yang jawabannya tersimpan otomatis, dan panduan analisis empat komponen. Enam kasus resmi silabus SM tertaut langsung ke PDF aslinya di Google Drive.
+- **Tampilan**: sistem visual "electric campus": kanvas indigo, lembar kerja putih mengambang, aksen lime dan magenta, tipografi Archivo lebar untuk display. Area baca sengaja dibiarkan tenang dan berkontras tinggi karena dipakai membaca ribuan kata.
 - **Materi dua bagian**: tab **Materi PPT** (pembahasan slide dosen, tidak diubah) dan tab **Materi Buku** (uraian lengkap bab buku referensi per capaian pembelajaran, ditulis bergaya karya ilmiah dengan sub-bab bernomor, untuk dipelajari sebelum kelas). Stabilo dan catatan bekerja terpisah di tiap tab.
 - **Materi / Flashcards / Kuis / Catatan / Kalkulator**: sama seperti aplikasi OTM lama
 

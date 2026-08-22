@@ -18,7 +18,7 @@ window.MBA_COURSES.otm = {
     name: "Operations & Technology Management",
     short: "OTM",
     icon: "\u2699\ufe0f",
-    accent: "#a97b12",
+    accent: "#4B3FE4",
     lecturer: "Prof. Nur Aini Masruroh, ST., M.Sc., Ph.D.",
     lecturerNote: "Industrial Engineering UGM \u00b7 M.Sc. University of Manchester \u00b7 Ph.D. NUS",
     sks: 3,

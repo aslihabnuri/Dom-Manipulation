@@ -1,31 +1,65 @@
 /* ============================================================
-   OTM Study Hub: MBA UGM
-   Aesthetic: "warm academic editorial", kertas hangat, tinta
-   espresso, aksen emas UGM. Serif editorial untuk display,
-   grotesk untuk body, mono untuk angka.
+   MBA UGM Study Hub
+   Aesthetic: "electric campus". Kanvas indigo pekat, lembar kerja
+   putih yang mengambang di atasnya, aksen lime untuk aksi dan
+   magenta untuk penanda. Tipografi grotesk lebar untuk display,
+   badan teks tetap tenang karena dipakai membaca ribuan kata.
    ============================================================ */
 
 :root {
-  --paper: #f7f2e6;
-  --paper-deep: #efe7d3;
-  --card: #fdfaf1;
-  --ink: #262119;
-  --ink-soft: #57503f;
-  --ink-faint: #8a8069;
-  --gold: #a97b12;
-  --gold-bright: #d9a521;
-  --gold-soft: #f0e3bd;
-  --panel: #221d14;
-  --panel-ink: #f4ecd7;
-  --green: #3f6b4f;
-  --red: #a4432f;
-  --line: rgba(38, 33, 25, 0.16);
-  --line-strong: rgba(38, 33, 25, 0.32);
-  --serif: "Newsreader", "Iowan Old Style", Georgia, "Times New Roman", serif;
-  --sans: "Schibsted Grotesk", "Avenir Next", "Segoe UI", sans-serif;
+  /* --- palet inti --- */
+  --indigo: oklch(0.47 0.24 271);
+  --indigo-deep: oklch(0.34 0.20 271);
+  --indigo-soft: oklch(0.62 0.19 271);
+  --indigo-wash: oklch(0.95 0.03 271);
+  --lime: oklch(0.92 0.19 111);
+  --lime-deep: oklch(0.78 0.17 111);
+  --lime-wash: oklch(0.97 0.06 111);
+  --magenta: oklch(0.66 0.26 4);
+  --magenta-wash: oklch(0.95 0.05 4);
+  --cyan: oklch(0.80 0.14 195);
+
+  /* --- permukaan --- */
+  --paper: oklch(0.985 0.004 271);
+  --paper-deep: oklch(0.955 0.012 271);
+  --card: oklch(1 0 0);
+  --panel: oklch(0.24 0.09 271);
+  --panel-ink: oklch(0.97 0.02 271);
+
+  /* --- tinta --- */
+  --ink: oklch(0.21 0.04 275);
+  --ink-soft: oklch(0.42 0.03 275);
+  --ink-faint: oklch(0.49 0.025 275);
+
+  /* --- alias semantik (dipakai luas di seluruh berkas) --- */
+  --gold: oklch(0.52 0.20 271);
+  --gold-bright: var(--lime);
+  --gold-soft: var(--lime-wash);
+  --green: oklch(0.52 0.15 165);
+  --red: var(--magenta);
+
+  --line: color-mix(in oklch, var(--ink) 14%, transparent);
+  --line-strong: color-mix(in oklch, var(--ink) 30%, transparent);
+
+  /* --- tipografi --- */
+  --serif: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --sans: "Archivo", "Helvetica Neue", Arial, sans-serif;
   --mono: "Spline Sans Mono", "SF Mono", Consolas, monospace;
-  --shadow: 0 1px 2px rgba(38, 33, 25, 0.06), 0 12px 32px -16px rgba(38, 33, 25, 0.28);
-  --radius: 14px;
+  --display-wide: "Archivo", sans-serif;
+
+  /* --- bentuk & bayangan --- */
+  --shadow: 0 2px 4px oklch(0.24 0.09 271 / 0.05), 0 18px 40px -24px oklch(0.24 0.09 271 / 0.30);
+  --shadow-lift: 0 4px 8px oklch(0.24 0.09 271 / 0.07), 0 28px 60px -30px oklch(0.24 0.09 271 / 0.38);
+  --radius: 20px;
+  --radius-lg: 30px;
+  --radius-sm: 12px;
+
+  /* --- z-index bertingkat --- */
+  --z-sticky: 50;
+  --z-popover: 120;
+  --z-panel: 130;
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -34,27 +68,25 @@ html { scroll-behavior: smooth; }
 
 body {
   font-family: var(--sans);
-  background:
-    radial-gradient(1200px 500px at 85% -10%, rgba(217, 165, 33, 0.14), transparent 60%),
-    radial-gradient(900px 420px at -10% 8%, rgba(63, 107, 79, 0.08), transparent 55%),
-    var(--paper);
+  background: var(--indigo);
   color: var(--ink);
   line-height: 1.6;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
+  font-synthesis-weight: none;
 }
 
-/* subtle paper grain */
+/* butiran halus di atas kanvas indigo */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 0;
-  opacity: 0.5;
+  opacity: 0.55;
   background-image:
-    repeating-linear-gradient(0deg, transparent 0 2px, rgba(38, 33, 25, 0.012) 2px 3px),
-    repeating-linear-gradient(90deg, transparent 0 2px, rgba(38, 33, 25, 0.012) 2px 3px);
+    radial-gradient(900px 500px at 88% -8%, oklch(0.92 0.19 111 / 0.16), transparent 62%),
+    radial-gradient(760px 460px at -6% 12%, oklch(0.66 0.26 4 / 0.14), transparent 58%);
 }
 
 ::selection { background: var(--gold-soft); }
@@ -2004,3 +2036,358 @@ mark.hl--noted::after {
   text-decoration: none; background: color-mix(in srgb, var(--gold) 8%, transparent);
 }
 .case-drive:hover { border-color: var(--gold); }
+
+/* ============================================================
+   LAPISAN TEMA: electric campus
+   Kanvas indigo, lembar kerja putih, aksen lime dan magenta.
+   ============================================================ */
+
+.shell {
+  position: relative;
+  z-index: 1;
+  max-width: 1240px;
+  margin: clamp(0.75rem, 2.5vw, 2rem) auto;
+  background: var(--paper);
+  border-radius: clamp(20px, 3vw, 38px);
+  overflow: clip;
+  box-shadow: 0 40px 90px -50px oklch(0.18 0.10 271 / 0.75);
+}
+
+/* ---------------- Topbar sebagai pita lime ---------------- */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+  background: var(--lime);
+  backdrop-filter: none;
+  border-bottom: none;
+}
+
+.topbar-inner {
+  max-width: none;
+  padding: 0.85rem clamp(1rem, 3vw, 2rem);
+  gap: 1rem;
+}
+
+.wordmark { color: var(--ink); }
+
+.wordmark-badge {
+  font-family: var(--display-wide);
+  font-weight: 800;
+  font-variation-settings: "wdth" 112;
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+  background: var(--indigo);
+  color: var(--lime);
+  padding: 0.5rem 0.65rem;
+  border-radius: 12px;
+}
+
+.wordmark-text strong {
+  font-family: var(--display-wide);
+  font-weight: 800;
+  font-variation-settings: "wdth" 108;
+  font-size: 1.05rem;
+  letter-spacing: -0.015em;
+  text-transform: uppercase;
+}
+
+.wordmark-text small { color: color-mix(in oklch, var(--ink) 62%, transparent); }
+
+.tabs { gap: 0.25rem; }
+
+.tabs a {
+  color: color-mix(in oklch, var(--ink) 72%, transparent);
+  font-weight: 700;
+  font-size: 0.82rem;
+  padding: 0.45rem 0.85rem;
+  transition: background 0.18s var(--ease), color 0.18s var(--ease);
+}
+
+.tabs a:hover { background: oklch(1 0 0 / 0.55); color: var(--ink); }
+.tabs a.active { background: var(--indigo); color: var(--lime); }
+
+.crumb-home { color: color-mix(in oklch, var(--ink) 68%, transparent); }
+.crumb-cur { background: oklch(1 0 0 / 0.6); border-color: transparent; }
+
+/* ---------------- Kanvas konten ---------------- */
+.app { max-width: none; padding: clamp(1.5rem, 3.5vw, 2.75rem) clamp(1rem, 3vw, 2rem) 3.5rem; }
+
+.footer {
+  background: var(--indigo-deep);
+  color: color-mix(in oklch, var(--panel-ink) 82%, transparent);
+  border-top: none;
+  margin-top: 0;
+  padding: 2rem clamp(1rem, 3vw, 2rem) 2.25rem;
+  max-width: none;
+}
+
+.footer .footer-muted { color: color-mix(in oklch, var(--panel-ink) 58%, transparent); }
+
+/* ---------------- Tipografi display ---------------- */
+.view-title {
+  font-family: var(--display-wide);
+  font-weight: 800;
+  font-variation-settings: "wdth" 112;
+  font-size: clamp(1.9rem, 4.4vw, 3.1rem);
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  text-wrap: balance;
+  color: var(--ink);
+}
+
+.eyebrow {
+  display: inline-block;
+  font-family: var(--sans);
+  font-weight: 800;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--indigo);
+  background: var(--indigo-wash);
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  margin-bottom: 0.75rem;
+}
+
+.view-sub { color: var(--ink-soft); max-width: 68ch; }
+
+h2, h3, h4 { letter-spacing: -0.015em; }
+
+/* ---------------- Kartu ---------------- */
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: 0 1px 2px oklch(0.24 0.09 271 / 0.04);
+}
+
+/* ---------------- Hero dashboard ---------------- */
+.hero {
+  background: var(--indigo);
+  color: var(--panel-ink);
+  border-radius: var(--radius-lg);
+  padding: clamp(1.75rem, 4vw, 3.25rem);
+  overflow: hidden;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: auto -60px -90px auto;
+  width: 260px;
+  height: 260px;
+  border: none;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, var(--cyan), transparent 68%);
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.hero .eyebrow { color: var(--indigo); background: var(--lime); }
+
+.hero h1 {
+  font-family: var(--display-wide);
+  font-weight: 800;
+  font-variation-settings: "wdth" 110;
+  font-size: clamp(1.9rem, 4.6vw, 3.3rem);
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+.hero h1 em { font-style: normal; color: var(--lime); }
+.hero p { color: color-mix(in oklch, var(--panel-ink) 82%, transparent); }
+
+.chip {
+  font-weight: 700;
+  border-color: oklch(1 0 0 / 0.3);
+  color: oklch(1 0 0 / 0.92);
+}
+
+.chip--gold { background: var(--lime); border-color: var(--lime); color: var(--ink); }
+
+/* ---------------- Tombol ---------------- */
+.btn {
+  font-family: var(--sans);
+  font-weight: 700;
+  border-radius: 999px;
+  border-width: 1.5px;
+  transition: transform 0.18s var(--ease), background 0.18s var(--ease), border-color 0.18s var(--ease);
+}
+
+.btn--primary { background: var(--indigo); border-color: var(--indigo); color: oklch(1 0 0); }
+.btn--primary:hover { background: var(--indigo-deep); border-color: var(--indigo-deep); }
+.btn--gold { background: var(--lime); border-color: var(--lime); color: var(--ink); }
+.btn--gold:hover { background: var(--lime-deep); border-color: var(--lime-deep); }
+.btn--green { background: oklch(0.52 0.15 165); border-color: oklch(0.52 0.15 165); }
+
+/* ---------------- Penanda & pil ---------------- */
+.session-picker button { border-radius: 999px; font-weight: 700; }
+.session-picker button.active { background: var(--indigo); border-color: var(--indigo); color: oklch(1 0 0); }
+
+.tag { border-radius: 999px; font-weight: 600; }
+.tag--case { background: var(--magenta-wash); border-color: color-mix(in oklch, var(--magenta) 35%, transparent); color: oklch(0.45 0.20 4); }
+
+.src-badge--ppt { background: var(--lime-wash); color: oklch(0.42 0.13 111); border-color: color-mix(in oklch, var(--lime-deep) 45%, transparent); }
+.src-badge--book { background: var(--indigo-wash); color: var(--indigo); border-color: color-mix(in oklch, var(--indigo) 28%, transparent); }
+
+.mat-tab.active { border-bottom-color: var(--indigo); }
+.mat-tabs { border-bottom-color: var(--line); }
+
+/* ---------------- Area baca tetap tenang ---------------- */
+.accordion-body, .bk-body { color: var(--ink-soft); }
+.bk-no { color: var(--indigo); }
+.sub-h { color: var(--ink); }
+.key-box { background: var(--lime-wash); border-color: color-mix(in oklch, var(--lime-deep) 40%, transparent); }
+.case-box { background: var(--indigo-wash); border-color: color-mix(in oklch, var(--indigo) 22%, transparent); }
+.bk-table th { background: var(--indigo-wash); }
+.case-link { background: var(--indigo-wash); border-color: color-mix(in oklch, var(--indigo) 20%, transparent); }
+.case-link span a { text-decoration-color: var(--indigo); }
+.case-link span a:hover { color: var(--indigo); }
+
+::selection { background: var(--lime); color: var(--ink); }
+
+@media (prefers-reduced-motion: reduce) {
+  .view { animation: none; }
+  .btn { transition: none; }
+}
+
+/* ---------------- Kartu mata kuliah: blok warna penuh ---------------- */
+.hc-card {
+  position: relative;
+  background: var(--c);
+  border: none;
+  border-radius: var(--radius-lg);
+  padding: 1.5rem 1.5rem 1.35rem;
+  color: oklch(1 0 0);
+  box-shadow: 0 2px 4px oklch(0.24 0.09 271 / 0.10);
+  overflow: hidden;
+  isolation: isolate;
+  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
+}
+
+/* bulatan dekoratif yang membesar saat kartu disentuh */
+.hc-card::after {
+  content: "";
+  position: absolute;
+  right: -70px;
+  bottom: -70px;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: oklch(1 0 0 / 0.13);
+  z-index: -1;
+  transition: transform 0.45s var(--ease);
+}
+
+.hc-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lift);
+}
+
+.hc-card:hover::after { transform: scale(1.5); }
+
+.hc-card:focus-visible {
+  outline: 3px solid var(--lime);
+  outline-offset: 3px;
+}
+
+.hc-icon { font-size: 1.9rem; filter: saturate(0) brightness(4); }
+
+.hc-code {
+  font-family: var(--mono);
+  color: oklch(1 0 0 / 0.85);
+  font-size: 0.68rem;
+}
+
+.hc-card h3 {
+  font-family: var(--display-wide);
+  font-weight: 800;
+  font-variation-settings: "wdth" 108;
+  font-size: 1.22rem;
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+  text-transform: uppercase;
+  text-wrap: balance;
+  margin: 0.3rem 0 0;
+  color: oklch(1 0 0);
+}
+
+.hc-lect { color: oklch(1 0 0 / 0.86); font-weight: 500; }
+.hc-status { color: oklch(1 0 0 / 0.72); }
+
+.hc-bar { background: oklch(1 0 0 / 0.24); height: 8px; }
+.hc-bar i { background: var(--lime); }
+
+.hc-foot { color: oklch(1 0 0 / 0.75); }
+.hc-next { color: var(--lime); }
+
+/* keterbacaan di atas blok warna penuh */
+.hc-card h3 { font-size: clamp(1rem, 1.5vw, 1.18rem); font-variation-settings: "wdth" 100; }
+.hc-lect, .hc-status { color: oklch(1 0 0 / 0.9); }
+.hc-foot { color: oklch(1 0 0 / 0.92); align-items: center; }
+
+.hc-next {
+  color: oklch(1 0 0);
+  background: oklch(0 0 0 / 0.3);
+  padding: 0.28rem 0.62rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+}
+
+.hc-code { color: oklch(1 0 0 / 0.92); }
+
+/* kontras pada permukaan berwarna */
+.hc-lect, .hc-status, .hc-code, .hc-foot { color: oklch(1 0 0 / 0.96); }
+.crumb-cur { color: var(--ink); background: oklch(1 0 0 / 0.85); }
+.tk-badge.tk-late { background: var(--magenta-wash); color: oklch(0.42 0.19 4); border-color: color-mix(in oklch, var(--magenta) 40%, transparent); }
+
+/* teks penanda pada latar tint: turunkan luminans agar lolos 4.5:1 */
+:root { --ink-magenta: oklch(0.45 0.20 4); --ink-lime: oklch(0.42 0.13 111); --ink-green: oklch(0.44 0.13 165); }
+
+.btn--red-outline { color: var(--ink-magenta); border-color: color-mix(in oklch, var(--magenta) 42%, transparent); }
+.jd-exam .jd-what b { color: var(--ink-magenta); }
+.mx-good b { color: var(--ink-green); }
+.mx-warn b { color: var(--ink-lime); }
+.mx-bad b { color: var(--ink-magenta); }
+.mx-warn { background: var(--lime-wash); border-color: color-mix(in oklch, var(--lime-deep) 45%, transparent); }
+.mx-bad { background: var(--magenta-wash); border-color: color-mix(in oklch, var(--magenta) 38%, transparent); }
+.mx-good { background: oklch(0.95 0.04 165); border-color: color-mix(in oklch, var(--ink-green) 38%, transparent); }
+.case-box strong, .key-box strong { color: var(--ink); }
+
+/* tabel exhibit boleh menggeser sendiri di layar sempit */
+.ex-scroll, .bk-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.ex-block { overflow: hidden; }
+.bk-body table { display: block; overflow-x: auto; max-width: 100%; }
+.case-box > strong:first-child, .case-box p:first-child strong { color: var(--indigo); }
+
+/* hero: dekorasi selalu di belakang teks */
+.hero { isolation: isolate; }
+.hero::after { z-index: -1; }
+.hero > * { position: relative; z-index: 1; }
+
+@media (max-width: 560px) {
+  .eyebrow { font-size: 0.64rem; letter-spacing: 0.07em; }
+  .hero::after { inset: auto -90px -110px auto; opacity: 0.4; }
+  .hc-card h3 { font-size: 1.02rem; }
+  .topbar-inner { row-gap: 0.6rem; }
+  .tabs { margin-left: 0; width: 100%; overflow-x: auto; flex-wrap: nowrap; scrollbar-width: none; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tabs a { white-space: nowrap; }
+}
+
+/* judul konten selaras dengan sistem display */
+.case-head h2 {
+  font-family: var(--display-wide);
+  font-weight: 800;
+  font-variation-settings: "wdth" 105;
+  font-size: clamp(1.35rem, 2.6vw, 1.9rem);
+  line-height: 1.04;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+.materi-header h2, .bk-title { font-weight: 800; letter-spacing: -0.022em; }
+.session-title { font-weight: 700; }

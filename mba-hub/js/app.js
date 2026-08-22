@@ -2024,7 +2024,7 @@
     const exHtml = (cur.exhibits || []).map((ex) => `
       <div class="card card-pad ex-block">
         <h3>${esc(ex.title)}</h3>
-        <div class="ex-scroll"><table class="ex-table">
+        <div class="ex-scroll" tabindex="0" role="region" aria-label="Tabel exhibit, geser untuk melihat seluruh kolom"><table class="ex-table">
           ${ex.rows.map((r, i) => `<tr>${r.map((c) => i === 0 ? `<th>${c}</th>` : `<td>${c}</td>`).join("")}</tr>`).join("")}
         </table></div>
         ${ex.note ? `<p class="ex-note">${esc(ex.note)}</p>` : ""}
