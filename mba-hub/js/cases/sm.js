@@ -89,79 +89,104 @@ berikutnya.</p>` }
   {
     id: "sm5-manutd",
     title: "Manchester United: Bersiap untuk Hidup Tanpa Ferguson",
-    subtitle: "Menguji sumber daya dan kapabilitas sebuah klub ketika aset terpentingnya adalah seseorang yang pensiun",
+    subtitle: "Menakar sumber daya dan kapabilitas sebuah klub ketika arsitek utamanya mendekati pensiun",
     forSession: 5,
     badge: "Kasus resmi Kelompok 4",
-    readingTime: 7,
-    officialSource: "Bacaan resmi: Grant, R.M. (2010), Contemporary Strategy Analysis, Bab 6. Primer ini mempercepat pemahaman, bukan menggantikannya.",
-    decisionMaker: "Manajemen eksekutif klub dan pemiliknya",
-    decisionPoint: "Mempertahankan keunggulan kompetitif klub setelah pensiunnya manajer yang memimpin selama dua puluh enam tahun",
-    relevance: "Kasus utama untuk analisis sumber daya dan kapabilitas, kerangka VRIO, dan pertanyaan tentang keunggulan yang melekat pada individu.",
+    readingTime: 8,
+    officialSource: "Bacaan resmi (PDF di Drive, dua bagian): Grant, R.M. (2010), Manchester United: Preparing for Life without Ferguson, teaching case Contemporary Strategy Analysis. Bagian 2: https://drive.google.com/file/d/1VOWueCFJvHEe306j5JD0IQopFCFtQWQO/view",
+    driveUrl: "https://drive.google.com/file/d/1SqV5W6XZpO3IZ8d1KlOFUqn5oeR-IcHv/view",
+    decisionMaker: "David Gill, Chief Executive Manchester United Football Club",
+    decisionPoint: "Juli 2009, dalam Asia Tour: merencanakan suksesi Sir Alex Ferguson yang diperkirakan pensiun, dengan memahami lebih dulu apa yang sesungguhnya menentukan keberhasilan sebuah klub",
+    relevance: "Bab 4 (analisis sumber daya, kapabilitas, dan daya saing perusahaan), pasangan langsung materi VRIN.",
     sections: [
-      { heading: "Dua Puluh Enam Tahun Satu Manajer",
-        body: `<p>Sir Alex Ferguson menjabat sebagai manajer Manchester United dari 1986 hingga pensiun pada 2013.
-Pada masa itu klub memenangi tiga belas gelar liga domestik dan dua trofi kompetisi klub Eropa tertinggi, dan
-berubah dari klub sepak bola menjadi merek global dengan pendapatan komersial yang menyaingi pendapatan
-pertandingan dan penyiaran.</p>
-<p>Keberhasilan itu bertumpu pada beberapa hal yang saling menguatkan: sistem pembinaan pemain muda yang
-menghasilkan generasi pemain berbiaya rendah, kemampuan manajer membangun ulang tim beberapa kali tanpa kehilangan
-daya saing, disiplin ruang ganti, serta kemampuan bertahan pada momen-momen menentukan yang oleh pers Inggris
-dijuluki waktu tambahan Ferguson.</p>
-<p>Ketika ia mengumumkan pensiun, pertanyaan yang muncul bukan sekadar siapa penggantinya, melainkan apa
-sesungguhnya sumber keunggulan klub selama ini, dan berapa banyak di antaranya yang ikut pergi bersamanya.</p>` },
-      { heading: "Memisahkan Sumber Daya dari Kapabilitas",
-        body: `<p>Analisis Grant membedakan sumber daya, yaitu aset yang dimiliki, dari kapabilitas, yaitu
-kemampuan organisasi memakai aset itu untuk mencapai hasil. Klub ini memiliki sumber daya yang jelas: merek global,
-stadion berkapasitas besar, basis pendukung di banyak negara, kontrak sponsor bernilai tinggi, akademi pemain muda,
-dan kemampuan finansial merekrut pemain.</p>
-<p>Kapabilitasnya lebih sulit dipetakan. Kemampuan mengembangkan pemain muda menjadi pemain tim utama, kemampuan
-membangun ulang skuad, dan kemampuan menjaga budaya menang adalah kapabilitas yang selama dua puluh enam tahun
-melekat pada satu orang.</p>
-<p>Di sinilah kerangka VRIO menjadi tajam. Sebuah sumber daya bernilai, langka, sulit ditiru, dan didukung
-organisasi akan menghasilkan keunggulan berkelanjutan. Namun bila kapabilitas itu berada pada individu, bukan pada
-sistem, maka ketika individu itu pergi, keunggulannya ikut pergi. Pertanyaan pentingnya adalah sejauh mana klub
-telah mengubah keahlian pribadi menjadi rutinitas organisasi.</p>
-<p>Musim-musim setelah 2013 memberi jawaban yang keras. Klub berganti manajer beberapa kali, membelanjakan dana
-besar untuk pemain, dan tidak lagi memenangi gelar liga, meskipun pendapatan komersialnya tetap tumbuh.</p>` },
-      { heading: "Bisnis yang Terus Tumbuh, Prestasi yang Menurun",
-        body: `<p>Fakta yang membuat kasus ini menarik adalah terpisahnya kinerja olahraga dari kinerja komersial.
-Pendapatan klub tetap termasuk tertinggi di dunia karena kontrak sponsor dan penyiaran berjangka panjang tidak
-langsung terkait hasil pertandingan musim berjalan.</p>
-<p>Namun pemisahan itu memiliki batas. Ketiadaan partisipasi di kompetisi Eropa tertinggi mengurangi pendapatan dan
-memicu klausul penurunan nilai pada sebagian kontrak sponsor. Dalam jangka panjang, daya tarik komersial bertumpu
-pada relevansi olahraga.</p>
-<p>Struktur kepemilikan menambah lapisan. Pengambilalihan klub dengan pembiayaan utang membebani neraca dengan
-bunga yang harus dibayar dari arus kas operasi, sehingga dana yang tersedia untuk skuad bersaing dengan kewajiban
-pembayaran utang.</p>` }
+      { heading: "Juli 2009: Tur yang Sepenuhnya Komersial",
+        body: `<p>Pada Juli 2009, David Gill mendampingi tim Manchester United dalam Asia Tour melawan tim-tim lokal
+di Malaysia, Indonesia, Korea Selatan, dan Tiongkok. Di atas kertas tur itu bagian dari persiapan pramusim; pada
+kenyataannya tujuannya hampir seluruhnya komersial (Grant, 2010). Jadwalnya pun ditentukan oleh kesepakatan
+sponsor: laga Kuala Lumpur adalah imbalan sponsor Telekom Malaysia, sementara laga lainnya terkait kesepakatan
+dengan mitra di Korea, Tiongkok, dan Indonesia.</p>
+<p>Alasannya jelas: klub memperkirakan memiliki 80 juta pendukung di Asia, termasuk 1,2 juta pemegang kartu
+kredit berlogo klub di Korea Selatan. Basis penggemar Asia itu pula yang menjadi kunci kesepakatan sponsor
+empat tahun senilai 80 juta pound dengan AON, yang logonya akan menggantikan AIG di kaus tim. Di dalam pesawat
+yang mendarat di Kuala Lumpur ikut serta tim komersial dari London yang bertugas menuntaskan serangkaian
+kesepakatan sponsor dan perjanjian per wilayah.</p>
+<p>Namun yang paling membebani pikiran Gill bukan urusan komersial. Selama tim terus menang dan bermain menarik,
+pendapatan akan terus mengalir. Awan paling gelap di cakrawala adalah pensiunnya Sir Alex Ferguson yang semakin
+dekat: manajer yang dalam 23 tahun membangun seluruh infrastruktur pemandu bakat, latihan, disiplin, serta taktik
+tim, dan pada akhir 2009 akan berusia 68 tahun. Mencari penggantinya memaksa Gill merenungkan pertanyaan yang
+lebih mendasar: apa sesungguhnya yang menentukan keberhasilan dalam sepak bola Inggris dan Eropa.</p>` },
+      { heading: "Ekonomi Industri Sepak Bola",
+        body: `<p>Kasus ini memberikan potret industri yang tidak biasa. Pendapatan klub mengalir dari tiga sumber:
+<em>matchday</em> (tiket dan hospitality), <em>penyiaran</em> (hak siar Premier League dijual 2,7 miliar pound
+untuk 2007 sampai 2010, memberi rata-rata 45 juta pound per klub per tahun, ditambah lebih dari 30 juta euro dari
+UEFA bagi peserta terbaik Liga Champions), dan <em>komersial</em> (sponsor dan lisensi merchandise). Lolos ke Liga
+Champions menjadi sasaran finansial yang kritis karena pendapatannya besar, dan hal itu memperlebar jurang antara
+empat klub teratas Inggris dan sisanya.</p>
+<p>Di sisi biaya, gaji pemain mendominasi: sekitar 62 persen pendapatan untuk rata-rata Premier League, sekitar
+separuh pendapatan untuk Manchester United dan Arsenal, hingga 81 persen untuk Chelsea. Biaya transfer terus
+melambung karena masuknya pemilik super kaya; pada musim panas 2009 Cristiano Ronaldo pindah ke Real Madrid
+dengan rekor sekitar 93 juta dolar.</p>
+<p>Hasil akhirnya paradoks: olahraga paling populer di dunia adalah bisnis yang nyaris tidak menguntungkan.
+Dalam data kasus untuk 2000 sampai 2006, hanya Manchester United (12,6 persen laba atas penjualan), Arsenal, dan
+Bayern Munich yang mencetak laba berarti; Chelsea dan Inter justru merugi puluhan persen. Manchester United
+sendiri menghasilkan pendapatan sekitar 325 juta euro dengan EBITDA hampir 102 juta euro, tertinggi di Eropa,
+tetapi memikul utang sekitar 616 juta pound akibat akuisisi keluarga Glazer yang dibiayai utang.</p>` },
+      { heading: "Dua Jalan Menuju Tim Hebat, dan Peran Sang Manajer",
+        body: `<p>Karena penentu utama kinerja tim adalah kualitas pemain, klub memiliki dua jalan: <strong>membeli
+pemain jadi</strong> atau <strong>mengembangkan pemain sendiri</strong>. Kasus ini memetakan strategi klub-klub
+puncak: Real Madrid terang-terangan membeli pemain terbaik dunia; AC Milan mengandalkan pemain matang; Arsenal
+membentuk pemain muda berbakat menjadi tim yang mengalir; sedangkan Manchester United menekankan pengembangan
+talenta muda yang dipadukan dengan pemain berpengalaman.</p>
+<p>Di tengah semua itu berdiri figur manajer. Kasus ini mencatat bahwa keberhasilan berkelanjutan sebuah tim
+hampir selalu terkait dengan satu pelatih, tetapi apa yang membuat pelatih hebat sulit dirumuskan: gaya keras
+Ferguson berbeda dari ketenangan Eriksson, pendekatan intelektual Wenger, atau gaya obsesif Mourinho, dan pelatih
+yang berjaya di satu klub sering gagal di klub lain. Benang merah yang teridentifikasi ada tiga: kejelian melihat
+bakat sebelum matang, kemampuan meramu kombinasi pemain menjadi tim yang efektif, dan kemampuan memotivasi serta
+merebut kesetiaan pemain.</p>
+<p>Bagi analisis Bab 4, inilah inti kasusnya: memisahkan mana yang merupakan <em>sumber daya</em> klub (merek
+global, stadion, basis penggemar, kontrak pemain, akademi) dan mana yang merupakan <em>kapabilitas</em> yang
+selama 23 tahun melekat pada satu orang (memandu bakat, membangun ulang skuad berkali-kali, menjaga disiplin dan
+budaya menang), lalu menilai mana yang akan bertahan ketika orang itu pergi.</p>` },
+      { heading: "Epilog: Perkembangan Sesudah Periode Kasus",
+        body: `<p><em>Bagian ini melampaui periode kasus (2009). Gunakan untuk menguji analisis Anda, bukan sebagai
+bahan analisis utama.</em></p>
+<p>Ferguson ternyata bertahan hingga 2013, memberi klub empat tahun tambahan untuk bersiap; pada masa itu klub
+masih menambah gelar liga. Namun setelah ia benar-benar pergi, klub berganti manajer berkali-kali, membelanjakan
+dana transfer yang sangat besar, dan tidak lagi memenangi gelar liga hingga bertahun-tahun kemudian, meskipun
+pendapatan komersialnya tetap tumbuh. Pertanyaan untuk kelas: apakah hasil itu membuktikan analisis yang Anda
+buat atas data 2009?</p>` }
     ],
     exhibits: [
-      { title: "Exhibit 1: Uji VRIO atas Sumber Daya dan Kapabilitas Klub",
-        note: "Isi kolom kesimpulan sebagai latihan sebelum diskusi kelas.",
-        rows: [["Sumber daya atau kapabilitas", "Bernilai", "Langka", "Sulit ditiru", "Didukung organisasi"],
-               ["Merek global dan basis pendukung", "Ya", "Ya", "Ya", "Ya"],
-               ["Stadion dan pendapatan pertandingan", "Ya", "Sebagian", "Sebagian", "Ya"],
-               ["Akademi pemain muda", "Ya", "Sebagian", "Sebagian", "Dipertanyakan"],
-               ["Kemampuan membangun ulang skuad", "Ya", "Ya", "Ya", "Melekat pada individu"],
-               ["Kemampuan finansial merekrut", "Ya", "Tidak", "Tidak", "Terbatas beban utang"]] },
-      { title: "Exhibit 2: Dua Ukuran Kinerja yang Bergerak Berbeda",
-        note: "Arah pergerakan disusun sebagai gambaran umum untuk diskusi, bukan data laporan keuangan lengkap.",
-        rows: [["Periode", "Kinerja olahraga", "Pendapatan komersial"],
-               ["1993 sampai 2013", "Dominan di liga domestik", "Tumbuh pesat"],
-               ["2013 sampai sekarang", "Tanpa gelar liga", "Tetap tumbuh, lalu melambat"],
-               ["Implikasi", "Keunggulan olahraga tidak berkelanjutan", "Bergantung pada relevansi olahraga jangka panjang"]] }
+      { title: "Exhibit 1: Data Finansial Klub Terkemuka Eropa (dari Tabel 6.5 kasus)",
+        note: "Pendapatan dan EBITDA dalam juta euro; nilai klub dan utang dalam juta pound. Lihat tabel lengkap pada PDF asli.",
+        rows: [["Klub", "Pendapatan", "EBITDA", "Nilai klub", "Utang"],
+               ["Real Madrid", "365,8", "51,6", "850", "196"],
+               ["Manchester United", "324,8", "101,9", "1.140", "616"],
+               ["Barcelona", "308,8", "68,8", "960", "41"],
+               ["Bayern Munich", "295,3", "37,6", "774", "0"],
+               ["Chelsea", "268,9", "(8,3)", "486", "447"],
+               ["Arsenal", "264,4", "51,0", "690", "896"]] },
+      { title: "Exhibit 2: Uji VRIN atas Sumber Daya dan Kapabilitas Klub, 2009",
+        note: "Kerangka latihan; isi kolom penilaian Anda sendiri sebelum kelas.",
+        rows: [["Sumber daya / kapabilitas", "Bernilai", "Langka", "Sulit ditiru", "Catatan"],
+               ["Merek global dan 80 juta penggemar Asia", "Ya", "Ya", "Ya", "Dibangun puluhan tahun"],
+               ["Stadion Old Trafford dan matchday", "Ya", "Sebagian", "Sebagian", "Kapasitas terbesar di Inggris"],
+               ["Kontrak pemain bintang", "Ya", "Ya", "Tidak", "Dapat dibeli pesaing kaya"],
+               ["Akademi dan pengembangan pemain muda", "Ya", "Sebagian", "Sebagian", "Kelas 1992 sebagai bukti"],
+               ["Kapabilitas Ferguson: bakat, peramuan tim, motivasi", "Ya", "Ya", "Ya", "Melekat pada individu"]] }
     ],
     questions: [
-      "Terapkan kerangka VRIO pada Exhibit 1. Sumber daya atau kapabilitas mana yang benar-benar menghasilkan keunggulan berkelanjutan, dan mana yang tidak?",
-      "Sejauh mana keunggulan klub melekat pada individu, dan sejauh mana ia telah menjadi rutinitas organisasi? Bukti apa yang mendukung penilaian Anda?",
-      "Exhibit 2 menunjukkan kinerja olahraga dan komersial bergerak berbeda. Berapa lama pemisahan itu dapat bertahan, dan apa yang menentukan batasnya?",
-      "Bagaimana sebuah organisasi mengubah keahlian pribadi seorang pemimpin menjadi kapabilitas yang tertanam dalam sistem? Sebutkan mekanisme konkretnya.",
-      "Jika Anda menjadi manajemen klub pada 2013, tiga langkah apa yang Anda ambil untuk melindungi keunggulan sebelum pensiunnya manajer berlaku?"
+      "Pisahkan sumber daya dan kapabilitas Manchester United per 2009, lalu uji masing-masing dengan VRIN. Mana yang menghasilkan keunggulan berkelanjutan dan mana yang berisiko hilang bersama Ferguson?",
+      "Exhibit 1 menunjukkan EBITDA tertinggi di Eropa berdampingan dengan utang 616 juta pound. Bagaimana struktur kepemilikan Glazer memengaruhi pilihan strategis klub dibandingkan Chelsea atau Manchester City yang disuntik modal pemiliknya?",
+      "Dua jalan menuju tim hebat: membeli atau mengembangkan. Dengan ekonomi industri pada kasus (gaji 62 persen pendapatan, inflasi transfer), jalur mana yang lebih berkelanjutan, dan untuk klub seperti apa?",
+      "Kasus menyebut tiga benang merah pelatih hebat. Sejauh mana ketiganya dapat dilembagakan menjadi sistem klub, dan sejauh mana ia tetap seni individu?",
+      "Susun rencana suksesi yang akan Anda ajukan kepada Gill pada 2009: kriteria pengganti, perubahan struktur di sekitar manajer baru, dan indikator dua tahun pertama."
     ],
     guide: {
-      problem: "Rumuskan masalahnya sebagai kegagalan melembagakan kapabilitas yang selama ini melekat pada seorang individu. Hindari menuliskan bahwa masalahnya adalah pensiunnya manajer.",
-      alternatives: "Beri judul pada setiap alternatif, misalnya 'Merekrut manajer dengan profil serupa', 'Membangun struktur direktur olahraga', dan 'Mengubah model menjadi berbasis data dan akademi'. Sebutkan sumber daya yang dituntut masing-masing tanpa argumen pro dan kontra.",
-      issues: "Uji tiap alternatif dengan VRIO, pertimbangkan beban utang, tekanan hasil jangka pendek, dan kesabaran pemilik serta pendukung.",
-      conclusion: "Ambil posisi, sebutkan indikator keberhasilan pada horizon tiga sampai lima tahun, dan tunjukkan alternatif yang Anda tolak beserta alasannya."
+      problem: "Rumuskan masalahnya sebagai risiko hilangnya kapabilitas inti yang melekat pada individu, bukan sekadar mencari pelatih baru; sertakan konteks keuangan (utang) yang membatasi solusi lewat belanja pemain.",
+      alternatives: "Beri judul alternatif suksesi, misalnya 'Merekrut manajer bintang dari luar', 'Promosi dari dalam sistem Ferguson', dan 'Membangun struktur direktur sepak bola yang mengurangi ketergantungan pada satu orang'. Sebutkan konsekuensi biaya dan organisasi tanpa argumen pro dan kontra.",
+      issues: "Bahas transferabilitas kapabilitas Ferguson, batas keuangan akibat utang, tekanan hasil jangka pendek dari kebutuhan lolos Liga Champions, dan risiko merek bila prestasi turun.",
+      conclusion: "Ambil posisi, sebutkan tiga langkah pelembagaan kapabilitas yang dimulai sekarang selagi Ferguson masih ada, dan indikator keberhasilan suksesi."
     }
   },
 
@@ -236,145 +261,196 @@ regional, menerima bahwa pengalaman gerai bukan lagi inti proposisi.</p>
   },
   {
     id: "sm7-iphone",
-    title: "Apple dan iPhone: Melengkapi Strategi Kompetitif serta Bersaing di Pasar Asing",
-    subtitle: "Ekosistem, waktu masuk pasar, dan cara satu perusahaan menghadapi aturan lokal",
+    title: "Apple iPhone: Calling Europe or Europe Calling?",
+    subtitle: "Konsesi apa yang pantas diberikan operator demi sebuah telepon, dan siapa yang sesungguhnya memegang kendali rantai nilai",
     forSession: 7,
     badge: "Kasus resmi Kelompok 1",
-    readingTime: 7,
-    officialSource: "Bacaan pendamping: Thompson & Strickland Bab 6 dan 7 tentang langkah strategis pelengkap dan persaingan di pasar asing",
-    decisionMaker: "Manajemen sebuah perusahaan teknologi global",
-    decisionPoint: "Menentukan cara memasuki dan mempertahankan posisi di pasar berkembang dengan aturan kandungan lokal dan daya beli yang berbeda",
-    relevance: "Kasus untuk aliansi, integrasi vertikal, waktu masuk pasar, dan pilihan antara strategi global dan penyesuaian lokal.",
+    readingTime: 8,
+    officialSource: "Bacaan resmi (PDF di Drive): Mitchell, Sieber dan Valor (2008), Apple's iPhone: Calling Europe or Europe Calling?, IESE Business School SI-167-E",
+    driveUrl: "https://drive.google.com/file/d/1PFVI_o3rTOJsJxjHdYyBTOHiFRjSshBD/view",
+    decisionMaker: "Matthew Key, Chief Executive O2 Inggris",
+    decisionPoint: "9 November 2007, hari peluncuran iPhone di Inggris: apakah konsesi yang diberikan kepada Apple merupakan keputusan yang tepat",
+    relevance: "Bab 6 (aliansi strategis, kekuatan tawar dalam rantai nilai, first mover) dan Bab 7 (memasuki pasar internasional lewat mitra lokal).",
     sections: [
-      { heading: "Produk Tunggal yang Menjadi Ekosistem",
-        body: `<p>Ketika iPhone diperkenalkan pada 2007, ia adalah satu produk. Yang membuatnya bertahan sebagai
-sumber laba selama lebih dari satu setengah dekade bukan produk itu sendiri, melainkan lapisan yang dibangun di
-sekelilingnya: toko aplikasi dengan bagian pendapatan dari pengembang, layanan berlangganan, perangkat pendamping
-yang hanya bekerja optimal dengan perangkat lain dalam ekosistem yang sama, serta pengendalian atas perancangan
-prosesor sendiri.</p>
-<p>Dalam bahasa Bab 6, ini adalah rangkaian langkah pelengkap: integrasi vertikal ke perancangan cip, perluasan ke
-layanan, dan pembangunan biaya berpindah yang membuat pengguna enggan keluar dari ekosistem. Setiap langkah
-memperkuat langkah lainnya.</p>
-<p>Laba industri telepon pintar terkonsentrasi pada segelintir pemain, dan porsi terbesarnya diambil oleh pemain
-yang menguasai segmen harga atas. Perusahaan ini tidak pernah mengejar pangsa unit terbesar, melainkan pangsa laba
-terbesar.</p>` },
-      { heading: "Pasar Berkembang dengan Aturan Sendiri",
-        body: `<p>Strategi global yang menstandardisasi produk di seluruh dunia menghadapi ujian di pasar
-berkembang. Di Indonesia, ketentuan tingkat kandungan dalam negeri mewajibkan produsen telepon seluler memenuhi
-persentase kandungan lokal tertentu untuk dapat menjual perangkat jaringan tertentu. Pemenuhan dapat ditempuh
-melalui manufaktur, pengembangan perangkat lunak, atau skema investasi inovasi.</p>
-<p>Perusahaan ini memilih jalur yang berbeda dari sebagian pesaingnya yang membangun perakitan lokal. Ia menempuh
-skema investasi berupa pusat pengembangan bagi pengembang aplikasi. Kebijakan itu kemudian menjadi bahan
-perdebatan publik ketika pemerintah mempersoalkan pemenuhan komitmen investasi yang menjadi dasar sertifikasi.</p>
-<p>Persoalan kedua adalah daya beli. Harga perangkat kelas atas setara dengan penghasilan bulanan sebagian besar
-pekerja Indonesia, sehingga pasar utamanya adalah segmen sempit di kota besar. Sementara itu pesaing dari Tiongkok
-menguasai segmen menengah dengan spesifikasi tinggi pada harga jauh lebih rendah.</p>` },
-      { heading: "Pilihan yang Terbuka",
-        body: `<p>Tiga arah dapat dipertimbangkan. Pertama, mempertahankan strategi global tanpa penyesuaian
-signifikan dan menerima pangsa unit yang kecil dengan laba per unit tinggi. Kedua, berinvestasi dalam manufaktur
-lokal untuk memenuhi ketentuan kandungan dalam negeri secara permanen sekaligus memperoleh keringanan biaya masuk.
-Ketiga, memperluas jangkauan lewat produk generasi sebelumnya dan skema pembiayaan cicilan yang menurunkan hambatan
-harga tanpa menurunkan posisi merek.</p>` }
+      { heading: "Antrean di Regent Street",
+        body: `<p>Pada pagi 9 November 2007, warga Inggris mengantre di depan Apple Store di Regent Street, London,
+untuk mendapatkan iPhone. Bagi Matthew Key, kepala eksekutif O2, antrean itu menggembirakan sekaligus menyisakan
+pertanyaan yang terus diajukan banyak pihak: apakah iPhone sepadan bagi O2, mengingat konsesi yang telah
+diberikan kepada Apple (Mitchell, Sieber dan Valor, 2008).</p>
+<p>iPhone diumumkan pada Januari 2007 dan dirilis di Amerika Serikat pada 29 Juni 2007. Produk itu dipuji luas
+karena antarmuka layar sentuhnya, kemampuan menjelajah web, dan kemampuan multimedianya; Steve Jobs menyebutnya
+produk yang revolusioner dan berada bertahun-tahun di depan telepon genggam mana pun. Klaim pemasaran itu didukung
+angka: di Amerika Serikat iPhone terjual satu juta unit hanya dalam 74 hari, jauh lebih cepat daripada iPod yang
+membutuhkan hampir dua tahun untuk angka yang sama.</p>
+<p>Untuk peluncuran Eropa, Apple memilih satu operator per negara: O2 di Inggris, T-Mobile di Jerman, dan Orange
+di Prancis, dengan target penjualan 10 juta unit pada 2008. Di Inggris, perangkat 8GB dijual 269 pound dengan
+kontrak minimum 18 bulan dan tarif bulanan 35, 45, atau 55 pound untuk 200, 600, atau 1.200 menit percakapan.</p>` },
+      { heading: "Konsesi yang Mengubah Aturan Industri",
+        body: `<p>Yang membuat kesepakatan ini menjadi bahan perdebatan bukan harga perangkatnya, melainkan struktur
+kesepakatannya. Dalam industri telekomunikasi Eropa saat itu, operatorlah yang memegang kendali: produsen telepon
+menjual perangkat kepada operator, operator mensubsidi harga perangkat demi mengikat pelanggan pada kontrak, lalu
+seluruh pendapatan layanan menjadi milik operator. Merek yang menghadap konsumen adalah merek operator, dan
+produsen perangkat bersaing memperebutkan rak operator.</p>
+<p>Apple membalik logika itu. Perangkat tidak disubsidi; merek yang menghadap konsumen adalah Apple; aktivasi
+berjalan melalui iTunes milik Apple; fitur seperti Visual Voicemail menuntut operator menyesuaikan jaringannya
+dengan spesifikasi Apple; dan yang paling mengejutkan industri, Apple meminta <strong>bagian dari pendapatan
+bulanan layanan</strong>. Di Amerika Serikat, para analis memperkirakan AT&amp;T menyerahkan sekitar 10 sampai 20
+persen pendapatan bulanan terkait iPhone kepada Apple, sesuatu yang belum pernah terjadi dalam industri ini.
+Di Inggris, sejumlah pihak menilai O2 telah melampaui batas kewajaran harga, sementara Key menegaskan
+perusahaannya hanya membuat kesepakatan yang baik.</p>
+<p>Eksklusivitas juga segera diuji hukum. Di Jerman, gugatan dari Vodafone memaksa T-Mobile untuk sementara
+menjual iPhone versi tanpa kunci jaringan dengan harga sekitar 1.000 euro, jauh di atas harga berlangganan,
+sebelum pengadilan akhirnya memihak T-Mobile.</p>` },
+      { heading: "Pasar yang Sudah Jenuh, Pertumbuhan yang Berpindah Tempat",
+        body: `<p>Konteks pasarnya penting untuk analisis. Pasar telekomunikasi seluler Eropa bernilai sekitar 200
+miliar euro dengan lebih dari 500 juta pelanggan; penetrasi diperkirakan 95 dari 100 pengguna pada 2005, dan lebih
+dari separuh negara Eropa memiliki penetrasi di atas 100 persen karena satu orang lazim memiliki lebih dari satu
+telepon. Dalam pasar sejenuh itu, pertumbuhan operator tidak lagi berasal dari pelanggan baru, melainkan dari
+merebut pelanggan pesaing dan menaikkan pendapatan per pelanggan lewat layanan data.</p>
+<p>Di sinilah nilai iPhone bagi operator: perangkat itu terbukti mendorong pemakaian data jauh di atas rata-rata
+dan menarik pelanggan bernilai tinggi dari operator lain. Pertanyaannya, berapa besar nilai itu, dan berapa porsi
+yang wajar diserahkan kepada Apple sebagai pemilik perangkatnya.</p>
+<p>Sementara itu produsen petahana membaca ancaman yang sama dari arah berbeda. Nokia masih menguasai pasar
+perangkat dunia, tetapi iPhone menggeser dasar persaingan dari perangkat keras dan skala menuju perangkat lunak,
+desain antarmuka, dan ekosistem konten, medan yang justru menjadi kekuatan Apple.</p>` },
+      { heading: "Keputusan yang Harus Dinilai",
+        body: `<p>Kasus ini sengaja berhenti pada November 2007, sebelum hasil kesepakatan terlihat. Pembaca diminta
+menilai keputusan O2 dengan informasi yang tersedia saat itu: apakah eksklusivitas dengan pembagian pendapatan
+merupakan harga yang pantas untuk diferensiasi, ataukah preseden berbahaya yang menggeser kekuatan rantai nilai
+kepada pemilik perangkat untuk seterusnya.</p>
+<p>Pertimbangan Key mencakup tiga hal: nilai pelanggan baru yang berpindah dari operator lain, kenaikan pendapatan
+data dari pelanggan lama, dan risiko jangka panjang bila konsumen lebih setia kepada Apple daripada kepada O2.</p>` }
     ],
     exhibits: [
-      { title: "Exhibit 1: Langkah Strategis Pelengkap dan Fungsinya",
-        note: "Perhatikan bagaimana tiap langkah memperkuat langkah lain.",
-        rows: [["Langkah", "Bentuknya", "Fungsi strategis"],
-               ["Integrasi vertikal", "Perancangan prosesor sendiri", "Kendali kinerja dan diferensiasi"],
-               ["Perluasan ke layanan", "Langganan dan toko aplikasi", "Pendapatan berulang"],
-               ["Perangkat pendamping", "Jam tangan, pelantang telinga", "Menaikkan biaya berpindah"],
-               ["Kendali kanal", "Gerai resmi dan program tukar tambah", "Menjaga pengalaman dan harga"]] },
-      { title: "Exhibit 2: Tiga Arah di Pasar Indonesia",
-        note: "Bahan pembanding untuk bagian Issues.",
-        rows: [["Arah", "Kepatuhan kandungan lokal", "Jangkauan pasar", "Risiko"],
-               ["Pertahankan strategi global", "Lewat skema investasi", "Sempit", "Ketidakpastian kebijakan"],
-               ["Bangun manufaktur lokal", "Terpenuhi permanen", "Menengah", "Komitmen modal besar"],
-               ["Perluas lewat produk generasi lama dan cicilan", "Tidak berubah", "Lebih luas", "Potensi menggerus posisi merek"]] }
+      { title: "Exhibit 1: Dua Model Hubungan Operator dan Produsen Perangkat",
+        note: "Sintesis dari narasi kasus untuk membantu analisis; periksa detailnya pada PDF asli.",
+        rows: [["Aspek", "Model tradisional", "Model kesepakatan iPhone"],
+               ["Subsidi perangkat", "Operator mensubsidi", "Tanpa subsidi di awal"],
+               ["Merek yang menghadap konsumen", "Operator", "Apple"],
+               ["Pendapatan layanan bulanan", "Sepenuhnya milik operator", "Sebagian mengalir ke Apple"],
+               ["Aktivasi dan pengalaman", "Sistem operator", "iTunes milik Apple"],
+               ["Kekuatan tawar", "Operator", "Bergeser ke produsen perangkat"]] },
+      { title: "Exhibit 2: Peluncuran Eropa, November 2007",
+        note: "Disarikan dari kasus; angka Inggris paling rinci karena menjadi fokus kasus.",
+        rows: [["Negara", "Operator eksklusif", "Catatan"],
+               ["Inggris", "O2", "8GB seharga 269 pound; kontrak 18 bulan; tarif 35/45/55 pound"],
+               ["Jerman", "T-Mobile", "Digugat Vodafone; sempat wajib menjual versi tanpa kunci sekitar 1.000 euro"],
+               ["Prancis", "Orange", "Hukum setempat menuntut tersedianya versi tanpa kunci"],
+               ["Amerika Serikat (pembanding)", "AT&T", "1 juta unit dalam 74 hari; estimasi bagi hasil 10 sampai 20 persen"]] }
     ],
     questions: [
-      "Jelaskan bagaimana langkah-langkah pada Exhibit 1 saling memperkuat. Mengapa rangkaian itu sulit ditiru sebagian?",
-      "Perusahaan ini mengejar pangsa laba, bukan pangsa unit. Apakah pilihan itu berkelanjutan di pasar yang pertumbuhannya berasal dari segmen menengah?",
-      "Ketentuan kandungan dalam negeri memaksa penyesuaian lokal pada strategi yang pada dasarnya global. Bagaimana Anda menempatkan situasi ini pada kerangka strategi global dan multidomestik?",
-      "Nilai ketiga arah pada Exhibit 2 dengan mempertimbangkan hubungan jangka panjang dengan pemerintah dan posisi merek.",
-      "Apa pelajaran dari kasus ini bagi perusahaan Indonesia yang ingin membangun ekosistem produk, bukan sekadar menjual produk tunggal?"
+      "Mengapa Apple mampu menuntut struktur kesepakatan yang belum pernah diberikan industri kepada produsen perangkat mana pun? Sumber kekuatan tawar apa yang dimilikinya?",
+      "Dari sudut pandang O2, hitung secara konseptual sumber nilai kesepakatan ini (pelanggan pindahan, pendapatan data, citra merek) dan bandingkan dengan konsesinya. Apakah kesepakatan ini menguntungkan?",
+      "Eksklusivitas satu operator per negara adalah pilihan Apple untuk memasuki pasar internasional. Bandingkan pendekatan ini dengan alternatif menjual lewat semua operator sekaligus, memakai kerangka Bab 7 tentang cara memasuki pasar asing.",
+      "Gugatan di Jerman dan aturan di Prancis menunjukkan risiko regulasi model eksklusif. Bagaimana seharusnya Apple dan operator mengantisipasi perbedaan kelembagaan antarnegara?",
+      "Kasus ini terjadi pada 2007. Dengan pengetahuan Anda tentang perkembangan industri sesudahnya, penilaian siapa yang terbukti benar: operator yang memberi konsesi, atau yang menolak?"
     ],
     guide: {
-      problem: "Rumuskan masalahnya sebagai ketegangan antara strategi global yang menstandardisasi dan tuntutan penyesuaian dari kebijakan serta daya beli pasar setempat.",
-      alternatives: "Beri judul pada ketiga arah, sebutkan komitmen modal dan konsekuensi kebijakannya tanpa argumen pro dan kontra.",
-      issues: "Bahas ketidakpastian regulasi, biaya kepatuhan, risiko posisi merek, dan struktur laba industri yang terkonsentrasi.",
-      conclusion: "Pilih satu arah, sebutkan langkah pelaksanaan pertama, dan jelaskan alternatif yang Anda tolak beserta alasannya."
+      problem: "Rumuskan masalahnya sebagai keputusan operator menukar sebagian kendali rantai nilai dan pendapatannya demi diferensiasi perangkat, bukan sebagai persoalan harga telepon.",
+      alternatives: "Beri judul alternatif dari sudut pandang O2, misalnya 'Menerima syarat Apple secara penuh', 'Bernegosiasi tanpa bagi hasil', dan 'Menolak dan mengandalkan perangkat pesaing'. Sebutkan konsekuensi komersial masing-masing tanpa argumen pro dan kontra.",
+      issues: "Bahas kekuatan tawar Apple, ekonomi pasar yang jenuh, risiko loyalitas berpindah ke merek perangkat, preseden bagi kesepakatan berikutnya, dan risiko hukum eksklusivitas di tiap negara.",
+      conclusion: "Ambil posisi apakah O2 benar, sebutkan ukuran keberhasilan yang akan Anda pantau pada dua belas bulan pertama, dan jelaskan kondisi yang akan mengubah penilaian Anda."
     }
   },
 
   {
     id: "sm8-nyt",
-    title: "The New York Times: Diversifikasi atau Transformasi Model Bisnis",
-    subtitle: "Ketika perusahaan media memutuskan menjual langganan, bukan menjual perhatian pembaca",
+    title: "New York Times: Masa Sulit Sang Nyonya Tua Kelabu",
+    subtitle: "Portofolio mana yang dipertahankan, mana yang dilepas, dan model bisnis apa yang bisa menyelamatkan jurnalisme berkualitas",
     forSession: 8,
     badge: "Kasus resmi Kelompok 2",
-    readingTime: 7,
-    officialSource: "Bacaan pendamping: Thompson & Strickland Bab 8 tentang strategi diversifikasi",
-    decisionMaker: "Direksi sebuah perusahaan surat kabar terkemuka",
-    decisionPoint: "Menentukan apakah pertumbuhan dikejar lewat diversifikasi bisnis baru atau lewat pendalaman model langganan digital",
-    relevance: "Kasus untuk membedakan diversifikasi terkait, tidak terkait, dan transformasi model bisnis dalam industri yang sama.",
+    readingTime: 8,
+    officialSource: "Bacaan resmi (PDF di Drive): Grant, R.M. (2010), New York Times, teaching case Contemporary Strategy Analysis (Case 14)",
+    driveUrl: "https://drive.google.com/file/d/1pOJlBZSrjnDbm7WkJAN-hiFNTXJjtUSa/view",
+    decisionMaker: "Arthur Sulzberger Jr. (Chairman) dan Janet Robinson (CEO) New York Times Company",
+    decisionPoint: "April 2009, di tengah krisis likuiditas: menentukan susunan portofolio bisnis dan model bisnis digital yang dapat menopang jurnalisme perusahaan",
+    relevance: "Bab 8 (strategi korporat: diversifikasi dan pengelolaan portofolio multibisnis), dengan sentuhan Bab 1 tentang strategi dan model bisnis.",
     sections: [
-      { heading: "Industri yang Runtuh Pendapatannya",
-        body: `<p>Model bisnis surat kabar selama satu abad bertumpu pada iklan. Pembaca membayar sebagian kecil
-biaya, dan sebagian besar pendapatan berasal dari pengiklan yang membeli akses ke perhatian pembaca. Ketika mesin
-pencari dan media sosial menawarkan penargetan yang jauh lebih presisi dengan harga lebih rendah, pendapatan iklan
-surat kabar di seluruh dunia runtuh dalam waktu satu dekade.</p>
-<p>Banyak penerbit merespons dengan memperbanyak halaman terbaca melalui konten ringan agar tetap menarik
-pengiklan, sebuah jalan yang menekan biaya redaksi dan mengikis alasan pembaca membayar.</p>
-<p>Perusahaan ini memilih jalan yang berlawanan. Ia memasang dinding berbayar pada 2011, pada saat sebagian besar
-pesaing membuka isinya gratis, dan menegaskan bahwa produknya adalah jurnalisme yang layak dibayar. Keputusan itu
-disertai investasi besar pada redaksi ketika arah industri adalah pemangkasan.</p>` },
-      { heading: "Menumbuhkan Sesuatu yang Bukan Berita",
-        body: `<p>Langkah berikutnya lebih menarik dari sudut pandang strategi korporat. Perusahaan mengakuisisi
-dan mengembangkan produk yang bukan berita: permainan kata harian, aplikasi resep masak, dan situs ulasan produk.
-Produk-produk itu memiliki pola pemakaian harian yang kuat dan menurunkan tingkat berhenti berlangganan.</p>
-<p>Pertanyaan strategisnya adalah bagaimana menggolongkan langkah ini. Jika kita mendefinisikan bisnis perusahaan
-sebagai berita, maka permainan kata dan resep masak adalah diversifikasi ke bisnis yang tidak terkait. Jika kita
-mendefinisikannya sebagai langganan digital berbayar untuk kebiasaan harian, maka semuanya adalah bisnis yang sama
-dengan produk berbeda, dan yang terjadi adalah transformasi model bisnis, bukan diversifikasi.</p>
-<p>Uji keterkaitan yang lazim dipakai adalah apakah terdapat kecocokan strategis yang menghasilkan nilai lebih
-besar daripada jumlah bagian-bagiannya. Di sini kecocokan itu tampak nyata: teknologi langganan yang sama, data
-perilaku pembaca yang sama, merek yang sama, dan kanal pemasaran yang sama.</p>
-<p>Perusahaan kemudian menetapkan sasaran jumlah pelanggan digital yang ambisius dan mencapainya lebih cepat dari
-jadwal, dengan pendapatan digital akhirnya melampaui pendapatan cetak.</p>` },
-      { heading: "Pertanyaan yang Tersisa",
-        body: `<p>Keberhasilan itu memunculkan pertanyaan baru. Paket berlangganan gabungan menaikkan nilai bagi
-pelanggan tetapi menyulitkan penetapan harga per produk. Redaksi mempertanyakan apakah produk hiburan menggeser
-identitas jurnalistik perusahaan. Pertumbuhan pelanggan di luar negara asal menuntut penyesuaian isi yang dapat
-berbenturan dengan sudut pandang redaksi pusat.</p>
-<p>Di sisi lain, kecerdasan buatan generatif memunculkan ancaman baru terhadap lalu lintas rujukan dari mesin
-pencari sekaligus pertanyaan tentang penggunaan karya jurnalistik untuk melatih model.</p>` }
+      { heading: "Awal 2009: Krisis yang Menjadi Nyata",
+        body: `<p>Bulan-bulan awal 2009 adalah periode berat bagi New York Times Company, penerbit New York Times
+dan Boston Globe. Seperti penerbit surat kabar Amerika lainnya, perusahaan terjepit dua masalah sekaligus:
+masalah siklikal berupa pemangkasan anggaran iklan pada masa resesi, dan masalah struktural berupa pembaca yang
+terus berpindah ke sumber informasi daring (Grant, 2010).</p>
+<p>Tekanannya bukan lagi abstrak. Fasilitas kredit 400 juta dolar akan berakhir pada Mei; pada Januari perusahaan
+membeli napas dengan pinjaman 250 juta dolar berbunga 14 persen dari miliarder Meksiko Carlos Slim; pada Februari
+dividen tahun itu dihapus. Hasil 2008 mencatat rugi bersih hampir 58 juta dolar setelah beban penurunan nilai,
+karena pendapatan menyusut lebih cepat daripada kemampuan perusahaan memangkas biaya. Harga saham yang masih di
+atas 14 dolar pada September 2008 ditutup pada 3,44 dolar pada 20 Februari 2009.</p>
+<p>Pada rapat pemegang saham 29 April 2009, Sulzberger menegaskan keyakinan lamanya bahwa jurnalisme berkualitas
+menarik audiens berkualitas yang pada gilirannya menarik pengiklan berkualitas, sambil mengakui bahwa tidak ada
+satu solusi tunggal yang akan mengembalikan pertumbuhan pendapatan. Para skeptis tidak sepenuhnya percaya:
+mereka menunjuk penurunan sirkulasi, larinya pembaca muda, perpindahan iklan ke media daring, dan kegagalan
+industri menemukan model bisnis daring yang layak.</p>` },
+      { heading: "Portofolio yang Harus Ditata",
+        body: `<p>Dari kacamata Bab 8, kasus ini adalah persoalan portofolio. Perusahaan terdiri atas News Media
+Group (New York Times Media Group termasuk NYTimes.com dan International Herald Tribune; New England Media Group
+termasuk Boston Globe; serta Regional Media Group dengan 15 koran harian daerah) dan About Group, jaringan situs
+informasi yang dipimpin About.com dengan sekitar 39 juta kunjungan bulanan. Di luar itu terdapat kepemilikan yang
+tampak jauh dari bisnis inti: 18 persen klub bisbol Boston Red Sox beserta Stadion Fenway Park, 80 persen jaringan
+televisi olahraga New England Sports Network, dan separuh tim balap NASCAR.</p>
+<p>The Times sendiri adalah permatanya: satu-satunya harian umum yang beredar di seluruh 50 negara bagian, dengan
+101 penghargaan Pulitzer hingga 2009, lebih dari dua kali lipat koran mana pun. Kekuatan merek itulah yang membuat
+harga ecerannya dapat dinaikkan dari 1 menjadi 2 dolar antara 2007 dan 2009. Namun strukturnya rapuh: mayoritas
+pendapatan perusahaan bergantung pada iklan (sekitar 1,78 miliar dolar dari total 2,95 miliar dolar pada 2008),
+dan pendapatan situs web hampir seluruhnya iklan.</p>
+<p>Boston Globe menjadi penguras kas terbesar. Kritik terhadap dewan yang dikendalikan keluarga lewat saham dua
+kelas ikut mengeras: dewan pernah menolak tawaran 600 juta dolar untuk Globe pada 2006, membangun kantor pusat
+setengah miliar dolar pada 2007, dan menghabiskan 3 miliar dolar membeli kembali saham pada harga rata-rata 37
+dolar, jauh di atas harga 2009.</p>` },
+      { heading: "Langkah Bertahan dan Pencarian Model Baru",
+        body: `<p>Respons utama manajemen adalah memangkas biaya: konsolidasi percetakan (menghemat puluhan juta
+dolar per tahun), menutup bisnis distribusi yang tidak mencapai target, mengalihdayakan fungsi pendukung,
+mengurangi sirkulasi yang marginal, dan menghemat kertas koran. Aset non-inti mulai dilepas: stasiun televisi
+lokal dijual pada 2007, dan pada 2009 perusahaan bernegosiasi menjual kepemilikan olahraganya.</p>
+<p>Persoalan yang lebih dalam adalah model bisnis daring. Sejarah NYTimes.com adalah sejarah keraguan: berbayar
+untuk pembaca internasional pada awalnya, digratiskan pada 1997 demi audiens, model campuran TimesSelect pada
+2005, digratiskan lagi pada 2007 demi iklan, dan pada 2009 kembali dievaluasi. Perdebatan industrinya terbelah
+dua kubu: kubu berbayar yang yakin konten unik layak dijual, dan kubu gratis yang, seperti dikemukakan CEO Google
+Eric Schmidt, berpendapat sebagian besar berita tersedia di banyak sumber sehingga hanya iklan tertarget yang
+menjadi model yang layak.</p>
+<p>Ada pula jalan ketiga yang tidak nyaman: menjadi milik pemilik kaya yang membeli pengaruh, bukan laba. Sejarah
+industri menunjukkan koran sering bertahan justru karena motivasi non-finansial pemiliknya, tetapi kebangkrutan
+Tribune Company setelah dibeli 8,2 miliar dolar menjadi peringatan bahwa kesabaran pemilik kaya pun ada
+batasnya.</p>` },
+      { heading: "Epilog: Perkembangan Sesudah Periode Kasus",
+        body: `<p><em>Bagian ini melampaui periode kasus (2009). Gunakan untuk menguji analisis Anda, bukan sebagai
+bahan analisis utama.</em></p>
+<p>Perusahaan akhirnya memilih jalur yang saat kasus ini ditulis masih diperdebatkan: dinding berbayar terukur
+diluncurkan pada 2011, Boston Globe dan aset regional dijual, dan produk langganan non-berita (permainan, resep,
+ulasan produk) dikembangkan hingga pendapatan digital melampaui cetak. Pertanyaan untuk kelas: dari informasi yang
+tersedia pada April 2009, apakah arah itu sudah dapat dipertahankan sebagai rekomendasi Anda?</p>` }
     ],
     exhibits: [
-      { title: "Exhibit 1: Diversifikasi atau Transformasi",
-        note: "Jawaban bergantung pada bagaimana bisnis inti didefinisikan.",
-        rows: [["Definisi bisnis inti", "Permainan kata dan resep masak dianggap", "Uji kecocokan strategis"],
-               ["Perusahaan berita", "Diversifikasi tidak terkait", "Lemah"],
-               ["Perusahaan penerbitan", "Diversifikasi terkait", "Menengah"],
-               ["Perusahaan langganan digital", "Produk baru pada bisnis yang sama", "Kuat"]] },
-      { title: "Exhibit 2: Pergeseran Sumber Pendapatan",
-        note: "Arah pergeseran disusun sebagai gambaran umum untuk diskusi.",
-        rows: [["Periode", "Sumber pendapatan dominan", "Konsekuensi strategis"],
-               ["Sebelum 2010", "Iklan cetak", "Mengejar jumlah pembaca"],
-               ["2011 sampai 2018", "Peralihan ke langganan digital", "Mengejar alasan membayar"],
-               ["Setelah 2019", "Langganan digital gabungan", "Mengejar kebiasaan harian dan retensi"]] }
+      { title: "Exhibit 1: Ringkasan Keuangan Terpilih (dari Tabel 14.1 kasus)",
+        note: "Angka dalam ribuan dolar kecuali disebutkan; lihat tabel lengkap pada PDF asli.",
+        rows: [["Ukuran", "2008", "2007", "2006"],
+               ["Pendapatan", "2.948.856", "3.195.077", "3.289.903"],
+               ["Laba (rugi) operasi", "(40.636)", "227.429", "(520.611)"],
+               ["Laba (rugi) bersih", "(57.839)", "208.704", "(543.443)"],
+               ["Total utang", "1.059.375", "1.034.979", "1.445.928"],
+               ["Utang terhadap kapitalisasi", "68%", "51%", "64%"],
+               ["Karyawan (setara penuh waktu)", "9.346", "10.231", "11.585"]] },
+      { title: "Exhibit 2: Sejarah Model Bisnis Daring NYTimes.com",
+        note: "Disarikan dari narasi kasus; perhatikan bolak-baliknya arah kebijakan.",
+        rows: [["Periode", "Model", "Alasan"],
+               ["Awal", "Berbayar untuk pembaca internasional", "Menguji kesediaan membayar"],
+               ["1997", "Gratis penuh", "Memperbesar audiens daring"],
+               ["2005", "TimesSelect: premium berbayar", "Memonetisasi kolumnis dan arsip"],
+               ["2007", "Gratis penuh lagi", "Mengejar pendapatan iklan"],
+               ["2009", "Dievaluasi ulang", "Iklan runtuh; mencari model berkelanjutan"]] }
     ],
     questions: [
-      "Definisikan bisnis inti perusahaan ini dalam satu kalimat, lalu gunakan Exhibit 1 untuk menentukan apakah langkahnya merupakan diversifikasi atau transformasi model bisnis.",
-      "Uji kecocokan strategis antara berita, permainan kata, dan resep masak. Di mana nilai gabungannya melampaui jumlah bagian-bagiannya?",
-      "Perusahaan memasang dinding berbayar ketika pesaing membuka isinya gratis. Prinsip strategi apa yang menjelaskan keberhasilan langkah berlawanan arah tersebut?",
-      "Redaksi mempertanyakan apakah produk hiburan menggeser identitas jurnalistik. Bagaimana Anda menimbang ketegangan antara identitas dan pertumbuhan?",
-      "Apa pelajaran kasus ini bagi perusahaan media Indonesia yang masih bergantung pada pendapatan iklan digital?"
+      "Petakan portofolio perusahaan pada 2009 dan uji tiap unit dengan pertanyaan Bab 8: apakah kepemilikan induk menambah nilai unit itu? Mana yang layak dilepas lebih dulu?",
+      "Sulzberger berpegang pada formula jurnalisme berkualitas menarik audiens dan pengiklan berkualitas. Pada 2009, apakah formula itu masih merupakan model bisnis, atau tinggal keyakinan? Bedakan keduanya.",
+      "Analisis bolak-balik kebijakan daring pada Exhibit 2. Apa yang menyebabkan ketidakkonsistenan itu, dan kerangka apa yang seharusnya dipakai untuk memutuskan berbayar atau gratis?",
+      "Struktur saham dua kelas melindungi kendali keluarga sekaligus dikritik pemegang saham. Timbang biaya dan manfaat struktur itu bagi perusahaan pada masa krisis.",
+      "Sebagai penasihat Robinson pada April 2009, susun urutan tindakan dua belas bulan: apa yang dijual, apa yang dipangkas, dan taruhan digital apa yang diambil?"
     ],
     guide: {
-      problem: "Rumuskan masalahnya sebagai runtuhnya sumber pendapatan utama yang menuntut penetapan ulang definisi bisnis, bukan sekadar penambahan lini baru.",
-      alternatives: "Beri judul pada alternatif yang tersedia, misalnya 'Pertahankan model iklan dengan efisiensi', 'Dinding berbayar dan investasi redaksi', dan 'Diversifikasi ke produk berlangganan non-berita'.",
-      issues: "Bahas uji kecocokan strategis, risiko identitas merek, ketergantungan pada kanal rujukan pihak ketiga, dan ancaman baru dari kecerdasan buatan generatif.",
-      conclusion: "Ambil posisi tentang definisi bisnis yang seharusnya dipakai, sebutkan implikasinya pada portofolio produk, dan tunjukkan alternatif yang Anda tolak."
+      problem: "Rumuskan masalahnya sebagai krisis likuiditas jangka pendek yang menumpang di atas keusangan model bisnis jangka panjang; keduanya menuntut jawaban yang berbeda dan jangan dicampur.",
+      alternatives: "Beri judul alternatif strategi korporat, misalnya 'Fokus pada The Times dan lepaskan sisanya', 'Pertahankan portofolio dengan penghematan agresif', dan 'Bertaruh penuh pada digital berbayar'. Sebutkan konsekuensi kas dan organisasi masing-masing tanpa argumen pro dan kontra.",
+      issues: "Bahas ketergantungan pada iklan, posisi Boston Globe, nilai aset non-inti, perdebatan berbayar melawan gratis, dan peran struktur kepemilikan keluarga.",
+      conclusion: "Ambil posisi, tetapkan urutan pelepasan aset dan kebijakan konten daring, serta ukuran kas dan digital yang menandakan strategi Anda berhasil dalam dua tahun."
     }
   },
 
@@ -528,151 +604,192 @@ membuka saluran umpan balik nasabah yang terhubung langsung ke evaluasi kinerja 
 
   {
     id: "sm11-renault",
-    title: "Aliansi Renault dan Nissan: Budaya, Kepemimpinan, dan Struktur yang Tidak Seimbang",
-    subtitle: "Ketika keberhasilan aliansi bertumpu pada satu orang dan ketidaksetaraan yang tidak pernah diselesaikan",
+    title: "Renault dan Nissan: Lahirnya Sebuah Aliansi Global",
+    subtitle: "Bagaimana produsen nomor sembilan dunia mengalahkan raksasa dalam perebutan mitra, dengan kepercayaan sebagai mata uangnya",
     forSession: 11,
     badge: "Kasus resmi Kelompok 5",
-    readingTime: 7,
-    officialSource: "Bacaan pendamping: Thompson & Strickland Bab 12 tentang budaya korporat dan kepemimpinan",
-    decisionMaker: "Dewan direksi kedua perusahaan dan pemerintah sebagai pemegang saham",
-    decisionPoint: "Menata ulang tata kelola dan kepemimpinan aliansi setelah krisis kepercayaan",
-    relevance: "Kasus utama untuk budaya korporat lintas negara, peran kepemimpinan, dan bahaya ketika budaya bertumpu pada figur tunggal.",
+    readingTime: 8,
+    officialSource: "Bacaan resmi (PDF di Drive): Renault/Nissan: The Making of a Global Alliance, kasus ganda sudut pandang Renault dan Nissan (Korine, Gomez dan Asakawa; LBS, EM Lyon dan Keio)",
+    driveUrl: "https://drive.google.com/file/d/1AfGOu0SAqfBHjgLRICLo6K_C3nKOzOfS/view",
+    decisionMaker: "Louis Schweitzer (Chairman dan CEO Renault) dan Yoshikazu Hanawa (Chairman dan CEO Nissan)",
+    decisionPoint: "Maret 1999, menjelang tutup tahun fiskal Jepang 30 Maret: Nissan harus memilih mitra antara Renault dan DaimlerChrysler; Renault harus memutuskan seberapa jauh berkomitmen",
+    relevance: "Bab 12 (budaya korporat dan kepemimpinan): membangun kepercayaan lintas budaya, memimpin perubahan, dan merancang tata kelola aliansi.",
     sections: [
-      { heading: "Penyelamatan yang Menjadi Legenda",
-        body: `<p>Pada 1999, Renault mengambil bagian saham signifikan di Nissan yang saat itu menanggung utang
-besar dan merugi. Carlos Ghosn dikirim dari Prancis untuk memimpin pemulihan. Ia menjalankan program penghematan
-yang keras: menutup pabrik, memangkas jumlah pemasok, dan memutus sebagian hubungan kepemilikan silang yang khas
-struktur bisnis Jepang. Langkah-langkah itu bertentangan dengan norma yang berlaku dan membuatnya menjadi figur
-kontroversial sekaligus dipuji.</p>
-<p>Hasilnya cepat terlihat. Nissan kembali untung dalam waktu singkat, dan Ghosn menjadi salah satu eksekutif
-paling terkenal di dunia, satu-satunya orang yang secara bersamaan memimpin dua produsen mobil besar dari dua
-negara berbeda.</p>
-<p>Aliansi ini menjadi contoh yang sering dikutip tentang bagaimana dua perusahaan dari budaya berbeda dapat
-berbagi platform, mesin, dan pembelian tanpa melebur menjadi satu perusahaan.</p>` },
-      { heading: "Ketidaksetaraan yang Tidak Pernah Diselesaikan",
-        body: `<p>Di balik keberhasilan itu terdapat struktur kepemilikan yang timpang. Renault memiliki bagian
-saham Nissan yang jauh lebih besar dan disertai hak suara, sementara kepemilikan Nissan atas Renault lebih kecil
-dan tanpa hak suara setara. Padahal dari sisi penjualan dan laba, Nissan tumbuh lebih besar daripada Renault.
-Ketidaksesuaian antara kontribusi dan hak suara itu menjadi sumber ketegangan yang bertahan bertahun-tahun,
-diperumit oleh kepemilikan pemerintah Prancis di Renault.</p>
-<p>Selama Ghosn memimpin, ketegangan itu tertutup oleh keberhasilan dan oleh kewenangannya sendiri. Ia menjadi
-jembatan antara dua budaya sekaligus penengah setiap perselisihan. Dalam bahasa Bab 12, budaya aliansi tidak
-tertanam dalam sistem, melainkan bergantung pada seorang pemimpin.</p>
-<p>Pada November 2018, Ghosn ditangkap di Jepang atas tuduhan pelanggaran keuangan. Ia kemudian diberhentikan dari
-jabatannya di Nissan, dan pada akhir 2019 meninggalkan Jepang secara tidak sah menuju Lebanon. Terlepas dari
-kebenaran tuduhannya, peristiwa itu menghilangkan satu-satunya penopang yang selama ini menyatukan aliansi.</p>` },
-      { heading: "Menata Ulang Tanpa Figur Penengah",
-        body: `<p>Setelah krisis, kedua perusahaan menghadapi pilihan yang selama dua dekade ditunda. Aliansi dapat
-dibubarkan, dipertahankan dengan struktur lama, atau ditata ulang menuju kepemilikan silang yang lebih setara
-disertai tata kelola bersama yang tidak bergantung pada satu orang. Pada 2023 kedua perusahaan menyepakati
-penyetaraan kepemilikan silang, sebuah langkah yang menyelesaikan sebagian ketegangan struktural.</p>
-<p>Pertanyaan budaya tetap terbuka. Cara pengambilan keputusan, kecepatan, dan hubungan dengan pemasok di kedua
-perusahaan berbeda secara mendasar, dan perbedaan itu tidak selesai dengan mengubah persentase saham.</p>` }
+      { heading: "Geneva, Maret 1999",
+        body: `<p>Pada pembukaan Geneva International Motor Show, 3 Maret 1999, perbincangan di aula utama tidak
+berpusat pada mobil baru melainkan pada manuver korporasi: siapa yang akan beraliansi dengan Nissan, produsen
+mobil terbesar kedua Jepang yang sedang terbebani utang. Dua kandidat berada di atas ring. Di satu sudut, Renault,
+produsen kesembilan dunia dengan sekitar 4,3 persen pasar, yang telah bernegosiasi dengan Nissan lebih dari
+sepuluh bulan. Di sudut lain, raksasa Jerman-Amerika DaimlerChrysler, produsen kelima dunia dengan 8,4 persen
+pasar, yang baru masuk gelanggang pada Desember 1998. Tenggatnya nyata: kesepakatan harus rampung sebelum
+30 Maret, akhir tahun fiskal di Jepang.</p>
+<p>Di atas kertas, pertarungan itu timpang. Kekuatan finansial DaimlerChrysler menjadikannya favorit, dan mereka
+baru saja mengguncang industri lewat merger Daimler dan Chrysler setahun sebelumnya. Renault justru membawa luka:
+upaya aliansinya dengan Volvo berakhir gagal pada 1993 setelah bertahun-tahun negosiasi. Namun para pemimpin
+Renault yakin sinergi Renault dengan Nissan lebih besar daripada sinergi DaimlerChrysler dengan Nissan, dan
+keyakinan itu telah mereka bangun pelan-pelan melalui hubungan antar tim negosiasi selama berbulan-bulan
+(dokumen kasus, sudut pandang Renault).</p>` },
+      { heading: "Logika Strategis Kedua Belah Pihak",
+        body: `<p>Dari sisi Renault, rencana pengembangan internasional yang disusun Georges Douin pada 1997
+menyimpulkan bahwa Renault harus memilih: tetap menjadi pemain Eropa yang penting tetapi terbatas dengan pangsa
+sekitar 5 persen, atau melompat ke panggung global lewat kemitraan, karena gelombang konsolidasi industri tampak
+tak terhindarkan. Nissan menawarkan komplementaritas yang hampir sempurna: kuat di Asia dan Amerika Utara tempat
+Renault absen, unggul dalam rekayasa dan kualitas manufaktur, sementara Renault kuat di Eropa dan Amerika Latin,
+unggul dalam desain, inovasi produk, dan pengelolaan biaya pembelian.</p>
+<p>Dari sisi Nissan, persoalannya adalah keuangan dan pembaruan. Utang yang menumpuk (dokumen kasus menyebut
+angka hingga 23 miliar euro beserta jadwal pembayarannya) membuat Nissan membutuhkan suntikan modal segera,
+tetapi Hanawa tidak sekadar mencari uang. Ia mencari mitra yang memberi <strong>status setara</strong> dan ruang
+bagi Nissan untuk mempertahankan identitasnya, bukan pengakuisisi yang akan menelannya. Surat-menyurat pribadi
+antara Hanawa dan Schweitzer sejak pertengahan 1998 membangun keyakinan bahwa Renault memahami hal itu.</p>
+<p>Perbedaan pendekatan kedua pelamar menjadi penentu. Tim Renault dan Nissan telah menjalankan studi bersama
+menilai sinergi konkret: platform bersama, kebijakan pembelian, dan jaringan distribusi, sehingga angka-angka
+sinerginya dimiliki bersama, bukan dipaksakan satu pihak. Ketika DaimlerChrysler akhirnya mundur dari negosiasi
+pada awal Maret 1999, Renault tinggal menuntaskan syarat-syaratnya.</p>` },
+      { heading: "Kesepakatan 27 Maret 1999",
+        body: `<p>Aliansi ditandatangani pada 27 Maret 1999. Renault mengambil <strong>36,8 persen</strong> saham
+Nissan Motor, dengan struktur yang sengaja dirancang sebagai aliansi dua perusahaan yang tetap berdiri sendiri,
+bukan merger: masing-masing mempertahankan merek, identitas, dan pencatatan sahamnya, dengan komite bersama untuk
+mengelola sinergi. Carlos Ghosn, saat itu executive vice president Renault yang dikenal keras dalam pengendalian
+biaya, dikirim ke Tokyo untuk memimpin pemulihan Nissan.</p>
+<p>Bagi kelas budaya dan kepemimpinan, bagian paling kaya dari kasus ini adalah prosesnya, bukan angkanya:
+bagaimana kepercayaan dibangun antara dua organisasi dengan bahasa, praktik keiretsu, dan cara mengambil
+keputusan yang sangat berbeda; bagaimana Hanawa mengelola konsensus internal Nissan; dan bagaimana Renault
+menahan diri untuk tidak berperilaku sebagai pemenang.</p>` },
+      { heading: "Epilog: Perkembangan Sesudah Periode Kasus",
+        body: `<p><em>Bagian ini melampaui periode kasus. Gunakan untuk menguji analisis Anda, bukan sebagai bahan
+analisis utama.</em></p>
+<p>Pemulihan Nissan di bawah Ghosn berlangsung jauh lebih cepat dari perkiraan dan menjadikannya salah satu
+eksekutif paling terkenal di dunia; ia kemudian memimpin Renault dan Nissan sekaligus. Dua dekade kemudian
+struktur yang tidak seimbang, kepemilikan Renault yang besar atas Nissan tanpa hak suara timbal balik yang
+setara, menjadi sumber ketegangan yang tidak pernah selesai. Penangkapan Ghosn di Tokyo pada 2018 menghilangkan
+figur penengah aliansi, dan baru pada 2023 kedua perusahaan menyepakati penyetaraan kepemilikan silang. Pertanyaan
+untuk kelas: apakah benih ketegangan itu sudah terlihat dalam rancangan kesepakatan 1999?</p>` }
     ],
     exhibits: [
-      { title: "Exhibit 1: Sumber Ketegangan Aliansi",
-        note: "Pisahkan sumber struktural dari sumber budaya.",
-        rows: [["Sumber ketegangan", "Jenis", "Dapat diselesaikan dengan"],
-               ["Kepemilikan silang tidak setara", "Struktural", "Perubahan perjanjian pemegang saham"],
-               ["Hak suara yang timpang", "Struktural", "Penyetaraan hak suara"],
-               ["Kepemilikan pemerintah pada salah satu pihak", "Struktural dan politis", "Negosiasi lintas negara"],
-               ["Perbedaan cara pengambilan keputusan", "Budaya", "Waktu, kepemimpinan, dan mekanisme bersama"],
-               ["Ketergantungan pada figur tunggal", "Budaya dan tata kelola", "Pelembagaan proses"]] },
-      { title: "Exhibit 2: Tiga Pilihan setelah Krisis",
-        note: "Bahan pembanding untuk bagian Alternatives.",
-        rows: [["Pilihan", "Manfaat", "Risiko"],
-               ["Bubarkan aliansi", "Kejelasan dan kemandirian", "Kehilangan skala pembelian dan platform bersama"],
-               ["Pertahankan struktur lama", "Tidak ada biaya negosiasi", "Ketegangan berulang"],
-               ["Tata ulang menuju kesetaraan", "Menyelesaikan sumber struktural", "Negosiasi panjang dan lintas pemerintah"]] }
+      { title: "Exhibit 1: Dua Pelamar di Mata Nissan, Awal 1999",
+        note: "Sintesis dari narasi kasus; periksa detail pada PDF asli.",
+        rows: [["Aspek", "Renault", "DaimlerChrysler"],
+               ["Posisi dunia", "Ke-9, sekitar 4,3% pasar", "Ke-5, sekitar 8,4% pasar"],
+               ["Kekuatan finansial", "Terbatas", "Sangat besar"],
+               ["Lama pendekatan ke Nissan", "Lebih dari 10 bulan, studi sinergi bersama", "Sejak Desember 1998"],
+               ["Tawaran status", "Aliansi setara, identitas Nissan dijaga", "Dikhawatirkan menyerupai akuisisi"],
+               ["Pengalaman aliansi", "Gagal dengan Volvo (1993), menjadi pelajaran", "Merger Daimler-Chrysler (1998)"]] },
+      { title: "Exhibit 2: Komplementaritas yang Mendasari Sinergi",
+        note: "Kerangka analisis untuk bagian Issues.",
+        rows: [["Dimensi", "Kekuatan Renault", "Kekuatan Nissan"],
+               ["Geografi", "Eropa, Amerika Latin", "Asia, Amerika Utara"],
+               ["Produk dan teknik", "Desain, mobil kecil, inovasi produk", "Rekayasa, kualitas manufaktur"],
+               ["Manajemen biaya", "Pembelian dan pengendalian biaya", "Perlu pembaruan (praktik keiretsu)"],
+               ["Kebutuhan", "Skala global", "Modal dan pembaruan manajemen"]] }
     ],
     questions: [
-      "Pisahkan sumber ketegangan pada Exhibit 1 menjadi struktural dan budaya. Mana yang lebih menentukan bagi kelangsungan aliansi?",
-      "Budaya aliansi bertumpu pada seorang pemimpin. Mekanisme apa yang seharusnya dibangun agar budaya tertanam dalam sistem, bukan pada individu?",
-      "Nilai ketiga pilihan pada Exhibit 2 dari sudut pandang dewan direksi Nissan, lalu dari sudut pandang dewan direksi Renault. Apakah kesimpulannya berbeda?",
-      "Kepemilikan pemerintah pada salah satu pihak menambah lapisan politis. Bagaimana faktor itu memengaruhi ruang negosiasi?",
-      "Apa pelajaran kasus ini bagi perusahaan Indonesia yang membentuk usaha patungan dengan mitra asing?"
+      "Mengapa Nissan memilih penawar yang lebih kecil dan lebih miskin? Pisahkan faktor ekonomi dari faktor kepercayaan dan status, lalu timbang bobot masing-masing.",
+      "Proses sepuluh bulan Renault (studi sinergi bersama, surat-menyurat pemimpin) adalah investasi membangun kepercayaan lintas budaya. Praktik mana yang paling menentukan, dan dapatkah dipercepat?",
+      "Struktur 1999 memilih aliansi dua entitas alih-alih merger penuh. Analisis pertukaran pilihan itu bagi eksekusi sinergi dan bagi identitas masing-masing perusahaan.",
+      "Dengan kerangka Bab 12, jelaskan peran kepemimpinan (Schweitzer, Hanawa, kemudian Ghosn) dalam membuat aliansi ini bekerja melampaui dokumen legalnya.",
+      "Epilog menunjukkan ketegangan struktural yang meledak dua dekade kemudian. Rancangan tata kelola seperti apa pada 1999 yang mungkin mencegahnya, dan apa biayanya saat itu?"
     ],
     guide: {
-      problem: "Rumuskan masalahnya sebagai aliansi yang keberhasilannya bergantung pada figur tunggal di atas struktur kepemilikan yang tidak seimbang.",
-      alternatives: "Beri judul pada ketiga pilihan, sebutkan konsekuensi struktural dan komersialnya tanpa argumen pro dan kontra.",
-      issues: "Bahas ketimpangan hak suara, perbedaan budaya pengambilan keputusan, kepentingan pemerintah, serta nilai skala bersama yang dipertaruhkan.",
-      conclusion: "Ambil posisi, tetapkan mekanisme tata kelola bersama yang konkret, dan sebutkan pilihan yang Anda tolak beserta alasannya."
+      problem: "Rumuskan masalahnya dari sudut pandang yang Anda pilih (Renault atau Nissan): bukan sekadar memilih mitra, melainkan merancang kemitraan yang menyelesaikan kebutuhan strategis tanpa menghancurkan identitas dan kepercayaan.",
+      alternatives: "Beri judul alternatif dari sudut pandang itu, misalnya bagi Nissan: 'Aliansi setara dengan Renault', 'Bergabung dengan DaimlerChrysler', 'Restrukturisasi mandiri'. Sebutkan konsekuensi modal, kendali, dan budaya tanpa argumen pro dan kontra.",
+      issues: "Bahas kesenjangan finansial kedua pelamar, risiko integrasi lintas budaya, pelajaran kegagalan Volvo, tekanan tenggat fiskal, dan keberlanjutan struktur kepemilikan yang timpang.",
+      conclusion: "Ambil posisi, sebutkan syarat-syarat kunci yang akan Anda tuntut dalam perjanjian, dan indikator awal bahwa aliansi berjalan dalam dua tahun pertama."
     }
   },
 
   {
     id: "sm12-nike",
-    title: "Nike di Indonesia: Rantai Pasok, Standar Perburuhan, dan Reputasi",
-    subtitle: "Bagaimana sebuah perusahaan bertanggung jawab atas pabrik yang tidak dimilikinya",
+    title: "Hitting the Wall: Nike dan Praktik Ketenagakerjaan Internasional",
+    subtitle: "Ketika strategi alih daya yang paling berhasil di dunia menabrak batas tanggung jawabnya sendiri",
     forSession: 12,
     badge: "Kasus resmi Kelompok 6",
-    readingTime: 7,
-    officialSource: "Bacaan pendamping: Thompson & Strickland Bab 9 tentang strategi bisnis yang etis, tanggung jawab sosial, dan keberlanjutan",
-    decisionMaker: "Manajemen sebuah perusahaan perlengkapan olahraga global",
-    decisionPoint: "Menentukan sejauh mana perusahaan bertanggung jawab atas kondisi kerja di pabrik pemasok independen",
-    relevance: "Kasus penutup untuk etika bisnis, tanggung jawab sosial, dan keberlanjutan sebagai bagian dari strategi, bukan pelengkapnya.",
+    readingTime: 8,
+    officialSource: "Bacaan resmi (PDF di Drive): Spar, D.L. dan Burns, J. (2000, rev. 2002), Hitting the Wall: Nike and International Labor Practices, Harvard Business School 9-700-047",
+    driveUrl: "https://drive.google.com/file/d/1EkrKjtYCcwPqY_mOGj_0opB3EVBankWM/view",
+    decisionMaker: "Phil Knight, CEO Nike, dan manajemen senior perusahaan",
+    decisionPoint: "1998, menentukan respons perusahaan setelah bertahun-tahun kritik atas kondisi kerja di pabrik mitra: bertahan dengan argumen lama atau mengubah sikap secara mendasar",
+    relevance: "Bab 9 (etika bisnis, tanggung jawab sosial, dan keberlanjutan sebagai bagian strategi), penutup seluruh mata kuliah.",
     sections: [
-      { heading: "Model Tanpa Pabrik",
-        body: `<p>Perusahaan ini membangun modelnya di atas satu keputusan strategis: tidak memiliki pabrik. Ia
-memusatkan sumber dayanya pada desain, teknologi produk, dan pemasaran, sementara produksi diserahkan kepada
-pemasok independen di Asia. Indonesia menjadi salah satu basis produksi utamanya sejak akhir 1980-an, bersama
-Vietnam dan Tiongkok.</p>
-<p>Model itu menghasilkan keunggulan biaya dan kelincahan yang besar. Ia juga menciptakan jarak antara merek dan
-kondisi kerja tempat produknya dibuat.</p>
-<p>Pada 1990-an, laporan tentang upah rendah, jam kerja panjang, dan perlakuan terhadap pekerja di pabrik pemasok
-di Indonesia dan negara lain menjadi sorotan internasional. Perusahaan pada awalnya berargumen bahwa pabrik-pabrik
-itu bukan miliknya dan bahwa hubungan kerja adalah urusan pemasok. Argumen itu benar secara hukum dan gagal secara
-publik. Kampanye boikot berlangsung selama bertahun-tahun dan menjadi salah satu contoh paling dikutip tentang
-risiko reputasi rantai pasok.</p>` },
-      { heading: "Dari Penyangkalan Menuju Pengungkapan",
-        body: `<p>Perubahan sikap perusahaan berlangsung bertahap. Ia menetapkan kode perilaku pemasok, membangun
-tim audit kepatuhan, bergabung dengan inisiatif multi-pihak, dan pada 2005 mengambil langkah yang saat itu jarang
-dilakukan, yaitu mempublikasikan daftar pabrik pemasoknya. Langkah itu mengundang pengawasan dari luar, sesuatu
-yang sebelumnya dihindari perusahaan mana pun.</p>
-<p>Dalam bahasa Bab 9, ini adalah pergeseran dari memperlakukan tanggung jawab sosial sebagai biaya reputasi
-menjadi memperlakukannya sebagai bagian dari strategi. Pengungkapan menciptakan tekanan internal untuk memperbaiki,
-karena tidak ada lagi tempat menyembunyikan pemasok bermasalah.</p>
-<p>Persoalannya tidak selesai. Audit menghadapi keterbatasan: pemeriksaan yang dijadwalkan dapat dipersiapkan,
-pekerja yang diwawancarai di lingkungan pabrik tidak selalu bebas berbicara, dan pemasok lapis kedua sering berada
-di luar jangkauan pemeriksaan. Persoalan pembayaran pesangon pada masa pandemi dan sengketa kebebasan berserikat
-memperlihatkan bahwa jarak antara kebijakan di kantor pusat dan kenyataan di lantai pabrik tetap ada.</p>` },
-      { heading: "Pertanyaan Strategis, Bukan Hanya Etis",
-        body: `<p>Bagi manajemen, pertanyaannya bukan hanya apa yang benar, melainkan juga bagaimana tanggung jawab
-itu dijalankan tanpa menghancurkan keunggulan biaya yang menjadi dasar modelnya. Menaikkan standar berarti
-menaikkan biaya. Berpindah ke pemasok yang lebih patuh dapat menghukum pemasok lama beserta pekerjanya.
-Meninggalkan sebuah negara ketika muncul persoalan justru memindahkan masalah, bukan menyelesaikannya.</p>
-<p>Tiga arah dipertimbangkan: memperketat audit dan sanksi bagi pemasok; berinvestasi jangka panjang pada
-sedikit pemasok terpilih dengan kemitraan yang lebih dalam; atau mengambil kembali sebagian produksi ke dalam
-kendali langsung perusahaan untuk lini bernilai tinggi.</p>` }
+      { heading: "Strategi yang Membesarkan Nike",
+        body: `<p>Nike dibangun di atas gagasan sederhana yang dirumuskan Phil Knight sejak masih mahasiswa: perusahaan
+akan menekan biaya dengan <strong>mengalihdayakan seluruh produksi</strong> kepada pabrik kontraktor independen di
+negara berupah rendah, lalu menuangkan sumber dayanya ke desain dan pemasaran (Spar dan Burns, 2000). Tidak ada
+pabrik milik sendiri; yang dimiliki Nike adalah merek, teknologi produk, dan jaringan kontrak.</p>
+<p>Hasilnya luar biasa. Pendapatan tumbuh dari 60 ribu dolar pada 1972 menjadi 49 juta dolar pada 1982, lalu
+melampaui 9 miliar dolar pada pertengahan 1990-an. Pada 1998, Nike menguasai lebih dari 40 persen pasar alas kaki
+atletik Amerika Serikat yang bernilai 14,7 miliar dolar. Produksi mengikuti upah: dari Jepang berpindah ke Korea
+Selatan dan Taiwan, lalu ketika upah di sana naik, ke Indonesia, Tiongkok, dan Vietnam. Indonesia menjadi lokasi
+penting dengan enam pabrik pemasok pada awal 1990-an.</p>
+<p>Dari sudut pandang buku teks, ini adalah strategi alih daya yang nyaris sempurna: fokus pada kompetensi inti,
+struktur biaya variabel, dan kelincahan berpindah lokasi. Kasus ini memperlihatkan sisi lain dari strategi
+tersebut.</p>` },
+      { heading: "Kritik yang Menemukan Wajahnya",
+        body: `<p>Persoalan bermula dari hal-hal yang tampak teknis. Upah minimum di Jakarta pada awal 1990-an
+hampir tidak mencapai satu dolar per hari, dan pemerintah saat itu mengakui angka tersebut belum memenuhi
+kebutuhan hidup dasar. Sebagian pabrik bahkan meminta pengecualian membayar di bawah upah minimum dengan status
+upah percobaan yang berlarut-larut. Aktivis buruh Jeff Ballinger, yang bertahun-tahun bekerja di Indonesia,
+menjadikan Nike sasaran kampanye dengan logika sederhana: perusahaan yang paling besar dan paling terlihat harus
+memikul tanggung jawab paling besar.</p>
+<p>Sepanjang 1990-an kritik menumpuk: pekerja di bawah umur di pabrik Indonesia, lembur yang dipaksakan di
+Tiongkok, kondisi kerja berbahaya di Vietnam. Pada 1997 seorang pekerja perempuan Vietnam berusia 23 tahun,
+Nguyen Thi Thu Phuong, tewas di pabrik kontraktor ketika mesin rekannya pecah dan melontarkan serpihan logam.
+Cerita yang semula beredar di kalangan aktivis masuk ke Time dan Business Week; mahasiswa di berbagai kampus
+Amerika menggalang boikot; dan jawaban awal perusahaan, bahwa Nike tidak membuat sepatu sehingga urusan pabrik
+bukan urusannya, semakin sulit dipertahankan.</p>
+<p>Respons bertahap perusahaan justru menambah bahan kritik. Kode etik pemasok diterbitkan sejak 1992; Ernst &amp;
+Young dikontrak mengaudit pabrik, tetapi objektivitas auditor yang dibayar Nike dipertanyakan, dan sebuah laporan
+audit yang bocor memperlihatkan masalah yang tidak diumumkan. Evaluasi independen oleh Andrew Young pada 1997
+dinilai para kritikus terlalu lunak karena tidak menyentuh persoalan upah.</p>` },
+      { heading: "Titik Balik 1998",
+        body: `<p>Tekanan mencapai puncaknya ketika penjualan melemah dan perusahaan mengumumkan restrukturisasi
+serta pemutusan hubungan kerja. Pada 12 Mei 1998, di National Press Club, Knight mengakui secara terbuka bahwa
+produk Nike telah menjadi identik dengan upah budak, lembur paksa, dan kesewenang-wenangan, lalu mengumumkan
+serangkaian pembaruan: menaikkan usia minimum pekerja pabrik sepatu menjadi 18 tahun dan pekerja pakaian menjadi
+16 tahun; menerapkan standar kualitas udara OSHA Amerika Serikat di seluruh pabrik; memperluas program
+pemantauan; memperluas program pendidikan bagi pekerja; dan menyediakan pinjaman mikro (Spar dan Burns, 2000).</p>
+<p>Nike kemudian ikut membentuk Fair Labor Association, asosiasi multi-pihak yang mewajibkan anggotanya membayar
+setidaknya upah minimum legal atau upah setempat yang berlaku, dengan pemantauan oleh pihak eksternal.</p>
+<p>Pertanyaan analitis kasus ini bukan apakah Nike akhirnya berubah, melainkan mengapa perubahan itu memakan waktu
+hampir satu dekade, dan sejauh mana komitmen 1998 menyelesaikan persoalan strukturalnya: insentif pembelian yang
+menekan harga dan tenggat tetap berhadapan dengan standar kerja yang menaikkan biaya pabrik mitra.</p>` },
+      { heading: "Pertanyaan yang Tetap Hidup",
+        body: `<p>Kasus ini ditulis pada 2000 dan sengaja menggantung. Sebagian ukuran keberhasilan baru terlihat
+bertahun-tahun kemudian, dan sebagian persoalan berpindah bentuk: pemantauan pabrik lapis kedua, kebebasan
+berserikat, dan pembayaran pesangon ketika pesanan berpindah. Bagi mahasiswa Indonesia, kasus ini juga bisa dibaca
+dari arah sebaliknya: apa artinya standar global semacam ini bagi pabrik dan pekerja Indonesia yang menjadi bagian
+rantai pasok merek dunia.</p>` }
     ],
     exhibits: [
-      { title: "Exhibit 1: Tahapan Sikap Perusahaan atas Tanggung Jawab Rantai Pasok",
-        note: "Perhatikan pergeseran dari penyangkalan menuju pelembagaan.",
-        rows: [["Tahap", "Sikap", "Alat yang dipakai"],
-               ["Penyangkalan", "Pabrik bukan milik kami", "Argumen hukum"],
-               ["Kepatuhan", "Menetapkan standar minimum", "Kode perilaku dan audit"],
-               ["Pengungkapan", "Membuka daftar pemasok", "Transparansi dan pengawasan publik"],
-               ["Kemitraan", "Membangun kapabilitas pemasok", "Kontrak jangka panjang dan pelatihan"]] },
-      { title: "Exhibit 2: Keterbatasan Audit Kepatuhan",
-        note: "Gunakan untuk menilai keandalan mekanisme pengawasan.",
-        rows: [["Keterbatasan", "Wujudnya", "Kemungkinan perbaikan"],
-               ["Pemeriksaan terjadwal", "Pabrik bersiap sebelum audit", "Pemeriksaan mendadak"],
-               ["Wawancara di lingkungan pabrik", "Pekerja tidak bebas berbicara", "Wawancara di luar lokasi kerja"],
-               ["Pemasok lapis kedua", "Di luar jangkauan pemeriksaan", "Kewajiban penelusuran berjenjang"],
-               ["Insentif pembelian", "Tekanan harga dan tenggat", "Menyelaraskan target pembelian dengan standar"]] }
+      { title: "Exhibit 1: Kronologi Ringkas dari Kasus",
+        note: "Disarikan dari dokumen kasus; periksa detail dan kutipan lengkapnya pada PDF asli.",
+        rows: [["Periode", "Peristiwa"],
+               ["1962-1972", "Formula Knight: alih daya penuh produksi, fokus pada merek; pendapatan awal 60 ribu dolar (1972)"],
+               ["1980-an", "Produksi berpindah dari Korea dan Taiwan ke Indonesia, Tiongkok, Vietnam"],
+               ["1992", "Kode etik pemasok pertama dilampirkan pada kontrak"],
+               ["1996", "Departemen Praktik Ketenagakerjaan dibentuk; audit Ernst & Young dipersoalkan"],
+               ["1997", "Laporan Andrew Young; kematian Nguyen Thi Thu Phuong; audit bocor"],
+               ["12 Mei 1998", "Pidato National Press Club: usia minimum 18 tahun, standar udara OSHA, perluasan pemantauan"],
+               ["1999", "Fair Labor Association terbentuk"]] },
+      { title: "Exhibit 2: Argumen yang Saling Berhadapan",
+        note: "Kerangka untuk latihan analisis empat komponen.",
+        rows: [["Isu", "Posisi perusahaan (awal)", "Posisi kritikus"],
+               ["Status pabrik", "Milik kontraktor independen", "Nike mengendalikan lewat pesanan, maka bertanggung jawab"],
+               ["Upah", "Sesuai hukum setempat", "Upah minimum setempat tidak memenuhi kebutuhan dasar"],
+               ["Audit", "Sudah ada auditor profesional", "Auditor dibayar perusahaan, hasilnya tidak terbuka"],
+               ["Perbandingan upah", "Wajar untuk negara berkembang", "Upah harian pekerja jauh di bawah harga sepasang sepatu"]] }
     ],
     questions: [
-      "Argumen bahwa pabrik bukan milik perusahaan benar secara hukum tetapi gagal secara publik. Apa yang ditunjukkan hal itu tentang batas tanggung jawab perusahaan?",
-      "Exhibit 2 memperlihatkan keterbatasan audit. Perubahan apa pada praktik pembelian perusahaan yang paling menentukan bagi perbaikan kondisi kerja?",
-      "Nilai ketiga arah yang dipertimbangkan manajemen. Mana yang paling menyeimbangkan tanggung jawab dan keunggulan biaya?",
-      "Meninggalkan sebuah negara ketika muncul persoalan memindahkan masalah, bukan menyelesaikannya. Apakah Anda setuju? Pertahankan posisi Anda.",
-      "Bagaimana perusahaan Indonesia yang menjadi pemasok merek global sebaiknya memposisikan diri terhadap tuntutan standar semacam ini?"
+      "Jawaban awal perusahaan benar secara hukum tetapi gagal secara publik. Jelaskan mengapa batas tanggung jawab yang dipakai publik berbeda dari batas kepemilikan hukum.",
+      "Mengapa langkah-langkah 1992 sampai 1997 (kode etik, audit, evaluasi independen) tidak meredakan tekanan? Apa yang membedakan langkah 1998?",
+      "Analisis persoalan ini dengan kerangka Bab 9: apakah komitmen 1998 merupakan strategi etika yang tulus, manajemen risiko reputasi, atau keduanya, dan apakah perbedaannya penting?",
+      "Insentif pembelian (harga dan tenggat) berhadapan dengan standar kerja pabrik mitra. Perubahan apa pada praktik pembelian yang paling menentukan agar standar benar-benar dijalankan?",
+      "Dari sudut pandang pemasok Indonesia merek global hari ini, pelajaran apa dari kasus ini yang paling relevan, dan bagaimana pemasok sebaiknya memposisikan diri?"
     ],
     guide: {
-      problem: "Rumuskan masalahnya sebagai tanggung jawab atas dampak yang terjadi di luar batas kepemilikan perusahaan, tetapi di dalam jangkauan pengaruhnya.",
-      alternatives: "Beri judul pada ketiga arah, sebutkan biaya, waktu, dan perubahan hubungan pemasok masing-masing.",
-      issues: "Bahas keterbatasan audit, ketegangan antara tekanan harga dan standar kerja, risiko reputasi, serta dampak bagi pekerja bila hubungan pemasok diputus.",
-      conclusion: "Ambil posisi, tetapkan perubahan konkret pada praktik pembelian, dan sebutkan arah yang Anda tolak beserta alasannya."
+      problem: "Rumuskan masalahnya sebagai kesenjangan antara batas tanggung jawab hukum perusahaan dan batas tanggung jawab yang dituntut pemangku kepentingan atas rantai pasok yang dikendalikannya secara ekonomi.",
+      alternatives: "Beri judul alternatif respons perusahaan pada 1998, misalnya 'Bertahan dengan argumen hukum', 'Reformasi standar dan pemantauan', dan 'Integrasi sebagian produksi ke milik sendiri'. Sebutkan biaya dan konsekuensi tiap alternatif tanpa argumen pro dan kontra.",
+      issues: "Bahas kredibilitas pemantauan, ekonomi upah di negara produksi, dampak boikot pada merek, dan ketegangan antara insentif pembelian dan standar kerja.",
+      conclusion: "Ambil posisi atas respons yang seharusnya diambil pada 1998, tetapkan ukuran keberhasilan yang dapat diverifikasi pihak luar, dan sebutkan alternatif yang Anda tolak beserta alasannya."
     }
   }
   ];

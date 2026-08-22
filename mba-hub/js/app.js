@@ -1130,7 +1130,8 @@
 
   function annApplyAll(sessionId) {
     annState.session = sessionId;
-    getAnns().filter((a) => a.session === sessionId).forEach(applyOneAnnotation);
+    getAnns().filter((a) => a.session === sessionId && (a.tab || "ppt") === matTabState.tab)
+      .forEach(applyOneAnnotation);
   }
 
   function unwrapAnnotation(annId) {
@@ -1248,6 +1249,7 @@
     const ann = {
       id: "a" + (store.get("ann_seq", 0) + 1),
       session: annState.session,
+      tab: matTabState.tab,
       secIndex: p.secIndex,
       text: p.text,
       occ: p.occ,
@@ -1283,8 +1285,57 @@
     if (e.target.closest("[data-hl-close]")) hideHlUi();
   });
 
+  /* ---------- Materi Buku (tab kedua halaman materi) ---------- */
+  const matTabState = { tab: "ppt" };
+
+  function bookMatFor(sessionId) {
+    const perCourse = (window.MBA_BOOK || {})[CUR_ID];
+    return perCourse ? perCourse[sessionId] : null;
+  }
+
+  function bookReadMinutes(bk) {
+    const words = bk.sections.map((x) => x.body.replace(/<[^>]+>/g, " ")).join(" ").split(/\s+/).length;
+    return Math.max(1, Math.round(words / 180));
+  }
+
+  function renderBookMateri(bk) {
+    const loBox = `
+      <div class="card card-pad bk-lo">
+        <h4 class="sub-h">Capaian pembelajaran bab ini</h4>
+        <ol class="obj-list">${bk.lo.map((l) => `<li>${esc(l)}</li>`).join("")}</ol>
+        <p class="bk-src">📖 Sumber utama: ${esc(bk.sumber)}</p>
+      </div>`;
+    const secs = bk.sections.map((sec, i) => `
+      <details class="card accordion bk-sec" ${i === 0 ? "open" : ""}>
+        <summary><span class="acc-title"><span class="bk-no">${esc(sec.no)}</span> ${esc(sec.title)}</span>
+          <span class="src-badge src-badge--book">📖 Buku</span></summary>
+        <div class="accordion-body bk-body">${sec.body}</div>
+      </details>`).join("");
+    return `
+      <div class="bk-head">
+        <h3 class="bk-title">BAB ${bk.bab}. ${esc(bk.judul)}</h3>
+        <p class="bk-sub">Materi buku ditulis lengkap mengikuti struktur bab dan capaian pembelajarannya,
+        dengan gaya penulisan karya ilmiah, agar dapat dipelajari utuh sebelum dosen menjelaskannya di kelas.
+        ⏱️ ±${bookReadMinutes(bk)} menit baca.</p>
+      </div>
+      ${loBox}
+      ${secs}`;
+  }
+
+  function materiTabBar(hasBook) {
+    if (!hasBook) return "";
+    const t = matTabState.tab;
+    return `
+      <div class="mat-tabs" role="tablist">
+        <button class="mat-tab ${t === "ppt" ? "active" : ""}" data-mattab="ppt" role="tab">📽️ Materi PPT</button>
+        <button class="mat-tab ${t === "buku" ? "active" : ""}" data-mattab="buku" role="tab">📖 Materi Buku</button>
+      </div>`;
+  }
+
   function viewMateri(id) {
     const s = getSession(id) || getSession(1);
+    const bookMat = bookMatFor(s.id);
+    if (!bookMat) matTabState.tab = "ppt";
     const available = DATA.sessions.filter((x) => x.summary).map((x) => x.id);
     const prepIds = (window.MBA_PREP && window.MBA_PREP[CUR_ID]) ? Object.keys(window.MBA_PREP[CUR_ID]).map(Number) : [];
     let body;
@@ -1365,9 +1416,11 @@
     <div class="view">
       <p class="eyebrow">Rangkuman Materi</p>
       <h1 class="view-title">Materi per Pertemuan</h1>
-      <p class="view-sub">Angka bergaris emas menandakan sesi yang materinya sudah tersedia.
-        Sesi yang belum diajarkan menampilkan <b>bahan bacaan persiapan</b>. Tiap bagian diberi penanda sumber: <span class="src-badge src-badge--ppt">📽️ Slide dosen</span> = dibahas
-        di kelas, <span class="src-badge src-badge--book">📖 Buku</span> = pengayaan dari buku referensi.
+      <p class="view-sub">Materi tiap sesi terdiri atas dua bagian: <b>Materi PPT</b> berisi pembahasan slide
+        dosen sebagaimana diajarkan di kelas, dan <b>Materi Buku</b> berisi uraian lengkap bab buku referensi
+        sesuai capaian pembelajaran, ditulis dengan gaya karya ilmiah agar dapat dipelajari sebelum dosen
+        menjelaskannya. Penanda sumber: <span class="src-badge src-badge--ppt">📽️ Slide dosen</span> = dibahas
+        di kelas, <span class="src-badge src-badge--book">📖 Buku</span> = bersumber dari buku referensi.
         <br>🖍️ <strong>Blok (seleksi) kalimat mana pun</strong> untuk menandainya dan menambahkan catatan penjelasan
         dosen, lalu klik kalimat berstabilo untuk melihat atau mengedit catatannya. Semua tanda tersimpan otomatis
         dan terkumpul juga di menu Catatan.</p>
@@ -1382,7 +1435,8 @@
         </div>
         ${caseLinkFor(s.id)}
       </div>
-      ${body}
+      ${materiTabBar(!!bookMat)}
+      ${bookMat && matTabState.tab === "buku" ? renderBookMateri(bookMat) : body}
     </div>`;
   }
 
@@ -2002,6 +2056,7 @@
         </div>
         <div class="case-dp"><b>Titik keputusan:</b> ${esc(cur.decisionPoint)}</div>
         <div class="case-src">📖 ${esc(cur.officialSource)}</div>
+        ${cur.driveUrl ? `<a class="case-drive" href="${cur.driveUrl}" target="_blank" rel="noopener">📄 Baca kasus asli (PDF di Google Drive)</a>` : ""}
         <div class="case-rel"><b>Relevansi:</b> ${esc(cur.relevance)}</div>
       </div>
 
@@ -2317,6 +2372,14 @@
       return;
     }
 
+    const tabBtn = e.target.closest("[data-mattab]");
+    if (tabBtn) {
+      matTabState.tab = tabBtn.dataset.mattab;
+      render();
+      const bar = document.querySelector(".mat-tabs");
+      if (bar) bar.scrollIntoView({ block: "nearest" });
+      return;
+    }
     const goto = e.target.closest("[data-goto]");
     if (goto) { location.hash = goto.dataset.goto; return; }
 

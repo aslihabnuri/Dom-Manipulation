@@ -29,7 +29,7 @@ window.MBA_COURSES.sm = {
     tools: [],
     myGroup: 3,
     driveFolder: "https://drive.google.com/drive/folders/1vr9J0e6D9maIlZvmf4cIz8bAQ6irH7GX",
-    status: "Silabus baru · materi Sesi 1–2 & 3 kasus siap"
+    status: "Silabus baru · 6 PDF kasus resmi tersedia di Drive"
   },
 
   course: {
@@ -46,6 +46,7 @@ window.MBA_COURSES.sm = {
     driveLinks: [
       { label: "Folder Strategic Management", url: "https://drive.google.com/drive/folders/1vr9J0e6D9maIlZvmf4cIz8bAQ6irH7GX" },
       { label: "Silabus baru: AOL Course Outline 2026", url: "https://drive.google.com/file/d/1pcPjoar88-NqOwekd007cDOA9VX83p1G/view" },
+      { label: "Folder Studi Kasus (6 PDF kasus resmi)", url: "https://drive.google.com/drive/folders/150retz3g6EW4P6-1v7XMRI3dhX4mZTQD" },
       { label: "Buku Thompson & Strickland (Crafting & Executing Strategy)", url: "https://drive.google.com/file/d/1YyeB9ZHeppWGwj6N9t1w1RsUEWFpSb0S/view" }
     ],
     assessment: [
@@ -436,7 +437,8 @@ strategis (penting–tidak mendesak) selalu terancam tergeser.</div>`
       subtitle: "Dapatkah maskapai berbiaya terendah di dunia mempertahankan keunggulannya?",
       forSession: 4,
       badge: "⭐ Kasus Kelompok 3",
-      officialSource: "Bacaan resmi: Grant, R.M. (2010), Contemporary Strategy Analysis, Bab 4",
+      officialSource: "Bacaan resmi (PDF di Drive): Grant, R.M. (2010), \"AirAsia: The World's Lowest-Cost Airline\", teaching case Contemporary Strategy Analysis",
+      driveUrl: "https://drive.google.com/file/d/1GBb4lxSMjdEE10ZqLG0PTEJQyx98v3qF/view",
       decisionMaker: "Tony Fernandes, Group CEO AirAsia",
       decisionPoint: "Awal 2010, menjaga keunggulan biaya di tengah ekspansi regional dan taruhan long-haul AirAsia X",
       readingTime: 14,
@@ -457,9 +459,12 @@ belum pernah dijalankan secara serius di Asia Tenggara: <strong>penerbangan berb
 sebelumnya tidak pernah naik pesawat</strong>. Slogannya menjadi identitas perusahaan: <em>"Now Everyone Can
 Fly."</em></p>
 <p>Delapan tahun kemudian, pada 2009, AirAsia dinobatkan Skytrax sebagai <em>World's Best Low-Cost Airline</em>: gelar yang kemudian dipertahankannya bertahun-tahun berturut-turut. Maskapai yang dibeli seharga satu ringgit itu
-telah menerbangkan puluhan juta penumpang setahun, mengoperasikan lebih dari 80 pesawat, dan memiliki afiliasi di
-Thailand, Indonesia, dan Filipina. Yang lebih mencolok bagi para analis: <strong>biaya per kursi-kilometer
-(CASK)-nya termasuk yang terendah yang pernah tercatat di industri penerbangan dunia.</strong></p>` },
+telah tumbuh dari dua pesawat dengan 200 ribu perjalanan penumpang pada Januari 2002 menjadi <strong>79 pesawat
+dengan 11,8 juta penumpang</strong> pada Maret 2009, dengan jaringan yang menjangkau sepuluh negara Asia Tenggara
+dan maskapai asosiasi di Thailand serta Indonesia. Riset UBS pada 2007 menempatkannya sebagai <strong>maskapai berbiaya
+terendah di dunia</strong>: biaya per kursi-kilometer tersedia (ASK) miliknya berada di bawah Southwest, JetBlue,
+Ryanair, maupun Virgin Blue. Resep awalnya dirangkum salah satu pendirinya, Conor McCarthy, sebagai "a Ryanair
+operational strategy, a Southwest people strategy, and an easyJet branding strategy" (Grant, 2010).</p>` },
 
         { heading: "Anatomi Keunggulan Biaya",
           body: `<p>Keunggulan biaya AirAsia bukan hasil satu keputusan besar, melainkan akumulasi puluhan pilihan
@@ -509,8 +514,10 @@ kepemilikan mayoritas lokal, sehingga AirAsia tidak bisa sekadar membuka cabang.
 <em>associate airlines</em>: Thai AirAsia (2003), Indonesia AirAsia (2004), kemudian Filipina, India, dan Jepang, dengan mitra lokal sebagai pemegang saham mayoritas, sementara AirAsia menyediakan merek, sistem, dan keahlian
 operasional. Struktur ini memungkinkan pertumbuhan cepat dengan modal terbatas, tetapi menimbulkan pertanyaan
 tentang pengendalian kualitas dan konsolidasi keuangan.</p>
-<p><strong>Arah kedua: jarak jauh.</strong> Pada 2007 diluncurkan <strong>AirAsia X</strong>, upaya menerapkan model
-berbiaya rendah pada penerbangan jarak jauh menuju Australia, Tiongkok, dan kemudian Eropa. Ini adalah taruhan yang
+<p><strong>Arah kedua: jarak jauh.</strong> Pada 2007 diluncurkan <strong>AirAsia X</strong>, entitas terpisah yang
+dimiliki 16% oleh AirAsia (dengan opsi menjadi 30%), 48% oleh Aero Ventures yang ikut didirikan Tony Fernandes, dan
+16% oleh Virgin Group, untuk menerapkan model berbiaya rendah pada penerbangan jarak jauh: mula-mula ke Gold Coast,
+Melbourne, dan Perth di Australia serta Tianjin dan Hangzhou di Tiongkok, kemudian ke India dan London. Ini adalah taruhan yang
 jauh lebih berani: sejarah industri penuh dengan kegagalan LCC jarak jauh (Laker Airways, Skytrain, dan lainnya).
 Alasannya struktural, banyak sumber keunggulan biaya LCC melemah pada rute panjang. Utilisasi pesawat sudah tinggi
 secara alamiah; turnaround cepat kehilangan artinya pada penerbangan 8 jam; penumpang jarak jauh menuntut layanan

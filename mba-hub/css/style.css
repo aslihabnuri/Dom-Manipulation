@@ -1945,3 +1945,62 @@ mark.hl--noted::after {
 .case-link span a { color: var(--ink); text-decoration: underline;
   text-decoration-color: var(--gold); text-underline-offset: 3px; }
 .case-link span a:hover { color: var(--gold); }
+
+/* ---------- Materi Buku (tab kedua halaman materi) ---------- */
+.mat-tabs {
+  display: flex; gap: 0.5rem; margin: 1.1rem 0 1rem;
+  border-bottom: 2px solid var(--rule); padding-bottom: 0;
+}
+.mat-tab {
+  appearance: none; background: none; border: none; cursor: pointer;
+  font-family: var(--sans); font-size: 0.92rem; font-weight: 600;
+  color: var(--ink-soft); padding: 0.55rem 1rem 0.65rem;
+  border-bottom: 3px solid transparent; margin-bottom: -2px;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.mat-tab:hover { color: var(--ink); }
+.mat-tab.active { color: var(--ink); border-bottom-color: var(--gold); }
+
+.bk-head { margin: 0.4rem 0 1rem; }
+.bk-title {
+  font-family: var(--serif); font-size: 1.35rem; letter-spacing: 0.01em;
+  margin: 0 0 0.35rem; color: var(--ink);
+}
+.bk-sub { color: var(--ink-soft); font-size: 0.92rem; max-width: 60ch; }
+.bk-lo { margin-bottom: 1rem; }
+.bk-src { margin-top: 0.7rem; font-size: 0.85rem; color: var(--ink-soft); }
+.bk-no {
+  display: inline-block; min-width: 2.2rem; font-family: var(--mono);
+  font-size: 0.85em; color: var(--gold); font-weight: 700;
+}
+.bk-body p { text-align: justify; hyphens: auto; }
+.bk-body h5 {
+  font-family: var(--sans); font-size: 0.95rem; font-weight: 700;
+  margin: 1.3rem 0 0.5rem; color: var(--ink);
+}
+.bk-table {
+  width: 100%; border-collapse: collapse; margin: 1rem 0 1.2rem;
+  font-size: 0.88rem;
+}
+.bk-table caption {
+  caption-side: top; text-align: left; font-family: var(--sans);
+  font-weight: 700; font-size: 0.85rem; padding-bottom: 0.45rem; color: var(--ink);
+}
+.bk-table th, .bk-table td {
+  border: 1px solid var(--rule); padding: 0.5rem 0.65rem; text-align: left;
+  vertical-align: top;
+}
+.bk-table th { background: color-mix(in srgb, var(--gold) 9%, transparent); font-family: var(--sans); }
+.bk-table tfoot td {
+  border: none; font-size: 0.78rem; color: var(--ink-soft); padding-top: 0.35rem; font-style: italic;
+}
+.bk-table-wrap { overflow-x: auto; }
+
+/* Tautan PDF kasus asli di Drive */
+.case-drive {
+  display: inline-block; margin-top: 0.55rem; font-family: var(--sans);
+  font-size: 0.85rem; font-weight: 600; color: var(--ink);
+  border: 1px solid var(--rule); border-radius: 8px; padding: 0.4rem 0.7rem;
+  text-decoration: none; background: color-mix(in srgb, var(--gold) 8%, transparent);
+}
+.case-drive:hover { border-color: var(--gold); }
