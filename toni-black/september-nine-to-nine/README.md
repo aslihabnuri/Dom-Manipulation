@@ -16,23 +16,31 @@ sembilan malam.
 
 ## Keputusan desain
 
-**Satu frame, bukan diptych.** Versi pertama memakai dua panel (09:00 dan 21:00)
-berdampingan. Itu terbaca sebagai perbandingan before/after, bukan campaign image.
-Versi ini memakai satu foto full-bleed. Konsep dua ujung hari sekarang dibawa oleh
-momennya sendiri — pria menenteng kaosnya sambil berjalan, gestur yang sama
-ambigunya antara berangkat pagi dan pulang malam — dan oleh eyebrow `09:00 — 21:00`.
+**Masalah yang diperbaiki.** Versi sebelumnya memakai ruang beton kosong — indah
+tapi abstrak. Tidak ada petunjuk waktu, tidak ada konteks, jadi tidak ada yang bisa
+dibaca sebagai "seharian". Dan tipografinya menumpuk di kiri, karena memang hanya
+kiri yang cukup gelap untuk teks putih.
 
-**Tipografi di dalam foto, tanpa panel warna.** Separuh kiri frame sengaja
-dijatuhkan ke nyaris hitam (rata-rata L=19) lewat pencahayaan, bukan lewat blok
-atau scrim. Teks putih duduk langsung di atas foto, kontras terukur 20:1.
+**Cerita yang membuktikan satu hari sudah lewat.** Foto sekarang menempatkan pria
+itu baru pulang: kemeja masih di tangan, celana kerja tersampir di kursi, sepatu
+terlepas di lantai, dan tangannya mengusap tengkuk — gestur melepas lelah. Tiga
+benda itu satu-satunya properti di ruangan, dan ketiganya bekerja sebagai bukti
+bahwa harinya panjang. Pesannya jadi terbaca tanpa perlu dijelaskan.
 
-**Bloknya membentuk rentang.** `NINE` dan `NINE` diset besar menjepit `to` yang
-kecil dan abu — susunannya berpinggang seperti jam pasir, jadi tipografinya sendiri
-membaca sebagai rentang waktu, bukan sekadar tiga baris teks.
+**Pencahayaan yang memungkinkan teks menyebar.** Satu sumber keras dari kanan atas,
+tanpa fill, sehingga cahaya hanya menggenang di tengah dan **keempat sudut frame
+jatuh ke hitam** (terukur 13, 21, 11, 23). Itu syarat teknis supaya tipografi bisa
+ditempatkan di empat penjuru seperti referensi, bukan menumpuk di satu sisi.
 
-**Crop 2:1 sengaja berbeda.** Figur mengisi baris 0–3000 dari 3072px, jadi crop 2:1
-penuh badan mustahil dari plate ini. Daripada memotong kepala atau kaki, 2:1 dibuat
-sebagai framing tersendiri: kepala sampai paha, yang justru membuat produk lebih besar.
+**Tipografi menyebar ke empat sudut.** Logo kiri atas, rentang `09:00 — 21:00`
+kanan atas, headline dan kalimat penjelas kiri bawah, CTA kanan bawah.
+
+**Angka, bukan huruf.** Headline memakai `9 to 9`, bukan `NINE TO NINE`. Selain
+lebih ringkas dan cepat dibaca, angkanya berima visual dengan **9.9** — tanggal
+sale-nya. Satu bentuk, dua makna.
+
+**Kalimat yang menjelaskan.** "Twelve hours in the same pair. Still comfortable."
+Datar, spesifik, tanpa hiperbola — dan langsung menjawab "apa maksudnya".
 
 ## Kepatuhan brand guideline
 
