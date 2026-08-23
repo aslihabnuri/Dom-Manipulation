@@ -107,7 +107,7 @@ html,body{{width:{v['W']}px;height:{v['H']}px;overflow:hidden;background:{INK}}}
   <div class="col">
     <div class="rule"></div>
     <div class="kicker">Payday Sale</div>
-    <div class="sub">Disc up to</div>
+    <div class="sub">Save up to</div>
     <div class="hero">30<span class="pct">%</span></div>
     <div class="chips">
       <div class="chip">Extra IDR 5K for new buyers</div>

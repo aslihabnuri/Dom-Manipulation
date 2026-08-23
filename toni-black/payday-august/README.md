@@ -16,7 +16,7 @@ palet monokrom sesuai Brand Guideline Toni Black.
 ## Copy
 
 - Headline: **Payday Sale**
-- Offer (highlight utama): **Disc up to 30%**
+- Offer (highlight utama): **Save up to 30%**
 - Benefit (highlight): **Extra IDR 5K for new buyers** · **Free shipping**
 - CTA: **Shop Now**
 - Periode: **24 – 31 August**
@@ -45,13 +45,23 @@ dan maskulin sesuai arahan *Imagery Style* di brand guideline.
 
 ## Sumber & reproduksi
 
-Foto talent digenerate dengan **Nano Banana 2 (Gemini 3 Pro Image)** via kie.ai,
-memakai foto produk `Boxer dewasa/2.png` + `1a.png` sebagai referensi wardrobe dan
-`Referensi Payday_Aug.jpeg` sebagai referensi framing kamera. Tidak ada teks yang
-digenerate AI — seluruh tipografi di-set memakai file font brand asli.
+Foto talent digenerate dengan **Nano Banana 2 (Gemini 3 Pro Image)** via kie.ai
+dalam dua tahap:
+
+1. **Base plate** — prompt teks penuh, dengan foto produk `Boxer dewasa/2.png` +
+   `1a.png` sebagai referensi wardrobe dan `Referensi Payday_Aug.jpeg` sebagai
+   referensi framing kamera.
+2. **Recolour pass** — plate hasil tahap 1 dikirim balik sebagai image input
+   dengan instruksi mengubah warna boxer dari charcoal ke hitam solid, sambil
+   mempertahankan lipatan, seam, sheen dan tekstur katunnya.
+
+Tidak ada teks yang digenerate AI — seluruh tipografi di-set memakai file font
+brand asli.
 
 Logo di-vectorkan (SVG) dari artwork banner Toni Black yang sudah ada, tersedia
 dalam versi putih dan charcoal di `source/`.
+
+Total pemakaian kie.ai: **54 credit** (3 generate @ 4K, 18 credit per gambar).
 
 Untuk regenerate banner:
 
