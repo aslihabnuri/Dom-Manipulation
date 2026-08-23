@@ -71,3 +71,56 @@ cd source && python3 build.py     # butuh playwright + chromium
 
 Ubah `VARIANTS` di `build.py` untuk menyesuaikan ukuran, dan blok copy di fungsi
 `html()` untuk menyesuaikan teks.
+
+---
+
+## Audit brand guideline
+
+Diaudit dengan mengukur pixel hasil render, bukan penilaian mata.
+
+### Warna — setiap elemen grafis dipetakan ke token brand
+
+| Elemen | Terukur | Token brand |
+|---|---|---|
+| Panel copy | `#262626` | Dark Charcoal `#282828` |
+| Logo, headline, `30%`, teks chip, CTA fill | `#FFFFFF` | Clean White |
+| `SAVE UP TO`, tanggal | `#CCCCCC` | Steel Grey |
+| Fill chip, divider | `#4F5052` | Davi's Grey |
+| Label CTA | `#2A2A2A` | Dark Charcoal |
+
+Tidak ada warna di luar palet. Foto dibiarkan full colour, diizinkan guideline
+selama mood, lighting dan tone-nya benar.
+
+### Kontras (WCAG 2.1)
+
+| Kombinasi | Rasio | |
+|---|---|---|
+| Clean White di panel charcoal | 14.6:1 | AAA |
+| Steel Grey di panel charcoal | 9.1:1 | AAA |
+| Charcoal di CTA putih | 14.7:1 | AAA |
+
+### Logo
+
+- Versi rectangle horizontal, konsisten dengan `Banner_Brand Story` milik brand
+- Warna solid Clean White, tanpa shadow, efek, gradient atau outline
+- Proporsi asli, spacing icon–typeface tidak diubah
+- Exclusion zone: X (cap height "TONI BLACK") = 23px. Clearance aktual
+  kiri 118px / atas 94px / bawah 214px — aman di atas syarat
+
+### Tipografi & tone
+
+- Zalando Sans Expanded untuk title/angka/CTA, Arimo untuk chip dan tanggal
+- Seluruh copy uppercase, bold, kontras tinggi sesuai *Headline & CTA Tone*
+- "Shop Now" ada di daftar CTA General; "Save up to 30%" sejalan dengan contoh
+  promosi "Save 20% This Weekend"
+- Bebas dari kata yang masuk daftar *we don't like* (best, amazing, sexy, bold, dsb)
+
+### Catatan terbuka
+
+**Product focus.** *Layout & Composition* menulis "The product is the main focus"
+dan *Imagery Style* menyarankan "tight framing on products". Banner ini
+offer-led: boxer hanya ~3.9% dari frame. Detail material tetap terbaca di ukuran
+kirim (waistband, seam tengah, panel kontur, sheen), dan *Promotional Banner*
+memang bertujuan "communicating seasonal promotions". Jadi ini keputusan desain
+yang sadar, bukan kelalaian — tapi kalau mau lebih patuh ke huruf guideline,
+opsinya crop lebih ketat ke pinggang-ke-paha atau tambah packshot kecil.

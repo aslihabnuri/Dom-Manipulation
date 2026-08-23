@@ -32,6 +32,7 @@ INK      = "#282828"   # Dark Charcoal Black
 WHITE    = "#FFFFFF"
 STEEL    = "#CCCCCC"   # Steel Grey
 GREY     = "#818284"
+DAVIS    = "#4F5052"   # Davi's Grey (brand secondary)
 
 VARIANTS = {
   "16x9": dict(W=1920, H=1080, photo="plates/final_16x9.png",
@@ -44,7 +45,7 @@ VARIANTS = {
       chipFs=20, chipPadV=13, chipPadH=23, chipGap=13,
       ctaFs=22, ctaPadV=21, ctaPadH=44, dateFs=19,
       colW=730,
-      scrim="linear-gradient(90deg, rgba(20,20,22,.975) 0%, rgba(20,20,22,.968) 32%, rgba(20,20,22,.905) 40%, rgba(20,20,22,.60) 46%, rgba(20,20,22,.22) 51%, rgba(20,20,22,0) 57%)"),
+      scrim="linear-gradient(90deg, rgba(40,40,40,.985) 0%, rgba(40,40,40,.975) 32%, rgba(40,40,40,.90) 40%, rgba(40,40,40,.58) 46%, rgba(40,40,40,.21) 51%, rgba(40,40,40,0) 57%)"),
   "2x1": dict(W=1920, H=960, photo="plates/final_2x1.png",
       pad=118, logoW=290, logoTop=78,
       blockTop=300, ruleW=52,
@@ -55,7 +56,7 @@ VARIANTS = {
       chipFs=19, chipPadV=12, chipPadH=22, chipGap=12,
       ctaFs=21, ctaPadV=19, ctaPadH=42, dateFs=18,
       colW=720,
-      scrim="linear-gradient(90deg, rgba(20,20,22,.975) 0%, rgba(20,20,22,.968) 32%, rgba(20,20,22,.905) 40%, rgba(20,20,22,.60) 46%, rgba(20,20,22,.22) 51%, rgba(20,20,22,0) 57%)"),
+      scrim="linear-gradient(90deg, rgba(40,40,40,.985) 0%, rgba(40,40,40,.975) 32%, rgba(40,40,40,.90) 40%, rgba(40,40,40,.58) 46%, rgba(40,40,40,.21) 51%, rgba(40,40,40,0) 57%)"),
 }
 
 def html(v):
@@ -73,29 +74,27 @@ html,body{{width:{v['W']}px;height:{v['H']}px;overflow:hidden;background:{INK}}}
 .vig{{position:absolute;inset:0;background:
   radial-gradient(120% 90% at 72% 45%, rgba(0,0,0,0) 42%, rgba(0,0,0,.30) 100%)}}
 .logo{{position:absolute;left:{v['pad']}px;top:{v['logoTop']}px;width:{v['logoW']}px;
-  height:auto;display:block;opacity:.98;margin-left:-1.5px}}
+  height:auto;display:block;margin-left:-1.5px}}
 .col{{position:absolute;left:{v['pad']}px;top:{v['blockTop']}px;width:{v['colW']}px}}
-.rule{{width:{v['ruleW']}px;height:3px;background:{WHITE};opacity:.92;margin-bottom:20px}}
+.rule{{width:{v['ruleW']}px;height:3px;background:{WHITE};margin-bottom:20px}}
 .kicker{{font-family:'ZSE';font-weight:800;font-size:{v['kicker']}px;letter-spacing:{v['kickerLs']};
   color:{WHITE};text-transform:uppercase;line-height:1;margin-left:-.062em}}
 .sub{{font-family:'ZSE';font-weight:600;font-size:{v['sub']}px;letter-spacing:{v['subLs']};
   color:{STEEL};text-transform:uppercase;line-height:1;margin-top:{v['gapKicker']}px;margin-left:-.058em}}
 .hero{{font-family:'ZSE';font-weight:900;font-size:{v['hero']}px;letter-spacing:-.020em;
-  color:{WHITE};line-height:.84;margin-top:{v['heroGapTop']}px;margin-left:-.048em;
-  text-shadow:0 2px 44px rgba(0,0,0,.45)}}
+  color:{WHITE};line-height:.84;margin-top:{v['heroGapTop']}px;margin-left:-.048em}}
 .pct{{font-size:.54em;letter-spacing:-.01em;margin-left:.045em;
   display:inline-block;vertical-align:baseline;position:relative;top:-.50em}}
 .chips{{display:flex;gap:{v['chipGap']}px;margin-top:{v['gapHero']}px;flex-wrap:nowrap}}
 .chip{{font-family:'Arimo';font-weight:700;font-size:{v['chipFs']}px;letter-spacing:.085em;
   color:{WHITE};text-transform:uppercase;white-space:nowrap;
   padding:{v['chipPadV']}px {v['chipPadH']}px;border-radius:5px;
-  background:rgba(255,255,255,.085);border:1px solid rgba(255,255,255,.26);
-  backdrop-filter:blur(2px)}}
+  background:{DAVIS};border:0}}
 .foot{{display:flex;align-items:center;margin-top:{v['gapChips']}px}}
 .cta{{font-family:'ZSE';font-weight:700;font-size:{v['ctaFs']}px;letter-spacing:.13em;
   color:{INK};background:{WHITE};text-transform:uppercase;line-height:1;
   padding:{v['ctaPadV']}px {v['ctaPadH']}px;border-radius:5px;white-space:nowrap}}
-.div{{width:1px;height:26px;background:rgba(255,255,255,.28);margin:0 26px}}
+.div{{width:1px;height:26px;background:{DAVIS};margin:0 26px}}
 .date{{font-family:'Arimo';font-weight:600;font-size:{v['dateFs']}px;letter-spacing:.16em;
   color:{STEEL};text-transform:uppercase;white-space:nowrap}}
 </style></head><body>
