@@ -2391,3 +2391,35 @@ h2, h3, h4 { letter-spacing: -0.015em; }
 }
 .materi-header h2, .bk-title { font-weight: 800; letter-spacing: -0.022em; }
 .session-title { font-weight: 700; }
+
+/* ---------------- Kertas bergaris pada kotak Catatan ----------------
+   Garis harus jatuh tepat di dasar tiap baris teks, bukan memotongnya.
+   Tinggi baris dan jarak garis diikat ke satu variabel, dan gradiennya
+   digeser sebesar padding atas lalu dibuat ikut bergulir bersama teks. */
+.notes-editor textarea {
+  --note-lh: 1.75;
+  --note-pad-y: 1.35rem;
+  --note-line-h: calc(var(--note-lh) * 1em);
+  line-height: var(--note-lh);
+  padding: var(--note-pad-y) 1.4rem;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0 calc(var(--note-line-h) - 1px),
+    color-mix(in oklch, var(--indigo) 16%, transparent) calc(var(--note-line-h) - 1px) var(--note-line-h)
+  );
+  background-color: var(--card);
+  background-repeat: repeat;
+  background-position: 0 var(--note-pad-y);
+  background-attachment: local;
+  border-color: var(--line);
+}
+
+.notes-editor textarea::placeholder { color: var(--ink-faint); }
+.notes-editor textarea:focus { outline: 2px solid var(--indigo); outline-offset: 2px; }
+
+/* fokus konsisten untuk seluruh kotak isian */
+#hlPanel textarea:focus,
+.kelas-box textarea:focus,
+.mq-answer:focus,
+.tk-form input:focus,
+.tk-form textarea:focus { outline: 2px solid var(--indigo); outline-offset: 1px; }
