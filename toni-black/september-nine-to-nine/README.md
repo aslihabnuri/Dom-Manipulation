@@ -1,8 +1,8 @@
 # Toni Black — Nine to Nine (Key Visual September)
 
-Key visual untuk kampanye September, arah **A: Nine to Nine**. Ide dasarnya
-mengubah 9.9 dari angka tanggal jadi kebenaran produk — nyaman dari jam sembilan
-pagi sampai jam sembilan malam. Satu pria, satu hari, dua jam berbeda.
+Key visual kampanye September, arah **A: Nine to Nine**. Ide dasarnya mengubah 9.9
+dari angka tanggal jadi klaim produk — nyaman dari jam sembilan pagi sampai jam
+sembilan malam.
 
 ## File
 
@@ -14,72 +14,76 @@ pagi sampai jam sembilan malam. Satu pria, satu hari, dua jam berbeda.
 | `..._KeyVisual_2x1.jpg` | 1920 × 960 | KV, web |
 | `..._9.9_*` | sama | Turunan 9.9, bukti tema membawa penawaran |
 
-## Cara komposisinya bekerja
+## Keputusan desain
 
-Banner dibaca kiri ke kanan sebagai satu hari: panel copy **Clean White**, lalu
-foto **09:00** yang high key, lalu foto **21:00** yang low key. Ramp tonalnya
-turun terus — jadi bingkai banner itu sendiri yang menjadi perjalanan harinya,
-bukan cuma isinya.
+**Satu frame, bukan diptych.** Versi pertama memakai dua panel (09:00 dan 21:00)
+berdampingan. Itu terbaca sebagai perbandingan before/after, bukan campaign image.
+Versi ini memakai satu foto full-bleed. Konsep dua ujung hari sekarang dibawa oleh
+momennya sendiri — pria menenteng kaosnya sambil berjalan, gestur yang sama
+ambigunya antara berangkat pagi dan pulang malam — dan oleh eyebrow `09:00 — 21:00`.
 
-Kedua foto memakai badan, wardrobe, crop dan skala yang sama. Yang berubah hanya
-cahaya. Baris waistband kedua panel diverifikasi berada di 45.97% dan 45.93%
-tinggi frame — meleset satu pixel dari 2160.
+**Tipografi di dalam foto, tanpa panel warna.** Separuh kiri frame sengaja
+dijatuhkan ke nyaris hitam (rata-rata L=19) lewat pencahayaan, bukan lewat blok
+atau scrim. Teks putih duduk langsung di atas foto, kontras terukur 20:1.
+
+**Bloknya membentuk rentang.** `NINE` dan `NINE` diset besar menjepit `to` yang
+kecil dan abu — susunannya berpinggang seperti jam pasir, jadi tipografinya sendiri
+membaca sebagai rentang waktu, bukan sekadar tiga baris teks.
+
+**Crop 2:1 sengaja berbeda.** Figur mengisi baris 0–3000 dari 3072px, jadi crop 2:1
+penuh badan mustahil dari plate ini. Daripada memotong kepala atau kaki, 2:1 dibuat
+sebagai framing tersendiri: kepala sampai paha, yang justru membuat produk lebih besar.
 
 ## Kepatuhan brand guideline
 
 Diaudit dengan mengukur pixel hasil render.
 
-**Warna** — setiap elemen grafis memetakan tepat (selisih 0) ke token brand:
+| Item | Hasil |
+|---|---|
+| Warna elemen grafis | Semua memetakan **tepat (selisih 0)** ke Clean White dan Steel Grey |
+| Foto | Chroma **0.00** — hitam-putih murni |
+| Kontras teks putih | **20.1:1** (16:9), 17.9:1 (2:1) — AAA |
+| Kontras Steel Grey | **12.5:1** (16:9), 11.2:1 (2:1) — AAA |
+| Sebaran tepi kiri kolom | **0.5px** (16:9), 1.0px (2:1) |
+| Tepi frame | Bersih, tanpa band hitam |
 
-| Elemen | Terukur | Token |
-|---|---|---|
-| Panel copy | `#FFFFFF` | Clean White |
-| Logo, headline, angka, fill CTA | `#282828` | Dark Charcoal |
-| Support copy, eyebrow, catatan tanggal | `#4F5052` | Davi's Grey |
-| Garis pemisah panel | `#CCCCCC` | Steel Grey |
+Tipografi memakai Zalando Sans Expanded (headline, angka, CTA) dan Arimo (support,
+catatan). Setiap baris display dapat koreksi side bearing sendiri.
 
-**Foto** — chroma terukur `0.00`, hitam-putih murni. Ini meneruskan sistem
-Agustus, yang empat dari lima banner-nya sudah B&W.
+Logo versi putih solid, tanpa efek, di area foto yang gelap dan rata — sesuai
+arahan guideline "place the logo on a suitable area of the photo background".
 
-**Kontras** — Dark Charcoal di putih 14.74:1, Davi's Grey di putih 8.07:1.
-Keduanya AAA. Grey `#818284` sempat dipakai untuk eyebrow tapi hanya
-mencapai 3.85:1, di bawah AA, jadi diganti Davi's Grey.
+Pencahayaan mengikuti *Imagery Style*: "sharp contrast", latar minimalis, model
+"natural confidence, not overly posed".
 
-**Tipografi** — Zalando Sans Expanded untuk headline, angka dan CTA; Arimo untuk
-support copy. Setiap baris display dapat koreksi side bearing sendiri, karena
-"N" dan "T" punya bearing berbeda. Sebaran tepi kiri kolom copy 1.0px.
+### Catatan terbuka: product focus
 
-**Logo** — versi charcoal solid di panel putih, tanpa efek. Exclusion zone
-X ≈ 19px; clearance aktual kiri 68px, atas 69px, bawah 217px.
+Guideline menulis "The product is the main focus". Di KV ini garmen hanya mengisi
+**1.6%** frame (16:9) dan **2.1%** (2:1) — turun dari 12.5% versi diptych.
 
-**Product focus** — ini menutup temuan terbuka dari banner Payday. Guideline
-menulis "The product is the main focus" dan "use tight framing on products".
-Dengan crop dada-ke-paha, garmen kini mengisi **12.5% frame**, naik dari
-**3.9%** di banner Payday.
+Ini konsekuensi sadar dari arahan full-figure dan full-bleed. Referensi yang
+dipilih pun berkarakter sama: pada banner Under Armour itu produknya juga kecil,
+karena tugas sebuah key visual adalah membangun dunia kampanye, bukan menjual detail
+material. Detail produk ditangani di tempat lain dalam set — sesuai rekomendasi
+awal, banner Product Value memakai treatment makro dari arah Second Skin.
 
-**Tone of voice** — "Comfort that holds from morning to night" dan
-"Discover Toni Black" (CTA yang dipakai guideline sendiri di mock-up brand story).
-Nol kata dari daftar *we don't like*.
+Kalau prioritasnya dibalik dan produk harus dominan di KV, framing dada-ke-paha
+seperti versi diptych mengembalikannya ke belasan persen.
 
 ## Produksi
 
-Dua plate digenerate dengan Nano Banana 2 via kie.ai di resolusi **2K**
-(12 credit per gambar, bukan 18 seperti 4K):
+Plate digenerate dengan Nano Banana 2 via kie.ai, 16:9 resolusi 4K.
 
-1. **09:00** — prompt teks penuh, tanpa referensi.
-2. **21:00** — plate 09:00 dikirim balik sebagai image input, dengan instruksi
-   mempertahankan badan, garmen dan crop, dan hanya mengubah cahaya jadi malam.
+Percobaan pertama gagal dan dibuang: cahayanya keluar lembut dan ambient, spread
+tonal sempit, tanpa bayangan cor. Prompt kedua memaksa satu sumber cahaya keras
+tanpa fill, dengan target separuh kiri frame jatuh ke nyaris hitam. Hasilnya spread
+tonal 193 dan separuh kiri rata-rata L=19.
 
-Total 24 credit untuk key visual ini. Tidak ada teks yang digenerate AI.
+Plate lalu didesaturasi ke greyscale murni (chroma 1.94 → 0.00). Tidak ada teks
+yang digenerate AI.
 
 Untuk regenerate:
 
 ```bash
 cd source && python3 build.py     # butuh playwright + chromium
 ```
-
-## Kalau tema ini diteruskan
-
-Busur waktu bisa diperluas ke empat titik — 09:00, 13:00, 17:00, 21:00 — untuk
-mengisi Category, Product Value dan Payday. Layout Payday Agustus, empat ikon
-fitur, dan split MEN / KIDS semuanya masih bisa dipakai ulang.
