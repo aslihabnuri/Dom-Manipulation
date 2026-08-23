@@ -1293,6 +1293,12 @@
     return perCourse ? perCourse[sessionId] : null;
   }
 
+  // Sebagian judul bab sudah memuat "BAB N" di dalamnya, sebagian tidak.
+  // Prefiks dirakit sekali di sini agar tidak muncul ganda.
+  function bookJudul(bk) {
+    return String(bk.judul || "").replace(/^\s*BAB\s+\d+\s*[.:\u2013\u2014-]?\s*/i, "").trim();
+  }
+
   function bookReadMinutes(bk) {
     const words = bk.sections.map((x) => x.body.replace(/<[^>]+>/g, " ")).join(" ").split(/\s+/).length;
     return Math.max(1, Math.round(words / 180));
@@ -1313,7 +1319,7 @@
       </details>`).join("");
     return `
       <div class="bk-head">
-        <h3 class="bk-title">BAB ${bk.bab}. ${esc(bk.judul)}</h3>
+        <h3 class="bk-title">BAB ${bk.bab}. ${esc(bookJudul(bk))}</h3>
         <p class="bk-sub">Materi buku ditulis lengkap mengikuti struktur bab dan capaian pembelajarannya,
         dengan gaya penulisan karya ilmiah, agar dapat dipelajari utuh sebelum dosen menjelaskannya di kelas.
         ⏱️ ±${bookReadMinutes(bk)} menit baca.</p>
