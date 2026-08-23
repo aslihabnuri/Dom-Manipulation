@@ -1,84 +1,66 @@
-# Toni Black — 9 to 9 (Set Kampanye September)
+# Toni Black — 9 to 9 (Set Banner September)
 
-Bukan satu key visual, tapi **satu sistem**: satu talent, satu grid tipografi,
-tiga momen berbeda dalam satu hari. Ide dasarnya mengubah 9.9 dari angka tanggal
-jadi klaim produk — nyaman dari jam sembilan pagi sampai jam sembilan malam.
+**9 to 9** bukan soal jam sembilan pagi sampai sembilan malam secara harfiah. Itu
+tema: nyaman dipakai seharian, apa pun isi harinya. Tiap banner mengambil satu
+**occasion berbeda** yang membuktikan hal yang sama, dengan talent yang sama.
 
-## Set
+## Peta banner
 
-| Jam | Momen | Kunci tonal | Tinta |
+| Banner | Ukuran | Occasion | Pesan |
 |---|---|---|---|
-| **09:00** | Kamar tidur, memakai kemeja. *"The first thing you put on."* | High key, L=215 | Charcoal |
-| **18:00** | Ruang loker, selesai latihan. *"Nine hours in. A workout later."* | Low key, L=28 | Putih |
-| **21:00** | Pulang ke rumah, kemeja di tangan. *"Twelve hours in the same pair."* | Low key | Putih |
-| **9.9** | Lapisan promo di atas frame 21:00 | Low key | Putih |
+| **Brand Story** | 1600 × 2000 | Jeda sejenak di tengah hari | *Halfway through the day. Still not thinking about it.* |
+| **Product Value** | 1600 × 2000 | Sembilan jam di meja kerja | *No riding up. No adjusting.* |
+| **Category** | 2000 × 2000 | Akhir pekan yang santai | *Days off count too.* |
+| **BAU Voucher** | 2000 × 1000 | Pagi, bersiap berangkat | *It starts the moment you put them on.* |
+| **Payday** | 1920 × 1080 · 1920 × 960 | Pulang malam | *Twelve hours in the same pair.* |
+| **9.9 Twindate** | 1920 × 1080 · 1920 × 960 | Selesai latihan | *Nine hours in. A workout later.* |
 
-Terang ke gelap mengikuti perjalanan harinya, jadi variasi tonalnya bekerja
-sebagai cerita, bukan sekadar biar tidak membosankan.
+Ukurannya mengikuti banner Agustus Anda yang sudah jadi. Tiap file tersedia `@2x`
+dan 1x.
 
-Tiap momen tersedia 16:9 dan 2:1, masing-masing `@2x` (3840px) dan 1x (1920px).
+Banner **Product Value** sengaja dibingkai duduk dan lebih rapat ke produk —
+frame itu ada khusus untuk memperlihatkan celananya tidak naik atau menggumpal
+saat dipakai duduk berjam-jam. Ini menjawab arahan guideline *"tight framing on
+products"* yang selama ini jadi catatan terbuka.
 
-## Sistem layout
+## Sistem
 
-Keluhan sebelumnya benar: teks cuma menempel di sudut atas dan bawah, tengahnya
-kosong. Grid sekarang mengisi **tiga zona vertikal** di kolom kiri, plus satu
-elemen di kanan:
+**Satu talent.** Frame 21:00 dipakai sebagai image input untuk semua generate
+berikutnya, dengan instruksi eksplisit mengunci wajah, rambut, postur dan wardrobe.
 
-| Posisi | Isi |
-|---|---|
-| Kiri atas | Logo |
-| Kanan atas | Jam momen ini |
-| **Kiri tengah** | Headline `9 to 9` + kalimat penjelas |
-| Kiri bawah | CTA |
+**Headline dikunci ke garis waistband.** Tepi atas celana dideteksi per foto lewat
+gradien vertikal, lalu blok tipografi diletakkan di ketinggian itu. Tiap foto dapat
+posisi sendiri (47,0% sampai 52,5%) di bawah satu aturan.
 
-**Headline dikunci ke garis waistband.** Rel horizontal blok tengah tidak
-ditentukan dengan perasaan — posisinya diukur dari foto: tepi atas celana
-dideteksi lewat gradien vertikal, lalu headline diletakkan tepat di ketinggian
-itu. Karena tiap foto berbeda (47.0%, 48.5%, 52.5%), tiap banner dapat posisi
-sendiri, tapi aturannya satu. Hasilnya tipografi terasa dikomposisi bersama
-fotonya, bukan ditempel di atasnya — dan garis besar tipografinya menunjuk
-langsung ke produk.
+**Tipografi mengikuti ruang yang diberikan foto.** Zona bersih tiap plate diukur
+dulu (mean dan standar deviasi per area), lalu blok copy ditempatkan di sisi yang
+paling rata — kiri, atas, atau bawah. Karena itu set-nya tidak terasa mekanis.
 
-**Tinta mengikuti terang foto.** Frame terang dapat tipografi charcoal dengan CTA
-pil gelap; frame gelap dapat tipografi putih dengan CTA pil putih. Keduanya
-diizinkan guideline: *"white on black, or black on white"*.
+**Tinta ditentukan per elemen, bukan per banner.** Luminansi latar diukur tepat di
+posisi tiap elemen, lalu logo, headline, dan CTA masing-masing memilih putih atau
+charcoal. Ini menutup bug di mana logo charcoal sempat mendarat di latar gelap.
+
+**Tabrakan dicegah, bukan ditebak.** Setelah render, posisi blok tengah dan blok
+bawah diperiksa; kalau bertabrakan (layout penawaran di format pendek), CTA
+dialirkan masuk ke bawah copy. Ini memperbaiki tombol yang sempat menimpa teks di
+dua banner promo 2:1.
 
 ## Kepatuhan brand guideline
 
-Diaudit dengan mengukur pixel di delapan komposisi.
-
 | Item | Hasil |
 |---|---|
-| Warna | **Semua selisih 0** ke token brand di seluruh set |
-| Kontras terburuk se-set | **9.2:1** — di atas ambang AAA (7:1) |
-| Foto | Chroma **0.00–0.01**, hitam-putih murni |
-| Tepi frame | Bersih, tanpa band hitam |
-
-Tipografi memakai Zalando Sans Expanded (headline, jam, CTA) dan Arimo (kalimat
-penjelas). Logo versi charcoal atau putih sesuai latar, solid, tanpa efek.
-
-Pencahayaan tiap frame mengikuti *Imagery Style*: satu sumber keras, kontras
-tajam, latar minimalis, model *"natural confidence, not overly posed"*.
-
-### Catatan terbuka: product focus
-
-Guideline menulis "The product is the main focus". Dalam framing full-figure ini
-garmen mengisi sekitar 2% frame. Ini konsekuensi sadar: figur utuh dibutuhkan
-supaya momennya terbaca sebagai cerita, dan sudut-sudut gelap dibutuhkan supaya
-tipografi bisa menyebar. Detail produk ditangani banner Product Value dengan
-treatment makro, sesuai rekomendasi awal.
+| Warna | Semua memetakan ke token brand |
+| Kontras teks | 9,9:1 sampai 21:1 — semua di atas AAA |
+| Foto | Chroma 0.00–0.01, hitam-putih murni |
+| Tipografi | Zalando Sans Expanded + Arimo |
+| Logo | Putih atau charcoal sesuai latar, solid, tanpa efek |
 
 ## Produksi
 
-Tiga plate digenerate dengan Nano Banana 2 via kie.ai, 16:9 resolusi 4K.
-
-Konsistensi talent dijaga dengan mengirim frame 21:00 sebagai image input pada
-dua generate berikutnya, disertai instruksi eksplisit bahwa wajah, rambut,
-postur dan wardrobe harus identik. Semua plate lalu didesaturasi ke greyscale
-murni. Tidak ada teks yang digenerate AI.
-
-Format keluaran JPEG kualitas 95 4:4:4 untuk master, bukan PNG — untuk banner
-fotografis ini visually lossless dan seperempat ukurannya.
+Enam plate digenerate dengan Nano Banana 2 via kie.ai. Yang landscape di 16:9 4K,
+yang portrait di 4:5 4K, yang persegi di 1:1 4K — digenerate di rasio aslinya,
+bukan di-crop dari landscape. Semua plate didesaturasi ke greyscale murni. Tidak
+ada teks yang digenerate AI.
 
 Untuk regenerate:
 
@@ -86,6 +68,5 @@ Untuk regenerate:
 cd source && python3 build.py     # butuh playwright + chromium
 ```
 
-`marks.json` menyimpan titik waistband dan pusat figur hasil pengukuran tiap
-plate. Kalau foto diganti, jalankan ulang deteksinya agar rel tipografinya ikut
-menyesuaikan.
+Tambah occasion baru dengan menambah entri di `BANNERS`, lalu jalankan ulang
+deteksi zona (`zones.json`) supaya rel tipografinya menyesuaikan.
