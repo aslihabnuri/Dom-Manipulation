@@ -1,0 +1,963 @@
+<title>Little Monster Square Cut</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Baloo+2:wght@600;800&display=swap">
+
+<style>
+  /* The poster's own face, pulled at the exact instance the artwork uses. */
+  @font-face{
+    font-family:"LMC Label";
+    src:url("https://fonts.gstatic.com/s/archivo/v25/k3kPo8UDI-1M0wlSV9XA35FckqWY8Q-ftrydOxI.woff2") format("woff2");
+    font-weight:900; font-style:normal; font-display:block;
+  }
+
+  :root{
+    --ground:#F4F3EA;
+    --panel:#FFFFFF;
+    --panel-2:#FAF9F1;
+    --line:#E1E0D1;
+    --text:#14170F;
+    --dim:#5D6252;
+    --faint:#8A8F7D;
+
+    /* lifted straight off the poster, constant in both themes */
+    --acid:#F2E800;
+    --orchid:#DF9AC7;
+    --sage:#8FBCA6;
+    --stage:#14170F;
+
+    --r:10px;
+    --gap:18px;
+    --shadow:0 1px 2px rgba(20,23,15,.06), 0 8px 24px rgba(20,23,15,.06);
+  }
+  :root:not([data-theme="light"]){
+    @media (prefers-color-scheme: dark){
+      --ground:#0F120D;
+      --panel:#191D15;
+      --panel-2:#141810;
+      --line:#2C3226;
+      --text:#EDEFE6;
+      --dim:#9BA391;
+      --faint:#727A69;
+      --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.32);
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#0F120D;
+    --panel:#191D15;
+    --panel-2:#141810;
+    --line:#2C3226;
+    --text:#EDEFE6;
+    --dim:#9BA391;
+    --faint:#727A69;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.32);
+  }
+
+  *{ box-sizing:border-box; }
+
+  body{
+    margin:0;
+    background:var(--ground);
+    color:var(--text);
+    font-family:"Archivo","Helvetica Neue",Arial,sans-serif;
+    font-size:15px;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .wrap{
+    max-width:1240px;
+    margin:0 auto;
+    padding:28px 22px 72px;
+  }
+
+  /* ---------- masthead ---------- */
+  .masthead{
+    display:flex; align-items:flex-end; justify-content:space-between;
+    gap:20px; flex-wrap:wrap;
+    padding-bottom:18px;
+    border-bottom:2px solid var(--text);
+    margin-bottom:26px;
+  }
+  .masthead h1{
+    font-family:"Baloo 2","Archivo",sans-serif;
+    font-weight:800;
+    font-size:clamp(30px,5vw,46px);
+    line-height:.95;
+    letter-spacing:-.02em;
+    margin:0;
+    text-wrap:balance;
+  }
+  .masthead h1 em{ font-style:normal; color:var(--orchid); }
+  .masthead p{
+    margin:0; max-width:44ch;
+    color:var(--dim); font-size:14px;
+  }
+
+  /* ---------- shell ---------- */
+  .shell{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) 400px;
+    gap:26px;
+    align-items:start;
+  }
+  @media (max-width:940px){
+    .shell{ grid-template-columns:minmax(0,1fr); }
+  }
+
+  /* ---------- stage ---------- */
+  .stage-col{ position:sticky; top:22px; }
+  @media (max-width:940px){ .stage-col{ position:static; } }
+
+  .stage{
+    background:var(--stage);
+    border-radius:var(--r);
+    padding:16px;
+    box-shadow:var(--shadow);
+  }
+  .stage-frame{
+    position:relative;
+    aspect-ratio:1/1;
+    width:100%;
+    border-radius:4px;
+    overflow:hidden;
+    background:
+      repeating-linear-gradient(45deg,#1D2118 0 10px,#20251B 10px 20px);
+    cursor:grab;
+    touch-action:none;
+  }
+  .stage-frame.dragging{ cursor:grabbing; }
+  .stage-frame canvas{
+    display:block; width:100%; height:100%;
+  }
+  .stage-empty{
+    position:absolute; inset:0;
+    display:grid; place-content:center; justify-items:center; gap:10px;
+    text-align:center; padding:30px;
+    color:#8C947F; font-size:14px;
+    pointer-events:none;
+  }
+  .stage-empty strong{ color:#D9DCCF; font-size:16px; font-weight:600; }
+  .stage-empty.hide{ display:none; }
+
+  .stage-foot{
+    display:flex; align-items:center; justify-content:space-between;
+    gap:12px; flex-wrap:wrap;
+    margin-top:12px;
+    color:#8C947F; font-size:12.5px;
+    font-variant-numeric:tabular-nums;
+  }
+  .stage-foot b{ color:#D9DCCF; font-weight:600; }
+
+  /* ---------- rail ---------- */
+  .rail{ display:flex; flex-direction:column; gap:14px; min-width:0; }
+
+  .step{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:var(--r);
+    overflow:hidden;
+  }
+  .step > summary{
+    display:flex; align-items:center; gap:11px;
+    padding:14px 16px;
+    cursor:pointer;
+    list-style:none;
+    font-weight:600; font-size:14.5px;
+    user-select:none;
+  }
+  .step > summary::-webkit-details-marker{ display:none; }
+  .step > summary:focus-visible{
+    outline:2px solid var(--orchid); outline-offset:-2px;
+  }
+  .chip{
+    flex:none;
+    width:24px; height:24px; border-radius:50%;
+    display:grid; place-items:center;
+    font-size:12px; font-weight:700;
+    background:var(--panel-2); color:var(--faint);
+    border:1px solid var(--line);
+    font-variant-numeric:tabular-nums;
+    transition:background .18s, color .18s, border-color .18s;
+  }
+  .step[data-done="1"] .chip{
+    background:var(--sage); color:#14170F; border-color:var(--sage);
+  }
+  .summary-note{
+    margin-left:auto; color:var(--faint); font-size:12.5px; font-weight:500;
+  }
+  .step > summary .caret{
+    flex:none; width:14px; color:var(--faint);
+    transition:transform .18s;
+  }
+  .step[open] > summary .caret{ transform:rotate(90deg); }
+
+  .step-body{
+    padding:16px 16px 18px;
+    display:flex; flex-direction:column; gap:14px;
+    border-top:1px solid var(--line);
+  }
+
+  /* ---------- controls ---------- */
+  label.field{ display:flex; flex-direction:column; gap:6px; }
+  .lab{
+    font-size:11px; font-weight:700; letter-spacing:.09em;
+    text-transform:uppercase; color:var(--faint);
+  }
+  .hint{ font-size:12.5px; color:var(--dim); margin:0; }
+
+  input[type=text]{
+    font:inherit; font-size:14px;
+    padding:9px 11px;
+    background:var(--panel-2);
+    border:1px solid var(--line); border-radius:7px;
+    color:var(--text); width:100%;
+  }
+  input[type=text]:focus-visible{ outline:2px solid var(--orchid); outline-offset:1px; }
+
+  .drop{
+    border:1.5px dashed var(--line);
+    border-radius:9px;
+    padding:18px 14px;
+    text-align:center;
+    background:var(--panel-2);
+    cursor:pointer;
+    transition:border-color .16s, background .16s;
+  }
+  .drop:hover, .drop.over{ border-color:var(--orchid); background:var(--panel); }
+  .drop:focus-visible{ outline:2px solid var(--orchid); outline-offset:2px; }
+  .drop strong{ display:block; font-size:14px; font-weight:600; }
+  .drop span{ display:block; font-size:12.5px; color:var(--dim); margin-top:3px; }
+  .drop.loaded{ border-style:solid; border-color:var(--sage); }
+  .drop input{ display:none; }
+
+  .slider{ display:flex; flex-direction:column; gap:5px; }
+  .slider .top{
+    display:flex; justify-content:space-between; align-items:baseline; gap:10px;
+  }
+  .slider output{
+    font-size:12.5px; color:var(--dim); font-variant-numeric:tabular-nums;
+  }
+  input[type=range]{
+    -webkit-appearance:none; appearance:none;
+    width:100%; height:22px; background:transparent; cursor:pointer; margin:0;
+  }
+  input[type=range]::-webkit-slider-runnable-track{
+    height:3px; border-radius:2px; background:var(--line);
+  }
+  input[type=range]::-moz-range-track{
+    height:3px; border-radius:2px; background:var(--line);
+  }
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none; appearance:none;
+    width:15px; height:15px; border-radius:50%;
+    background:var(--text); margin-top:-6px;
+    border:2px solid var(--panel);
+  }
+  input[type=range]::-moz-range-thumb{
+    width:15px; height:15px; border-radius:50%;
+    background:var(--text); border:2px solid var(--panel);
+  }
+  input[type=range]:focus-visible{ outline:2px solid var(--orchid); outline-offset:3px; border-radius:4px; }
+
+  .swatches{ display:flex; gap:10px; }
+  .sw{ flex:1; display:flex; flex-direction:column; gap:6px; align-items:flex-start; }
+  .sw input[type=color]{
+    -webkit-appearance:none; appearance:none;
+    width:100%; height:34px; padding:0;
+    border:1px solid var(--line); border-radius:7px;
+    background:none; cursor:pointer;
+  }
+  .sw input[type=color]::-webkit-color-swatch-wrapper{ padding:3px; }
+  .sw input[type=color]::-webkit-color-swatch{ border:none; border-radius:4px; }
+  .sw input[type=color]:focus-visible{ outline:2px solid var(--orchid); outline-offset:2px; }
+
+  .row{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+
+  .btn{
+    font:inherit; font-weight:700; font-size:14.5px;
+    border:1px solid var(--line); border-radius:8px;
+    background:var(--panel-2); color:var(--text);
+    padding:11px 15px; cursor:pointer; width:100%;
+    transition:background .16s, border-color .16s;
+  }
+  .btn:hover{ border-color:var(--faint); }
+  .btn:focus-visible{ outline:2px solid var(--orchid); outline-offset:2px; }
+  .btn.primary{
+    background:var(--acid); border-color:var(--acid); color:#14170F;
+  }
+  .btn.primary:hover{ filter:brightness(1.06); }
+  .btn:disabled{ opacity:.42; cursor:not-allowed; }
+
+  .toggle{
+    display:flex; align-items:center; gap:9px;
+    font-size:13.5px; color:var(--dim); cursor:pointer;
+  }
+  .toggle input{ accent-color:var(--orchid); width:16px; height:16px; margin:0; }
+
+  /* ---------- export ---------- */
+  .out{ display:none; flex-direction:column; gap:10px; }
+  .out.show{ display:flex; }
+  .out img{
+    display:block; width:100%; height:auto;
+    border-radius:6px; border:1px solid var(--line);
+    background:var(--stage);
+  }
+  .note{
+    font-size:12.8px; color:var(--dim);
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    border-radius:7px;
+    padding:11px 13px;
+  }
+  .note b{ color:var(--text); font-weight:600; }
+  .note .eyebrow{
+    display:block; margin-bottom:4px;
+    font-size:10.5px; font-weight:700;
+    letter-spacing:.1em; text-transform:uppercase;
+  }
+  .note.saving .eyebrow{ color:var(--sage); }
+  .note.fyi .eyebrow{ color:var(--orchid); }
+
+
+
+  footer{
+    margin-top:30px; padding-top:16px;
+    border-top:1px solid var(--line);
+    color:var(--faint); font-size:12.5px;
+    display:flex; gap:8px; flex-wrap:wrap; justify-content:space-between;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ transition:none !important; animation:none !important; }
+  }
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <h1>Little Monster<br><em>Square Cut</em></h1>
+    <p>Rebuilds the story poster as a 1080 &times; 1080 feed ad. Load the background photo, frame it, export.</p>
+  </header>
+
+  <div class="shell">
+
+    <!-- ================= stage ================= -->
+    <div class="stage-col">
+      <div class="stage">
+        <div class="stage-frame" id="frame">
+          <canvas id="cv" width="1080" height="1080"></canvas>
+          <div class="stage-empty" id="empty">
+            <strong>No photo loaded yet</strong>
+            <span>Open step 1 and drop in the background shot.<br>The layout below is live, so you can set the text first.</span>
+          </div>
+        </div>
+        <div class="stage-foot">
+          <span>1080 &times; 1080 &middot; <b id="statusTxt">layout only</b></span>
+          <span>Drag inside the frame to reposition</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= rail ================= -->
+    <div class="rail">
+
+      <details class="step" id="s1" data-done="0" open>
+        <summary>
+          <span class="chip">1</span> Background photo
+          <span class="summary-note" id="n1">required</span>
+          <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+        </summary>
+        <div class="step-body">
+          <p class="hint">Use the photo layer on its own, the shot of the girls before any text was placed on it. A flattened export will not work here because the old wording is baked into the pixels.</p>
+          <label class="drop" id="dropPhoto" tabindex="0">
+            <strong id="dropPhotoTitle">Drop the photo, or click to choose</strong>
+            <span>JPG or PNG, any size</span>
+            <input type="file" id="filePhoto" accept="image/*">
+          </label>
+        </div>
+      </details>
+
+      <details class="step" id="s2" data-done="0">
+        <summary>
+          <span class="chip">2</span> Framing
+          <span class="summary-note" id="n2">zoom 100%</span>
+          <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+        </summary>
+        <div class="step-body">
+          <p class="hint">A 9:16 story loses about 44&nbsp;% of its height in a square. Pull the crop onto the faces so nothing important lands under the type.</p>
+          <div class="slider">
+            <div class="top"><span class="lab">Zoom</span><output id="oZoom">100%</output></div>
+            <input type="range" id="rZoom" min="100" max="260" value="100" aria-label="Zoom">
+          </div>
+          <div class="slider">
+            <div class="top"><span class="lab">Horizontal</span><output id="oX">50%</output></div>
+            <input type="range" id="rX" min="0" max="100" value="50" aria-label="Horizontal position">
+          </div>
+          <div class="slider">
+            <div class="top"><span class="lab">Vertical</span><output id="oY">34%</output></div>
+            <input type="range" id="rY" min="0" max="100" value="34" aria-label="Vertical position">
+          </div>
+          <label class="toggle"><input type="checkbox" id="cScrim" checked> Contrast lift behind the type</label>
+        </div>
+      </details>
+
+      <details class="step" id="s3" data-done="1">
+        <summary>
+          <span class="chip">3</span> Wording
+          <span class="summary-note" id="n3">3 lines set</span>
+          <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+        </summary>
+        <div class="step-body">
+          <div class="note fyi"><span class="eyebrow">Spelling fixed</span>The story poster reads <b>TUEDAY</b>. This build says <b>TUESDAY</b>.</div>
+          <div class="row">
+            <label class="field"><span class="lab">Word 1</span><input type="text" id="tW1" value="little"></label>
+            <label class="field"><span class="lab">Word 2</span><input type="text" id="tW2" value="monster"></label>
+          </div>
+          <label class="field"><span class="lab">Word 3</span><input type="text" id="tW3" value="club"></label>
+          <div class="row">
+            <label class="field"><span class="lab">Day line 1</span><input type="text" id="tD1" value="Every Tuesday"></label>
+            <label class="field"><span class="lab">Day line 2</span><input type="text" id="tD2" value="&amp; Thursday"></label>
+          </div>
+          <label class="field"><span class="lab">Time, optional</span><input type="text" id="tD3" value="" placeholder="e.g. 16.00 to 17.30"></label>
+          <label class="field"><span class="lab">QR label</span><input type="text" id="tScan" value="scan for&#10;registration"></label>
+          <div class="swatches">
+            <div class="sw"><span class="lab">Word 1</span><input type="color" id="cW1" value="#f2e800" aria-label="Word 1 colour"></div>
+            <div class="sw"><span class="lab">Word 2</span><input type="color" id="cW2" value="#df9ac7" aria-label="Word 2 colour"></div>
+            <div class="sw"><span class="lab">Word 3</span><input type="color" id="cW3" value="#8fbca6" aria-label="Word 3 colour"></div>
+          </div>
+        </div>
+      </details>
+
+      <details class="step" id="s4" data-done="0">
+        <summary>
+          <span class="chip">4</span> Logo &amp; QR
+          <span class="summary-note" id="n4">placeholders</span>
+          <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+        </summary>
+        <div class="step-body">
+          <p class="hint">Transparent PNGs give the cleanest result. If all you have is the flattened story, load it under <b>Lift from the story</b> and both pieces get cut out of it automatically.</p>
+          <label class="drop" id="dropLogo" tabindex="0">
+            <strong id="dropLogoTitle">Logo PNG</strong>
+            <span>white lockup on transparent</span>
+            <input type="file" id="fileLogo" accept="image/*">
+          </label>
+          <label class="drop" id="dropQr" tabindex="0">
+            <strong id="dropQrTitle">QR code PNG</strong>
+            <span>black on white, square</span>
+            <input type="file" id="fileQr" accept="image/*">
+          </label>
+          <hr style="border:none;border-top:1px solid var(--line);margin:2px 0">
+          <label class="drop" id="dropStory" tabindex="0">
+            <strong id="dropStoryTitle">Lift from the story</strong>
+            <span>drop the 9:16 export, we cut the logo and QR out of it</span>
+            <input type="file" id="fileStory" accept="image/*">
+          </label>
+          <div id="liftControls" style="display:none;flex-direction:column;gap:12px">
+            <div class="slider">
+              <div class="top"><span class="lab">Logo crop, vertical</span><output id="oLogoY">5.6%</output></div>
+              <input type="range" id="rLogoY" min="20" max="120" value="56" aria-label="Logo crop vertical">
+            </div>
+            <div class="slider">
+              <div class="top"><span class="lab">QR crop, vertical</span><output id="oQrY">91.6%</output></div>
+              <input type="range" id="rQrY" min="800" max="980" value="916" aria-label="QR crop vertical">
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <details class="step" id="s5" data-done="0" open>
+        <summary>
+          <span class="chip">5</span> Export
+          <span class="summary-note" id="n5">PNG</span>
+          <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+        </summary>
+        <div class="step-body">
+          <button class="btn primary" id="bExport">Render 1080 &times; 1080</button>
+          <button class="btn" id="bCopy">Copy to clipboard</button>
+          <div class="out" id="out">
+            <div class="note saving" id="saveNote"><span class="eyebrow">How to save it</span><b>Right click the image and choose Save image as.</b> On a phone, press and hold. Downloads are blocked inside this page, so this is the way out.</div>
+            <img id="outImg" hidden alt="The finished square advert, ready to save">
+          </div>
+        </div>
+      </details>
+
+    </div>
+  </div>
+
+  <footer>
+    <span>Type set in Baloo 2 and Archivo, the closest open stand-ins for the poster's faces.</span>
+    <span>Monster Social Club Bali</span>
+  </footer>
+</div>
+
+<script>
+(() => {
+  "use strict";
+
+  const S = 1080;                 // export edge
+  const PAD = 64;                 // outer margin
+  const STACK_TOP = 118;
+  const STACK_W = S - PAD * 2;    // 952
+  const FITS   = [0.76, 0.88, 0.62];   // each word runs to this share of the column
+  const INDENT = [0, 24, 52];
+  const MARGIN = [0, 0.07, 0.05];      // em, against the word's own size
+  const LEADING = 0.74;
+  const TRACK = -0.018;                // letter-spacing in em
+  const QR_BOX = 196, QR_PAD = 10;
+
+  const cv = document.getElementById('cv');
+  const ctx = cv.getContext('2d');
+
+  const state = {
+    photo:null, logo:null, qr:null,
+    zoom:1, fx:0.5, fy:0.34,
+    scrim:true,
+    words:['little','monster','club'],
+    colors:['#f2e800','#df9ac7','#8fbca6'],
+    days:['Every Tuesday','& Thursday'], time:'',
+    scan:'scan for\nregistration',
+    fontsReady:false
+  };
+
+  const $ = id => document.getElementById(id);
+
+  /* ---------- fonts ---------- */
+  async function loadFonts(){
+    try{
+      await Promise.all([
+        document.fonts.load('800 100px "Baloo 2"'),
+        document.fonts.load('900 100px "LMC Label"'),
+        document.fonts.ready
+      ]);
+    }catch(e){ /* fall back to the stack below */ }
+    state.fontsReady = true;
+  }
+  const DISPLAY = '"Baloo 2", "Archivo", sans-serif';
+  const LABEL   = '"LMC Label", "Archivo", sans-serif';
+
+  /* ---------- tracked text ---------- */
+  // Canvas letterSpacing is well supported in current Chrome and Safari, but
+  // draw glyph by glyph when it is missing so spacing never silently changes.
+  const hasLS = 'letterSpacing' in ctx;
+
+  function setFont(px, fam, weight){
+    ctx.font = `${weight} ${px}px ${fam}`;
+    if (hasLS) ctx.letterSpacing = (TRACK * px).toFixed(2) + 'px';
+  }
+  function clearLS(){ if (hasLS) ctx.letterSpacing = '0px'; }
+
+  function trackedWidth(txt, px){
+    if (hasLS) return ctx.measureText(txt).width;
+    let w = 0;
+    for (const ch of txt) w += ctx.measureText(ch).width + TRACK * px;
+    return w - TRACK * px;
+  }
+  function drawTracked(txt, x, y, px){
+    if (hasLS){ ctx.fillText(txt, x, y); return; }
+    let cx = x;
+    for (const ch of txt){
+      ctx.fillText(ch, cx, y);
+      cx += ctx.measureText(ch).width + TRACK * px;
+    }
+  }
+
+  /* ---------- image helpers ---------- */
+  function coverDraw(img, zoom, fx, fy){
+    const ir = img.width / img.height;
+    let w, h;
+    if (ir > 1){ h = S * zoom; w = h * ir; }
+    else       { w = S * zoom; h = w / ir; }
+    const x = (S - w) * fx;
+    const y = (S - h) * fy;
+    ctx.drawImage(img, x, y, w, h);
+  }
+
+  function fileToImage(file){
+    return new Promise((res, rej) => {
+      const url = URL.createObjectURL(file);
+      const img = new Image();
+      img.onload = () => { URL.revokeObjectURL(url); res(img); };
+      img.onerror = () => { URL.revokeObjectURL(url); rej(new Error('That file could not be read as an image.')); };
+      img.src = url;
+    });
+  }
+
+  function cropToCanvas(img, x0, y0, x1, y1){
+    const w = Math.max(1, Math.round((x1 - x0) * img.width));
+    const h = Math.max(1, Math.round((y1 - y0) * img.height));
+    const c = document.createElement('canvas');
+    c.width = w; c.height = h;
+    c.getContext('2d').drawImage(
+      img,
+      Math.round(x0 * img.width), Math.round(y0 * img.height), w, h,
+      0, 0, w, h
+    );
+    return c;
+  }
+
+  /* ---------- the composition ---------- */
+  function render(){
+    ctx.clearRect(0, 0, S, S);
+
+    // 1. photo bed
+    if (state.photo){
+      coverDraw(state.photo, state.zoom, state.fx, state.fy);
+    } else {
+      const g = ctx.createLinearGradient(0, 0, 0, S);
+      g.addColorStop(0,   '#6B6A4A');
+      g.addColorStop(.58, '#5F7A3A');
+      g.addColorStop(.62, '#79A343');
+      g.addColorStop(1,   '#8FB857');
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, S, S);
+      ctx.fillStyle = 'rgba(0,0,0,.16)';
+      for (let x = 0; x < S; x += 30) ctx.fillRect(x, 0, 14, S * 0.62);
+    }
+
+    // 2. contrast lift
+    if (state.scrim){
+      const g = ctx.createLinearGradient(0, 0, 0, S);
+      g.addColorStop(0,   'rgba(0,0,0,.14)');
+      g.addColorStop(.26, 'rgba(0,0,0,0)');
+      g.addColorStop(.66, 'rgba(0,0,0,0)');
+      g.addColorStop(1,   'rgba(0,0,0,.26)');
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, S, S);
+    }
+
+    // 3. logo, top centre
+    drawLogo();
+
+    // 4. the three words
+    drawStack();
+
+    // 5. day line, lower left
+    drawDays();
+
+    // 6. QR block, lower right
+    drawScan();
+  }
+
+  function drawLogo(){
+    const top = 34, h = 58;
+    if (state.logo){
+      const src = state.logo;
+      const w = h * (src.width / src.height);
+      ctx.drawImage(src, (S - w) / 2, top, w, h);
+      return;
+    }
+    // stand-in lockup so the composition reads before the real file arrives
+    ctx.save();
+    ctx.textBaseline = 'alphabetic';
+    setFont(26, LABEL, 900);
+    const name = 'MONSTER';
+    if (hasLS) ctx.letterSpacing = '4.2px';
+    const nw = ctx.measureText(name).width;
+    const gw = 44, gap = 12;
+    const total = gw + gap + nw;
+    const left = (S - total) / 2;
+
+    ctx.fillStyle = '#fff';
+    ctx.beginPath();
+    ctx.arc(left + gw / 2, top + 27, gw / 2, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = '#111';
+    ctx.font = '900 26px ' + LABEL;
+    if (hasLS) ctx.letterSpacing = '0px';
+    ctx.textAlign = 'center';
+    ctx.fillText('M', left + gw / 2, top + 36);
+
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#fff';
+    ctx.font = '900 26px ' + LABEL;
+    if (hasLS) ctx.letterSpacing = '4.2px';
+    ctx.fillText(name, left + gw + gap, top + 22);
+    if (hasLS) ctx.letterSpacing = '0px';
+    ctx.font = '700 19px Georgia, "Times New Roman", serif';
+    ctx.fillText('Social Club Bali', left + gw + gap, top + 46);
+    ctx.restore();
+  }
+
+  function drawStack(){
+    ctx.save();
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'alphabetic';
+
+    let boxTop = STACK_TOP;
+    state.words.forEach((word, i) => {
+      const txt = (word || '').trim();
+      if (!txt) return;
+
+      // size the word so it runs to its share of the column, the way the
+      // original sets every word edge to edge
+      setFont(100, DISPLAY, 800);
+      const w100 = trackedWidth(txt, 100);
+      if (!w100) return;
+      const size = 100 * (STACK_W * FITS[i]) / w100;
+
+      setFont(size, DISPLAY, 800);
+      const m = ctx.measureText(txt);
+      const asc  = m.fontBoundingBoxAscent  || size * 0.95;
+      const desc = m.fontBoundingBoxDescent || size * 0.30;
+
+      const lineBox = LEADING * size;
+      boxTop += MARGIN[i] * size;
+      const baseline = boxTop + (lineBox - (asc + desc)) / 2 + asc;
+
+      ctx.fillStyle = state.colors[i];
+      drawTracked(txt, PAD + INDENT[i], baseline, size);
+
+      boxTop += lineBox;
+    });
+
+    clearLS();
+    ctx.restore();
+  }
+
+  function drawDays(){
+    const lines = [state.days[0], state.days[1]].filter(s => (s || '').trim());
+    const timeTxt = state.time.trim();
+    if (!lines.length && !timeTxt) return;
+
+    const big = 60, small = 38, lh = big * 1.04, gap = 10;
+    const blockH = lines.length * lh + (timeTxt ? small * 1.1 + gap : 0);
+    const top = S - PAD - blockH;
+
+    ctx.save();
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'alphabetic';
+    ctx.fillStyle = '#fff';
+    ctx.shadowColor = 'rgba(0,0,0,.34)';
+    ctx.shadowBlur = 18;
+    ctx.shadowOffsetY = 4;
+
+    ctx.font = `900 ${big}px ${LABEL}`;
+    lines.forEach((l, i) => ctx.fillText(l.toUpperCase(), PAD, top + i * lh + big * 0.86));
+
+    if (timeTxt){
+      ctx.font = `900 ${small}px ${LABEL}`;
+      ctx.fillText(timeTxt.toUpperCase(), PAD, top + lines.length * lh + gap + small * 0.86);
+    }
+    ctx.restore();
+  }
+
+  function drawScan(){
+    const boxX = S - PAD - QR_BOX;
+    const boxY = S - PAD - QR_BOX;
+
+    // label above the code
+    const lines = state.scan.split('\n').filter(s => s.trim());
+    ctx.save();
+    ctx.textAlign = 'right';
+    ctx.textBaseline = 'alphabetic';
+    ctx.fillStyle = '#fff';
+    ctx.shadowColor = 'rgba(0,0,0,.34)';
+    ctx.shadowBlur = 18;
+    ctx.shadowOffsetY = 4;
+    const LABEL_MAX = 300;                 // the corner this label lives in
+    let fs = 30;
+    setFont(fs, DISPLAY, 800);
+    const widest = Math.max(...lines.map(l => trackedWidth(l, fs)));
+    if (widest > LABEL_MAX){
+      fs = Math.max(18, fs * LABEL_MAX / widest);
+      setFont(fs, DISPLAY, 800);
+    }
+    const lh = fs * 1.04;
+    let ly = boxY - 12 - (lines.length - 1) * lh - fs * 0.20;
+    lines.forEach(l => {
+      const w = trackedWidth(l, fs);
+      drawTracked(l, S - PAD - w, ly, fs);
+      ly += lh;
+    });
+    clearLS();
+    ctx.restore();
+
+    // the code itself, on its white card
+    ctx.save();
+    ctx.fillStyle = '#fff';
+    roundRect(boxX, boxY, QR_BOX, QR_BOX, 6);
+    ctx.fill();
+    const inner = QR_BOX - QR_PAD * 2;
+    if (state.qr){
+      ctx.drawImage(state.qr, boxX + QR_PAD, boxY + QR_PAD, inner, inner);
+    } else {
+      ctx.fillStyle = '#111';
+      const cell = inner / 9;
+      for (let r = 0; r < 9; r++)
+        for (let c = 0; c < 9; c++)
+          if ((r + c) % 2 === 0)
+            ctx.fillRect(boxX + QR_PAD + c * cell, boxY + QR_PAD + r * cell, cell, cell);
+      ctx.fillStyle = '#fff';
+      ctx.fillRect(boxX + QR_PAD + inner * .18, boxY + QR_PAD + inner * .42, inner * .64, inner * .18);
+      ctx.fillStyle = '#111';
+      ctx.font = '700 15px Archivo, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('QR HERE', boxX + QR_BOX / 2, boxY + QR_BOX / 2);
+    }
+    ctx.restore();
+  }
+
+  function roundRect(x, y, w, h, r){
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y, x + w, y + h, r);
+    ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r);
+    ctx.arcTo(x, y, x + w, y, r);
+    ctx.closePath();
+  }
+
+  /* ---------- wiring ---------- */
+  function setStep(id, done, note){
+    const el = $(id);
+    el.dataset.done = done ? '1' : '0';
+    if (note != null) $('n' + id.slice(1)).textContent = note;
+  }
+
+  function wireDrop(dropId, inputId, onImage, titleId, label){
+    const drop = $(dropId), input = $(inputId);
+    const take = async file => {
+      if (!file || !file.type.startsWith('image/')) return;
+      try{
+        const img = await fileToImage(file);
+        drop.classList.add('loaded');
+        $(titleId).textContent = label + ' loaded';
+        onImage(img);
+      }catch(err){
+        $(titleId).textContent = 'That file could not be read, try another';
+      }
+    };
+    input.addEventListener('change', e => take(e.target.files[0]));
+    drop.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); input.click(); }
+    });
+    ['dragenter','dragover'].forEach(t =>
+      drop.addEventListener(t, e => { e.preventDefault(); drop.classList.add('over'); }));
+    ['dragleave','drop'].forEach(t =>
+      drop.addEventListener(t, e => { e.preventDefault(); drop.classList.remove('over'); }));
+    drop.addEventListener('drop', e => take(e.dataTransfer.files[0]));
+  }
+
+  wireDrop('dropPhoto','filePhoto', img => {
+    state.photo = img;
+    $('empty').classList.add('hide');
+    $('statusTxt').textContent = img.width + ' × ' + img.height + ' loaded';
+    setStep('s1', true, 'loaded');
+    $('s2').open = true;
+    render();
+  }, 'dropPhotoTitle', 'Photo');
+
+  wireDrop('dropLogo','fileLogo', img => {
+    state.logo = img; setStep('s4', true, 'custom'); render();
+  }, 'dropLogoTitle', 'Logo');
+
+  wireDrop('dropQr','fileQr', img => {
+    state.qr = img; setStep('s4', true, 'custom'); render();
+  }, 'dropQrTitle', 'QR');
+
+  // lift the logo and the QR straight out of a flattened 9:16 export
+  let story = null;
+  function relift(){
+    if (!story) return;
+    const ly = +$('rLogoY').value / 1000;
+    const qy = +$('rQrY').value / 1000;
+    state.logo = cropToCanvas(story, 0.395, ly - 0.017, 0.615, ly + 0.017);
+    state.qr   = cropToCanvas(story, 0.700, qy - 0.073, 0.945, qy + 0.073);
+    $('oLogoY').textContent = (ly * 100).toFixed(1) + '%';
+    $('oQrY').textContent   = (qy * 100).toFixed(1) + '%';
+    setStep('s4', true, 'lifted');
+    render();
+  }
+  wireDrop('dropStory','fileStory', img => {
+    story = img;
+    $('liftControls').style.display = 'flex';
+    relift();
+  }, 'dropStoryTitle', 'Story');
+  $('rLogoY').addEventListener('input', relift);
+  $('rQrY').addEventListener('input', relift);
+
+  // framing
+  const rz = $('rZoom'), rx = $('rX'), ry = $('rY');
+  function framing(){
+    state.zoom = +rz.value / 100;
+    state.fx = +rx.value / 100;
+    state.fy = +ry.value / 100;
+    $('oZoom').textContent = rz.value + '%';
+    $('oX').textContent = rx.value + '%';
+    $('oY').textContent = ry.value + '%';
+    setStep('s2', state.zoom !== 1 || state.fx !== .5 || state.fy !== .34,
+            'zoom ' + rz.value + '%');
+    render();
+  }
+  [rz, rx, ry].forEach(el => el.addEventListener('input', framing));
+  $('cScrim').addEventListener('change', e => { state.scrim = e.target.checked; render(); });
+
+  // drag to reposition
+  const frame = $('frame');
+  let drag = null;
+  frame.addEventListener('pointerdown', e => {
+    if (!state.photo) return;
+    drag = { x:e.clientX, y:e.clientY, fx:state.fx, fy:state.fy, w:frame.clientWidth };
+    frame.setPointerCapture(e.pointerId);
+    frame.classList.add('dragging');
+  });
+  frame.addEventListener('pointermove', e => {
+    if (!drag) return;
+    const k = 1 / drag.w;
+    rx.value = Math.round(Math.min(1, Math.max(0, drag.fx - (e.clientX - drag.x) * k)) * 100);
+    ry.value = Math.round(Math.min(1, Math.max(0, drag.fy - (e.clientY - drag.y) * k)) * 100);
+    framing();
+  });
+  ['pointerup','pointercancel'].forEach(t =>
+    frame.addEventListener(t, () => { drag = null; frame.classList.remove('dragging'); }));
+
+  // wording
+  const texts = [
+    ['tW1', v => state.words[0] = v], ['tW2', v => state.words[1] = v], ['tW3', v => state.words[2] = v],
+    ['tD1', v => state.days[0] = v],  ['tD2', v => state.days[1] = v],  ['tD3', v => state.time = v],
+    ['tScan', v => state.scan = v]
+  ];
+  texts.forEach(([id, set]) => $(id).addEventListener('input', e => {
+    set(e.target.value);
+    const n = state.words.filter(w => w.trim()).length;
+    setStep('s3', true, n + ' word' + (n === 1 ? '' : 's') + ' set');
+    render();
+  }));
+  [['cW1',0],['cW2',1],['cW3',2]].forEach(([id, i]) =>
+    $(id).addEventListener('input', e => { state.colors[i] = e.target.value; render(); }));
+
+  // export
+  $('bExport').addEventListener('click', () => {
+    render();
+    cv.toBlob(blob => {
+      const url = URL.createObjectURL(blob);
+      const img = $('outImg');
+      if (img.dataset.url) URL.revokeObjectURL(img.dataset.url);
+      img.dataset.url = url;
+      img.src = url;
+      img.hidden = false;
+      $('out').classList.add('show');
+      setStep('s5', true, Math.round(blob.size / 1024) + ' KB');
+      $('saveNote').scrollIntoView({ behavior:'smooth', block:'nearest' });
+    }, 'image/png');
+  });
+
+  $('bCopy').addEventListener('click', async () => {
+    const btn = $('bCopy');
+    try{
+      render();
+      const blob = await new Promise(r => cv.toBlob(r, 'image/png'));
+      await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+      btn.textContent = 'Copied, paste it into Ads Manager';
+    }catch(err){
+      btn.textContent = 'Clipboard blocked here, use Render instead';
+    }
+    setTimeout(() => { btn.textContent = 'Copy to clipboard'; }, 3200);
+  });
+
+  loadFonts().then(render);
+  render();
+})();
+</script>

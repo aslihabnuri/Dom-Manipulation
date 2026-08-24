@@ -1,0 +1,4 @@
+node_modules/
+.render.tmp.html
+assets/*
+!assets/.gitkeep
