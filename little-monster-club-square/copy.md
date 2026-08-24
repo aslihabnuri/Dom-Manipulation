@@ -1,10 +1,11 @@
-# Little Monster Club: caption, welcome message, pre-filled message
+# Little Monster Club: caption, primary text, welcome message, pre-filled message
 
-Written to match how @monsterpadelbali actually writes: English, short lines,
-emoji at the end of a line rather than sprinkled through it, warm and direct,
-one or two hashtags at the close.
+Four different jobs, so four different ways of writing.
 
-Reference posts used for the voice check:
+**The caption** copies how @monsterpadelbali actually writes: English, short
+lines, an emoji closing a line rather than sprinkled through it, warm and
+direct, a couple of hashtags at the end. Reference posts used for the voice
+check:
 
 > New padel spot in Uluwatu 🎾
 > Snap a pic with the monster icon😍✨
@@ -13,17 +14,30 @@ Reference posts used for the voice check:
 
 > We're waiting for you. At Monster Padel Bali, it's not just about…
 
-**No em dashes anywhere below.** Nothing is padded with filler wording either.
+**The primary text** keeps that voice but is built to a different brief. An
+organic caption is read by people who already follow you. An ad is read by
+people scrolling past a stranger, and Meta hides everything after roughly 125
+characters. So the paid copy leads with a hook rather than an announcement, and
+each option sells a different reason to click so the test tells you something.
+
+**The welcome message** is a greeting, not a notice board. Its only jobs are to
+confirm the person reached the right place and to ask for the one thing that
+lets you help them.
+
+**The pre-filled message** is written from the customer's side, short enough
+that nobody deletes it and types their own.
+
+**No em dashes anywhere.** Nothing padded with filler wording either.
 
 Anything the poster does not state (age range, price, session time, whether
-rackets are provided) is left out of the main copy and parked under
-"Details to slot in" so nothing gets promised by accident.
+rackets are provided) is kept out of the copy and parked in "Details to slot
+in" and "Claims to confirm" so nothing gets promised by accident.
 
 ---
 
-## 1. Caption
+## 1. Caption, for the organic post
 
-### A. Feed post, the main one
+### The caption
 
 ```
 little monster club 🎾
@@ -41,30 +55,7 @@ you out 💛
 #monsterpadelbali #littlemonsterclub
 ```
 
-### B. Paid primary text, short
-
-Meta cuts the primary text at roughly 125 characters before the "more" link,
-so the hook sits in the first line.
-
-```
-Kids padel in Uluwatu, every Tuesday and Thursday 🎾
-
-Little Monster Club is open for registration. Coaching on real courts,
-friends made by the second game.
-
-Tap to save your child a spot 💛
-```
-
-### C. Paid primary text, playful
-
-```
-Their first serve is going to be terrible. That is the fun part 🎾
-
-Little Monster Club, every Tuesday and Thursday at Monster Social Club Bali.
-Register through the link below 💛
-```
-
-### D. Indonesian, for local targeting
+### Indonesian version
 
 Their Instagram runs in English, so keep this one for a separate ad set aimed
 at the domestic audience rather than swapping it into the main feed post.
@@ -99,41 +90,166 @@ Sessions run [16.00] to [17.30].
 
 ---
 
-## 2. Welcome message
+## 2. Primary text, for the paid ad
 
-The automatic greeting that fires when someone opens a WhatsApp chat for the
-first time. WhatsApp Business caps this field at 4096 characters, so length is
-not a constraint, but short reads better on a phone.
+Meta shows roughly the first **125 characters** before it cuts to "... more".
+Almost nobody taps "more", so the whole job of the opening line is to earn that
+tap. Everything below front-loads a hook inside that window.
 
-```
-Hi, thanks for messaging Monster Social Club Bali 🎾
+The five options are five different **reasons to click**, not five rewordings of
+the same idea. That is what makes a test worth running: if one wins you learn
+which motivation your audience actually has, not which adjective they preferred.
 
-You have reached us about Little Monster Club, our kids padel sessions
-every Tuesday and Thursday.
+Character count of each hook is in brackets.
 
-Send us your child's name and age, plus the day you would like to join,
-and our team will come straight back with the schedule and how to book.
+### Angle 1. What the parent gets out of it
 
-We reply every day between 7.00 and 22.00.
+The parent is the one paying and the one clicking, so sell to them first.
 
-📍 Jl. Belimbing Sari I, Pecatu, Uluwatu
-```
-
-### Shorter version, if the greeting feels heavy
+> **While they rally, you swim.** [27]
 
 ```
-Hi, thanks for messaging Monster Social Club Bali 🎾
+While they rally, you swim.
 
-For Little Monster Club, send us your child's name and age and the day
-you prefer, Tuesday or Thursday. We will come back with the schedule
-and how to book.
+Little Monster Club runs every Tuesday and Thursday, so you can drop them at
+the court and take the pool, the sauna or a long lunch while they play.
 
-We reply daily between 7.00 and 22.00 💛
+Kids padel in Uluwatu, all levels. Register in one message 💛
+```
+
+### Angle 2. Handles the objection that their child is not sporty
+
+> **Most kids get a rally going in their first session.** [51]
+
+```
+Most kids get a rally going in their first session.
+
+Short racket, small court, walls that keep the ball alive. Nobody spends an
+hour picking balls off the floor, which is why padel sticks when tennis does
+not.
+
+Little Monster Club, every Tuesday and Thursday in Uluwatu 🎾
+```
+
+### Angle 3. The problem they already have
+
+> **Tuesday afternoon, and they are on the iPad again.** [50]
+
+```
+Tuesday afternoon, and they are on the iPad again.
+
+Little Monster Club gives them somewhere to be twice a week. Real courts,
+proper coaching, and a group of kids their own age.
+
+Every Tuesday and Thursday in Uluwatu. Register through the link 💛
+```
+
+### Angle 4. For families who just moved to the island
+
+> **New to Bali and the kids have not found their people yet?** [57]
+
+```
+New to Bali and the kids have not found their people yet?
+
+Little Monster Club puts them on court with the same faces every Tuesday and
+Thursday. That repetition is how friendships actually start.
+
+Uluwatu, all levels welcome. Send us a message to register 💛
+```
+
+### Angle 5. Charm, for retargeting warm audiences
+
+> **Their first serve is going to be dreadful. Their fourth will not be.** [68]
+
+```
+Their first serve is going to be dreadful. Their fourth will not be.
+
+Little Monster Club is kids padel at Monster Social Club Bali, every Tuesday
+and Thursday. No experience needed, we start everyone from zero.
+
+Tap to register 🎾
+```
+
+### Headlines and descriptions
+
+Primary text is only one field. These fill the rest of the ad.
+
+| Headline (40 max) | Chars |
+| --- | --- |
+| Kids Padel, Tuesdays & Thursdays | 32 |
+| Their First Rally Starts Here | 29 |
+| Two Afternoons a Week, Sorted | 29 |
+| Little Monster Club, Uluwatu | 28 |
+| Padel Made for Small Humans | 27 |
+| Kids Padel in Uluwatu | 21 |
+
+| Description (30 max) | Chars |
+| --- | --- |
+| All levels, no experience | 25 |
+| Ages and levels welcome | 23 |
+| Register in one message | 23 |
+| Book your child a spot | 22 |
+| Uluwatu, Tue and Thu | 20 |
+
+Call to action button: **Send Message** if you run it as a Click to WhatsApp
+campaign, which is what the pre-filled message in part 4 is built for.
+
+### How to run the test
+
+Put angles 1, 2 and 3 in one ad set against a cold audience, same image, same
+headline. Only the primary text changes, so whatever wins tells you something
+real. Give each one at least a thousand impressions before you judge it.
+Angle 5 is for retargeting people who already engaged, not for cold traffic.
+
+### Claims to confirm before this runs
+
+Three lines above state things the poster does not: **proper coaching**
+(angle 3), **all levels / no experience needed** (angles 1, 4, 5), and that
+parents can use the pool and restaurant during the session (angle 1). All three
+are almost certainly true of a club like yours, but check them before spending
+money behind them.
+
+---
+
+## 3. Welcome message
+
+The greeting WhatsApp Business fires automatically the first time somebody
+messages you. It has three jobs and only three: **confirm they reached the
+right place, sound like a person, and tell them the one thing to send next.**
+
+It is not a place for your address, your hours or your service list. That
+information already lives in your business profile, and the moment a greeting
+turns into a notice board it reads as a robot and the person waits for a human
+instead of answering. A greeting that ends with a question gets a reply. One
+that ends with a location pin does not.
+
+Written as a single paragraph, no line breaks.
+
+```
+Hi, and thanks for messaging Monster Social Club Bali 🎾 You have come to the right place for Little Monster Club, our kids padel sessions. Tell us your child's name and age and whether Tuesday or Thursday suits you better, and one of our team will take it from there 💛
+```
+
+### Warmer and shorter
+
+```
+Hi, welcome to Monster Social Club Bali 🎾 Lovely to have you here. Send us your child's name and age plus the day that works best, Tuesday or Thursday, and we will get Little Monster Club sorted for you 💛
+```
+
+### Straight to the point
+
+```
+Hi, thanks for messaging Monster Social Club Bali 🎾 To get your child into Little Monster Club, just send their name, their age and whether you prefer Tuesday or Thursday, and we will come straight back to you 💛
+```
+
+### Indonesian
+
+```
+Halo, terima kasih sudah menghubungi Monster Social Club Bali 🎾 Kamu sudah di tempat yang tepat untuk Little Monster Club, kelas padel anak kami. Kirim nama dan umur anak plus pilihan harinya, Selasa atau Kamis, nanti tim kami langsung bantu 💛
 ```
 
 ---
 
-## 3. Pre-filled message
+## 4. Pre-filled message
 
 This is the text already sitting in the customer's compose box when they tap
 the ad or the link in bio. Written from their side, first person, short enough
