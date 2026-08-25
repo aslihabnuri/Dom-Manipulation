@@ -150,6 +150,20 @@ Hanya 6 tempat per sesi, chat kami sebelum penuh.
 VAMOS LITTLE MONSTER 💚
 ```
 
+### Opening lines
+
+An Instagram post has no headline field, so the first line does that job. It is
+the only line that survives the "... more" cut, and it is what shows in a
+notification. Swap the first line of any version above for one of these.
+
+| Opening line | What it leads with |
+| --- | --- |
+| `Kids padel every Tuesday at Monster 🎾` | the offer, plainest and clearest |
+| `On Tuesdays the courts belong to the kids 🎾` | the mood, closest to the account's voice |
+| `6 spots, every Tuesday, ages 5 to 14 🎾` | scarcity first |
+| `Padel, a swim and a glass of milk. IDR 250k 🎾` | the full value in one line |
+| `Their first serve will be dreadful. We can work with that 🎾` | charm, best for a warm audience |
+
 ### What was cut, and why
 
 Every hard fact survived. What went was the writing around them.
@@ -266,26 +280,103 @@ Certified Spanish coaches, six spots, pool and milk included.
 Ages 5 to 14. Tap to register 🎾
 ```
 
-### Headlines and descriptions
+### Headlines
 
-Primary text is only one field. These fill the rest of the ad.
+The headline is the bold line under the image, sitting right next to the CTA
+button. It is the last thing read before someone taps, which makes it the most
+undervalued field in the whole ad.
 
-| Headline (40 max) | Chars |
+Two rules decide whether it earns its place:
+
+**It must not repeat the primary text.** If the hook already said "one hour of
+padel, a swim and a glass of milk", a headline saying "kids padel sessions"
+spends the slot on nothing. Pair it to the angle so it closes the loop the hook
+opened.
+
+**It should carry the deciding fact.** For this offer that is the price, the
+capacity or the age range. Putting IDR 250k in the headline also filters out
+people who were never going to pay, which matters on a Click to WhatsApp
+campaign where every unqualified chat costs your admin real time.
+
+Meta allows 40 characters. Some placements clip nearer 27, so anything marked
+**safe** below survives everywhere.
+
+#### Paired to Angle 1, the afternoon is handled
+
+| Headline | Chars | |
+| --- | --- | --- |
+| Tuesdays Sorted, IDR 250k | 25 | safe |
+| A Whole Afternoon, IDR 250k | 27 | safe |
+| Coach, Pool and Milk. IDR 250k | 30 | may clip |
+| One Hour On Court, Then The Pool | 32 | may clip |
+
+#### Paired to Angle 2, the child is not sporty
+
+| Headline | Chars | |
+| --- | --- | --- |
+| Beginners Start Here | 20 | safe |
+| First Racket? Perfect. | 22 | safe |
+| Built For Total Beginners | 25 | safe |
+| No Experience Needed, Ages 5 to 14 | 34 | may clip |
+
+#### Paired to Angle 3, screen time
+
+| Headline | Chars | |
+| --- | --- | --- |
+| Off The iPad, On The Court | 26 | safe |
+| Somewhere To Be On Tuesdays | 27 | safe |
+| Tuesdays, 3PM, Ages 5 to 14 | 27 | safe |
+
+#### Paired to Angle 4, small group and friends
+
+| Headline | Chars | |
+| --- | --- | --- |
+| Six Spots, One Coach | 20 | safe |
+| Small Groups In Uluwatu | 23 | safe |
+| Six Kids, Same Court, Every Week | 32 | may clip |
+
+#### Paired to Angle 5, charm and retargeting
+
+| Headline | Chars | |
+| --- | --- | --- |
+| Book Their Tuesday Spot | 23 | safe |
+| Only 6 Spots Each Tuesday | 25 | safe |
+| Their First Rally Starts Here | 29 | may clip |
+
+#### Works with any angle
+
+Use these when you want the headline held constant so the primary text is the
+only variable in the test.
+
+| Headline | Chars | |
+| --- | --- | --- |
+| 6 Spots Per Session | 19 | safe |
+| Ages 5 to 14, Every Tuesday | 27 | safe |
+| Little Monster Club, Tuesdays | 29 | may clip |
+| Spanish Coaches, Ages 5 to 14 | 29 | may clip |
+| Kids Padel In Uluwatu, IDR 250k | 31 | may clip |
+
+#### Indonesian ad set
+
+| Headline | Chars | |
+| --- | --- | --- |
+| Cuma 6 Tempat Per Sesi | 22 | safe |
+| Padel Anak, Selasa, 250rb | 25 | safe |
+| Coach Spanyol, Kolam, Susu | 26 | safe |
+| Umur 5 sampai 14, Tiap Selasa | 29 | may clip |
+
+### Descriptions
+
+Shown under the headline on some placements only, and dropped on others, so
+never put anything load bearing here. 30 characters.
+
+| Description | Chars |
 | --- | --- |
-| Kids Padel in Uluwatu, IDR 250k | 31 |
-| Their First Rally Starts Here | 29 |
-| Six Spots, Every Tuesday | 24 |
-| Little Monster Club, Uluwatu | 28 |
-| Padel Made for Small Humans | 27 |
-| Kids Padel in Uluwatu | 21 |
-
-| Description (30 max) | Chars |
-| --- | --- |
-| All levels, no experience | 25 |
+| Uluwatu, every Tuesday | 22 |
+| Book your child a spot | 22 |
 | Ages and levels welcome | 23 |
 | Register in one message | 23 |
-| Book your child a spot | 22 |
-| Ages 5 to 14, Tuesdays | 22 |
+| All levels, no experience | 25 |
 
 Call to action button: **Send Message** if you run it as a Click to WhatsApp
 campaign, which is what the pre-filled message in part 4 is built for.
