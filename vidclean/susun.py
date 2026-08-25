@@ -5,8 +5,19 @@ Bedanya dengan racik.py (yang menjahit banyak video):
   * scene pembuka dan penutup DIKUNCI di tempatnya - pembuka menentukan hook,
     penutup biasanya berisi logo/ajakan, keduanya tidak boleh berpindah
   * scene di tengah diacak urutannya
-  * TIDAK ada filter, grading, zoom, atau perubahan kecepatan sama sekali;
-    tampilan video tetap persis seperti aslinya, hanya urutannya yang berubah
+  * warna dan grading TIDAK pernah disentuh - tampilannya tetap seperti aslinya
+
+Mengacak urutan saja ternyata tidak cukup untuk lolos deteksi konten tidak
+orisinal: pikselnya masih sama persis dengan sumber, jadi tiap potongan tetap
+cocok di indeks platform. Karena itu `rakit()` menerima dua tambahan:
+
+  * `samar` - lapisan penyamaran geometri dari samar.py (zum, geser, putar
+    mikro, butiran) yang mengubah tiap piksel tanpa mengubah warna
+  * `transisi` - silang-pudar antar scene supaya perpindahannya halus
+
+Perlu diingat jalur AUDIO tidak ditangani modul ini. Musik latar sumber punya
+sidik jari sendiri dan ikut menandai video sebagai duplikat, jadi audionya
+sebaiknya diganti terpisah (lihat musik.py).
 """
 
 from __future__ import annotations
@@ -115,6 +126,8 @@ def rakit(
     crf: int = 17,
     ikut_audio: bool = True,
     audio_utuh: bool = True,
+    samar: Optional[str] = None,
+    transisi: float = 0.0,
 ) -> str:
     """Sambung scene sesuai urutan baru. Tanpa filter tampilan apa pun.
 
@@ -124,6 +137,17 @@ def rakit(
 
     audio_utuh=False: audio ikut berpindah bersama scene-nya (tetap sinkron
     dengan gambar, tapi musiknya akan terdengar melompat).
+
+    samar: rantai filter penyamaran (lihat vidclean/samar.py) yang dipasang
+    SESUDAH scene disambung, jadi gerakannya mengalir mulus sepanjang video.
+    Diperlukan karena mengacak urutan saja tidak mengubah piksel, sehingga
+    tiap potongan masih cocok dengan video sumber di indeks platform.
+
+    transisi: lama silang-pudar antar scene dalam detik (0 = potong keras).
+    Tiap scene diambil `transisi` detik LEBIH PANJANG dari batasnya, lalu
+    kelebihan itu persis habis dipakai untuk memudarkan ke scene berikutnya.
+    Hasilnya perpindahan terasa halus TANPA memendekkan durasi video, dan
+    frame yang dipakai untuk memudar tetap footage asli - bukan layar hitam.
     """
     info = periksa(berkas)
     pakai_audio = ikut_audio and info.ada_audio
@@ -132,11 +156,24 @@ def rakit(
     graf: List[str] = []
     pasang: List[str] = []
 
+    # Kelebihan footage yang dipinjam tiap scene untuk memudar ke scene
+    # berikutnya. Dibatasi supaya tidak melewati ujung video sumber dan tidak
+    # pernah melebihi setengah durasi scene itu sendiri.
+    tambahan: List[float] = []
     for nomor, s in enumerate(urutan):
-        perintah += ["-ss", f"{s.mulai:.3f}", "-t", f"{s.durasi:.3f}", "-i", berkas]
+        if transisi <= 0 or nomor == len(urutan) - 1:
+            tambahan.append(0.0)
+            continue
+        sisa_sumber = max(0.0, info.durasi - s.selesai)
+        tambahan.append(min(transisi, sisa_sumber, s.durasi * 0.5))
+
+    for nomor, s in enumerate(urutan):
+        panjang = s.durasi + tambahan[nomor]
+        perintah += ["-ss", f"{s.mulai:.3f}", "-t", f"{panjang:.3f}", "-i", berkas]
         # setsar saja supaya sambungan mulus; tidak ada scale/crop/eq/curves,
         # jadi warna dan komposisi persis seperti sumber.
-        graf.append(f"[{nomor}:v]setpts=PTS-STARTPTS,setsar=1[v{nomor}]")
+        # settb=AVTB wajib: xfade menolak dua masukan yang basis waktunya beda.
+        graf.append(f"[{nomor}:v]setpts=PTS-STARTPTS,setsar=1,settb=AVTB[v{nomor}]")
         if pakai_audio and not audio_utuh:
             graf.append(f"[{nomor}:a]asetpts=PTS-STARTPTS,aresample=48000[a{nomor}]")
             pasang.append(f"[v{nomor}][a{nomor}]")
@@ -145,20 +182,48 @@ def rakit(
 
     n = len(urutan)
 
+    def rangkai(label_keluar: str) -> None:
+        """Sambung semua [vN] jadi satu, lewat silang-pudar atau potong keras."""
+        if transisi <= 0 or n == 1:
+            graf.append("".join(f"[v{i}]" for i in range(n))
+                        + f"concat=n={n}:v=1:a=0[{label_keluar}]")
+            return
+        jalan = urutan[0].durasi + tambahan[0]      # panjang hasil sementara
+        kini = "v0"
+        for i in range(1, n):
+            t = tambahan[i - 1]
+            berikut = f"x{i}" if i < n - 1 else label_keluar
+            if t <= 0.01:
+                # tidak ada footage sisa untuk memudar: sambung keras saja
+                graf.append(f"[{kini}][v{i}]concat=n=2:v=1:a=0,settb=AVTB[{berikut}]")
+                jalan += urutan[i].durasi + tambahan[i]
+            else:
+                geser = jalan - t
+                graf.append(
+                    f"[{kini}][v{i}]xfade=transition=fade:"
+                    f"duration={t:.3f}:offset={geser:.3f}[{berikut}]")
+                jalan = geser + urutan[i].durasi + tambahan[i]
+            kini = berikut
+
     if pakai_audio and audio_utuh:
         # Satu masukan tambahan berisi video asli LENGKAP, dipakai khusus
         # untuk mengambil jalur audionya yang utuh.
         indeks_audio = n
         perintah += ["-i", berkas]
-        graf.append("".join(pasang) + f"concat=n={n}:v=1:a=0[v]")
+        rangkai("vc")
+        graf.append("[vc]" + (samar if samar else "null") + "[v]")
         graf.append(f"[{indeks_audio}:a]aresample=48000,asetpts=PTS-STARTPTS[a]")
         peta = ["-map", "[v]", "-map", "[a]",
                 "-c:a", "aac", "-b:a", "192k", "-ar", "48000", "-shortest"]
     elif pakai_audio:
-        graf.append("".join(pasang) + f"concat=n={n}:v=1:a=1[v][a]")
+        rangkai("vc")
+        graf.append("".join(f"[{i}:a]" for i in range(n))
+                    + f"concat=n={n}:v=0:a=1[a]")
+        graf.append("[vc]" + (samar if samar else "null") + "[v]")
         peta = ["-map", "[v]", "-map", "[a]", "-c:a", "aac", "-b:a", "192k", "-ar", "48000"]
     else:
-        graf.append("".join(pasang) + f"concat=n={n}:v=1:a=0[v]")
+        rangkai("vc")
+        graf.append("[vc]" + (samar if samar else "null") + "[v]")
         peta = ["-map", "[v]", "-an"]
 
     perintah += [
