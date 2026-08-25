@@ -29,64 +29,158 @@ that nobody deletes it and types their own.
 
 **No em dashes anywhere.** Nothing padded with filler wording either.
 
-Anything the poster does not state (age range, price, session time, whether
-rackets are provided) is kept out of the copy and parked in "Details to slot
-in" and "Claims to confirm" so nothing gets promised by accident.
+Every number below comes from the admin's figures in the next section. Where
+two sources disagree, the disagreement is flagged rather than guessed at.
 
 ---
 
-## 1. Caption, for the organic post
+## The facts everything below is built from
 
-### The caption
+Supplied by Monster admin, so these are the source of truth. Anything not on
+this list does not appear in the copy.
+
+| | |
+| --- | --- |
+| Day | Every Tuesday |
+| Ages 5 to 9 | 3PM to 4PM |
+| Ages 10 to 14 | 4PM to 5PM |
+| Price | IDR 250,000 per session |
+| Coaching | Certified Spanish coaches |
+| Included | Pool access, milk |
+| Capacity | 6 spots per session |
+| Register | +62 811 3960 9170 |
+
+### Three things to resolve first
+
+**1. Tuesday, or Tuesday and Thursday?** The poster artwork says
+`EVERY TUEDAY & THURSDAY`. The admin caption says `Every Tuesday` only. Both
+cannot be right. The copy below is written for Tuesday because the admin is
+closer to operations, and a one-word swap is given for each version if
+Thursday is real. **If it is Tuesday only, the square artwork needs its day
+line changed too.**
+
+**2. Which number takes registrations?** Three are now in circulation:
++62 811 3960 9170 from the admin, +62 813 5359 9939 on monsterpadel.id, and
++62 859 7321 3392 on the Playtomic listing. The copy uses the admin's, since
+that is the one written on a registration post.
+
+**3. Who gets the pool?** "Free pool access" is written as part of the child's
+session. If it also covers the parent who waits, say so, because for a parent
+choosing between activities that is worth more than any adjective.
+
+## 1. Caption for the organic post
+
+The version the admin wrote runs 101 words across 15 lines with 19 emoji.
+Instagram shows roughly 125 characters before it collapses to "... more", and
+in that version the cut lands here:
+
+> LITTLE MONSTER CLUB IS CALLING 📢
+> Looking for a fun and challenging activity for your kids? Let them learn, play, and grow wit **... more**
+
+So the part everyone sees is a name that is already printed on the image, plus
+a question with only one polite answer. Not one age, time, price or spot count
+survives above the fold. The versions below put the whole offer there instead.
+
+### Recommended
 
 ```
-little monster club 🎾
+Kids padel every Tuesday at Monster 🎾
 
-Every Tuesday and Thursday, the courts belong to the kids.
-Big swings, tiny legs, a lot of laughing.
+Ages 5 to 9, 3 to 4PM
+Ages 10 to 14, 4 to 5PM
+IDR 250k per session
 
-Padel is the easiest racket sport to start with. Day one already feels
-like playing rather than practising, which is exactly why they come back.
+Certified Spanish coaches, pool access and milk included.
+6 spots per session, so message us early.
 
-Scan the QR on the poster to register, or send us a DM and we will sort
-you out 💛
+📲 +62 811 3960 9170
 
-📍 Monster Social Club Bali, Uluwatu
-#monsterpadelbali #littlemonsterclub
+VAMOS LITTLE MONSTER 💚
 ```
 
-### Indonesian version
+Swap the first line to `Kids padel every Tuesday and Thursday at Monster 🎾`
+if both days are running.
 
-Their Instagram runs in English, so keep this one for a separate ad set aimed
-at the domestic audience rather than swapping it into the main feed post.
-
-```
-little monster club 🎾
-
-Setiap Selasa dan Kamis, lapangan jadi milik anak-anak.
-Ayunan besar, kaki kecil, ketawa terus.
-
-Padel itu olahraga raket yang paling gampang dimulai. Hari pertama
-sudah terasa seperti main, bukan latihan.
-
-Scan QR di poster untuk daftar, atau DM kami dan kami bantu 💛
-
-📍 Monster Social Club Bali, Uluwatu
-#monsterpadelbali #littlemonsterclub
-```
-
-### Details to slot in
-
-Drop these in once the numbers are confirmed. Each one is written to sit
-directly above the closing call to action.
+### Shortest
 
 ```
-Ages [X] to [Y], every level welcome.
-Rackets and balls provided, just bring water and court shoes.
-[N] spots per session, first come first served.
-[Price] per session, or [price] for a block of [N].
-Sessions run [16.00] to [17.30].
+Kids padel every Tuesday at Monster 🎾
+
+5 to 9 years, 3 to 4PM
+10 to 14 years, 4 to 5PM
+IDR 250k, coaching plus pool and milk
+
+6 spots only 📲 +62 811 3960 9170
+
+VAMOS LITTLE MONSTER 💚
 ```
+
+### With a hook line first
+
+Closer to how the account already writes, where a post opens on an observation
+rather than a heading.
+
+```
+On Tuesdays the courts belong to the kids 🎾
+
+Little Monster Club
+Ages 5 to 9, 3 to 4PM
+Ages 10 to 14, 4 to 5PM
+IDR 250k per session, Spanish coaches, pool and milk included
+
+6 spots each session 📲 +62 811 3960 9170
+
+VAMOS LITTLE MONSTER 💚
+```
+
+### Indonesian
+
+```
+Padel anak setiap Selasa di Monster 🎾
+
+Umur 5 sampai 9, jam 15.00 sampai 16.00
+Umur 10 sampai 14, jam 16.00 sampai 17.00
+IDR 250rb per sesi
+
+Coach bersertifikat dari Spanyol, akses kolam dan susu sudah termasuk.
+Hanya 6 tempat per sesi, chat kami sebelum penuh.
+
+📲 +62 811 3960 9170
+
+VAMOS LITTLE MONSTER 💚
+```
+
+### What was cut, and why
+
+Every hard fact survived. What went was the writing around them.
+
+**"LITTLE MONSTER CLUB IS CALLING 📢"** The name is already on the image and in
+the handle above the caption. Printing it a third time costs the most valuable
+line on the post.
+
+**"Looking for a fun and challenging activity for your kids?"** A question with
+one polite answer is not a hook, it is clearing your throat.
+
+**"Let them learn, play, and grow"** Three verbs carrying no information. A
+parent cannot picture any of them.
+
+**"Improve their padel skills, stay active, build confidence, and make new
+friends in a supportive environment."** This is the hyperbolic line. Four
+promises in one sentence means the reader keeps none of them, and the facts
+above already do the work: a certified coach implies skill, an hour on court
+implies active, six kids in a group implies friends. Saying it out loud makes
+it sound less true, not more.
+
+**"✨ What's Included?"** A heading for a three item list costs more attention
+than it saves.
+
+**Emoji, 19 down to 3.** The coloured dots and clock faces repeat what the
+words next to them already say. The account's own posts run one or two.
+
+**"-Monster Admin"** Signing a brand account reads like an internal memo.
+
+**Kept:** every number, and `VAMOS LITTLE MONSTER`. That one is real brand
+voice. It is padel culture, and it rhymes with Vamos Kitchen.
 
 ---
 
@@ -102,19 +196,21 @@ which motivation your audience actually has, not which adjective they preferred.
 
 Character count of each hook is in brackets.
 
-### Angle 1. What the parent gets out of it
+### Angle 1. The afternoon is handled
 
-The parent is the one paying and the one clicking, so sell to them first.
+The parent is the one paying and the one clicking, so lead with what lands in
+their day. An hour of coaching plus a swim plus a drink is not a lesson, it is
+a whole afternoon they no longer have to plan.
 
-> **While they rally, you swim.** [27]
+> **One hour of padel, a swim, and a glass of milk.** [47]
 
 ```
-While they rally, you swim.
+One hour of padel, a swim, and a glass of milk.
 
-Little Monster Club runs every Tuesday and Thursday, so you can drop them at
-the court and take the pool, the sauna or a long lunch while they play.
+That is a Tuesday afternoon handled, with certified Spanish coaches on court
+and only six kids in the group.
 
-Kids padel in Uluwatu, all levels. Register in one message 💛
+Ages 5 to 14, IDR 250k per session in Uluwatu. Message us to claim a spot 💛
 ```
 
 ### Angle 2. Handles the objection that their child is not sporty
@@ -128,7 +224,7 @@ Short racket, small court, walls that keep the ball alive. Nobody spends an
 hour picking balls off the floor, which is why padel sticks when tennis does
 not.
 
-Little Monster Club, every Tuesday and Thursday in Uluwatu 🎾
+Little Monster Club, every Tuesday in Uluwatu. Ages 5 to 14, IDR 250k 🎾
 ```
 
 ### Angle 3. The problem they already have
@@ -138,10 +234,10 @@ Little Monster Club, every Tuesday and Thursday in Uluwatu 🎾
 ```
 Tuesday afternoon, and they are on the iPad again.
 
-Little Monster Club gives them somewhere to be twice a week. Real courts,
-proper coaching, and a group of kids their own age.
+Little Monster Club gives them somewhere to be. Certified Spanish coaches,
+six kids to a group, and the pool afterwards.
 
-Every Tuesday and Thursday in Uluwatu. Register through the link 💛
+Every Tuesday in Uluwatu, IDR 250k per session. Register through the link 💛
 ```
 
 ### Angle 4. For families who just moved to the island
@@ -151,10 +247,10 @@ Every Tuesday and Thursday in Uluwatu. Register through the link 💛
 ```
 New to Bali and the kids have not found their people yet?
 
-Little Monster Club puts them on court with the same faces every Tuesday and
-Thursday. That repetition is how friendships actually start.
+Little Monster Club puts them on court with the same five kids every Tuesday.
+That repetition is how friendships actually start.
 
-Uluwatu, all levels welcome. Send us a message to register 💛
+Ages 5 to 14 in Uluwatu, IDR 250k a session. Send us a message to register 💛
 ```
 
 ### Angle 5. Charm, for retargeting warm audiences
@@ -164,10 +260,10 @@ Uluwatu, all levels welcome. Send us a message to register 💛
 ```
 Their first serve is going to be dreadful. Their fourth will not be.
 
-Little Monster Club is kids padel at Monster Social Club Bali, every Tuesday
-and Thursday. No experience needed, we start everyone from zero.
+Little Monster Club is kids padel at Monster Social Club Bali, every Tuesday.
+Certified Spanish coaches, six spots, pool and milk included.
 
-Tap to register 🎾
+Ages 5 to 14. Tap to register 🎾
 ```
 
 ### Headlines and descriptions
@@ -176,9 +272,9 @@ Primary text is only one field. These fill the rest of the ad.
 
 | Headline (40 max) | Chars |
 | --- | --- |
-| Kids Padel, Tuesdays & Thursdays | 32 |
+| Kids Padel in Uluwatu, IDR 250k | 31 |
 | Their First Rally Starts Here | 29 |
-| Two Afternoons a Week, Sorted | 29 |
+| Six Spots, Every Tuesday | 24 |
 | Little Monster Club, Uluwatu | 28 |
 | Padel Made for Small Humans | 27 |
 | Kids Padel in Uluwatu | 21 |
@@ -189,7 +285,7 @@ Primary text is only one field. These fill the rest of the ad.
 | Ages and levels welcome | 23 |
 | Register in one message | 23 |
 | Book your child a spot | 22 |
-| Uluwatu, Tue and Thu | 20 |
+| Ages 5 to 14, Tuesdays | 22 |
 
 Call to action button: **Send Message** if you run it as a Click to WhatsApp
 campaign, which is what the pre-filled message in part 4 is built for.
@@ -201,13 +297,11 @@ headline. Only the primary text changes, so whatever wins tells you something
 real. Give each one at least a thousand impressions before you judge it.
 Angle 5 is for retargeting people who already engaged, not for cold traffic.
 
-### Claims to confirm before this runs
+### Before this runs
 
-Three lines above state things the poster does not: **proper coaching**
-(angle 3), **all levels / no experience needed** (angles 1, 4, 5), and that
-parents can use the pool and restaurant during the session (angle 1). All three
-are almost certainly true of a club like yours, but check them before spending
-money behind them.
+Every claim in these five is now backed by the admin's figures. The only open
+items are the three at the top of this file: which days, which number, and
+whether the pool covers the waiting parent as well as the child.
 
 ---
 
@@ -276,34 +370,44 @@ daftarkan anak saya. Boleh info jadwal dan cara bookingnya?
 
 ### Ready-made links
 
-Using the WhatsApp number published on monsterpadel.id, +62 813 5359 9939.
+Using the registration number the admin published, +62 811 3960 9170.
 
 Main version:
 
 ```
-https://wa.me/6281353599939?text=Hi%20Monster!%20I%20saw%20the%20Little%20Monster%20Club%20post%20on%20Instagram%20and%20I%20would%20like%20to%20register%20my%20child.%20Could%20you%20send%20me%20the%20schedule%20and%20how%20to%20book%3F
+https://wa.me/6281139609170?text=Hi%20Monster!%20I%20saw%20the%20Little%20Monster%20Club%20post%20on%20Instagram%20and%20I%20would%20like%20to%20register%20my%20child.%20Could%20you%20send%20me%20the%20schedule%20and%20how%20to%20book%3F
 ```
 
 Shorter version:
 
 ```
-https://wa.me/6281353599939?text=Hi%20Monster!%20I%20would%20like%20to%20register%20my%20child%20for%20Little%20Monster%20Club.%20Could%20you%20send%20me%20the%20schedule%3F
+https://wa.me/6281139609170?text=Hi%20Monster!%20I%20would%20like%20to%20register%20my%20child%20for%20Little%20Monster%20Club.%20Could%20you%20send%20me%20the%20schedule%3F
 ```
 
 Indonesian version:
 
 ```
-https://wa.me/6281353599939?text=Halo%20Monster!%20Saya%20lihat%20post%20Little%20Monster%20Club%20di%20Instagram%20dan%20mau%20daftarkan%20anak%20saya.%20Boleh%20info%20jadwal%20dan%20cara%20bookingnya%3F
+https://wa.me/6281139609170?text=Halo%20Monster!%20Saya%20lihat%20post%20Little%20Monster%20Club%20di%20Instagram%20dan%20mau%20daftarkan%20anak%20saya.%20Boleh%20info%20jadwal%20dan%20cara%20bookingnya%3F
 ```
 
-**Check the number before this goes live.** monsterpadel.id publishes
-+62 813 5359 9939, while the Playtomic club listing shows +62 859 7321 3392.
-Swap the digits after `wa.me/` if the second one is the number that is actually
-staffed for bookings.
+**Three numbers are in circulation.** See "Three things to resolve first" at
+the top of this file. These links use the admin's registration number.
 
 ---
 
 ## Note on the poster
 
-The story artwork reads **EVERY TUEDAY & THURSDAY**. The square build spells it
-**TUESDAY**. Worth correcting in the story version too before it runs again.
+Two problems with the artwork, one small and one not.
+
+**The spelling.** The story reads `EVERY TUEDAY & THURSDAY`. The square build
+spells it `TUESDAY`. Worth fixing in the story too before it runs again.
+
+**The day.** If sessions really are Tuesday only, then the artwork is
+advertising a Thursday that does not exist, and the caption underneath it will
+contradict the image. That is the kind of thing people screenshot. Change the
+day line in the builder to `Every Tuesday` and re-render, or confirm Thursday
+is running and leave it.
+
+Both age groups could also go on the square, since 3PM and 4PM are the detail
+that decides whether a parent can make it. The builder has an optional line
+under the days for exactly this: `AGES 5 TO 14, 3PM TO 5PM`.

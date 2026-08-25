@@ -409,7 +409,7 @@
           <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
         </summary>
         <div class="step-body">
-          <div class="note fyi"><span class="eyebrow">Spelling fixed</span>The story poster reads <b>TUEDAY</b>. This build says <b>TUESDAY</b>.</div>
+          <div class="note fyi"><span class="eyebrow">Two corrections</span>The story poster reads <b>TUEDAY</b> and advertises Thursday. This build says <b>TUESDAY</b> and, per the admin, Tuesday only. Put Thursday back in line 2 if it is running.</div>
           <div class="row">
             <label class="field"><span class="lab">Word 1</span><input type="text" id="tW1" value="little"></label>
             <label class="field"><span class="lab">Word 2</span><input type="text" id="tW2" value="monster"></label>
@@ -417,9 +417,9 @@
           <label class="field"><span class="lab">Word 3</span><input type="text" id="tW3" value="club"></label>
           <div class="row">
             <label class="field"><span class="lab">Day line 1</span><input type="text" id="tD1" value="Every Tuesday"></label>
-            <label class="field"><span class="lab">Day line 2</span><input type="text" id="tD2" value="&amp; Thursday"></label>
+            <label class="field"><span class="lab">Day line 2</span><input type="text" id="tD2" value=""></label>
           </div>
-          <label class="field"><span class="lab">Time, optional</span><input type="text" id="tD3" value="" placeholder="e.g. 16.00 to 17.30"></label>
+          <label class="field"><span class="lab">Time, optional</span><input type="text" id="tD3" value="Ages 5 to 14, 3PM to 5PM" placeholder="e.g. Ages 5 to 14, 3PM to 5PM"></label>
           <label class="field"><span class="lab">QR label</span><input type="text" id="tScan" value="scan for&#10;registration"></label>
           <div class="swatches">
             <div class="sw"><span class="lab">Word 1</span><input type="color" id="cW1" value="#f2e800" aria-label="Word 1 colour"></div>
@@ -515,7 +515,7 @@
     scrim:true,
     words:['little','monster','club'],
     colors:['#f2e800','#df9ac7','#8fbca6'],
-    days:['Every Tuesday','& Thursday'], time:'',
+    days:['Every Tuesday',''], time:'Ages 5 to 14, 3PM to 5PM',
     scan:'scan for\nregistration',
     fontsReady:false
   };
