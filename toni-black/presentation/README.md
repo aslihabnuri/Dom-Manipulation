@@ -51,10 +51,35 @@ Anda pada `Toni Black / Font`, atau di repo ini pada
 
 ## Kepatuhan brand
 
-Hanya palet brand: Dark Charcoal `#282828`, Clean White `#FFFFFF`, Davi's Grey
-`#4F5052`, Grey `#818284`, Steel Grey `#CCCCCC`. Hanya dua font brand. Pembuka
-charcoal, dua slide isi putih. Motifnya label kapital berjarak lebar, sama seperti
-di set banner September. Tanpa garis aksen atau bar dekoratif.
+**Warna dan tipografi.** Hanya palet brand: Dark Charcoal `#282828`, Clean White
+`#FFFFFF`, Davi's Grey `#4F5052`, Grey `#818284`, Steel Grey `#CCCCCC`. Hanya dua
+font brand. Pembuka charcoal, dua slide isi putih. Motifnya label kapital berjarak
+lebar, sama seperti di set banner September. Tanpa garis aksen atau bar dekoratif.
+
+**Tone of voice.** Bagian *Tone of Voice* di guideline sebagian besar berisi
+kosakata brand ke konsumen — *tailored, refined, crafted*. Kosakata itu sengaja
+tidak dipakai di sini, karena akan terdengar dipaksakan pada tabel jadwal dan
+budget. Yang diterapkan adalah bagian **Writing Style**-nya: *"concise,
+straightforward, using active sentences and getting straight to the main point"*,
+ditambah *calm confidence* dan larangan membanggakan diri.
+
+Wujudnya di deck:
+
+| Sebelum | Sesudah | Alasan |
+|---|---|---|
+| "Rencana kerja menuju 30 affiliate, dan alokasi biaya iklan yang menopangnya." | "Thirty affiliates by the end of September. The plan, and the budget behind it." | Tujuan disebut lebih dulu, bukan disimpan di akhir kalimat |
+| "Menuju 30 affiliate" | "Week by week to thirty" | Menyatakan cara dan tujuan sekaligus |
+| "Alokasi budget" | "Where the budget goes" | Kalimat aktif, bukan label benda |
+
+**Bahasa dibuat konsisten.** Sebelumnya label deck-nya campur: "Product focus"
+bersebelahan dengan "Periode / Aktivitas". Sekarang seluruh label, header, dan
+judul berbahasa Inggris, mengikuti brand guideline dan seluruh materi Toni Black
+yang sudah ada. Isi aktivitas per minggu tetap Bahasa Indonesia, karena itu detail
+operasional yang akan dikerjakan tim.
+
+**Diverifikasi.** Seluruh teks dicek terhadap daftar *"we don't like"* di guideline
+— *best, amazing, ultimate, bold, sexy, trendy, passion, soul, dream*, dan
+seterusnya. Nol kemunculan. Kalimat terpanjang 14 kata dalam dua klausa.
 
 ## Grafik
 

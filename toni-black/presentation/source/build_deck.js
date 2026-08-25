@@ -51,12 +51,12 @@ const stat = (s, x, y, w, h, label, value, dark, valueSize) => {
   const s = P.addSlide();
   s.background = { color: INK };
   logo(s, true, M, 0.70, 2.25);
-  eyebrow(s, "Program Affiliate  ·  September", M, 2.75, GREY);
+  eyebrow(s, "Affiliate Program  ·  September", M, 2.75, GREY);
   s.addText("Timeline\n& Budget", {
     x: M, y: 3.1, w: 9.5, h: 2.1, margin: 0,
     fontFace: DISP, fontSize: 54, bold: true, color: WHITE, lineSpacing: 58,
   });
-  s.addText("Rencana kerja menuju 30 affiliate, dan alokasi biaya iklan yang menopangnya.", {
+  s.addText("Thirty affiliates by the end of September. The plan, and the budget behind it.", {
     x: M, y: 5.25, w: 9.0, h: 0.4, margin: 0,
     fontFace: BODY, fontSize: 14, color: STEEL,
   });
@@ -85,7 +85,7 @@ const stat = (s, x, y, w, h, label, value, dark, valueSize) => {
   s.background = { color: WHITE };
   logo(s, false, M, 0.70, 1.55);
   eyebrow(s, "01  ·  Timeline", M, 1.58, GREY, 6.8);
-  s.addText("Menuju 30 affiliate", { x: M, y: 1.82, w: 7.5, h: 0.7, margin: 0,
+  s.addText("Week by week to thirty", { x: M, y: 1.82, w: 7.5, h: 0.7, margin: 0,
     fontFace: DISP, fontSize: 34, bold: true, color: INK, valign: "middle" });
 
   const TW = 7.5, RX = M + TW + 0.5, RW = CONTENT - TW - 0.5;   // 7.5 + 0.5 + 3.9
@@ -97,7 +97,7 @@ const stat = (s, x, y, w, h, label, value, dark, valueSize) => {
     ["Minggu 3 September",   "Kirim barang ke minimal 20 affiliate lainnya"],
     ["Minggu 4 & seterusnya","Mencari dan menghubungi affiliator baru"],
   ];
-  const rows = [["Periode", "Aktivitas"].map(t => ({
+  const rows = [["Period", "Activity"].map(t => ({
     text: t, options: { fontFace: DISP, fontSize: 10.5, bold: true, color: WHITE,
       fill: { color: INK }, charSpacing: 1.4 },
   }))].concat(weeks.map((r, i) => [
@@ -113,7 +113,7 @@ const stat = (s, x, y, w, h, label, value, dark, valueSize) => {
   });
 
   // the goal, and the terms that hang off it
-  stat(s, RX, 2.75, RW, 1.05, "Target akhir bulan", "30 Affiliate", true, 22);
+  stat(s, RX, 2.75, RW, 1.05, "Month-end target", "30 Affiliates", true, 22);
 
   s.addText("Product focus", { x: RX, y: 4.08, w: RW, h: 0.28, margin: 0,
     fontFace: DISP, fontSize: 10.5, bold: true, charSpacing: 1.4, color: GREY, valign: "middle" });
@@ -137,7 +137,7 @@ const stat = (s, x, y, w, h, label, value, dark, valueSize) => {
   s.background = { color: WHITE };
   logo(s, false, M, 0.70, 1.55);
   eyebrow(s, "02  ·  Budget", M, 1.58, GREY, 6.8);
-  s.addText("Alokasi budget", { x: M, y: 1.82, w: 6.8, h: 0.7, margin: 0,
+  s.addText("Where the budget goes", { x: M, y: 1.82, w: 7.5, h: 0.7, margin: 0,
     fontFace: DISP, fontSize: 34, bold: true, color: INK, valign: "middle" });
 
   // headline numbers across the top
@@ -153,7 +153,7 @@ const stat = (s, x, y, w, h, label, value, dark, valueSize) => {
     ["Shopee Ads",                       "Rp 7.000.000",  "29%"],
     ["TikTok Ads for Live Affiliate *",  "Rp 10.000.000", "42%"],
   ];
-  const rows = [["Pos", "Alokasi", "Share"].map((t, j) => ({
+  const rows = [["Channel", "Allocation", "Share"].map((t, j) => ({
     text: t, options: { fontFace: DISP, fontSize: 10.5, bold: true, color: WHITE,
       fill: { color: INK }, charSpacing: 1.4, align: j ? "right" : "left" },
   }))];
@@ -197,7 +197,7 @@ const stat = (s, x, y, w, h, label, value, dark, valueSize) => {
         fontFace: DISP, fontSize: 11, bold: true, color: DAVIS, align: "right", valign: "middle" });
     });
 
-  s.addText("*  Tambahkan keterangan untuk pos ini.", {
+  s.addText("*  Add the note for this line.", {
     x: M, y: 6.5, w: 7.0, h: 0.3, margin: 0, fontFace: BODY, fontSize: 11, color: GREY });
 
   s.addNotes("Total 24 juta sudah dicek: 7 + 7 + 10. Target revenue 72 juta adalah turunan "
