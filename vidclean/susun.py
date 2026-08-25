@@ -114,8 +114,17 @@ def rakit(
     keluaran: str,
     crf: int = 17,
     ikut_audio: bool = True,
+    audio_utuh: bool = True,
 ) -> str:
-    """Sambung scene sesuai urutan baru. Tanpa filter tampilan apa pun."""
+    """Sambung scene sesuai urutan baru. Tanpa filter tampilan apa pun.
+
+    audio_utuh=True (bawaan): jalur audio diambil UTUH dari video asli dan
+    tidak ikut diacak. Musik, narasi, dan suara latar tetap mengalir dari
+    awal sampai akhir tanpa terpotong - hanya gambarnya yang berubah urutan.
+
+    audio_utuh=False: audio ikut berpindah bersama scene-nya (tetap sinkron
+    dengan gambar, tapi musiknya akan terdengar melompat).
+    """
     info = periksa(berkas)
     pakai_audio = ikut_audio and info.ada_audio
 
@@ -125,17 +134,27 @@ def rakit(
 
     for nomor, s in enumerate(urutan):
         perintah += ["-ss", f"{s.mulai:.3f}", "-t", f"{s.durasi:.3f}", "-i", berkas]
-        # setsar+fps saja supaya sambungan mulus; tidak ada scale/crop/eq/curves,
+        # setsar saja supaya sambungan mulus; tidak ada scale/crop/eq/curves,
         # jadi warna dan komposisi persis seperti sumber.
         graf.append(f"[{nomor}:v]setpts=PTS-STARTPTS,setsar=1[v{nomor}]")
-        if pakai_audio:
+        if pakai_audio and not audio_utuh:
             graf.append(f"[{nomor}:a]asetpts=PTS-STARTPTS,aresample=48000[a{nomor}]")
             pasang.append(f"[v{nomor}][a{nomor}]")
         else:
             pasang.append(f"[v{nomor}]")
 
     n = len(urutan)
-    if pakai_audio:
+
+    if pakai_audio and audio_utuh:
+        # Satu masukan tambahan berisi video asli LENGKAP, dipakai khusus
+        # untuk mengambil jalur audionya yang utuh.
+        indeks_audio = n
+        perintah += ["-i", berkas]
+        graf.append("".join(pasang) + f"concat=n={n}:v=1:a=0[v]")
+        graf.append(f"[{indeks_audio}:a]aresample=48000,asetpts=PTS-STARTPTS[a]")
+        peta = ["-map", "[v]", "-map", "[a]",
+                "-c:a", "aac", "-b:a", "192k", "-ar", "48000", "-shortest"]
+    elif pakai_audio:
         graf.append("".join(pasang) + f"concat=n={n}:v=1:a=1[v][a]")
         peta = ["-map", "[v]", "-map", "[a]", "-c:a", "aac", "-b:a", "192k", "-ar", "48000"]
     else:
@@ -162,6 +181,7 @@ def susun(
     min_scene: int = 6,
     crf: int = 17,
     ikut_audio: bool = True,
+    audio_utuh: bool = True,
     kabar=None,
 ) -> Tuple[str, List[Scene]]:
     """Susun ulang satu video: scene awal & akhir tetap, tengah diacak."""
@@ -172,5 +192,9 @@ def susun(
             for s in urutan
         )
         kabar(f"{len(urutan)} scene, urutan baru: {peta}   ([] = dikunci)")
-    rakit(berkas, urutan, keluaran, crf=crf, ikut_audio=ikut_audio)
+        if ikut_audio:
+            kabar("audio diambil UTUH dari video asli - musik tidak ikut diacak"
+                  if audio_utuh else "audio ikut berpindah bersama scene")
+    rakit(berkas, urutan, keluaran, crf=crf, ikut_audio=ikut_audio,
+          audio_utuh=audio_utuh)
     return keluaran, urutan

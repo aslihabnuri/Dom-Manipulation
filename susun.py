@@ -35,6 +35,9 @@ def main() -> int:
                    help="kalau scene terdeteksi lebih sedikit, scene panjang dibelah")
     p.add_argument("--kualitas", type=int, default=17, help="CRF (makin kecil makin jernih)")
     p.add_argument("--tanpa-audio", action="store_true", help="buang audio asli")
+    p.add_argument("--audio-ikut-scene", action="store_true",
+                   help="audio ikut berpindah bersama scene (bawaan: audio utuh, "
+                        "musik tidak terpotong)")
     p.add_argument("--seed", type=int, default=None)
     a = p.parse_args()
 
@@ -68,6 +71,7 @@ def main() -> int:
                   jaga_awal=a.jaga_awal, jaga_akhir=a.jaga_akhir,
                   min_scene=a.min_scene, crf=a.kualitas,
                   ikut_audio=not a.tanpa_audio,
+                  audio_utuh=not a.audio_ikut_scene,
                   kabar=lambda m: print(f"  ... {m}"))
             print(f"  Selesai -> {tujuan}")
             print(f"  HASIL: {periksa(tujuan).ringkas()}")

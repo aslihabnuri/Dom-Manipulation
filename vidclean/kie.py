@@ -217,9 +217,29 @@ class Klien:
         )
 
     def unduh(self, url: str, tujuan: str) -> str:
+        """Unduh hasil. Memakai curl kalau ada - beberapa CDN hasil menolak
+        klien urllib (HTTP 403) walau sudah diberi User-Agent."""
+        import shutil as _shutil
+        import subprocess
+
         os.makedirs(os.path.dirname(os.path.abspath(tujuan)) or ".", exist_ok=True)
+
+        if _shutil.which("curl"):
+            hasil = subprocess.run(
+                ["curl", "-sL", "--max-time", "600", "-o", tujuan,
+                 "-w", "%{http_code}", url],
+                capture_output=True, text=True, timeout=660,
+            )
+            kode = (hasil.stdout or "").strip()[-3:]
+            if kode == "200" and os.path.getsize(tujuan) > 0:
+                return tujuan
+            raise KieGagal(f"Gagal mengunduh hasil (HTTP {kode or '?'}): {url}")
+
         permintaan = urllib.request.Request(url, method="GET")
-        with urllib.request.urlopen(permintaan, timeout=300, context=_konteks_ssl()) as t, \
+        permintaan.add_header("User-Agent", "Mozilla/5.0 (compatible; vidclean/1.0)")
+        permintaan.add_header("Accept", "*/*")
+        with urllib.request.urlopen(permintaan, timeout=600,
+                                    context=_konteks_ssl()) as t, \
                 open(tujuan, "wb") as f:
             while True:
                 potong = t.read(262144)

@@ -133,7 +133,11 @@ python3 susun.py "video.mp4" --jaga-awal 2 --jaga-akhir 1
   resolusi, dan frame rate tetap persis seperti aslinya. Satu-satunya
   perubahan piksel adalah pengodean ulang H.264 (selisih warna terukur
   1,25/255, yaitu 0,5%)
-- Audio ikut berpindah bersama scene-nya, jadi tetap sinkron
+- **Audio TIDAK ikut diacak.** Jalur suara diambil utuh dari video asli,
+  jadi musik dan narasi tetap mengalir dari awal sampai akhir tanpa
+  terpotong - hanya gambarnya yang berubah urutan. Terukur: korelasi audio
+  hasil vs asli 0,9996 (kalau audio ikut diacak, korelasinya cuma 0,06).
+  Pakai `--audio-ikut-scene` kalau justru ingin audio berpindah bersama scene.
 
 Bedanya dengan `racik.py`: racik menjahit BANYAK video jadi satu editan
 baru dan memolesnya; susun hanya mengurutkan ulang SATU video apa adanya.
