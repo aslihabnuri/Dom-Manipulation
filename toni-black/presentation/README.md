@@ -10,19 +10,20 @@ tanggal masih perlu diisi.
 **2 — Timeline.** Rencana per minggu menuju 30 affiliate, dengan target akhir
 bulan, fokus produk, dan skema komisi di kolom kanan.
 
-| Periode | Aktivitas |
+| Period | Activity |
 |---|---|
-| Akhir Agustus | Buat fake order bertahap, sembari menyusun list affiliate |
-| Minggu 1 September | Pastikan semua orderan sudah sampai dan sudah direview. Targetkan menghubungi 30 affiliate |
-| Minggu 2 September | Kirim barang ke minimal 10 affiliate, dan hubungi 30 affiliate berikutnya |
-| Minggu 3 September | Kirim barang ke minimal 20 affiliate lainnya |
-| Minggu 4 & seterusnya | Mencari dan menghubungi affiliator baru |
+| Late August | Place the fake orders in stages. Build the affiliate list alongside. |
+| Week 1 | Get all orders delivered and reviewed. Contact 30 affiliates. |
+| Week 2 | Ship to at least 10 affiliates. Contact the next 30. |
+| Week 3 | Ship to at least 20 more affiliates. |
+| Week 4 onward | Keep finding new affiliates. Keep contacting them. |
 
 Target akhir bulan **30 affiliate**. Fokus produk: Brief Dewasa, Brief Boxer
 Dewasa, Boxer Dewasa. Komisi affiliate **15% + ads**.
 
-Label periode dirapikan dari catatan asli ("Week Akhir Agustus" jadi "Akhir
-Agustus", dan seterusnya) supaya konsisten. Isi aktivitasnya tidak diubah.
+Bulan disebut sekali saja, di label kecil atas ("01 · Timeline · September"),
+supaya kolom Period tidak mengulang kata "September" empat baris berturut-turut.
+Angka dan urutan kerjanya persis seperti catatan asli.
 
 **3 — Budget.**
 
@@ -33,10 +34,10 @@ Agustus", dan seterusnya) supaya konsisten. Isi aktivitasnya tidak diubah.
 | TikTok Ads for Live Affiliate * | Rp 10.000.000 | 42% |
 | **Total** | **Rp 24.000.000** | **100%** |
 
-Target ROAS **3×**. Total dicek ulang: 7 + 7 + 10 = 24 juta, cocok.
+Target ROAS **2×**. Total dicek ulang: 7 + 7 + 10 = 24 juta, cocok.
 
-**Target revenue Rp 72.000.000** adalah angka turunan, bukan input — hasil dari
-ROAS 3 dikali budget 24 juta. Ditampilkan karena biasanya jadi pertanyaan pertama.
+**Target revenue Rp 48.000.000** adalah angka turunan, bukan input — hasil dari
+ROAS 2 dikali budget 24 juta. Ditampilkan karena biasanya jadi pertanyaan pertama.
 Hapus kalau tidak ingin dibahas.
 
 Tanda bintang pada pos Live Affiliate masih perlu keterangan. Catatan kakinya
@@ -71,11 +72,22 @@ Wujudnya di deck:
 | "Menuju 30 affiliate" | "Week by week to thirty" | Menyatakan cara dan tujuan sekaligus |
 | "Alokasi budget" | "Where the budget goes" | Kalimat aktif, bukan label benda |
 
-**Bahasa dibuat konsisten.** Sebelumnya label deck-nya campur: "Product focus"
-bersebelahan dengan "Periode / Aktivitas". Sekarang seluruh label, header, dan
-judul berbahasa Inggris, mengikuti brand guideline dan seluruh materi Toni Black
-yang sudah ada. Isi aktivitas per minggu tetap Bahasa Indonesia, karena itu detail
-operasional yang akan dikerjakan tim.
+**Kolom Activity ikut Writing Style.** Sebelumnya isi aktivitas dibiarkan dalam
+Bahasa Indonesia. Sekarang tiap barisnya ditulis ulang: kalimat aktif, kata kerja
+di depan, satu instruksi per klausa.
+
+| Sebelum | Sesudah |
+|---|---|
+| Buat fake order bertahap, sembari menyusun list affiliate | Place the fake orders in stages. Build the affiliate list alongside. |
+| Pastikan semua orderan sudah sampai dan sudah direview. Targetkan menghubungi 30 affiliate | Get all orders delivered and reviewed. Contact 30 affiliates. |
+| Kirim barang ke minimal 10 affiliate, dan hubungi 30 affiliate berikutnya | Ship to at least 10 affiliates. Contact the next 30. |
+| Kirim barang ke minimal 20 affiliate lainnya | Ship to at least 20 more affiliates. |
+| Mencari dan menghubungi affiliator baru | Keep finding new affiliates. Keep contacting them. |
+
+Kata kerjanya berderet rapi ke bawah: Place / Get / Ship / Ship / Keep. Isinya
+tidak berubah — angka, urutan, dan kata "minimal" semuanya masih ada. Seluruh
+label, header, judul, dan sekarang isi tabel berbahasa Inggris, jadi decknya
+satu suara.
 
 **Diverifikasi.** Seluruh teks dicek terhadap daftar *"we don't like"* di guideline
 — *best, amazing, ultimate, bold, sexy, trendy, passion, soul, dream*, dan
@@ -97,6 +109,16 @@ barisnya, dan tumpang-tindih antar elemen dicek. Hasil akhir bersih.
 Pemeriksaan ini menangkap satu cacat pada versi terisi: `Rp 24.000.000` di baris
 Total memakai Zalando Sans Expanded yang lebar dan tidak muat di kolom 1,8 inci —
 akan patah jadi dua baris dan melewati tinggi barisnya. Kolom dilebarkan ke 2,2 inci.
+
+Pada versi ini, pemeriksaan yang sama menangkap dua hal lagi. Label periode
+"September · Week 3" mengisi 94% lebar kolomnya — muat, tapi tanpa cadangan kalau
+PowerPoint menghitung sedikit berbeda; label dipendekkan dan bulannya pindah ke
+label atas. Lalu kalimat Week 1 versi pertama mengisi 95% kolom Activity;
+dipendekkan jadi 83%. Sekarang sel terlebar ada di 89%, semuanya satu baris.
+
+```bash
+python3 qa_tables.py ../ToniBlack_Timeline_Budget.pptx    # lebar & pembungkusan tiap sel
+```
 
 ## Regenerate
 

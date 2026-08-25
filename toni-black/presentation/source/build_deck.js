@@ -84,18 +84,20 @@ const stat = (s, x, y, w, h, label, value, dark, valueSize) => {
   const s = P.addSlide();
   s.background = { color: WHITE };
   logo(s, false, M, 0.70, 1.55);
-  eyebrow(s, "01  ·  Timeline", M, 1.58, GREY, 6.8);
+  eyebrow(s, "01  ·  Timeline  ·  September", M, 1.58, GREY, 6.8);
   s.addText("Week by week to thirty", { x: M, y: 1.82, w: 7.5, h: 0.7, margin: 0,
     fontFace: DISP, fontSize: 34, bold: true, color: INK, valign: "middle" });
 
   const TW = 7.5, RX = M + TW + 0.5, RW = CONTENT - TW - 0.5;   // 7.5 + 0.5 + 3.9
 
+  // Brand Writing Style: concise, straightforward, active sentences, straight to
+  // the main point. One instruction per clause, no hedging, no self-praise.
   const weeks = [
-    ["Akhir Agustus",        "Buat fake order bertahap, sembari menyusun list affiliate"],
-    ["Minggu 1 September",   "Pastikan semua orderan sudah sampai dan sudah direview. Targetkan menghubungi 30 affiliate"],
-    ["Minggu 2 September",   "Kirim barang ke minimal 10 affiliate, dan hubungi 30 affiliate berikutnya"],
-    ["Minggu 3 September",   "Kirim barang ke minimal 20 affiliate lainnya"],
-    ["Minggu 4 & seterusnya","Mencari dan menghubungi affiliator baru"],
+    ["Late August",   "Place the fake orders in stages. Build the affiliate list alongside."],
+    ["Week 1",        "Get all orders delivered and reviewed. Contact 30 affiliates."],
+    ["Week 2",        "Ship to at least 10 affiliates. Contact the next 30."],
+    ["Week 3",        "Ship to at least 20 more affiliates."],
+    ["Week 4 onward", "Keep finding new affiliates. Keep contacting them."],
   ];
   const rows = [["Period", "Activity"].map(t => ({
     text: t, options: { fontFace: DISP, fontSize: 10.5, bold: true, color: WHITE,
@@ -107,7 +109,7 @@ const stat = (s, x, y, w, h, label, value, dark, valueSize) => {
         fill: { color: i % 2 ? WHITE : PAPER }, valign: "middle" } },
   ]));
   s.addTable(rows, {
-    x: M, y: 2.75, w: TW, colW: [2.3, 5.2],
+    x: M, y: 2.75, w: TW, colW: [2.15, 5.35],
     rowH: 0.60, valign: "middle", margin: [0, 0.16, 0, 0.16],
     border: { type: "solid", color: STEEL, pt: 0.5 },
   });
@@ -128,7 +130,8 @@ const stat = (s, x, y, w, h, label, value, dark, valueSize) => {
   stat(s, RX, 5.62, RW, 0.95, "Affiliate commission", "15%  +  ads", false, 18);
 
   s.addNotes("Timeline per minggu di kiri. Target, fokus produk, dan skema komisi di kanan. "
-    + "Label periode dirapikan dari catatan asli, isinya tidak diubah.");
+    + "Isi aktivitas ditulis ulang mengikuti Writing Style Toni Black — kalimat aktif, "
+    + "langsung ke inti. Angka dan urutan kerjanya tidak berubah dari catatan asli.");
 }
 
 // ============================================================ 3. BUDGET
@@ -143,8 +146,8 @@ const stat = (s, x, y, w, h, label, value, dark, valueSize) => {
   // headline numbers across the top
   const cw = 3.83, gap = 0.205, y0 = 2.72, ch = 1.05;
   stat(s, M,                    y0, cw, ch, "Total budget",   "Rp 24.000.000", true,  21);
-  stat(s, M + cw + gap,         y0, cw, ch, "Target ROAS",    "3×",       false, 21);
-  stat(s, M + 2 * (cw + gap),   y0, cw, ch, "Target revenue", "Rp 72.000.000", false, 21);
+  stat(s, M + cw + gap,         y0, cw, ch, "Target ROAS",    "2×",            false, 21);
+  stat(s, M + 2 * (cw + gap),   y0, cw, ch, "Target revenue", "Rp 48.000.000", false, 21);
 
   // the split
   const TW = 7.0, RX = M + TW + 0.5, RW = CONTENT - TW - 0.5;   // 7.0 + 0.5 + 4.4
@@ -200,8 +203,8 @@ const stat = (s, x, y, w, h, label, value, dark, valueSize) => {
   s.addText("*  Add the note for this line.", {
     x: M, y: 6.5, w: 7.0, h: 0.3, margin: 0, fontFace: BODY, fontSize: 11, color: GREY });
 
-  s.addNotes("Total 24 juta sudah dicek: 7 + 7 + 10. Target revenue 72 juta adalah turunan "
-    + "dari ROAS 3 x budget 24 juta. Ganti keterangan tanda bintang sesuai kesepakatan. "
+  s.addNotes("Total 24 juta sudah dicek: 7 + 7 + 10. Target revenue 48 juta adalah turunan "
+    + "dari ROAS 2 x budget 24 juta. Ganti keterangan tanda bintang sesuai kesepakatan. "
     + "Grafik bisa diubah lewat klik kanan > Edit Data.");
 }
 
