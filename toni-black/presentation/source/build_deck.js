@@ -34,22 +34,33 @@ const eyebrow = (s, text, x, y, color, w) => s.addText(text, {
   color, valign: "middle",
 });
 
+// a labelled block: small caps label above a value
+const stat = (s, x, y, w, h, label, value, dark, valueSize) => {
+  s.addShape(P.ShapeType.roundRect, { x, y, w, h, rectRadius: 0.05,
+    fill: { color: dark ? INK : PAPER }, line: { color: dark ? INK : PAPER } });
+  s.addText(label, { x: x + 0.28, y: y + 0.16, w: w - 0.56, h: 0.28, margin: 0,
+    fontFace: DISP, fontSize: 10.5, bold: true, charSpacing: 1.4,
+    color: dark ? STEEL : DAVIS, valign: "middle" });
+  s.addText(value, { x: x + 0.28, y: y + 0.46, w: w - 0.56, h: h - 0.62, margin: 0,
+    fontFace: DISP, fontSize: valueSize || 21, bold: true,
+    color: dark ? WHITE : INK, valign: "middle" });
+};
+
 // ============================================================ 1. PEMBUKA
 {
   const s = P.addSlide();
   s.background = { color: INK };
   logo(s, true, M, 0.70, 2.25);
-  eyebrow(s, "September Campaign  ·  9 to 9", M, 2.75, GREY);
+  eyebrow(s, "Program Affiliate  ·  September", M, 2.75, GREY);
   s.addText("Timeline\n& Budget", {
     x: M, y: 3.1, w: 9.5, h: 2.1, margin: 0,
     fontFace: DISP, fontSize: 54, bold: true, color: WHITE, lineSpacing: 58,
   });
-  s.addText("Satu kalimat pengantar tentang apa yang diajukan.", {
-    x: M, y: 5.25, w: 8.4, h: 0.4, margin: 0,
+  s.addText("Rencana kerja menuju 30 affiliate, dan alokasi biaya iklan yang menopangnya.", {
+    x: M, y: 5.25, w: 9.0, h: 0.4, margin: 0,
     fontFace: BODY, fontSize: 14, color: STEEL,
   });
 
-  // what the two slides after this will cover — keeps the opening useful
   [["01", "Timeline"], ["02", "Budget"]].forEach(([n, t], i) => {
     const x = M + i * 2.3;
     s.addText(n, { x, y: 6.1, w: 0.55, h: 0.4, margin: 0,
@@ -65,7 +76,7 @@ const eyebrow = (s, text, x, y, color, w) => s.addText(text, {
   ], { x: 7.4, y: 6.1, w: 5.2, h: 0.4, margin: 0, fontFace: BODY, fontSize: 11.5,
        align: "right", valign: "middle" });
 
-  s.addNotes("Slide pembuka. Ganti kalimat pengantar, nama tim, dan tanggal.");
+  s.addNotes("Ganti nama tim dan tanggal sebelum presentasi.");
 }
 
 // ============================================================ 2. TIMELINE
@@ -74,45 +85,50 @@ const eyebrow = (s, text, x, y, color, w) => s.addText(text, {
   s.background = { color: WHITE };
   logo(s, false, M, 0.70, 1.55);
   eyebrow(s, "01  ·  Timeline", M, 1.58, GREY, 6.8);
-  s.addText("Periode kerja", { x: M, y: 1.82, w: 6.8, h: 0.7, margin: 0,
+  s.addText("Menuju 30 affiliate", { x: M, y: 1.82, w: 7.5, h: 0.7, margin: 0,
     fontFace: DISP, fontSize: 34, bold: true, color: INK, valign: "middle" });
 
-  // three key dates, compact, above the schedule
-  const dates = [["DD.MM", "Milestone"], ["DD.MM", "Milestone"], ["DD.MM", "Milestone"]];
-  dates.forEach((d, i) => {
-    const x = 8.10 + i * 1.50;
-    s.addText(d[0], { x, y: 1.72, w: 1.45, h: 0.42, margin: 0,
-      fontFace: DISP, fontSize: 19, bold: true, color: INK });
-    s.addText(d[1], { x, y: 2.14, w: 1.45, h: 0.3, margin: 0,
-      fontFace: BODY, fontSize: 10.5, color: GREY });
-  });
+  const TW = 7.5, RX = M + TW + 0.5, RW = CONTENT - TW - 0.5;   // 7.5 + 0.5 + 3.9
 
-  const head = ["Workstream", "Week 1", "Week 2", "Week 3", "Week 4", "Owner"];
-  const body = [
-    ["Concept & copy", "", "", "", "", "Nama"],
-    ["Photo production", "", "", "", "", "Nama"],
-    ["Design & layout", "", "", "", "", "Nama"],
-    ["Review & approval", "", "", "", "", "Nama"],
-    ["Publish & monitor", "", "", "", "", "Nama"],
+  const weeks = [
+    ["Akhir Agustus",        "Buat fake order bertahap, sembari menyusun list affiliate"],
+    ["Minggu 1 September",   "Pastikan semua orderan sudah sampai dan sudah direview. Targetkan menghubungi 30 affiliate"],
+    ["Minggu 2 September",   "Kirim barang ke minimal 10 affiliate, dan hubungi 30 affiliate berikutnya"],
+    ["Minggu 3 September",   "Kirim barang ke minimal 20 affiliate lainnya"],
+    ["Minggu 4 & seterusnya","Mencari dan menghubungi affiliator baru"],
   ];
-  const rows = [head.map(t => ({
+  const rows = [["Periode", "Aktivitas"].map(t => ({
     text: t, options: { fontFace: DISP, fontSize: 10.5, bold: true, color: WHITE,
       fill: { color: INK }, charSpacing: 1.4 },
-  }))].concat(body.map((r, i) => r.map((t, j) => ({
-    text: t,
-    options: { fontFace: BODY, fontSize: 12, bold: j === 0,
-      color: j === 0 ? INK : DAVIS, fill: { color: i % 2 ? WHITE : PAPER } },
-  }))));
+  }))].concat(weeks.map((r, i) => [
+    { text: r[0], options: { fontFace: DISP, fontSize: 11, bold: true, color: INK,
+        fill: { color: i % 2 ? WHITE : PAPER }, valign: "middle" } },
+    { text: r[1], options: { fontFace: BODY, fontSize: 11.5, color: DAVIS,
+        fill: { color: i % 2 ? WHITE : PAPER }, valign: "middle" } },
+  ]));
   s.addTable(rows, {
-    x: M, y: 2.95, w: CONTENT, colW: [3.4, 1.7, 1.7, 1.7, 1.7, 1.7],
-    rowH: 0.54, valign: "middle", margin: [0, 0.16, 0, 0.16],
+    x: M, y: 2.75, w: TW, colW: [2.3, 5.2],
+    rowH: 0.60, valign: "middle", margin: [0, 0.16, 0, 0.16],
     border: { type: "solid", color: STEEL, pt: 0.5 },
   });
-  s.addText("Tandai sel minggu yang aktif dengan blok charcoal, supaya alur kerjanya terbaca sekali lihat.", {
-    x: M, y: 6.45, w: 11, h: 0.35, margin: 0, fontFace: BODY, fontSize: 11, color: GREY });
 
-  s.addNotes("Satu slide untuk seluruh timeline. Tiga tanggal kunci di kanan atas, "
-    + "jadwal mingguan di tabel. Tambah baris lewat menu tabel PowerPoint.");
+  // the goal, and the terms that hang off it
+  stat(s, RX, 2.75, RW, 1.05, "Target akhir bulan", "30 Affiliate", true, 22);
+
+  s.addText("Product focus", { x: RX, y: 4.08, w: RW, h: 0.28, margin: 0,
+    fontFace: DISP, fontSize: 10.5, bold: true, charSpacing: 1.4, color: GREY, valign: "middle" });
+  ["Brief Dewasa", "Brief Boxer Dewasa", "Boxer Dewasa"].forEach((p, i) => {
+    const y = 4.42 + i * 0.36;
+    s.addText(String(i + 1).padStart(2, "0"), { x: RX, y, w: 0.42, h: 0.32, margin: 0,
+      fontFace: DISP, fontSize: 11, bold: true, color: STEEL, valign: "middle" });
+    s.addText(p, { x: RX + 0.42, y, w: RW - 0.42, h: 0.32, margin: 0,
+      fontFace: BODY, fontSize: 12.5, color: INK, valign: "middle" });
+  });
+
+  stat(s, RX, 5.62, RW, 0.95, "Affiliate commission", "15%  +  ads", false, 18);
+
+  s.addNotes("Timeline per minggu di kiri. Target, fokus produk, dan skema komisi di kanan. "
+    + "Label periode dirapikan dari catatan asli, isinya tidak diubah.");
 }
 
 // ============================================================ 3. BUDGET
@@ -121,72 +137,73 @@ const eyebrow = (s, text, x, y, color, w) => s.addText(text, {
   s.background = { color: WHITE };
   logo(s, false, M, 0.70, 1.55);
   eyebrow(s, "02  ·  Budget", M, 1.58, GREY, 6.8);
-  s.addText("Rincian biaya", { x: M, y: 1.82, w: 6.8, h: 0.7, margin: 0,
+  s.addText("Alokasi budget", { x: M, y: 1.82, w: 6.8, h: 0.7, margin: 0,
     fontFace: DISP, fontSize: 34, bold: true, color: INK, valign: "middle" });
 
-  const TW = 7.2, RX = M + TW + 0.5, RW = CONTENT - TW - 0.5;   // 7.2 + 0.5 + 4.2
+  // headline numbers across the top
+  const cw = 3.83, gap = 0.205, y0 = 2.72, ch = 1.05;
+  stat(s, M,                    y0, cw, ch, "Total budget",   "Rp 24.000.000", true,  21);
+  stat(s, M + cw + gap,         y0, cw, ch, "Target ROAS",    "3×",       false, 21);
+  stat(s, M + 2 * (cw + gap),   y0, cw, ch, "Target revenue", "Rp 72.000.000", false, 21);
 
-  const head = ["Item", "Qty", "Unit cost", "Subtotal"];
-  const rows = [head.map((t, j) => ({
+  // the split
+  const TW = 7.0, RX = M + TW + 0.5, RW = CONTENT - TW - 0.5;   // 7.0 + 0.5 + 4.4
+  const items = [
+    ["TikTok Ads",                       "Rp 7.000.000",  "29%"],
+    ["Shopee Ads",                       "Rp 7.000.000",  "29%"],
+    ["TikTok Ads for Live Affiliate *",  "Rp 10.000.000", "42%"],
+  ];
+  const rows = [["Pos", "Alokasi", "Share"].map((t, j) => ({
     text: t, options: { fontFace: DISP, fontSize: 10.5, bold: true, color: WHITE,
       fill: { color: INK }, charSpacing: 1.4, align: j ? "right" : "left" },
   }))];
-  for (let i = 0; i < 5; i++) {
-    const f = { color: i % 2 ? WHITE : PAPER };
+  items.forEach((r, i) => {
+    const f = i % 2 ? WHITE : PAPER;
     rows.push([
-      { text: "Item name", options: { fontFace: BODY, fontSize: 12, bold: true, color: INK, fill: { color: f.color } } },
-      { text: "0",         options: { fontFace: BODY, fontSize: 12, color: DAVIS, align: "right", fill: { color: f.color } } },
-      { text: "Rp 0",      options: { fontFace: BODY, fontSize: 12, color: DAVIS, align: "right", fill: { color: f.color } } },
-      { text: "Rp 0",      options: { fontFace: BODY, fontSize: 12, color: INK, align: "right", fill: { color: f.color } } },
+      { text: r[0], options: { fontFace: BODY, fontSize: 12, bold: true, color: INK, fill: { color: f } } },
+      { text: r[1], options: { fontFace: BODY, fontSize: 12, color: DAVIS, align: "right", fill: { color: f } } },
+      { text: r[2], options: { fontFace: BODY, fontSize: 12, color: GREY, align: "right", fill: { color: f } } },
     ]);
-  }
+  });
   rows.push([
-    { text: "Total", options: { fontFace: DISP, fontSize: 12, bold: true, color: WHITE, fill: { color: DAVIS } } },
-    { text: "",      options: { fill: { color: DAVIS } } },
-    { text: "",      options: { fill: { color: DAVIS } } },
-    { text: "Rp 0",  options: { fontFace: DISP, fontSize: 12, bold: true, color: WHITE, align: "right", fill: { color: DAVIS } } },
+    { text: "Total",         options: { fontFace: DISP, fontSize: 12, bold: true, color: WHITE, fill: { color: DAVIS } } },
+    { text: "Rp 24.000.000", options: { fontFace: DISP, fontSize: 12, bold: true, color: WHITE, align: "right", fill: { color: DAVIS } } },
+    { text: "100%",          options: { fontFace: DISP, fontSize: 12, bold: true, color: STEEL, align: "right", fill: { color: DAVIS } } },
   ]);
   s.addTable(rows, {
-    x: M, y: 2.95, w: TW, colW: [3.0, 0.8, 1.6, 1.8],
+    x: M, y: 4.05, w: TW, colW: [3.4, 2.2, 1.4],
     rowH: 0.46, valign: "middle", margin: [0, 0.16, 0, 0.16],
     border: { type: "solid", color: STEEL, pt: 0.5 },
   });
 
-  // headline total, then where it goes
-  s.addShape(P.ShapeType.roundRect, { x: RX, y: 2.95, w: RW, h: 1.15,
-    rectRadius: 0.05, fill: { color: INK }, line: { color: INK } });
-  s.addText("Total budget", { x: RX + 0.3, y: 3.1, w: RW - 0.6, h: 0.3, margin: 0,
-    fontFace: DISP, fontSize: 11, bold: true, charSpacing: 1.4, color: STEEL });
-  s.addText("Rp 000.000.000", { x: RX + 0.3, y: 3.42, w: RW - 0.6, h: 0.5, margin: 0,
-    fontFace: DISP, fontSize: 21, bold: true, color: WHITE, valign: "middle" });
-
   s.addChart(P.ChartType.doughnut, [{
-    name: "Allocation",
-    labels: ["Production", "Media", "Talent", "Other"],
-    values: [40, 32, 18, 10],
+    name: "Alokasi",
+    labels: ["TikTok Ads", "Shopee Ads", "TikTok Ads for Live Affiliate"],
+    values: [7, 7, 10],
   }], {
-    x: RX - 0.20, y: 4.15, w: 2.0, h: 2.0,
+    x: RX - 0.15, y: 4.02, w: 1.80, h: 1.80,
     holeSize: 56, showLegend: false, showValue: false,
-    chartColors: [INK, DAVIS, GREY, STEEL],
+    chartColors: [INK, GREY, DAVIS],
   });
 
-  const legend = [["Production", "40%"], ["Media", "32%"], ["Talent", "18%"], ["Other", "10%"]];
-  legend.forEach((l, i) => {
-    const y = 4.42 + i * 0.42;
-    s.addShape(P.ShapeType.rect, { x: RX + 2.15, y: y + 0.08, w: 0.16, h: 0.16,
-      fill: { color: [INK, DAVIS, GREY, STEEL][i] }, line: { color: STEEL, pt: 0.5 } });
-    s.addText(l[0], { x: RX + 2.45, y, w: 1.1, h: 0.32, margin: 0,
-      fontFace: BODY, fontSize: 11, color: INK, valign: "middle" });
-    s.addText(l[1], { x: RX + 3.55, y, w: 0.65, h: 0.32, margin: 0,
-      fontFace: DISP, fontSize: 11, bold: true, color: DAVIS, align: "right", valign: "middle" });
-  });
+  [["TikTok Ads", "Rp 7 Jt"], ["Shopee Ads", "Rp 7 Jt"], ["Live Affiliate", "Rp 10 Jt"]]
+    .forEach((l, i) => {
+      const y = 4.42 + i * 0.42;
+      s.addShape(P.ShapeType.rect, { x: RX + 1.95, y: y + 0.08, w: 0.16, h: 0.16,
+        fill: { color: [INK, GREY, DAVIS][i] }, line: { color: STEEL, pt: 0.5 } });
+      s.addText(l[0], { x: RX + 2.22, y, w: 1.35, h: 0.32, margin: 0,
+        fontFace: BODY, fontSize: 11, color: INK, valign: "middle" });
+      s.addText(l[1], { x: RX + 3.55, y, w: 0.85, h: 0.32, margin: 0,
+        fontFace: DISP, fontSize: 11, bold: true, color: DAVIS, align: "right", valign: "middle" });
+    });
 
-  s.addText("Angka alokasi hanya contoh. Klik kanan grafik lalu Edit Data untuk menggantinya.", {
-    x: M, y: 6.45, w: 11, h: 0.35, margin: 0, fontFace: BODY, fontSize: 11, color: GREY });
+  s.addText("*  Tambahkan keterangan untuk pos ini.", {
+    x: M, y: 6.5, w: 7.0, h: 0.3, margin: 0, fontFace: BODY, fontSize: 11, color: GREY });
 
-  s.addNotes("Satu slide untuk seluruh budget. Tabel rincian di kiri dengan baris Total, "
-    + "angka utama dan alokasi di kanan. Legenda diketik manual, sesuaikan kalau angkanya berubah.");
+  s.addNotes("Total 24 juta sudah dicek: 7 + 7 + 10. Target revenue 72 juta adalah turunan "
+    + "dari ROAS 3 x budget 24 juta. Ganti keterangan tanda bintang sesuai kesepakatan. "
+    + "Grafik bisa diubah lewat klik kanan > Edit Data.");
 }
 
-P.writeFile({ fileName: path.join(DIR, "ToniBlack_Timeline_Budget_Template.pptx") })
+P.writeFile({ fileName: path.join(DIR, "ToniBlack_Timeline_Budget.pptx") })
   .then(f => console.log("written:", f));

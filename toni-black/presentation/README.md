@@ -1,21 +1,46 @@
-# Toni Black — Template Presentasi: Timeline & Budget
+# Toni Black — Timeline & Budget (September)
 
-Tiga slide, 16:9 (13,3 × 7,5 inci). Isi kontennya sendiri — struktur, warna, dan
-tipografinya sudah dikunci ke brand guideline Toni Black.
+Tiga slide, 16:9, sudah terisi materi. Bukan lagi template kosong.
 
 ## Isi
 
-| # | Slide | Yang diisi |
+**1 — Pembuka.** Judul, kalimat pengantar, dan daftar dua bagian. Nama tim dan
+tanggal masih perlu diisi.
+
+**2 — Timeline.** Rencana per minggu menuju 30 affiliate, dengan target akhir
+bulan, fokus produk, dan skema komisi di kolom kanan.
+
+| Periode | Aktivitas |
+|---|---|
+| Akhir Agustus | Buat fake order bertahap, sembari menyusun list affiliate |
+| Minggu 1 September | Pastikan semua orderan sudah sampai dan sudah direview. Targetkan menghubungi 30 affiliate |
+| Minggu 2 September | Kirim barang ke minimal 10 affiliate, dan hubungi 30 affiliate berikutnya |
+| Minggu 3 September | Kirim barang ke minimal 20 affiliate lainnya |
+| Minggu 4 & seterusnya | Mencari dan menghubungi affiliator baru |
+
+Target akhir bulan **30 affiliate**. Fokus produk: Brief Dewasa, Brief Boxer
+Dewasa, Boxer Dewasa. Komisi affiliate **15% + ads**.
+
+Label periode dirapikan dari catatan asli ("Week Akhir Agustus" jadi "Akhir
+Agustus", dan seterusnya) supaya konsisten. Isi aktivitasnya tidak diubah.
+
+**3 — Budget.**
+
+| Pos | Alokasi | Share |
 |---|---|---|
-| 1 | **Pembuka** | Kalimat pengantar, nama tim, tanggal |
-| 2 | **Timeline** | Tiga tanggal kunci di kanan atas; tabel jadwal 5 workstream × 4 minggu + owner |
-| 3 | **Budget** | Tabel rincian 5 baris + baris Total; angka total; doughnut alokasi + legenda |
+| TikTok Ads | Rp 7.000.000 | 29% |
+| Shopee Ads | Rp 7.000.000 | 29% |
+| TikTok Ads for Live Affiliate * | Rp 10.000.000 | 42% |
+| **Total** | **Rp 24.000.000** | **100%** |
 
-Timeline dan Budget masing-masing muat penuh dalam satu slide — dipadatkan, bukan
-sekadar dipotong. Slide pembuka juga memuat daftar dua bagian di bawah, jadi
-audiens tahu apa yang akan dibahas tanpa perlu slide agenda terpisah.
+Target ROAS **3×**. Total dicek ulang: 7 + 7 + 10 = 24 juta, cocok.
 
-Tiap slide punya catatan di Speaker Notes yang menjelaskan cara mengisinya.
+**Target revenue Rp 72.000.000** adalah angka turunan, bukan input — hasil dari
+ROAS 3 dikali budget 24 juta. Ditampilkan karena biasanya jadi pertanyaan pertama.
+Hapus kalau tidak ingin dibahas.
+
+Tanda bintang pada pos Live Affiliate masih perlu keterangan. Catatan kakinya
+sudah disiapkan, tinggal diisi.
 
 ## Sebelum membuka: pasang fontnya
 
@@ -26,48 +51,31 @@ Anda pada `Toni Black / Font`, atau di repo ini pada
 
 ## Kepatuhan brand
 
-- **Warna** — hanya palet brand: Dark Charcoal `#282828`, Clean White `#FFFFFF`,
-  Davi's Grey `#4F5052`, Grey `#818284`, Steel Grey `#CCCCCC`.
-- **Tipografi** — Zalando Sans Expanded untuk judul, angka, dan header tabel;
-  Arimo untuk isi. Diverifikasi: hanya dua nama font ini yang muncul di file.
-- **Struktur terang–gelap** — pembuka charcoal, dua slide isi putih.
-- **Motif** — label huruf kapital berjarak lebar di tiap slide, sama seperti yang
-  dipakai di set banner September. Tanpa garis aksen atau bar dekoratif.
-- **Tone of voice** — judul pendek, kalimat aktif, tanpa hiperbola.
+Hanya palet brand: Dark Charcoal `#282828`, Clean White `#FFFFFF`, Davi's Grey
+`#4F5052`, Grey `#818284`, Steel Grey `#CCCCCC`. Hanya dua font brand. Pembuka
+charcoal, dua slide isi putih. Motifnya label kapital berjarak lebar, sama seperti
+di set banner September. Tanpa garis aksen atau bar dekoratif.
 
 ## Grafik
 
-Slide 3 memakai doughnut chart **native PowerPoint**, bukan gambar. Klik kanan >
-*Edit Data* untuk mengganti angkanya. Legenda di sebelah kanannya diketik manual,
-jadi ikut disesuaikan kalau angkanya berubah.
+Doughnut di slide 3 native PowerPoint, bukan gambar. Klik kanan > *Edit Data*
+untuk mengubah angkanya. Legenda di kanannya diketik manual.
 
 ## Catatan verifikasi
 
-Validator OOXML lolos penuh. Pemeriksaan geometri dijalankan langsung pada file
-`.pptx` memakai metrik font aslinya: lebar tiap teks dihitung dan dibandingkan
-dengan kotaknya, posisi tiap shape dicek terhadap margin, dan tumpang-tindih antar
-kotak teks diperiksa. Hasil akhir bersih.
+Validator OOXML lolos. Pemeriksaan geometri dijalankan pada file `.pptx` memakai
+metrik font aslinya: lebar tiap teks dihitung terhadap kotaknya, tinggi tabel
+dihitung dari jumlah baris (bukan dari nilai tersimpan, yang cuma placeholder
+1,00 inci), jumlah baris hasil pembungkusan teks tabel diperiksa terhadap tinggi
+barisnya, dan tumpang-tindih antar elemen dicek. Hasil akhir bersih.
 
-Tiga masalah nyata ditemukan dan diperbaiki lewat pemeriksaan ini:
-
-1. Kotak judul di slide Timeline menabrak blok tanggal di kanan atas.
-2. Blok tanggal terakhir melewati margin desain 0,7 inci.
-3. **Yang paling tidak kelihatan:** pptxgenjs menyimpan tinggi tabel sebagai
-   1,00 inci — angka placeholder. PowerPoint baru menumbuhkannya saat render.
-   Tinggi sebenarnya 3,72 inci, yang berarti tabel akan menimpa catatan kaki di
-   kedua slide. Tinggi baris dikecilkan sampai tabel selesai di 6,19 dan 6,17
-   inci, dengan jarak 0,26 dan 0,28 inci ke catatan kaki.
-
-`preview_all_slides.jpg` adalah render ketiga slide, dibuat dengan membaca kembali
-isi file `.pptx`-nya.
+Pemeriksaan ini menangkap satu cacat pada versi terisi: `Rp 24.000.000` di baris
+Total memakai Zalando Sans Expanded yang lebar dan tidak muat di kolom 1,8 inci —
+akan patah jadi dua baris dan melewati tinggi barisnya. Kolom dilebarkan ke 2,2 inci.
 
 ## Regenerate
 
 ```bash
 cd source && node build_deck.js
-python3 qa_geometry.py ../ToniBlack_Timeline_Budget_Template.pptx
+python3 qa_geometry.py ../ToniBlack_Timeline_Budget.pptx
 ```
-
-`build_deck_12slide.js` adalah versi panjang yang dibuat lebih dulu (12 slide,
-dengan slide pembatas, fase, milestone, dan asumsi terpisah). Simpan kalau
-sewaktu-waktu butuh deck yang lebih rinci.
