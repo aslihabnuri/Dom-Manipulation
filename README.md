@@ -115,6 +115,29 @@ diberi gerakan Ken Burns bergantian, sebagian sambungan memakai dissolve,
 ritme potongan diatur (pendek di awal sebagai hook), ditutup fade pelan,
 dan diberi grading warna seragam (`--look bersih / hangat / sinematik`).
 
+## 2c. Susun ulang satu video (tanpa mengubah tampilan)
+
+Kalau videonya sudah bagus dan filternya tidak boleh diubah, tapi urutan
+adegannya perlu berbeda:
+
+```bash
+python3 susun.py "video.mp4"
+python3 susun.py "video.mp4" --varian 5          # lima susunan berbeda
+python3 susun.py "video.mp4" --jaga-awal 2 --jaga-akhir 1
+```
+
+- Scene **pembuka** dan **penutup** dikunci di tempatnya (pembuka menentukan
+  hook, penutup biasanya berisi logo/ajakan)
+- Scene di tengah diacak urutannya
+- **Tidak ada filter, grading, zoom, atau perubahan kecepatan** - warna,
+  resolusi, dan frame rate tetap persis seperti aslinya. Satu-satunya
+  perubahan piksel adalah pengodean ulang H.264 (selisih warna terukur
+  1,25/255, yaitu 0,5%)
+- Audio ikut berpindah bersama scene-nya, jadi tetap sinkron
+
+Bedanya dengan `racik.py`: racik menjahit BANYAK video jadi satu editan
+baru dan memolesnya; susun hanya mengurutkan ulang SATU video apa adanya.
+
 ## 3. Tiga tingkat perubahan (preset)
 
 | Preset       | Yang dilakukan                                                                 | Cocok untuk |
