@@ -19,8 +19,8 @@ const PAPER = "F2F2F3";   // tonal ground for cards, mixed from the palette
 const DISP = "Zalando Sans Expanded";
 const BODY = "Arimo";
 
-const W = 13.3, H = 7.5, M = 0.7;         // slide box and margin
-const LOGO_R = 6.61;                       // logo aspect
+const W = 13.3, M = 0.7, CONTENT = W - 2 * M;   // 11.9in of usable width
+const LOGO_R = 6.61;
 
 const logo = (s, dark, x, y, w) => s.addImage({
   path: path.join(DIR, dark ? "logo_white.png" : "logo_dark.png"),
@@ -28,123 +28,64 @@ const logo = (s, dark, x, y, w) => s.addImage({
 });
 
 // wide-letterspaced label — the one motif repeated on every slide
-const eyebrow = (s, text, x, y, color) => s.addText(text, {
-  x, y, w: 8, h: 0.28, margin: 0,
+const eyebrow = (s, text, x, y, color, w) => s.addText(text, {
+  x, y, w: w || 8, h: 0.28, margin: 0,
   fontFace: DISP, fontSize: 10.5, bold: true, charSpacing: 3.2,
-  color, align: "left", valign: "middle",
+  color, valign: "middle",
 });
 
-const title = (s, text, x, y, color, size) => s.addText(text, {
-  x, y, w: W - x - M, h: 0.95, margin: 0,
-  fontFace: DISP, fontSize: size || 38, bold: true, color, valign: "middle",
-});
-
-const note = (s, text) => s.addNotes(text);
-
-// ============================================================ 1. COVER
+// ============================================================ 1. PEMBUKA
 {
   const s = P.addSlide();
   s.background = { color: INK };
-  logo(s, true, M, 0.62, 2.25);
-  eyebrow(s, "September Campaign  ·  9 to 9", M, 3.05, GREY);
+  logo(s, true, M, 0.70, 2.25);
+  eyebrow(s, "September Campaign  ·  9 to 9", M, 2.75, GREY);
   s.addText("Timeline\n& Budget", {
-    x: M, y: 3.4, w: 9.5, h: 2.1, margin: 0,
+    x: M, y: 3.1, w: 9.5, h: 2.1, margin: 0,
     fontFace: DISP, fontSize: 54, bold: true, color: WHITE, lineSpacing: 58,
   });
-  s.addShape(P.ShapeType.rect, { x: M, y: 5.9, w: 1.1, h: 0.02, fill: { color: DAVIS } });
+  s.addText("Satu kalimat pengantar tentang apa yang diajukan.", {
+    x: M, y: 5.25, w: 8.4, h: 0.4, margin: 0,
+    fontFace: BODY, fontSize: 14, color: STEEL,
+  });
+
+  // what the two slides after this will cover — keeps the opening useful
+  [["01", "Timeline"], ["02", "Budget"]].forEach(([n, t], i) => {
+    const x = M + i * 2.3;
+    s.addText(n, { x, y: 6.1, w: 0.55, h: 0.4, margin: 0,
+      fontFace: DISP, fontSize: 14, bold: true, color: DAVIS, valign: "middle" });
+    s.addText(t, { x: x + 0.55, y: 6.1, w: 1.7, h: 0.4, margin: 0,
+      fontFace: DISP, fontSize: 14, bold: true, color: STEEL, valign: "middle" });
+  });
   s.addText([
-    { text: "Prepared by", options: { color: GREY, breakLine: true } },
+    { text: "Prepared by  ", options: { color: GREY } },
     { text: "Team name", options: { color: STEEL } },
-  ], { x: M, y: 6.15, w: 3.4, h: 0.7, margin: 0, fontFace: BODY, fontSize: 12, lineSpacing: 17 });
-  s.addText([
-    { text: "Date", options: { color: GREY, breakLine: true } },
+    { text: "        Date  ", options: { color: GREY } },
     { text: "DD Month YYYY", options: { color: STEEL } },
-  ], { x: 4.4, y: 6.15, w: 3.4, h: 0.7, margin: 0, fontFace: BODY, fontSize: 12, lineSpacing: 17 });
-  note(s, "Ganti nama tim dan tanggal. Judul boleh tetap.");
+  ], { x: 7.4, y: 6.1, w: 5.2, h: 0.4, margin: 0, fontFace: BODY, fontSize: 11.5,
+       align: "right", valign: "middle" });
+
+  s.addNotes("Slide pembuka. Ganti kalimat pengantar, nama tim, dan tanggal.");
 }
 
-// ============================================================ 2. AGENDA
+// ============================================================ 2. TIMELINE
 {
   const s = P.addSlide();
   s.background = { color: WHITE };
-  logo(s, false, M, 0.55, 1.65);
-  eyebrow(s, "Agenda", M, 1.75, GREY);
-  title(s, "What we will cover", M, 2.1, INK, 38);
+  logo(s, false, M, 0.70, 1.55);
+  eyebrow(s, "01  ·  Timeline", M, 1.58, GREY, 6.8);
+  s.addText("Periode kerja", { x: M, y: 1.82, w: 6.8, h: 0.7, margin: 0,
+    fontFace: DISP, fontSize: 34, bold: true, color: INK, valign: "middle" });
 
-  const rows = [
-    ["01", "Timeline", "Fase kerja, jadwal mingguan, dan milestone yang disepakati."],
-    ["02", "Budget",   "Rincian biaya, alokasi per pos, dan asumsi yang dipakai."],
-  ];
-  rows.forEach((r, i) => {
-    const y = 3.5 + i * 1.55;
-    s.addShape(P.ShapeType.roundRect, {
-      x: M, y, w: W - 2 * M, h: 1.25, rectRadius: 0.05, fill: { color: PAPER }, line: { color: PAPER },
-    });
-    s.addText(r[0], { x: M + 0.4, y, w: 1.0, h: 1.25, margin: 0,
-      fontFace: DISP, fontSize: 30, bold: true, color: STEEL, valign: "middle" });
-    s.addText(r[1], { x: M + 1.5, y: y + 0.2, w: 3.2, h: 0.45, margin: 0,
-      fontFace: DISP, fontSize: 20, bold: true, color: INK, valign: "middle" });
-    s.addText(r[2], { x: M + 1.5, y: y + 0.66, w: 9.4, h: 0.4, margin: 0,
-      fontFace: BODY, fontSize: 13, color: DAVIS, valign: "middle" });
+  // three key dates, compact, above the schedule
+  const dates = [["DD.MM", "Milestone"], ["DD.MM", "Milestone"], ["DD.MM", "Milestone"]];
+  dates.forEach((d, i) => {
+    const x = 8.10 + i * 1.50;
+    s.addText(d[0], { x, y: 1.72, w: 1.45, h: 0.42, margin: 0,
+      fontFace: DISP, fontSize: 19, bold: true, color: INK });
+    s.addText(d[1], { x, y: 2.14, w: 1.45, h: 0.3, margin: 0,
+      fontFace: BODY, fontSize: 10.5, color: GREY });
   });
-  note(s, "Dua bagian saja. Kalau perlu bagian ketiga, duplikat kartunya.");
-}
-
-// ============================================================ 3. DIVIDER — TIMELINE
-{
-  const s = P.addSlide();
-  s.background = { color: INK };
-  logo(s, true, M, 0.55, 1.65);
-  s.addText("01", { x: M, y: 2.5, w: 3, h: 1.5, margin: 0,
-    fontFace: DISP, fontSize: 76, bold: true, color: DAVIS });
-  s.addText("Timeline", { x: M, y: 4.0, w: 9, h: 1.2, margin: 0,
-    fontFace: DISP, fontSize: 48, bold: true, color: WHITE });
-  s.addText("Ringkasan satu kalimat tentang periode kerja.", {
-    x: M, y: 5.2, w: 8, h: 0.5, margin: 0, fontFace: BODY, fontSize: 14, color: STEEL });
-  note(s, "Slide pembatas. Ganti kalimat pengantarnya.");
-}
-
-// ============================================================ 4. TIMELINE — PHASES
-{
-  const s = P.addSlide();
-  s.background = { color: WHITE };
-  logo(s, false, M, 0.55, 1.65);
-  eyebrow(s, "Timeline  ·  Phases", M, 1.75, GREY);
-  title(s, "Four phases", M, 2.1, INK, 38);
-
-  const cards = [
-    ["Phase 01", "Date range", ["Deliverable pertama", "Deliverable kedua"]],
-    ["Phase 02", "Date range", ["Deliverable pertama", "Deliverable kedua"]],
-    ["Phase 03", "Date range", ["Deliverable pertama", "Deliverable kedua"]],
-    ["Phase 04", "Date range", ["Deliverable pertama", "Deliverable kedua"]],
-  ];
-  const cw = 2.735, gap = 0.32, y0 = 3.35;
-  cards.forEach((c, i) => {
-    const x = M + i * (cw + gap);
-    s.addShape(P.ShapeType.roundRect, {
-      x, y: y0, w: cw, h: 2.85, rectRadius: 0.05, fill: { color: PAPER }, line: { color: PAPER },
-    });
-    s.addText(c[0], { x: x + 0.32, y: y0 + 0.3, w: cw - 0.6, h: 0.4, margin: 0,
-      fontFace: DISP, fontSize: 15, bold: true, color: INK });
-    s.addText(c[1], { x: x + 0.32, y: y0 + 0.72, w: cw - 0.6, h: 0.32, margin: 0,
-      fontFace: BODY, fontSize: 11, color: GREY });
-    s.addText(c[2].map((t, j) => ({
-      text: t, options: { bullet: true, breakLine: j < c[2].length - 1 },
-    })), { x: x + 0.32, y: y0 + 1.25, w: cw - 0.6, h: 1.3, margin: 0,
-      fontFace: BODY, fontSize: 11.5, color: DAVIS, paraSpaceAfter: 6 });
-  });
-  s.addText("Catatan singkat di bawah kartu, kalau perlu.", {
-    x: M, y: 6.5, w: 9, h: 0.35, margin: 0, fontFace: BODY, fontSize: 11, color: GREY });
-  note(s, "Empat kartu fase. Hapus satu kartu kalau cuma butuh tiga, lalu lebarkan sisanya.");
-}
-
-// ============================================================ 5. TIMELINE — SCHEDULE
-{
-  const s = P.addSlide();
-  s.background = { color: WHITE };
-  logo(s, false, M, 0.55, 1.65);
-  eyebrow(s, "Timeline  ·  Schedule", M, 1.75, GREY);
-  title(s, "Week by week", M, 2.1, INK, 38);
 
   const head = ["Workstream", "Week 1", "Week 2", "Week 3", "Week 4", "Owner"];
   const body = [
@@ -152,228 +93,99 @@ const note = (s, text) => s.addNotes(text);
     ["Photo production", "", "", "", "", "Nama"],
     ["Design & layout", "", "", "", "", "Nama"],
     ["Review & approval", "", "", "", "", "Nama"],
-    ["Publish", "", "", "", "", "Nama"],
+    ["Publish & monitor", "", "", "", "", "Nama"],
   ];
   const rows = [head.map(t => ({
-    text: t, options: { fontFace: DISP, fontSize: 10.5, bold: true, color: WHITE, fill: { color: INK }, charSpacing: 1.4 },
+    text: t, options: { fontFace: DISP, fontSize: 10.5, bold: true, color: WHITE,
+      fill: { color: INK }, charSpacing: 1.4 },
   }))].concat(body.map((r, i) => r.map((t, j) => ({
     text: t,
-    options: {
-      fontFace: BODY, fontSize: 11.5, color: j === 0 ? INK : DAVIS,
-      bold: j === 0, fill: { color: i % 2 ? WHITE : PAPER },
-    },
+    options: { fontFace: BODY, fontSize: 12, bold: j === 0,
+      color: j === 0 ? INK : DAVIS, fill: { color: i % 2 ? WHITE : PAPER } },
   }))));
   s.addTable(rows, {
-    x: M, y: 3.3, w: W - 2 * M, colW: [3.3, 1.65, 1.65, 1.65, 1.65, 1.99],
-    rowH: 0.5, valign: "middle", margin: [0, 0.16, 0, 0.16],
+    x: M, y: 2.95, w: CONTENT, colW: [3.4, 1.7, 1.7, 1.7, 1.7, 1.7],
+    rowH: 0.54, valign: "middle", margin: [0, 0.16, 0, 0.16],
     border: { type: "solid", color: STEEL, pt: 0.5 },
   });
-  s.addText("Isi sel minggu dengan blok warna atau tanda centang sesuai kebutuhan.", {
-    x: M, y: 6.55, w: 10, h: 0.35, margin: 0, fontFace: BODY, fontSize: 11, color: GREY });
-  note(s, "Tabel jadwal. Tambah baris workstream lewat menu tabel PowerPoint.");
+  s.addText("Tandai sel minggu yang aktif dengan blok charcoal, supaya alur kerjanya terbaca sekali lihat.", {
+    x: M, y: 6.45, w: 11, h: 0.35, margin: 0, fontFace: BODY, fontSize: 11, color: GREY });
+
+  s.addNotes("Satu slide untuk seluruh timeline. Tiga tanggal kunci di kanan atas, "
+    + "jadwal mingguan di tabel. Tambah baris lewat menu tabel PowerPoint.");
 }
 
-// ============================================================ 6. TIMELINE — MILESTONES
+// ============================================================ 3. BUDGET
 {
   const s = P.addSlide();
   s.background = { color: WHITE };
-  logo(s, false, M, 0.55, 1.65);
-  eyebrow(s, "Timeline  ·  Milestones", M, 1.75, GREY);
-  title(s, "Three dates that matter", M, 2.1, INK, 38);
+  logo(s, false, M, 0.70, 1.55);
+  eyebrow(s, "02  ·  Budget", M, 1.58, GREY, 6.8);
+  s.addText("Rincian biaya", { x: M, y: 1.82, w: 6.8, h: 0.7, margin: 0,
+    fontFace: DISP, fontSize: 34, bold: true, color: INK, valign: "middle" });
 
-  const ms = [
-    ["DD.MM", "Milestone name", "Apa yang selesai pada tanggal ini."],
-    ["DD.MM", "Milestone name", "Apa yang selesai pada tanggal ini."],
-    ["DD.MM", "Milestone name", "Apa yang selesai pada tanggal ini."],
-  ];
-  const cw = 3.665, gap = 0.45, y0 = 3.4;
-  ms.forEach((m, i) => {
-    const x = M + i * (cw + gap);
-    s.addText(m[0], { x, y: y0, w: cw, h: 1.0, margin: 0,
-      fontFace: DISP, fontSize: 44, bold: true, color: INK });
-    s.addText(m[1], { x, y: y0 + 1.1, w: cw, h: 0.4, margin: 0,
-      fontFace: DISP, fontSize: 15, bold: true, color: INK });
-    s.addText(m[2], { x, y: y0 + 1.55, w: cw, h: 0.8, margin: 0,
-      fontFace: BODY, fontSize: 12, color: DAVIS });
-  });
-  note(s, "Tiga milestone. Angka tanggal sengaja besar supaya terbaca dari jauh.");
-}
+  const TW = 7.2, RX = M + TW + 0.5, RW = CONTENT - TW - 0.5;   // 7.2 + 0.5 + 4.2
 
-// ============================================================ 7. DIVIDER — BUDGET
-{
-  const s = P.addSlide();
-  s.background = { color: INK };
-  logo(s, true, M, 0.55, 1.65);
-  s.addText("02", { x: M, y: 2.5, w: 3, h: 1.5, margin: 0,
-    fontFace: DISP, fontSize: 76, bold: true, color: DAVIS });
-  s.addText("Budget", { x: M, y: 4.0, w: 9, h: 1.2, margin: 0,
-    fontFace: DISP, fontSize: 48, bold: true, color: WHITE });
-  s.addText("Ringkasan satu kalimat tentang cakupan biaya.", {
-    x: M, y: 5.2, w: 8, h: 0.5, margin: 0, fontFace: BODY, fontSize: 14, color: STEEL });
-  note(s, "Slide pembatas kedua.");
-}
-
-// ============================================================ 8. BUDGET — SUMMARY
-{
-  const s = P.addSlide();
-  s.background = { color: WHITE };
-  logo(s, false, M, 0.55, 1.65);
-  eyebrow(s, "Budget  ·  Summary", M, 1.75, GREY);
-  title(s, "The headline numbers", M, 2.1, INK, 38);
-
-  const stats = [
-    ["Rp 000.000.000", "Total budget", "Seluruh pos, sudah termasuk pajak."],
-    ["Rp 000.000.000", "Production", "Foto, desain, dan produksi aset."],
-    ["Rp 000.000.000", "Media", "Belanja iklan berbayar."],
-  ];
-  const cw = 3.665, gap = 0.45, y0 = 3.35;
-  stats.forEach((t, i) => {
-    const x = M + i * (cw + gap);
-    s.addShape(P.ShapeType.roundRect, {
-      x, y: y0, w: cw, h: 2.5, rectRadius: 0.05,
-      fill: { color: i === 0 ? INK : PAPER }, line: { color: i === 0 ? INK : PAPER },
-    });
-    s.addText(t[0], { x: x + 0.32, y: y0 + 0.38, w: cw - 0.64, h: 0.75, margin: 0,
-      fontFace: DISP, fontSize: 19.5, bold: true, color: i === 0 ? WHITE : INK, valign: "middle" });
-    s.addText(t[1], { x: x + 0.32, y: y0 + 1.2, w: cw - 0.64, h: 0.36, margin: 0,
-      fontFace: DISP, fontSize: 13, bold: true, charSpacing: 1.2,
-      color: i === 0 ? STEEL : DAVIS });
-    s.addText(t[2], { x: x + 0.32, y: y0 + 1.62, w: cw - 0.64, h: 0.65, margin: 0,
-      fontFace: BODY, fontSize: 11.5, color: i === 0 ? STEEL : GREY });
-  });
-  note(s, "Tiga angka utama. Kartu pertama sengaja gelap supaya jadi fokus.");
-}
-
-// ============================================================ 9. BUDGET — BREAKDOWN
-{
-  const s = P.addSlide();
-  s.background = { color: WHITE };
-  logo(s, false, M, 0.55, 1.65);
-  eyebrow(s, "Budget  ·  Breakdown", M, 1.75, GREY);
-  title(s, "Line by line", M, 2.1, INK, 38);
-
-  const head = ["Item", "Qty", "Unit cost", "Subtotal", "Notes"];
-  const items = ["Item name", "Item name", "Item name", "Item name", "Item name"];
+  const head = ["Item", "Qty", "Unit cost", "Subtotal"];
   const rows = [head.map((t, j) => ({
     text: t, options: { fontFace: DISP, fontSize: 10.5, bold: true, color: WHITE,
-      fill: { color: INK }, charSpacing: 1.4, align: j >= 1 && j <= 3 ? "right" : "left" },
+      fill: { color: INK }, charSpacing: 1.4, align: j ? "right" : "left" },
   }))];
-  items.forEach((it, i) => {
+  for (let i = 0; i < 5; i++) {
+    const f = { color: i % 2 ? WHITE : PAPER };
     rows.push([
-      { text: it,   options: { fontFace: BODY, fontSize: 11.5, color: INK, bold: true, fill: { color: i % 2 ? WHITE : PAPER } } },
-      { text: "0",  options: { fontFace: BODY, fontSize: 11.5, color: DAVIS, align: "right", fill: { color: i % 2 ? WHITE : PAPER } } },
-      { text: "Rp 0", options: { fontFace: BODY, fontSize: 11.5, color: DAVIS, align: "right", fill: { color: i % 2 ? WHITE : PAPER } } },
-      { text: "Rp 0", options: { fontFace: BODY, fontSize: 11.5, color: INK, align: "right", fill: { color: i % 2 ? WHITE : PAPER } } },
-      { text: "",   options: { fontFace: BODY, fontSize: 11.5, color: GREY, fill: { color: i % 2 ? WHITE : PAPER } } },
+      { text: "Item name", options: { fontFace: BODY, fontSize: 12, bold: true, color: INK, fill: { color: f.color } } },
+      { text: "0",         options: { fontFace: BODY, fontSize: 12, color: DAVIS, align: "right", fill: { color: f.color } } },
+      { text: "Rp 0",      options: { fontFace: BODY, fontSize: 12, color: DAVIS, align: "right", fill: { color: f.color } } },
+      { text: "Rp 0",      options: { fontFace: BODY, fontSize: 12, color: INK, align: "right", fill: { color: f.color } } },
     ]);
-  });
+  }
   rows.push([
     { text: "Total", options: { fontFace: DISP, fontSize: 12, bold: true, color: WHITE, fill: { color: DAVIS } } },
     { text: "",      options: { fill: { color: DAVIS } } },
     { text: "",      options: { fill: { color: DAVIS } } },
     { text: "Rp 0",  options: { fontFace: DISP, fontSize: 12, bold: true, color: WHITE, align: "right", fill: { color: DAVIS } } },
-    { text: "",      options: { fill: { color: DAVIS } } },
   ]);
   s.addTable(rows, {
-    x: M, y: 3.3, w: W - 2 * M, colW: [3.6, 1.1, 2.0, 2.0, 3.19],
+    x: M, y: 2.95, w: TW, colW: [3.0, 0.8, 1.6, 1.8],
     rowH: 0.46, valign: "middle", margin: [0, 0.16, 0, 0.16],
     border: { type: "solid", color: STEEL, pt: 0.5 },
   });
-  note(s, "Tambah baris lewat menu tabel. Baris Total sengaja dibedakan warnanya.");
-}
 
-// ============================================================ 10. BUDGET — ALLOCATION
-{
-  const s = P.addSlide();
-  s.background = { color: WHITE };
-  logo(s, false, M, 0.55, 1.65);
-  eyebrow(s, "Budget  ·  Allocation", M, 1.75, GREY);
-  title(s, "Where it goes", M, 2.1, INK, 38);
+  // headline total, then where it goes
+  s.addShape(P.ShapeType.roundRect, { x: RX, y: 2.95, w: RW, h: 1.15,
+    rectRadius: 0.05, fill: { color: INK }, line: { color: INK } });
+  s.addText("Total budget", { x: RX + 0.3, y: 3.1, w: RW - 0.6, h: 0.3, margin: 0,
+    fontFace: DISP, fontSize: 11, bold: true, charSpacing: 1.4, color: STEEL });
+  s.addText("Rp 000.000.000", { x: RX + 0.3, y: 3.42, w: RW - 0.6, h: 0.5, margin: 0,
+    fontFace: DISP, fontSize: 21, bold: true, color: WHITE, valign: "middle" });
 
   s.addChart(P.ChartType.doughnut, [{
     name: "Allocation",
-    labels: ["Production", "Media", "Talent", "Post-production", "Contingency"],
-    values: [35, 30, 15, 12, 8],
+    labels: ["Production", "Media", "Talent", "Other"],
+    values: [40, 32, 18, 10],
   }], {
-    x: M, y: 3.15, w: 5.6, h: 3.5,
-    holeSize: 58, showLegend: false,
-    showValue: true, dataLabelPosition: "ctr",
-    dataLabelColor: WHITE, dataLabelFontFace: BODY, dataLabelFontSize: 11,
-    dataLabelFormatCode: '0"%"',
-    chartColors: [INK, DAVIS, GREY, "A8A9AB", STEEL],
+    x: RX - 0.20, y: 4.15, w: 2.0, h: 2.0,
+    holeSize: 56, showLegend: false, showValue: false,
+    chartColors: [INK, DAVIS, GREY, STEEL],
   });
 
-  const legend = [
-    ["Production", "35%"], ["Media", "30%"], ["Talent", "15%"],
-    ["Post-production", "12%"], ["Contingency", "8%"],
-  ];
+  const legend = [["Production", "40%"], ["Media", "32%"], ["Talent", "18%"], ["Other", "10%"]];
   legend.forEach((l, i) => {
-    const y = 3.5 + i * 0.56;
-    s.addShape(P.ShapeType.rect, { x: 6.9, y: y + 0.09, w: 0.18, h: 0.18,
-      fill: { color: [INK, DAVIS, GREY, "A8A9AB", STEEL][i] }, line: { color: STEEL, pt: 0.5 } });
-    s.addText(l[0], { x: 7.25, y, w: 3.3, h: 0.36, margin: 0,
-      fontFace: BODY, fontSize: 12.5, color: INK, valign: "middle" });
-    s.addText(l[1], { x: 10.6, y, w: 1.0, h: 0.36, margin: 0,
-      fontFace: DISP, fontSize: 12.5, bold: true, color: DAVIS, align: "right", valign: "middle" });
+    const y = 4.42 + i * 0.42;
+    s.addShape(P.ShapeType.rect, { x: RX + 2.15, y: y + 0.08, w: 0.16, h: 0.16,
+      fill: { color: [INK, DAVIS, GREY, STEEL][i] }, line: { color: STEEL, pt: 0.5 } });
+    s.addText(l[0], { x: RX + 2.45, y, w: 1.1, h: 0.32, margin: 0,
+      fontFace: BODY, fontSize: 11, color: INK, valign: "middle" });
+    s.addText(l[1], { x: RX + 3.55, y, w: 0.65, h: 0.32, margin: 0,
+      fontFace: DISP, fontSize: 11, bold: true, color: DAVIS, align: "right", valign: "middle" });
   });
-  s.addText("Angka contoh. Ganti nilainya lewat Edit Data pada grafik.", {
-    x: 6.9, y: 6.45, w: 5.0, h: 0.35, margin: 0, fontFace: BODY, fontSize: 10.5, color: GREY });
-  note(s, "Klik kanan grafik > Edit Data untuk mengganti angka. Legenda di kanan diketik manual.");
-}
 
-// ============================================================ 11. ASSUMPTIONS
-{
-  const s = P.addSlide();
-  s.background = { color: WHITE };
-  logo(s, false, M, 0.55, 1.65);
-  eyebrow(s, "Notes", M, 1.75, GREY);
-  title(s, "Assumptions", M, 2.1, INK, 38);
+  s.addText("Angka alokasi hanya contoh. Klik kanan grafik lalu Edit Data untuk menggantinya.", {
+    x: M, y: 6.45, w: 11, h: 0.35, margin: 0, fontFace: BODY, fontSize: 11, color: GREY });
 
-  const items = [
-    ["Scope", "Apa yang termasuk dan tidak termasuk dalam angka ini."],
-    ["Timing", "Tanggal mulai dan syarat yang harus dipenuhi."],
-    ["Approval", "Berapa putaran revisi yang sudah dihitung."],
-    ["Exclusions", "Biaya yang belum masuk hitungan."],
-  ];
-  const cw = 5.65, ch = 1.45, gx = 0.6, gy = 0.45, y0 = 3.4;
-  items.forEach((it, i) => {
-    const x = M + (i % 2) * (cw + gx);
-    const y = y0 + Math.floor(i / 2) * (ch + gy);
-    s.addShape(P.ShapeType.roundRect, { x, y, w: cw, h: ch, rectRadius: 0.05,
-      fill: { color: PAPER }, line: { color: PAPER } });
-    s.addText(it[0], { x: x + 0.32, y: y + 0.22, w: cw - 0.64, h: 0.36, margin: 0,
-      fontFace: DISP, fontSize: 14, bold: true, color: INK });
-    s.addText(it[1], { x: x + 0.32, y: y + 0.64, w: cw - 0.64, h: 0.6, margin: 0,
-      fontFace: BODY, fontSize: 12, color: DAVIS });
-  });
-  note(s, "Empat asumsi. Ini yang biasanya ditanya klien duluan.");
-}
-
-// ============================================================ 12. NEXT STEPS
-{
-  const s = P.addSlide();
-  s.background = { color: INK };
-  logo(s, true, M, 0.62, 2.0);
-  eyebrow(s, "Closing", M, 2.35, GREY);
-  s.addText("Next steps", { x: M, y: 2.7, w: 9, h: 1.0, margin: 0,
-    fontFace: DISP, fontSize: 44, bold: true, color: WHITE });
-
-  const steps = [
-    ["01", "Langkah pertama setelah presentasi ini."],
-    ["02", "Langkah kedua."],
-    ["03", "Langkah ketiga."],
-  ];
-  steps.forEach((st, i) => {
-    const y = 4.0 + i * 0.78;
-    s.addText(st[0], { x: M, y, w: 0.8, h: 0.5, margin: 0,
-      fontFace: DISP, fontSize: 17, bold: true, color: DAVIS, valign: "middle" });
-    s.addText(st[1], { x: M + 0.85, y, w: 9.5, h: 0.5, margin: 0,
-      fontFace: BODY, fontSize: 14, color: STEEL, valign: "middle" });
-  });
-  s.addText("www.toniblack.com   ·   @toniblack.id", {
-    x: M, y: 6.65, w: 8, h: 0.35, margin: 0,
-    fontFace: BODY, fontSize: 11.5, color: GREY, charSpacing: 1 });
-  note(s, "Slide penutup. Ganti tiga langkah tindak lanjutnya.");
+  s.addNotes("Satu slide untuk seluruh budget. Tabel rincian di kiri dengan baris Total, "
+    + "angka utama dan alokasi di kanan. Legenda diketik manual, sesuaikan kalau angkanya berubah.");
 }
 
 P.writeFile({ fileName: path.join(DIR, "ToniBlack_Timeline_Budget_Template.pptx") })

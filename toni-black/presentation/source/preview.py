@@ -29,7 +29,8 @@ for si, sl in enumerate(prs.slides, 1):
             t=sh.table
             rows=[]
             colw=[px(c.width) for c in t.columns]
-            for r in t.rows:
+            for ri,r in enumerate(t.rows):
+                rowpx=px(r.height)
                 cells=[]
                 for ci,c in enumerate(r.cells):
                     cf=col(c.fill.fore_color,"#FFFFFF") if c.fill.type==1 else "transparent"
@@ -45,8 +46,11 @@ for si, sl in enumerate(prs.slides, 1):
                         al=p.alignment
                     cells.append(f'<td style="width:{colw[ci]}px;background:{cf};{st}text-align:'
                                  f'{"right" if txt.startswith("Rp") or txt=="0" else "left"}">{txt}</td>')
-                rows.append("<tr>"+"".join(cells)+"</tr>")
-            parts.append(f'<table style="position:absolute;{base}border-collapse:collapse">'+"".join(rows)+"</table>")
+                rows.append(f'<tr style="height:{rowpx}px">'+"".join(cells)+"</tr>")
+            rh=[px(r.height) for r in t.rows]
+            realh=sum(rh)
+            tb=f"left:{x}px;top:{y}px;width:{w}px;"
+            parts.append(f'<table style="position:absolute;{tb}border-collapse:collapse">'+"".join(rows)+"</table>")
             continue
         fill="transparent"
         try:
@@ -87,5 +91,5 @@ open("preview.html","w").write(
  "<style>body{margin:0;background:#8a8a8a;font-family:Arimo}"
  ".slide{position:relative;margin:14px auto;box-shadow:0 2px 12px rgba(0,0,0,.4);overflow:hidden}"
  ".num{position:absolute;right:-0px;top:-0px;background:#000;color:#fff;font:11px Arial;padding:2px 6px;z-index:99}"
- "td{padding:0 12px;height:36px;border:0.5px solid #CCCCCC}</style>" + "".join(out))
+ "td{padding:0 12px;border:0.5px solid #CCCCCC}</style>" + "".join(out))
 print("preview.html written:", len(prs.slides), "slides")
