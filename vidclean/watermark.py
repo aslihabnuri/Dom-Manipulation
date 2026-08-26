@@ -12,6 +12,13 @@ Dua hal yang TIDAK ditangani modul ini, dan memang tidak seharusnya:
   * teks isi dari kreator ("Stop scrolling!", "POV: ..."). Itu urusan
     teksvideo.py.
 
+Deteksinya memakai OCR, dan sifatnya perlu dipahami: ketepatannya tinggi tapi
+jangkauannya rendah. Kalau tesseract bilang "ada MOSSDOOM di sini", itu hampir
+pasti benar - tapi dari satu kemunculan selama tiga detik, ia mungkin hanya
+menangkapnya sekali. Karena itu setiap temuan diperlakukan sebagai petunjuk,
+bukan sebagai batas: jendela waktunya dilonggarkan, dan kotaknya diperluas
+sampai tepi tajam di sekitarnya habis.
+
 Cara kerjanya dua tahap:
 
   1. `delogo` mengangkat logonya. Filter ini menebak isi kotak dari piksel di
@@ -151,6 +158,137 @@ def _gabung(mentah, jarak_y: int, jeda: float) -> List[Temuan]:
     return hasil
 
 
+def perluas_judul(berkas: str, temuan: Sequence[Temuan],
+                  batas_bawah: int = 110, batas_samping: int = 90,
+                  ambang: float = 0.45) -> None:
+    """Turunkan batas bawah kotak sampai judul produk ikut tercakup.
+
+    Kunci logo merek ini bertingkat: lambang di atas, wordmark di tengah, lalu
+    nama produk di bawahnya ("Doce Bag", "Darby Bag") dengan huruf sambung.
+    OCR hampir selalu hanya menangkap wordmark - huruf sambung sulit dibaca -
+    jadi kalau batas bawah kotak dipatok tetap, judulnya tertinggal di layar.
+
+    Di sini baris-baris di bawah wordmark diperiksa: selama masih ada tepi
+    tajam sebanyak baris wordmark itu sendiri, batas bawah diturunkan. Begitu
+    barisnya bersih, berhenti - jadi video tanpa judul tidak ikut terpotong
+    lebih dalam dari perlunya.
+
+    Sisi kiri dan kanan diperlakukan sama. Judul produk sering lebih lebar
+    daripada wordmark-nya, jadi kotak selebar wordmark saja menyisakan huruf
+    pertama dan terakhir judul tetap terbaca di layar.
+    """
+    import numpy as np
+    info = periksa(berkas)
+    for g in temuan:
+        t = (g.t0 + g.t1) / 2.0
+        lebar_g = max(8, g.x1 - g.x0)
+        tinggi_g = max(4, g.y1 - g.y0)
+        tarik = min(batas_bawah, info.tinggi - g.y1 - 2)
+        if tarik <= 4:
+            continue
+        p = subprocess.run(
+            [ffmpeg_bin(), "-v", "error", "-ss", f"{t:.3f}", "-i", berkas,
+             "-frames:v", "1",
+             "-vf", f"crop={lebar_g}:{tinggi_g + tarik}:{g.x0}:{g.y0},format=gray",
+             "-f", "rawvideo", "-pix_fmt", "gray", "-"],
+            capture_output=True)
+        butuh = lebar_g * (tinggi_g + tarik)
+        if len(p.stdout) < butuh:
+            continue
+        a = np.frombuffer(p.stdout[:butuh], dtype=np.uint8) \
+              .reshape(tinggi_g + tarik, lebar_g).astype(np.float32)
+        tepi = np.abs(np.diff(a, axis=1)).mean(1)
+        acuan = tepi[:tinggi_g].mean()          # kekuatan tepi di wordmark
+        if acuan <= 1e-3:
+            continue
+        bawah = tinggi_g
+        kosong = 0
+        for i in range(tinggi_g, tinggi_g + tarik):
+            if tepi[i] >= acuan * ambang:
+                bawah = i + 1
+                kosong = 0
+            else:
+                kosong += 1
+                if kosong >= 12:                # jeda cukup panjang = sudah habis
+                    break
+        g.y1 = g.y0 + bawah
+
+        # --- lebarkan ke kiri dan kanan dengan cara yang sama ---
+        tinggi_baru = g.y1 - g.y0
+        kiri = min(batas_samping, g.x0 - 2)
+        kanan = min(batas_samping, info.lebar - g.x1 - 2)
+        if kiri <= 4 and kanan <= 4:
+            continue
+        x_awal = g.x0 - kiri
+        lebar_luas = kiri + (g.x1 - g.x0) + kanan
+        p = subprocess.run(
+            [ffmpeg_bin(), "-v", "error", "-ss", f"{t:.3f}", "-i", berkas,
+             "-frames:v", "1",
+             "-vf", f"crop={lebar_luas}:{tinggi_baru}:{x_awal}:{g.y0},format=gray",
+             "-f", "rawvideo", "-pix_fmt", "gray", "-"],
+            capture_output=True)
+        butuh = lebar_luas * tinggi_baru
+        if len(p.stdout) < butuh:
+            continue
+        a = np.frombuffer(p.stdout[:butuh], dtype=np.uint8) \
+              .reshape(tinggi_baru, lebar_luas).astype(np.float32)
+        tepi_k = np.abs(np.diff(a, axis=0)).mean(0)
+        inti = tepi_k[kiri:kiri + (g.x1 - g.x0)]
+        if inti.size == 0 or inti.mean() <= 1e-3:
+            continue
+        acuan_k = inti.mean()
+        kosong = 0
+        batas_kiri = kiri
+        for i in range(kiri - 1, -1, -1):
+            if tepi_k[i] >= acuan_k * ambang:
+                batas_kiri = i
+                kosong = 0
+            else:
+                kosong += 1
+                if kosong >= 12:
+                    break
+        kosong = 0
+        batas_kanan = kiri + (g.x1 - g.x0)
+        for i in range(batas_kanan, lebar_luas):
+            if tepi_k[i] >= acuan_k * ambang:
+                batas_kanan = i + 1
+                kosong = 0
+            else:
+                kosong += 1
+                if kosong >= 12:
+                    break
+        g.x0 = x_awal + batas_kiri
+        g.x1 = x_awal + batas_kanan
+
+
+def saring_ukuran(temuan: List[Temuan], toleransi: float = 1.6,
+                  minimal: int = 3) -> List[Temuan]:
+    """Buang temuan yang ukurannya jauh menyimpang dari yang lain.
+
+    Watermark yang ditempel di-render sekali dengan satu ukuran, jadi lebarnya
+    sama setiap kali muncul dalam satu video. Logo merek yang TERCETAK pada
+    benda di dalam adegan - kotak kemasan, kantong belanja - besarnya
+    mengikuti jarak kamera, jadi lebarnya menyimpang jauh.
+
+    Bedanya penting: yang ditempel memang harus dihapus, sedangkan yang
+    tercetak adalah benda nyata di dalam adegan. Menghapusnya meninggalkan
+    tambalan buram di tengah barang yang justru sedang dijual - dan pada satu
+    berkas uji, penghapusan separuh menyisakan dua garis melayang bekas
+    lambang, yang jauh lebih mencolok daripada dibiarkan utuh.
+
+    Penyaringan hanya dijalankan kalau temuannya cukup banyak. Dengan dua
+    temuan berbeda ukuran, tidak ada dasar untuk menebak mana yang menyimpang.
+    """
+    if len(temuan) < minimal:
+        return temuan
+    lebar = sorted(g.x1 - g.x0 for g in temuan)
+    tengah = lebar[len(lebar) // 2]
+    if tengah <= 0:
+        return temuan
+    return [g for g in temuan
+            if (1 / toleransi) <= (g.x1 - g.x0) / tengah <= toleransi]
+
+
 def _kotak(g: Temuan, lebar: int, tinggi: int,
            atas: int = 78, samping: int = 16, bawah: int = 14) -> Tuple[int, int, int, int]:
     """Kotak akhir, diberi ruang ke atas untuk monogram di atas wordmark.
@@ -173,16 +311,21 @@ def hapus(
     crf: int = 16,
     bulu: int = 22,
     sigma: float = 9.0,
-    ambang_waktu: Tuple[float, float] = (0.8, 1.6),
+    ambang_waktu: Tuple[float, float] = (1.5, 3.0),
 ) -> str:
     """Tulis salinan `berkas` tanpa watermark. Audio disalin apa adanya.
 
-    `ambang_waktu` sengaja longgar, terutama di ujung belakang. OCR hanya
-    berhasil di sebagian cuplikan - logo yang tampil 0,8 sampai 2,8 detik bisa
-    saja hanya tertangkap sekali di detik 1,2. Rentang yang dilebarkan menutup
-    kekurangan itu. Melebihkan jauh lebih aman daripada kurang: kelebihan
-    hanya memburamkan sepetak latar beberapa saat lebih lama, sedangkan
-    kekurangan meninggalkan logonya terlihat.
+    `ambang_waktu` sengaja sangat longgar. OCR pada watermark merek punya
+    ketepatan tinggi tapi jangkauan rendah: kalau ia bilang "ada logo di sini",
+    itu hampir pasti benar - tapi dari satu kemunculan selama tiga detik, ia
+    mungkin hanya menangkapnya sekali. Pada satu berkas uji, logo yang tampil
+    dari detik 0 sampai 3 hanya tertangkap di detik 0; jendela +1,6 detik
+    membuat sisanya lolos dan logonya tetap terlihat.
+
+    Melebihkan jauh lebih aman daripada kurang: kelebihan hanya memburamkan
+    sepetak latar beberapa saat lebih lama - hampir tidak terlihat karena
+    latarnya memang mulus - sedangkan kekurangan meninggalkan logonya utuh
+    di layar, yang persis ingin dihindari.
     """
     info = periksa(berkas)
     if not temuan:
@@ -226,10 +369,13 @@ def hapus(
 
 
 def bersihkan(berkas: str, keluaran: str, kata: Sequence[str],
-              **kw) -> Tuple[str, List[Temuan]]:
+              judul: bool = True, **kw) -> Tuple[str, List[Temuan]]:
     """Cari lalu hapus dalam satu panggilan. Kembalikan berkas dan temuannya."""
     temuan = cari(berkas, kata, **{k: v for k, v in kw.items()
                                    if k in ("langkah", "pita_x", "jarak_y", "jeda")})
+    temuan = saring_ukuran(temuan)
+    if judul:
+        perluas_judul(berkas, temuan)
     hapus(berkas, keluaran, temuan,
           **{k: v for k, v in kw.items()
              if k in ("crf", "bulu", "sigma", "ambang_waktu")})
