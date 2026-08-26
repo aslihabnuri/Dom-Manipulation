@@ -2,8 +2,14 @@
 
 Deck presentasi kelompok untuk mata kuliah Business Ethics for Sustainability (MAN5522), MBA UGM.
 
-- `Evaluating-Business-Ethics-Hilirisasi-Nikel.pptx` adalah deck akhir, 21 slide, dirancang untuk 30 menit.
-- `build-deck.js` adalah skrip pembangkitnya. Jalankan dengan `node build-deck.js` setelah `npm install pptxgenjs`.
+## Berkas
+
+| Berkas | Isi |
+| --- | --- |
+| `WOW-Business-Ethics-Hilirisasi-Nikel.pptx` | Deck aktif, 21 slide, gaya kolase dada dengan palet Resistance Blue, Brave Pink, dan Hero Green |
+| `build-wow-deck.js` | Skrip pembangkit deck aktif. Jalankan `node build-wow-deck.js` dari folder yang memuat `assets/cut` |
+| `assets/cut/` | Potongan kolase transparan hasil generasi gambar, sudah dikuantisasi agar ringan |
+| `Evaluating-Business-Ethics-Hilirisasi-Nikel.pptx` | Versi awal bergaya editorial, disimpan sebagai arsip |
 
 ## Penyusun
 
@@ -20,10 +26,16 @@ Deck presentasi kelompok untuk mata kuliah Business Ethics for Sustainability (M
 | 1 sampai 2 | Judul dan sistematika pembahasan |
 | 3 sampai 14 | Teori Bab 3: peran teori normatif, absolutisme sampai pluralisme, klasifikasi sembilan teori, lima teori modernis Barat, enam keterbatasannya, empat teori alternatif, dan sembilan pertanyaan penilaian |
 | 15 sampai 20 | Studi kasus hilirisasi nikel: anatomi kebijakan, dua narasi, penilaian lima teori modernis, penilaian empat teori alternatif, sintesis penilaian dan evaluasi klaim, simpulan dan implikasi manajerial |
-| 21 | Penutup dan pertanyaan untuk diskusi |
+| 21 | Penutup |
 
 Setiap slide memuat catatan pembicara berisi alokasi waktu dan poin yang perlu ditekankan.
-Slide 21 tidak memerlukan alokasi waktu tersendiri.
+
+## Sistem desain
+
+Latar slide didominasi Resistance Blue `#1D1B84` dengan lima slide berlatar Brave Pink `#EC4899`.
+Hero Green `#00A11E` dipakai untuk panel, penomoran, dan aksen. Panel dalam memakai `#2A278F`,
+`#15136B`, `#C2185B`, dan `#00761A` agar teks putih tetap kontras. Penekanan kalimat memakai
+stabilo warna dan tebal berwarna, bukan tebal polos.
 
 ## Rujukan
 
