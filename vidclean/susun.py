@@ -15,6 +15,12 @@ cocok di indeks platform. Karena itu `rakit()` menerima dua tambahan:
     mikro, butiran) yang mengubah tiap piksel tanpa mengubah warna
   * `transisi` - silang-pudar antar scene supaya perpindahannya halus
 
+Kalau hasilnya masih terbaca duplikat, tiga tuas ini bisa dinaikkan bersama:
+`min_scene` lebih besar (potongan lebih halus, ruang acak lebih luas),
+`acak_kuat=True` (menuntut hampir semua scene tengah berpindah), dan
+`ragam_kecepatan()` (menggeser kecepatan tiap scene beberapa persen tanpa
+mengubah durasi total).
+
 Perlu diingat jalur AUDIO tidak ditangani modul ini. Musik latar sumber punya
 sidik jari sendiri dan ikut menandai video sebagai duplikat, jadi audionya
 sebaiknya diganti terpisah (lihat musik.py).
@@ -37,10 +43,17 @@ class Scene:
     mulai: float
     selesai: float
     dikunci: bool = False        # scene pembuka/penutup tidak boleh berpindah
+    kecepatan: float = 1.0       # >1 dipercepat, <1 diperlambat
 
     @property
     def durasi(self) -> float:
+        """Panjang potongan ini di video SUMBER."""
         return self.selesai - self.mulai
+
+    @property
+    def durasi_hasil(self) -> float:
+        """Panjang setelah kecepatan diterapkan - inilah yang muncul di hasil."""
+        return self.durasi / self.kecepatan
 
 
 def deteksi_scene(berkas: str, ambang: float = 0.22,
@@ -84,6 +97,34 @@ def _belah(scene: List[Tuple[float, float]], target: int,
     return hasil
 
 
+def ragam_kecepatan(urutan: List[Scene], sebar: float = 0.0,
+                    seed: Optional[int] = None) -> List[Scene]:
+    """Beri tiap scene kecepatan sedikit berbeda, TANPA mengubah durasi total.
+
+    Berguna karena pencocok konten juga melihat pola waktu: kapan sebuah
+    gerakan terjadi, berapa lama sebuah shot bertahan. Menggeser kecepatan
+    tiap scene beberapa persen memutus pola itu, sementara mata hampir tidak
+    bisa membedakannya.
+
+    Durasi total dijaga tetap sama dengan sumber supaya musik asli - yang
+    diambil utuh dari berkas sumber - tetap pas dari awal sampai akhir.
+    `sebar=0.08` berarti kecepatan acak di rentang 0,92x sampai 1,08x.
+    """
+    if sebar <= 0:
+        return urutan
+    acak = random.Random(seed)
+    total = sum(s.durasi for s in urutan)
+    for s in urutan:
+        s.kecepatan = acak.uniform(1.0 - sebar, 1.0 + sebar)
+    # Normalkan supaya jumlah durasi hasil kembali persis sama dengan total.
+    hasil = sum(s.durasi_hasil for s in urutan)
+    if hasil > 0:
+        koreksi = hasil / total
+        for s in urutan:
+            s.kecepatan *= koreksi
+    return urutan
+
+
 def rencana_urutan(
     berkas: str,
     seed: Optional[int] = None,
@@ -91,8 +132,14 @@ def rencana_urutan(
     jaga_akhir: int = 1,
     min_scene: int = 6,
     min_durasi: float = 1.0,
+    acak_kuat: bool = False,
 ) -> List[Scene]:
-    """Tentukan urutan scene baru: awal & akhir tetap, tengah diacak."""
+    """Tentukan urutan scene baru: awal & akhir tetap, tengah diacak.
+
+    acak_kuat=True menuntut hampir semua scene tengah benar-benar berpindah,
+    bukan sekadar setengahnya - dipakai kalau hasil sebelumnya masih terbaca
+    duplikat.
+    """
     mentah = deteksi_scene(berkas, min_durasi=min_durasi)
     mentah = _belah(mentah, min_scene, min_durasi)
 
@@ -110,11 +157,18 @@ def rencana_urutan(
 
     # Acak sampai urutannya benar-benar berbeda dari aslinya.
     asli = list(tengah)
-    for _ in range(60):
+    butuh = (max(2, int(len(tengah) * 0.85)) if acak_kuat
+             else max(2, len(tengah) // 2))
+    terbaik, skor_terbaik = list(tengah), -1
+    for _ in range(400):
         acak.shuffle(tengah)
         beda = sum(1 for i, s in enumerate(tengah) if s is not asli[i])
-        if beda >= max(2, len(tengah) // 2):
+        if beda > skor_terbaik:
+            terbaik, skor_terbaik = list(tengah), beda
+        if beda >= butuh:
             break
+    else:
+        tengah = terbaik
 
     return awal + tengah + akhir
 
@@ -165,7 +219,7 @@ def rakit(
             tambahan.append(0.0)
             continue
         sisa_sumber = max(0.0, info.durasi - s.selesai)
-        tambahan.append(min(transisi, sisa_sumber, s.durasi * 0.5))
+        tambahan.append(min(transisi, sisa_sumber, s.durasi * 0.35))
 
     for nomor, s in enumerate(urutan):
         panjang = s.durasi + tambahan[nomor]
@@ -173,7 +227,8 @@ def rakit(
         # setsar saja supaya sambungan mulus; tidak ada scale/crop/eq/curves,
         # jadi warna dan komposisi persis seperti sumber.
         # settb=AVTB wajib: xfade menolak dua masukan yang basis waktunya beda.
-        graf.append(f"[{nomor}:v]setpts=PTS-STARTPTS,setsar=1,settb=AVTB[v{nomor}]")
+        laju = "" if abs(s.kecepatan - 1.0) < 1e-6 else f",setpts={1.0/s.kecepatan:.6f}*PTS"
+        graf.append(f"[{nomor}:v]setpts=PTS-STARTPTS{laju},setsar=1,settb=AVTB[v{nomor}]")
         if pakai_audio and not audio_utuh:
             graf.append(f"[{nomor}:a]asetpts=PTS-STARTPTS,aresample=48000[a{nomor}]")
             pasang.append(f"[v{nomor}][a{nomor}]")
@@ -188,21 +243,23 @@ def rakit(
             graf.append("".join(f"[v{i}]" for i in range(n))
                         + f"concat=n={n}:v=1:a=0[{label_keluar}]")
             return
-        jalan = urutan[0].durasi + tambahan[0]      # panjang hasil sementara
+        # Semua hitungan di bawah memakai waktu HASIL (sesudah kecepatan),
+        # bukan waktu sumber - xfade bekerja di waktu hasil.
+        jalan = urutan[0].durasi_hasil + tambahan[0] / urutan[0].kecepatan
         kini = "v0"
         for i in range(1, n):
-            t = tambahan[i - 1]
+            t = tambahan[i - 1] / urutan[i - 1].kecepatan
             berikut = f"x{i}" if i < n - 1 else label_keluar
             if t <= 0.01:
                 # tidak ada footage sisa untuk memudar: sambung keras saja
                 graf.append(f"[{kini}][v{i}]concat=n=2:v=1:a=0,settb=AVTB[{berikut}]")
-                jalan += urutan[i].durasi + tambahan[i]
+                jalan += urutan[i].durasi_hasil + tambahan[i] / urutan[i].kecepatan
             else:
                 geser = jalan - t
                 graf.append(
                     f"[{kini}][v{i}]xfade=transition=fade:"
                     f"duration={t:.3f}:offset={geser:.3f}[{berikut}]")
-                jalan = geser + urutan[i].durasi + tambahan[i]
+                jalan = geser + urutan[i].durasi_hasil + tambahan[i] / urutan[i].kecepatan
             kini = berikut
 
     if pakai_audio and audio_utuh:
