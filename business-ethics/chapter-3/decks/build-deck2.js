@@ -123,12 +123,12 @@ function lens(s, o) {
     ['02', 'Profil Oil Sands', 'Apa yang ditambang, seberapa besar, siapa pemainnya'],
     ['03', 'Peta Pemangku Kepentingan', 'Enam pihak dengan kepentingan yang berbenturan'],
     ['04', 'Dua Narasi', 'Most destructive project versus ethical oil'],
-    ['05', 'Lensa Akibat', 'Egoism dan utilitarianism membaca kasus'],
-    ['06', 'Lensa Prinsip', 'Duty, rights, dan justice membaca kasus'],
-    ['07', 'Lensa Alternatif', 'Virtue, care, discourse, postmodern'],
+    ['05', 'Penilaian Akibat', 'Egoism dan utilitarianism pada kasus'],
+    ['06', 'Penilaian Prinsip', 'Duty, rights, dan justice pada kasus'],
+    ['07', 'Penilaian Konteks', 'Virtue, care, discourse, postmodern'],
     ['08', 'Matriks Putusan', 'Sembilan sorotan atas fakta yang sama'],
-    ['09', 'Menguji Ethical Oil', 'Empat proposisi dari hasil analisis'],
-    ['10', 'Implikasi', 'Pelajaran manajerial dan konteks Indonesia']
+    ['09', 'Evaluasi Klaim', 'Empat proposisi dari hasil analisis'],
+    ['10', 'Implikasi Manajerial', 'Pelajaran kasus dan konteks Indonesia']
   ];
   const colW = CW / 2 - 0.2;
   idx.forEach((it, i) => {
@@ -143,13 +143,13 @@ function lens(s, o) {
 
 // ============================================================ 03 kerangka analisis
 {
-  const s = S([{ t: 'Kerangka', fill: TEAL }, { t: 'Figure 3.2', outline: true }]);
-  head(s, 'Kasus Ini Menolak Satu Jawaban', 0.96);
-  sub(s, 'Karena itu kerangkanya bukan satu teori, melainkan sembilan sekaligus.', 1.62);
+  const s = S([{ t: 'Metode', fill: TEAL }, { t: 'Figure 3.2', outline: true }]);
+  head(s, 'Kerangka Analisis Pluralis', 0.96);
+  sub(s, 'Kasus ini tidak memiliki jawaban tunggal, sehingga dibedah dengan sembilan teori.', 1.62);
 
   card(pres, s, M, 2.16, w2, 2.5, W, { line: { color: LINE, width: 1, dashType: 'dash' } });
   s.addText('CARA YANG BIASA', { isTextBox: true, x: M + 0.3, y: 2.4, w: w2 - 0.6, h: 0.26, fontFace: F, fontSize: 9.5, bold: true, charSpacing: 1, color: SLATE, margin: 0 });
-  s.addText('Pilih Satu Teori, Ambil Kesimpulan', { isTextBox: true, x: M + 0.3, y: 2.7, w: w2 - 0.6, h: 0.36, fontFace: F, fontSize: 18, bold: true, color: INK, margin: 0 });
+  s.addText('Pendekatan Teori Tunggal', { isTextBox: true, x: M + 0.3, y: 2.7, w: w2 - 0.6, h: 0.36, fontFace: F, fontSize: 18, bold: true, color: INK, margin: 0 });
   s.addText('Kasus dipusatkan menjadi satu pertimbangan tunggal. Kesimpulannya rapi, tetapi seluruh keberatan pihak lain hilang dari pandangan dan tidak pernah terjawab.', {
     isTextBox: true, x: M + 0.3, y: 3.18, w: w2 - 0.66, h: 1.16, fontFace: F, fontSize: 12.5, color: '2A3243', margin: 0, lineSpacing: 18
   });
@@ -157,7 +157,7 @@ function lens(s, o) {
   const px = M + w2 + 0.28;
   card(pres, s, px, 2.16, w2, 2.5, INK);
   s.addText('CARA CHAPTER 3', { isTextBox: true, x: px + 0.3, y: 2.4, w: w2 - 0.6, h: 0.26, fontFace: F, fontSize: 9.5, bold: true, charSpacing: 1, color: LIME, margin: 0 });
-  s.addText('Jalankan Sembilan Lensa Sekaligus', { isTextBox: true, x: px + 0.3, y: 2.7, w: w2 - 0.6, h: 0.36, fontFace: F, fontSize: 18, bold: true, color: W, margin: 0 });
+  s.addText('Pendekatan Pluralis', { isTextBox: true, x: px + 0.3, y: 2.7, w: w2 - 0.6, h: 0.36, fontFace: F, fontSize: 18, bold: true, color: W, margin: 0 });
   s.addText('Setiap teori menyinari sisi yang tidak terlihat teori lain. Yang dicari bukan jawaban tunggal, melainkan pertimbangan mana yang paling berat menanggung beban argumen.', {
     isTextBox: true, x: px + 0.3, y: 3.18, w: w2 - 0.66, h: 1.16, fontFace: F, fontSize: 12.5, color: 'E8E4DC', margin: 0, lineSpacing: 18
   });
@@ -176,8 +176,8 @@ function lens(s, o) {
 
 // ============================================================ 04 profil kasus
 {
-  const s = S([{ t: 'Profil', fill: ORNG }, { t: 'Halaman 129–130', outline: true }]);
-  head(s, 'Apa yang Sebenarnya Ditambang', 0.96);
+  const s = S([{ t: 'Konteks Kasus', fill: ORNG }, { t: 'Halaman 129–130', outline: true }]);
+  head(s, 'Profil Industri Oil Sands', 0.96);
   sub(s, 'Campuran pasir, lempung, air, dan bitumen yang berat dan sangat kental.', 1.62);
 
   const st = [
@@ -207,9 +207,9 @@ function lens(s, o) {
 
 // ============================================================ 05 pemangku kepentingan
 {
-  const s = S([{ t: 'Peta Pihak', fill: ORNG }, { t: 'Enam Pemangku Kepentingan', outline: true }]);
-  head(s, 'Enam Pihak, Enam Kepentingan', 0.96);
-  sub(s, 'Setiap teori pada bagian berikutnya memberi bobot berbeda pada pihak-pihak ini.', 1.62);
+  const s = S([{ t: 'Aktor', fill: ORNG }, { t: 'Enam Pihak', outline: true }]);
+  head(s, 'Peta Pemangku Kepentingan', 0.96);
+  sub(s, 'Setiap teori berikutnya memberi bobot berbeda pada keenam pihak ini.', 1.62);
 
   const pk = [
     [ORNG, 'Pemerintah Alberta', 'Pendapatan pajak, lapangan kerja, dan kedaulatan energi provinsi.'],
@@ -231,8 +231,8 @@ function lens(s, o) {
 
 // ============================================================ 06 dua narasi
 {
-  const s = S([{ t: 'Dua Narasi', fill: ORNG }, { t: 'Halaman 131–133', outline: true }]);
-  head(s, 'Dua Narasi yang Saling Berhadapan', 0.96);
+  const s = S([{ t: 'Kasus', fill: ORNG }, { t: 'Halaman 131–133', outline: true }]);
+  head(s, 'Dua Narasi Berlawanan', 0.96);
 
   card(pres, s, M, 1.9, w2, 4.0, INK);
   pills(pres, s, [{ t: 'Penentang', fill: LIME, color: INK }], 2.14, M + 0.3);
@@ -271,8 +271,8 @@ function lens(s, o) {
 
 // ============================================================ 07 lensa akibat
 {
-  const s = S([{ t: 'Lensa 1–2', fill: ORNG }, { t: 'Consequentialist', outline: true }]);
-  head(s, 'Membaca Kasus dari Akibatnya', 0.96);
+  const s = S([{ t: 'Lensa 1–2', fill: ORNG }, { t: 'Egoism · Utilitarianism', outline: true }]);
+  head(s, 'Penilaian Berbasis Akibat', 0.96);
   sub(s, 'Yang dinilai adalah hasil, bukan niat atau prosedurnya.', 1.62);
 
   lens(s, {
@@ -293,8 +293,8 @@ function lens(s, o) {
 
 // ============================================================ 08 lensa prinsip
 {
-  const s = S([{ t: 'Lensa 3–5', fill: LAV, color: INK }, { t: 'Principle-based', outline: true }]);
-  head(s, 'Membaca Kasus dari Prinsipnya', 0.96);
+  const s = S([{ t: 'Lensa 3–5', fill: LAV, color: INK }, { t: 'Duty · Rights · Justice', outline: true }]);
+  head(s, 'Penilaian Berbasis Prinsip', 0.96);
   sub(s, 'Yang dinilai adalah kewajiban, hak, dan keadilan distribusinya.', 1.62);
 
   lens(s, {
@@ -320,9 +320,9 @@ function lens(s, o) {
 
 // ============================================================ 09 lensa alternatif
 {
-  const s = S([{ t: 'Lensa 6–9', fill: LIME, color: INK }, { t: 'Perspektif Alternatif', outline: true }]);
-  head(s, 'Membaca Kasus dari Sisi yang Terlewat', 0.96);
-  sub(s, 'Karakter pelakunya, relasinya, prosesnya, dan bahasanya.', 1.62);
+  const s = S([{ t: 'Lensa 6–9', fill: LIME, color: INK }, { t: 'Empat Teori Alternatif', outline: true }]);
+  head(s, 'Penilaian Berbasis Konteks', 0.96);
+  sub(s, 'Yang dinilai adalah karakter pelaku, relasi, proses, dan bahasanya.', 1.62);
 
   const q = [
     'Apa yang akan dilakukan orang yang layak dan jujur dalam posisi ini?',
@@ -345,8 +345,8 @@ function lens(s, o) {
 
 // ============================================================ 10 matriks putusan
 {
-  const s = S([{ t: 'Matriks', fill: ORNG }, { t: 'Sembilan Putusan', outline: true }]);
-  head(s, 'Sembilan Sorotan, Satu Rangkaian Fakta', 0.96);
+  const s = S([{ t: 'Sintesis', fill: ORNG }, { t: 'Sembilan Putusan', outline: true }]);
+  head(s, 'Matriks Sembilan Lensa', 0.96);
 
   const rows = [
     ['Egoism', 'Biaya iklim tidak pernah masuk harga karena generasi mendatang tidak hadir di pasar', 'Netral'],
@@ -376,13 +376,13 @@ function lens(s, o) {
 
 // ============================================================ 11 menguji ethical oil
 {
-  const s = S([{ t: 'Uji Klaim', fill: ORNG }, { t: 'Empat Proposisi', outline: true }]);
-  head(s, 'Kenapa Klaim Ethical Oil Tidak Bertahan', 0.96);
+  const s = S([{ t: 'Argumen', fill: ORNG }, { t: 'Empat Proposisi', outline: true }]);
+  head(s, 'Evaluasi Klaim Ethical Oil', 0.96);
   sub(s, 'Empat proposisi yang lahir dari kesembilan lensa di atas.', 1.62);
 
   const pr = [
     [ORNG, 'Perbandingan ke Bawah Bukan Argumen Moral', 'Bahwa Venezuela dan Arab Saudi lebih buruk tidak membuat tindakan Kanada menjadi benar. Virtue ethics menyebutnya mengukur diri pada standar terendah.'],
-    [LAV, 'Prosesnya Cacat Sebelum Isinya Dinilai', 'Label ethical oil lahir dari kampanye berdana industri. Discourse ethics membatalkannya karena syarat imparsialitas gagal sejak awal.'],
+    [LAV, 'Cacat Prosedural Sejak Awal', 'Label ethical oil lahir dari kampanye berdana industri. Discourse ethics membatalkannya karena syarat imparsialitas gagal sejak awal.'],
     [TEAL, 'Beban dan Manfaat Jatuh pada Pihak Berbeda', 'Manfaat tersebar nasional, beban terkonsentrasi pada komunitas hilir dan generasi mendatang. Rawls menolak susunan seperti ini.'],
     [INK, 'Prinsipnya Runtuh Ketika Diuniversalkan', 'Bila seluruh pemilik cadangan terbesar berbuat sama, tidak ada anggaran karbon yang tersisa. Uji Kant gagal di titik ini.']
   ];
@@ -396,13 +396,13 @@ function lens(s, o) {
 
 // ============================================================ 12 implikasi
 {
-  const s = S([{ t: 'Implikasi', fill: TEAL }, { t: 'Manajerial', outline: true }]);
-  head(s, 'Yang Dapat Dibawa Pulang Manajer', 0.96);
+  const s = S([{ t: 'Penerapan', fill: TEAL }, { t: 'Pelajaran Kasus', outline: true }]);
+  head(s, 'Implikasi Manajerial', 0.96);
 
   const im = [
-    [ORNG, 'Pakai Lebih dari Satu Teori', 'Klaim yang lolos satu teori sering runtuh pada teori kedua. Sembilan pertimbangan pada Tabel 3.8 adalah daftar periksa, bukan rencana sepuluh langkah.'],
-    [LAV, 'Cek Siapa yang Tidak Hadir', 'Generasi mendatang dan komunitas hilir tidak punya kursi. Keputusan yang mengabaikan mereka rapuh secara moral sekaligus secara reputasi.'],
-    [TEAL, 'Awasi Pilihan Istilahnya', 'Oil sands atau tar sands, hilirisasi atau ekstraksi. Pilihan kata menentukan penilaian sebelum datanya sempat dibaca.']
+    [ORNG, 'Uji dengan Beberapa Teori', 'Klaim yang lolos satu teori sering runtuh pada teori kedua. Sembilan pertimbangan pada Tabel 3.8 adalah daftar periksa, bukan rencana sepuluh langkah.'],
+    [LAV, 'Identifikasi Pihak Absen', 'Generasi mendatang dan komunitas hilir tidak punya kursi. Keputusan yang mengabaikan mereka rapuh secara moral sekaligus secara reputasi.'],
+    [TEAL, 'Cermati Pilihan Istilah', 'Oil sands atau tar sands, hilirisasi atau ekstraksi. Pilihan kata menentukan penilaian sebelum datanya sempat dibaca.']
   ];
   im.forEach((p, i) => tile(pres, s, {
     x: M + i * (w3 + 0.24), y: 2.02, w: w3, h: 2.36, fill: p[0], n: '0' + (i + 1), t: p[1], ts: 13.5, b: p[2], bs: 11
@@ -422,12 +422,12 @@ function lens(s, o) {
 
 // ============================================================ 13 kesimpulan
 {
-  const s = S([{ t: 'Kesimpulan', fill: ORNG }, { t: 'Tiga Temuan', outline: true }]);
-  head(s, 'Tiga Temuan dari Analisis Ini', 0.96);
+  const s = S([{ t: 'Penutup', fill: ORNG }, { t: 'Tiga Temuan', outline: true }]);
+  head(s, 'Simpulan Analisis', 0.96);
 
   const tm = [
     [ORNG, 'Konvergensi, Bukan Kesepakatan', 'Sembilan teori berangkat dari premis yang berbeda, namun enam di antaranya tiba pada arah yang sama. Konvergensi dari pintu masuk yang berbeda itulah bukti terkuat yang bisa dihasilkan pluralism.'],
-    [LAV, 'Yang Gugur Adalah Klaimnya', 'Yang runtuh bukan industrinya, melainkan klaim bahwa industri ini etis. Pertanyaan tentang transisi, kompensasi, dan reklamasi masih terbuka dan tetap perlu dijawab.'],
+    [LAV, 'Klaimnya yang Gugur', 'Yang runtuh bukan industrinya, melainkan klaim bahwa industri ini etis. Pertanyaan tentang transisi, kompensasi, dan reklamasi masih terbuka dan tetap perlu dijawab.'],
     [INK, 'Prisma Bekerja pada Kasus Nyata', 'Satu lensa akan memberi jawaban yang rapi dan menyesatkan. Prisma memberi spektrum yang tidak nyaman, tetapi dapat dipertanggungjawabkan kepada seluruh pihak yang terdampak.']
   ];
   tm.forEach((t, i) => numRow(pres, s, {

@@ -76,14 +76,14 @@ const w2 = (CW - 0.28) / 2;
   ], 1.42);
 
   const idx = [
-    ['01', 'Peran Teori Etika', 'Kenapa keputusan bisnis butuh dasar penalaran'],
-    ['02', 'Tiga Sikap Moral', 'Absolutism, relativism, dan pluralism'],
-    ['03', 'Dua Keluarga Teori', 'Consequentialist dan principle-based'],
+    ['01', 'Urgensi Teori Etika', 'Dasar penalaran bagi keputusan bisnis'],
+    ['02', 'Tiga Posisi Moral', 'Absolutism, relativism, pluralism'],
+    ['03', 'Taksonomi Teori', 'Consequentialist dan principle-based'],
     ['04', 'Ethical Dilemma 3', 'Kasus penguji yang dipakai sepanjang bab'],
-    ['05', 'Menilai dari Akibat', 'Ethical egoism dan utilitarianism'],
-    ['06', 'Menilai dari Prinsip', 'Duty, rights, dan justice'],
-    ['07', 'Enam Kritik', 'Batas teori Barat modern'],
-    ['08', 'Empat Alternatif', 'Virtue, care, discourse, postmodern'],
+    ['05', 'Teori Consequentialist', 'Ethical egoism dan utilitarianism'],
+    ['06', 'Teori Principle-based', 'Duty, rights, dan justice'],
+    ['07', 'Kritik dan Keterbatasan', 'Batas teori Barat modern'],
+    ['08', 'Perspektif Alternatif', 'Virtue, care, discourse, postmodern'],
     ['09', 'Dari Lensa ke Prisma', 'Pesan utama Chapter 3'],
     ['10', 'Canada’s Oil Sands', 'Sembilan teori diuji pada satu kasus']
   ];
@@ -101,13 +101,13 @@ const w2 = (CW - 0.28) / 2;
 // ============================================================ 03 kenapa teori etika
 {
   const s = S([{ t: 'Peran Teori', fill: ORNG }, { t: 'Halaman 86–88', outline: true }]);
-  head(s, 'Etika Bisnis Butuh Dasar, Bukan Selera', 0.96);
+  head(s, 'Urgensi Teori Etika Normatif', 0.96);
   sub(s, 'Keputusan bisnis harus bisa dipertahankan di hadapan pihak yang menanggung akibatnya.', 1.62);
 
   const items = [
-    [ORNG, 'Konteksnya Lebih Rumit', 'Perusahaan yang masuk ke negara berkembang menghadapi suap, standar kerja rendah, dan diskriminasi.'],
-    [LAV, 'Keputusan Harus Dibela', 'Manajer perlu membenarkan pilihannya kepada pemegang saham, karyawan, dan masyarakat luas.'],
-    [INK, 'Kritik Juga Butuh Dasar', 'Pihak yang menyebut sebuah perusahaan tidak etis memerlukan landasan yang sama kuatnya.']
+    [ORNG, 'Kompleksitas Konteks', 'Perusahaan yang masuk ke negara berkembang menghadapi suap, standar kerja rendah, dan diskriminasi.'],
+    [LAV, 'Kewajiban Justifikasi', 'Manajer perlu membenarkan pilihannya kepada pemegang saham, karyawan, dan masyarakat luas.'],
+    [INK, 'Kritik Menuntut Landasan', 'Pihak yang menyebut sebuah perusahaan tidak etis memerlukan landasan yang sama kuatnya.']
   ];
   items.forEach((it, i) => tile(pres, s, {
     x: M + i * (w3 + 0.24), y: 2.16, w: w3, h: 2.34, fill: it[0], n: '0' + (i + 1), t: it[1], b: it[2]
@@ -122,7 +122,7 @@ const w2 = (CW - 0.28) / 2;
 // ============================================================ 04 tiga sikap moral
 {
   const s = S([{ t: 'Posisi Moral', fill: ORNG }, { t: 'Halaman 89–91', outline: true }]);
-  head(s, 'Tiga Sikap terhadap Kebenaran Moral', 0.96);
+  head(s, 'Absolutism, Relativism, Pluralism', 0.96);
   sub(s, 'Buku ini berdiri di posisi yang ketiga.', 1.62);
 
   const pos = [
@@ -144,7 +144,7 @@ const w2 = (CW - 0.28) / 2;
 // ============================================================ 05 dua keluarga teori
 {
   const s = S([{ t: 'Teori Barat Modern', fill: ORNG }, { t: 'Tabel 3.1', outline: true }]);
-  head(s, 'Dua Keluarga Besar Teori Barat Modern', 0.96);
+  head(s, 'Taksonomi Teori Barat Modern', 0.96);
   sub(s, 'Lahir dari Pencerahan abad ke-18, menawarkan satu aturan untuk segala situasi.', 1.62);
 
   tile(pres, s, { x: M, y: 2.16, w: w2, h: 1.9, fill: ORNG, t: 'Consequentialist', ts: 18, b: 'Menilai moralitas dari hasil sebuah tindakan. Hasil yang diinginkan berarti tindakannya benar.' });
@@ -170,8 +170,8 @@ const w2 = (CW - 0.28) / 2;
 
 // ============================================================ 06 ethical dilemma 3
 {
-  const s = S([{ t: 'Kasus Penguji', fill: ORNG }, { t: 'Halaman 94', outline: true }]);
-  head(s, 'Ethical Dilemma 3: Producing Toys', 0.96);
+  const s = S([{ t: 'Producing Toys', fill: ORNG }, { t: 'Halaman 94', outline: true }]);
+  head(s, 'Ethical Dilemma 3', 0.96);
   sub(s, 'Satu kasus dipakai untuk menguji seluruh teori sepanjang bab ini.', 1.62);
 
   const lw = 7.0;
@@ -212,8 +212,8 @@ const w2 = (CW - 0.28) / 2;
 
   const it = [
     [ORNG, 'Invisible Hand', 'Adam Smith: kepentingan diri yang dikejar bersama dianggap menghasilkan kesejahteraan kolektif lewat mekanisme pasar.'],
-    [LAV, 'Bukan Serakah Sesaat', 'Kepentingan jangka panjang justru menuntut kejujuran dan reputasi, bukan keuntungan yang habis dalam semalam.'],
-    [INK, 'Batasnya: Market Failure', 'Pasar gagal ketika ada monopoli, informasi timpang, dan dampak yang tidak pernah masuk ke dalam harga.']
+    [LAV, 'Horizon Jangka Panjang', 'Kepentingan jangka panjang justru menuntut kejujuran dan reputasi, bukan keuntungan yang habis dalam semalam.'],
+    [INK, 'Batas: Market Failure', 'Pasar gagal ketika ada monopoli, informasi timpang, dan dampak yang tidak pernah masuk ke dalam harga.']
   ];
   it.forEach((t, i) => tile(pres, s, {
     x: M + i * (w3 + 0.24), y: 2.66, w: w3, h: 2.5, fill: t[0], n: '0' + (i + 1), t: t[1], b: t[2]
@@ -245,9 +245,9 @@ const w2 = (CW - 0.28) / 2;
 
 // ============================================================ 09 empat masalah + dua jenis
 {
-  const s = S([{ t: 'Teori 02', fill: ORNG }, { t: 'Keterbatasan', outline: true }]);
-  head(s, 'Empat Masalah, Lalu Dua Jenis', 0.96);
-  sub(s, 'Penyempurnaan Mill memecah utilitarianism menjadi dua cara menilai yang berlawanan.', 1.62);
+  const s = S([{ t: 'Teori 02', fill: ORNG }, { t: 'Kritik Internal', outline: true }]);
+  head(s, 'Keterbatasan Utilitarianism', 0.96);
+  sub(s, 'Empat masalah pokok, lalu penyempurnaan Mill menjadi dua jenis penilaian.', 1.62);
 
   const pr = [
     [AMBR, 'Subjectivity', 'Ukuran pleasure dan pain bergantung pada siapa yang menganalisis.'],
@@ -268,8 +268,8 @@ const w2 = (CW - 0.28) / 2;
 
 // ============================================================ 10 ethics of duties
 {
-  const s = S([{ t: 'Teori 03', fill: LAV, color: INK }, { t: 'Principle-based', outline: true }]);
-  head(s, 'Ethics of Duties: Immanuel Kant', 0.96);
+  const s = S([{ t: 'Teori 03', fill: LAV, color: INK }, { t: 'Immanuel Kant', outline: true }]);
+  head(s, 'Ethics of Duties', 0.96);
   quote(pres, s, M, 1.66, CW, 0.82, 'Bertindak hanya menurut maksim yang pada saat bersamaan dapat dikehendaki menjadi hukum universal.', null, LAV);
 
   tile(pres, s, {
@@ -300,8 +300,8 @@ const w2 = (CW - 0.28) / 2;
 
 // ============================================================ 11 ethics of rights
 {
-  const s = S([{ t: 'Teori 04', fill: LAV, color: INK }, { t: 'Principle-based', outline: true }]);
-  head(s, 'Ethics of Rights: Hak Asasi Manusia', 0.96);
+  const s = S([{ t: 'Teori 04', fill: LAV, color: INK }, { t: 'Hak Asasi Manusia', outline: true }]);
+  head(s, 'Ethics of Rights', 0.96);
   quote(pres, s, M, 1.66, CW, 0.82, 'Hak dasar yang tidak dapat dicabut dan melekat pada seluruh manusia tanpa kecuali. Hak selalu melahirkan kewajiban bagi pihak lain.', null, LAV);
 
   const ung = [
@@ -338,8 +338,8 @@ const w2 = (CW - 0.28) / 2;
 
 // ============================================================ 12 justice / rawls
 {
-  const s = S([{ t: 'Teori 05', fill: LAV, color: INK }, { t: 'Principle-based', outline: true }]);
-  head(s, 'Justice: John Rawls', 0.96);
+  const s = S([{ t: 'Teori 05', fill: LAV, color: INK }, { t: 'John Rawls', outline: true }]);
+  head(s, 'Theory of Justice', 0.96);
   quote(pres, s, M, 1.66, CW, 0.82, 'Aturan apa yang akan Anda pilih bila Anda tidak tahu akan terlahir sebagai siapa di dalam masyarakat itu?', null, LAV);
 
   tile(pres, s, {
@@ -368,8 +368,8 @@ const w2 = (CW - 0.28) / 2;
 
 // ============================================================ 13 enam kritik
 {
-  const s = S([{ t: 'Batas Teori Barat', fill: INK }, { t: 'Halaman 108', outline: true }]);
-  head(s, 'Enam Kritik terhadap Teori Barat Modern', 0.96);
+  const s = S([{ t: 'Enam Kritik', fill: INK }, { t: 'Halaman 108', outline: true }]);
+  head(s, 'Kritik atas Teori Barat Modern', 0.96);
 
   const kr = [
     [ORNG, 'Too Abstract', 'Stark (1994), Brenkert (2010)', 'Terlalu teoretis untuk keprihatinan sehari-hari seorang manajer.'],
@@ -394,9 +394,9 @@ const w2 = (CW - 0.28) / 2;
 
 // ============================================================ 14 empat alternatif
 {
-  const s = S([{ t: 'Alternatif', fill: LIME, color: INK }, { t: 'Halaman 110–118', outline: true }]);
-  head(s, 'Empat Perspektif Alternatif', 0.96);
-  sub(s, 'Lebih fleksibel, lebih memperhatikan pengambil keputusan, konteks, dan relasinya.', 1.62);
+  const s = S([{ t: 'Empat Alternatif', fill: LIME, color: INK }, { t: 'Halaman 110–118', outline: true }]);
+  head(s, 'Perspektif Alternatif', 0.96);
+  sub(s, 'Menekankan fleksibilitas serta konteks dan relasi pengambil keputusan.', 1.62);
 
   const al = [
     [TEAL, 'Virtue Ethics', 'Karakter', 'Fokus penilaian berpindah dari tindakan kepada pelakunya. Tindakan yang baik berasal dari orang yang baik.'],
@@ -473,7 +473,7 @@ const w2 = (CW - 0.28) / 2;
 // ============================================================ 17 angka dua sisi
 {
   const s = S([{ t: 'Kasus', fill: ORNG }, { t: 'Halaman 130–131', outline: true }]);
-  head(s, 'Angka dari Kedua Sisi Sama Besarnya', 0.96);
+  head(s, 'Manfaat Ekonomi dan Biaya Ekologis', 0.96);
 
   const st = [
     { v: '2,77', u: 'juta', l: 'Barel per hari pada 2017, naik dari 0,5 juta barel pada 1997', fill: ORNG },
@@ -484,11 +484,11 @@ const w2 = (CW - 0.28) / 2;
   st.forEach((o, i) => stat(pres, s, Object.assign({ x: M + i * (w4 + 0.2), y: 1.9, w: w4, h: 2.0, vs: 30 }, o)));
 
   tile(pres, s, {
-    x: M, y: 4.06, w: w2, h: 2.16, fill: TEAL, t: 'Yang Dihitung Pendukung', ts: 16,
+    x: M, y: 4.06, w: w2, h: 2.16, fill: TEAL, t: 'Perhitungan Pendukung', ts: 16,
     b: '206.000 lapangan kerja pada 2017, menuju 461.000 pada 2027\n3.400 perusahaan pemasok di luar Alberta\nCAD 3,3 miliar untuk 399 perusahaan masyarakat adat\nCAD 139 miliar pajak federal dan provinsi'
   });
   tile(pres, s, {
-    x: M + w2 + 0.28, y: 4.06, w: w2, h: 2.16, fill: INK, t: 'Yang Dihitung Penentang', ts: 16,
+    x: M + w2 + 0.28, y: 4.06, w: w2, h: 2.16, fill: INK, t: 'Perhitungan Penentang', ts: 16,
     b: 'Kolam limbah beracun 220 kilometer persegi berisi 1 triliun liter\nHutan boreal seluas Kota New York telah hancur\nTambahan 50 sampai 150 juta ton emisi per tahun pada 2030\n10 persen emisi Kanada dari satu industri saja'
   });
 
@@ -498,8 +498,8 @@ const w2 = (CW - 0.28) / 2;
 
 // ============================================================ 18 ethical oil
 {
-  const s = S([{ t: 'Kasus', fill: ORNG }, { t: 'Dua Narasi', outline: true }]);
-  head(s, 'Ethical Oil dan Bantahannya', 0.96);
+  const s = S([{ t: 'Kasus', fill: ORNG }, { t: 'Klaim dan Bantahan', outline: true }]);
+  head(s, 'Klaim Ethical Oil', 0.96);
 
   card(pres, s, M, 1.9, w2, 3.86, ORNG);
   pills(pres, s, [{ t: 'Klaim', fill: INK }], 2.14, M + 0.3);
@@ -540,7 +540,7 @@ const w2 = (CW - 0.28) / 2;
 // ============================================================ 19 sembilan putusan
 {
   const s = S([{ t: 'Sintesis', fill: ORNG }, { t: 'Sembilan Lensa', outline: true }]);
-  head(s, 'Sembilan Teori, Sembilan Putusan', 0.96);
+  head(s, 'Matriks Sembilan Teori', 0.96);
 
   const rows = [
     ['AB463C', 'Egoism', 'Generasi mendatang tidak hadir di pasar, jadi biayanya tidak pernah masuk harga', 'Netral'],
@@ -570,9 +570,9 @@ const w2 = (CW - 0.28) / 2;
 
 // ============================================================ 20 pertanyaan diskusi
 {
-  const s = S([{ t: 'Diskusi', fill: ORNG }, { t: 'Pilih Dua', outline: true }]);
-  head(s, 'Empat Pertanyaan untuk Kelas', 0.96);
-  sub(s, 'Setiap pertanyaan menguji satu teori pada kasus yang sama.', 1.62);
+  const s = S([{ t: 'Penerapan', fill: ORNG }, { t: 'Pilih Dua', outline: true }]);
+  head(s, 'Agenda Diskusi', 0.96);
+  sub(s, 'Empat pertanyaan pemandu, masing-masing menguji satu teori.', 1.62);
 
   const q = [
     [ORNG, 'Uji Kant', 'Bila prinsip Kanada diterapkan oleh seluruh negara pemilik cadangan terbesar, apa yang tersisa dari target Paris?'],
