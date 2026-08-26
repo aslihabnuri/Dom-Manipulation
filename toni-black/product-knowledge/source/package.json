@@ -1,0 +1,7 @@
+{
+  "name": "toniblack-product-knowledge",
+  "private": true,
+  "description": "Builds the Toni Black product knowledge deck",
+  "scripts": { "build": "node build_pk.js" },
+  "dependencies": { "pptxgenjs": "^3.12.0" }
+}
