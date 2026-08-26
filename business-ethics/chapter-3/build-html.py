@@ -4,11 +4,13 @@ SRC='/home/user/Dom-Manipulation/business-ethics/chapter-3/MATERI-Chapter-3-Eval
 md=open(SRC,encoding='utf-8').read()
 
 # --- pisahkan blok judul dari badan naskah ---
-start=md.index('# SISTEMATIKA PENULISAN')
+start=md.index('## RENCANA WAKTU 30 MENIT')
 body_md=md[start:]
 
 conv=markdown.Markdown(extensions=['tables','sane_lists'])
 body=conv.convert(body_md)
+# naikkan satu tingkat dalam sekali jalan agar tidak berantai
+body=re.sub(r'<(/?)h([23])>', lambda m: '<%sh%d>'%(m.group(1), int(m.group(2))-1), body)
 
 # --- id + kumpulkan TOC ---
 toc=[]
@@ -28,6 +30,13 @@ def head_sub(m):
     toc.append((int(lvl),sid,re.sub(r'<[^>]+>','',inner)))
     return '<h%s id="%s">%s</h%s>'%(lvl,sid,inner,lvl)
 body=re.sub(r'<h([123])>(.*?)</h\1>',head_sub,body,flags=re.S)
+
+# --- paragraf khusus: definisi, kotak buku, think theory, penerapan, enumerasi ---
+body=re.sub(r'<p><strong>(Definisi \(kotak buku[^<]*)</strong>', r'<p class="defn"><strong>\1</strong>', body)
+body=re.sub(r'<p><strong>(Think Theory[^<]*)</strong>', r'<p class="think"><strong>\1</strong>', body)
+body=re.sub(r'<p><strong>((?:Ethics on Screen|Ethics in Action|Practitioner Spotlight)[^<]*)</strong>', r'<p class="box"><strong>\1</strong>', body)
+body=re.sub(r'<p><strong>(Penerapan pada Ethical Dilemma 3[^<]*)</strong>', r'<p class="apply"><strong>\1</strong>', body)
+body=re.sub(r'<p><strong>(\d\)[^<]*)</strong></p>', r'<p class="enum">\1</p>', body)
 
 # --- judul tabel dan baris sumbernya ---
 # markdown menggabungkan dua baris berdekatan menjadi satu paragraf, jadi tangani keduanya
@@ -59,6 +68,7 @@ FIGS='''
   </svg>
   <figcaption><b>Figure 3.1</b> A typical perspective on the value of ethical theory for solving ethical dilemmas in business. Sumber: Crane et al. (2019), halaman 125.</figcaption>
 </figure>
+<!--SPLIT-->
 <figure>
   <svg viewBox="0 0 640 240" role="img" aria-labelledby="f2t">
     <title id="f2t">Figure 3.2: dilema etis melewati prisma banyak teori dan memancar menjadi beragam pertimbangan normatif</title>
@@ -79,13 +89,13 @@ FIGS='''
   <figcaption><b>Figure 3.2</b> A pluralistic perspective on the value of ethical theories for solving ethical dilemmas in business. Sumber: Crane et al. (2019), halaman 126.</figcaption>
 </figure>
 '''
-anchor='merangkum pesan utama seluruh Chapter 3.</p>'
-assert anchor in body, 'anchor figur tidak ditemukan'
-body=body.replace(anchor, anchor+FIGS, 1)
-
-# --- daftar pustaka pakai hanging indent ---
-i=body.index('<h1 id="daftar-pustaka"')
-body=body[:i]+'<div class="bib">'+body[i:]+'</div>'
+f1, f2 = FIGS.split('<!--SPLIT-->')
+a1='menghasilkan satu pertimbangan normatif tunggal.</p>'
+a2='memahami masalahnya secara utuh beserta kemungkinan solusinya.</p>'
+assert a1 in body, 'anchor Figure 3.1 tidak ditemukan'
+assert a2 in body, 'anchor Figure 3.2 tidak ditemukan'
+body=body.replace(a1, a1+f1, 1)
+body=body.replace(a2, a2+f2, 1)
 
 # --- susun daftar isi ---
 lines=['<nav class="toc" aria-label="Daftar isi"><p class="tlabel">Daftar Isi</p><ol>']
@@ -96,11 +106,11 @@ nav=''.join(lines)
 
 MAST='''<header class="masthead">
   <p class="eyebrow">Materi Presentasi &middot; Business Ethics</p>
-  <h1>Evaluating Business Ethics: <em>Normative Ethical Theories</em></h1>
-  <p class="deck">Sembilan cara memandang satu dilema yang sama, dan alasan mengapa buku ini menolak memilih salah satunya sebagai yang paling benar.</p>
+  <h1>Chapter 3: Evaluating Business Ethics, <em>Normative Ethical Theories</em></h1>
+  <p class="deck">Materi presentasi 30 menit beserta pembahasan Case 3 mengenai oil sands Kanada.</p>
   <div class="srcbox">
-    <p><b>Sumber utama</b>Crane, A., Matten, D., Glozer, S., &amp; Spence, L. J. (2019). <em>Business Ethics: Managing Corporate Citizenship and Sustainability in the Age of Globalization</em> (5th ed.). Oxford: Oxford University Press. Chapter 3, halaman 85&ndash;135.</p>
-    <p><b>Kasus yang dibahas</b>Case 3 &mdash; <em>Canada&rsquo;s Oil Sands: &lsquo;Most Destructive Project on Earth&rsquo; or &lsquo;Ethical Oil&rsquo;?</em>, halaman 129&ndash;134.</p>
+    <p><b>Buku</b>Crane, A., Matten, D., Glozer, S., &amp; Spence, L. J. (2019). <em>Business Ethics: Managing Corporate Citizenship and Sustainability in the Age of Globalization</em> (5th ed.). Oxford University Press. Chapter 3, halaman 85 sampai 135.</p>
+    <p><b>Kasus diskusi</b>Case 3, <em>Canada&rsquo;s Oil Sands: &lsquo;Most Destructive Project on Earth&rsquo; or &lsquo;Ethical Oil&rsquo;?</em>, halaman 129 sampai 134.</p>
   </div>
 </header>'''
 
