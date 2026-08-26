@@ -39,10 +39,10 @@ const w2 = (CW - 0.28) / 2;
   s.addText('Business Ethics', { isTextBox: true, x: M, y: 0.5, w: 4, h: 0.3, fontFace: F, fontSize: 11.5, bold: true, color: INK, margin: 0 });
   pillsRight(pres, s, [
     { t: 'MBA · UGM', fill: ORNG },
-    { t: 'Chapter 3', outline: true }
+    { t: 'Presentasi Materi', outline: true }
   ], 0.46);
 
-  sub(s, 'Crane, Matten, Glozer & Spence (2019) · Business Ethics, edisi kelima', 1.62, 7.4);
+  sub(s, 'Teori Etika Normatif dan Penerapannya', 1.62, 7.4);
   s.addText('Pembahasan Materi dan Kasus —', { isTextBox: true, x: M, y: 1.95, w: 7.4, h: 0.34, fontFace: F, fontSize: 16, bold: true, color: ORNG, margin: 0 });
 
   s.addText([
@@ -58,9 +58,6 @@ const w2 = (CW - 0.28) / 2;
   s.addText('Aslih Abnuri', { isTextBox: true, x: M + 0.28, y: 5.87, w: 4, h: 0.28, fontFace: F, fontSize: 13, bold: true, color: INK, margin: 0 });
   s.addText('25/574338/PEK/31801', { isTextBox: true, x: M + 0.28, y: 6.14, w: 4, h: 0.26, fontFace: MONO, fontSize: 10.5, color: SLATE, margin: 0 });
 
-  s.addText('Case 3 · Canada’s Oil Sands · halaman 129–134', {
-    isTextBox: true, x: M, y: 6.86, w: CW, h: 0.28, fontFace: F, fontSize: 10.5, color: SLATE, margin: 0
-  });
   s.addNotes('Buka dengan pertanyaan cepat ke kelas: menurut Anda, apakah minyak bisa disebut etis? Simpan jawabannya, kita ulang di akhir sesi.');
 }
 
@@ -84,7 +81,7 @@ const w2 = (CW - 0.28) / 2;
     ['06', 'Teori Principle-based', 'Duty, rights, dan justice'],
     ['07', 'Kritik dan Keterbatasan', 'Batas teori Barat modern'],
     ['08', 'Perspektif Alternatif', 'Virtue, care, discourse, postmodern'],
-    ['09', 'Dari Lensa ke Prisma', 'Pesan utama Chapter 3'],
+    ['09', 'Dari Lensa ke Prisma', 'Pendekatan pluralis yang dianjurkan'],
     ['10', 'Canada’s Oil Sands', 'Penerapan sembilan teori pada satu kasus']
   ];
   const colW = CW / 2 - 0.2;
@@ -100,7 +97,7 @@ const w2 = (CW - 0.28) / 2;
 
 // ============================================================ 03 kenapa teori etika
 {
-  const s = S([{ t: 'Peran Teori', fill: ORNG }, { t: 'Halaman 86–88', outline: true }]);
+  const s = S([{ t: 'Fondasi', fill: ORNG }, { t: 'Dasar Penalaran Etis', outline: true }]);
   head(s, 'Urgensi Teori Etika Normatif', 0.96);
   sub(s, 'Keputusan bisnis menuntut justifikasi yang dapat diuji secara rasional.', 1.62);
 
@@ -110,20 +107,19 @@ const w2 = (CW - 0.28) / 2;
     [INK, 'Kritik Menuntut Landasan', 'Penilaian bahwa suatu korporasi tidak etis menuntut landasan argumentatif yang setara.']
   ];
   items.forEach((it, i) => tile(pres, s, {
-    x: M + i * (w3 + 0.24), y: 2.16, w: w3, h: 2.34, fill: it[0], n: '0' + (i + 1), t: it[1], b: it[2]
+    x: M + i * (w3 + 0.24), y: 2.16, w: w3, h: 2.68, fill: it[0], n: '0' + (i + 1), t: it[1], b: it[2]
   }));
 
-  quote(pres, s, M, 4.7, CW, 1.66,
-    'Normative ethical theories adalah aturan, prinsip, dan pendekatan yang menetapkan benar dan salahnya suatu tindakan.',
-    'Crane et al. (2019) · halaman 87');
+  quote(pres, s, M, 5.16, CW, 1.06,
+    'Normative ethical theories adalah aturan, prinsip, dan pendekatan yang menetapkan benar dan salahnya suatu tindakan.');
   s.addNotes('Tiga manfaat teori etika menurut buku: merasionalisasi firasat, memungkinkan wacana antara orang dengan nilai berbeda, dan memperjelas praanggapan moral para pihak.');
 }
 
 // ============================================================ 04 tiga sikap moral
 {
-  const s = S([{ t: 'Posisi Moral', fill: ORNG }, { t: 'Halaman 89–91', outline: true }]);
+  const s = S([{ t: 'Posisi Moral', fill: ORNG }, { t: 'Tiga Pendirian', outline: true }]);
   head(s, 'Absolutism, Relativism, Pluralism', 0.96);
-  sub(s, 'Crane et al. (2019) mengambil posisi ketiga.', 1.62);
+  sub(s, 'Etika bisnis kontemporer berdiri pada posisi ketiga.', 1.62);
 
   const pos = [
     [AMBR, 'Absolutism', 'Prinsip moral bersifat abadi dan universal. Benar dan salah merupakan kualitas objektif yang ditentukan secara rasional.'],
@@ -135,15 +131,15 @@ const w2 = (CW - 0.28) / 2;
   }));
 
   banner(pres, s, M, 4.78, CW, 0.78, 'Pluralism tidak menyetarakan validitas seluruh pendapat. Konflik antarperspektif tetap menuntut penyelesaian.', LIME, INK);
-  quote(pres, s, M, 5.74, CW, 0.94,
+  quote(pres, s, M, 5.8, CW, 0.76,
     'Kritik utamanya: pluralism berisiko terlalu permisif. Sebagian praktik keliru mendasar dan tidak layak ditoleransi.',
-    'Liu (2018)', LAV);
+    null, LAV);
   s.addNotes('Absolutism dituduh kaku, relativism dituduh membiarkan apa saja. Pluralism mencoba mengambil jalan tengah dan itulah posisi buku ini.');
 }
 
 // ============================================================ 05 dua keluarga teori
 {
-  const s = S([{ t: 'Teori Barat Modern', fill: ORNG }, { t: 'Tabel 3.1', outline: true }]);
+  const s = S([{ t: 'Teori Barat Modern', fill: ORNG }, { t: 'Dua Keluarga Besar', outline: true }]);
   head(s, 'Taksonomi Teori Barat Modern', 0.96);
   sub(s, 'Berakar pada Pencerahan abad ke-18 dan bersifat absolutis.', 1.62);
 
@@ -170,7 +166,7 @@ const w2 = (CW - 0.28) / 2;
 
 // ============================================================ 06 ethical dilemma 3
 {
-  const s = S([{ t: 'Producing Toys', fill: ORNG }, { t: 'Halaman 94', outline: true }]);
+  const s = S([{ t: 'Kasus Penguji', fill: ORNG }, { t: 'Producing Toys', outline: true }]);
   head(s, 'Ethical Dilemma 3', 0.96);
   sub(s, 'Kasus penguji tunggal yang digunakan sepanjang bab.', 1.62);
 
@@ -211,7 +207,7 @@ const w2 = (CW - 0.28) / 2;
   quote(pres, s, M, 1.66, CW, 0.82, 'Sebuah tindakan benar secara moral apabila mendorong kepentingan diri jangka panjang pelakunya.');
 
   const it = [
-    [ORNG, 'Invisible Hand', 'Smith (1776): agregasi kepentingan diri menghasilkan kesejahteraan kolektif melalui mekanisme pasar.'],
+    [ORNG, 'Invisible Hand', 'Agregasi kepentingan diri menghasilkan kesejahteraan kolektif melalui mekanisme pasar.'],
     [LAV, 'Horizon Jangka Panjang', 'Orientasi jangka panjang menuntut kejujuran dan reputasi, bukan maksimasi keuntungan sesaat.'],
     [INK, 'Batas: Market Failure', 'Mekanisme pasar gagal pada kondisi monopoli, asimetri informasi, dan eksternalitas yang tidak terinternalisasi.']
   ];
@@ -317,7 +313,7 @@ const w2 = (CW - 0.28) / 2;
       fontFace: F, fontSize: 9.5, bold: true, charSpacing: 1, color: [ORNG, INK, TEAL].indexOf(u[0]) >= 0 ? mix(u[0], W, 0.55) : SLATE, margin: 0
     });
   });
-  s.addText('UN Guiding Principles atau Prinsip Ruggie (2011)', {
+  s.addText('UN Guiding Principles on Business and Human Rights', {
     isTextBox: true, x: M, y: 4.74, w: CW, h: 0.3, fontFace: F, fontSize: 12, bold: true, color: SLATE, margin: 0
   });
 
@@ -368,16 +364,16 @@ const w2 = (CW - 0.28) / 2;
 
 // ============================================================ 13 enam kritik
 {
-  const s = S([{ t: 'Enam Kritik', fill: INK }, { t: 'Halaman 108', outline: true }]);
+  const s = S([{ t: 'Batas Teori', fill: INK }, { t: 'Enam Kritik', outline: true }]);
   head(s, 'Kritik atas Teori Barat Modern', 0.96);
 
   const kr = [
-    [ORNG, 'Too Abstract', 'Stark (1994), Brenkert (2010)', 'Terlalu teoretis untuk keprihatinan sehari-hari seorang manajer.'],
-    [LAV, 'Too Narrow', 'Crane et al. (2019)', 'Setiap teori memaksa pemilihan satu aspek moralitas, padahal seluruhnya relevan.'],
-    [TEAL, 'Too Objective', 'Parker (1998)', 'Etikawan memvonis tindakan orang lain tanpa mengalami situasinya.'],
-    [AMBR, 'Too Impersonal', 'Held (2006)', 'Prinsip abstrak mengabaikan ikatan personal yang membentuk perasaan moral.'],
-    [LIME, 'Too Codified', 'Bauman (1993), Rorty (2006)', 'Aturan terkodifikasi menekan otonomi dan merendahkan emosi moral.'],
-    [INK, 'Too Imperialist', 'Naude (2017)', 'Tidak terdapat dasar untuk mengasumsikan universalitas teori Barat.']
+    [ORNG, 'Too Abstract', 'Terlalu teoretis untuk keprihatinan sehari-hari seorang manajer.'],
+    [LAV, 'Too Narrow', 'Setiap teori memaksa pemilihan satu aspek moralitas, padahal seluruhnya relevan.'],
+    [TEAL, 'Too Objective', 'Etikawan memvonis tindakan orang lain tanpa mengalami situasinya.'],
+    [AMBR, 'Too Impersonal', 'Prinsip abstrak mengabaikan ikatan personal yang membentuk perasaan moral.'],
+    [LIME, 'Too Codified', 'Aturan terkodifikasi menekan otonomi dan merendahkan emosi moral.'],
+    [INK, 'Too Imperialist', 'Tidak terdapat dasar untuk mengasumsikan universalitas teori Barat.']
   ];
   const wk = (CW - 2 * 0.22) / 3;
   kr.forEach((k, i) => {
@@ -385,16 +381,15 @@ const w2 = (CW - 0.28) / 2;
     card(pres, s, x, y, wk, 2.14, k[0]);
     const dark = [ORNG, INK, TEAL].indexOf(k[0]) >= 0;
     chip(pres, s, x + 0.26, y + 0.22, '0' + (i + 1), mix(k[0], dark ? W : INK, 0.16), dark ? W : INK, 0.31);
-    s.addText(k[1], { isTextBox: true, x: x + 0.26, y: y + 0.7, w: wk - 0.52, h: 0.3, fontFace: F, fontSize: 15, bold: true, color: dark ? W : INK, margin: 0 });
-    s.addText(k[2], { isTextBox: true, x: x + 0.26, y: y + 1.0, w: wk - 0.52, h: 0.26, fontFace: F, fontSize: 10, italic: true, color: mix(k[0], dark ? W : INK, 0.5), margin: 0 });
-    s.addText(k[3], { isTextBox: true, x: x + 0.26, y: y + 1.3, w: wk - 0.52, h: 0.7, fontFace: F, fontSize: 11, color: dark ? 'E8E4DC' : '2A3243', margin: 0, lineSpacing: 15 });
+    s.addText(k[1], { isTextBox: true, x: x + 0.26, y: y + 0.72, w: wk - 0.52, h: 0.32, fontFace: F, fontSize: 16, bold: true, color: dark ? W : INK, margin: 0 });
+    s.addText(k[2], { isTextBox: true, x: x + 0.26, y: y + 1.16, w: wk - 0.52, h: 0.84, fontFace: F, fontSize: 11.5, color: dark ? 'E8E4DC' : '2A3243', margin: 0, lineSpacing: 16 });
   });
   s.addNotes('Keenam kritik ini yang membuka jalan bagi empat teori alternatif pada bagian berikutnya.');
 }
 
 // ============================================================ 14 empat alternatif
 {
-  const s = S([{ t: 'Empat Alternatif', fill: LIME, color: INK }, { t: 'Halaman 110–118', outline: true }]);
+  const s = S([{ t: 'Alternatif', fill: LIME, color: INK }, { t: 'Empat Perspektif', outline: true }]);
   head(s, 'Perspektif Alternatif', 0.96);
   sub(s, 'Menekankan fleksibilitas serta konteks dan relasi pengambil keputusan.', 1.62);
 
@@ -419,12 +414,12 @@ const w2 = (CW - 0.28) / 2;
 
 // ============================================================ 15 lensa ke prisma
 {
-  const s = S([{ t: 'Pesan Utama', fill: ORNG }, { t: 'Figure 3.1 & 3.2', outline: true }]);
+  const s = S([{ t: 'Pesan Utama', fill: ORNG }, { t: 'Lensa dan Prisma', outline: true }]);
   head(s, 'Dari Lensa ke Prisma', 0.96);
-  sub(s, 'Crane et al. (2019) tidak menetapkan satu teori sebagai yang paling sahih.', 1.62);
+  sub(s, 'Tidak ada satu teori yang ditetapkan sebagai pandangan paling sahih.', 1.62);
 
   card(pres, s, M, 2.16, w2, 3.06, W, { line: { color: LINE, width: 1, dashType: 'dash' } });
-  s.addText('FIGURE 3.1', { isTextBox: true, x: M + 0.32, y: 2.42, w: w2 - 0.64, h: 0.26, fontFace: F, fontSize: 9.5, bold: true, charSpacing: 1, color: SLATE, margin: 0 });
+  s.addText('PENDEKATAN TUNGGAL', { isTextBox: true, x: M + 0.32, y: 2.42, w: w2 - 0.64, h: 0.26, fontFace: F, fontSize: 9.5, bold: true, charSpacing: 1, color: SLATE, margin: 0 });
   s.addText('Lensa Satu Teori', { isTextBox: true, x: M + 0.32, y: 2.72, w: w2 - 0.64, h: 0.36, fontFace: F, fontSize: 20, bold: true, color: INK, margin: 0 });
   s.addText('Dilema direduksi menjadi satu pertimbangan normatif. Kesimpulannya tegas, namun pertimbangan lain tidak terlihat.', {
     isTextBox: true, x: M + 0.32, y: 3.2, w: w2 - 0.68, h: 0.9, fontFace: F, fontSize: 12.5, color: '2A3243', margin: 0, lineSpacing: 18
@@ -434,7 +429,7 @@ const w2 = (CW - 0.28) / 2;
 
   const px = M + w2 + 0.28;
   card(pres, s, px, 2.16, w2, 3.06, INK);
-  s.addText('FIGURE 3.2', { isTextBox: true, x: px + 0.32, y: 2.42, w: w2 - 0.64, h: 0.26, fontFace: F, fontSize: 9.5, bold: true, charSpacing: 1, color: LIME, margin: 0 });
+  s.addText('PENDEKATAN JAMAK', { isTextBox: true, x: px + 0.32, y: 2.42, w: w2 - 0.64, h: 0.26, fontFace: F, fontSize: 9.5, bold: true, charSpacing: 1, color: LIME, margin: 0 });
   s.addText('Prisma Banyak Teori', { isTextBox: true, x: px + 0.32, y: 2.72, w: w2 - 0.64, h: 0.36, fontFace: F, fontSize: 20, bold: true, color: W, margin: 0 });
   s.addText('Dilema yang sama diuraikan menjadi spektrum pertimbangan. Setiap teori menyoroti dimensi yang luput dari teori lain.', {
     isTextBox: true, x: px + 0.32, y: 3.2, w: w2 - 0.68, h: 0.9, fontFace: F, fontSize: 12.5, color: 'E8E4DC', margin: 0, lineSpacing: 18
@@ -457,7 +452,7 @@ const w2 = (CW - 0.28) / 2;
   page++;
   foot(s, page, '6B7A90');
 
-  pills(pres, s, [{ t: 'Bagian 10', fill: ORNG }, { t: 'Case 3 · Halaman 129–134', fill: '1B2233', color: 'B9C0CE' }], 2.2);
+  pills(pres, s, [{ t: 'Bagian 10', fill: ORNG }, { t: 'Studi Kasus', fill: '1B2233', color: 'B9C0CE' }], 2.2);
   s.addText([
     { text: 'Canada’s Oil Sands', options: { color: W } },
     { text: '.', options: { color: ORNG } }
@@ -472,7 +467,7 @@ const w2 = (CW - 0.28) / 2;
 
 // ============================================================ 17 angka dua sisi
 {
-  const s = S([{ t: 'Kasus', fill: ORNG }, { t: 'Halaman 130–131', outline: true }]);
+  const s = S([{ t: 'Kasus', fill: ORNG }, { t: 'Data Dua Sisi', outline: true }]);
   head(s, 'Manfaat Ekonomi dan Biaya Ekologis', 0.96);
 
   const st = [
@@ -513,7 +508,7 @@ const w2 = (CW - 0.28) / 2;
     s.addText(c[0], { isTextBox: true, x: M + 0.3, y, w: w2 - 1.6, h: 0.3, fontFace: F, fontSize: 12, bold: c[0] === 'Kanada', color: c[0] === 'Kanada' ? W : 'FFD9CB', margin: 0 });
     s.addText(c[1], { isTextBox: true, x: M + w2 - 1.6, y, w: 1.3, h: 0.3, align: 'right', fontFace: MONO, fontSize: 12, bold: c[0] === 'Kanada', color: c[0] === 'Kanada' ? W : 'FFD9CB', margin: 0 });
   });
-  s.addText('Cadangan terbukti terbesar 2017, miliar barel · Tabel 3.9', {
+  s.addText('Cadangan minyak terbukti terbesar, miliar barel, 2017', {
     isTextBox: true, x: M + 0.3, y: 5.44, w: w2 - 0.6, h: 0.26, fontFace: F, fontSize: 9.5, color: 'FFC9B4', margin: 0
   });
 
@@ -602,7 +597,7 @@ const w2 = (CW - 0.28) / 2;
     { text: '.', options: { color: ORNG } }
   ], { isTextBox: true, x: M, y: 1.9, w: 10, h: 1.5, fontFace: F, fontSize: 62, bold: true, margin: 0, lineSpacing: 68 });
 
-  s.addText('Kesembilan teori tidak menghasilkan satu jawaban tunggal. Ketiadaan jawaban tunggal itulah pesan Figure 3.2.', {
+  s.addText('Kesembilan teori tidak menghasilkan satu jawaban tunggal. Ketiadaan jawaban tunggal itulah pesan utamanya.', {
     isTextBox: true, x: M, y: 3.7, w: 8.2, h: 0.9, fontFace: F, fontSize: 15, color: SLATE, margin: 0, lineSpacing: 24
   });
 
@@ -612,10 +607,10 @@ const w2 = (CW - 0.28) / 2;
   s.addText('25/574338/PEK/31801', { isTextBox: true, x: M + 0.28, y: 5.92, w: 4, h: 0.26, fontFace: MONO, fontSize: 10.5, color: SLATE, margin: 0 });
 
   rect(pres, s, M, 6.62, CW, 0.011, LINE);
-  s.addText('Business Ethics · Chapter 3 Evaluating Business Ethics', {
+  s.addText('Business Ethics · Evaluating Business Ethics', {
     isTextBox: true, x: M, y: 6.78, w: 6.4, h: 0.28, fontFace: F, fontSize: 10.5, bold: true, color: INK, margin: 0
   });
-  s.addText('Crane, Matten, Glozer & Spence (2019) · Oxford University Press', {
+  s.addText('MBA · Universitas Gadjah Mada', {
     isTextBox: true, x: SW - M - 6.0, y: 6.78, w: 6.0, h: 0.28, align: 'right', fontFace: F, fontSize: 10.5, color: SLATE, margin: 0
   });
   s.addNotes('Tutup dengan mengulang pertanyaan pembuka mengenai ethical oil, lalu bandingkan dengan jawaban di awal sesi.');

@@ -82,7 +82,7 @@ function lens(s, o) {
   s.addText('Business Ethics', { isTextBox: true, x: M, y: 0.5, w: 4, h: 0.3, fontFace: F, fontSize: 11.5, bold: true, color: W, margin: 0 });
   pillsRight(pres, s, [{ t: 'MBA · UGM', fill: ORNG }, { t: 'Case Analysis', fill: '1B2233', color: 'B9C0CE' }], 0.46);
 
-  s.addText('Chapter 3 · Evaluating Business Ethics', { isTextBox: true, x: M, y: 1.62, w: 7.4, h: 0.32, fontFace: F, fontSize: 13.5, color: 'B9C0CE', margin: 0 });
+  s.addText('Evaluating Business Ethics', { isTextBox: true, x: M, y: 1.62, w: 7.4, h: 0.32, fontFace: F, fontSize: 13.5, color: 'B9C0CE', margin: 0 });
   s.addText('Analisis Kasus —', { isTextBox: true, x: M, y: 1.98, w: 7.4, h: 0.34, fontFace: F, fontSize: 16, bold: true, color: ORNG, margin: 0 });
 
   s.addText([
@@ -91,7 +91,7 @@ function lens(s, o) {
     { text: '.', options: { color: ORNG } }
   ], { isTextBox: true, x: M, y: 2.5, w: 8.2, h: 1.74, fontFace: F, fontSize: 54, bold: true, margin: 0, lineSpacing: 60 });
 
-  s.addText('Most Destructive Project on Earth atau Ethical Oil? Satu kasus dianalisis dengan sembilan teori etika normatif dari Chapter 3.', {
+  s.addText('Most Destructive Project on Earth atau Ethical Oil? Satu kasus dianalisis dengan sembilan teori etika normatif.', {
     isTextBox: true, x: M, y: 4.5, w: 7.3, h: 0.9, fontFace: F, fontSize: 14, color: 'B9C0CE', margin: 0, lineSpacing: 22
   });
 
@@ -101,9 +101,6 @@ function lens(s, o) {
   s.addText('25/574338/PEK/31801', { isTextBox: true, x: M + 0.28, y: 6.14, w: 4, h: 0.26, fontFace: MONO, fontSize: 10.5, color: '8C93A3', margin: 0 });
 
   SPEC.forEach((c, i) => rect(pres, s, M + 5.5 + i * 0.42, 5.94, 0.3, 0.3, c));
-  s.addText('Case 3 · Crane, Matten, Glozer & Spence (2019), halaman 129–134', {
-    isTextBox: true, x: M, y: 6.86, w: CW, h: 0.28, fontFace: F, fontSize: 10.5, color: '8C93A3', margin: 0
-  });
   s.addNotes('Deck ini kebalikan dari deck materi. Di sini kasusnya yang jadi tulang punggung, teorinya dipakai sebagai alat bedah.');
 }
 
@@ -143,7 +140,7 @@ function lens(s, o) {
 
 // ============================================================ 03 kerangka analisis
 {
-  const s = S([{ t: 'Metode', fill: TEAL }, { t: 'Figure 3.2', outline: true }]);
+  const s = S([{ t: 'Metode', fill: TEAL }, { t: 'Pendekatan Prisma', outline: true }]);
   head(s, 'Kerangka Analisis Pluralis', 0.96);
   sub(s, 'Kasus tanpa jawaban tunggal menuntut kerangka penilaian yang jamak.', 1.62);
 
@@ -170,13 +167,13 @@ function lens(s, o) {
     s.addText((i + 1) + '. ' + n, { isTextBox: true, x: x + 0.32, y, w: CW / 5 - 0.4, h: 0.32, fontFace: F, fontSize: 12, bold: true, color: INK, margin: 0 });
   });
 
-  banner(pres, s, M, 6.42, CW, 0.52, 'Sembilan penilaian atas satu rangkaian fakta yang identik. Inilah prisma pada Figure 3.2.', LIME, INK, 11.5);
+  banner(pres, s, M, 6.42, CW, 0.52, 'Sembilan penilaian atas satu rangkaian fakta yang identik. Inilah pendekatan prisma.', LIME, INK, 11.5);
   s.addNotes('Tegaskan sejak awal: tujuan analisis ini bukan memenangkan satu pihak, melainkan memetakan seluruh pertimbangan.');
 }
 
 // ============================================================ 04 profil kasus
 {
-  const s = S([{ t: 'Konteks Kasus', fill: ORNG }, { t: 'Halaman 129–130', outline: true }]);
+  const s = S([{ t: 'Konteks Kasus', fill: ORNG }, { t: 'Profil Industri', outline: true }]);
   head(s, 'Profil Industri Oil Sands', 0.96);
   sub(s, 'Campuran pasir, lempung, air, dan bitumen berviskositas tinggi.', 1.62);
 
@@ -231,7 +228,7 @@ function lens(s, o) {
 
 // ============================================================ 06 dua narasi
 {
-  const s = S([{ t: 'Kasus', fill: ORNG }, { t: 'Halaman 131–133', outline: true }]);
+  const s = S([{ t: 'Kasus', fill: ORNG }, { t: 'Klaim Berhadapan', outline: true }]);
   head(s, 'Dua Narasi Berlawanan', 0.96);
 
   card(pres, s, M, 1.9, w2, 4.0, INK);
@@ -400,7 +397,7 @@ function lens(s, o) {
   head(s, 'Implikasi Manajerial', 0.96);
 
   const im = [
-    [ORNG, 'Uji dengan Beberapa Teori', 'Klaim yang lolos satu teori kerap gugur pada teori kedua. Sembilan pertimbangan Tabel 3.8 berfungsi sebagai daftar periksa, bukan prosedur berurutan.'],
+    [ORNG, 'Uji dengan Beberapa Teori', 'Klaim yang lolos satu teori kerap gugur pada teori kedua. Sembilan pertimbangan etis berfungsi sebagai daftar periksa, bukan prosedur berurutan.'],
     [LAV, 'Identifikasi Pihak Absen', 'Generasi mendatang dan komunitas hilir tidak terwakili. Keputusan yang mengabaikannya rapuh secara moral sekaligus reputasional.'],
     [TEAL, 'Cermati Pilihan Istilah', 'Oil sands atau tar sands, hilirisasi atau ekstraksi. Pilihan kata membentuk penilaian sebelum data dianalisis.']
   ];
@@ -434,9 +431,8 @@ function lens(s, o) {
     x: M, y: 2.02 + i * 1.28, w: CW, h: 1.16, n: i + 1, fill: t[0], t: t[1], b: t[2]
   }));
 
-  quote(pres, s, M, 5.9, CW, 0.92,
-    'Keputusan yang baik bukan yang menemukan teori paling sahih, melainkan yang menyadari seluruh spektrum pertimbangan.',
-    'Pesan utama Figure 3.2 · Crane et al. (2019)');
+  quote(pres, s, M, 5.94, CW, 0.78,
+    'Keputusan yang baik bukan yang menemukan teori paling sahih, melainkan yang menyadari seluruh spektrum pertimbangan.');
   s.addNotes('Ini jawaban atas pertanyaan pembuka. Setelah sembilan teori kita tetap tidak punya satu jawaban, dan itu memang yang dijanjikan bab ini.');
 }
 
@@ -468,7 +464,7 @@ function lens(s, o) {
   s.addText('Business Ethics · Analisis Kasus Canada’s Oil Sands', {
     isTextBox: true, x: M, y: 6.78, w: 6.4, h: 0.28, fontFace: F, fontSize: 10.5, bold: true, color: W, margin: 0
   });
-  s.addText('Crane, Matten, Glozer & Spence (2019) · Case 3, halaman 129–134', {
+  s.addText('MBA · Universitas Gadjah Mada', {
     isTextBox: true, x: SW - M - 6.0, y: 6.78, w: 6.0, h: 0.28, align: 'right', fontFace: F, fontSize: 10.5, color: '8C93A3', margin: 0
   });
   s.addNotes('Buka sesi tanya jawab dengan pertanyaan Rawls: aturan apa yang Anda pilih bila tidak tahu akan terlahir sebagai siapa?');

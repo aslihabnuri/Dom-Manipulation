@@ -217,9 +217,10 @@ function stat(pres, s, o) {
 function quote(pres, s, x, y, w, h, text, attrib, accent) {
   card(pres, s, x, y, w, h, W);
   s.addShape(pres.ShapeType.rect, { x, y: y + 0.06, w: 0.055, h: h - 0.12, fill: { color: accent || ORNG } });
-  chk('kutipan', text, w - 0.7, h - (attrib ? 0.6 : 0.3), 12.5, 18);
+  chk('kutipan', text, w - 0.7, h - (attrib ? 0.6 : 0.24), 12.5, 18);
   s.addText(text, {
-    isTextBox: true, x: x + 0.3, y: y + 0.18, w: w - 0.6, h: h - (attrib ? 0.62 : 0.36),
+    isTextBox: true, x: x + 0.3, y: attrib ? y + 0.18 : y + 0.1, w: w - 0.6,
+    h: attrib ? h - 0.62 : h - 0.2, valign: attrib ? 'top' : 'middle',
     fontFace: F, fontSize: 12.5, color: INK, margin: 0, lineSpacing: 18
   });
   if (attrib) {
