@@ -4,6 +4,7 @@ pres.layout = "LAYOUT_WIDE";
 pres.author = "Aslih Abnuri";
 pres.title = "Evaluating Business Ethics: Normative Ethical Theories";
 
+const TIM = [["Aslih Abnuri", "25/574338/PEK/31801"], ["Arfinal Diputra", "25/574664/PEK/31914"], ["Rohana Dwi Hardianti", "25/574077/PEK/31728"]];
 const W = 13.333, H = 7.5, M = 0.62, CW = W - 2 * M;
 const INK = "16202A", INK2 = "22303D";
 const WHITE = "FFFFFF";
@@ -77,12 +78,13 @@ s.addText("Evaluating\nBusiness Ethics", { x: M, y: 1.75, w: 7.8, h: 1.75, isTex
   fontFace: HF, fontSize: 48, bold: true, color: WHITE, lineSpacingMultiple: 0.98 });
 s.addText("Normative Ethical Theories", { x: M, y: 3.55, w: 7.8, h: 0.42, isTextBox: true, margin: 0, valign: "middle",
   fontFace: HF, fontSize: 22, color: MUTED_D, italic: true });
-s.addText([
-  { text: "Aslih Abnuri", options: { fontFace: HF, fontSize: 15, bold: true, color: WHITE, breakLine: true } },
-  { text: "25/574338/PEK/31801", options: { fontFace: BF, fontSize: 11.5, color: MUTED_D } }
-], { x: M, y: 4.72, w: 5.0, h: 0.75, isTextBox: true, margin: 0, valign: "top", lineSpacingMultiple: 1.2 });
+s.addText("DISUSUN OLEH", { x: M, y: 4.32, w: 5.0, h: 0.24, isTextBox: true, margin: 0, valign: "middle",
+  fontFace: BF, fontSize: 9.5, bold: true, color: EMBER, charSpacing: 1.4 });
+TIM.forEach((m, i) => { const yy = 4.68 + i * 0.56;
+  s.addText(m[0], { x: M, y: yy, w: 5.4, h: 0.28, isTextBox: true, margin: 0, valign: "middle", fontFace: HF, fontSize: 13.5, bold: true, color: WHITE });
+  s.addText(m[1], { x: M, y: yy + 0.27, w: 5.4, h: 0.24, isTextBox: true, margin: 0, valign: "middle", fontFace: BF, fontSize: 10.5, color: MUTED_D }); });
 s.addText("Crane, A., Matten, D., Glozer, S., dan Spence, L. (2019). Business Ethics: Managing Corporate Citizenship and Sustainability in the Age of Globalization. Edisi kelima. Oxford: Oxford University Press, Bab 3.", {
-  x: M, y: 6.45, w: 7.6, h: 0.6, isTextBox: true, margin: 0, valign: "top", fontFace: BF, fontSize: 9.5, color: MUTED, italic: true, lineSpacingMultiple: 1.15 });
+  x: M, y: 6.58, w: 7.6, h: 0.6, isTextBox: true, margin: 0, valign: "top", fontFace: BF, fontSize: 9.5, color: MUTED, italic: true, lineSpacingMultiple: 1.15 });
 s.addNotes("Pembuka 1 menit. Sampaikan dua hal: Bab 3 memberi sembilan kriteria penilaian, dan kita akan memakainya pada kasus nyata yang belum selesai. Alokasi 30 menit: sekitar 17 menit teori, 11 menit kasus, 2 menit penutup.");
 
 /* ============ 2 PETA BAHASAN ============ */
@@ -567,8 +569,24 @@ s.addText("IMPLIKASI MANAJERIAL", { x: M, y: 4.56, w: 5.0, h: 0.26, isTextBox: t
 card(s, M, 6.44, CW, 0.54, EMBER);
 s.addText("Manfaat yang terukur selalu lebih mudah dipertahankan daripada beban yang tersebar. Justru karena itu beban yang tersebar perlu dihitung lebih dahulu.", {
   x: M + 0.34, y: 6.44, w: CW - 0.68, h: 0.54, isTextBox: true, margin: 0, valign: "middle", fontFace: HF, fontSize: 13.5, color: WHITE, italic: true });
-s.addText("Aslih Abnuri   |   25/574338/PEK/31801   |   Business Ethics for Sustainability, MBA Universitas Gadjah Mada", {
-  x: M, y: 7.06, w: CW, h: 0.26, isTextBox: true, margin: 0, valign: "middle", fontFace: BF, fontSize: 9.5, color: MUTED });
-s.addNotes("2 menit. Tutup dengan pertanyaan untuk diskusi: struktur dilema yang sama akan berulang pada bauksit, tembaga, dan timah. Siapa menikmati manfaatnya, siapa menanggung bebannya, dan apakah keduanya pihak yang sama?");
+s.addNotes("2 menit. Sampaikan ketiga temuan, lalu ketiga tindak lanjutnya. Pertanyaan diskusinya ditayangkan pada slide berikutnya, jadi jangan dibacakan di sini.");
+
+/* ============ 21 PENUTUP ============ */
+s = pres.addSlide(); bg(s, true);
+s.addText("PENUTUP", { x: M, y: 2.15, w: 7.6, h: 0.26, isTextBox: true, margin: 0, valign: "middle",
+  fontFace: BF, fontSize: 10.5, bold: true, color: EMBER, charSpacing: 1.4 });
+s.addText("Terima kasih", { x: M, y: 2.52, w: 7.6, h: 1.15, isTextBox: true, margin: 0, valign: "middle",
+  fontFace: HF, fontSize: 52, bold: true, color: WHITE });
+card(s, M, 4.00, 7.6, 1.90, INK2);
+label(s, M + 0.34, 4.24, 6.9, "PERTANYAAN UNTUK DISKUSI", EMBER);
+s.addText("Struktur dilema yang sama akan berulang pada bauksit, tembaga, dan timah. Siapa yang menikmati manfaatnya, siapa yang menanggung bebannya, dan apakah keduanya pihak yang sama?", {
+  x: M + 0.34, y: 4.54, w: 6.92, h: 1.12, isTextBox: true, margin: 0, valign: "top",
+  fontFace: HF, fontSize: 15, color: PALE, italic: true, lineSpacingMultiple: 1.14 });
+card(s, 8.75, 2.12, 4.0, 3.78, INK2);
+label(s, 9.09, 2.42, 3.4, "DISUSUN OLEH", MUTED_D);
+TIM.forEach((m, i) => { const yy = 3.00 + i * 0.92;
+  s.addText(m[0], { x: 9.09, y: yy, w: 3.4, h: 0.30, isTextBox: true, margin: 0, valign: "middle", fontFace: HF, fontSize: 14, bold: true, color: WHITE });
+  s.addText(m[1], { x: 9.09, y: yy + 0.30, w: 3.4, h: 0.26, isTextBox: true, margin: 0, valign: "middle", fontFace: BF, fontSize: 11, color: MUTED_D }); });
+s.addNotes("Slide penutup. Bacakan pertanyaan diskusinya, lalu buka forum tanya jawab. Tidak perlu diberi alokasi waktu tersendiri.");
 
 pres.writeFile({ fileName: "Evaluating-Business-Ethics-Hilirisasi-Nikel.pptx" }).then(f => console.log("WROTE " + f));
