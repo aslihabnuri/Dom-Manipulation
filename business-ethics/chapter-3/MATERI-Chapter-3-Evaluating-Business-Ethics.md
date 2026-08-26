@@ -3,22 +3,7 @@
 
 **Sumber utama:** Crane, A., Matten, D., Glozer, S., & Spence, L. J. (2019). *Business Ethics: Managing Corporate Citizenship and Sustainability in the Age of Globalization* (5th ed.). Oxford University Press. **Chapter 3, hal. 85–135.**
 
-**Sumber kasus diskusi:** Velasquez, M. G. (2017). *Business Ethics: Concepts and Cases* (Pearson). **Case Study 3.1: The GM Bailout, hal. 156–160.**
-
----
-
-## ⚠️ CATATAN PENTING SEBELUM MULAI — Kasus "The GM Bailout" TIDAK ada di Chapter 3 Crane & Matten
-
-Saya sudah membaca seluruh Chapter 3 buku Crane & Matten 5th edition (hal. 85–135), termasuk semua tabel dan gambarnya. Temuan:
-
-| | Isi sebenarnya |
-|---|---|
-| Kasus akhir Chapter 3 **Crane & Matten** | **CASE 3: Canada's oil sands — 'most destructive project on Earth' or 'ethical oil'?** (hal. 129–134) |
-| Lokasi **"The GM Bailout"** | **Velasquez**, *Business Ethics: Concepts and Cases*, **Case Study 3.1**, akhir Chapter 3 *"The Business System: Government, Markets, and International Trade"* (hal. 156–160) |
-
-Kedua buku ini sama-sama ada di folder mata kuliah Anda dan sama-sama diberi awalan `BE_`. Jadi kemungkinan besar dosen memakai **teori dari Chapter 3 Crane & Matten** untuk **menganalisis kasus GM Bailout dari Chapter 3 Velasquez** — dan itu justru kombinasi yang sangat masuk akal, karena kasus GM Bailout secara eksplisit meminta analisis dengan **utilitarianism, justice, rights, dan caring** (persis teori-teori Chapter 3 Crane & Matten).
-
-**Rekomendasi saya:** jalankan sesuai perintah dosen — presentasi teori dari Crane & Matten, diskusi kasus GM Bailout dari Velasquez. Materi di bawah menyiapkan keduanya, plus ringkasan singkat Case 3 (oil sands) sebagai cadangan kalau ternyata dosen memaksudkan kasus buku Crane & Matten.
+**Kasus diskusi:** CASE 3 — *Canada's oil sands: 'most destructive project on Earth' or 'ethical oil'?*, **hal. 129–134** (kasus resmi di akhir chapter ini, diperbarui oleh Simon Oldham).
 
 ---
 
@@ -35,10 +20,10 @@ Kedua buku ini sama-sama ada di folder mata kuliah Anda dan sama-sama diberi awa
 | 7. Kritik Teori Western Modernist | 1,5 | 6 kelemahan |
 | 8. Teori Alternatif (Tabel 3.6) | 4,5 | Virtue, Care (Tabel 3.7), Discourse, Postmodern |
 | 9. Penutup: Lens vs Prism + Checklist | 2 | **Figure 3.1, Figure 3.2, Tabel 3.8** |
-| 10. **Diskusi Kasus The GM Bailout** | 5 (+ lanjut) | Fakta, pertanyaan, analisis 9 teori |
+| 10. **Diskusi Kasus 3: Canada's Oil Sands** | 5 (+ lanjut) | Fakta pro–kontra, 5 pertanyaan buku, matriks 9 teori |
 | **TOTAL** | **30** | |
 
-> *Asumsi:* "presentasi 30 menit **serta** diskusi kasus" saya artikan **30 menit total** — ±25 menit materi + ±5 menit membuka diskusi kasus, lalu diskusi kelas berlanjut. Kalau dosen ternyata maksudnya 30 menit materi **plus** sesi diskusi terpisah, tinggal longgarkan segmen 5–8 masing-masing 1–2 menit dan pindahkan seluruh analisis 9 teori GM ke sesi diskusi.
+> *Asumsi:* "presentasi 30 menit **serta** diskusi kasus" saya artikan **30 menit total** — ±25 menit materi + ±5 menit membuka diskusi kasus, lalu diskusi kelas berlanjut. Kalau dosen ternyata maksudnya 30 menit materi **plus** sesi diskusi terpisah, tinggal longgarkan segmen 5–8 masing-masing 1–2 menit dan pindahkan seluruh matriks 9 teori ke sesi diskusi.
 
 **Perkiraan jumlah slide: 28–32 slide** (rata-rata ±1 menit/slide).
 
@@ -707,138 +692,398 @@ Pilih masalah/dilema business ethics yang **pernah Anda hadapi** atau muncul di 
 1. **Fryer, M. (2016).** "A role for ethics theory in speculative business ethics teaching", *Journal of Business Ethics*, 138(1): 79–90. — Berargumen peran teori etika **konsisten diremehkan** dalam buku teks business ethics sehingga merugikan bidang ini; ada semacam ***normative impasse***. Teori etika adalah **sumber daya penting dan melimpah** untuk mempertajam kepekaan etis mahasiswa agar mampu membuat **penilaian independen dan terinformasi**.
 2. **Brenkert, G. (2010).** "The limits and prospects of business ethics", *Business Ethics Quarterly*, 20(4): 703–9. — Artikel pendek dari mantan editor salah satu jurnal utama bidang ini; kritik berguna atas etika normatif: **kegunaannya akan terbatas** kecuali kita bisa menunjukkan bagaimana bisnis benar-benar berubah sesuai resep teori. Untuk itu, analisis normatif perlu dilengkapi **pemahaman lebih baik tentang peran sosial dan politik perusahaan**.
 
-## 10.4 CASE 3 (kasus resmi akhir Chapter 3 Crane & Matten — RINGKAS, sebagai cadangan)
-**"Canada's oil sands: 'most destructive project on Earth' or 'ethical oil'?"** (hal. 129–134, diperbarui Simon Oldham)
-- **Konteks:** oil sands Alberta (±140.000 km², hub kota Fort McMurray) = sumber terbesar dan paling komersial di dunia. Produksi naik dari ±0,5 juta barel/hari (1997) → **2,77 juta barel/hari (2017)**. Investasi puncak **>$30 miliar (2012)**, lalu jatuh ke ±$10 miliar/tahun (2018) akibat penurunan pasar 2014, sulitnya pipa baru, pajak karbon naik, dan **cap emisi GRK**.
-- **PRO (manfaat ekonomi):** lapangan kerja diproyeksikan tumbuh dari **206.000 (2017) → 461.000 (2027)**; 3.400 perusahaan Kanada di luar Alberta memasok industri ini (2014–15); kontribusi **CAD$1,6 triliun** ke ekonomi Kanada (2017–2027); pajak federal **CAD$139 miliar** + provinsi **CAD$98 miliar**; di AS: **$16 miliar** *gross state product* dan **145.000** pekerjaan (2017–2027); **399 perusahaan masyarakat adat** dari 65 komunitas berbisnis langsung senilai **CAD$3,3 miliar** (2015–16).
-- **KONTRA (dampak lingkungan):** emisi GRK **20% lebih tinggi** dari produksi minyak konvensional; **10% emisi GRK Kanada** (2017); prediksi tambahan **50–150 juta ton** emisi global/tahun pada 2030 → menghambat target **Paris Climate Accord 2015**; kolam limbah beracun seluas **220 km²** berisi **1 triliun liter** bahan kimia & hidrokarbon yang bocor ke lingkungan; hutan boreal seluas **Kota New York** hancur; pencemaran danau dengan **karsinogen dan neurotoksin** → laporan kanker warga lokal meningkat; **170 juta m³ air** dipakai (2011) = konsumsi rumah tangga 1,7 juta warga Kanada, naik ±170% pada 2030; hanya **11%** jejak tambang aktif yang direklamasi sejak 1960-an. Sierra Club: *"the most toxic fossil fuel on the planet"*; Environmental Defence: *"the most destructive project on Earth"*; Greenpeace menyerukan penghentian.
-- **Argumen 'ethical oil':** buku **Ezra Levant**, *Ethical Oil: The Case for Canada's Oil Sands* (best-seller, National Business Book Award) → **Ethicaloil.org** membagi negara jadi penghasil ***"ethical oil"*** (menjunjung HAM, standar lingkungan tinggi, keadilan ekonomi, mendorong perdamaian) vs ***"conflict oil"*** (menindas warga, beroperasi tertutup tanpa akuntabilitas pada pemilih, pers, atau peradilan independen). **Tabel 3.9** (cadangan minyak terbukti 2017, miliar barel): 1 Venezuela 301 · 2 Arab Saudi 267 · **3 Kanada 170** · 4 Iran 158 · 5 Irak 143 · 6 Kuwait 102 · 7 UEA 98 · 8 Rusia 80 · 9 Libya 48 · 10 Nigeria 37.
-- **Bantahan:** Greenpeace menyebut Ethicaloil.org *"a front group for Big Oil"*. **John Bennett** (Sierra Club Canada): *"fakta bahwa Saudi atau Nigeria lebih buruk soal HAM dan lingkungan itu tidak relevan. Kita tidak bisa berbuat apa-apa soal itu; kita bisa menangani oil sands kita, dan kita tidak melakukannya."* **David Suzuki**: *"in today's world, all fossil fuels are unethical. There is no such thing as ethical oil."*
-- **Politik:** 99% ekspor minyak Kanada ke AS (2017). Sengketa pipa **Keystone XL** — **Obama menolak** (atas saran EPA: tidak menurunkan harga BBM, tidak menciptakan lapangan kerja jangka panjang, tidak memengaruhi kemandirian energi); **Trump menandatangani executive order mendukungnya** (awal 2017, kapasitas hingga 850.000 barel/hari). **Trudeau** — meski vokal mendukung perlindungan lingkungan — mendukung Keystone XL: *"no country would find 173 billion barrels of oil in the ground and leave them there."*
-- **Pertanyaan kasus:** (1) Aktor mana yang berkepentingan menentukan apakah oil sands sumber minyak yang etis, dan mengapa penilaian mereka berbeda jauh? (2) Bagaimana Anda melakukan **analisis utilitarian** atas oil sands? Berikan penilaian sementara dari data kasus dan sebutkan data lain apa yang Anda butuhkan. (3) Bagaimana penilaian ini berbeda bila fokus pada **etika berbasis prinsip (duties, rights, justice)**? Isu apa yang kini didahulukan, dan apakah memberi perspektif yang wajar? (4) Bagaimana Anda membandingkan minyak oil sands dengan sumber minyak lain dari perspektif etis? (5) Pertimbangkan argumen bahwa **semua minyak tidak etis** — teori atau prinsip apa yang mendukung klaim itu? Apakah posisi itu berguna, dan bagi siapa?
-
 ---
 ---
 
-# BAGIAN 11 — 🚗 DISKUSI KASUS: **THE GM BAILOUT**
+# BAGIAN 11 — 🛢️ DISKUSI KASUS: **CASE 3 — CANADA'S OIL SANDS**
+### *'Most destructive project on Earth' or 'ethical oil'?* (hal. 129–134, diperbarui Simon Oldham)
 
-> **Sumber:** Velasquez, M. G. (2017). *Business Ethics: Concepts and Cases*. Pearson. **Case Study 3.1: The GM Bailout**, hal. 156–160 (akhir Chapter 3: *The Business System: Government, Markets, and International Trade*).
+> **Pengantar buku:** *"This case outlines the ethical controversies surrounding the development of the Canadian oil sands. It sets out the pros and cons of the oil sands and examines the role that these factors play in broader political decisions in the US and Europe about supporting imports from the Canadian oil industry."*
 
-## 11.1 Kronologi & Fakta Kunci
+> **Kenapa kasus ini pas ditutup dengan Chapter 3:** kasus ini **tidak punya jawaban tunggal**. Debat yang sudah berlangsung puluhan tahun belum menghasilkan kesimpulan. Persis itulah yang ingin ditunjukkan buku lewat **Figure 3.2** — dilema seperti ini harus dilihat lewat **prisma** banyak teori, bukan lensa satu teori.
 
-### A. Krisis Perusahaan
-- **Pertengahan Desember 2008:** GM — produsen mobil **terbesar kedua di dunia** — merugi **US$2 miliar per bulan**. CEO **Rick Wagoner** (menjabat sejak 2000, CEO termuda dalam sejarah GM; lulusan ekonomi Duke + MBA Harvard) tahu GM tidak punya cukup uang untuk bertahan lama.
-- **2008 adalah tahun ke-100 GM — dan menjadi tahun terburuknya.**
-- **Rentetan kerugian: total US$80 miliar dalam 4 tahun**
-  | Tahun | Kerugian |
-  |---|---|
-  | 2005 | US$10,4 miliar |
-  | 2006 | US$1 miliar |
-  | 2007 | **US$38,7 miliar** (kerugian korporasi terbesar keempat dalam sejarah) |
-  | 2008 | US$30,9–31 miliar |
+---
 
-### B. Tiga penyebab menurut Wagoner
-1. **"Great Recession" 2008** — bank bermasalah berhenti memberi pinjaman → konsumen tak bisa mendapat kredit mobil. GM **tidak mengantisipasi credit crunch**: pada 2006 GM menjual **51% GMAC** (perusahaan pembiayaannya sendiri yang memberi kredit murah pada pembeli mobilnya) ke **Cerberus** seharga **US$7,4 miliar**. Cerberus **menolak** melanjutkan kredit mudah untuk pelanggan GM → pukulan signifikan bagi penjualan.
-2. **Biaya tenaga kerja.** 2008: GM membayar rata-rata **±US$70/jam**, terdiri dari **US$30 upah pekerja** + **US$40 tunjangan, pensiun, serta biaya kesehatan dan pensiun untuk ±432.000 PENSIUNAN GM**. Karena GM sudah beroperasi 100 tahun, jumlah pensiunannya jauh lebih besar dari perusahaan baru. **Toyota** membayar **±US$53/jam** di pabrik AS-nya (US$30 upah + US$23 tunjangan, sangat sedikit untuk pensiunan) — di beberapa pabrik bahkan hanya **US$48/jam**.
-3. **⭐ Penyebab utama: ketergantungan pada SUV besar — kesalahan yang dibuat sendiri (*self-inflicted*).**
-   - Produsen Jepang bisa membuat mobil kecil dan menengah **lebih murah** dari GM → GM harus menurunkan harga sampai margin mobil kecil/menengahnya **nyaris habis**.
-   - Tahun 1980-an saat BBM murah, GM menemukan **SUV besar sangat laku**; marginnya **gemuk: US$10.000–15.000 per kendaraan**. Sepanjang 1990-an GM memperluas lini dan **mengonversi banyak pabriknya** untuk SUV. **Pada 2003, sebagian besar labanya dari SUV.**
-   - Ketika harga bensin merangkak naik, biaya kepemilikan SUV ikut naik → pasar melambat lalu turun. **2004:** SUV tak terjual menumpuk di dealer. **2005:** Badai **Katrina** melambungkan harga bensin → **penjualan SUV kolaps**.
-   - Masalahnya: **pabrik, rencana strategis, program R&D, dan pola pikir GM semuanya sudah terkunci pada produksi SUV** — butuh bertahun-tahun untuk mengubahnya.
+## 11.1 Ringkasan Kasus
 
-### C. Kesempatan yang dibuang: EV1
-- 1990-an GM mengembangkan teknologi mobil **listrik penuh, EV1** — **mobil listrik modern pertama yang diproduksi massal oleh perusahaan mobil besar**.
-- Sampai 1999 GM sudah menghabiskan **US$500 juta memproduksinya** dan **US$400 juta memasarkannya**, tapi hanya **800 unit** yang disewakan.
-- Yakin EV1 takkan pernah menyamai profitabilitas SUV, GM **menghentikan produksi**, dan **pada 2002 menarik kembali semua EV1** yang disewakan lalu menghapus proyeknya.
-- Pada saat bersamaan **Toyota dan Honda** memperkenalkan **mobil hibrida** kecil ke AS. Hibrida sukses komersial dan — lebih penting — memberi Toyota & Honda **hampir satu dekade pengalaman** teknologi hibrida, sementara GM terus fokus pada SUV boros bensin.
-- **Pengakuan Wagoner** (wawancara *Motor Trend*, Juni 2006): keputusan terburuknya selama memimpin GM adalah *"axing the EV1 electric-car program and not putting the right resources into hybrids."*
+### A. Apa itu oil sands
+- Oil sand adalah campuran **pasir, lempung, air, dan bitumen** yang berat dan sangat kental. Ekstraksinya baru menjadi layak secara ekonomi dalam beberapa tahun terakhir.
+- Deposit ada di beberapa lokasi dunia — **Kazakhstan, Rusia, Venezuela** — tapi deposit di provinsi **Alberta, Kanada barat** sejauh ini yang **terbesar dan paling berkembang secara komersial**.
+- Lokasi: area sekitar **140.000 km²** di utara Alberta, dengan **Fort McMurray** sebagai hub perkotaan utama industri dan jasa pendukungnya.
 
-### D. Krisis Nasional & TARP
-- **September 2008:** pemerintahan **George W. Bush** meminta Kongres mengesahkan dana **US$700 miliar** bernama **TARP (Troubled Asset Relief Program)**, memberi wewenang Departemen Keuangan *"to purchase... troubled assets from any financial institution."*
-- *Troubled assets* = jutaan **kredit hipotek** kepada pembeli rumah yang tak sanggup membayar cicilan, dan rumahnya bernilai **lebih rendah dari hipoteknya** karena harga rumah kolaps awal 2007 → hipotek tak bisa dilunasi penuh. Banyak bank AS **di ambang kegagalan**, begitu pula bank Eropa yang mengambil alih ribuan hipotek AS. Banyak ekonom memprediksi kegagalan bank meluas akan mengubah resesi menjadi **depresi global lebih buruk dari Great Depression 1930-an**.
-- **Penentangan terhadap bailout bank:**
-  - **100 ekonom terkemuka** menandatangani surat ke Kongres: ketiadaan ***"fairness"*** adalah ***"fatal pitfall"*** rencana ini karena merupakan ***"a subsidy to investors at taxpayers' expense. Investors who took risks to earn profits must also bear the losses."***
-  - **Joseph Stiglitz** (peraih Nobel) menyebut bailout bank ***"socialism for the rich"***: *"this new form of ersatz capitalism, in which **losses are socialized and profits privatized**, is doomed to failure. Incentives are distorted [and] there is no market discipline."*
+### B. Sejarah perkembangan
+| Periode | Peristiwa |
+|---|---|
+| Sejak lama | **First Nations** setempat sudah mengenal oil sands dan memakai bitumennya untuk **menyegel sambungan kano** mereka |
+| Abad ke-18 | Penjelajah Eropa membuat catatan tertulis pertama tentang oil sands |
+| 1920-an | Paten pertama untuk proses pemisahan komersial guna mengekstraksi minyak mentah |
+| Akhir 1960-an | Operasi komersial baru dimulai serius, dengan berdirinya tambang oil sands pertama |
+| Akhir 1970-an & awal 2000-an | Tambang kedua dan ketiga baru dibuka — perkembangannya lambat |
+| Awal 2000-an | **Lonjakan investasi.** Pemicu: harga minyak melonjak sejak pergantian abad, dorongan kemandirian energi di tengah Timur Tengah yang tidak stabil, dan pasokan dari sumber lain menyusut |
+| 2012 | Investasi tahunan mencapai puncak **>US$30 miliar** |
+| 2014 | Penurunan pasar minyak → investasi proyek baru turun hingga **dua pertiga** |
+| 2018 | Investasi tinggal ±**US$10 miliar/tahun**. Penyebab: sulitnya mengoperasikan pipa baru, **pajak karbon yang naik**, dan **pembatasan (cap) emisi gas rumah kaca** dari oil sands |
 
-### E. Permohonan GM
-- **13 Oktober 2008:** Wagoner + 2 anggota dewan terbang ke Washington menemui pejabat pemerintahan Bush, meminta pinjaman dari TARP. **Ditolak** — undang-undangnya secara eksplisit menyebut TARP untuk **lembaga keuangan**, bukan produsen mobil.
-- **18–19 November 2008:** Wagoner bersama CEO **Chrysler** dan **Ford** menghadap komite Kongres meminta legislasi bantuan industri otomotif. **Anggota komite marah** — terutama karena para eksekutif mengakui **belum menyiapkan rencana** rinci penggunaan dana maupun perubahan apa yang akan mereka lakukan agar kembali menguntungkan. Ketiganya disuruh **kembali bulan Desember** dengan rencana keuangan rinci.
-- **Awal Desember:** ketiga CEO kembali dengan rencana. **10 Desember: DPR menyetujui**, tapi **Senat menolak** → legislasi mati.
-- **19 Desember 2008:** Presiden **Bush** mengumumkan **Departemen Keuangan tetap akan** memakai dana TARP: pinjaman **US$13,4 miliar untuk GM** dan **US$4 miliar untuk Chrysler**. (**Ford** memutuskan bisa bertahan tanpa uang pemerintah.)
-  - **Alasan resmi pemerintahan Bush:** *"the direct costs of American automakers failing and laying off their workers... would result in a more than **one percent reduction in real GDP growth** and about **1,1 juta pekerja kehilangan pekerjaan**."*
-  - **Syarat:** paling lambat **17 Februari 2009** GM harus menyerahkan rencana rinci mencapai ***"financial viability"*** yang **dapat diterima** pejabat Treasury.
-  - **Pencairan:** US$4 miliar (31 Des 2008) + US$5,4 miliar (16 Jan 2009) + US$4 miliar (17 Feb 2009).
-- **Keberatan ideologis:** Senator Republik **Bob Corker**: bailout GM *"should send a chill through all Americans who believe in free enterprise."* Beberapa anggota Kongres Republik mengajukan resolusi: bailout *"moving our free-market based economy another dangerous step closer toward **socialism**."*
+**Alasan lambatnya perkembangan awal:** biaya ekstraksi minyak mentah dari oil sands sangat tinggi. Digabung dengan harga minyak rendah dan pasokan melimpah dari sumber lain, oil sands secara ekonomi tidak menarik.
 
-### F. Pemerintahan Baru (Obama) & Restrukturisasi
-- Isi *viability plan* yang harus diserahkan Wagoner: **renegosiasi kontrak serikat** agar biaya tenaga kerja kompetitif dengan produsen asing di AS; **mengurangi jumlah dan model mobil**; **memangkas utang tanpa jaminan dari US$27,5 miliar → US$9,2 miliar** dengan membujuk kreditur menghapus sebagian utang ditukar saham GM; dan **berinvestasi pada kendaraan hibrida dan listrik hemat bahan bakar**.
-- **Kreditur menolak keras** → target pengurangan utang **tidak tercapai**.
-- **Isi rencana final 17 Februari 2009:** memangkas **37.000 pekerjaan kerah biru** dan **10.000 kerah putih**; menutup **14 pabrik** dalam 3 tahun; menghapus **4 dari 8 merek mobil**; memotong gaji manajer **10%** dan gaji lainnya **3–7%**; mengalihkan biaya asuransi kesehatan pensiunan ke **trust independen** yang didanai sebagian dengan saham GM dan sebagian dengan utang. **Namun GM menyatakan butuh tambahan US$22,5 miliar lagi** dari pemerintah untuk terus beroperasi sampai 2011.
-- **Auto Task Force ("Team Auto")** bentukan Obama, dipimpin **Steven Ratner**, tidak puas:
-  > *"It was clear to us from the 'viability plans'... that GM and Chrysler were **in a state of denial**. Both companies needed gigantic reductions in their costs and liabilities. They had way too many plants and workers for expected car volumes. And their labor costs were out of line with those of their most direct competitors... I was shocked by the **stunningly poor management** that we found, particularly at GM, where we encountered, among other things, **perhaps the weakest finance operation any of us had ever seen in a major company**."*
-- **30 Maret 2009:** pemerintahan Obama menyatakan rencana GM **tidak dapat diterima** dan *"does not warrant the substantial additional investments... requested"*. GM diberi **60 hari** (sampai 1 Juni) untuk mengorek konsesi lebih dalam dari kreditur, plus pinjaman lagi **US$6,36 miliar**.
-- Task force segera menyadari **satu-satunya cara** memaksa kreditur menghapus utang GM adalah lewat **kebangkrutan** — memberi hakim federal wewenang membatalkan utang sebanyak yang diperlukan. **31 Maret:** Treasury memberi tahu dewan direksi GM bahwa jika mengajukan kepailitan, **pemerintah akan menyediakan pendanaan** yang dibutuhkan agar GM keluar sebagai perusahaan yang viable.
-- **Nasib Wagoner:** pertengahan Maret, ditanya Ratner soal rencananya, Wagoner menjawab *"I'm not planning to stay until I'm 65 but I think I've got at least a few years left in me..., but I told the [Bush] administration that if my leaving would be helpful to saving General Motors, I'm prepared to do it."* Pada **Jumat 27 Maret**, sebelum rapat, Ratner menariknya ke samping: *"In our last meeting you very graciously offered to step aside if it would be helpful. Unfortunately our conclusion is that it would be best if you did that."* **Wagoner mengundurkan diri 30 Maret 2009** setelah mengabdi >30 tahun.
+**Pemain yang masuk:** gelombang perusahaan energi asing — **Shell, Chevron, Total, Statoil, Exxon, ConocoPhillips**, **Korean National Oil Company**, dan **CNOOC** (produsen minyak lepas pantai terbesar Tiongkok) — bergabung dengan perusahaan Kanada **Suncor Energy** dan **Syncrude**.
 
-### G. Kebangkrutan & Struktur Kepemilikan Baru
-- **1 Juni 2009: GM masuk kepailitan.** Treasury membentuk perusahaan baru bernama **General Motors Company**. **"Old GM"** yang bangkrut **menjual merek paling menguntungkan dan fasilitas manufaktur paling efisien** kepada perusahaan baru, yang memakai **US$30 miliar uang pemerintah** untuk membelinya.
+**Produksi:** dari sedikit di atas **0,5 juta barel bitumen per hari (1997)** menjadi hampir **2,77 juta barel per hari (2017)** — meningkat tiap tahun meski investasi turun.
 
-| Pemilik "New GM" | Porsi | Keterangan |
+---
+
+### C. 📊 PRO — Manfaat ekonomi (data Canadian Energy Research Institute / CERI)
+> Menurut CERI, **hampir setiap komunitas di Kanada** tersentuh pengembangan oil sands melalui dampaknya pada penciptaan lapangan kerja dan pertumbuhan ekonomi.
+
+| Klaim | Angka |
+|---|---|
+| Lapangan kerja di industri oil sands Kanada | **206.000 (2017) → 461.000 (2027)** |
+| Perusahaan Kanada **di luar Alberta** yang memasok industri ini (2014–15) | **3.400 perusahaan** |
+| Kontrak bisnis perusahaan di **Quebec** (2014–15) | **371 perusahaan**, senilai **CAD$1,2 miliar** |
+| Kontribusi ke ekonomi Kanada (2017–2027) | **CAD$1,6 triliun** |
+| Kontribusi ke ekonomi AS (2010–2035, 25 tahun) | **CAD$521 miliar** |
+| Pajak federal + provinsi (2017–2027) | **CAD$139 miliar + CAD$98 miliar** |
+| Di AS: *gross state product* + lapangan kerja (2017–2027) | **US$16 miliar** + **145.000 pekerjaan** |
+| Bisnis langsung perusahaan **masyarakat adat** (2015–16) | **399 perusahaan** dari **65 komunitas** Alberta, senilai **CAD$3,3 miliar** |
+
+### D. 📊 KONTRA — Dampak lingkungan
+> Catatan penting: **semua pengembangan oil sands wajib memenuhi regulasi perlindungan lingkungan Kanada.** Tetap saja, sejak produksi digenjot setelah pergantian abad, para peneliti dan kelompok lingkungan menunjuk deretan dampak negatif.
+
+| Temuan | Angka |
+|---|---|
+| Emisi gas rumah kaca vs produksi minyak konvensional | **+20% lebih tinggi** |
+| Porsi emisi oil sands (2017) | **10% dari emisi GRK Kanada**; **0,14% emisi global**. Kanada kini masuk **sepuluh besar** penghasil GRK secara absolut |
+| Proyeksi ekspansi | Menambah **50–150 juta ton** emisi karbon global per tahun pada 2030 → **menghambat kemampuan Kanada memenuhi target Paris Climate Accord 2015** |
+| Kolam limbah beracun (*tailings ponds*), 2017 | Seluas **220 km²**, berisi **1 triliun liter** bahan kimia dan hidrokarbon yang **terbukti bocor** ke lingkungan sekitar |
+| Habitat yang hancur (2017) | Hutan boreal dan muskeg seluas **Kota New York** |
+| Pencemaran air | Danau di kawasan Alberta tercemar **karsinogen**; emisi produksi mengandung **neurotoksin** yang sebagian bersifat karsinogenik → **banyak laporan warga setempat dengan masalah kesehatan seperti tingkat kanker yang meningkat** |
+| Penggunaan air (2011) | **170 juta m³** — setara konsumsi air rumah tangga **1,7 juta warga Kanada**; diperkirakan naik hampir **170%** pada 2030 |
+| Reklamasi (per 2016) | Hanya **11%** jejak tambang aktif yang sudah atau sedang direklamasi. **Sebagian besar peatland dan hutan tua yang hancur tidak akan pernah kembali ke keadaan alaminya** |
+
+**Upaya perbaikan industri:** sebagian perusahaan menanamkan sumber daya besar untuk peningkatan lingkungan — efisiensi air yang lebih baik di lokasi tambang, dan teknologi baru seperti ***carbon capture and storage*** (karbon dioksida limbah ditangkap dan disimpan agar tidak lepas ke atmosfer). **Sebagian besar kelompok lingkungan tetap tidak yakin** perbaikan itu membuat perbedaan nyata, mengingat kecepatan dan skala pengembangan di Alberta utara.
+
+### E. Spektrum sikap para penentang
+| Aktor | Posisi |
+|---|---|
+| **Sierra Club** (NGO lingkungan terbesar di AS) | Oil sands menghasilkan ***"the most toxic fossil fuel on the planet"*** |
+| **Environmental Defence** (NGO Kanada) | Melabeli oil sands ***"the most destructive project on Earth"*** |
+| **Greenpeace** | *"calling on oil companies and the Canadian government to **stop the tar sands**"* |
+| **Pembina Institute** (suara moderat) | Tidak menuntut penghentian, tapi mendorong ***"responsible oil sands development"*** — dengan **pembatasan dampak lingkungan** dan **jejak lingkungan per barel yang berkurang** |
+
+> ⚠️ **Bahkan istilahnya diperebutkan:** kritikus menyebutnya ***"tar sands"***; industri dan pemerintah Kanada lebih suka ***"oil sands"*** yang terdengar lebih netral. **Ini bukan detail sepele — ini bahan diskusi discourse ethics dan postmodern ethics.**
+
+---
+
+### F. ⭐ Kampanye *'ethical oil'*
+Menghadapi rusaknya reputasi oil sands, muncul satu pendekatan kontroversial untuk memulihkannya: **mengalihkan fokus ke negara asal sumber minyak pesaing.**
+
+**Argumen dasarnya:** karena oil sands berada **di Kanada**, ia diatur secara **benar dan demokratis**; ia **tidak terjerat korupsi dan pelanggaran** yang lazim di negara kaya minyak, dan hasilnya **tidak mengalir untuk mendanai terorisme**.
+
+**Tokoh & organisasinya:**
+- **Ezra Levant** — pengacara dan pelobi Kanada; bukunya ***Ethical Oil: The Case for Canada's Oil Sands*** menjadi **best-seller di Kanada** dan memenangi **National Business Book Award**.
+- Levant kemudian mendirikan **Ethicaloil.org**, promotor argumen ini yang paling lantang. Organisasi ini **secara luas diyakini memperoleh dana dan dukungan dari industri minyak** — atau, kata juru bicara Greenpeace, ia adalah ***"a front group for Big Oil."***
+- **Perdana Menteri Stephen Harper** (saat itu, seorang *climate sceptic*): *"Canada is a very ethical society and a **safe source** for the United States in comparison to other sources of energy."*
+
+**Klaim pendukung tambahan:** oil sands terbukti merupakan **cadangan minyak terbesar ketiga di dunia**, dengan produksi diproyeksikan **hampir dua kali lipat antara 2017 dan 2038** menjadi **5,5 juta barel per hari pada 2038**.
+
+**Definisi resmi Ethicaloil.org:**
+> *"Countries that produce **Ethical Oil** uphold human rights and have high environmental standards. They ensure economic justice and promote peace. By contrast, **Conflict Oil** countries oppress their citizens and operate in secret with no accountability to voters, the press, or independent judiciaries."*
+
+### 📊 **TABEL 3.9 — Top ten countries by proven oil reserves as of 2017** (hal. 132) — WAJIB DI SLIDE
+*Sumber: CIA, The World Factbook*
+
+| Rank | Negara | Cadangan (miliar barel) |
+|---:|---|---:|
+| 1 | Venezuela | 301 |
+| 2 | Arab Saudi | 267 |
+| **3** | **Kanada** | **170** |
+| 4 | Iran | 158 |
+| 5 | Irak | 143 |
+| 6 | Kuwait | 102 |
+| 7 | Uni Emirat Arab | 98 |
+| 8 | Rusia | 80 |
+| 9 | Libya | 48 |
+| 10 | Nigeria | 37 |
+
+> **Inilah inti argumen Levant:** selain Kanada, sebagian besar negara di sepuluh besar punya **rekam jejak yang relatif buruk** dalam demokrasi dan penegakan hak asasi manusia.
+
+### G. Bantahan atas 'ethical oil'
+Debat ini langsung memicu kontroversi di Kanada, terutama karena bagi banyak pihak ia tampak seperti **upaya menghapus (airbrush) sisi bermasalah oil sands**.
+
+| Penanggap | Bantahan |
+|---|---|
+| **John Bennett**, Direktur Eksekutif Sierra Club Canada | *"The fact that the Saudis or Nigerians or others are worse in human rights and environment **is not relevant**. **We can't do anything about that; we can deal with our oil sands and we are not.**"* |
+| **David Suzuki**, environmentalis Kanada ternama | *"In today's world, **all fossil fuels are unethical**. There is no such thing as ethical oil."* |
+
+### H. Politik oil sands
+Wacana etika oil sands **terus berubah**, terutama dipengaruhi hubungan Kanada–AS dan sikap para pemimpin kedua negara terhadap perubahan iklim.
+
+- **Ketergantungan pasar:** mayoritas minyak mentah oil sands dijual ke kilang Kanada dan AS. Pada **2017, 99% ekspor minyak Kanada mengalir ke Amerika Serikat.**
+- **Ancaman dari kebijakan hijau AS:** kelompok lingkungan AS lama memperjuangkan pembatasan impor minyak oil sands yang "kotor", dan Presiden **Obama** menjadikan perlawanan terhadap perubahan iklim agenda utama dalam pidato pelantikannya pada 2013.
+- **Titik didihnya: pipa Keystone XL** — perluasan pipa yang dirancang membawa lebih banyak minyak oil sands ke kilang AS. Proyek ini terjerat kontroversi sepanjang 2010-an karena **risiko tumpahan di kawasan yang secara ekologis sensitif** serta isu memasukkan minyak oil sands dengan **beban gas rumah kaca yang lebih berat** ke bauran energi AS, justru ketika negara itu ingin **menurunkan** emisinya.
+
+| Pemimpin | Sikap atas Keystone XL |
+|---|---|
+| **Barack Obama** | **Menolak** memberi perintah eksekutif, atas saran **Environmental Protection Agency**, dengan alasan proyek itu **tidak akan menurunkan harga bensin, tidak menciptakan lapangan kerja jangka panjang, dan tidak memengaruhi kemandirian energi** |
+| **Donald Trump** | Beberapa pekan setelah menjabat (awal 2017) **menandatangani perintah eksekutif yang mendukung** Keystone XL — mengizinkan pipa berkapasitas hingga **850.000 barel per hari** dari Kanada ke AS. Banyak pihak melihatnya sebagai simbol **pengabaian administrasi Trump terhadap perlindungan lingkungan, perubahan iklim, dan pembangunan berkelanjutan** |
+| **Justin Trudeau** | Banyak yang mengira ia akan membalik kebijakan longgar pendahulunya soal iklim mengingat dukungan vokalnya pada perlindungan lingkungan. **Ternyata ia justru mendukung Keystone XL**, dan dikutip di sebuah konferensi energi di Texas pada 2017: *"**no country would find 173 billion barrels of oil in the ground and leave them there.**"* |
+
+**Penutup kasus dari buku:** dengan meningkatnya tekanan untuk menurunkan emisi karbon global, tekanan komersial yang berat pada industri migas, dan angin politik yang terus berubah, **masa depan oil sands Kanada sama sekali belum jelas.**
+
+---
+
+## 11.2 ❓ LIMA PERTANYAAN DISKUSI DARI BUKU (hal. 133–134)
+
+1. **Aktor mana** yang punya kepentingan dalam menentukan apakah oil sands merupakan sumber minyak yang etis, dan **mengapa penilaian mereka berbeda begitu jauh**?
+2. Bagaimana Anda melakukan **analisis utilitarian** atas oil sands untuk memutuskan apakah ia sumber minyak yang etis? Berikan **penilaian sementara** berdasarkan data dalam kasus, dan **uraikan data lain apa yang Anda butuhkan** untuk penilaian penuh.
+3. Bagaimana penilaian itu **berbeda** kalau Anda berfokus terutama pada **etika berbasis prinsip (duties, rights, dan justice)**? **Isu apa yang kini didahulukan**, dan apakah itu memberi perspektif yang wajar atas masalahnya?
+4. Bagaimana Anda **membandingkan** minyak oil sands dengan **sumber minyak lain** dari perspektif etis?
+5. Pertimbangkan argumen bahwa **semua minyak tidak etis**. **Teori atau prinsip apa** yang mendukung klaim seperti itu? **Apakah posisi itu berguna** — dan kalau ya, **bagi siapa**?
+
+---
+
+## 11.3 ⭐ JAWABAN PERTANYAAN 1 — Peta Aktor dan Mengapa Mereka Berbeda
+
+### Siapa saja yang berkepentingan
+| Aktor | Kepentingan / nilai yang dibawa | Kecenderungan posisi |
 |---|---|---|
-| **Pemerintah AS** | **61%** | Ditukar dengan total **US$50 miliar** yang dipompakan; **berhak memilih 10 dari 12 anggota dewan direksi** |
-| **Trust kesehatan pensiunan serikat (UAW)** | **17%** | Plus surat utang **US$2,5 miliar** dan **US$6,5 miliar** saham preferen dari perusahaan baru |
-| **Pemerintah Kanada** | **12%** | Menyumbang **US$10 miliar** untuk menyelamatkan beberapa pabrik GM di Ottawa dan Ontario |
-| **Kreditur "Old GM"** | **10%** | Plus hasil penjualan aset perusahaan lama |
+| **Pemerintah Alberta & federal Kanada** | Pajak CAD$237 miliar, lapangan kerja, kemandirian energi, penerimaan daerah | **Pro** (dengan cap emisi & pajak karbon sebagai kompromi) |
+| **Perusahaan migas** (Shell, Chevron, Total, Statoil, Exxon, ConocoPhillips, CNOOC, KNOC, Suncor, Syncrude) | *Fiduciary duty* ke pemegang saham; return atas investasi >US$30 miliar | **Pro** |
+| **Pekerja & rantai pasok** | 206.000 pekerjaan, 3.400 perusahaan pemasok, 371 perusahaan Quebec | **Pro** |
+| **Komunitas masyarakat adat / First Nations** | **Terbelah** — 399 perusahaan dari 65 komunitas berbisnis senilai CAD$3,3 miliar, **tapi** juga menanggung pencemaran air, hilangnya hutan boreal, dan risiko kesehatan di tanah tradisional mereka | **Terbelah** |
+| **Warga Fort McMurray & kawasan hilir** | Kesehatan (kanker, neurotoksin), air bersih, nilai properti — sekaligus mata pencaharian | **Terbelah** |
+| **NGO absolutis** (Sierra Club, Environmental Defence, Greenpeace) | Integritas ekosistem, iklim, keadilan lingkungan | **Kontra keras** |
+| **NGO reformis** (Pembina Institute) | *Responsible development*: cap dampak + jejak per barel turun | **Kontra bersyarat** |
+| **Ethicaloil.org & Ezra Levant** | HAM & demokrasi sebagai kriteria; diyakini didanai industri | **Pro** |
+| **Pemerintah & konsumen AS** | Keamanan pasokan, harga BBM, target iklim | **Berubah-ubah** (Obama ≠ Trump) |
+| **Investor** | Risiko *stranded assets*, pajak karbon, reputasi | **Menarik diri** (investasi turun 2/3) |
+| **Generasi mendatang & komunitas global terdampak iklim** | Iklim yang stabil | **Tidak punya suara** |
+| **Ekosistem & satwa hutan boreal** | Kelangsungan habitat | **Tidak punya suara** |
 
-> **"The government was now the major owner of a car company."**
+### 🔑 Mengapa penilaian mereka berbeda sejauh itu — jawab dengan framework Chapter 3
+Ini bukan sekadar "kepentingan berbeda". Buku memberi kita **enam penjelasan yang lebih tajam:**
 
-- **GM bukan satu-satunya:** **27 Februari 2009** Treasury mengambil **36% kepemilikan Citigroup Inc.** senilai **US$25 miliar**; **16 September 2008** **AIG** mengumumkan pemerintah lewat **Federal Reserve** mengambil **80% kepemilikan** senilai **US$85 miliar**.
+1. **Mereka memakai teori etika yang berbeda-beda.** Persis masalah **Figure 3.1**: masing-masing pihak memandang lewat **satu lensa** dan mengira lensanya adalah seluruh gambar. Levant memakai lensa **komparatif berbasis rights/tata kelola**; CERI memakai lensa **utilitarian**; Suzuki memakai lensa **absolutis/duty**; Pembina memakai lensa **discourse/pragmatis**.
+2. **Batas kalkulasi mereka berbeda** — masalah **subjectivity** dalam utilitarianisme. Siapa yang masuk hitungan? Hanya warga Kanada? Termasuk warga AS? Termasuk penduduk negara kepulauan yang tenggelam? Kata **Peter Singer**, bahkan **hewan** harus dihitung setara — dan hutan boreal seluas Kota New York adalah habitat.
+3. **Horizon waktu mereka berbeda** — masalah **distribution of utility**. Manfaat CAD$1,6 triliun dihitung untuk 2017–2027. Peatland yang hancur **tidak akan pernah pulih**. Bandingkan dua angka yang rentang waktunya berbeda seribu kali lipat.
+4. **Sebagian absolutis, sebagian relativis.** Suzuki **absolutis**: semua bahan bakar fosil tidak etis, titik. Levant **relativis komparatif**: etis atau tidak tergantung dibandingkan dengan siapa. Keduanya konsisten secara internal — dan itulah sebabnya mereka tidak akan pernah bertemu.
+5. **Kepentingan diri menyamar sebagai argumen moral** — kritik **ethical egoism**. Tuduhan Greenpeace bahwa Ethicaloil.org adalah *"a front group for Big Oil"* adalah tuduhan bahwa argumen etis dipakai sebagai alat egoisme. Sebaliknya, industri bisa menuduh NGO memakai isu ini untuk penggalangan dana.
+6. **Bahkan bahasanya diperebutkan** — poin **postmodern ethics**. *"Oil sands"* versus *"tar sands"*; *"ethical oil"* versus *"conflict oil"*. Sebelum berdebat tentang fakta, para pihak sudah berdebat tentang **kata**. Bagi Bauman, ini bukti bahwa penilaian moral tidak murni rasional — ia dibentuk narasi, metafora, dan *framing*.
 
-### H. "Super Socialism?"
-Banyak pengamat menunjuk bahwa kepemilikan pemerintah atas perusahaan **persis jenis kepemilikan alat produksi** yang dianjurkan **Marx** dan kaum sosialis.
-- **Robert Higgs** (editor *Independent Review*): *"the government is resorting to **outright socialism** by taking ownership positions in rescued firms."*
-- **Michael Winther** (Mackinac Center, lembaga riset konservatif pro-pasar bebas):
-  > *"There are only two economic systems in the world... generally described as 'the free market' and 'socialism.'... Socialism is characterized and defined by either of two qualities: **Government ownership or control of capital, or forced pooling and redistribution of wealth**... the current bailout could be described as **'super-socialism'** because it involves **every possible component of socialism**: the forced redistribution of wealth, increased government control of capital, and even the extreme of socialism, which is government ownership of capital. Our federal government is not content to just regulate the markets (capital), but is also taking the next step of purchasing ownership interest in previously private companies."*
+---
 
-## 11.2 ❓ PERTANYAAN DISKUSI ASLI DARI BUKU (Writing Prompt: *Think Critically about the GM Bailout*)
-1. **Menurut Anda, apakah bailout GM seharusnya dilakukan?** Jelaskan mengapa ya atau tidak **dengan menggunakan gagasan berbagai pemikir yang dibahas dalam bab ini**. Menurut Anda, apakah bailout itu **etis ditinjau dari utilitarianism, justice, rights, dan caring**?
-2. **Menurut penilaian Anda, baik atau buruk pemerintah mengambil kepemilikan 61% GM?** Jelaskan mengapa, **dalam kerangka teori Locke, Smith, dan Marx**.
+## 11.4 ⭐ JAWABAN PERTANYAAN 2 — Analisis Utilitarian
 
-## 11.3 ⭐ KERANGKA ANALISIS: MENJAWAB KASUS GM DENGAN 9 TEORI CHAPTER 3 (Tabel 3.8)
-*Inilah jembatan yang menyatukan presentasi Anda. Gunakan sebagai struktur diskusi.*
+### Langkah kerjanya (mengikuti Tabel 3.2 & 3.3)
+1. **Identifikasi semua yang terdampak** — prinsip *universalism*: semua harus masuk, dengan **bobot yang sama**.
+2. **Petakan pleasure dan pain** dari dua tindakan: melanjutkan/memperluas pengembangan vs menghentikannya.
+3. **Kurangkan pain dari pleasure** untuk mendapat *net pleasure* — prinsip *hedonism* & *maximalism*.
+4. **Bandingkan** dan pilih yang utility agregatnya tertinggi.
 
-| Teori | Pertanyaan kunci | **PRO bailout** | **KONTRA bailout** |
+### 📊 Neraca utilitarian oil sands (format Tabel 3.3) — WAJIB DI SLIDE
+
+| Pihak terdampak | **Aksi 1: LANJUTKAN pengembangan** — Pleasure | **Aksi 1** — Pain | **Aksi 2: HENTIKAN/BATASI** — Pleasure | **Aksi 2** — Pain |
+|---|---|---|---|---|
+| **Perusahaan & pemegang saham** | Return atas investasi; cadangan terbesar ketiga dunia | Risiko reputasi; risiko *stranded assets* & pajak karbon | Modal dialihkan ke aset yang lebih aman | Kerugian investasi >US$30 miliar yang sudah tertanam |
+| **Pekerja (206.000 → 461.000)** | Pekerjaan berupah tinggi; keamanan keluarga | Paparan risiko kesehatan; ketidakpastian jangka panjang | Peluang transisi ke energi bersih | **PHK massal**; matinya ekonomi Fort McMurray |
+| **Rantai pasok (3.400 + 371 perusahaan)** | Kontrak CAD$1,2 miliar+; efek berganda nasional | — | — | Hilangnya pendapatan lintas provinsi |
+| **Pemerintah Kanada & Alberta** | Pajak CAD$237 miliar; pertumbuhan; kemandirian energi | Kesulitan memenuhi target Paris; tekanan diplomatik | Kredibilitas iklim; target Paris tercapai | Hilangnya penerimaan; biaya politik & sosial PHK |
+| **Komunitas masyarakat adat** | CAD$3,3 miliar bisnis bagi 399 perusahaan dari 65 komunitas | Pencemaran air, hilangnya hutan boreal & tanah tradisional, risiko kanker | Tanah, air, dan kesehatan terlindungi | Hilangnya pendapatan yang sudah menjadi tumpuan sebagian komunitas |
+| **Warga lokal Alberta** | Ekonomi daerah hidup; layanan publik terdanai | Karsinogen di danau, neurotoksin di udara, **1 triliun liter limbah beracun** yang bocor | Air dan udara bersih | Hilangnya pekerjaan dan nilai properti |
+| **Konsumen AS** | Pasokan aman dari negara tetangga; harga stabil | Menaikkan emisi bauran energinya sendiri | Bauran energi lebih bersih | Ketergantungan pada pemasok lain, termasuk yang bermasalah |
+| **Komunitas global** | — | **+50–150 juta ton emisi/tahun pada 2030**; target iklim global terancam | Peluang menahan pemanasan | Kekosongan pasokan mungkin diisi produsen lain |
+| **Generasi mendatang** | Warisan infrastruktur & dana kedaulatan | **Peatland dan hutan tua yang tidak akan pernah kembali**; iklim yang terdegradasi | Ekosistem dan iklim yang lebih utuh | Mewarisi ekonomi yang harus direstrukturisasi |
+| **Ekosistem & satwa** | — | Habitat seluas Kota New York hancur; **hanya 11% direklamasi** | Habitat tersisa terjaga | — |
+
+### 🔎 Penilaian sementara berdasarkan data kasus
+**Kesimpulannya: tidak konklusif — dan itu justru temuannya.** Alasannya bisa dinyatakan persis dengan **empat masalah utilitarianisme** yang dibahas bab ini:
+
+| Masalah | Bagaimana ia muncul di kasus oil sands |
+|---|---|
+| **Subjectivity** | Angka PRO datang dari **CERI**, lembaga riset energi Kanada; angka KONTRA dari **peneliti dan kelompok lingkungan**. Keduanya "data", tapi yang dipilih untuk dihitung sudah mencerminkan posisi. Dan mengikuti **Singer**, kalau satwa hutan boreal ikut dihitung setara, neracanya berubah drastis. |
+| **Equal weighting** | Prinsip universalism menuntut pain warga hilir Sungai Athabasca dan penduduk negara kepulauan diberi **bobot sama** dengan pleasure pemegang saham CNOOC. Dalam praktik politik, tidak ada yang benar-benar melakukannya. |
+| **Quantification** | CAD$1,6 triliun **bisa** dihitung. **Berapa nilai uang** dari 1 triliun liter limbah beracun, satu kasus kanker, atau hutan tua yang tidak akan pernah kembali? Persis pertanyaan buku: *"What monetary value is the right one to put on the experience of childhood?"* — di sini: berapa nilai sebuah lanskap yang permanen hilang? |
+| **Distribution of utility** | **Manfaatnya terkonsentrasi** (Kanada, industri, 2017–2027) tapi **bebannya tersebar** (global, permanen, generasi mendatang). Angka "0,14% emisi global" terdengar kecil justru **karena** pembaginya global — sementara manfaatnya tidak dibagi global. Inilah asimetri intinya. |
+
+**Tambahan penting — act vs rule utilitarianism:**
+- **Act utilitarianism** menilai proyek ini sendiri, dan dengan bingkai 2017–2027 bisa saja menyimpulkan **manfaat > biaya**.
+- **Rule utilitarianism** bertanya berbeda: *apakah **prinsip** "kembangkan setiap cadangan fosil tak konvensional yang layak secara ekonomi selama regulasi lokal dipenuhi" menghasilkan lebih banyak pleasure daripada pain bagi masyarakat dalam jangka panjang?* Kalau **semua** negara di Tabel 3.9 menerapkan prinsip itu, target Paris mustahil tercapai. **Di level aturan, jawabannya hampir pasti tidak.**
+- Perbedaan hasil act vs rule inilah yang paling layak jadi satu slide tersendiri.
+
+### 📋 Data lain yang dibutuhkan untuk penilaian penuh *(bagian ini diminta eksplisit oleh soal)*
+1. **Social cost of carbon per barel** dan totalnya, dengan *discount rate* yang dinyatakan terbuka.
+2. **Studi epidemiologi kausal** (bukan sekadar korelasi) atas tingkat kanker di komunitas hilir, plus estimasi biaya kesehatannya.
+3. **Biaya reklamasi penuh** dan **siapa yang menanggungnya** — apakah ada jaminan finansial, atau bebannya jatuh ke negara ketika perusahaan pergi?
+4. **Skenario tandingan (*counterfactual*)** — ini krusial dan paling sering diabaikan: kalau Kanada tidak memproduksi, permintaan dipenuhi minyak dari mana, dengan emisi dan rekam jejak HAM seperti apa? Tanpa angka ini, klaim PRO maupun KONTRA sama-sama menggantung.
+5. **Emisi siklus hidup penuh (*well-to-wheel*)** oil sands dibanding setiap sumber alternatif — bukan hanya emisi produksi.
+6. **Distribusi manfaat** — berapa persen dari CAD$1,6 triliun yang benar-benar jatuh ke pekerja dan komunitas lokal, dan berapa yang keluar ke pemegang saham asing.
+7. **Data terpilah untuk komunitas masyarakat adat** — manfaat CAD$3,3 miliar versus beban kesehatan dan hilangnya tanah, dihitung terpisah, bukan dilebur ke rata-rata nasional.
+8. **Data kualitas air dan udara dari pihak independen**, bukan dari industri maupun dari NGO.
+9. **Rentang waktu analisis yang eksplisit** — 10 tahun, 50 tahun, atau 500 tahun menghasilkan tiga kesimpulan berbeda.
+
+---
+
+## 11.5 ⭐ JAWABAN PERTANYAAN 3 — Kalau Beralih ke Etika Berbasis Prinsip
+
+Begitu kita berpindah dari *consequentialist* ke *principle-based*, **pertanyaannya berubah total**: bukan lagi "berapa untung-ruginya", melainkan **"hak siapa yang dilanggar, kewajiban apa yang diabaikan, dan apakah bebannya dibagi secara adil".**
+
+### A. Ethics of duty — Kant
+| Formulasi | Penerapan pada oil sands |
+|---|---|
+| **Universal acceptability** | Bisakah prinsip *"kembangkan cadangan fosil apa pun yang layak secara ekonomi selama regulasi lokal terpenuhi"* dijadikan hukum universal? Kalau **semua sepuluh negara di Tabel 3.9** melakukannya — Venezuela 301 miliar barel, Saudi 267, Kanada 170, dan seterusnya — **iklim yang stabil menjadi mustahil**, dan dengan itu syarat bagi industri minyak untuk terus beroperasi juga runtuh. Prinsipnya **menghancurkan dirinya sendiri saat diuniversalkan** — struktur logikanya identik dengan contoh Kant tentang gagal membayar utang dan berbohong. |
+| **Respect for persons** | Warga hilir dan komunitas adat **memang** diperlakukan sebagai *means* — sebagai pemilik lahan, pemberi izin sosial, dan penyedia tenaga kerja. Itu belum tentu salah; bisnis memang memakai orang sebagai sarana. Yang jadi masalah adalah kalau mereka diperlakukan **semata** sebagai sarana: argumen *"cuma 0,14% emisi global"* mengubah orang yang sakit menjadi **angka dalam pembilang**, dan itu persis yang dilarang Kant. |
+| **Motivasi** | Investasi pada efisiensi air dan *carbon capture and storage* — apakah dilakukan **karena itu kewajiban**, atau karena tekanan reputasi dan regulasi? Bagi Kant hasilnya sama tapi nilai moralnya berbeda. Bagi kita, ini pertanyaan praktis: perbaikan yang lahir dari tekanan akan berhenti begitu tekanannya hilang. |
+
+**Konsekuensi paling tajam dari Kant:** kewajiban **tidak dihapus oleh manfaat**. Kewajiban untuk tidak meracuni air orang lain tetap berlaku betapapun besar angka CAD$1,6 triliun itu. Utilitarianisme membolehkan menukar; Kant tidak.
+
+### B. Ethics of rights
+| Sisi | Hak yang relevan |
+|---|---|
+| **Mendukung pengembangan** | **UDHR Article 23** — hak atas pekerjaan, kondisi kerja yang adil, dan **perlindungan terhadap pengangguran**. Menutup industri yang menopang 206.000 pekerjaan menyentuh hak ini secara langsung. |
+| **Menentang pengembangan** | Hak atas **kesehatan** dan **air bersih** bagi komunitas hilir; hak masyarakat adat atas tanah dan penghidupan tradisional. Perhatikan bahwa **hak tidak bersifat komparatif** — pelanggaran hak warga Alberta tidak terhapus oleh pelanggaran yang lebih besar di Nigeria. |
+
+**Uji dengan UNGP (Ruggie Principles) — tiga pilar:**
+| Pilar | Pertanyaan untuk kasus ini |
+|---|---|
+| **STATE — duty to protect** | Kanada punya regulasi lingkungan yang wajib dipenuhi semua proyek. Tapi pemerintah yang sama juga **mempromosikan industrinya** ("a very ethical society and a safe source"). Bisakah negara sekaligus jadi **pelindung** dan **promotor**? |
+| **BUSINESS — responsibility to respect** | UNGP menuntut perusahaan mencegah dampak merugikan **bahkan yang hanya terkait lewat relasi bisnisnya, meski mereka tidak ikut menyebabkannya**. Untuk Shell, Total, atau CNOOC di Alberta, ini berarti *due diligence* atas dampak kesehatan hilir bukan pilihan, melainkan kewajiban. |
+| **JUDICIARY — access to remedy** | **Apakah warga yang sakit benar-benar punya akses pemulihan?** Kalau tidak, pilar ketiga UNGP kosong — dan justru pilar inilah yang paling jarang diuji dalam kasus lingkungan. |
+
+**Batas pendekatan rights** yang jujur diakui bab ini: dasarnya adalah **plausibilitas**, bukan metodologi yang ketat; dan sebagian pihak (Hsieh 2015; Wettstein 2012) mempertanyakan apakah korporasi pantas berperan sebagai pelindung hak asasi. Di kasus ini masalahnya justru terbalik — negaranya sendiri ikut menjadi promotor.
+
+### C. Justice — Rawls
+| Kriteria | Penerapan |
+|---|---|
+| **Fair procedures vs fair outcomes** | Prosedurnya formal-legal: izin dipenuhi, regulasi dipatuhi, ada arbitrase. Tapi **hasilnya** timpang: manfaat mengalir luas ke seluruh Kanada, sementara **beban terkonsentrasi** pada segelintir komunitas di Alberta utara. |
+| **Veil of ignorance** | Bayangkan Anda tidak tahu akan lahir sebagai **pekerja Fort McMurray, warga adat di hilir Sungai Athabasca, pemegang saham CNOOC, atau anak yang lahir tahun 2060**. Aturan apa yang akan Anda pilih? Hampir pasti bukan "lanjutkan tanpa syarat" — tapi juga bukan "hentikan besok tanpa transisi". Kemungkinan besar Anda akan memilih sesuatu yang mirip posisi **Pembina Institute**. |
+| **Difference principle** | Apakah pengaturan ini **paling menguntungkan pihak yang paling tidak beruntung**? Sebagian ya — 399 perusahaan masyarakat adat memperoleh CAD$3,3 miliar. Tapi kelompok yang sama juga menanggung pencemaran dan risiko kesehatan terbesar. **Ketika penerima manfaat dan penanggung beban adalah orang yang sama, difference principle tidak otomatis lolos** — ia menuntut kita membuktikan mereka benar-benar lebih baik keadaannya secara neto, bukan sekadar menerima uang. |
+| **Equal opportunity** | Apakah komunitas terdampak punya akses setara pada **proses pengambilan keputusan**, bukan cuma pada kontrak? |
+| **Keadilan antargenerasi** | Kriteria **pertama** Rawls bersifat fondasional: kebebasan dasar harus setara bagi **semua yang terdampak**, sebelum ketimpangan apa pun boleh dibenarkan. Generasi 2060 terdampak, tidak diwakili, dan mewarisi peatland yang **tidak akan pernah pulih**. Kriteria pertama tidak terpenuhi — dan kalau kriteria pertama gagal, kita **tidak boleh maju** ke kriteria kedua. |
+
+**Lewat social contract theory:** perusahaan memperoleh ***license to operate*** dari masyarakat dan sebagai gantinya menerima pembatasan berupa pajak dan kepatuhan hukum (Tabel 3.5). Pertanyaan kritisnya: **kontrak sosial itu dengan siapa?** Ia ditandatangani secara tersirat dengan warga Kanada — tapi **dampaknya melampaui Kanada**. Seperti kata buku tentang media sosial, kontrak sosial untuk **emisi lintas batas masih dalam pembentukan**, dan itulah sebabnya kasus ini belum selesai.
+
+### D. Jadi, isu apa yang kini didahulukan?
+Perpindahan dari consequentialist ke principle-based **memindahkan tiga hal ke depan:**
+1. Dari **"berapa totalnya"** → **"siapa yang menanggung, dan apakah mereka setuju"**.
+2. Dari **"apakah manfaatnya melebihi biaya"** → **"apakah ada hak yang dilanggar, terlepas dari manfaatnya"**.
+3. Dari **"kasus ini"** → **"prinsip ini kalau diberlakukan untuk semua"**.
+
+**Apakah ini memberi perspektif yang wajar?** Jawaban jujurnya: **sebagian.** Kekuatannya jelas — ia melindungi minoritas yang diabaikan kalkulasi utilitarian, dan menangkap keberatan antargenerasi yang tidak tertangkap neraca 2017–2027. Tapi kelemahannya juga persis yang dikritik bab ini: pendekatan ini **too abstract** dan **too narrow**. Ia cenderung menghasilkan jawaban "tidak boleh" yang absolut, sementara **206.000 keluarga menggantungkan hidup** pada industri itu besok pagi, dan tidak ada satu pun prinsip Kantian yang memberi tahu kita cara mengelola transisinya. Itulah alasan kita butuh teori-teori lain — dan alasan buku ini memilih **pluralisme**.
+
+---
+
+## 11.6 ⭐ JAWABAN PERTANYAAN 4 — Membandingkan Oil Sands dengan Sumber Minyak Lain
+
+Pertanyaan ini sebenarnya adalah **ujian atas absolutism versus relativism** yang dibuka di awal bab.
+
+**Struktur argumen Levant adalah relativisme komparatif:** etis atau tidaknya sebuah barel minyak ditentukan oleh **dengan siapa ia dibandingkan**. Tabel 3.9 adalah seluruh argumennya — sembilan dari sepuluh pemilik cadangan terbesar punya rekam jejak demokrasi dan HAM yang lebih buruk.
+
+**Bantahan Bennett adalah argumen kewajiban:** *"We can't do anything about that; we can deal with our oil sands and we are not."* Ini menolak perbandingan itu sebagai **tidak relevan secara moral** — kewajiban saya atas perbuatan saya sendiri tidak berkurang karena orang lain berbuat lebih buruk.
+
+### Bagaimana masing-masing teori menjawab perbandingan ini
+| Teori | Apakah perbandingan itu sah? |
+|---|---|
+| **Utilitarianism** | **Sah, bahkan wajib** — tapi hanya kalau dilakukan dengan benar: emisi **siklus hidup penuh** dan **skenario tandingan** yang jujur. Kalau permintaan global tetap dan minyak Kanada menggantikan minyak dengan emisi lebih rendah, klaim "ethical oil" **gagal pada dasar utilitarian sendiri**. |
+| **Ethics of duty** | **Tidak sah.** Kewajiban bersifat kategoris — tidak dinilai relatif terhadap pelanggar lain. Argumen "yang lain lebih buruk" adalah bentuk *tu quoque*: memindahkan perhatian dari perbuatan sendiri ke perbuatan orang lain. |
+| **Ethics of rights** | **Tidak sah.** Hak tidak bersifat komparatif. Hak warga hilir Athabasca atas air bersih tidak berkurang nilainya karena hak warga Delta Niger dilanggar lebih parah. |
+| **Justice** | **Sebagian sah** — perbandingan lintas negara relevan untuk keadilan distributif global, tapi tidak bisa dipakai untuk membenarkan ketidakadilan **di dalam** Kanada sendiri. |
+| **Virtue ethics** | **Pertanyaan yang salah.** Orang atau organisasi yang berbudi tidak mengukur dirinya terhadap yang terburuk — ia mengukur diri terhadap **karakter yang ingin ia miliki**. *Benchmarking ke bawah* justru tanda tidak adanya *phronesis*. |
+| **Discourse ethics** | **Cacat prosedural.** Siapa yang mendefinisikan "ethical oil"? Sebuah organisasi yang **diyakini didanai industri**. Itu melanggar syarat **impartiality** dan **non-persuasiveness** dari *ideal discourse*. Label itu adalah produk **kampanye**, bukan hasil **konsensus deliberatif** para pihak yang terdampak. |
+| **Postmodern ethics** | **Justru inilah objek kajiannya.** "Ethical oil" versus "conflict oil", "oil sands" versus "tar sands" — dua pasang label yang menentukan kesimpulan sebelum argumennya dimulai. Ini **grand narrative** yang menyederhanakan realitas yang jauh lebih berantakan. |
+
+**Rumusan yang bisa Anda pakai untuk menutup pertanyaan ini:**
+> Perbandingan antar sumber minyak **berguna sebagai informasi**, tapi **tidak sah sebagai pembenaran**. Ia bisa memberi tahu pembeli mana yang lebih baik di antara pilihan yang ada, tapi tidak bisa mengubah yang buruk menjadi etis hanya karena ada yang lebih buruk.
+
+---
+
+## 11.7 ⭐ JAWABAN PERTANYAAN 5 — "Semua Minyak Tidak Etis"
+
+**Klaimnya (David Suzuki):** *"In today's world, all fossil fuels are unethical. There is no such thing as ethical oil."*
+
+### Teori dan prinsip yang mendukung klaim ini
+| Landasan | Argumennya |
+|---|---|
+| **Rule utilitarianism** | Bukan menilai satu proyek, tapi **prinsipnya**: apakah aturan "ekstraksi dan bakar bahan bakar fosil" menghasilkan lebih banyak pleasure daripada pain **bagi masyarakat dalam jangka panjang**? Begitu generasi mendatang dimasukkan, jawabannya negatif. |
+| **Kant — universal acceptability** | Prinsip itu tidak dapat diuniversalkan tanpa menghancurkan syarat keberlanjutannya sendiri. |
+| **Rawls — kriteria pertama** | Kebebasan dasar harus setara bagi **semua yang terdampak**, termasuk yang belum lahir. Iklim yang terdegradasi mencabut kebebasan dasar itu sebelum mereka sempat memilikinya. |
+| **Ethic of care** | Fokusnya pada **relasi dan ketergantungan**: komunitas hilir, warga negara kepulauan, anak-anak yang akan hidup di 2060. Tujuannya **menghindari harm dan memelihara relasi** — bukan menghitung utility. Care juga membenarkan **keberpihakan** pada yang rentan meski tidak dapat diuniversalkan. |
+| **Kritik egoism / market failure** | Bab ini sudah menyebutnya secara eksplisit: *"the victims of today's resource depletion or global climate change are future generations, which are not yet present to take part in any kind of market."* **Pasar secara struktural tidak bisa memberi harga yang benar untuk ini.** |
+| **Postmodern — moral impulse** | Bauman: penilaian moral yang otentik lahir dari **perjumpaan langsung**, bukan dari kalkulasi kantor. Berdiri di tepi kolam limbah seluas 220 km² menghasilkan penilaian yang berbeda dari membaca laporan CERI. |
+
+### Apakah posisi ini berguna — dan bagi siapa?
+| Berguna bagi | Alasannya |
+|---|---|
+| **Gerakan lingkungan** | Menjaga **jangkar normatif** agar debat tidak seluruhnya tergelincir menjadi tawar-menawar teknis per barel. Tanpa posisi absolut di ujung spektrum, titik tengah kompromi bergeser terus ke arah industri. |
+| **Investor jangka panjang** | Menerjemahkan langsung menjadi analisis risiko *stranded assets* — dan itu terbukti: investasi oil sands **turun dua pertiga** setelah 2014. |
+| **Pembuat kebijakan iklim** | Memberi dasar normatif bagi pajak karbon dan pembatasan emisi, yang keduanya sudah diterapkan di Alberta. |
+
+| Tidak berguna bagi | Alasannya |
+|---|---|
+| **206.000 pekerja dan komunitasnya** | Posisi ini tidak mengatakan apa pun tentang **bagaimana transisinya dikelola** — siapa yang membayar, ke pekerjaan apa, dalam berapa tahun. |
+| **Negosiasi kebijakan riil** | Pihak yang menolak berdialog tidak bisa masuk ke *ideal discourse*; ia menutup jalan **penyelesaian damai** yang menjadi tujuan discourse ethics. |
+| **Perusahaan yang ingin memperbaiki diri** | Kalau semua minyak sama tidak etisnya, tidak ada insentif membedakan diri lewat efisiensi air atau *carbon capture* — posisi absolut **menghapus gradasi** yang justru mendorong perbaikan. Ini sebabnya **Pembina Institute** memilih jalan lain. |
+
+### Penilaian akhir dengan kacamata pluralis
+Buku ini memberi kita alat untuk menjawabnya dengan presisi. Posisi Suzuki adalah **absolutisme** — dan bab ini menunjukkan absolutisme punya kelemahan **too abstract** dan **too narrow**. Tapi buku ini juga memperingatkan lewat **Liu (2018)** bahwa pluralisme bisa **terlalu toleran**: *"some ways of life, practices, institutions, or traditions really are deeply misguided, and in their cases, tolerance is inappropriate."*
+
+> **Rumusan penutup:** posisi "semua minyak tidak etis" **sangat berguna sebagai jangkar normatif**, tapi **tidak cukup sebagai panduan keputusan** bagi manajer, pekerja, atau pembuat kebijakan yang harus memutuskan sesuatu besok pagi. Ia memberi tahu kita **ke arah mana** harus bergerak, bukan **langkah apa** yang harus diambil.
+
+---
+
+## 11.8 ⭐ MATRIKS: OIL SANDS DILIHAT LEWAT SEMBILAN TEORI (Tabel 3.8 sebagai alat)
+*Ini slide yang menyatukan seluruh presentasi Anda.*
+
+| Teori | Pertanyaan kunci (Tabel 3.8) | Yang disorot pada kasus oil sands | Condong ke |
 |---|---|---|---|
-| **1. Ethical egoism** | Apakah ini demi kepentingan jangka panjang terbaik saya/organisasi saya? | Bagi GM, kreditur, UAW, dan politisi: jelas kepentingan masing-masing terpenuhi. *Enlightened self-interest* pemerintah: menyelamatkan basis pajak dan stabilitas politik | Bagi pembayar pajak yang menanggung, ini **bukan** kepentingan mereka. **Kritik "internally inconsistent"** persis terlihat: setiap aktor mengejar kepentingannya, dan pasar gagal menengahi (**market failure**) |
-| **2. Utilitarianism** ⭐ | Jika semua konsekuensi bagi **semua** yang terdampak dihitung, apakah kita secara keseluruhan lebih baik? | **Angka resmi Bush:** kegagalan otomotif = **>1% penurunan pertumbuhan GDP riil** dan **1,1 juta pekerja kehilangan pekerjaan**. Efek berantai ke dealer, pemasok, komunitas, penerimaan pajak, dan dana pensiun. **Greatest good for greatest number** → bailout dibenarkan | Biaya: **US$50 miliar** uang publik untuk perusahaan yang gagal karena **manajemen buruk sendiri** (kesaksian Ratner). ***Rule utilitarianism*:** apakah **prinsip** "menyelamatkan perusahaan besar yang gagal" menghasilkan lebih banyak pleasure jangka panjang? → **Moral hazard**: mendistorsi insentif, menghapus disiplin pasar (Stiglitz) → jangka panjang justru **merugikan** |
-| **3. Ethics of duty (Kant)** | Apa yang terjadi jika **semua orang** bertindak seperti saya? Apakah orang diperlakukan hanya sebagai *means*? | **Respect for persons:** 432.000 pensiunan dan puluhan ribu pekerja bukan sekadar faktor produksi — membiarkan mereka jatuh berarti memperlakukan mereka semata sebagai *means*. Trust kesehatan pensiunan (17%) mengakui martabat mereka | **Universal acceptability:** dapatkah **"perusahaan yang salah kelola diselamatkan negara"** diuniversalkan? Jika semua perusahaan berperilaku begitu, sistem kredit dan tanggung jawab runtuh — **sama seperti contoh Kant tentang gagal membayar utang yang tidak dapat diuniversalkan**. Bailout juga memperlakukan **pembayar pajak sebagai *means*** untuk menyelamatkan pemegang kepentingan GM |
-| **4. Ethics of rights** | Hak siapa yang harus dipertimbangkan? | **UDHR Article 23:** hak atas pekerjaan, kondisi kerja adil, dan **perlindungan terhadap pengangguran**; **Article 20:** hak berserikat (peran UAW). Hak pensiunan atas jaminan kesehatan & pensiun yang sudah dijanjikan | **Hak properti (Locke):** kreditur "Old GM" hanya mendapat **10%** — hak kontraktual mereka dipangkas paksa lewat pengadilan kepailitan yang **didanai negara**. Hak pembayar pajak atas properti (uang mereka) dipakai tanpa persetujuan langsung |
-| **5. Justice (Rawls)** ⭐ | Apakah semua diperlakukan adil? Adakah disparitas besar antara "pemenang" dan "pecundang"? | **Difference principle:** pihak paling tidak beruntung — pekerja pabrik, pensiunan, komunitas Detroit — **paling diuntungkan**. Di balik ***veil of ignorance***, kita tidak tahu apakah kita akan jadi pemegang saham atau buruh lini perakitan → kita **akan memilih jaring pengaman**. **Fair outcomes** terpenuhi | **Fair procedures dilanggar:** ini **penyelamatan selektif** — GM & Chrysler diselamatkan, ribuan UKM lain yang bangkrut di resesi yang sama **tidak**. Surat **100 ekonom**: ketiadaan *fairness* adalah *"fatal pitfall"* — *"Investors who took risks to earn profits must also bear the losses."* **Stiglitz:** *"losses are socialized and profits privatized"* = keadilan terbalik |
-| **6. Virtue ethics** | Apa yang akan dilakukan orang yang layak dan jujur? | Wagoner menunjukkan **virtue** dengan menawarkan mundur demi menyelamatkan GM, dan benar-benar mundur — mengutamakan perusahaan di atas diri sendiri. Ia juga **jujur mengakui** kesalahan terbesarnya (EV1) di depan publik | **Vices institusional GM:** ***greed/short-termism*** (mengejar margin SUV US$10–15 ribu), ***imprudence*** (menjual 51% GMAC, membunuh EV1), ***denial*** (kata Ratner: *"in a state of denial"*, *"stunningly poor management"*, *"the weakest finance operation"*). Ini kebalikan dari ***phronesis*** (practical wisdom). **Kelemahan teori muncul di sini:** bisakah budaya korporasi disamakan dengan karakter individu? (Moore 2017) |
-| **7. Ethic of care** ⭐ | Bagaimana perasaan pihak terdampak? Solusi mana yang memelihara relasi sehat? | **Paling kuat mendukung bailout.** Fokusnya bukan hak abstrak tapi **jaringan relasi dan ketergantungan**: 432.000 pensiunan yang **bergantung** pada GM, keluarga pekerja, kota-kota pabrik, pemasok. **"Accepting partiality"** — klaim moral orang tertentu (pekerja GM) bisa sah **meski tidak dapat diuniversalkan**. Tujuannya **menghindari harm dan memelihara relasi** — bukan menghitung utility | Care ethics juga bertanya: **siapa yang tidak terlihat** dalam relasi ini? Pekerja pemasok non-GM, keluarga yang kehilangan rumah dalam krisis hipotek yang **tidak** mendapat penyelamatan setara. Kepedulian yang **selektif** adalah masalah moral juga |
-| **8. Discourse ethics** ⭐ | Norma apa yang bisa disusun bersama lewat komunikasi terbuka? Bagaimana menghindari *railroading* pemain terkuat? | **Prosesnya sebagian memenuhi syarat:** dengar pendapat Kongres (Nov–Des 2008), keharusan menyerahkan *viability plan* publik, negosiasi multi-pihak GM–UAW–kreditur–Treasury–Pemerintah Kanada. Deliberatif dan cukup transparan | **Syarat *ideal discourse* dilanggar:** (a) **non-coercion** — kreditur dipaksa lewat ancaman kepailitan; (b) **non-persuasiveness & impartiality** — Treasury sebagai **pemberi dana sekaligus pengambil keputusan** jelas tidak imparsial; (c) *"railroading by the most powerful player"* persis terjadi: Ratner **memberhentikan CEO perusahaan swasta**; (d) **Senat menolak, tetapi eksekutif tetap menyalurkan dana TARP** — mengakali hasil deliberasi legislatif |
-| **9. Postmodern ethics** | Apakah saya sekadar ikut arus? Apa kata *gut feeling* saya di luar kantor? | **"Think local, act local":** setiap krisis unik — menolak "grand narrative" *pasar bebas* maupun *sosialisme* sebagai jawaban tunggal justru **postmodern**. Keputusan **preliminary** dan pragmatis atas satu kasus konkret, bukan penerapan "-isme" | **Moral impulse yang hilang:** keputusan diambil di ruang rapat Washington, **berjarak** dari keluarga yang kehilangan rumah dan pekerja yang di-PHK — persis kritik **Bauman** bahwa penilaian moral **dilumpuhkan** ketika orang masuk organisasi dan menjauh dari mereka yang menanggung akibat keputusan. Perdebatan "sosialisme vs pasar bebas" sendiri adalah **grand narrative** yang menutupi realitas kompleks |
+| **1. Egoism** | Apakah ini kepentingan jangka panjang terbaik saya? | Setiap aktor mengejar kepentingannya dan menyebutnya etika. *Enlightened self-interest* menjelaskan investasi pada CCS dan efisiensi air. Tapi **market failure** terlihat telanjang: generasi mendatang tidak hadir di pasar mana pun. | **Netral** — menjelaskan perilaku, tidak menilai |
+| **2. Utilitarianism** | Apakah kita lebih baik atau lebih buruk secara keseluruhan? | CAD$1,6 triliun dan 461.000 pekerjaan versus 50–150 juta ton emisi dan 220 km² limbah. **Act** cenderung mendukung; **rule** cenderung menolak. Empat masalah utilitarianisme muncul semua. | **Terbelah** — tergantung batas dan horizon |
+| **3. Ethics of duty** | Apa yang terjadi kalau semua bertindak seperti saya? | Kalau sepuluh negara di Tabel 3.9 memakai prinsip yang sama, iklim stabil mustahil → **prinsipnya tidak dapat diuniversalkan**. Argumen "hanya 0,14%" memperlakukan warga sakit sebagai angka. | **Menolak** |
+| **4. Ethics of rights** | Hak siapa yang harus saya pertimbangkan? | Article 23 mendukung industri; hak atas kesehatan, air, dan tanah adat menentangnya. **UNGP** menuntut *due diligence* dan **akses pemulihan** yang belum jelas ada. | **Menolak, bersyarat** |
+| **5. Justice / Rawls** | Apakah bebannya dibagi adil? | Manfaat tersebar nasional, beban terkonsentrasi pada komunitas adat dan warga hilir. **Kriteria pertama gagal** untuk generasi mendatang — dan kalau kriteria pertama gagal, tidak boleh maju ke kriteria kedua. | **Menolak** |
+| **6. Virtue ethics** | Apa yang akan dilakukan orang yang layak dan jujur? | Mengukur diri terhadap Nigeria dan Venezuela adalah **benchmarking ke bawah**, bukan tanda *phronesis*. Merebut istilah "oil sands" alih-alih "tar sands" bukan **honesty**. Pembina Institute justru menunjukkan sikap yang lebih berbudi: mengakui masalah sambil mencari perbaikan nyata. | **Menolak framing 'ethical oil'** |
+| **7. Ethic of care** | Bagaimana perasaan pihak terdampak? | Menempatkan komunitas hilir Athabasca, keluarga pekerja Fort McMurray, dan generasi mendatang sebagai **relasi**, bukan variabel. Menariknya, care **tidak otomatis menolak** industrinya — ia menolak **harm**-nya, dan sama peduli pada 206.000 keluarga yang akan kehilangan pekerjaan. | **Menuntut transisi yang adil** |
+| **8. Discourse ethics** | Norma apa yang bisa kita susun bersama? | Label "ethical oil" lahir dari **kampanye berdana industri**, melanggar *impartiality* dan *non-persuasiveness*. Yang dibutuhkan adalah forum tempat First Nations, pekerja, perusahaan, NGO, dan pemerintah **menghasilkan norma bersama** — persis metode yang terbukti dipakai menyelesaikan sengketa lingkungan korporasi (Renn et al. 1995). | **Menolak prosesnya, menawarkan jalan keluar** |
+| **9. Postmodern ethics** | Apa kata gut feeling saya di luar kantor? | Perang istilah "oil sands" vs "tar sands" adalah contoh sempurna bahasa membentuk moralitas. **"Think local, act local"** membenarkan penilaian per lokasi, bukan satu vonis untuk seluruh industri. Tapi Bauman juga menuduh: keputusan diambil di ruang rapat Calgary dan Ottawa, **berjarak** dari mereka yang meminum airnya. | **Menolak semua klaim absolut, dari kedua pihak** |
 
-## 11.4 Kerangka tambahan dari Velasquez sendiri (untuk menjawab Pertanyaan 2: Locke, Smith, Marx)
-*Ini bukan bagian Crane & Matten, tapi diminta eksplisit oleh soal kasusnya. Cukup 1 slide.*
+---
 
-| Pemikir | Posisi | Implikasi untuk kepemilikan pemerintah 61% atas GM |
-|---|---|---|
-| **John Locke** — *free markets and rights* | **Hak properti pribadi bersifat natural dan mendahului negara**; pemerintah ada untuk **melindungi** properti, bukan mengambilnya | **MENOLAK.** Menggunakan uang pajak (properti warga) untuk membeli perusahaan swasta melanggar hak properti. Ini juga selaras dengan Senator Corker: *"should send a chill through all Americans who believe in free enterprise"* |
-| **Adam Smith** — *free markets and utility* | ***Invisible hand***: persaingan pasar bebas mengalokasikan sumber daya paling efisien; **pemerintah tidak berperan** dalam pasar | **MENOLAK.** Perusahaan yang tidak efisien **harus dibiarkan gagal** agar sumber daya berpindah ke pesaing yang lebih efisien (Toyota, Honda, Ford). Bailout **menghalangi mekanisme koreksi pasar** dan menghukum pesaing yang dikelola lebih baik (Ford, yang menolak uang pemerintah). ⚠️ **Tapi ingat catatan Crane & Matten:** Werhane (1989) menunjukkan Smith juga menekankan *prudence, benevolence,* dan *justice* — jadi membaca Smith sebagai egois murni adalah penyederhanaan |
-| **Karl Marx** — *justice, critique of free markets* | Kapitalisme melahirkan **alienasi** dan **immiseration of workers**; alat produksi seharusnya dimiliki bersama | **MENDUKUNG — tetapi dengan ironi tajam.** Kepemilikan negara atas alat produksi persis yang dianjurkan sosialisme (karena itu tuduhan *"super socialism"*). **Tapi** seorang Marxis akan menunjukkan bahwa ini **bukan** sosialisme sejati melainkan ***"socialism for the rich"*** (Stiglitz): negara menyelamatkan **kapital**, bukan mengalihkan kendali kepada pekerja. Pekerja tetap menanggung PHK 47.000 orang dan potongan gaji, sementara kerugian ditanggung publik |
-| **Mixed economy** — posisi buku Velasquez | Debat hari ini **bukan** pasar murni vs komando murni, tapi **komposisi terbaik** antara regulasi pemerintah, hak properti pribadi, dan pasar bebas | Velasquez menyimpulkan: *"it may be that the mixed economy comes closest to **combining the utilitarian benefits of free markets with the respect for human rights, justice, and caring** that are the characteristic strengths of government regulation."* → **Ini kalimat penutup yang sempurna** untuk menjembatani ke Tabel 3.8 Crane & Matten |
+## 11.9 🎯 RANCANGAN SESI DISKUSI KELAS
 
-## 11.5 🎯 Rancangan Sesi Diskusi Kelas
-**Pertanyaan pemantik (pilih 2–3, jangan semua):**
-1. **Voting cepat (angkat tangan):** *"Kalau Anda anggota Kongres AS pada Desember 2008 — Anda setuju atau menolak bailout GM?"* Catat hasilnya di papan, ulangi voting di akhir diskusi untuk melihat pergeseran.
-2. **Uji Kant:** *"Kalau menyelamatkan perusahaan yang salah kelola dijadikan aturan universal, apa yang terjadi pada seluruh sistem kredit dan tanggung jawab korporasi?"*
-3. **Uji Rawls (paling kuat untuk kelas):** *"Bayangkan Anda di balik veil of ignorance — Anda tidak tahu apakah Anda akan lahir sebagai pemegang saham GM, buruh lini perakitan, pensiunan GM, atau pembayar pajak biasa yang tidak punya kaitan dengan GM. Aturan apa yang akan Anda pilih?"*
-4. **Uji keadilan prosedural:** *"GM diselamatkan, Lehman Brothers dibiarkan bangkrut, dan jutaan pemilik rumah kehilangan rumahnya tanpa bantuan. Apa yang menentukan siapa yang layak diselamatkan — dan apakah itu adil?"*
-5. **Relevansi Indonesia:** *"Bandingkan dengan BLBI 1998 atau penyelamatan Bank Century 2008 — argumen etis mana dari Tabel 3.8 yang paling sering dipakai dalam perdebatan di Indonesia, dan mana yang justru diabaikan?"* **(Ini akan membuat presentasi Anda menonjol.)**
+### Pembuka — voting cepat (1 menit)
+> *"Angkat tangan: menurut Anda, apakah minyak dari oil sands Kanada layak disebut **'ethical oil'**?"*
+Catat hasilnya di papan. **Ulangi voting yang sama di akhir diskusi** untuk melihat pergeserannya — ini bukti visual bahwa teori mengubah penilaian.
 
-**Poin penutup diskusi (kembali ke pesan bab):**
-> Tidak ada satu teori yang memberi jawaban "benar" untuk GM Bailout. **Utilitarianism dan ethic of care cenderung mendukung**; **ethics of duty, justice prosedural, dan discourse ethics cenderung menolak**; **virtue ethics menyoroti kegagalan karakter yang menyebabkan krisisnya sejak awal**. Persis inilah maksud **Figure 3.2**: memandang dilema lewat **PRISMA** — bukan **LENSA** — memberi kita spektrum pertimbangan yang jauh lebih kaya. Keputusan yang baik bukan yang menemukan teori "paling benar", melainkan yang **sadar akan seluruh spektrum pertimbangan** dan bisa **mempertanggungjawabkan pilihannya kepada semua stakeholder**.
+### Inti — 🌟 Simulasi *discourse ethics* (rekomendasi utama)
+**Alih-alih menjelaskan discourse ethics, praktikkan.** Bagi kelas menjadi enam kelompok, beri masing-masing dua menit menyampaikan posisi, lalu minta mereka **menghasilkan satu norma bersama**:
+
+| Kelompok | Peran |
+|---|---|
+| 1 | Pemerintah Alberta |
+| 2 | Konsorsium perusahaan (Suncor, Shell, CNOOC) |
+| 3 | Sierra Club Canada |
+| 4 | Komunitas First Nations hilir Sungai Athabasca |
+| 5 | Serikat pekerja Fort McMurray |
+| 6 | **Perwakilan generasi 2060** |
+
+**Aturan main = syarat *ideal discourse* Habermas:** imparsialitas, tanpa paksaan, tanpa manipulasi persuasif, dan **yang paling berkuasa tidak boleh memaksakan nilainya**. Setelah selesai, tanyakan: *apakah syarat-syarat itu benar-benar bisa dipenuhi di ruang kelas? Kalau di kelas saja sulit, bagaimana di dunia nyata?* — itulah kritik "terlalu optimistis" terhadap discourse ethics, dirasakan sendiri, bukan dihafal.
+
+### Pertanyaan pemantik cadangan (pilih 2, jangan semua)
+1. **Uji Kant:** *"Kalau prinsip Kanada dipakai semua negara di Tabel 3.9 — Venezuela, Saudi, Iran, Rusia, Nigeria — apa yang tersisa dari target Paris?"*
+2. **Uji Rawls:** *"Di balik veil of ignorance, Anda tidak tahu akan lahir sebagai pekerja Fort McMurray, warga adat di hilir Athabasca, pemegang saham CNOOC, atau anak yang lahir 2060. Aturan apa yang Anda pilih?"*
+3. **Uji Bennett:** *"'Yang lain lebih buruk' — apakah itu argumen moral, atau pengalihan perhatian? Kapan perbandingan sah dipakai?"*
+4. **Uji bahasa:** *"'Oil sands' atau 'tar sands'? 'Ethical oil' atau 'conflict oil'? Siapa yang menang begitu istilahnya disepakati — dan apa artinya itu bagi kita yang membaca beritanya?"*
+
+### 🇮🇩 Penutup — relevansi Indonesia *(ini yang akan membuat presentasi Anda menonjol)*
+Struktur dilema oil sands **hampir identik** dengan beberapa perdebatan yang sedang berlangsung di Indonesia. Ajukan satu saja, jangan semua:
+
+- **Hilirisasi nikel (Morowali, Weda Bay).** Manfaat ekonomi besar dan terukur — investasi, lapangan kerja, penerimaan negara, posisi Indonesia dalam rantai pasok baterai global. Biaya lingkungan dan sosialnya tersebar dan sulit dikuantifikasi — deforestasi, limbah, kualitas udara, keselamatan kerja. Dan ada narasi pembenar yang **strukturnya persis 'ethical oil'**: *"nikel kita untuk transisi energi dunia."* **Pertanyaannya: apakah 'nikel etis' lolos uji yang sama yang kita pakai untuk 'ethical oil'?**
+- **Batu bara dan PLTU.** Argumen kedaulatan energi dan harga listrik terjangkau versus emisi dan kesehatan warga sekitar. Uji dengan act versus rule utilitarianism.
+- Untuk keduanya, pertanyaan yang paling tajam adalah pertanyaan Rawls: **siapa yang menikmati manfaatnya, siapa yang menanggung bebannya, dan apakah mereka orang yang sama?**
+
+### Kalimat penutup presentasi
+> Setelah sembilan teori, kita **tetap tidak punya satu jawaban** untuk oil sands — dan buku ini memang tidak menjanjikannya. **Utilitarianism terbelah** tergantung batas dan horizon yang kita pilih. **Ethics of duty, rights, dan justice cenderung menolak.** **Ethic of care menuntut transisi yang adil, bukan penghentian mendadak.** **Discourse ethics menolak prosesnya sekaligus menawarkan jalan keluarnya.** **Virtue ethics dan postmodern ethics membongkar bahasanya.**
+>
+> Itu bukan kegagalan. **Itu Figure 3.2.** Memandang lewat **prisma** memberi kita spektrum pertimbangan yang tidak akan pernah kita lihat lewat **lensa** satu teori. Dan keputusan yang baik bukan keputusan yang menemukan teori paling benar — melainkan keputusan yang **sadar akan seluruh spektrum itu** dan bisa **dipertanggungjawabkan kepada semua pihak yang terdampak**.
 
 ---
 
@@ -861,11 +1106,13 @@ Banyak pengamat menunjuk bahwa kepemilikan pemerintah atas perusahaan **persis j
 | 13 | **🖼️ FIGURE 3.1** — 'Lens' of ethical theory | 125 | ⭐⭐⭐ |
 | 14 | **🖼️ FIGURE 3.2** — 'Prism' of ethical theories | 126 | ⭐⭐⭐ |
 | 15 | **Tabel 3.8** — Checklist 9 pertimbangan etis | 127 | ⭐⭐⭐ |
-| 16 | **Tabel 3.9** — 10 negara cadangan minyak terbesar *(hanya jika membahas Case 3)* | 132 | ⭐ |
-| 17 | **Matriks GM Bailout × 9 teori** *(buatan sendiri, bagian 11.3)* | — | ⭐⭐⭐ |
+| 16 | **Tabel PRO vs KONTRA oil sands** (dari data kasus) | 130–131 | ⭐⭐⭐ |
+| 17 | **Tabel 3.9** — 10 negara cadangan minyak terbesar | 132 | ⭐⭐⭐ |
+| 18 | **Neraca utilitarian oil sands** *(buatan sendiri, bagian 11.4)* | — | ⭐⭐⭐ |
+| 19 | **Matriks oil sands × 9 teori** *(buatan sendiri, bagian 11.8)* | — | ⭐⭐⭐ |
 
 **Boks pendukung (opsional, pilih 2–3 saja agar tidak kelebihan waktu):** Practitioner Spotlight 3 (Nolywé Delannon, hal. 90) · Ethics on Screen 3 *Baby Driver* (hal. 112) · Ethics in Action 3.1 UNGP (hal. 106) · Ethics in Action 3.2 Nudie Jeans (hal. 118)
 
 ---
 
-*Materi disusun dari pembacaan langsung PDF: Crane et al. (2019) Ch. 3 hal. 85–135 (seluruh teks, 9 tabel, dan 2 figure diperiksa satu per satu), dan Velasquez (2017) Case Study 3.1 hal. 156–160.*
+*Materi disusun dari pembacaan langsung PDF Crane, Matten, Glozer & Spence (2019), Chapter 3, hal. 85–135 — seluruh teks, sembilan tabel, dan dua figure diperiksa satu per satu, termasuk Case 3 pada hal. 129–134.*
