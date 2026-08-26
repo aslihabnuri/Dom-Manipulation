@@ -19,7 +19,7 @@ const PAPER = "F2F2F3";   // tonal ground for cards, mixed from the palette
 const DISP = "Zalando Sans Expanded";
 const BODY = "Arimo";
 
-const W = 13.3, M = 0.7, CONTENT = W - 2 * M;   // 11.9in of usable width
+const W = 13.3333, M = 0.7, CONTENT = W - 2 * M;   // LAYOUT_WIDE is 13.333in, not 13.3
 const LOGO_R = 6.61;
 
 const logo = (s, dark, x, y, w) => s.addImage({
@@ -70,13 +70,13 @@ const stat = (s, x, y, w, h, label, value, dark, valueSize) => {
   });
   s.addText([
     { text: "Prepared by  ", options: { color: GREY } },
-    { text: "Team name", options: { color: STEEL } },
+    { text: "Affimarq", options: { color: STEEL } },
     { text: "        Date  ", options: { color: GREY } },
-    { text: "DD Month YYYY", options: { color: STEEL } },
-  ], { x: 7.4, y: 6.1, w: 5.2, h: 0.4, margin: 0, fontFace: BODY, fontSize: 11.5,
-       align: "right", valign: "middle" });
+    { text: "25 August 2026", options: { color: STEEL } },
+  ], { x: M + CONTENT - 5.2, y: 6.1, w: 5.2, h: 0.4, margin: 0, fontFace: BODY,
+       fontSize: 11.5, align: "right", valign: "middle" });
 
-  s.addNotes("Ganti nama tim dan tanggal sebelum presentasi.");
+  s.addNotes("Slide pembuka. Isinya sudah lengkap, tidak ada yang perlu diganti.");
 }
 
 // ============================================================ 2. TIMELINE
@@ -88,7 +88,10 @@ const stat = (s, x, y, w, h, label, value, dark, valueSize) => {
   s.addText("Week by week to thirty", { x: M, y: 1.82, w: 7.5, h: 0.7, margin: 0,
     fontFace: DISP, fontSize: 34, bold: true, color: INK, valign: "middle" });
 
-  const TW = 7.5, RX = M + TW + 0.5, RW = CONTENT - TW - 0.5;   // 7.5 + 0.5 + 3.9
+  const TW = 7.5, RX = M + TW + 0.5, RW = CONTENT - TW - 0.5;
+  // Both columns open on TOP and close on BOT, so the block reads as one band.
+  // The table is the flexible side: its row height is derived from that span.
+  const TOP = 2.75, BOT = 6.57, CARD_B = 0.95;
 
   // Brand Writing Style: concise, straightforward, active sentences, straight to
   // the main point. One instruction per clause, no hedging, no self-praise.
@@ -109,13 +112,13 @@ const stat = (s, x, y, w, h, label, value, dark, valueSize) => {
         fill: { color: i % 2 ? WHITE : PAPER }, valign: "middle" } },
   ]));
   s.addTable(rows, {
-    x: M, y: 2.75, w: TW, colW: [2.15, 5.35],
-    rowH: 0.60, valign: "middle", margin: [0, 0.16, 0, 0.16],
+    x: M, y: TOP, w: TW, colW: [2.15, 5.35],
+    rowH: (BOT - TOP) / rows.length, valign: "middle", margin: [0, 0.16, 0, 0.16],
     border: { type: "solid", color: STEEL, pt: 0.5 },
   });
 
   // the goal, and the terms that hang off it
-  stat(s, RX, 2.75, RW, 1.05, "Month-end target", "30 Affiliates", true, 22);
+  stat(s, RX, TOP, RW, 1.05, "Month-end target", "30 Affiliates", true, 22);
 
   s.addText("Product focus", { x: RX, y: 4.08, w: RW, h: 0.28, margin: 0,
     fontFace: DISP, fontSize: 10.5, bold: true, charSpacing: 1.4, color: GREY, valign: "middle" });
@@ -127,7 +130,7 @@ const stat = (s, x, y, w, h, label, value, dark, valueSize) => {
       fontFace: BODY, fontSize: 12.5, color: INK, valign: "middle" });
   });
 
-  stat(s, RX, 5.62, RW, 0.95, "Affiliate commission", "15%  +  ads", false, 18);
+  stat(s, RX, BOT - CARD_B, RW, CARD_B, "Affiliate commission", "15%  +  ads", false, 18);
 
   s.addNotes("Timeline per minggu di kiri. Target, fokus produk, dan skema komisi di kanan. "
     + "Isi aktivitas ditulis ulang mengikuti Writing Style Toni Black — kalimat aktif, "
@@ -144,7 +147,7 @@ const stat = (s, x, y, w, h, label, value, dark, valueSize) => {
     fontFace: DISP, fontSize: 34, bold: true, color: INK, valign: "middle" });
 
   // headline numbers across the top
-  const cw = 3.83, gap = 0.205, y0 = 2.72, ch = 1.05;
+  const gap = 0.205, cw = (CONTENT - 2 * gap) / 3, y0 = 2.72, ch = 1.05;
   stat(s, M,                    y0, cw, ch, "Total budget",   "Rp 24.000.000", true,  21);
   stat(s, M + cw + gap,         y0, cw, ch, "Target ROAS",    "2×",            false, 21);
   stat(s, M + 2 * (cw + gap),   y0, cw, ch, "Target revenue", "Rp 48.000.000", false, 21);
@@ -196,15 +199,16 @@ const stat = (s, x, y, w, h, label, value, dark, valueSize) => {
         fill: { color: [INK, GREY, DAVIS][i] }, line: { color: STEEL, pt: 0.5 } });
       s.addText(l[0], { x: RX + 2.22, y, w: 1.35, h: 0.32, margin: 0,
         fontFace: BODY, fontSize: 11, color: INK, valign: "middle" });
-      s.addText(l[1], { x: RX + 3.55, y, w: 0.85, h: 0.32, margin: 0,
+      s.addText(l[1], { x: RX + RW - 0.85, y, w: 0.85, h: 0.32, margin: 0,
         fontFace: DISP, fontSize: 11, bold: true, color: DAVIS, align: "right", valign: "middle" });
     });
 
-  s.addText("*  Add the note for this line.", {
+  s.addText("*  Spent only when affiliates are available for live selling.", {
     x: M, y: 6.5, w: 7.0, h: 0.3, margin: 0, fontFace: BODY, fontSize: 11, color: GREY });
 
   s.addNotes("Total 24 juta sudah dicek: 7 + 7 + 10. Target revenue 48 juta adalah turunan "
-    + "dari ROAS 2 x budget 24 juta. Ganti keterangan tanda bintang sesuai kesepakatan. "
+    + "dari ROAS 2 x budget 24 juta. Pos Live Affiliate dipakai hanya kalau ada affiliate "
+    + "yang bisa diajak live selling. "
     + "Grafik bisa diubah lewat klik kanan > Edit Data.");
 }
 

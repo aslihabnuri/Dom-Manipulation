@@ -4,11 +4,14 @@ Tiga slide, 16:9, sudah terisi materi. Bukan lagi template kosong.
 
 ## Isi
 
-**1 — Pembuka.** Judul, kalimat pengantar, dan daftar dua bagian. Nama tim dan
-tanggal masih perlu diisi.
+**1 — Pembuka.** Judul, kalimat pengantar, dan daftar dua bagian. Disiapkan oleh
+**Affimarq**, tanggal **25 August 2026**. Sudah lengkap, tidak ada yang perlu diisi lagi.
 
 **2 — Timeline.** Rencana per minggu menuju 30 affiliate, dengan target akhir
-bulan, fokus produk, dan skema komisi di kolom kanan.
+bulan, fokus produk, dan skema komisi di kolom kanan. Tabel kiri dan kolom kanan
+dibuka dan ditutup di garis yang sama persis (2,75 dan 6,57 inci), jadi keduanya
+terbaca sebagai satu blok. Tinggi baris tabel diturunkan dari rentang itu, bukan
+diketik lepas — kalau salah satu sisi berubah, sisi lainnya ikut menyesuaikan.
 
 | Period | Activity |
 |---|---|
@@ -40,8 +43,10 @@ Target ROAS **2×**. Total dicek ulang: 7 + 7 + 10 = 24 juta, cocok.
 ROAS 2 dikali budget 24 juta. Ditampilkan karena biasanya jadi pertanyaan pertama.
 Hapus kalau tidak ingin dibahas.
 
-Tanda bintang pada pos Live Affiliate masih perlu keterangan. Catatan kakinya
-sudah disiapkan, tinggal diisi.
+Tanda bintang pada pos Live Affiliate: *"Spent only when affiliates are available
+for live selling."* Pos 10 juta itu memang bersyarat — kalau tidak ada affiliate
+yang bisa diajak live selling, dananya tidak terpakai. Catatan kakinya menyebut
+syarat itu dengan kalimat aktif, tanpa berputar.
 
 ## Sebelum membuka: pasang fontnya
 
