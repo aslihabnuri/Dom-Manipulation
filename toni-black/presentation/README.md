@@ -120,9 +120,31 @@ dipendekkan jadi 83%. Sekarang sel terlebar ada di 89%, semuanya satu baris.
 python3 qa_tables.py ../ToniBlack_Timeline_Budget.pptx    # lebar & pembungkusan tiap sel
 ```
 
+## Versi PDF
+
+`ToniBlack_Timeline_Budget.pdf` — 3 halaman, 13,333 x 7,5 inci, teksnya masih
+bisa diseleksi (bukan gambar), font brand ikut tertanam di dalam file. Aman
+dibuka di mana saja tanpa perlu pasang font.
+
+LibreOffice di lingkungan ini rusak — filter impornya tidak bisa memuat dokumen
+apa pun, bahkan file .txt biasa. Jadi PDF-nya dibuat lewat `pdf_export.py`, yang
+membaca ulang tiap shape dari file .pptx dan menatanya pada ukuran sebenarnya
+(posisi dalam inci, ukuran huruf dalam poin), lalu dicetak. Diagram doughnut
+digambar ulang dari angka dan warna yang tersimpan di bagian chart file .pptx
+itu sendiri, bukan diketik ulang.
+
+`qa_pdf.py` membandingkan setiap potong teks di .pptx dengan teks di .pdf,
+halaman per halaman. Pemeriksaan ini yang menangkap satu cacat: nilai
+`line_spacing` dari python-pptx berupa Length (satuannya EMU, tapi bertipe int),
+sehingga judul "Timeline & Budget" tercetak dengan line-height 736600pt —
+terdorong keluar halaman dan hilang tanpa pesan error apa pun.
+
 ## Regenerate
 
 ```bash
 cd source && node build_deck.js
 python3 qa_geometry.py ../ToniBlack_Timeline_Budget.pptx
+python3 qa_tables.py   ../ToniBlack_Timeline_Budget.pptx
+python3 pdf_export.py  ../ToniBlack_Timeline_Budget.pptx ../ToniBlack_Timeline_Budget.pdf
+python3 qa_pdf.py      ../ToniBlack_Timeline_Budget.pptx ../ToniBlack_Timeline_Budget.pdf
 ```
