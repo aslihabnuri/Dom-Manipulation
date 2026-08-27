@@ -75,6 +75,14 @@ function arrow(s, x, y, w, h, color, flipV) {
   s.addShape(pres.ShapeType.line, { x, y, w, h, flipV: !!flipV,
     line: { color: color || INK, width: 2.2, endArrowType: "triangle" } });
 }
+function carrow(s, x, y, w, h, o) {
+  o = o || {};
+  s.addShape(pres.ShapeType.arc, { x, y, w, h,
+    angleRange: o.range || [255, 355],
+    flipH: !!o.flipH, flipV: !!o.flipV, rotate: o.rotate || 0,
+    fill: { color: o.color || WHITE, transparency: 100 },
+    line: { color: o.color || WHITE, width: o.width || 2, endArrowType: "arrow" } });
+}
 function sticker(s, x, y, w, h, text, opt) {
   const o = opt || {};
   s.addShape(pres.ShapeType.rect, { x, y, w, h, fill: { color: o.fill || WHITE },
@@ -210,8 +218,8 @@ rule(s, 4.70, 3.52, 8.06);
   bignum(s, (i + 1) + ".", x, y, PINK, 26);
   tag(s, x, y + 0.50, 2.52, 0.30, b[0].toUpperCase(), PINK, { size: 8, cs: 0.6 });
   rich(s, b[1], x, y + 0.92, 2.52, 1.15, { fontSize: 9.5 });
-  if (i === 0) img(s, "a3-arr1f", x + 2.30, y - 0.22, { w: 1.15, rotate: 16 });
-  if (i === 1) img(s, "a3-arr2", x + 2.44, y - 0.28, { w: 1.02, rotate: 30 });
+  if (i === 0) carrow(s, x + 2.18, y - 0.18, 0.95, 1.00, { color: WHITE });
+  if (i === 1) carrow(s, x + 2.24, y - 0.20, 0.95, 1.00, { color: WHITE, rotate: 8 });
 });
 src(s, "Crane dan Matten (2019), Bab 3, halaman 86 sampai 88."); pageno(s, 3);
 s.addNotes("2 menit. Teori tidak menggantikan intuisi, ia merapikannya. Pemantik: beda antara mengatakan praktik di negara lain itu berbeda dan mengatakan praktik itu salah.");
