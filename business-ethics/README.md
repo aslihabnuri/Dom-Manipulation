@@ -7,7 +7,10 @@ Deck presentasi kelompok untuk mata kuliah Business Ethics for Sustainability (M
 | Berkas | Isi |
 | --- | --- |
 | `WOW-Business-Ethics-Hilirisasi-Nikel.pptx` | Deck aktif, 21 slide, gaya kolase dada dengan palet Resistance Blue, Brave Pink, dan Hero Green |
+| `Skrip-Presentasi-Business-Ethics-Hilirisasi-Nikel.docx` dan `.pdf` | Naskah pembawaan 21 slide, pembagian tiga pembicara, alokasi waktu 30 menit, antisipasi pertanyaan, dan daftar angka penting |
+| `Materi-Bacaan-Business-Ethics-Hilirisasi-Nikel.docx` dan `.pdf` | Bahan bacaan tujuh bagian, ringkasan Bab 3 beserta penerapannya pada kasus, dilengkapi glosarium dan pertanyaan diskusi |
 | `build-wow-deck.js` | Skrip pembangkit deck aktif. Jalankan `node build-wow-deck.js` dari folder yang memuat `assets/cut` |
+| `build-docs/` | Skrip pembangkit kedua dokumen Word. Jalankan `node build-docs/skrip.js <keluaran.docx>` dan `node build-docs/materi.js <keluaran.docx>` |
 | `assets/cut/` | Potongan kolase transparan hasil generasi gambar, sudah dikuantisasi agar ringan |
 | `Evaluating-Business-Ethics-Hilirisasi-Nikel.pptx` | Versi awal bergaya editorial, disimpan sebagai arsip |
 
@@ -29,6 +32,9 @@ Deck presentasi kelompok untuk mata kuliah Business Ethics for Sustainability (M
 | 21 | Penutup |
 
 Setiap slide memuat catatan pembicara berisi alokasi waktu dan poin yang perlu ditekankan.
+Naskah lengkap untuk diucapkan ada pada `Skrip-Presentasi-Business-Ethics-Hilirisasi-Nikel.docx`,
+dengan pembagian pembicara Aslih Abnuri (slide 1 sampai 5, 15, 20 sampai 21), Arfinal Diputra
+(slide 6 sampai 10 dan 17), serta Rohana Dwi Hardianti (slide 11 sampai 14, 16, 18 sampai 19).
 
 ## Sistem desain
 
