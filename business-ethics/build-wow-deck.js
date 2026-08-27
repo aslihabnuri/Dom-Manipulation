@@ -186,8 +186,7 @@ rule(s, 7.35, 3.10, 5.2);
   txt(s, it[0], 7.35, yy, 0.44, 0.30, { size: 13, bold: true, color: GREEN, face: HF, valign: "middle" });
   txt(s, it[1], 7.87, yy, 4.9, 0.30, { size: 11.5, color: WHITE, valign: "middle" });
 });
-burst(s, 5.62, 3.95, 1.50, 1.50, PINK, { rotate: 14 });
-img(s, "accent-hand", 5.54, 4.35, { w: 1.60 });
+img(s, "a2-point", 5.50, 3.52, { w: 1.82 });
 pageno(s, 2);
 s.addNotes("30 detik. Urutannya sengaja: kalau kasus dibahas lebih dulu, diskusi berhenti di adu data. Teori memberi alat menilai data yang sama secara berbeda.");
 
@@ -211,7 +210,8 @@ rule(s, 4.70, 3.52, 8.06);
   bignum(s, (i + 1) + ".", x, y, PINK, 26);
   tag(s, x, y + 0.50, 2.52, 0.30, b[0].toUpperCase(), PINK, { size: 8, cs: 0.6 });
   rich(s, b[1], x, y + 0.92, 2.52, 1.15, { fontSize: 9.5 });
-  if (i < 2) arrow(s, x + 2.56, y + 0.18, 0.55, 0.42, WHITE);
+  if (i === 0) img(s, "a3-arr1", x + 2.42, y + 0.02, { w: 0.88, rotate: 12 });
+  if (i === 1) img(s, "a3-arr2", x + 2.42, y + 0.06, { w: 0.76, rotate: 10 });
 });
 src(s, "Crane dan Matten (2019), Bab 3, halaman 86 sampai 88."); pageno(s, 3);
 s.addNotes("2 menit. Teori tidak menggantikan intuisi, ia merapikannya. Pemantik: beda antara mengatakan praktik di negara lain itu berbeda dan mengatakan praktik itu salah.");
@@ -275,8 +275,8 @@ txt(s, "Cenderung relativis. Lahir dari keberatan atas klasifikasi pertama.", 9.
   txt(s, t[0], 9.57, yy - 0.02, 3.2, 0.30, { size: 12.5, bold: true, color: WHITE, valign: "middle" });
   txt(s, t[2], 9.57, yy + 0.28, 3.2, 0.26, { size: 10, italic: true, color: MUTE, valign: "middle" });
 });
-burst(s, 6.40, 5.05, 2.00, 2.00, PINK, { rotate: 20 });
-img(s, "accent-tv", 6.70, 5.38, { w: 1.42 });
+burst(s, 6.44, 4.74, 1.95, 2.05, PINK, { rotate: 12 });
+img(s, "a5-sort", 6.56, 4.86, { h: 1.94 });
 src(s, "Crane dan Matten (2019), Tabel 3.1 dan Tabel 3.5."); pageno(s, 5);
 s.addNotes("1,5 menit. Peta jalan sisa presentasi. Minta kelas mengingat nomor urutnya, matriks di bagian kasus memakai nomor yang sama.");
 
