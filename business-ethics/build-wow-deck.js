@@ -167,26 +167,26 @@ s = slide("blue");
 head(s, { eyebrow: "PETA BAHASAN", title: "Sistematika pembahasan",
   dek: "Kerangka teoretis dibangun lebih dahulu agar analisis kasus memiliki dasar penilaian yang eksplisit." });
 sticker(s, M, 2.06, 1.85, 0.40, "BAGIAN SATU", { size: 10.5, cs: 1.4, rotate: -2 });
-txt(s, "KERANGKA PENILAIAN", M, 2.66, 4.9, 0.34, { size: 17, bold: true, color: WHITE, face: HF, cs: -0.2, valign: "middle" });
-rule(s, M, 3.10, 4.75);
+txt(s, "KERANGKA PENILAIAN", M, 2.66, 4.1, 0.34, { size: 17, bold: true, color: WHITE, face: HF, cs: -0.2, valign: "middle" });
+rule(s, M, 3.10, 4.05);
 [["01", "Peran teori etika normatif"], ["02", "Absolutisme, relativisme, pluralisme"], ["03", "Klasifikasi sembilan teori"],
  ["04", "Lima teori modernis Barat"], ["05", "Keterbatasan teori modernis"], ["06", "Empat teori alternatif"]
 ].forEach(function (it, i) {
   const yy = 3.34 + i * 0.52;
   txt(s, it[0], M, yy, 0.44, 0.30, { size: 13, bold: true, color: PINK, face: HF, valign: "middle" });
-  txt(s, it[1], M + 0.52, yy, 4.4, 0.30, { size: 11.5, color: WHITE, valign: "middle" });
+  txt(s, it[1], M + 0.52, yy, 3.6, 0.30, { size: 11.5, color: WHITE, valign: "middle" });
 });
-sticker(s, 7.35, 2.06, 1.80, 0.40, "BAGIAN DUA", { size: 10.5, cs: 1.4, rotate: 2 });
-txt(s, "HILIRISASI NIKEL INDONESIA", 7.35, 2.66, 5.2, 0.34, { size: 17, bold: true, color: WHITE, face: HF, cs: -0.2, valign: "middle" });
-rule(s, 7.35, 3.10, 5.2);
+sticker(s, 8.05, 2.06, 1.80, 0.40, "BAGIAN DUA", { size: 10.5, cs: 1.4, rotate: 2 });
+txt(s, "HILIRISASI NIKEL INDONESIA", 8.05, 2.66, 4.73, 0.34, { size: 17, bold: true, color: WHITE, face: HF, cs: -0.2, valign: "middle" });
+rule(s, 8.05, 3.10, 4.73);
 [["07", "Anatomi kebijakan dan sengketanya"], ["08", "Dua narasi atas fakta yang sama"], ["09", "Penilaian lima teori modernis"],
  ["10", "Penilaian empat teori alternatif"], ["11", "Sintesis penilaian dan evaluasi klaim"], ["12", "Simpulan dan implikasi manajerial"]
 ].forEach(function (it, i) {
   const yy = 3.34 + i * 0.52;
-  txt(s, it[0], 7.35, yy, 0.44, 0.30, { size: 13, bold: true, color: GREEN, face: HF, valign: "middle" });
-  txt(s, it[1], 7.87, yy, 4.9, 0.30, { size: 11.5, color: WHITE, valign: "middle" });
+  txt(s, it[0], 8.05, yy, 0.44, 0.30, { size: 13, bold: true, color: GREEN, face: HF, valign: "middle" });
+  txt(s, it[1], 8.57, yy, 4.2, 0.30, { size: 11.5, color: WHITE, valign: "middle" });
 });
-img(s, "a2-point", 5.50, 3.52, { w: 1.82 });
+img(s, "a2-point", 4.80, 3.26, { w: 3.10 });
 pageno(s, 2);
 s.addNotes("30 detik. Urutannya sengaja: kalau kasus dibahas lebih dulu, diskusi berhenti di adu data. Teori memberi alat menilai data yang sama secara berbeda.");
 
@@ -210,8 +210,8 @@ rule(s, 4.70, 3.52, 8.06);
   bignum(s, (i + 1) + ".", x, y, PINK, 26);
   tag(s, x, y + 0.50, 2.52, 0.30, b[0].toUpperCase(), PINK, { size: 8, cs: 0.6 });
   rich(s, b[1], x, y + 0.92, 2.52, 1.15, { fontSize: 9.5 });
-  if (i === 0) img(s, "a3-arr1", x + 2.42, y + 0.02, { w: 0.88, rotate: 12 });
-  if (i === 1) img(s, "a3-arr2", x + 2.42, y + 0.06, { w: 0.76, rotate: 10 });
+  if (i === 0) img(s, "a3-arr1f", x + 2.30, y - 0.22, { w: 1.15, rotate: 16 });
+  if (i === 1) img(s, "a3-arr2", x + 2.44, y - 0.28, { w: 1.02, rotate: 30 });
 });
 src(s, "Crane dan Matten (2019), Bab 3, halaman 86 sampai 88."); pageno(s, 3);
 s.addNotes("2 menit. Teori tidak menggantikan intuisi, ia merapikannya. Pemantik: beda antara mengatakan praktik di negara lain itu berbeda dan mengatakan praktik itu salah.");
