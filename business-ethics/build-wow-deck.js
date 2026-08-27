@@ -422,7 +422,7 @@ altPair({ num: 12, cw: 3.95, gx: 0.30, eyebrow: "06   TEORI ALTERNATIF", title: 
 
 altPair({ num: 13, cw: 3.95, gx: 0.30, eyebrow: "06   TEORI ALTERNATIF", title: "Discourse dan postmodern ethics",
   dek: "Objek penilaian bergeser ke prosedur perumusan norma dan ke bahasa yang dipakai untuk membenarkannya.", tw: 8.5, dw: 7.9,
-  imgs: [["c-disc-a", 8.98, 2.45, 3.85, 3.48, GREEN, 6]],
+  imgs: [["c2-discourse", 9.36, 1.92, 3.14, 4.55, GREEN, 5]],
   src: "Crane dan Matten (2019), Tabel 3.5, halaman 121 sampai 125.",
   notes: "2,5 menit. Discourse ethics menilai proses, jadi ia bisa membatalkan kebijakan yang hasilnya bagus sekalipun. Postmodern ethics menilai bahasa, dan itu yang membongkar istilah nikel hijau.",
   cards: [
@@ -538,8 +538,8 @@ s.addNotes("2 menit. Jangan berdebat soal angka. Tegaskan kedua kolom benar. Jus
 s = slide("blue");
 head(s, { eyebrow: "09   PENERAPAN", title: "Penilaian lima teori modernis",
   dek: "Penilaian berbasis akibat dan berbasis prinsip menghasilkan kesimpulan yang tidak seragam.", tw: 9.6, dw: 9.6 });
-burst(s, 9.45, 2.35, 3.70, 3.85, PINK, { rotate: 10 });
-img(s, "c-disc-b", 9.72, 2.68, { w: 3.15 });
+burst(s, 9.62, 1.72, 3.35, 5.00, PINK, { rotate: 10 });
+img(s, "c2-verdict", 9.95, 1.95, { h: 4.50 });
 const rw = 8.95;
 [[1, "Egoism", "NETRAL", "5B58C4", ["Pada horizon pendek jelas melayani kepentingan Indonesia. Pada horizon panjang, biaya kesehatan warga, pemulihan sungai, dan pensiun dini pembangkit batu bara belum diinternalisasi. ", ["Kepentingan diri yang dihitung cermat justru menuntut biaya tertunda itu masuk sejak awal", "g"], "."]],
  [2, "Utilitarianism", "AMBIVALEN", "B08018", ["Act utilitarianism cenderung mendukung, sebab manfaat 166 ribu lapangan kerja nyata dan terukur sedangkan kerugiannya tersebar. ", ["Rule utilitarianism menolak", "h"], ", sebab bila setiap negara pemilik cadangan menempuh pengolahan bertenaga batu bara, tambahan emisinya membatalkan manfaat transisi energi yang justru menjadi pembenarnya."]],
@@ -562,26 +562,26 @@ s.addNotes("3 menit. Bagian terpenting: utilitarianism terbelah. Perbedaan act d
 s = slide("pink");
 head(s, { eyebrow: "10   PENERAPAN", title: "Penilaian empat teori alternatif",
   dek: "Penilaian bergeser ke karakter pelaku, relasi, prosedur, dan bahasa, tanpa mengubah rangkaian faktanya." });
-const aw = (CW - 0.35) / 2;
-[[6, "Virtue ethics", "MENOLAK PEMBANDING", BLUE, "d-head1", "Standar pembanding mana yang seharusnya dipakai?",
+burst(s, 9.52, 1.68, 3.55, 5.05, BLUE, { rotate: -7 });
+img(s, "c2-alt", 9.80, 1.92, { h: 4.58 });
+const aw = 4.375;
+[[6, "Virtue ethics", "MENOLAK PEMBANDING", BLUE, "Standar pembanding mana yang seharusnya dipakai?",
   ["Pembandingnya selama ini adalah keadaan sebelum hilirisasi, bukan standar industri terbaik yang tersedia hari ini. ", ["Aktor berkarakter baik mengukur diri pada standar tertinggi yang dapat dicapai", "h"], "."]],
- [7, "Ethic of care", "MENUNTUT PEMULIHAN", GREEN_D, "d-head5", "Sejauh mana relasi dengan pihak terdampak dipelihara?",
+ [7, "Ethic of care", "MENUNTUT PEMULIHAN", GREEN_D, "Sejauh mana relasi dengan pihak terdampak dipelihara?",
   ["Warga hilir sungai dan sekitar 300 sampai 500 jiwa O Hongana Manyawa adalah ", ["pihak yang berelasi, bukan variabel biaya", "hg"], ". Yang dituntut pemulihan sungai dan wilayah lindung, bukan penghentian mendadak."]],
- [8, "Discourse ethics", "MENOLAK PROSEDUR", BLUE, "d-head4", "Siapa yang hadir dan siapa yang absen dalam perumusan?",
+ [8, "Discourse ethics", "MENOLAK PROSEDUR", BLUE, "Siapa yang hadir dan siapa yang absen dalam perumusan?",
   ["Warga terdampak bukan pihak dalam perumusan kebijakan maupun perizinan kawasan. Syarat keterlibatan setara tidak terpenuhi, dan ", ["cacat prosedur sudah cukup untuk membatalkan keabsahan hasilnya", "h"], "."]],
- [9, "Postmodern ethics", "RELATIVISTIK", "5B58C4", "d-head2", "Kepentingan siapa yang dilayani oleh pilihan istilah?",
+ [9, "Postmodern ethics", "RELATIVISTIK", "5B58C4", "Kepentingan siapa yang dilayani oleh pilihan istilah?",
   ["Hilirisasi berkonotasi kemajuan, ekstraksi berkonotasi pengurasan, dan keduanya menamai peristiwa yang sama. ", ["Istilah nikel hijau dipakai bagi pengolahan yang listriknya bertumpu pada batu bara", "h"], "."]]
 ].forEach(function (l, i) {
   const col = i % 2, row = (i / 2) | 0;
-  const x = M + col * (aw + 0.35), y = 1.90 + row * 2.42;
-  rect(s, x, y, aw, 2.28, row === 0 ? PANEL2 : "F58CC4");
-  tag(s, x + 0.26, y + 0.22, 0.38, 0.38, String(l[0]), l[3], { size: 14, cs: 0 });
-  txt(s, l[1].toUpperCase(), x + 0.74, y + 0.22, 2.9, 0.38, { size: 15, bold: true, color: NEAR, face: HF, cs: -0.3, valign: "middle" });
-  tag(s, x + aw - 2.05, y + 0.26, 1.80, 0.30, l[2], l[3], { size: 8.5 });
-  txt(s, l[5], x + 0.26, y + 0.70, aw - 0.52, 0.30, { size: 11.5, bold: true, italic: true, color: BLUE, valign: "middle" });
-  const hh = 1.05, hw = sizeH(l[4], hh)[0];
-  img(s, l[4], x + aw - hw - 0.24, y + 1.12, { h: hh });
-  rich(s, l[6], x + 0.26, y + 1.08, aw - 0.62 - hw, 1.05, { fontSize: 10.5, color: "2B0812", lineSpacingMultiple: 1.13 });
+  const x = M + col * (aw + 0.30), y = 1.88 + row * 2.50;
+  rect(s, x, y, aw, 2.30, row === 0 ? PANEL2 : "F58CC4");
+  tag(s, x + 0.24, y + 0.16, 0.34, 0.34, String(l[0]), l[3], { size: 13, cs: 0 });
+  txt(s, l[1].toUpperCase(), x + 0.66, y + 0.16, aw - 0.90, 0.34, { size: 14, bold: true, color: NEAR, face: HF, cs: -0.3, valign: "middle" });
+  tag(s, x + 0.24, y + 0.58, 2.05, 0.26, l[2], l[3], { size: 8 });
+  txt(s, l[4], x + 0.24, y + 0.92, aw - 0.48, 0.36, { size: 10.5, bold: true, italic: true, color: BLUE, lh: 1.06 });
+  rich(s, l[5], x + 0.24, y + 1.34, aw - 0.48, 0.84, { fontSize: 10, color: "2B0812", lineSpacingMultiple: 1.12 });
 });
 src(s, "Keempat teori ini menyoroti dimensi yang luput dari lima teori sebelumnya: pembanding, relasi, keterwakilan, dan pilihan istilah.");
 pageno(s, 18);
@@ -591,8 +591,8 @@ s.addNotes("2,5 menit. Ethic of care tidak menolak kebijakan, ia menuntut pemuli
 s = slide("blue");
 head(s, { eyebrow: "11   SINTESIS", title: "Sintesis penilaian dan evaluasi klaim",
   dek: "Tidak satu pun dari sembilan teori memberikan dukungan tanpa syarat.", tw: 11.4, dw: 11.4 });
-burst(s, 10.18, 1.88, 2.95, 4.25, GREEN, { rotate: -8 });
-img(s, "c-spec2", 10.30, 2.12, { w: 2.42 });
+burst(s, 10.05, 1.95, 3.00, 4.45, GREEN, { rotate: -8 });
+img(s, "c2-synth", 10.15, 2.20, { w: 2.68 });
 rect(s, M, 1.90, 4.60, 4.62, PANEL);
 tag(s, M + 0.24, 2.06, 2.45, 0.30, "SEMBILAN PENILAIAN", PINK, { size: 9.5 });
 [[1, "Egoism", "Netral", "9C9AD8"], [2, "Utilitarianism", "Ambivalen", "F0C24A"], [3, "Ethics of duty", "Menolak", PINK],
@@ -607,17 +607,17 @@ tag(s, M + 0.24, 2.06, 2.45, 0.30, "SEMBILAN PENILAIAN", PINK, { size: 9.5 });
 rect(s, M + 0.24, 5.92, 4.12, 0.48, PINK_D);
 txt(s, "Enam menolak, satu bersyarat, satu ambivalen, dan satu netral karena mengakui keterbatasan teorinya.",
   M + 0.40, 5.92, 3.80, 0.48, { size: 9.5, color: WHITE, valign: "middle", lh: 1.06 });
-tag(s, 5.50, 2.06, 4.60, 0.30, "EMPAT PROPOSISI DARI KESEMBILAN TEORI", GREEN, { size: 9.5, color: NEAR });
+tag(s, 5.50, 2.06, 4.50, 0.30, "EMPAT PROPOSISI DARI KESEMBILAN TEORI", GREEN, { size: 9.5, color: NEAR });
 [["Perbandingan masa lalu tidak normatif", ["Kondisi yang lebih baik daripada ekspor bijih mentah tidak dengan sendirinya memadai. ", ["Virtue ethics menuntut pembanding pada standar tertinggi", "g"], "."]],
  ["Klaim hijau gugur pada sumber energi", ["Pengolahan yang bertumpu pada pembangkit batu bara di dalam kawasan ", ["tidak dapat disebut hijau", "h"], ". Postmodern ethics membacanya sebagai alat pembenar."]],
  ["Distribusi manfaat dan beban timpang", ["Hanya 4,35 persen nilai tambah tinggal di daerah, sementara ", ["kabupaten penghasil lebih miskin daripada rata-rata provinsinya", "g"], ". Rawls menolaknya."]],
  ["Prosesnya cacat sejak perumusan", ["Warga terdampak tidak menjadi pihak dalam perizinan dan perencanaan kawasan. Discourse ethics membatalkan hasil dari proses semacam itu."]]
 ].forEach(function (p, i) {
   const y = 2.50 + i * 1.04;
-  rect(s, 5.50, y, 4.60, 0.96, i % 2 ? PANEL2 : PANEL);
+  rect(s, 5.50, y, 4.50, 0.96, i % 2 ? PANEL2 : PANEL);
   tag(s, 5.50, y, 0.34, 0.96, String(i + 1), GREEN, { size: 13, cs: 0, color: NEAR });
-  txt(s, p[0].toUpperCase(), 5.96, y + 0.08, 4.00, 0.26, { size: 11.5, bold: true, color: WHITE, face: HF, cs: -0.2, valign: "middle" });
-  rich(s, p[1], 5.96, y + 0.36, 4.00, 0.56, { fontSize: 9.5, lineSpacingMultiple: 1.1 });
+  txt(s, p[0].toUpperCase(), 5.96, y + 0.08, 3.90, 0.26, { size: 11.5, bold: true, color: WHITE, face: HF, cs: -0.2, valign: "middle" });
+  rich(s, p[1], 5.96, y + 0.36, 3.90, 0.56, { fontSize: 9.5, lineSpacingMultiple: 1.1 });
 });
 src(s, "Penolakan atas klaim nikel hijau tidak setara dengan penolakan atas hilirisasi. Keduanya persoalan yang terpisah.");
 pageno(s, 19);
@@ -627,8 +627,8 @@ s.addNotes("2,5 menit. Inti kontribusi analisis. Tekankan proposisi keempat: yan
 s = slide("blue");
 head(s, { eyebrow: "PENUTUP", title: "Simpulan dan implikasi manajerial",
   dek: "Tiga temuan dari pengujian, diikuti tiga tindak lanjut yang dapat dijalankan manajemen.", tw: 8.3, dw: 7.4 });
-burst(s, 8.15, 1.75, 4.50, 4.95, GREEN, { rotate: 10 });
-img(s, "c-spec3", 8.98, 1.95, { h: 4.50 });
+burst(s, 8.30, 1.72, 4.40, 5.00, GREEN, { rotate: 10 });
+img(s, "c2-close", 8.83, 1.95, { h: 4.50 });
 [["Konvergensi, bukan kesepakatan", ["Sembilan teori berangkat dari premis berbeda, namun mayoritasnya bermuara pada arah yang sama. ", ["Inilah bukti terkuat pluralisme", "fw"], "."]],
  ["Klaim etis yang gugur", ["Yang gugur bukan kebijakan hilirisasinya, melainkan ", ["klaim bahwa kebijakan ini sudah etis", "fw"], ". Upah, keselamatan, lingkungan, dan sumber energinya tetap terbuka diperbaiki."]],
  ["Kasus yang masih berlangsung", ["Kebijakannya masih berjalan, sengketa dagangnya belum tuntas, dan angkanya berubah tiap tahun. Kasus yang belum selesai justru paling layak didiskusikan."]]
