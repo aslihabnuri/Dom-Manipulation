@@ -7,7 +7,7 @@ Deck presentasi kelompok untuk mata kuliah Business Ethics for Sustainability (M
 | Berkas | Isi |
 | --- | --- |
 | `WOW-Business-Ethics-Hilirisasi-Nikel.pptx` | Deck aktif, 21 slide, gaya kolase dada dengan palet Resistance Blue, Brave Pink, dan Hero Green |
-| `Skrip-Presentasi-Business-Ethics-Hilirisasi-Nikel.docx` dan `.pdf` | Naskah pembawaan 21 slide, pembagian tiga pembicara, alokasi waktu 30 menit, antisipasi pertanyaan, dan daftar angka penting |
+| `Skrip-Presentasi-Business-Ethics-Hilirisasi-Nikel.docx` dan `.pdf` | Naskah pembawaan 21 slide dalam bahasa sederhana, pembagian tiga pembicara, alokasi waktu 30 menit, antisipasi pertanyaan, dan daftar angka penting |
 | `Materi-Bacaan-Business-Ethics-Hilirisasi-Nikel.docx` dan `.pdf` | Bahan bacaan tujuh bagian, ringkasan Bab 3 beserta penerapannya pada kasus, dilengkapi glosarium dan pertanyaan diskusi |
 | `build-wow-deck.js` | Skrip pembangkit deck aktif. Jalankan `node build-wow-deck.js` dari folder yang memuat `assets/cut` |
 | `build-docs/` | Skrip pembangkit kedua dokumen Word. Jalankan `node build-docs/skrip.js <keluaran.docx>` dan `node build-docs/materi.js <keluaran.docx>` |
