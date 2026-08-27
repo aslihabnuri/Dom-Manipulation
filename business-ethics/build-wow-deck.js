@@ -263,22 +263,47 @@ s.addNotes("1,5 menit. Peta jalan sisa presentasi. Minta kelas mengingat nomor u
 function theory(o) {
   const sl = slide(o.bg || "blue");
   head(sl, { eyebrow: o.eyebrow, title: o.title, dek: o.dek });
-  const LX = M, LW = 4.80, RX = 5.75, RW = 7.03;
-  burst(sl, LX - 0.28, 2.02, 5.40, 4.50, o.bg === "pink" ? BLUE : GREEN, { rotate: o.brot || 0 });
-  const ih = 4.55, iw = sizeH(o.img, ih)[0];
-  img(sl, o.img, LX + LW / 2 - iw / 2, 1.95, { h: ih });
-  if (o.bubble) sticker(sl, LX + 0.62, 5.92, 3.35, 0.50, o.bubble, { size: 10.5, rotate: -2 });
-  rect(sl, RX, 1.92, RW, 1.58, FEAT);
-  tag(sl, RX, 1.92, 0.62, 1.58, String(o.no), o.bg === "pink" ? GREEN : PINK, { size: 32, cs: 0, color: o.bg === "pink" ? NEAR : WHITE });
-  txt(sl, "DEFINISI", RX + 0.85, 2.08, 3.0, 0.24, { size: 9, bold: true, color: FEATBODY, cs: 2.0, valign: "middle" });
-  txt(sl, o.term.toUpperCase(), RX + 0.85, 2.32, RW - 1.15, 0.32, { size: 17, bold: true, color: FEATINK, face: HF, cs: -0.2, valign: "middle" });
-  txt(sl, o.def, RX + 0.85, 2.70, RW - 1.15, 0.72, { size: 11, color: FEATBODY, lh: 1.14 });
-  o.blocks.forEach(function (b, i) {
-    const yy = 3.58 + i * 0.98;
-    rect(sl, RX, yy, RW, 0.92, i % 2 ? PANEL2 : PANEL);
-    txt(sl, b[0], RX + 0.26, yy + 0.06, RW - 0.5, 0.24, { size: 10, bold: true, color: ACC2, cs: 1.3, valign: "middle" });
-    rich(sl, b[1], RX + 0.26, yy + 0.30, RW - 0.5, 0.60, { fontSize: 10.5 });
-  });
+  const BC = o.bg === "pink" ? BLUE : GREEN;
+  const NC = o.bg === "pink" ? GREEN : PINK, NT = o.bg === "pink" ? NEAR : WHITE;
+  if (o.layout === "center") {
+    /* pita definisi selebar slide, kucing besar di tengah, blok materi mengapit */
+    rect(sl, M, 1.92, CW, 1.26, FEAT);
+    tag(sl, M, 1.92, 0.62, 1.26, String(o.no), NC, { size: 30, cs: 0, color: NT });
+    txt(sl, "DEFINISI", M + 0.85, 2.02, 3.0, 0.22, { size: 9, bold: true, color: FEATBODY, cs: 2.0, valign: "middle" });
+    txt(sl, o.term.toUpperCase(), M + 0.85, 2.24, CW - 1.15, 0.30, { size: 16, bold: true, color: FEATINK, face: HF, cs: -0.2, valign: "middle" });
+    txt(sl, o.def, M + 0.85, 2.58, CW - 1.15, 0.54, { size: 11, color: FEATBODY, lh: 1.14 });
+    burst(sl, 4.88, 3.12, 3.60, 3.55, BC, { rotate: o.brot || 0 });
+    const bw = 4.30, RXc = W - M - bw;
+    const pos = [[M, 3.42], [M, 4.98], [RXc, 3.42]];
+    o.blocks.forEach(function (b, i) {
+      const bx = pos[i][0], by = pos[i][1];
+      rect(sl, bx, by, bw, 1.42, i % 2 ? PANEL2 : PANEL);
+      txt(sl, b[0], bx + 0.24, by + 0.08, bw - 0.48, 0.24, { size: 10, bold: true, color: ACC2, cs: 1.3, valign: "middle" });
+      rich(sl, b[1], bx + 0.24, by + 0.36, bw - 0.48, 0.98, { fontSize: 10.5 });
+    });
+    const ih = 3.30, iw = sizeH(o.img, ih)[0];
+    img(sl, o.img, W / 2 - iw / 2, 3.30, { h: ih });
+    if (o.bubble) sticker(sl, RXc + 0.38, 5.45, 3.55, 0.50, o.bubble, { size: 10.5, rotate: -2 });
+  } else {
+    /* kolom gambar di kiri (bawaan) atau di kanan (cermin) */
+    const flip = o.layout === "right";
+    const IZ = flip ? 7.98 : M, TX = flip ? M : 5.75, RW = 7.03;
+    burst(sl, IZ - 0.28, 2.02, 5.40, 4.50, BC, { rotate: o.brot || 0 });
+    const ih = 4.55, iw = sizeH(o.img, ih)[0];
+    img(sl, o.img, IZ + 2.40 - iw / 2, 1.95, { h: ih });
+    if (o.bubble) sticker(sl, IZ + 0.62, 5.92, 3.35, 0.50, o.bubble, { size: 10.5, rotate: -2 });
+    rect(sl, TX, 1.92, RW, 1.58, FEAT);
+    tag(sl, TX, 1.92, 0.62, 1.58, String(o.no), NC, { size: 32, cs: 0, color: NT });
+    txt(sl, "DEFINISI", TX + 0.85, 2.08, 3.0, 0.24, { size: 9, bold: true, color: FEATBODY, cs: 2.0, valign: "middle" });
+    txt(sl, o.term.toUpperCase(), TX + 0.85, 2.32, RW - 1.15, 0.32, { size: 17, bold: true, color: FEATINK, face: HF, cs: -0.2, valign: "middle" });
+    txt(sl, o.def, TX + 0.85, 2.70, RW - 1.15, 0.72, { size: 11, color: FEATBODY, lh: 1.14 });
+    o.blocks.forEach(function (b, i) {
+      const yy = 3.58 + i * 0.98;
+      rect(sl, TX, yy, RW, 0.92, i % 2 ? PANEL2 : PANEL);
+      txt(sl, b[0], TX + 0.26, yy + 0.06, RW - 0.5, 0.24, { size: 10, bold: true, color: ACC2, cs: 1.3, valign: "middle" });
+      rich(sl, b[1], TX + 0.26, yy + 0.30, RW - 0.5, 0.60, { fontSize: 10.5 });
+    });
+  }
   src(sl, o.src); pageno(sl, o.num); sl.addNotes(o.notes);
 }
 
@@ -295,7 +320,7 @@ theory({ no: 1, num: 6, img: "c-egoism", brot: 6,
   src: "Crane dan Matten (2019), Bab 3, halaman 93 sampai 96.",
   notes: "2 menit. Jangan buru-buru menolak egoisme. Versi jangka panjangnya justru memberi kritik paling tajam pada kasus nikel. Enlightened egoism: perusahaan menyokong lingkungan sosial karena itu menguntungkan dirinya sendiri." });
 
-theory({ no: 2, num: 7, img: "c-utilitarian", brot: -8,
+theory({ no: 2, num: 7, img: "c-utilitarian", brot: -8, layout: "center",
   eyebrow: "04   TEORI MODERNIS BARAT   |   KONSEKUENSIALIS",
   title: "Etika hasil: utilitarianism",
   dek: "Teori yang paling lazim diterapkan dalam bisnis karena kompatibel dengan metodologi kuantitatif ekonomi.",
@@ -308,7 +333,7 @@ theory({ no: 2, num: 7, img: "c-utilitarian", brot: -8,
   src: "Crane dan Matten (2019), Tabel 3.2, halaman 96 sampai 100.",
   notes: "2,5 menit. Titik terpenting: act dan rule bisa menghasilkan kesimpulan berlawanan atas fakta yang sama. Tanam di sini, karena itu yang terjadi pada kasus nikel." });
 
-theory({ no: 3, num: 8, img: "c-kant", brot: 4, bg: "pink",
+theory({ no: 3, num: 8, img: "c-kant", brot: 4, bg: "pink", layout: "right",
   eyebrow: "04   TEORI MODERNIS BARAT   |   BERBASIS PRINSIP",
   title: "Etika kewajiban: Immanuel Kant",
   dek: "Yang dinilai bukan akibat, melainkan prinsip di balik tindakan dan motivasi pelakunya.",
@@ -334,7 +359,7 @@ theory({ no: 4, num: 9, img: "c-rights", brot: -5,
   src: "Crane dan Matten (2019), halaman 103 sampai 107. Universal Declaration of Human Rights (1948).",
   notes: "2 menit. Teori yang paling siap dipakai auditor dan investor. Tekankan cakupan relasi bisnis, itu yang menghubungkan pembeli kendaraan listrik di Eropa dengan Halmahera." });
 
-theory({ no: 5, num: 10, img: "c-justice", brot: 9,
+theory({ no: 5, num: 10, img: "c-justice", brot: 9, layout: "center",
   eyebrow: "04   TEORI MODERNIS BARAT   |   BERBASIS PRINSIP",
   title: "Keadilan: Rawls dan kontrak sosial",
   dek: "Pertanyaannya bergeser dari benar atau salah menjadi susunan seperti apa yang layak disepakati bersama.",
@@ -351,9 +376,8 @@ theory({ no: 5, num: 10, img: "c-justice", brot: 9,
 s = slide("pink");
 head(s, { eyebrow: "05   EVALUASI KRITIS", title: "Enam keterbatasan teori modernis",
   dek: "Keberatan ini menjadi dasar kemunculan empat teori alternatif yang dibahas berikutnya." });
-burst(s, 0.22, 1.68, 4.95, 4.90, BLUE, { rotate: 8 });
-img(s, "c-limits", 0.60, 1.98, { h: 4.25 });
-const b6w = 3.55;
+burst(s, 4.38, 1.82, 4.60, 4.55, BLUE, { rotate: 8 });
+const b6w = 3.85;
 [["Abstraksi berlebih", "Prinsipnya beroperasi pada tataran yang jauh dari persoalan konkret yang dihadapi manajer."],
  ["Reduksionisme", "Setiap teori menonjolkan satu dimensi moralitas dan memperlakukannya sebagai keseluruhan."],
  ["Objektivisme elitis", "Kebenaran moral ditentukan melalui deduksi ahli, bukan melalui pengalaman pihak yang terlibat."],
@@ -362,17 +386,18 @@ const b6w = 3.55;
  ["Imperialisme kultural", "Pengalaman dan tradisi intelektual Barat diposisikan sebagai ukuran yang berlaku universal."]
 ].forEach(function (b, i) {
   const col = i % 2, row = (i / 2) | 0;
-  const x = 5.35 + col * (b6w + 0.15), y = 1.95 + row * 1.42, dark = col === 1;
-  rect(s, x, y, b6w, 1.30, dark ? BLUE : PANEL2);
+  const x = col === 0 ? M : W - M - b6w, y = 1.95 + row * 1.44, dark = col === 1;
+  rect(s, x, y, b6w, 1.34, dark ? BLUE : PANEL2);
   tag(s, x + 0.22, y + 0.16, 0.32, 0.32, String(i + 1), dark ? GREEN : BLUE, { size: 12, cs: 0 });
   txt(s, b[0].toUpperCase(), x + 0.62, y + 0.16, b6w - 0.86, 0.32,
     { size: 12, bold: true, color: dark ? WHITE : NEAR, face: HF, cs: -0.2, valign: "middle" });
-  txt(s, b[1], x + 0.22, y + 0.58, b6w - 0.44, 0.60, { size: 9.5, color: dark ? "CFCEF0" : "3A0C1F", lh: 1.14 });
+  txt(s, b[1], x + 0.22, y + 0.58, b6w - 0.44, 0.64, { size: 9.5, color: dark ? "CFCEF0" : "3A0C1F", lh: 1.14 });
 });
-rect(s, 5.35, 6.22, 7.43, 0.56, GREEN_D);
+img(s, "c-limits", 4.58, 2.00, { h: 4.15 });
+rect(s, M, 6.28, CW, 0.50, GREEN_D);
 rich(s, ["Teori alternatif tidak menggantikan teori modernis, melainkan ", ["menambahkan dimensi penilaian yang belum tercakup", "fw"],
   ": karakter pelaku, relasi antarpihak, prosedur perumusan norma, dan pilihan istilah."],
-  5.57, 6.34, 6.60, 0.42, { fontSize: 9.5, color: "D8F3DE" });
+  M + 0.26, 6.40, CW - 0.52, 0.32, { fontSize: 9.5, color: "D8F3DE" });
 pageno(s, 11);
 s.addNotes("1 menit. Slide transisi. Keberatan nomor 3 sampai 5 paling menentukan bagi kasus nikel, karena warga terdampak tidak pernah jadi pihak dalam perumusan.");
 
@@ -386,7 +411,7 @@ function altPair(o) {
     img(sl, im[0], im[1], im[2], { w: im[3] });
   });
   o.cards.forEach(function (c, i) {
-    const x = M + i * (cw + gx), g = i === 1;
+    const x = o.cardX ? o.cardX[i] : M + i * (cw + gx), g = i === 1;
     rect(sl, x, 1.92, cw, 4.58, g ? GREEN_D : PANEL);
     tag(sl, x + 0.28, 2.14, 0.40, 0.40, String(c.no), g ? NEAR : GREEN, { size: 15, cs: 0 });
     txt(sl, c.name.toUpperCase(), x + 0.80, 2.14, cw - 1.1, 0.40,
@@ -403,9 +428,9 @@ function altPair(o) {
   src(sl, o.src); pageno(sl, o.num); sl.addNotes(o.notes);
 }
 
-altPair({ num: 12, cw: 3.95, gx: 0.30, eyebrow: "06   TEORI ALTERNATIF", title: "Virtue ethics dan ethic of care",
-  dek: "Objek penilaian bergeser dari tindakan ke karakter pelaku dan ke relasi antarpihak yang terlibat.", tw: 8.5, dw: 7.9,
-  imgs: [["c-vc2", 8.98, 1.92, 3.85, 4.55, PINK, -5]],
+altPair({ num: 12, cw: 4.00, gx: 0.30, cardX: [M, 8.78], eyebrow: "06   TEORI ALTERNATIF", title: "Virtue ethics dan ethic of care",
+  dek: "Objek penilaian bergeser dari tindakan ke karakter pelaku dan ke relasi antarpihak yang terlibat.",
+  imgs: [["c-vc2", 4.82, 1.98, 3.70, 4.37, PINK, -5]],
   src: "Crane dan Matten (2019), Tabel 3.5, halaman 114 sampai 121.",
   notes: "2,5 menit. Virtue ethics sering disalahpahami sebagai imbauan moral. Tekankan pertanyaan pembandingnya: dibandingkan dengan apa kita menyebut sesuatu sudah cukup baik?",
   cards: [
@@ -420,9 +445,9 @@ altPair({ num: 12, cw: 3.95, gx: 0.30, eyebrow: "06   TEORI ALTERNATIF", title: 
             ["TUNTUTAN NORMATIF", ["Empati, keselarasan, menghindari kerugian, dan ", ["tanggung jawab konkret pada orang tertentu", "fw"], ", bukan aturan seragam."]],
             ["KETERBATASAN", ["Prioritas pada pihak terdekat berisiko mengabaikan pihak jauh, dan kriteria kepedulian sulit diaudit secara seragam."]]] }] });
 
-altPair({ num: 13, cw: 3.95, gx: 0.30, eyebrow: "06   TEORI ALTERNATIF", title: "Discourse dan postmodern ethics",
+altPair({ num: 13, cw: 3.95, gx: 0.30, cardX: [4.48, 8.83], eyebrow: "06   TEORI ALTERNATIF", title: "Discourse dan postmodern ethics",
   dek: "Objek penilaian bergeser ke prosedur perumusan norma dan ke bahasa yang dipakai untuk membenarkannya.", tw: 8.5, dw: 7.9,
-  imgs: [["c2-discourse", 9.36, 1.92, 3.14, 4.55, GREEN, 5]],
+  imgs: [["c2-discourse", 0.70, 1.92, 3.14, 4.55, GREEN, 5]],
   src: "Crane dan Matten (2019), Tabel 3.5, halaman 121 sampai 125.",
   notes: "2,5 menit. Discourse ethics menilai proses, jadi ia bisa membatalkan kebijakan yang hasilnya bagus sekalipun. Postmodern ethics menilai bahasa, dan itu yang membongkar istilah nikel hijau.",
   cards: [
@@ -441,9 +466,9 @@ altPair({ num: 13, cw: 3.95, gx: 0.30, eyebrow: "06   TEORI ALTERNATIF", title: 
 s = slide("blue");
 head(s, { eyebrow: "07   SINTESIS KERANGKA", title: "Sembilan pertanyaan penilaian",
   dek: "Tidak ada teori yang memberikan jawaban lengkap. Yang dicari pertimbangan yang paling kuat menanggung beban argumen.", tw: 9.2, dw: 9.2 });
-burst(s, 9.68, 2.10, 3.50, 4.25, GREEN, { rotate: -8 });
-img(s, "c-vc1", 9.97, 2.36, { w: 2.90 });
-const qw = 4.45;
+burst(s, 4.80, 1.85, 3.75, 4.85, GREEN, { rotate: -8 });
+img(s, "c-vc1", 4.89, 1.98, { h: 4.54 });
+const qw = 4.30;
 [[1, "Egoism", "Apakah semua pihak bebas mengejar kepentingan jangka panjangnya, dan sudahkah biaya tertunda dihitung?", PINK],
  [2, "Utilitarianism", "Bila seluruh akibat diagregasi, apakah hasilnya positif, dan apakah act dan rule sejalan?", PINK],
  [3, "Ethics of duty", "Dapatkah maksim tindakan ini diuniversalkan, dan adakah pihak yang diperlakukan sekadar sarana?", PINK],
@@ -455,16 +480,16 @@ const qw = 4.45;
  [9, "Postmodern ethics", "Kepentingan siapa yang dilayani oleh istilah yang dipakai menamai kebijakan ini?", GREEN]
 ].forEach(function (q, i) {
   const col = i < 5 ? 0 : 1, row = i < 5 ? i : i - 5;
-  const x = M + col * (qw + 0.28), y = 1.92 + row * 0.94;
+  const x = col === 0 ? M : 8.48, y = 1.92 + row * 0.94;
   rect(s, x, y, qw, 0.84, i % 2 ? PANEL2 : PANEL);
   tag(s, x, y, 0.34, 0.84, String(q[0]), q[3], { size: 13, cs: 0 });
   txt(s, q[1], x + 0.50, y + 0.08, qw - 0.70, 0.28, { size: 12, bold: true, color: WHITE, face: HF, valign: "middle" });
-  txt(s, q[2], x + 0.50, y + 0.36, qw - 0.70, 0.42, { size: 9.5, color: BODY, lh: 1.1 });
+  txt(s, q[2], x + 0.50, y + 0.36, qw - 0.70, 0.42, { size: 9, color: BODY, lh: 1.1 });
 });
-rect(s, M + qw + 0.28, 5.68, qw, 0.84, PINK_D);
+rect(s, 8.48, 5.68, qw, 0.84, PINK_D);
 rich(s, ["Pendekatan pluralis Bab 3 menghasilkan ", ["sembilan penilaian atas rangkaian fakta yang identik", "fw"],
   ", untuk kemudian dilihat arah konvergensinya."],
-  M + qw + 0.50, 5.84, qw - 0.44, 0.56, { fontSize: 10, color: "FBD9E8" });
+  8.70, 5.84, qw - 0.44, 0.56, { fontSize: 10, color: "FBD9E8" });
 pageno(s, 14);
 s.addNotes("1 menit. Minta kelas memotret slide ini. Selama bagian kasus mereka bisa menandai sendiri jawaban tiap pertanyaan sebelum kita bahas.");
 
@@ -538,9 +563,9 @@ s.addNotes("2 menit. Jangan berdebat soal angka. Tegaskan kedua kolom benar. Jus
 s = slide("blue");
 head(s, { eyebrow: "09   PENERAPAN", title: "Penilaian lima teori modernis",
   dek: "Penilaian berbasis akibat dan berbasis prinsip menghasilkan kesimpulan yang tidak seragam.", tw: 9.6, dw: 9.6 });
-burst(s, 9.62, 1.72, 3.35, 5.00, PINK, { rotate: 10 });
-img(s, "c2-verdict", 9.95, 1.95, { h: 4.50 });
-const rw = 8.95;
+burst(s, 0.50, 1.72, 3.35, 5.00, PINK, { rotate: 10 });
+img(s, "c2-verdict", 0.85, 1.95, { h: 4.50 });
+const rw = 8.93, RX17 = 3.85;
 [[1, "Egoism", "NETRAL", "5B58C4", ["Pada horizon pendek jelas melayani kepentingan Indonesia. Pada horizon panjang, biaya kesehatan warga, pemulihan sungai, dan pensiun dini pembangkit batu bara belum diinternalisasi. ", ["Kepentingan diri yang dihitung cermat justru menuntut biaya tertunda itu masuk sejak awal", "g"], "."]],
  [2, "Utilitarianism", "AMBIVALEN", "B08018", ["Act utilitarianism cenderung mendukung, sebab manfaat 166 ribu lapangan kerja nyata dan terukur sedangkan kerugiannya tersebar. ", ["Rule utilitarianism menolak", "h"], ", sebab bila setiap negara pemilik cadangan menempuh pengolahan bertenaga batu bara, tambahan emisinya membatalkan manfaat transisi energi yang justru menjadi pembenarnya."]],
  [3, "Ethics of duty", "MENOLAK", PINK, ["Maksimnya berbunyi: pengolahan boleh dipercepat sambil menunda standar upah, keselamatan, dan lingkungan. Diuniversalkan, standar itu kehilangan daya ikat. Formulasi kedua juga gagal, sebab ", ["upah di bawah minimum dan lembur sampai 13 jam menjadikan pekerja sarana semata", "g"], "."]],
@@ -548,11 +573,11 @@ const rw = 8.95;
  [5, "Justice", "MENOLAK", PINK, ["Manfaat mengalir ke penerimaan nasional dan pemodal, sedangkan beban terkonsentrasi pada pekerja kawasan, warga hilir sungai, dan masyarakat adat. ", ["Kabupaten penghasil justru lebih miskin daripada rata-rata provinsinya", "g"], " dan hanya 4,35 persen nilai tambah tinggal di daerah."]]
 ].forEach(function (l, i) {
   const y = 1.90 + i * 0.96;
-  rect(s, M, y, rw, 0.90, i % 2 ? PANEL2 : PANEL);
-  tag(s, M, y, 0.34, 0.90, String(l[0]), l[3], { size: 13, cs: 0 });
-  txt(s, l[1], M + 0.50, y + 0.08, 1.95, 0.28, { size: 12, bold: true, color: WHITE, face: HF, valign: "middle" });
-  tag(s, M + 0.50, y + 0.44, 1.72, 0.30, l[2], l[3], { size: 8.5 });
-  rich(s, l[4], M + 2.45, y + 0.12, rw - 2.65, 0.70, { fontSize: 10, lineSpacingMultiple: 1.12 });
+  rect(s, RX17, y, rw, 0.90, i % 2 ? PANEL2 : PANEL);
+  tag(s, RX17, y, 0.34, 0.90, String(l[0]), l[3], { size: 13, cs: 0 });
+  txt(s, l[1], RX17 + 0.50, y + 0.08, 1.95, 0.28, { size: 12, bold: true, color: WHITE, face: HF, valign: "middle" });
+  tag(s, RX17 + 0.50, y + 0.44, 1.72, 0.30, l[2], l[3], { size: 8.5 });
+  rich(s, l[4], RX17 + 2.45, y + 0.12, rw - 2.65, 0.70, { fontSize: 10, lineSpacingMultiple: 1.12 });
 });
 src(s, "Dua teori dalam klasifikasi yang sama menghasilkan kesimpulan berbeda, dan pembedanya terletak pada unit analisis: tindakan tunggal atau kelas tindakan.");
 pageno(s, 17);
@@ -591,9 +616,9 @@ s.addNotes("2,5 menit. Ethic of care tidak menolak kebijakan, ia menuntut pemuli
 s = slide("blue");
 head(s, { eyebrow: "11   SINTESIS", title: "Sintesis penilaian dan evaluasi klaim",
   dek: "Tidak satu pun dari sembilan teori memberikan dukungan tanpa syarat.", tw: 11.4, dw: 11.4 });
-burst(s, 10.05, 1.95, 3.00, 4.45, GREEN, { rotate: -8 });
-img(s, "c2-synth", 10.15, 2.20, { w: 2.68 });
-rect(s, M, 1.90, 4.60, 4.62, PANEL);
+burst(s, 4.96, 1.88, 3.45, 4.75, GREEN, { rotate: -8 });
+img(s, "c2-synth", 5.19, 2.00, { h: 4.40 });
+rect(s, M, 1.90, 4.30, 4.62, PANEL);
 tag(s, M + 0.24, 2.06, 2.45, 0.30, "SEMBILAN PENILAIAN", PINK, { size: 9.5 });
 [[1, "Egoism", "Netral", "9C9AD8"], [2, "Utilitarianism", "Ambivalen", "F0C24A"], [3, "Ethics of duty", "Menolak", PINK],
  [4, "Ethics of rights", "Bersyarat", "F0C24A"], [5, "Justice", "Menolak", PINK], [6, "Virtue ethics", "Menolak pembanding", PINK],
@@ -601,23 +626,23 @@ tag(s, M + 0.24, 2.06, 2.45, 0.30, "SEMBILAN PENILAIAN", PINK, { size: 9.5 });
 ].forEach(function (m, i) {
   const y = 2.50 + i * 0.37;
   tag(s, M + 0.24, y + 0.02, 0.26, 0.26, String(m[0]), i < 5 ? PINK : GREEN, { size: 10, cs: 0 });
-  txt(s, m[1], M + 0.58, y, 1.85, 0.30, { size: 11.5, bold: true, color: WHITE, valign: "middle" });
-  txt(s, m[2], M + 2.45, y, 1.90, 0.30, { size: 11, bold: true, color: m[3], align: "right", valign: "middle" });
+  txt(s, m[1], M + 0.58, y, 1.62, 0.30, { size: 11, bold: true, color: WHITE, valign: "middle" });
+  txt(s, m[2], M + 2.24, y, 1.82, 0.30, { size: 10.5, bold: true, color: m[3], align: "right", valign: "middle" });
 });
-rect(s, M + 0.24, 5.92, 4.12, 0.48, PINK_D);
+rect(s, M + 0.24, 5.92, 3.82, 0.48, PINK_D);
 txt(s, "Enam menolak, satu bersyarat, satu ambivalen, dan satu netral karena mengakui keterbatasan teorinya.",
-  M + 0.40, 5.92, 3.80, 0.48, { size: 9.5, color: WHITE, valign: "middle", lh: 1.06 });
-tag(s, 5.50, 2.06, 4.50, 0.30, "EMPAT PROPOSISI DARI KESEMBILAN TEORI", GREEN, { size: 9.5, color: NEAR });
+  M + 0.38, 5.92, 3.54, 0.48, { size: 9, color: WHITE, valign: "middle", lh: 1.05 });
+tag(s, 8.48, 2.06, 4.30, 0.30, "EMPAT PROPOSISI DARI KESEMBILAN TEORI", GREEN, { size: 9.5, color: NEAR });
 [["Perbandingan masa lalu tidak normatif", ["Kondisi yang lebih baik daripada ekspor bijih mentah tidak dengan sendirinya memadai. ", ["Virtue ethics menuntut pembanding pada standar tertinggi", "g"], "."]],
  ["Klaim hijau gugur pada sumber energi", ["Pengolahan yang bertumpu pada pembangkit batu bara di dalam kawasan ", ["tidak dapat disebut hijau", "h"], ". Postmodern ethics membacanya sebagai alat pembenar."]],
  ["Distribusi manfaat dan beban timpang", ["Hanya 4,35 persen nilai tambah tinggal di daerah, sementara ", ["kabupaten penghasil lebih miskin daripada rata-rata provinsinya", "g"], ". Rawls menolaknya."]],
  ["Prosesnya cacat sejak perumusan", ["Warga terdampak tidak menjadi pihak dalam perizinan dan perencanaan kawasan. Discourse ethics membatalkan hasil dari proses semacam itu."]]
 ].forEach(function (p, i) {
   const y = 2.50 + i * 1.04;
-  rect(s, 5.50, y, 4.50, 0.96, i % 2 ? PANEL2 : PANEL);
-  tag(s, 5.50, y, 0.34, 0.96, String(i + 1), GREEN, { size: 13, cs: 0, color: NEAR });
-  txt(s, p[0].toUpperCase(), 5.96, y + 0.08, 3.90, 0.26, { size: 11.5, bold: true, color: WHITE, face: HF, cs: -0.2, valign: "middle" });
-  rich(s, p[1], 5.96, y + 0.36, 3.90, 0.56, { fontSize: 9.5, lineSpacingMultiple: 1.1 });
+  rect(s, 8.48, y, 4.30, 0.96, i % 2 ? PANEL2 : PANEL);
+  tag(s, 8.48, y, 0.34, 0.96, String(i + 1), GREEN, { size: 13, cs: 0, color: NEAR });
+  txt(s, p[0].toUpperCase(), 8.94, y + 0.08, 3.70, 0.26, { size: 11, bold: true, color: WHITE, face: HF, cs: -0.2, valign: "middle" });
+  rich(s, p[1], 8.94, y + 0.36, 3.70, 0.56, { fontSize: 9.5, lineSpacingMultiple: 1.1 });
 });
 src(s, "Penolakan atas klaim nikel hijau tidak setara dengan penolakan atas hilirisasi. Keduanya persoalan yang terpisah.");
 pageno(s, 19);
@@ -627,8 +652,8 @@ s.addNotes("2,5 menit. Inti kontribusi analisis. Tekankan proposisi keempat: yan
 s = slide("blue");
 head(s, { eyebrow: "PENUTUP", title: "Simpulan dan implikasi manajerial",
   dek: "Tiga temuan dari pengujian, diikuti tiga tindak lanjut yang dapat dijalankan manajemen.", tw: 8.3, dw: 7.4 });
-burst(s, 8.30, 1.72, 4.40, 5.00, GREEN, { rotate: 10 });
-img(s, "c2-close", 8.83, 1.95, { h: 4.50 });
+burst(s, 8.28, 1.72, 4.48, 5.30, GREEN, { rotate: 10 });
+img(s, "c2-close", 8.55, 1.98, { h: 5.52 });
 [["Konvergensi, bukan kesepakatan", ["Sembilan teori berangkat dari premis berbeda, namun mayoritasnya bermuara pada arah yang sama. ", ["Inilah bukti terkuat pluralisme", "fw"], "."]],
  ["Klaim etis yang gugur", ["Yang gugur bukan kebijakan hilirisasinya, melainkan ", ["klaim bahwa kebijakan ini sudah etis", "fw"], ". Upah, keselamatan, lingkungan, dan sumber energinya tetap terbuka diperbaiki."]],
  ["Kasus yang masih berlangsung", ["Kebijakannya masih berjalan, sengketa dagangnya belum tuntas, dan angkanya berubah tiap tahun. Kasus yang belum selesai justru paling layak didiskusikan."]]
