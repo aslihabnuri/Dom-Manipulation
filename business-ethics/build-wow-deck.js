@@ -13,7 +13,7 @@ const BLUE = "1D1B84", PINK = "EC4899", GREEN = "00A11E";
 const BLUE_D = "12105E", PINK_D = "C2185B", GREEN_D = "00761A";
 const WHITE = "FFFFFF", NEAR = "13060D";
 const W = 13.333, H = 7.5, M = 0.55, CW = W - 2 * M;
-const HF = "Arial", BF = "Arial";
+const HF = "Bebas Neue", BF = "Manrope";
 const TIM = [["Aslih Abnuri", "25/574338/PEK/31801"], ["Arfinal Diputra", "25/574664/PEK/31914"],
              ["Rohana Dwi Hardianti", "25/574077/PEK/31728"]];
 
@@ -110,7 +110,7 @@ function lab(s, text, x, y, w, color) {
   txt(s, text, x + 0.24, y, w - 0.24, 0.24, { size: 10, bold: true, color: color || ACC2, cs: 1.5, valign: "middle" });
 }
 function bignum(s, n, x, y, color, size) {
-  txt(s, String(n), x, y, 1.0, (size || 34) / 44, { size: size || 34, bold: true, color: color || ACC, face: HF, cs: -1 });
+  txt(s, String(n), x, y, 1.0, (size || 34) / 44, { size: size || 34, bold: true, color: color || ACC, face: HF, cs: 0 });
 }
 /* teks kaya: "biasa" | ["tebal aksen","a"] | ["stabilo","h"] | ["hijau","g"] */
 function runs(list, base) {
@@ -136,7 +136,7 @@ function head(s, o) {
   const ew = 0.44 + o.eyebrow.length * 0.098;
   sticker(s, M, 0.34, ew, 0.36, o.eyebrow, { size: 9, cs: 1.6, rotate: -1.2 });
   txt(s, o.title.toUpperCase(), M, 0.82, o.tw || CW, 0.70,
-    { size: o.tsize || 29, bold: true, color: INK, cs: -0.3, valign: "middle", face: HF });
+    { size: o.tsize || 36, bold: true, color: INK, cs: 0.5, valign: "middle", face: HF });
   if (o.dek) txt(s, o.dek, M, 1.52, o.dw || CW, 0.36, { size: 12, color: MUTE, lh: 1.1 });
 }
 function pageno(s, n) {
@@ -154,8 +154,8 @@ let s = slide("blue");
 burst(s, 5.95, 0.45, 7.35, 5.70, PINK, { rotate: 8 });
 img(s, "c-hero", 6.12, 1.10, { w: 7.15 });
 txt(s, "BUSINESS ETHICS FOR SUSTAINABILITY", M, 0.86, 6.0, 0.28, { size: 11, bold: true, color: PINK, cs: 2.4, valign: "middle" });
-txt(s, "EVALUATING", M, 1.20, 6.0, 0.86, { size: 46, bold: true, color: WHITE, cs: -1, valign: "middle", face: HF });
-txt(s, "BUSINESS ETHICS", M, 2.00, 6.0, 0.86, { size: 46, bold: true, color: WHITE, cs: -1, valign: "middle", face: HF });
+txt(s, "EVALUATING", M, 1.20, 6.0, 0.86, { size: 58, bold: true, color: WHITE, cs: 1, valign: "middle", face: HF });
+txt(s, "BUSINESS ETHICS", M, 2.00, 6.0, 0.86, { size: 58, bold: true, color: WHITE, cs: 1, valign: "middle", face: HF });
 tag(s, M, 2.96, 5.15, 0.54, "NORMATIVE ETHICAL THEORIES", GREEN, { size: 15, cs: 1.4 });
 sticker(s, M, 3.92, 1.80, 0.36, "DISUSUN OLEH", { size: 9.5, cs: 1.4, rotate: -2 });
 TIM.forEach(function (m, i) {
@@ -175,7 +175,7 @@ s = slide("blue");
 head(s, { eyebrow: "PETA BAHASAN", title: "Sistematika pembahasan",
   dek: "Kerangka teoretis dibangun lebih dahulu agar analisis kasus memiliki dasar penilaian yang eksplisit." });
 sticker(s, M, 2.06, 1.85, 0.40, "BAGIAN SATU", { size: 10.5, cs: 1.4, rotate: -2 });
-txt(s, "KERANGKA PENILAIAN", M, 2.66, 4.1, 0.34, { size: 17, bold: true, color: WHITE, face: HF, cs: -0.2, valign: "middle" });
+txt(s, "KERANGKA PENILAIAN", M, 2.66, 4.1, 0.34, { size: 21, bold: true, color: WHITE, face: HF, cs: 0.8, valign: "middle" });
 rule(s, M, 3.10, 4.05);
 [["01", "Peran teori etika normatif"], ["02", "Absolutisme, relativisme, pluralisme"], ["03", "Klasifikasi sembilan teori"],
  ["04", "Lima teori modernis Barat"], ["05", "Keterbatasan teori modernis"], ["06", "Empat teori alternatif"]
@@ -185,7 +185,7 @@ rule(s, M, 3.10, 4.05);
   txt(s, it[1], M + 0.52, yy, 3.6, 0.30, { size: 11.5, color: WHITE, valign: "middle" });
 });
 sticker(s, 8.05, 2.06, 1.80, 0.40, "BAGIAN DUA", { size: 10.5, cs: 1.4, rotate: 2 });
-txt(s, "HILIRISASI NIKEL INDONESIA", 8.05, 2.66, 4.73, 0.34, { size: 17, bold: true, color: WHITE, face: HF, cs: -0.2, valign: "middle" });
+txt(s, "HILIRISASI NIKEL INDONESIA", 8.05, 2.66, 4.73, 0.34, { size: 21, bold: true, color: WHITE, face: HF, cs: 0.8, valign: "middle" });
 rule(s, 8.05, 3.10, 4.73);
 [["07", "Anatomi kebijakan dan sengketanya"], ["08", "Dua narasi atas fakta yang sama"], ["09", "Penilaian lima teori modernis"],
  ["10", "Penilaian empat teori alternatif"], ["11", "Sintesis penilaian dan evaluasi klaim"], ["12", "Simpulan dan implikasi manajerial"]
@@ -255,7 +255,7 @@ head(s, { eyebrow: "03   KLASIFIKASI TEORI", title: "Klasifikasi sembilan teori 
   dek: "Klasifikasi pertama menilai tindakan. Klasifikasi kedua menilai pelaku, relasi, prosedur, dan bahasa." });
 vrule(s, 8.72, 2.02, 4.45);
 tag(s, M, 2.02, 1.95, 0.32, "KLASIFIKASI I", PINK, { size: 10 });
-txt(s, "TEORI MODERNIS BARAT", M + 2.15, 2.02, 4.6, 0.32, { size: 15, bold: true, face: HF, color: WHITE, valign: "middle", cs: -0.2 });
+txt(s, "TEORI MODERNIS BARAT", M + 2.15, 2.02, 4.6, 0.32, { size: 19, bold: true, face: HF, color: WHITE, valign: "middle", cs: 0.8 });
 txt(s, "Berakar pada Pencerahan abad ke-18, bersifat absolutis, dan menawarkan aturan yang dapat diterapkan pada situasi apa pun.",
   M, 2.46, 6.9, 0.50, { size: 10.5, color: BODY, lh: 1.12 });
 [["KONSEKUENSIALIS", "Teleologis, menilai akibat tindakan", [["Egoism", 1], ["Utilitarianism", 2]], M],
@@ -273,7 +273,7 @@ rule(s, M, 5.42, 6.9);
 txt(s, "Seluruh teori ini bersifat normatif karena berangkat dari asumsi tentang hakikat dunia dan hakikat manusia. Penerimaan atas kesimpulannya bergantung pada penerimaan atas asumsi tersebut.",
   M, 5.58, 5.6, 0.85, { size: 10.5, color: BODY, lh: 1.14 });
 tag(s, 9.15, 2.02, 1.95, 0.32, "KLASIFIKASI II", GREEN, { size: 10, color: NEAR });
-txt(s, "TEORI ALTERNATIF", 9.15, 2.46, 3.6, 0.32, { size: 15, bold: true, face: HF, color: WHITE, valign: "middle", cs: -0.2 });
+txt(s, "TEORI ALTERNATIF", 9.15, 2.46, 3.6, 0.32, { size: 19, bold: true, face: HF, color: WHITE, valign: "middle", cs: 0.8 });
 txt(s, "Cenderung relativis. Lahir dari keberatan atas klasifikasi pertama.", 9.15, 2.82, 3.6, 0.44, { size: 10.5, color: BODY, lh: 1.12 });
 [["Virtue ethics", 6, "Karakter pelaku"], ["Ethic of care", 7, "Relasi dan tanggung jawab"],
  ["Discourse ethics", 8, "Prosedur perumusan norma"], ["Postmodern ethics", 9, "Bahasa dan dorongan moral"]
@@ -296,7 +296,7 @@ function theory(o) {
   if (o.layout === "third") {
     /* strip definisi selebar slide, kucing di garis sepertiga, blok mengambang di kanan */
     bignum(sl, o.no, M, 1.98, ACC, 36);
-    txt(sl, o.term.toUpperCase(), M + 0.80, 2.04, 5.5, 0.30, { size: 16, bold: true, color: INK, face: HF, cs: -0.2, valign: "middle" });
+    txt(sl, o.term.toUpperCase(), M + 0.80, 2.04, 5.5, 0.30, { size: 19, bold: true, color: INK, face: HF, cs: 0.8, valign: "middle" });
     txt(sl, o.def, M + 0.80, 2.38, 11.4, 0.60, { size: 10.5, color: BODY, lh: 1.14 });
     rule(sl, M, 3.12, CW);
     star(sl, 0.92, 3.55, 1.00, 1.00, ACC2, 16, 12);
@@ -320,7 +320,7 @@ function theory(o) {
     img(sl, o.img, IZ + 2.40 - iw / 2, 1.95, { h: ih });
     if (o.bubble) sticker(sl, IZ + 0.62, 5.92, 3.35, 0.50, o.bubble, { size: 10.5, rotate: -2 });
     bignum(sl, o.no, TX, 1.96, ACC, 36);
-    txt(sl, o.term.toUpperCase(), TX + 0.80, 2.02, TW - 0.8, 0.30, { size: 16, bold: true, color: INK, face: HF, cs: -0.2, valign: "middle" });
+    txt(sl, o.term.toUpperCase(), TX + 0.80, 2.02, TW - 0.8, 0.30, { size: 19, bold: true, color: INK, face: HF, cs: 0.8, valign: "middle" });
     txt(sl, o.def, TX + 0.80, 2.36, TW - 0.8, 0.80, { size: 10.5, color: BODY, lh: 1.14 });
     rule(sl, TX, 3.30, TW);
     o.blocks.forEach(function (b, i) {
@@ -441,7 +441,7 @@ function altPair(o) {
     const AC1 = g ? GREEN : PINK;
     tag(sl, x, 2.02, 0.40, 0.40, String(c.no), AC1, { size: 15, cs: 0, color: g ? NEAR : WHITE });
     txt(sl, c.name.toUpperCase(), x + 0.52, 2.02, cw - 0.6, 0.40,
-      { size: 17, bold: true, face: HF, color: WHITE, cs: -0.4, valign: "middle" });
+      { size: 21, bold: true, face: HF, color: WHITE, cs: 0.8, valign: "middle" });
     txt(sl, c.q, x, 2.56, cw, 0.52, { size: 12, italic: true, bold: true, color: AC1, lh: 1.1 });
     txt(sl, c.who, x, 3.12, cw, 0.44, { size: 9.5, color: MUTE, lh: 1.1 });
     rule(sl, x, 3.62, cw);
@@ -577,7 +577,7 @@ vrule(s, W / 2 - 0.01, 2.10, 4.30);
   c[1].forEach(function (num, i) {
     const y = 2.56 + i * 0.88, wide = i === 0 ? nw - 0.30 : 2.82;
     rect(s, cx, y + 0.09, 0.14, 0.14, c[5]);
-    txt(s, num, cx + 0.26, y, wide, 0.32, { size: 18, bold: true, color: WHITE, face: HF, cs: -0.4, valign: "middle" });
+    txt(s, num, cx + 0.26, y, wide, 0.32, { size: 21, bold: true, color: WHITE, face: HF, cs: 0.5, valign: "middle" });
     txt(s, c[2][i], cx + 0.26, y + 0.32, wide, 0.44, { size: 9.5, color: BODY, lh: 1.1 });
   });
 });
@@ -714,8 +714,8 @@ star(s, 0.75, 1.15, 1.45, 1.45, GREEN, 16, 12);
 star(s, 1.35, 5.75, 1.05, 1.05, GREEN, 24, -8);
 img(s, "c-thanks", 6.35, 1.35, { w: 6.55 });
 txt(s, "PENUTUP", M + 0.35, 2.60, 5.4, 0.28, { size: 11, bold: true, color: PINK, cs: 2.4, valign: "middle" });
-txt(s, "TERIMA", M + 0.35, 2.94, 5.6, 1.05, { size: 62, bold: true, color: WHITE, face: HF, cs: -2, valign: "middle" });
-txt(s, "KASIH", M + 0.35, 3.92, 5.6, 1.05, { size: 62, bold: true, color: WHITE, face: HF, cs: -2, valign: "middle" });
+txt(s, "TERIMA", M + 0.35, 2.94, 5.6, 1.05, { size: 78, bold: true, color: WHITE, face: HF, cs: 1, valign: "middle" });
+txt(s, "KASIH", M + 0.35, 3.92, 5.6, 1.05, { size: 78, bold: true, color: WHITE, face: HF, cs: 1, valign: "middle" });
 tag(s, M + 0.35, 5.10, 4.25, 0.52, "BUSINESS ETHICS FOR SUSTAINABILITY", GREEN, { size: 12, cs: 1.2, color: NEAR });
 s.addNotes("Slide penutup. Buka forum tanya jawab. Tidak perlu alokasi waktu tersendiri.");
 
