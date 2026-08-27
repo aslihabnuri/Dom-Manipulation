@@ -595,13 +595,12 @@ const RX17 = 3.85;
  [4, "Ethics of rights", "BERSYARAT", "B08018", ["Hak atas pekerjaan terpenuhi bagi 166 ribu pekerja, dan sampai titik itu kebijakan ini dapat dipertahankan. Namun ", ["hak atas kondisi kerja yang adil, kesehatan, air bersih, dan tanah leluhur terlanggar bersamaan", "h"], ". UNGP menuntut penghormatan pada seluruh relasi bisnis."]],
  [5, "Justice", "MENOLAK", PINK, ["Manfaat mengalir ke penerimaan nasional dan pemodal, sedangkan beban terkonsentrasi pada pekerja kawasan, warga hilir sungai, dan masyarakat adat. ", ["Kabupaten penghasil justru lebih miskin daripada rata-rata provinsinya", "g"], " dan hanya 4,35 persen nilai tambah tinggal di daerah."]]
 ].forEach(function (l, i) {
-  const y = 1.90 + i * 0.96;
-  const xr = RX17 + (i % 2 ? 0 : 0.16), wr = 12.78 - xr;
-  rect(s, xr, y, wr, 0.90, i % 2 ? PANEL2 : PANEL);
-  tag(s, xr, y, 0.34, 0.90, String(l[0]), l[3], { size: 13, cs: 0 });
-  txt(s, l[1], xr + 0.50, y + 0.08, 1.95, 0.28, { size: 12, bold: true, color: WHITE, face: HF, valign: "middle" });
-  sticker(s, xr + 0.50, y + 0.45, 1.72, 0.31, l[2], { fill: WHITE, border: l[3], color: l[3], lw: 1.5, size: 8.5, rotate: i % 2 ? 2 : -2 });
-  rich(s, l[4], xr + 2.45, y + 0.12, wr - 2.65, 0.70, { fontSize: 10, lineSpacingMultiple: 1.12 });
+  const y = 1.90 + i * 0.96, wr = 12.78 - RX17;
+  rect(s, RX17, y, wr, 0.90, i % 2 ? PANEL2 : PANEL);
+  tag(s, RX17, y, 0.34, 0.90, String(l[0]), l[3], { size: 13, cs: 0 });
+  txt(s, l[1], RX17 + 0.50, y + 0.08, 1.95, 0.28, { size: 12, bold: true, color: WHITE, face: HF, valign: "middle" });
+  tag(s, RX17 + 0.50, y + 0.44, 1.72, 0.30, l[2], l[3], { size: 8.5 });
+  rich(s, l[4], RX17 + 2.45, y + 0.12, wr - 2.65, 0.70, { fontSize: 10, lineSpacingMultiple: 1.12 });
 });
 txt(s, "Dua teori dalam klasifikasi yang sama menghasilkan kesimpulan berbeda, dan pembedanya terletak pada unit analisis: tindakan tunggal atau kelas tindakan.",
   4.01, H - 0.66, 8.2, 0.30, { size: 8.5, italic: true, color: MUTE, valign: "middle" });
@@ -626,12 +625,12 @@ const aw = 4.20;
 ].forEach(function (l, i) {
   const col = i % 2, row = (i / 2) | 0;
   const x = M + col * (aw + 0.30), y = 1.88 + row * 2.50;
-  rect(s, x, y, aw, 2.30, (row + col) % 2 ? "F58CC4" : PANEL2);
+  rect(s, x, y, aw, 2.30, "F58CC4");
   tag(s, x + 0.24, y + 0.16, 0.34, 0.34, String(l[0]), l[3], { size: 13, cs: 0 });
   txt(s, l[1].toUpperCase(), x + 0.66, y + 0.16, aw - 0.90, 0.34, { size: 14, bold: true, color: NEAR, face: HF, cs: -0.3, valign: "middle" });
   txt(s, l[4], x + 0.24, y + 0.58, aw - 0.48, 0.38, { size: 10.5, bold: true, italic: true, color: BLUE, lh: 1.06 });
-  rich(s, l[5], x + 0.24, y + 1.02, aw - 0.48, 1.06, { fontSize: 10, color: "2B0812", lineSpacingMultiple: 1.12 });
-  sticker(s, x + aw - 2.30, y + 2.06, 2.10, 0.34, l[2], { border: l[3], color: l[3], lw: 1.75, size: 8, rotate: i % 2 ? 3 : -3 });
+  rich(s, l[5], x + 0.24, y + 1.00, aw - 0.48, 0.88, { fontSize: 10, color: "2B0812", lineSpacingMultiple: 1.12 });
+  tag(s, x + 0.24, y + 1.90, 2.05, 0.28, l[2], l[3], { size: 8 });
 });
 src(s, "Keempat teori ini menyoroti dimensi yang luput dari lima teori sebelumnya: pembanding, relasi, keterwakilan, dan pilihan istilah.");
 pageno(s, 18);
