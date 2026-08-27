@@ -1,40 +1,34 @@
-# Bab 2 — Framing Business Ethics (Studi Kasus PT Djarum)
+# Framing Business Ethics — Grup 1 (Bab 2 + Studi Kasus PT Djarum)
 
-Presentasi mata kuliah **Business Ethics for Business Sustainability**, Bab 2
-"Framing Business Ethics: Corporate Responsibility, Stakeholders, and Citizenship"
-dari Crane, Matten, Glozer & Spence (2019), *Business Ethics*, 5th ed. (Oxford
-University Press), hlm. 44–78 — diikuti implementasinya pada kasus riil PT Djarum.
+Deck final presentasi mata kuliah **Business Ethics for Business Sustainability**,
+Bab 2 "Framing Business Ethics" (Crane, Matten, Glozer & Spence, 2019, 5th ed.)
+dengan studi kasus PT Djarum. Berbasis desain milik kelompok, dipangkas dari
+36 menjadi **30 slide** untuk durasi presentasi 30 menit.
 
 ## Berkas
 
-- `Bab2-Framing-Business-Ethics-PT-Djarum.pptx` — deck final, 41 slide, 16:9.
-- `src/` — skrip pptxgenjs yang menghasilkan deck tersebut.
+- `Framing_Group_1.pptx` — deck final, 30 slide, 16:9.
 
-## Alur presentasi
+## Struktur (30 slide ≈ 30 menit)
 
-| Bagian | Slide | Isi |
+| Slide | Bagian | Saran waktu |
 |---|---|---|
-| Pembuka | 1–3 | Cover, alur presentasi, tujuan pembelajaran bab |
-| Bagian 1 — Landasan teori | 4–8 | Apa itu korporasi, keberatan Friedman, tanggung jawab moral korporasi |
-| Kerangka 1 — CSR | 9–17 | Business case, argumen moral, piramida Carroll, bolt-on vs built-in, konteks internasional, CSP, kritik CSR & CSV |
-| Kerangka 2 — Stakeholder | 18–22 | Definisi & dua prinsip Evan-Freeman, tiga model perusahaan, agency problem, tiga bentuk teori |
-| Kerangka 3 — Corporate Citizenship | 23–27 | Perusahaan sebagai aktor politik, tiga pandangan CC, hak Marshall, akuntabilitas & transparansi |
-| Bagian 2 — Studi kasus PT Djarum | 28–37 | Profil & paradoks, tiga lensa analisis, kronologi kasus KPAI 2019, sintesis |
-| Penutup | 38–41 | Kesimpulan, rekomendasi, referensi, sesi diskusi |
+| 1–2 | Cover + agenda (dengan pertanyaan pemandu tiap bagian) | 2' |
+| 3–5 | Bagian 1: Korporasi sebagai entitas hukum & moral | 3' |
+| 6–10 | Bagian 2: CSR — definisi & alasan, piramida Carroll, konteks internasional, bolt-on vs built-in + CSP | 7' |
+| 11–13 | Bagian 3: Stakeholder theory — definisi & prinsip, tiga model, klaim sah + peran manajemen | 4' |
+| 14–18 | Bagian 4: Corporate citizenship — pergeseran peran negara, tiga pandangan, hak Marshall, akuntabilitas & transparansi | 5' |
+| 19–27 | Bagian 5: Studi kasus PT Djarum — profil, tiga lensa analisis, kronologi 2019 | 7' |
+| 28–30 | Sintesis & kesimpulan, rekomendasi, penutup | 2' |
 
-Studi kasus dibedah dengan tiga lensa yang sama dengan bagian teori: CSR
-(apa tanggung jawabnya), stakeholder (kepada siapa), dan corporate citizenship
-(dengan kuasa apa).
+## Materi yang dipadatkan (tetap terbahas)
 
-## Yang perlu diisi sebelum presentasi
+Enam slide dilebur, bukan dibuang — ringkasannya dipindah ke slide tetangga dan
+detail lengkapnya disimpan sebagai **speaker notes**:
 
-Slide 1 memuat placeholder **"Nama Anggota Kelompok"** — ganti dengan nama
-anggota kelompok Anda.
-
-## Membangun ulang deck
-
-```bash
-cd src
-npm install
-npm run build
-```
+1. "Mengapa di-frame" → pertanyaan pemandu di slide agenda (2).
+2. Tiga argumen moral CSR → paragraf kanan slide 7 (+ notes).
+3. Corporate Social Performance → pita bawah slide 10 (+ notes).
+4. Definisi & dua prinsip stakeholder → subjudul slide 12 (+ notes berisi definisi historis).
+5. Peran baru manajemen & tiga bentuk teori → kartu kanan slide 13 (+ notes).
+6. Kesimpulan → pita bawah slide sintesis (28) (+ notes berisi lima poin lengkap).
