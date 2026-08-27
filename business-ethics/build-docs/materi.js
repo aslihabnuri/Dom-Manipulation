@@ -1,353 +1,368 @@
 const C = require("./common");
-const { P, H1, H2, H3, EYEBROW, SPACER, RULEP, BULLETS, NUMS, TABLE, thead, trow, NOTE,
+const { P, H1, H2, H3, SPACER, BULLETS, NUMS, TABLE, thead, trow, NOTE,
         buildDoc, TITLEBLOCK, AlignmentType, BLUE, INK, MUTE, PINK, GREEN, SANS, SERIF, CW } = C;
 
 const k = [];
 const b = function (t) { return { text: t, bold: true }; };
 const i = function (t) { return { text: t, italics: true }; };
 const t = function (x) { return { text: x }; };
+const HEAD = function (x) { return [P(x, { size: 19, bold: true, after: 0, line: 264, align: AlignmentType.LEFT, font: SANS })]; };
 
 k.push.apply(k, TITLEBLOCK(
   "MATERI BACAAN  |  MAN5522 BUSINESS ETHICS FOR SUSTAINABILITY",
   "Evaluating Business Ethics: Normative Ethical Theories",
-  "Ringkasan Bab 3 Crane dan Matten beserta penerapannya pada hilirisasi nikel Indonesia"));
+  "Bab 3 Crane dan Matten dalam bahasa sederhana, beserta penerapannya pada hilirisasi nikel Indonesia"));
 
 const idW = [1900, CW - 1900];
 k.push(TABLE(idW, [
   trow(["Mata kuliah", "Business Ethics for Sustainability (MAN5522), MBA Universitas Gadjah Mada"], idW),
   trow(["Rujukan utama", "Crane, A., Matten, D., Glozer, S., dan Spence, L. (2019). Business Ethics: Managing Corporate Citizenship and Sustainability in the Age of Globalization, edisi kelima, Bab 3"], idW),
   trow(["Penyusun", "Aslih Abnuri (25/574338/PEK/31801), Arfinal Diputra (25/574664/PEK/31914), Rohana Dwi Hardianti (25/574077/PEK/31728)"], idW),
-  trow(["Fungsi dokumen", "Bahan bacaan pendamping presentasi 21 slide, dapat dibaca terpisah dari decknya"], idW)
+  trow(["Fungsi dokumen", "Bahan bacaan pendamping presentasi 21 slide, ditulis supaya bisa dibaca sendiri tanpa decknya"], idW)
 ]));
 k.push(SPACER(180));
 
 k.push(NOTE("CARA MEMBACA DOKUMEN INI",
- "Bagian 1 sampai 3 membangun kerangka penilaian dan dapat dibaca sebagai ringkasan Bab 3. Bagian 4 sampai 7 menerapkan kerangka itu pada satu kebijakan yang masih berjalan. Pembaca yang sudah menguasai teorinya dapat langsung ke Bagian 4, tetapi nomor urut teori satu sampai sembilan dipakai konsisten di seluruh dokumen, sehingga matriks pada Bagian 6 tetap dapat dibaca dengan kembali ke Tabel 1."));
+ "Bagian 1 sampai 3 menjelaskan alat ujinya, yaitu sembilan teori etika. Bagian 4 sampai 7 memakai alat itu untuk membedah satu kebijakan nyata. Kalau Anda sudah paham teorinya, langsung saja ke Bagian 4. Nomor satu sampai sembilan dipakai konsisten di seluruh dokumen, jadi kalau lupa teori nomor berapa, tinggal balik ke Tabel 1."));
 k.push(SPACER(180));
 
 /* ================= RINGKASAN ================= */
 k.push(H1("Ringkasan"));
-k.push(P("Bab 3 Crane dan Matten menyediakan sembilan teori etika normatif dan menempatkannya dalam kerangka pluralis, yaitu pandangan bahwa nilai yang saling bertentangan dapat sama sahnya tanpa harus disamaratakan. Kesembilan teori itu dibagi ke dalam dua klasifikasi. Klasifikasi pertama berisi lima teori modernis Barat yang menilai tindakan, baik dari akibatnya maupun dari prinsip di baliknya. Klasifikasi kedua berisi empat teori alternatif yang menggeser objek penilaian ke karakter pelaku, relasi antarpihak, prosedur perumusan norma, dan bahasa yang dipakai untuk membenarkan."));
-k.push(P("Dokumen ini merangkum kesembilan teori tersebut, lalu mengujinya pada kebijakan hilirisasi nikel Indonesia yang dijalankan melalui Peraturan Menteri ESDM Nomor 11 Tahun 2019. Hasil pengujian menunjukkan enam teori menolak, satu memberi dukungan bersyarat, satu ambivalen, dan satu netral. Tidak satu pun memberikan dukungan tanpa syarat."));
-k.push(P("Kesimpulan yang ditarik bukan bahwa hilirisasi harus dihentikan, melainkan bahwa klaim etis atas kebijakan ini belum dapat dipertahankan pada empat titik: pilihan pembandingnya, sumber energinya, distribusi manfaat dan bebannya, serta prosedur perumusannya. Keempat titik itu dapat diperbaiki tanpa membatalkan kebijakannya."));
+k.push(P("Bab 3 buku Crane dan Matten memberi kita sembilan cara untuk menilai apakah sebuah keputusan bisnis itu benar atau salah. Kesembilan cara ini tidak saling meniadakan. Bukunya justru mengajak kita memakai semuanya, lalu melihat ke mana arah jawabannya bertemu."));
+k.push(P("Dokumen ini terbagi dua. Bagian awal menjelaskan kesembilan alat uji itu. Bagian akhir memakainya untuk membedah satu kebijakan yang masih berjalan sampai hari ini, yaitu larangan ekspor bijih nikel mentah yang berlaku di Indonesia sejak Januari 2020."));
+k.push(P("Hasil pengujiannya: enam teori menolak, satu setuju dengan syarat, satu terbelah, dan satu netral. Tidak ada satu pun yang setuju tanpa syarat. Tapi perlu digarisbawahi sejak awal: yang gugur itu klaim bahwa kebijakan ini sudah etis, bukan kebijakannya. Ada empat titik yang bermasalah, dan keempatnya masih bisa diperbaiki tanpa menghentikan kebijakannya."));
 
 /* ================= BAGIAN 1 ================= */
-k.push(H1("Bagian 1  Mengapa teori etika normatif diperlukan", { pageBreak: true }));
+k.push(H1("Bagian 1  Kenapa kita butuh teori etika", { pageBreak: true }));
 
-k.push(H2("1.1  Definisi dan tiga fungsi"));
-k.push(P([t("Crane dan Matten (2019: 87) mendefinisikan teori etika normatif sebagai "), b("aturan, pedoman, prinsip, dan pendekatan yang menentukan benar dan salah"), t(". Definisi ini perlu dibedakan dari etika deskriptif, yang hanya memerikan apa yang secara faktual dianggap benar oleh sekelompok orang. Pernyataan bahwa praktik di negara lain berbeda adalah pengamatan deskriptif. Pernyataan bahwa praktik itu salah adalah penilaian normatif. Teori normatif bekerja pada jenis pernyataan kedua.")]));
-k.push(P("Dalam ranah personal, intuisi biasanya memadai. Kita jarang memerlukan argumen filosofis untuk mengetahui bahwa berbohong pada teman itu keliru. Konteks bisnis berbeda karena penilaian etis di sana harus dapat dipertahankan di hadapan pemegang saham, regulator, pekerja, konsumen, dan masyarakat sekitar, yang masing-masing berangkat dari kepentingan berbeda. Pada titik itu intuisi saja tidak cukup, dan teori normatif menjalankan tiga fungsi."));
+k.push(H2("1.1  Apa itu teori etika normatif"));
+k.push(P([t("Crane dan Matten (2019: 87) merumuskannya begini: teori etika normatif adalah "), b("seperangkat aturan, pedoman, dan cara berpikir untuk menentukan mana yang benar dan mana yang salah"), t(".")]));
+k.push(P("Ada satu pembedaan yang perlu dipegang sejak awal. Kalau kita bilang di negara tertentu memberi amplop kepada pejabat adalah hal biasa, itu pengamatan. Kita cuma melaporkan apa yang terjadi. Tapi kalau kita bilang memberi amplop kepada pejabat itu salah, itu penilaian. Kita sedang menghakimi. Teori etika normatif bekerja di kalimat jenis kedua."));
+k.push(P("Kata normatif memang terdengar berat. Artinya sederhana saja: berisi norma, yaitu ukuran benar dan salah. Lawannya deskriptif, yang cuma memerikan kenyataan tanpa menilai."));
+
+k.push(H2("1.2  Buat apa repot pakai teori"));
+k.push(P("Untuk urusan pribadi, kita jarang perlu teori. Kita tahu membohongi teman itu tidak benar tanpa harus membuka buku filsafat. Perasaan kita sudah cukup."));
+k.push(P("Keputusan perusahaan berbeda. Keputusan itu harus bisa dijelaskan kepada banyak pihak yang kepentingannya bertabrakan: pemegang saham, pemerintah, pekerja, konsumen, sampai warga di sekitar pabrik. Di situ perasaan saja tidak cukup. Ada tiga hal yang bisa dikerjakan teori."));
 k.push.apply(k, NUMS([
- [b("Rasionalisasi intuisi moral. "), t("Teori tidak menggantikan intuisi melainkan merapikannya. Ia menjelaskan mengapa suatu keputusan terasa keliru dan menerjemahkan perasaan itu menjadi alasan yang dapat diperiksa orang lain.")],
- [b("Dasar diskusi rasional. "), t("Ketika dua pihak berangkat dari nilai yang berbeda, teori memungkinkan perbedaan itu diperdebatkan pada tataran argumen. Tanpa teori, perbedaan penilaian berhenti pada tataran preferensi dan tidak dapat diselesaikan.")],
- [b("Justifikasi keputusan bisnis. "), t("Keputusan perusahaan menuntut dasar rasional yang sistematis dan dapat dipertanggungjawabkan. Teori menyediakan struktur alasan itu, termasuk ketika keputusannya kemudian dipersoalkan di ruang publik.")]
+ [b("Teori merapikan perasaan menjadi alasan. "), t("Kita sering merasa sesuatu itu salah tapi susah menjelaskan kenapa. Teori membantu mengubah perasaan itu menjadi alasan yang bisa diperiksa orang lain. Jadi teori tidak menggantikan hati nurani, dia merapikannya.")],
+ [b("Teori membuat perdebatan jadi mungkin. "), t("Kalau dua orang berangkat dari nilai yang berbeda, tanpa teori ujungnya cuma selera lawan selera, dan itu buntu. Dengan teori, keduanya bisa beradu argumen di lapangan yang sama.")],
+ [b("Keputusan bisnis butuh pertanggungjawaban. "), t("Perusahaan harus bisa menunjukkan alasannya secara runtut, bukan cuma bilang menurut kami begitu. Apalagi kalau keputusannya nanti dipersoalkan publik.")]
 ]));
 
-k.push(H2("1.2  Absolutisme, relativisme, dan pluralisme"));
-k.push(P("Sebelum menerapkan teori apa pun, perlu ditetapkan lebih dahulu seberapa luas klaim keberlakuan yang diajukan teori tersebut. Bab 3 membedakan tiga posisi."));
+k.push(H2("1.3  Tiga sikap dasar sebelum memakai teori"));
+k.push(P("Sebelum memakai teori apa pun, kita perlu menentukan dulu sikap dasarnya: seberapa luas sebuah aturan moral berlaku? Ada tiga pilihan."));
 const posW = [2300, CW - 2300];
 k.push(TABLE(posW, [
-  thead(["Posisi", "Klaim pokok"], posW),
-  trow([[P("Absolutisme etis", { size: 19, bold: true, after: 0, line: 264, align: AlignmentType.LEFT, font: SANS })],
-        "Ada prinsip moral yang universal dan abadi. Benar dan salah adalah kualitas objektif yang ditentukan lewat nalar, terlepas dari keadaan. Hampir seluruh teori modernis Barat berada pada posisi ini."], posW),
-  trow([[P("Relativisme etis", { size: 19, bold: true, after: 0, line: 264, align: AlignmentType.LEFT, font: SANS })],
-        "Tidak ada benar dan salah yang berlaku universal. Penilaian moral bergantung pada tradisi, keyakinan, dan praktik pihak yang memutuskan."], posW),
-  trow([[P("Pluralisme etis", { size: 19, bold: true, after: 0, line: 264, align: AlignmentType.LEFT, font: SANS })],
-        "Nilai yang bertentangan dapat sama sahnya. Pluralisme tidak menyamaratakan seluruh perspektif, tetapi juga tidak mengunggulkan satu di atas yang lain. Inilah posisi yang diambil Crane dan Matten."], posW)
+  thead(["Sikap", "Isinya"], posW),
+  trow([HEAD("Absolutisme"), "Ada aturan moral yang berlaku untuk semua orang, di mana pun dan kapan pun. Benar ya benar, salah ya salah, tidak tergantung situasi. Hampir semua teori modernis Barat berdiri di sini."], posW),
+  trow([HEAD("Relativisme"), "Tidak ada benar salah yang berlaku universal. Semua tergantung budaya, kebiasaan, dan keyakinan masing-masing tempat."], posW),
+  trow([HEAD("Pluralisme"), "Nilai yang bertentangan bisa sama-sama masuk akal. Kita tidak bilang semua pendapat benar, tapi kita juga tidak memaksakan satu pendapat sebagai satu-satunya kebenaran. Inilah sikap yang dipilih Crane dan Matten."], posW)
 ]));
 k.push(SPACER(140));
-k.push(P("Perbedaan ketiganya paling mudah dilihat pada kasus suap. Absolutis menyatakan suap selalu salah di mana pun. Relativis menyatakan penilaiannya bergantung pada negara dan praktik setempat. Pluralis mengajukan pertanyaan yang berbeda, yaitu kriteria mana yang paling kuat menanggung beban argumen dalam situasi tersebut. Posisi pluralis inilah yang membuat pendekatan sembilan teori masuk akal. Tujuannya bukan mencari satu teori yang paling benar, melainkan melihat ke arah mana penilaian dari premis yang berbeda itu bertemu."));
-k.push(P("Perlu dicatat bahwa relativisme sering dipakai untuk menolak kritik lintas negara dengan alasan perbedaan budaya. Sen (2000) menunjukkan bahwa nilai seperti keselamatan kerja dan keikutsertaan warga dalam keputusan yang memengaruhi hidupnya tidak eksklusif milik satu tradisi budaya, sehingga argumen perbedaan budaya tidak dengan sendirinya membatalkan penilaian."));
+k.push(P("Bedanya paling gampang dilihat lewat contoh suap. Orang absolutis bilang suap selalu salah di mana pun. Orang relativis bilang tergantung negaranya. Orang pluralis bertanya hal yang berbeda: dari semua alasan yang ada, mana yang paling kuat kalau diadu?"));
+k.push(P("Sikap pluralis inilah yang membuat pendekatan sembilan teori masuk akal. Tujuannya bukan mencari satu teori paling benar, tapi melihat apakah sembilan sudut pandang yang berbeda ternyata menunjuk ke arah yang sama. Kalau iya, kesimpulannya jadi jauh lebih kuat."));
+k.push(P("Satu catatan tentang relativisme. Argumen ini sering dipakai untuk menolak kritik dari luar dengan alasan budaya kita berbeda. Amartya Sen (2000) menunjukkan bahwa nilai seperti keselamatan kerja dan hak untuk ikut menentukan nasib sendiri itu bukan monopoli budaya mana pun. Jadi alasan perbedaan budaya tidak otomatis membatalkan kritik."));
 
-k.push(H2("1.3  Klasifikasi sembilan teori"));
-k.push(P("Bab 3 membagi sembilan teori ke dalam dua klasifikasi. Klasifikasi pertama berakar pada Pencerahan abad kedelapan belas, bersifat absolutis, dan menawarkan aturan yang dapat diterapkan pada situasi apa pun. Klasifikasi kedua cenderung relativis dan lahir dari keberatan atas klasifikasi pertama."));
+k.push(H2("1.4  Peta sembilan teori"));
+k.push(P("Sembilan teori di Bab 3 terbagi dua kelompok. Kelompok pertama lahir dari zaman Pencerahan di Eropa abad ke-18. Sifatnya seperti rumus: sekali dipegang, bisa dipakai di situasi apa pun. Kelompok kedua lahir belakangan, justru karena banyak orang tidak puas dengan kelompok pertama."));
 const klW = [560, 2350, 2200, CW - 560 - 2350 - 2200];
 k.push(P("Tabel 1  Sembilan teori etika normatif", { size: 18, bold: true, color: MUTE, font: SANS, after: 80, align: AlignmentType.LEFT }));
 k.push(TABLE(klW, [
-  thead(["No", "Teori", "Klasifikasi", "Objek penilaian"], klW),
-  trow(["1", "Egoism", "Modernis, konsekuensialis", "Akibat bagi kepentingan pelaku sendiri"], klW),
-  trow(["2", "Utilitarianism", "Modernis, konsekuensialis", "Akibat bagi seluruh pihak terdampak"], klW),
-  trow(["3", "Ethics of duty", "Modernis, berbasis prinsip", "Maksim dan motivasi di balik tindakan"], klW),
-  trow(["4", "Ethics of rights", "Modernis, berbasis prinsip", "Hak yang terpenuhi dan hak yang terlanggar"], klW),
-  trow(["5", "Justice", "Modernis, berbasis prinsip", "Susunan pembagian manfaat dan beban"], klW),
-  trow(["6", "Virtue ethics", "Alternatif", "Karakter pelaku"], klW),
-  trow(["7", "Ethic of care", "Alternatif", "Relasi dan tanggung jawab pada pihak tertentu"], klW),
-  trow(["8", "Discourse ethics", "Alternatif", "Prosedur perumusan norma"], klW),
-  trow(["9", "Postmodern ethics", "Alternatif", "Bahasa dan dorongan moral"], klW)
+  thead(["No", "Teori", "Kelompok", "Yang dinilai"], klW),
+  trow(["1", "Egoism", "Modernis, menilai hasil", "Untung rugi bagi pelakunya sendiri"], klW),
+  trow(["2", "Utilitarianism", "Modernis, menilai hasil", "Untung rugi bagi semua yang kena dampak"], klW),
+  trow(["3", "Ethics of duty", "Modernis, menilai prinsip", "Aturan dan niat di balik tindakan"], klW),
+  trow(["4", "Ethics of rights", "Modernis, menilai prinsip", "Hak siapa terpenuhi, hak siapa dilanggar"], klW),
+  trow(["5", "Justice", "Modernis, menilai prinsip", "Adil tidaknya pembagian untung dan beban"], klW),
+  trow(["6", "Virtue ethics", "Alternatif", "Karakter orang yang melakukannya"], klW),
+  trow(["7", "Ethic of care", "Alternatif", "Hubungan dengan pihak yang terdampak"], klW),
+  trow(["8", "Discourse ethics", "Alternatif", "Proses saat aturannya dibuat"], klW),
+  trow(["9", "Postmodern ethics", "Alternatif", "Bahasa dan istilah yang dipakai"], klW)
 ]));
 k.push(SPACER(140));
-k.push(P("Kesembilan teori ini bersifat normatif karena masing-masing berangkat dari asumsi tentang hakikat dunia dan hakikat manusia. Menerima kesimpulan sebuah teori berarti menerima lebih dahulu asumsi yang mendasarinya. Kesadaran ini penting ketika penilaian dua teori berbeda, sebab yang sebenarnya berbeda kerap bukan faktanya, melainkan asumsi tentang siapa yang perlu diperhitungkan dan apa yang dianggap sebagai kebaikan."));
+k.push(P("Satu hal yang perlu disadari: setiap teori ini berangkat dari asumsi tertentu tentang manusia dan dunia. Kalau kita menerima asumsinya, kita akan menerima kesimpulannya. Karena itu, ketika dua teori memberi jawaban berbeda, yang sebenarnya berbeda sering kali bukan faktanya, melainkan asumsi tentang siapa yang perlu diperhitungkan dan apa yang dianggap baik."));
 
 /* ================= BAGIAN 2 ================= */
 k.push(H1("Bagian 2  Lima teori modernis Barat"));
 
-k.push(H2("2.1  Ethical egoism"));
-k.push(P([b("Definisi. "), t("Sebuah tindakan benar secara moral jika dalam situasi tersebut semua pengambil keputusan secara bebas memilih mengejar keinginan jangka pendek atau kepentingan jangka panjangnya. Teori ini yang tertua sekaligus paling diperdebatkan, sampai sebagian penulis menolak mengategorikannya sebagai teori moral.")]));
-k.push(P([b("Tokoh. "), t("Thomas Hobbes dalam Leviathan, yang menggambarkan keadaan alamiah sebagai perang semua melawan semua sehingga kerja sama lahir dari kepentingan diri, dan Ayn Rand dalam The Virtue of Selfishness.")]));
-k.push(P([b("Pembedaan yang sering tertukar. "), t("Egoisme bukan keserakahan. Pelaku egois masih dapat tergerak oleh rasa iba dan tetap memperhitungkan kepentingan pihak lain sejauh itu berpengaruh pada dirinya. Pelaku serakah tidak peka pada kepentingan pihak lain sama sekali. Versi yang paling relevan bagi bisnis adalah enlightened egoism, yaitu pandangan bahwa perusahaan menyokong lingkungan sosial dan ekologisnya justru karena hal itu menguntungkan dirinya sendiri dalam jangka panjang.")]));
-k.push(P([b("Keterbatasan. "), t("Teori ini hanya bekerja bila pasar mencegah satu pelaku merugikan pelaku lain. Ia gugur pada kegagalan pasar, dan gugur lebih tegas lagi pada isu keberlanjutan, sebab korban penipisan sumber daya adalah generasi mendatang yang belum dapat ikut bertransaksi maupun menuntut.")]));
+k.push(H2("2.1  Egoism, teori kepentingan diri"));
+k.push(P([b("Aturannya. "), t("Sebuah tindakan itu benar kalau semua orang bebas mengejar kepentingannya sendiri, baik yang jangka pendek maupun jangka panjang.")]));
+k.push(P([b("Yang sering keliru. "), t("Egois itu bukan serakah. Orang egois masih bisa peduli pada orang lain, terutama kalau kepedulian itu ada gunanya buat dia. Orang serakah sudah tidak peduli sama sekali. Bedanya di situ.")]));
+k.push(P([b("Tokohnya. "), t("Thomas Hobbes lewat bukunya Leviathan, yang menggambarkan manusia tanpa aturan sebagai perang semua melawan semua, dan Ayn Rand lewat The Virtue of Selfishness.")]));
+k.push(P([b("Versi yang paling berguna untuk bisnis"), t(" disebut "), i("enlightened egoism"), t(", atau egoisme yang cerdas. Intinya: perusahaan menjaga lingkungan dan masyarakat sekitarnya justru karena itu menguntungkan dirinya sendiri dalam jangka panjang. Pabrik yang mencemari sungai akhirnya kena biaya juga, entah lewat protes warga, denda, atau reputasi yang rusak.")]));
+k.push(P([b("Kelemahannya. "), t("Teori ini cuma jalan kalau pasar berfungsi baik, artinya tidak ada pihak yang bisa seenaknya merugikan pihak lain tanpa konsekuensi. Begitu bicara lingkungan, teori ini macet. Kenapa? Karena yang menanggung kerusakan lingkungan adalah anak cucu kita, dan mereka belum lahir. Mereka tidak bisa ikut menawar hari ini.")]));
 
-k.push(H2("2.2  Utilitarianism"));
-k.push(P([b("Definisi. "), t("Sebuah tindakan benar secara moral jika menghasilkan kebaikan terbesar bagi jumlah orang terbesar yang terkena dampaknya. Perumusnya Jeremy Bentham dan John Stuart Mill. Teori ini paling lazim diterapkan dalam bisnis karena kompatibel dengan metodologi kuantitatif ekonomi, termasuk analisis biaya manfaat.")]));
-k.push(P([b("Empat ciri pokok. "), t("Consequentialism, yang dinilai akibatnya. Hedonism, kebaikan diukur sebagai pleasure dikurangi pain. Maximalism, yang dicari akibat bersih terbesar. Universalism, akibat bagi semua pihak wajib ikut dihitung, bukan hanya akibat bagi pelaku.")]));
-k.push(P([b("Act dan rule. "), t("Pembedaan ini yang paling menentukan dalam praktik. "), i("Act utilitarianism"), t(" menilai satu tindakan tunggal berdasarkan akibat tindakan itu sendiri. "), i("Rule utilitarianism"), t(" menilai kelas tindakan dan prinsip di baliknya, dengan pertanyaan seperti apa akibatnya bila tindakan semacam ini menjadi aturan umum. Keduanya sama-sama utilitarianism, namun keduanya dapat menghasilkan kesimpulan yang berlawanan atas rangkaian fakta yang identik. Pembedanya terletak pada unit analisis, bukan pada datanya.")]));
-k.push(P([b("Empat keberatan. "), t("Subjektivitas dalam menilai utilitas, pembobotan yang menyamakan seluruh orang tanpa memandang posisi, kesulitan mengkuantifikasi akibat yang tidak berbentuk uang, serta distribusi utilitas yang dapat mengabaikan minoritas dan generasi mendatang. Keberatan terakhir yang paling sering muncul dalam kasus kebijakan industri, sebab angka agregat yang positif dapat menyembunyikan kerugian berat pada kelompok kecil.")]));
+k.push(H2("2.2  Utilitarianism, teori manfaat terbesar"));
+k.push(P([b("Aturannya. "), t("Sebuah tindakan itu benar kalau menghasilkan manfaat terbesar untuk orang sebanyak-banyaknya. Perumusnya Jeremy Bentham dan John Stuart Mill.")]));
+k.push(P([b("Kenapa populer di bisnis. "), t("Karena cara kerjanya mirip hitung-hitungan untung rugi yang sudah biasa dipakai perusahaan. Jumlahkan semua manfaat, kurangi semua kerugian, lihat sisanya positif atau negatif.")]));
+k.push(P([b("Empat ciri pokoknya. "), t("Pertama, yang dinilai akibatnya, bukan niatnya. Kedua, kebaikan diukur dari senang dikurangi susah. Ketiga, yang dicari hasil bersih terbesar. Keempat, semua orang yang kena dampak wajib ikut dihitung, bukan cuma diri kita atau perusahaan kita.")]));
+k.push(P([b("Bagian terpenting: bedanya "), i("act"), b(" dan "), i("rule"), b(". "), i("Act utilitarianism"), t(" menilai satu kejadian saja: kali ini, manfaatnya lebih besar atau tidak? "), i("Rule utilitarianism"), t(" bertanya lebih jauh: kalau tindakan seperti ini dijadikan aturan umum dan semua orang melakukannya, dunia jadi lebih baik atau lebih buruk?")]));
+k.push(P("Keduanya sama-sama utilitarianism dan memakai data yang sama, tapi jawabannya bisa bertolak belakang. Bedanya cuma satu: yang dinilai satu kejadian, atau satu kelas tindakan. Simpan baik-baik pembedaan ini, karena persis inilah yang terjadi pada kasus nikel nanti."));
+k.push(P([b("Kelemahannya ada empat. "), t("Manfaat itu susah diukur dan sering subjektif. Semua orang dihitung sama rata, padahal posisinya tidak sama. Banyak akibat yang tidak berbentuk uang jadi susah dimasukkan hitungan. Dan yang paling serius: angka total yang bagus bisa menyembunyikan penderitaan kelompok kecil. Kalau seratus orang untung dan sepuluh orang menderita berat, hitungannya tetap positif, padahal ada yang tidak beres.")]));
 
-k.push(H2("2.3  Ethics of duty"));
-k.push(P([b("Definisi. "), t("Kewajiban yang abstrak dan tidak berubah, dirumuskan lewat aturan moral a priori yang dideduksi secara rasional dan berlaku pada semua persoalan etis. Yang dinilai bukan akibat, melainkan prinsip di balik tindakan dan motivasi pelakunya. Perumusnya Immanuel Kant.")]));
-k.push(P([b("Formulasi pertama, universal acceptability. "), t("Terima sebuah hukum moral hanya bila semua makhluk berakal budi juga dapat menerimanya. Contoh Kant sendiri adalah mengingkari utang. Bila semua orang boleh mengingkari utang, lembaga utang piutang kehilangan dasarnya, sehingga maksim itu membatalkan dirinya sendiri ketika diuniversalkan.")]));
-k.push(P([b("Formulasi kedua, respect for persons. "), t("Perlakukan manusia sebagai tujuan, jangan pernah sekadar sebagai sarana. Formulasi inilah yang menjadi dasar etis stakeholder theory, sebab ia menuntut setiap pihak yang terdampak diperlakukan sebagai pihak yang kepentingannya berdiri sendiri, bukan sebagai variabel dalam perhitungan pihak lain.")]));
-k.push(P([b("Cara pakai. "), t("Rumuskan maksim tindakannya dalam satu kalimat, lalu universalkan. Bila maksim itu membatalkan dirinya sendiri, atau bila menjalankannya mengharuskan sebagian pihak diperlakukan sekadar sebagai sarana, tindakan tersebut gagal uji.")]));
-k.push(P([b("Tiga keberatan. "), t("Kriteria motivasinya terlalu sempit karena hanya tindakan yang dilakukan demi kewajiban yang dinilai bermoral, akibat diabaikan sepenuhnya sehingga hasil yang buruk tidak mengubah penilaian, dan asumsi rasionalitas penuh pada setiap pelaku bersifat idealistis.")]));
+k.push(H2("2.3  Ethics of duty, teori kewajiban dari Kant"));
+k.push(P([b("Aturannya. "), t("Immanuel Kant membalik cara pandang dua teori sebelumnya. Baginya hasil itu tidak penting. Yang penting prinsip dan niat di balik tindakan. Perbuatan baik yang dilakukan demi pamrih, bagi Kant, tidak bernilai moral.")]));
+k.push(P([b("Uji pertama: bisakah aturan ini berlaku untuk semua orang? "), t("Contoh dari Kant sendiri: ingkar janji. Coba bayangkan semua orang boleh ingkar janji kapan saja. Kalau begitu tidak ada lagi yang percaya pada janji, dan janji jadi tidak ada artinya. Aturannya menghancurkan dirinya sendiri. Berarti ingkar janji itu salah.")]));
+k.push(P([b("Uji kedua: apakah manusia diperlakukan sebagai manusia? "), t("Kata Kant, orang tidak boleh dipakai sekadar sebagai alat untuk mencapai tujuan kita. Dari sinilah lahir gagasan bahwa perusahaan wajib peduli pada semua pihak yang terdampak, bukan cuma pada pemilik modal.")]));
+k.push(P([b("Cara pakainya singkat. "), t("Tulis aturan tindakannya dalam satu kalimat, lalu bayangkan semua orang melakukannya. Kalau jadi kacau atau membatalkan dirinya sendiri, berarti salah.")]));
+k.push(P([b("Kelemahannya. "), t("Hasil sama sekali tidak dihitung, padahal dalam praktik hasil itu penting. Kriteria niatnya terlalu sempit. Dan Kant menganggap semua orang selalu berpikir jernih dan rasional, yang jelas tidak sesuai kenyataan.")]));
 
-k.push(H2("2.4  Ethics of rights"));
-k.push(P([b("Definisi. "), t("Hak dasar yang melekat, tidak dapat dicabut, dan tidak bersyarat, yang dimiliki setiap manusia tanpa kecuali. John Locke merumuskan natural rights atas hidup, kebebasan, dan milik. Pendekatan ini yang paling banyak dipakai secara praktis karena sudah melembaga dalam instrumen internasional, mulai dari Universal Declaration of Human Rights (1948).")]));
-k.push(P([b("Korelasi hak dan kewajiban. "), t("Hak seseorang selalu menimbulkan kewajiban pada pihak lain. Hak atas air bersih berarti ada pihak yang berkewajiban tidak mencemari. Konsekuensi ini yang membuat bahasa hak dapat langsung diterjemahkan menjadi kewajiban korporasi, tanpa perlu menunggu kesepakatan moral yang lebih dalam.")]));
-k.push(P([b("UN Guiding Principles 2011. "), t("Kerangka yang berlaku dalam praktik bisnis membagi tanggung jawab menjadi tiga. Negara melindungi, bisnis menghormati, dan peradilan menyediakan pemulihan bagi korban. Yang menentukan adalah cakupannya. Perusahaan wajib meredakan dampak buruk yang terkait lewat relasi bisnisnya, sekalipun perusahaan itu tidak ikut menyebabkannya. Pemasok, kontraktor, dan mitra kawasan termasuk di dalamnya.")]));
-k.push(P([b("Keterbatasan. "), t("Daftar hak dapat saling bertentangan, misalnya hak atas pekerjaan berhadapan dengan hak atas lingkungan yang sehat, dan teori ini tidak menyediakan aturan pemeringkatan ketika pertentangan itu terjadi.")]));
+k.push(H2("2.4  Ethics of rights, teori hak asasi"));
+k.push(P([b("Aturannya. "), t("Setiap manusia lahir membawa hak dasar yang tidak bisa dicabut siapa pun. John Locke merumuskan tiga yang paling pokok: hak hidup, hak atas kebebasan, dan hak atas milik.")]));
+k.push(P([b("Kenapa paling sering dipakai. "), t("Karena teori ini sudah jadi aturan resmi di mana-mana, mulai dari Deklarasi Universal Hak Asasi Manusia tahun 1948. Jadi tidak perlu berdebat filsafat dulu, tinggal merujuk dokumen yang sudah disepakati banyak negara.")]));
+k.push(P([b("Yang sering dilupakan. "), t("Setiap hak selalu menciptakan kewajiban di pihak lain. Kalau warga punya hak atas air bersih, berarti ada pihak yang wajib tidak mencemari sungainya. Inilah yang membuat bahasa hak gampang diterjemahkan jadi kewajiban perusahaan.")]));
+k.push(P([b("Aturan main untuk bisnis. "), t("Rujukannya pedoman PBB tahun 2011 yang dikenal sebagai UNGP. Pembagiannya jelas: negara melindungi, perusahaan menghormati, dan korban harus punya jalan untuk menuntut pemulihan.")]));
+k.push(P([b("Satu poin yang menentukan. "), t("Tanggung jawab perusahaan ikut mengalir lewat rantai bisnisnya. Perusahaan tetap wajib peduli pada masalah yang terjadi di pemasoknya, walaupun bukan dia yang menyebabkan. Poin inilah yang menghubungkan pembeli mobil listrik di Eropa dengan kondisi kerja di Halmahera.")]));
+k.push(P([b("Kelemahannya. "), t("Daftar hak bisa saling bertabrakan. Hak atas pekerjaan bisa berbenturan dengan hak atas lingkungan sehat, dan teori ini tidak memberi tahu kita mana yang harus didahulukan.")]));
 
-k.push(H2("2.5  Justice dan teori kontrak sosial"));
-k.push(P([b("Definisi. "), t("Perlakuan yang adil terhadap setiap orang dalam satu situasi, sehingga semua pihak memperoleh apa yang memang menjadi haknya. Pertanyaannya bergeser dari benar atau salah menjadi susunan seperti apa yang layak disepakati bersama.")]));
-k.push(P([b("Dua dimensi. "), i("Keadilan prosedural"), t(" menilai siapa yang berhak turut memutuskan dan apakah prosesnya terbuka bagi pihak yang akan terkena akibatnya. "), i("Keadilan distributif"), t(" menilai ke mana manfaat mengalir dan siapa yang menanggung bebannya. Sebuah kebijakan dapat lolos pada satu dimensi dan gugur pada dimensi lain.")]));
-k.push(P([b("Dua prinsip John Rawls. "), t("Pertama, kebebasan dasar yang setara bagi semua. Kedua, ketimpangan hanya dibenarkan bila susunan itu paling menguntungkan pihak yang paling tidak diuntungkan. Alat ujinya adalah veil of ignorance, yaitu memilih susunan tanpa mengetahui posisi yang akan ditempati sendiri. Bila seseorang tidak tahu akan lahir sebagai pemegang saham atau sebagai warga di hilir sungai, susunan mana yang akan dipilihnya?")]));
-k.push(P([b("Kontrak sosial. "), t("Dari Hobbes, Locke, dan Rousseau. Versi bisnisnya adalah Integrative Social Contracts Theory dari Donaldson dan Dunfee, yang memadukan hypernorms, yaitu prinsip yang berlaku lintas komunitas, dengan kontrak mikro yang berlaku pada komunitas tertentu. Kerangka ini berguna ketika standar global dan praktik lokal berbenturan.")]));
+k.push(H2("2.5  Justice, teori keadilan"));
+k.push(P([b("Pertanyaannya bergeser. "), t("Bukan lagi tindakan ini benar atau salah, melainkan pembagiannya adil atau tidak.")]));
+k.push(P([b("Dua macam keadilan. "), t("Pertama soal proses: siapa yang boleh ikut memutuskan? Kedua soal pembagian: untungnya mengalir ke mana, ruginya ditanggung siapa? Sebuah kebijakan bisa lolos di satu sisi dan gagal di sisi lain.")]));
+k.push(P([b("Alat uji John Rawls. "), t("Rawls memberi satu alat yang sangat mudah dipakai, namanya "), i("veil of ignorance"), t(" atau selubung ketidaktahuan. Begini caranya. Bayangkan Anda harus memilih aturan main untuk sebuah masyarakat, tapi Anda belum tahu akan lahir jadi siapa di dalamnya. Bisa jadi pemilik pabrik, bisa jadi buruh, bisa jadi warga di pinggir sungai yang tercemar. Aturan yang Anda pilih dalam kondisi buta seperti itu, itulah yang adil. Sebab kalau kita tahu posisi kita, kita cenderung memilih aturan yang menguntungkan diri sendiri.")]));
+k.push(P([b("Dua prinsip Rawls. "), t("Pertama, kebebasan dasar harus sama untuk semua. Kedua, ketimpangan boleh ada, asalkan susunan itu paling menguntungkan orang yang paling lemah posisinya.")]));
+k.push(P([b("Turunannya. "), t("Teori kontrak sosial dari Hobbes, Locke, dan Rousseau. Versi bisnisnya bernama "), i("Integrative Social Contracts Theory"), t(" dari Donaldson dan Dunfee, yang menggabungkan prinsip universal dengan kesepakatan lokal tiap komunitas. Berguna kalau standar global dan kebiasaan setempat berbenturan.")]));
 
-k.push(H2("2.6  Enam keterbatasan teori modernis"));
-k.push(P("Kelima teori di atas memiliki enam keberatan yang tercatat dalam Bab 3. Keberatan inilah yang melahirkan empat teori alternatif."));
+k.push(H2("2.6  Enam kelemahan kelompok pertama"));
+k.push(P("Kelima teori tadi kuat, tapi bukunya sendiri mencatat enam kelemahan. Dari kelemahan inilah lahir empat teori alternatif di bagian berikutnya."));
 k.push.apply(k, NUMS([
- [b("Abstraksi berlebih. "), t("Prinsipnya beroperasi pada tataran yang jauh dari persoalan konkret yang dihadapi manajer sehari-hari.")],
- [b("Reduksionisme. "), t("Setiap teori menonjolkan satu dimensi moralitas, misalnya akibat atau kewajiban, lalu memperlakukannya sebagai keseluruhan moralitas.")],
- [b("Objektivisme elitis. "), t("Kebenaran moral ditentukan melalui deduksi ahli, bukan melalui pengalaman pihak yang benar-benar terlibat dan terkena akibatnya.")],
- [b("Impersonalitas. "), t("Ikatan personal dan tanggung jawab pada pihak tertentu justru diposisikan sebagai pengganggu penilaian yang seharusnya netral.")],
- [b("Rasionalisme terkodifikasi. "), t("Peran perasaan, empati, dan dorongan moral diabaikan dalam perumusan penilaian etis.")],
- [b("Imperialisme kultural. "), t("Pengalaman dan tradisi intelektual Barat diposisikan sebagai ukuran yang berlaku universal bagi seluruh masyarakat.")]
+ [b("Terlalu melayang. "), t("Prinsipnya bekerja di tataran yang jauh dari masalah nyata sehari-hari seorang manajer.")],
+ [b("Terlalu menyederhanakan. "), t("Tiap teori cuma melihat satu sisi moralitas, tapi merasa sudah melihat seluruhnya.")],
+ [b("Terlalu elitis. "), t("Kebenaran ditentukan lewat pemikiran para ahli, bukan lewat pengalaman orang yang benar-benar mengalaminya.")],
+ [b("Terlalu dingin. "), t("Hubungan pribadi dan rasa dekat dengan pihak tertentu malah dianggap mengganggu penilaian yang seharusnya netral.")],
+ [b("Terlalu mendewakan logika. "), t("Peran empati, perasaan, dan dorongan hati dibuang dari perhitungan.")],
+ [b("Terlalu Barat. "), t("Pengalaman dan cara berpikir Eropa dianggap berlaku untuk seluruh dunia.")]
 ]));
 k.push(SPACER(60));
 k.push(NOTE("CATATAN",
- "Teori alternatif tidak menggantikan teori modernis. Ia menambahkan dimensi penilaian yang belum tercakup, yaitu karakter pelaku, relasi antarpihak, prosedur perumusan norma, dan pilihan istilah. Karena itu keduanya dipakai bersama pada Bagian 5, bukan dipertentangkan."));
+ "Teori alternatif bukan pengganti teori modernis. Dia menambah hal yang belum tercakup, yaitu karakter pelakunya, hubungan antarpihak, proses pembuatan aturan, dan pilihan kata. Karena itu di Bagian 5 nanti keduanya dipakai bersama, bukan dipertentangkan."));
 
 /* ================= BAGIAN 3 ================= */
 k.push(H1("Bagian 3  Empat teori alternatif"));
 
-k.push(H2("3.1  Virtue ethics"));
-k.push(P([b("Pertanyaan pokok. "), t("Pelaku seperti apa yang layak disebut baik pada posisi ini? Objek penilaian bergeser dari tindakan ke karakter pelaku.")]));
-k.push(P([b("Tokoh. "), t("Aristoteles dalam Nicomachean Ethics, Alasdair MacIntyre dalam After Virtue, dan Robert Solomon dalam Ethics and Excellence.")]));
-k.push(P([b("Gagasan inti. "), t("Moralitas lahir dari karakter yang dibentuk lewat pembiasaan, bukan dari kepatuhan pada aturan. Tujuan akhirnya eudaimonia, yaitu hidup yang baik dan berkembang penuh. Dalam bisnis, perusahaan dipandang sebagai komunitas praktik dengan keutamaan berupa kejujuran, keadilan, kepercayaan, dan ketangguhan.")]));
-k.push(P([b("Yang sering disalahpahami. "), t("Virtue ethics kerap dibaca sebagai imbauan moral belaka. Sebenarnya ia mengajukan satu pertanyaan yang tajam dan sangat operasional, yaitu dibandingkan dengan apa kita menyebut sesuatu sudah cukup baik. Pilihan pembanding inilah yang menjadi objek kritiknya.")]));
-k.push(P([b("Keterbatasan. "), t("Keutamaan selalu ditentukan oleh komunitas tertentu, sehingga sulit dijadikan ukuran lintas budaya dan lintas industri.")]));
+k.push(H2("3.1  Virtue ethics, teori keutamaan"));
+k.push(P([b("Pertanyaannya. "), t("Bukan tindakan mana yang benar, tapi orang seperti apa yang pantas disebut baik di posisi ini?")]));
+k.push(P([b("Akarnya. "), t("Aristoteles lewat Nicomachean Ethics, lalu diteruskan Alasdair MacIntyre dan Robert Solomon.")]));
+k.push(P([b("Gagasan intinya. "), t("Karakter yang baik itu dibentuk dari kebiasaan, bukan dari hafalan aturan. Orang jujur bukan karena membaca peraturan tentang kejujuran, tapi karena terbiasa jujur sejak kecil. Tujuan akhirnya disebut "), i("eudaimonia"), t(", yaitu hidup yang baik dan berkembang penuh. Dalam bisnis, perusahaan dilihat sebagai komunitas yang punya keutamaan bersama: jujur, adil, bisa dipercaya, dan tangguh.")]));
+k.push(P([b("Yang sering disalahpahami. "), t("Teori ini dikira cuma nasihat moral. Padahal dia punya satu pertanyaan yang sangat tajam dan sangat praktis: kalau kita bilang sesuatu sudah cukup baik, cukup baik dibanding apa? Pilihan pembanding itulah yang jadi sasaran kritiknya.")]));
+k.push(P([b("Kelemahannya. "), t("Baik itu selalu menurut ukuran komunitas tertentu, jadi susah dipakai sebagai patokan lintas budaya dan lintas industri.")]));
 
-k.push(H2("3.2  Ethic of care"));
-k.push(P([b("Pertanyaan pokok. "), t("Solusi mana yang memelihara relasi dengan pihak terdampak, bukan sekadar mengganti kerugiannya?")]));
-k.push(P([b("Tokoh. "), t("Carol Gilligan dalam In a Different Voice dan Nel Noddings dalam Caring. Berakar pada etika feminis.")]));
-k.push(P([b("Gagasan inti. "), t("Manusia dipandang sebagai makhluk yang saling bergantung dan terjalin dalam relasi, bukan sebagai individu rasional yang terpisah. Yang dituntut adalah empati, keselarasan, menghindari kerugian, dan tanggung jawab konkret pada orang tertentu, bukan penerapan aturan yang seragam pada semua orang.")]));
-k.push(P([b("Implikasi praktis. "), t("Teori ini jarang menuntut penghentian sebuah kegiatan. Yang dituntutnya pemulihan relasi yang rusak, dan itu membuatnya sering menghasilkan rekomendasi yang berbeda dari teori keadilan sekalipun berangkat dari keprihatinan yang sama.")]));
-k.push(P([b("Keterbatasan. "), t("Prioritas pada pihak terdekat berisiko mengabaikan pihak yang jauh, dan kriteria kepedulian sulit diaudit secara seragam.")]));
+k.push(H2("3.2  Ethic of care, teori kepedulian"));
+k.push(P([b("Pertanyaannya. "), t("Solusi mana yang menjaga hubungan dengan pihak yang terdampak, bukan sekadar mengganti kerugiannya dengan uang?")]));
+k.push(P([b("Tokohnya. "), t("Carol Gilligan lewat In a Different Voice dan Nel Noddings lewat Caring. Akarnya dari etika feminis.")]));
+k.push(P([b("Gagasan intinya. "), t("Manusia itu tidak hidup sendiri-sendiri. Kita saling terhubung dan saling bergantung. Karena itu yang dinilai bukan kepatuhan pada aturan seragam, tapi bagaimana kita menjaga hubungan dengan orang tertentu secara nyata: empati, tidak merugikan, dan tanggung jawab yang konkret.")]));
+k.push(P([b("Yang khas dari teori ini. "), t("Dia jarang menuntut sebuah kegiatan dihentikan. Yang dituntutnya hubungan yang rusak itu dipulihkan. Karena itu rekomendasinya sering berbeda dari teori keadilan, walaupun keprihatinannya sama.")]));
+k.push(P([b("Kelemahannya. "), t("Karena mengutamakan yang dekat, teori ini berisiko melupakan yang jauh. Dan ukuran peduli itu susah diaudit secara seragam.")]));
 
-k.push(H2("3.3  Discourse ethics"));
-k.push(P([b("Pertanyaan pokok. "), t("Norma apa yang dapat lahir dari deliberasi yang terbuka, dan siapa yang hadir serta siapa yang absen ketika norma itu dirumuskan?")]));
-k.push(P([b("Tokoh. "), t("Jurgen Habermas dalam Moral Consciousness and Communicative Action, bersama Karl Otto Apel.")]));
-k.push(P([b("Gagasan inti. "), t("Norma tidak ditetapkan filsuf dari luar, melainkan dihasilkan dialog rasional antara semua pihak terdampak. Syaratnya disebut ideal speech situation, yaitu semua pihak boleh ikut, bebas dari paksaan, dan argumen dinilai dari kekuatannya sendiri, bukan dari kekuasaan pihak yang mengusulkannya.")]));
-k.push(P([b("Konsekuensi yang menentukan. "), t("Orientasinya penyelesaian konflik secara damai, bukan pembuktian satu kebenaran. Karena yang dinilai prosedurnya, prosedur yang cacat sudah cukup untuk membatalkan keabsahan hasilnya, sekalipun hasil itu tampak baik bila diukur dengan kriteria lain.")]));
-k.push(P([b("Keterbatasan. "), t("Syarat ideal speech situation nyaris tidak pernah terpenuhi sepenuhnya dalam praktik, sehingga teori ini lebih berguna sebagai ukuran seberapa jauh sebuah proses menyimpang daripada sebagai prosedur yang benar-benar dijalankan.")]));
+k.push(H2("3.3  Discourse ethics, teori musyawarah"));
+k.push(P([b("Pertanyaannya. "), t("Siapa yang hadir dan siapa yang absen ketika aturannya dibuat?")]));
+k.push(P([b("Tokohnya. "), t("Jurgen Habermas bersama Karl Otto Apel.")]));
+k.push(P([b("Gagasan intinya. "), t("Aturan yang baik tidak diturunkan dari atas oleh ahli atau penguasa, tapi lahir dari musyawarah semua pihak yang akan terkena dampaknya. Syarat musyawarahnya ketat, disebut "), i("ideal speech situation"), t(": semua boleh ikut bicara, tidak ada yang ditekan, dan yang menang adalah argumen terkuat, bukan orang terkuat.")]));
+k.push(P([b("Akibatnya penting sekali. "), t("Karena yang dinilai prosesnya, maka proses yang cacat membatalkan hasilnya. Sebagus apa pun hasil sebuah kebijakan, kalau pihak terdampak tidak pernah diajak bicara, keputusan itu tidak sah secara etis.")]));
+k.push(P([b("Kelemahannya. "), t("Syarat musyawarah idealnya nyaris mustahil terpenuhi sepenuhnya. Jadi teori ini lebih berguna sebagai alat ukur seberapa jauh sebuah proses menyimpang, ketimbang sebagai resep yang benar-benar bisa dijalankan.")]));
 
-k.push(H2("3.4  Postmodern ethics"));
-k.push(P([b("Pertanyaan pokok. "), t("Kepentingan siapa yang dilayani oleh pilihan istilah yang dipakai untuk menamai sebuah kebijakan?")]));
-k.push(P([b("Tokoh. "), t("Zygmunt Bauman dalam Postmodern Ethics, dengan latar pemikiran Jacques Derrida dan Jean-Francois Lyotard.")]));
-k.push(P([b("Gagasan inti. "), t("Dorongan moral dan perasaan didahulukan atas perhitungan rasional. Tindakan etis kerap digerakkan intuisi, bukan kalkulasi. Kritiknya diarahkan pada organisasi, sebab prosedur, pembagian tugas, dan jarak birokratis menciptakan jarak moral yang menumpulkan dorongan tersebut.")]));
-k.push(P([b("Implikasi sikap. "), t("Mempertanyakan bahasa dan asumsi yang sudah dianggap wajar, lalu bertindak pada skala lokal tempat akibatnya benar-benar dirasakan. Teori inilah yang paling berguna untuk membongkar istilah pemasaran yang dipakai membenarkan sebuah kebijakan.")]));
-k.push(P([b("Keterbatasan. "), t("Karena menolak dasar rasional yang tetap, teori ini sulit dipakai untuk memutuskan. Ia lebih kuat sebagai alat kritik daripada sebagai pedoman tindakan.")]));
+k.push(H2("3.4  Postmodern ethics, teori yang curiga pada kata"));
+k.push(P([b("Pertanyaannya. "), t("Istilah yang dipakai untuk menamai sesuatu itu menguntungkan siapa?")]));
+k.push(P([b("Tokohnya. "), t("Zygmunt Bauman lewat Postmodern Ethics, dengan latar pemikiran Jacques Derrida dan Jean-Francois Lyotard.")]));
+k.push(P([b("Gagasan intinya. "), t("Dorongan hati dan perasaan justru didahulukan di atas perhitungan rasional. Menurut Bauman, tindakan etis lebih sering digerakkan naluri daripada kalkulasi. Kritiknya diarahkan ke organisasi: prosedur, pembagian tugas, dan jarak birokrasi menciptakan jarak moral. Orang jadi merasa tidak bertanggung jawab karena dia cuma menjalankan bagian kecil dari sistem.")]));
+k.push(P([b("Sikap yang dituntut. "), t("Mempertanyakan kata-kata dan asumsi yang sudah dianggap wajar, lalu bertindak di skala lokal tempat akibatnya benar-benar terasa. Teori inilah yang paling ampuh untuk membongkar istilah pemasaran yang dipakai membenarkan sebuah kebijakan.")]));
+k.push(P([b("Kelemahannya. "), t("Karena menolak patokan yang tetap, teori ini susah dipakai untuk memutuskan. Dia lebih kuat sebagai alat kritik daripada sebagai pedoman bertindak.")]));
 
-k.push(H2("3.5  Sembilan pertanyaan penilaian"));
-k.push(P("Kesembilan teori dapat diringkas menjadi sembilan pertanyaan yang dapat langsung dipakai untuk menguji sebuah kebijakan. Tidak ada satu teori yang memberikan jawaban lengkap. Yang dicari adalah pertimbangan yang paling kuat menanggung beban argumen, dan arah konvergensi dari kesembilan jawabannya."));
+k.push(H2("3.5  Sembilan teori jadi sembilan pertanyaan"));
+k.push(P("Supaya gampang dipakai, kesembilan teori tadi bisa diringkas jadi sembilan pertanyaan. Tidak ada satu pertanyaan yang bisa menjawab semuanya. Yang kita cari bukan satu jawaban benar, melainkan arah yang sama dari sembilan jawaban yang berbeda."));
 const qW = [560, 2100, CW - 560 - 2100];
 k.push(P("Tabel 2  Sembilan pertanyaan penilaian", { size: 18, bold: true, color: MUTE, font: SANS, after: 80, align: AlignmentType.LEFT }));
 k.push(TABLE(qW, [
-  thead(["No", "Teori", "Pertanyaan"], qW),
-  trow(["1", "Egoism", "Apakah semua pihak bebas mengejar kepentingan jangka panjangnya, dan sudahkah biaya tertunda dihitung?"], qW),
-  trow(["2", "Utilitarianism", "Bila seluruh akibat diagregasi, apakah hasilnya positif, dan apakah act dan rule sejalan?"], qW),
-  trow(["3", "Ethics of duty", "Dapatkah maksim tindakan ini diuniversalkan, dan adakah pihak yang diperlakukan sekadar sarana?"], qW),
-  trow(["4", "Ethics of rights", "Hak siapa yang terpenuhi, hak siapa yang terlanggar, dan sampai mana relasi bisnisnya menjangkau?"], qW),
-  trow(["5", "Justice", "Susunan apa yang akan dipilih orang yang belum tahu posisi yang akan ditempatinya?"], qW),
-  trow(["6", "Virtue ethics", "Bagaimana pelaku berkarakter baik bertindak di posisi ini, dan diukur terhadap standar yang mana?"], qW),
-  trow(["7", "Ethic of care", "Solusi mana yang memelihara relasi dengan pihak terdampak, bukan sekadar mengganti kerugiannya?"], qW),
-  trow(["8", "Discourse ethics", "Siapa yang hadir dan siapa yang absen ketika norma dan izinnya dirumuskan?"], qW),
-  trow(["9", "Postmodern ethics", "Kepentingan siapa yang dilayani oleh istilah yang dipakai menamai kebijakan ini?"], qW)
+  thead(["No", "Teori", "Pertanyaannya"], qW),
+  trow(["1", "Egoism", "Apakah semua pihak bebas mengejar kepentingan jangka panjangnya, dan sudahkah biaya yang tertunda ikut dihitung?"], qW),
+  trow(["2", "Utilitarianism", "Kalau semua akibat dijumlahkan, hasilnya positif? Dan apakah jawaban act dan rule sejalan?"], qW),
+  trow(["3", "Ethics of duty", "Kalau aturan tindakan ini berlaku untuk semua orang, masih masuk akal? Adakah pihak yang cuma dipakai sebagai alat?"], qW),
+  trow(["4", "Ethics of rights", "Hak siapa yang terpenuhi, hak siapa yang dilanggar, dan sampai mana rantai bisnisnya menjangkau?"], qW),
+  trow(["5", "Justice", "Aturan main seperti apa yang akan dipilih orang yang belum tahu akan lahir jadi siapa?"], qW),
+  trow(["6", "Virtue ethics", "Bagaimana orang berkarakter baik bertindak di posisi ini, dan diukur dengan pembanding yang mana?"], qW),
+  trow(["7", "Ethic of care", "Solusi mana yang menjaga hubungan dengan pihak terdampak, bukan cuma mengganti kerugiannya?"], qW),
+  trow(["8", "Discourse ethics", "Siapa yang hadir dan siapa yang absen ketika aturan dan izinnya dibuat?"], qW),
+  trow(["9", "Postmodern ethics", "Istilah yang dipakai untuk menamai kebijakan ini menguntungkan siapa?"], qW)
 ]));
 
 /* ================= BAGIAN 4 ================= */
-k.push(H1("Bagian 4  Studi kasus hilirisasi nikel Indonesia", { pageBreak: true }));
+k.push(H1("Bagian 4  Kasus hilirisasi nikel Indonesia", { pageBreak: true }));
 
-k.push(H2("4.1  Anatomi kebijakan"));
-k.push(P([b("Instrumen. "), t("Peraturan Menteri ESDM Nomor 11 Tahun 2019 melarang ekspor bijih nikel dan berlaku efektif 1 Januari 2020.")]));
-k.push(P([b("Mekanisme. "), t("Bijih wajib diolah di dalam negeri, dan kepemilikan smelter menjadi syarat masuk kawasan industri. Kebijakan ini memindahkan tahap pengolahan dari negara pembeli ke dalam wilayah Indonesia, sehingga nilai tambahnya tercatat di dalam negeri.")]));
-k.push(P([b("Sengketa. "), t("Panel World Trade Organization memutus kebijakan ini melanggar aturan perdagangan pada November 2022, atas gugatan Uni Eropa. Sengketanya belum tuntas sampai dokumen ini disusun.")]));
-k.push(P("Satu instrumen regulasi ini mengubah struktur industri nikel nasional dalam waktu kurang dari lima tahun."));
+k.push(H2("4.1  Kebijakannya seperti apa"));
+k.push(P([b("Aturannya. "), t("Peraturan Menteri ESDM Nomor 11 Tahun 2019 melarang ekspor bijih nikel mentah. Berlaku efektif 1 Januari 2020.")]));
+k.push(P([b("Cara kerjanya. "), t("Mau menjual nikel? Olah dulu di dalam negeri. Dan untuk masuk kawasan industri, perusahaan harus punya smelter, yaitu pabrik peleburan yang mengubah bijih jadi bahan setengah jadi. Dengan begitu, nilai tambah yang tadinya dinikmati negara pembeli sekarang tercatat di Indonesia.")]));
+k.push(P([b("Sengketanya. "), t("Uni Eropa menggugat, dan pada November 2022 panel WTO, yaitu badan penyelesaian sengketa perdagangan dunia, memutuskan kebijakan ini melanggar aturan dagang. Sengketanya belum tuntas sampai dokumen ini disusun.")]));
+k.push(P("Jadi hanya satu aturan, tapi dalam waktu kurang dari lima tahun aturan itu mengubah seluruh struktur industri nikel nasional."));
 
-k.push(H2("4.2  Kronologi"));
+k.push(H2("4.2  Urutan kejadiannya"));
 const krW = [1100, CW - 1100];
 k.push(TABLE(krW, [
-  thead(["Tahun", "Peristiwa"], krW),
-  trow(["2014", "Larangan ekspor bijih pertama diberlakukan, kemudian direlaksasi"], krW),
+  thead(["Tahun", "Yang terjadi"], krW),
+  trow(["2014", "Larangan ekspor bijih pertama diberlakukan, tapi kemudian dilonggarkan"], krW),
   trow(["2019", "Peraturan Menteri ESDM Nomor 11 terbit"], krW),
-  trow(["2020", "Larangan berlaku efektif per 1 Januari"], krW),
+  trow(["2020", "Larangan mulai berlaku efektif per 1 Januari"], krW),
   trow(["2022", "Panel WTO memenangkan gugatan Uni Eropa pada November"], krW),
   trow(["2025", "Nilai ekspor produk nikel olahan mencapai 40 miliar dolar"], krW)
 ]));
 k.push(SPACER(140));
 
-k.push(H2("4.3  Dua narasi atas fakta yang sama"));
-k.push(P("Kasus ini menarik untuk mata kuliah etika bisnis karena kedua pihak yang berselisih bersandar pada data resmi yang sama sahnya. Yang disengketakan bukan angkanya, melainkan kriteria penilaiannya. Tabel berikut menyandingkan kedua narasi tanpa memilih salah satunya lebih dahulu."));
+k.push(H2("4.3  Dua cerita atas fakta yang sama"));
+k.push(P("Yang menarik dari kasus ini: dua pihak yang berselisih sama-sama memakai data resmi, dan dua-duanya benar. Yang mereka perselisihkan bukan angkanya, melainkan kacamata yang dipakai untuk menilai angka itu. Tabel berikut menyandingkan keduanya tanpa memihak dulu."));
 const dnW = [2200, (CW - 2200) / 2, (CW - 2200) / 2];
-k.push(P("Tabel 3  Dua narasi atas rangkaian fakta yang identik", { size: 18, bold: true, color: MUTE, font: SANS, after: 80, align: AlignmentType.LEFT }));
+k.push(P("Tabel 3  Dua cerita atas rangkaian fakta yang sama", { size: 18, bold: true, color: MUTE, font: SANS, after: 80, align: AlignmentType.LEFT }));
 k.push(TABLE(dnW, [
-  thead(["Dimensi", "Narasi hilirisasi berdaulat", "Narasi ekstraksi berbiaya sosial"], dnW),
-  trow(["Nilai ekonomi", "Ekspor produk olahan 40 miliar dolar pada 2025, naik dari 3 miliar dolar pada 2020", "Hanya 4,35 persen nilai tambah tinggal di Morowali, dengan kemiskinan 12,58 persen"], dnW),
-  trow(["Investasi", "41,5 miliar dolar terkumpul di kawasan IMIP Morowali sampai Desember 2025", "Konsentrasi kepemilikan dan keuntungan berada di luar daerah penghasil"], dnW),
-  trow(["Tenaga kerja", "166 ribu pekerja terserap di IMIP dan IWIP, dari 35.952 orang pada 2020", "Upah pokok 3 sampai 3,6 juta rupiah per bulan, di bawah upah minimum Morowali 2025 sebesar 3,7 juta"], dnW),
-  trow(["Keselamatan", "Kawasan industri terintegrasi dengan standar operasi yang terdokumentasi", "107 pekerja meninggal dan 155 pekerja luka pada 104 kecelakaan smelter sepanjang 2019 sampai 2025"], dnW),
-  trow(["Lingkungan", "Pengolahan di dalam negeri memindahkan nilai tambah dari negara pembeli", "163 ribu hektare tutupan pohon hilang di Halmahera, dan industri nikel memegang 76 persen PLTU"], dnW),
-  trow(["Posisi global", "Indonesia menjadi simpul utama rantai pasok baterai dunia", "Sungai Ake Jira tidak lagi layak dipakai warga, dan 40 persen wilayah adat O Hongana Manyawa sudah berizin tambang"], dnW)
+  thead(["Sisi yang dilihat", "Cerita hilirisasi berdaulat", "Cerita ekstraksi berbiaya sosial"], dnW),
+  trow(["Nilai ekonomi", "Ekspor produk olahan 40 miliar dolar pada 2025, naik dari 3 miliar dolar pada 2020", "Dari semua nilai tambah itu, yang tinggal di Morowali cuma 4,35 persen, sementara kemiskinannya 12,58 persen"], dnW),
+  trow(["Investasi", "41,5 miliar dolar masuk ke kawasan IMIP Morowali sampai Desember 2025", "Kepemilikan dan keuntungannya terpusat di luar daerah penghasil"], dnW),
+  trow(["Tenaga kerja", "166 ribu orang bekerja di IMIP dan IWIP, padahal pada 2020 baru 35.952 orang", "Upah pokoknya 3 sampai 3,6 juta per bulan, masih di bawah upah minimum Morowali 2025 yang 3,7 juta"], dnW),
+  trow(["Keselamatan", "Kawasan industri terpadu dengan prosedur operasi yang terdokumentasi", "107 pekerja meninggal dan 155 luka dalam 104 kecelakaan smelter sepanjang 2019 sampai 2025"], dnW),
+  trow(["Lingkungan", "Pengolahan di dalam negeri memindahkan nilai tambah dari negara pembeli ke Indonesia", "163 ribu hektare tutupan pohon hilang di Halmahera, dan 76 persen listrik kawasan ini dari pembangkit batu bara"], dnW),
+  trow(["Posisi global", "Indonesia jadi simpul utama rantai pasok baterai dunia", "Sungai Ake Jira tidak lagi layak dipakai warga, dan 40 persen wilayah adat O Hongana Manyawa sudah berizin tambang"], dnW)
 ]));
 k.push(SPACER(140));
-k.push(P([b("Struktur biaya yang menentukan. "), t("Manfaat kebijakan ini besar, terukur, dan terkonsentrasi pada pihak yang mudah diidentifikasi. Bebannya tersebar pada banyak pihak, tertunda ke masa depan, dan sulit dikuantifikasi. Persoalan dengan struktur seperti ini tidak dapat diselesaikan melalui satu kriteria penilaian tunggal, sebab kriteria tunggal cenderung hanya menangkap salah satu sisinya.")]));
+k.push(P([b("Bentuk masalahnya yang menentukan. "), t("Manfaat kebijakan ini besar, gampang dihitung, dan jatuh ke pihak yang mudah ditunjuk. Bebannya kebalikannya: menyebar ke banyak orang, munculnya belakangan, dan susah diangkakan. Masalah dengan bentuk seperti ini tidak bisa diadili dengan satu kriteria saja, sebab satu kriteria biasanya cuma menangkap salah satu sisinya.")]));
 k.push(SPACER(60));
 k.push(NOTE("BATAS WAKTU DATA",
- "Seluruh angka pada bagian ini ditelusuri pada Agustus 2026 dari pengelola kawasan IMIP dan IWIP, Badan Pusat Statistik, serta dokumen putusan panel WTO. Kebijakannya masih berjalan dan sengketa dagangnya belum tuntas, sehingga sebagian angka akan berubah pada tahun berikutnya."));
+ "Semua angka di bagian ini ditelusuri pada Agustus 2026 dari pengelola kawasan IMIP dan IWIP, Badan Pusat Statistik, serta dokumen putusan panel WTO. Kebijakannya masih berjalan dan sengketanya belum tuntas, jadi sebagian angka akan berubah pada tahun berikutnya."));
 
 /* ================= BAGIAN 5 ================= */
-k.push(H1("Bagian 5  Penerapan sembilan teori"));
-k.push(P("Bagian ini menguji rangkaian fakta yang sama dengan sembilan kriteria yang berbeda. Perhatikan bahwa faktanya tidak berubah dari satu teori ke teori berikutnya. Yang berubah adalah pertanyaan yang diajukan atas fakta tersebut."));
+k.push(H1("Bagian 5  Menguji kasus dengan sembilan teori"));
+k.push(P("Bagian ini menguji rangkaian fakta yang sama dengan sembilan alat uji yang berbeda. Perhatikan: faktanya tidak berubah sama sekali dari satu teori ke teori berikutnya. Yang berubah cuma pertanyaan yang kita ajukan atas fakta itu."));
 
 k.push(H2("5.1  Lima teori modernis"));
 
-k.push(H3("Egoism, penilaian netral"));
-k.push(P("Pada horizon pendek kebijakan ini jelas melayani kepentingan Indonesia sebagai pemilik cadangan. Pada horizon panjang, penilaiannya berubah. Biaya kesehatan warga, pemulihan sungai, dan pensiun dini pembangkit batu bara belum diinternalisasi ke dalam perhitungan. Biaya tersebut tidak hilang, hanya tertunda, dan pada akhirnya tetap ditanggung pihak yang sama. Justru kepentingan diri yang dihitung cermat, yaitu enlightened egoism, menuntut biaya tertunda itu masuk sejak awal. Teori ini dinilai netral karena mengakui keterbatasannya sendiri pada persoalan yang melibatkan generasi mendatang."));
+k.push(H3("Egoism: netral"));
+k.push(P("Kalau dilihat jangka pendek, kebijakan ini jelas menguntungkan Indonesia. Tapi ingat, egois yang cerdas menghitung sampai jauh ke depan. Biaya berobat warga, biaya membersihkan sungai, dan biaya menutup pembangkit batu bara lebih awal belum masuk hitungan. Biaya itu tidak hilang, cuma ditunda, dan pada akhirnya tetap ditanggung pihak yang sama."));
+k.push(P("Jadi justru kepentingan diri yang dihitung cermat menuntut biaya tertunda itu dimasukkan sejak awal. Teori ini kami sebut netral karena dia sendiri mengakui tidak sanggup menilai persoalan yang korbannya belum lahir."));
 
-k.push(H3("Utilitarianism, penilaian ambivalen"));
-k.push(P("Ini penilaian yang paling menarik karena teorinya terbelah. Act utilitarianism cenderung mendukung, sebab manfaat 166 ribu lapangan kerja bersifat nyata, terukur, dan dirasakan sekarang, sedangkan kerugiannya tersebar pada banyak pihak dan sebagian baru muncul di kemudian hari."));
-k.push(P("Rule utilitarianism justru menolak. Bila kebijakan ini diperlakukan sebagai kelas tindakan, artinya bila setiap negara pemilik cadangan menempuh pengolahan bertenaga batu bara, tambahan emisinya membatalkan manfaat transisi energi yang justru menjadi pembenar kebijakan tersebut. Aturan yang membatalkan tujuannya sendiri ketika diterapkan secara umum tidak lolos uji rule utilitarianism."));
-k.push(P("Keduanya utilitarianism dan keduanya memakai data yang sama. Pembedanya semata unit analisis, yaitu tindakan tunggal atau kelas tindakan. Perbedaan act dan rule karena itu bukan detail teknis, melainkan yang menentukan putusan."));
+k.push(H3("Utilitarianism: terbelah"));
+k.push(P("Ini penilaian paling menarik karena teorinya sendiri terpecah dua."));
+k.push(P([i("Act utilitarianism"), t(" cenderung setuju. Manfaat 166 ribu lapangan kerja itu nyata, terukur, dan dirasakan sekarang. Sementara kerugiannya menyebar ke banyak pihak dan sebagian baru muncul bertahun-tahun kemudian.")]));
+k.push(P([i("Rule utilitarianism"), t(" justru menolak. Coba jadikan kebijakan ini aturan umum: semua negara pemilik cadangan nikel mengolah sendiri dengan tenaga batu bara. Tambahan polusinya akan membatalkan manfaat transisi energi, padahal transisi energi itulah alasan nikel ini dibutuhkan. Aturan yang membatalkan tujuannya sendiri ketika diterapkan luas tidak lolos uji ini.")]));
+k.push(P("Keduanya utilitarianism, keduanya memakai data yang sama, hasilnya bertolak belakang. Pembedanya cuma satu: yang dinilai satu kejadian atau satu kelas tindakan. Jadi bedanya act dan rule itu bukan detail teknis, melainkan penentu putusan."));
 
-k.push(H3("Ethics of duty, penilaian menolak"));
-k.push(P("Maksim tindakannya dapat dirumuskan sebagai berikut: pengolahan boleh dipercepat sambil menunda pemenuhan standar upah, keselamatan, dan lingkungan. Diuniversalkan, maksim itu menjadikan standar upah, keselamatan, dan lingkungan kehilangan daya ikatnya, sebab setiap pihak dapat menunda dengan alasan percepatan. Maksimnya membatalkan dirinya sendiri, sehingga gagal pada formulasi pertama."));
-k.push(P("Formulasi kedua juga tidak terpenuhi. Upah pokok di bawah upah minimum daerah dan lembur yang tercatat sampai 13 jam menjadikan pekerja sarana bagi pencapaian target produksi, bukan tujuan yang kepentingannya berdiri sendiri."));
+k.push(H3("Ethics of duty: menolak"));
+k.push(P("Mari tulis aturan tindakannya dalam satu kalimat: boleh mempercepat pembangunan industri sambil menunda pemenuhan standar upah, keselamatan, dan lingkungan."));
+k.push(P("Sekarang bayangkan semua orang boleh melakukannya. Kalau setiap pihak bisa menunda standar dengan alasan mengejar target, standar itu kehilangan seluruh daya ikatnya. Aturannya membatalkan dirinya sendiri, jadi gagal di uji pertama."));
+k.push(P("Uji kedua juga gagal. Upah pokok di bawah upah minimum daerah dan lembur yang tercatat sampai 13 jam menunjukkan pekerja diperlakukan sebagai alat untuk mengejar produksi, bukan sebagai pihak yang kepentingannya berdiri sendiri."));
 
-k.push(H3("Ethics of rights, penilaian bersyarat"));
-k.push(P("Hak atas pekerjaan terpenuhi bagi 166 ribu pekerja, dan sampai titik itu kebijakan ini dapat dipertahankan. Namun sejumlah hak lain terlanggar bersamaan, yaitu hak atas kondisi kerja yang adil dan aman, hak atas kesehatan, hak atas air bersih, dan hak masyarakat adat atas tanah leluhurnya."));
-k.push(P("Penilaian ini disebut bersyarat karena teorinya tidak menolak kebijakannya, melainkan menuntut pemenuhan hak yang terlanggar sebagai syarat keberlanjutannya. UN Guiding Principles menuntut penghormatan pada seluruh relasi bisnis, sehingga pembeli produk nikel di negara lain tidak dapat melepaskan diri dari kondisi di tempat produksinya."));
+k.push(H3("Ethics of rights: setuju dengan syarat"));
+k.push(P("Hak atas pekerjaan terpenuhi untuk 166 ribu orang, dan itu harus diakui jujur. Sampai titik itu kebijakan ini bisa dipertahankan."));
+k.push(P("Tapi pada saat yang sama ada hak lain yang dilanggar: hak atas kondisi kerja yang layak dan aman, hak atas kesehatan, hak atas air bersih, dan hak masyarakat adat atas tanah leluhurnya."));
+k.push(P("Kami sebut setuju dengan syarat karena teori ini tidak menolak kebijakannya. Yang dia tuntut adalah hak yang dilanggar itu dipulihkan sebagai syarat kebijakannya boleh jalan terus. Perlu ditambahkan, pedoman PBB menuntut penghormatan pada seluruh rantai bisnis, jadi pembeli produk nikel di negara lain juga tidak bisa cuci tangan."));
 
-k.push(H3("Justice, penilaian menolak"));
-k.push(P("Pada dimensi distributif, manfaat mengalir ke penerimaan nasional dan pemodal, sedangkan beban terkonsentrasi pada pekerja kawasan, warga di hilir sungai, dan masyarakat adat. Hanya 4,35 persen nilai tambah yang tinggal di Morowali, dan kabupaten penghasil justru lebih miskin daripada rata-rata provinsinya. Susunan semacam ini tidak memenuhi prinsip kedua Rawls, sebab ketimpangannya tidak paling menguntungkan pihak yang paling tidak diuntungkan."));
-k.push(P("Pada dimensi prosedural, pihak yang menanggung beban tidak turut memutuskan. Uji veil of ignorance memperjelasnya. Seseorang yang tidak mengetahui akan lahir sebagai pemegang saham smelter atau sebagai warga di hilir sungai Ake Jira kemungkinan besar tidak akan memilih susunan yang sekarang berlaku."));
+k.push(H3("Justice: menolak"));
+k.push(P("Dari sisi pembagian, untungnya mengalir ke penerimaan negara dan pemodal, sementara ruginya menumpuk pada pekerja kawasan, warga di hilir sungai, dan masyarakat adat. Nilai tambah yang tinggal di Morowali cuma 4,35 persen, dan kabupaten penghasilnya justru lebih miskin dari rata-rata provinsinya. Susunan seperti ini jelas tidak memenuhi prinsip kedua Rawls, sebab ketimpangannya sama sekali tidak menguntungkan pihak yang paling lemah."));
+k.push(P("Dari sisi proses, pihak yang menanggung beban tidak ikut memutuskan. Coba pakai uji selubung ketidaktahuan tadi: kalau Anda belum tahu akan lahir sebagai pemegang saham smelter atau sebagai warga di pinggir sungai Ake Jira, apakah Anda akan memilih susunan yang berlaku sekarang? Kemungkinan besar tidak."));
 
 k.push(H2("5.2  Empat teori alternatif"));
 
-k.push(H3("Virtue ethics, menolak pembandingnya"));
-k.push(P("Teori ini tidak menolak kebijakannya, melainkan menolak pembanding yang dipakai untuk membenarkannya. Selama ini pembandingnya adalah keadaan sebelum hilirisasi, yaitu ekspor bijih mentah. Aktor yang berkarakter baik mengukur diri pada standar tertinggi yang dapat dicapai, bukan pada keadaan masa lalunya sendiri. Teknologi tungku yang lebih bersih, sistem keselamatan kerja yang lebih ketat, dan pasokan listrik rendah karbon sudah tersedia dan dipakai di tempat lain, sehingga standar itu bukan tuntutan yang mustahil."));
+k.push(H3("Virtue ethics: menolak pembandingnya"));
+k.push(P("Teori ini tidak menolak kebijakannya, tapi menolak cara membandingkannya. Selama ini pembelaannya selalu sama: sekarang lebih baik daripada zaman ekspor bijih mentah."));
+k.push(P("Orang yang berkarakter baik tidak mengukur diri dengan masa lalunya sendiri. Dia mengukur diri dengan standar terbaik yang tersedia hari ini. Dan standar itu bukan mimpi: teknologi tungku yang lebih bersih, sistem keselamatan kerja yang lebih ketat, dan pasokan listrik rendah karbon sudah ada dan dipakai di tempat lain."));
 
-k.push(H3("Ethic of care, menuntut pemulihan"));
-k.push(P("Warga di hilir sungai dan sekitar 300 sampai 500 jiwa masyarakat O Hongana Manyawa adalah pihak yang berelasi dengan operasi kawasan, bukan variabel biaya dalam perhitungan. Yang dituntut teori ini adalah pemulihan sungai dan wilayah lindung, bukan penghentian kegiatan secara mendadak yang justru akan merusak relasi lain, yaitu relasi dengan 166 ribu pekerja beserta keluarganya."));
-k.push(P("Penilaian ini contoh baik bahwa pluralisme tidak berarti seluruh teori berkata sama. Ethic of care berangkat dari keprihatinan yang sama dengan teori keadilan, tetapi menghasilkan rekomendasi yang berbeda."));
+k.push(H3("Ethic of care: menuntut pemulihan"));
+k.push(P("Warga di hilir sungai dan sekitar 300 sampai 500 jiwa masyarakat O Hongana Manyawa itu pihak yang berhubungan langsung dengan operasi kawasan, bukan angka biaya dalam laporan."));
+k.push(P("Yang dituntut teori ini adalah pemulihan sungai dan perlindungan wilayah adat, bukan penutupan pabrik secara mendadak. Sebab penutupan mendadak justru merusak hubungan lain, yaitu dengan 166 ribu pekerja beserta keluarganya. Ini contoh bagus bahwa pluralisme tidak berarti semua teori harus satu suara."));
 
-k.push(H3("Discourse ethics, menolak prosedurnya"));
-k.push(P("Warga terdampak bukan pihak dalam perumusan kebijakan maupun dalam perizinan kawasan. Syarat ideal speech situation karena itu tidak terpenuhi, sebab pihak yang paling terkena akibatnya justru absen dari forum yang memutuskan. Bagi teori ini, cacat prosedur sudah cukup untuk membatalkan keabsahan hasilnya, terlepas dari seberapa baik hasil itu bila diukur dengan kriteria lain."));
+k.push(H3("Discourse ethics: menolak prosesnya"));
+k.push(P("Warga terdampak tidak pernah menjadi pihak dalam perumusan kebijakan maupun dalam proses perizinan kawasan. Syarat musyawarah yang setara jelas tidak terpenuhi, karena justru orang yang paling merasakan akibatnya yang tidak ada di meja."));
+k.push(P("Bagi teori ini, cacat proses itu saja sudah cukup untuk membatalkan keabsahan hasilnya, terlepas dari sebagus apa hasilnya kalau diukur dengan kriteria lain."));
 
-k.push(H3("Postmodern ethics, membaca pilihan istilahnya"));
-k.push(P("Istilah hilirisasi berkonotasi kemajuan dan penguasaan rantai nilai. Istilah ekstraksi berkonotasi pengurasan sumber daya. Keduanya menamai peristiwa yang sama, dan pilihan di antara keduanya menentukan siapa yang tampak sebagai pihak yang berjasa dan siapa yang tampak sebagai korban."));
-k.push(P("Contoh paling tajam adalah istilah nikel hijau. Istilah tersebut dipakai bagi pengolahan yang listriknya justru bertumpu pada pembangkit batu bara di dalam kawasan. Teori ini membaca pemakaian istilah semacam itu sebagai alat pembenar, bukan sekadar pilihan kata."));
+k.push(H3("Postmodern ethics: membongkar bahasanya"));
+k.push(P("Kata hilirisasi terdengar seperti kemajuan dan penguasaan rantai nilai. Kata ekstraksi terdengar seperti pengurasan sumber daya. Padahal keduanya menamai peristiwa yang sama. Pilihan kata itulah yang menentukan siapa yang terlihat berjasa dan siapa yang terlihat jadi korban."));
+k.push(P("Contoh paling tajamnya adalah istilah nikel hijau. Istilah itu dipakai untuk pengolahan yang listriknya justru bertumpu pada pembangkit batu bara di dalam kawasan. Teori ini membaca pemakaian istilah seperti itu bukan sebagai pilihan kata biasa, melainkan sebagai alat pembenar."));
 
 /* ================= BAGIAN 6 ================= */
-k.push(H1("Bagian 6  Sintesis penilaian dan evaluasi klaim"));
+k.push(H1("Bagian 6  Menyatukan sembilan penilaian"));
 
-k.push(H2("6.1  Matriks sembilan penilaian"));
+k.push(H2("6.1  Rekap hasilnya"));
 const mW = [560, 2300, 2100, CW - 560 - 2300 - 2100];
 k.push(P("Tabel 4  Hasil pengujian sembilan teori", { size: 18, bold: true, color: MUTE, font: SANS, after: 80, align: AlignmentType.LEFT }));
 k.push(TABLE(mW, [
-  thead(["No", "Teori", "Penilaian", "Dasar penilaian"], mW),
-  trow(["1", "Egoism", "Netral", "Biaya tertunda belum diinternalisasi"], mW),
-  trow(["2", "Utilitarianism", "Ambivalen", "Act mendukung, rule menolak"], mW),
-  trow(["3", "Ethics of duty", "Menolak", "Maksimnya gugur ketika diuniversalkan"], mW),
-  trow(["4", "Ethics of rights", "Bersyarat", "Sebagian hak terpenuhi, sebagian terlanggar"], mW),
-  trow(["5", "Justice", "Menolak", "Distribusi dan prosedurnya timpang"], mW),
-  trow(["6", "Virtue ethics", "Menolak pembanding", "Diukur pada masa lalu, bukan standar terbaik"], mW),
-  trow(["7", "Ethic of care", "Menuntut pemulihan", "Relasi rusak, tetapi tidak menuntut penghentian"], mW),
-  trow(["8", "Discourse ethics", "Menolak prosedur", "Pihak terdampak absen dalam perumusan"], mW),
-  trow(["9", "Postmodern ethics", "Relativistik", "Istilah dipakai sebagai alat pembenar"], mW)
+  thead(["No", "Teori", "Hasilnya", "Alasan singkatnya"], mW),
+  trow(["1", "Egoism", "Netral", "Biaya yang tertunda belum dimasukkan hitungan"], mW),
+  trow(["2", "Utilitarianism", "Terbelah", "Versi act setuju, versi rule menolak"], mW),
+  trow(["3", "Ethics of duty", "Menolak", "Aturannya gugur kalau berlaku untuk semua orang"], mW),
+  trow(["4", "Ethics of rights", "Bersyarat", "Sebagian hak terpenuhi, sebagian dilanggar"], mW),
+  trow(["5", "Justice", "Menolak", "Pembagian dan prosesnya sama-sama timpang"], mW),
+  trow(["6", "Virtue ethics", "Menolak pembanding", "Diukur dengan masa lalu, bukan standar terbaik"], mW),
+  trow(["7", "Ethic of care", "Menuntut pemulihan", "Hubungan rusak, tapi tidak minta dihentikan"], mW),
+  trow(["8", "Discourse ethics", "Menolak prosedur", "Pihak terdampak tidak ada saat aturan dibuat"], mW),
+  trow(["9", "Postmodern ethics", "Relativistik", "Istilahnya dipakai sebagai alat pembenar"], mW)
 ]));
 k.push(SPACER(140));
-k.push(P("Rekapitulasinya enam menolak, satu bersyarat, satu ambivalen, dan satu netral karena mengakui keterbatasan teorinya sendiri. Tidak satu pun dari sembilan teori memberikan dukungan tanpa syarat."));
+k.push(P("Rekapnya: enam menolak, satu setuju dengan syarat, satu terbelah, dan satu netral karena mengakui keterbatasannya sendiri. Tidak ada satu pun dari sembilan teori yang setuju tanpa syarat."));
 
-k.push(H2("6.2  Empat proposisi"));
-k.push(P("Dari kesembilan penilaian tersebut dapat ditarik empat proposisi yang berlaku lintas teori."));
+k.push(H2("6.2  Empat kesimpulan antara"));
+k.push(P("Dari kesembilan penilaian tadi bisa ditarik empat kesimpulan yang berlaku lintas teori."));
 k.push.apply(k, NUMS([
- [b("Perbandingan dengan masa lalu tidak bernilai normatif. "), t("Kondisi yang lebih baik daripada ekspor bijih mentah tidak dengan sendirinya memadai. Virtue ethics menuntut pembanding pada standar tertinggi yang tersedia, bukan pada keadaan sebelumnya.")],
- [b("Klaim hijau gugur pada sumber energinya. "), t("Pengolahan yang bertumpu pada pembangkit batu bara di dalam kawasan tidak dapat disebut hijau. Postmodern ethics membaca pemakaian istilah tersebut sebagai alat pembenar.")],
- [b("Distribusi manfaat dan bebannya timpang. "), t("Hanya 4,35 persen nilai tambah tinggal di daerah, sementara kabupaten penghasil lebih miskin daripada rata-rata provinsinya. Prinsip kedua Rawls tidak terpenuhi.")],
- [b("Prosesnya cacat sejak perumusan. "), t("Warga terdampak tidak menjadi pihak dalam perizinan dan perencanaan kawasan. Discourse ethics membatalkan hasil yang lahir dari proses semacam itu.")]
+ [b("Lebih baik dari dulu itu bukan ukuran. "), t("Keadaan sekarang yang lebih baik daripada zaman ekspor bijih mentah tidak otomatis berarti sudah cukup. Ukurannya harusnya standar terbaik yang tersedia hari ini.")],
+ [b("Label hijau gugur di sumber listriknya. "), t("Pengolahan yang bertenaga pembangkit batu bara tidak bisa disebut hijau, apa pun tujuan akhir produknya.")],
+ [b("Pembagiannya timpang. "), t("Nilai tambah yang tinggal di daerah cuma 4,35 persen, sementara daerah penghasilnya justru lebih miskin dari rata-rata provinsinya. Prinsip kedua Rawls tidak terpenuhi.")],
+ [b("Prosesnya cacat sejak awal. "), t("Warga terdampak tidak pernah jadi pihak dalam perizinan maupun perencanaan kawasan.")]
 ]));
 
-k.push(H2("6.3  Batas argumen"));
-k.push(P("Ada dua hal yang perlu dipisahkan agar kesimpulan ini tidak dibaca melampaui yang dimaksudkan."));
-k.push(P([b("Pertama"), t(", penolakan atas klaim nikel hijau tidak setara dengan penolakan atas hilirisasi. Yang gugur adalah klaim bahwa kebijakan ini sudah etis, bukan kebijakan hilirisasinya. Keduanya persoalan yang terpisah dan dapat dinilai secara terpisah pula.")]));
-k.push(P([b("Kedua"), t(", legalitas dan etika dua penilaian yang berbeda. Putusan panel WTO menilai kepatuhan pada aturan perdagangan, sedangkan pengujian dalam dokumen ini menyangkut distribusi manfaat, kondisi kerja, dan keterwakilan pihak terdampak. Sebuah kebijakan dapat sah secara hukum dagang namun tetap bermasalah secara etis, dan sebaliknya.")]));
+k.push(H2("6.3  Dua hal yang jangan sampai tertukar"));
+k.push(P([b("Pertama"), t(", menolak klaim nikel hijau itu tidak sama dengan menolak hilirisasi. Yang gugur adalah klaim bahwa kebijakan ini sudah etis, bukan kebijakan hilirisasinya. Ini dua hal yang berbeda dan bisa dinilai terpisah.")]));
+k.push(P([b("Kedua"), t(", sah menurut hukum dan benar secara etika juga dua hal yang berbeda. Putusan WTO menilai kepatuhan pada aturan dagang. Pengujian dalam dokumen ini menilai pembagian manfaat, kondisi kerja, dan siapa yang diajak bicara. Sebuah kebijakan bisa saja kalah di pengadilan dagang tapi etis, atau sebaliknya menang tapi tetap bermasalah secara etika.")]));
 
 /* ================= BAGIAN 7 ================= */
-k.push(H1("Bagian 7  Simpulan dan implikasi manajerial"));
+k.push(H1("Bagian 7  Simpulan dan saran untuk manajemen"));
 
 k.push(H2("7.1  Tiga temuan"));
 k.push.apply(k, NUMS([
- [b("Konvergensi, bukan kesepakatan. "), t("Sembilan teori berangkat dari premis yang berbeda, namun mayoritasnya bermuara pada arah yang sama. Inilah bukti terkuat bagi pendekatan pluralis yang diajukan Crane dan Matten. Kesimpulan yang dicapai lewat konvergensi jauh lebih kuat daripada kesimpulan satu teori tunggal, sebab ia tidak bergantung pada penerimaan atas satu asumsi tertentu.")],
- [b("Klaim etis yang gugur, bukan kebijakannya. "), t("Upah, keselamatan, lingkungan, dan sumber energinya seluruhnya tetap terbuka untuk diperbaiki. Perbaikan pada keempat titik itu akan mengubah hasil pengujian secara langsung.")],
- [b("Kasus yang masih berlangsung. "), t("Kebijakannya masih berjalan, sengketa dagangnya belum tuntas, dan angkanya berubah tiap tahun. Kasus yang belum selesai justru paling layak didiskusikan, sebab kesimpulannya masih dapat memengaruhi arah kebijakannya.")]
+ [b("Sembilan sudut pandang, satu arah. "), t("Kesembilan teori berangkat dari asumsi yang berbeda-beda, tapi mayoritasnya bermuara ke kesimpulan yang sama. Inilah bukti terkuat untuk pendekatan pluralis. Kesimpulan yang dicapai lewat pertemuan banyak sudut pandang jauh lebih kokoh daripada kesimpulan satu teori, sebab dia tidak bergantung pada satu asumsi tertentu.")],
+ [b("Yang gugur klaimnya, bukan kebijakannya. "), t("Upah, keselamatan, lingkungan, dan sumber listriknya semua masih bisa diperbaiki. Kalau keempatnya dibenahi, hasil pengujian ini akan langsung berubah.")],
+ [b("Kasusnya belum selesai. "), t("Kebijakannya masih jalan, sengketa dagangnya belum tuntas, dan angkanya bergerak tiap tahun. Justru karena belum selesai, diskusi seperti ini masih bisa berpengaruh pada arah kebijakannya.")]
 ]));
 
-k.push(H2("7.2  Tiga implikasi manajerial"));
+k.push(H2("7.2  Tiga saran yang bisa dijalankan"));
 const imW = [3000, CW - 3000];
 k.push(TABLE(imW, [
-  thead(["Tindak lanjut", "Isi"], imW),
-  trow([[P("Internalisasi biaya tertunda", { size: 19, bold: true, after: 0, line: 264, align: AlignmentType.LEFT, font: SANS })],
-        "Biaya kesehatan warga, pemulihan sungai, dan pensiun dini pembangkit dimasukkan ke dalam neraca sejak tahap perencanaan, bukan diakui setelah persoalannya muncul."], imW),
-  trow([[P("Pelibatan pihak yang absen", { size: 19, bold: true, after: 0, line: 264, align: AlignmentType.LEFT, font: SANS })],
-        "Pekerja, warga hilir sungai, dan masyarakat adat diberi keterwakilan formal dalam panitia keselamatan kerja dan dalam proses perizinan kawasan."], imW),
-  trow([[P("Pengujian multiteori", { size: 19, bold: true, after: 0, line: 264, align: AlignmentType.LEFT, font: SANS })],
-        "Setiap klaim keberlanjutan diuji dengan lebih dari satu teori. Klaim yang lolos utilitarianism kerap gugur pada keadilan distributif dan discourse ethics."], imW)
+  thead(["Saran", "Isinya"], imW),
+  trow([HEAD("Hitung biaya yang tertunda"), "Biaya berobat warga, pemulihan sungai, dan penutupan pembangkit lebih awal dimasukkan ke perencanaan sejak awal, bukan diakui setelah masalahnya meledak."], imW),
+  trow([HEAD("Beri kursi untuk yang absen"), "Pekerja, warga di hilir sungai, dan masyarakat adat diberi keterwakilan resmi di panitia keselamatan kerja dan proses perizinan kawasan."], imW),
+  trow([HEAD("Uji klaim dengan lebih dari satu teori"), "Sebelum sebuah klaim keberlanjutan dipublikasikan, uji dulu dengan beberapa sudut pandang. Klaim yang lolos hitungan manfaat sering gugur di keadilan pembagian dan di proses."], imW)
 ]));
 k.push(SPACER(160));
 k.push(NOTE("KALIMAT PENUTUP",
- "Manfaat yang terukur selalu lebih mudah dipertahankan daripada beban yang tersebar. Justru karena itu, beban yang tersebar perlu dihitung lebih dahulu.", "FBEAF2"));
+ "Manfaat yang gampang dihitung selalu lebih mudah dibela daripada beban yang menyebar. Justru karena itu, beban yang menyebar harus dihitung lebih dulu.", "FBEAF2"));
 
 /* ================= LAMPIRAN ================= */
-k.push(H1("Lampiran A  Glosarium istilah", { pageBreak: true }));
+k.push(H1("Lampiran A  Daftar istilah", { pageBreak: true }));
 const glW = [3000, CW - 3000];
 const GLOS = [
- ["A priori", "Pengetahuan atau prinsip yang diperoleh lewat penalaran, tanpa bersandar pada pengalaman."],
- ["Act utilitarianism", "Penilaian utilitarian atas satu tindakan tunggal berdasarkan akibat tindakan itu sendiri."],
- ["Categorical imperative", "Perintah moral tanpa syarat pada Kant, dirumuskan dalam beberapa formulasi, dua di antaranya universal acceptability dan respect for persons."],
- ["Deontologis", "Pendekatan yang menilai kewajiban dan prinsip di balik tindakan, bukan akibatnya."],
- ["Enlightened egoism", "Pandangan bahwa pelaku menyokong lingkungan sosial dan ekologisnya karena hal itu menguntungkan dirinya sendiri dalam jangka panjang."],
- ["Eudaimonia", "Hidup yang baik dan berkembang penuh, tujuan akhir dalam virtue ethics."],
+ ["A priori", "Pengetahuan yang didapat lewat penalaran saja, tanpa perlu pengalaman."],
+ ["Act utilitarianism", "Menilai satu kejadian saja: kali ini manfaatnya lebih besar atau tidak."],
+ ["Categorical imperative", "Perintah moral tanpa syarat pada Kant. Dua bentuk utamanya: aturannya harus bisa berlaku untuk semua orang, dan manusia tidak boleh dipakai sekadar sebagai alat."],
+ ["Deontologis", "Cara menilai yang melihat kewajiban dan prinsip, bukan hasilnya."],
+ ["Enlightened egoism", "Egoisme yang cerdas: menjaga lingkungan dan masyarakat karena itu menguntungkan diri sendiri dalam jangka panjang."],
+ ["Eudaimonia", "Hidup yang baik dan berkembang penuh. Tujuan akhir dalam virtue ethics."],
  ["Hypernorms", "Prinsip yang berlaku lintas komunitas dalam Integrative Social Contracts Theory."],
- ["Ideal speech situation", "Syarat deliberasi pada discourse ethics: semua pihak boleh ikut, bebas paksaan, dan argumen dinilai dari kekuatannya sendiri."],
- ["Keadilan distributif", "Penilaian atas ke mana manfaat mengalir dan siapa yang menanggung bebannya."],
- ["Keadilan prosedural", "Penilaian atas siapa yang berhak turut memutuskan dan apakah prosesnya terbuka."],
- ["Konsekuensialis", "Pendekatan yang menilai tindakan dari akibatnya. Disebut juga teleologis."],
- ["Rule utilitarianism", "Penilaian utilitarian atas kelas tindakan dan prinsip di baliknya dalam jangka panjang."],
- ["UNGP", "United Nations Guiding Principles on Business and Human Rights (2011), kerangka protect, respect, remedy."],
- ["Veil of ignorance", "Alat uji Rawls: memilih susunan tanpa mengetahui posisi yang akan ditempati sendiri."]
+ ["Ideal speech situation", "Syarat musyawarah pada discourse ethics: semua boleh ikut, tidak ada yang ditekan, dan argumen dinilai dari kekuatannya sendiri."],
+ ["Keadilan distributif", "Menilai untungnya mengalir ke mana dan ruginya ditanggung siapa."],
+ ["Keadilan prosedural", "Menilai siapa yang boleh ikut memutuskan dan apakah prosesnya terbuka."],
+ ["Konsekuensialis", "Cara menilai yang melihat akibat sebuah tindakan. Disebut juga teleologis."],
+ ["Normatif", "Berisi ukuran benar dan salah. Lawannya deskriptif, yang cuma memerikan kenyataan."],
+ ["Rule utilitarianism", "Menilai kelas tindakan: kalau semua orang melakukan hal ini sebagai aturan, hasilnya bagaimana."],
+ ["Smelter", "Pabrik peleburan yang mengubah bijih tambang jadi bahan setengah jadi."],
+ ["UNGP", "Pedoman PBB tentang Bisnis dan Hak Asasi Manusia (2011), dengan kerangka lindungi, hormati, pulihkan."],
+ ["Veil of ignorance", "Selubung ketidaktahuan, alat uji Rawls: memilih aturan main tanpa tahu akan lahir jadi siapa."],
+ ["WTO", "World Trade Organization, badan yang mengurus aturan perdagangan antarnegara dan sengketanya."]
 ];
-k.push(TABLE(glW, [thead(["Istilah", "Pengertian"], glW)].concat(GLOS.map(function (g) {
-  return trow([[P(g[0], { size: 19, bold: true, after: 0, line: 264, align: AlignmentType.LEFT, font: SANS })], g[1]], glW);
+k.push(TABLE(glW, [thead(["Istilah", "Artinya"], glW)].concat(GLOS.map(function (g) {
+  return trow([HEAD(g[0]), g[1]], glW);
 }))));
 
 k.push(H1("Lampiran B  Pertanyaan untuk diskusi"));
-k.push(P("Enam pertanyaan berikut dapat dipakai untuk memperluas pembahasan, baik dalam kelas maupun sebagai bahan tulisan lanjutan."));
+k.push(P("Enam pertanyaan berikut bisa dipakai untuk memperdalam pembahasan, baik di kelas maupun sebagai bahan tulisan lanjutan."));
 k.push.apply(k, NUMS([
- "Bila act utilitarianism dan rule utilitarianism menghasilkan kesimpulan yang berlawanan, atas dasar apa salah satunya dipilih?",
- "Sampai sejauh mana perusahaan pembeli di negara lain menanggung tanggung jawab atas kondisi kerja pada pemasoknya, dan apa dasarnya menurut UN Guiding Principles?",
- "Apakah keberatan imperialisme kultural cukup kuat untuk membatalkan kritik atas kondisi kerja di kawasan pengolahan? Bagaimana Sen (2000) menjawabnya?",
- "Bagaimana bentuk keterwakilan formal yang memenuhi syarat discourse ethics tanpa membuat proses perizinan menjadi tidak dapat dijalankan?",
- "Struktur dilema yang sama akan berulang pada bauksit, tembaga, dan timah. Pelajaran mana dari kasus nikel yang dapat dipindahkan, dan mana yang tidak?",
- "Jika kelompok Anda diminta merancang indikator keberlanjutan bagi kawasan pengolahan, indikator apa yang akan menangkap beban yang selama ini tidak masuk neraca?"
+ "Kalau act utilitarianism dan rule utilitarianism memberi jawaban yang berlawanan, atas dasar apa kita memilih salah satunya?",
+ "Sejauh mana perusahaan pembeli di negara lain ikut bertanggung jawab atas kondisi kerja di pemasoknya? Apa dasarnya menurut pedoman PBB?",
+ "Apakah keberatan bahwa kritik ini bernuansa Barat cukup kuat untuk membatalkan kritik atas kondisi kerja di kawasan pengolahan? Bagaimana Sen (2000) menjawabnya?",
+ "Bentuk keterwakilan seperti apa yang memenuhi syarat discourse ethics, tapi tetap membuat proses perizinan bisa berjalan?",
+ "Dilema yang sama akan berulang pada bauksit, tembaga, dan timah. Pelajaran mana dari kasus nikel yang bisa dipindahkan, dan mana yang tidak?",
+ "Kalau kelompok Anda diminta merancang indikator keberlanjutan untuk kawasan pengolahan, indikator apa yang akan menangkap beban yang selama ini tidak masuk hitungan?"
 ]));
 
 k.push(H1("Daftar rujukan"));
