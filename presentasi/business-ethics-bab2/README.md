@@ -32,3 +32,8 @@ detail lengkapnya disimpan sebagai **speaker notes**:
 4. Definisi & dua prinsip stakeholder → subjudul slide 12 (+ notes berisi definisi historis).
 5. Peran baru manajemen & tiga bentuk teori → kartu kanan slide 13 (+ notes).
 6. Kesimpulan → pita bawah slide sintesis (28) (+ notes berisi lima poin lengkap).
+
+## Dokumen pendamping
+
+- `Bahan-Bacaan-Framing-Business-Ethics.docx` / `.pdf` — handout materi lengkap dengan bahasa sederhana: teori Bab 2, studi kasus PT Djarum, glosarium istilah, dan pertanyaan latihan (16 halaman).
+- `Skrip-Presentasi-Framing-Business-Ethics.docx` / `.pdf` — skrip per slide untuk 30 menit, dengan pembagian tiga pembicara, petunjuk panggung, transisi antarbagian, dan tips penyampaian (11 halaman).
