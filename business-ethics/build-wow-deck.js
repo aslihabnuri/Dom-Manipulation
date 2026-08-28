@@ -18,16 +18,16 @@ const TIM = [["Aslih Abnuri", "25/574338/PEK/31801"], ["Arfinal Diputra", "25/57
              ["Rohana Dwi Hardianti", "25/574077/PEK/31728"]];
 
 /* ================= TEMA ================= */
-let BG, INK, BODY, MUTE, PANEL, PANEL2, FEAT, FEATINK, FEATBODY, ACC, ACC2, HLC, GRIDF, RULEC;
+let BG, INK, BODY, MUTE, PANEL, PANEL2, FEAT, FEATINK, FEATBODY, ACC, ACC2, HLC, HL2, GRIDF, RULEC;
 function theme(name) {
   if (name === "pink") {
-    BG = PINK; INK = NEAR; BODY = "26060F"; MUTE = "72123F";
+    BG = PINK; INK = WHITE; BODY = BLUE_D; MUTE = BLUE_D;
     PANEL = "F06CB0"; PANEL2 = "F58CC4"; FEAT = BLUE; FEATINK = WHITE; FEATBODY = "CFCEF0";
-    ACC = BLUE; ACC2 = GREEN; HLC = BLUE; GRIDF = GD + "grid-ink.png"; RULEC = "D96FA9";
+    ACC = BLUE; ACC2 = WHITE; HLC = BLUE; HL2 = BLUE; GRIDF = GD + "grid-ink.png"; RULEC = "D96FA9";
   } else {
     BG = BLUE; INK = WHITE; BODY = "D8D7F2"; MUTE = "A5A3E0";
     PANEL = "2A278F"; PANEL2 = "15136B"; FEAT = PINK_D; FEATINK = WHITE; FEATBODY = "FBD9E8";
-    ACC = PINK; ACC2 = GREEN; HLC = PINK; GRIDF = GD + "grid-dark.png"; RULEC = "4341B0";
+    ACC = PINK; ACC2 = GREEN; HLC = PINK; HL2 = GREEN_D; GRIDF = GD + "grid-dark.png"; RULEC = "4341B0";
   }
 }
 function slide(name) {
@@ -120,7 +120,7 @@ function runs(list, base) {
     if (st === "a") { o.bold = true; o.color = ACC; }
     if (st === "g") { o.bold = true; o.color = ACC2; }
     if (st === "h") { o.bold = true; o.color = WHITE; o.highlight = HLC; }
-    if (st === "hg") { o.bold = true; o.color = WHITE; o.highlight = GREEN_D; }
+    if (st === "hg") { o.bold = true; o.color = WHITE; o.highlight = HL2; }
     if (st === "w") { o.bold = true; o.color = INK; }
     if (st === "fw") { o.bold = true; o.color = WHITE; }
     return { text: r[0], options: o };
@@ -237,15 +237,15 @@ const c3w = (CW - 0.7) / 3;
   "Posisi yang diambil Crane dan Matten. Pluralisme tidak menyamaratakan seluruh perspektif, tetapi juga tidak mengunggulkan satu di atasnya.", 1]
 ].forEach(function (c, i) {
   const x = M + i * (c3w + 0.35), pl = !!c[4];
-  blob(s, x + c3w / 2 - 1.28, 2.00, 2.56, 2.42, pl ? GREEN : BLUE);
+  blob(s, x + c3w / 2 - 1.28, 2.00, 2.56, 2.42, pl ? WHITE : BLUE);
   const iw = sizeH(c[1], 2.35)[0];
   img(s, c[1], x + c3w / 2 - iw / 2, 2.06, { h: 2.35 });
-  tag(s, x, 4.60, 2.05, 0.32, c[0], pl ? GREEN : NEAR, { size: 9.5, color: pl ? NEAR : WHITE });
-  txt(s, c[2], x, 5.04, c3w, 0.62, { size: 14, bold: true, face: HF, color: NEAR, lh: 1.05, cs: -0.2 });
-  txt(s, c[3], x, 5.70, c3w, 0.80, { size: 10.5, color: "3A0C1F", lh: 1.14 });
+  tag(s, x, 4.60, 2.05, 0.32, c[0], pl ? BLUE : NEAR, { size: 9.5 });
+  txt(s, c[2], x, 5.04, c3w, 0.62, { size: 15, bold: true, face: HF, color: WHITE, lh: 1.05, cs: 0.5 });
+  txt(s, c[3], x, 5.70, c3w, 0.80, { size: 10.5, color: BLUE_D, lh: 1.14 });
   if (i < 2) vrule(s, x + c3w + 0.17, 4.66, 1.75);
 });
-star(s, 11.55, 1.62, 0.72, 0.72, GREEN, 16, 10);
+star(s, 11.55, 1.62, 0.72, 0.72, WHITE, 16, 10);
 src(s, "Crane dan Matten (2019), Bab 3, halaman 87 sampai 88. Sen (2000) dan Liu (2018)."); pageno(s, 4);
 s.addNotes("1,5 menit. Pemantik: suap. Absolutis bilang selalu salah, relativis bilang tergantung negaranya, pluralis bertanya kriteria mana yang paling kuat menanggung beban argumen.");
 
@@ -413,17 +413,17 @@ const b6w = 3.85;
 ].forEach(function (b, i) {
   const col = i % 2, row = (i / 2) | 0;
   const x = col === 0 ? M : W - M - b6w, y = 1.98 + row * 1.46;
-  tag(s, x, y, 0.32, 0.32, String(i + 1), col ? GREEN : BLUE, { size: 12, cs: 0, color: col ? NEAR : WHITE });
+  tag(s, x, y, 0.32, 0.32, String(i + 1), col ? WHITE : BLUE, { size: 12, cs: 0, color: col ? BLUE : WHITE });
   txt(s, b[0].toUpperCase(), x + 0.42, y, b6w - 0.42, 0.32,
-    { size: 12.5, bold: true, color: NEAR, face: HF, cs: -0.2, valign: "middle" });
-  txt(s, b[1], x, y + 0.40, b6w, 0.62, { size: 10, color: "3A0C1F", lh: 1.14 });
+    { size: 13.5, bold: true, color: WHITE, face: HF, cs: 0.4, valign: "middle" });
+  txt(s, b[1], x, y + 0.40, b6w, 0.62, { size: 10, color: BLUE_D, lh: 1.14 });
   if (row < 2) rule(s, x, y + 1.20, b6w);
 });
 img(s, "c-limits", 4.58, 2.00, { h: 4.15 });
-rule(s, M, 6.30, CW, GREEN_D);
+rule(s, M, 6.30, CW, WHITE);
 s.addText(runs(["Teori alternatif tidak menggantikan teori modernis, melainkan ", ["menambahkan dimensi penilaian yang belum tercakup", "w"],
   ": karakter pelaku, relasi antarpihak, prosedur perumusan norma, dan pilihan istilah."],
-  { fontSize: 10, color: "3A0C1F" }),
+  { fontSize: 10, color: BLUE_D }),
   { x: M, y: 6.42, w: CW, h: 0.36, isTextBox: true, margin: 0, valign: "top", fontFace: BF, fontSize: 10, lineSpacingMultiple: 1.1 });
 pageno(s, 11);
 s.addNotes("1 menit. Slide transisi. Keberatan nomor 3 sampai 5 paling menentukan bagi kasus nikel, karena warga terdampak tidak pernah jadi pihak dalam perumusan.");
@@ -619,7 +619,7 @@ img(s, "c2-alt", 9.35, 2.34, { h: 5.16 });
 const aw = 4.20;
 [[6, "Virtue ethics", "MENOLAK PEMBANDING", BLUE, "Standar pembanding mana yang seharusnya dipakai?",
   ["Pembandingnya selama ini adalah keadaan sebelum hilirisasi, bukan standar industri terbaik yang tersedia hari ini. ", ["Aktor berkarakter baik mengukur diri pada standar tertinggi yang dapat dicapai", "h"], "."]],
- [7, "Ethic of care", "MENUNTUT PEMULIHAN", GREEN_D, "Sejauh mana relasi dengan pihak terdampak dipelihara?",
+ [7, "Ethic of care", "MENUNTUT PEMULIHAN", BLUE_D, "Sejauh mana relasi dengan pihak terdampak dipelihara?",
   ["Warga hilir sungai dan sekitar 300 sampai 500 jiwa O Hongana Manyawa adalah ", ["pihak yang berelasi, bukan variabel biaya", "hg"], ". Yang dituntut pemulihan sungai dan wilayah lindung, bukan penghentian mendadak."]],
  [8, "Discourse ethics", "MENOLAK PROSEDUR", BLUE, "Siapa yang hadir dan siapa yang absen dalam perumusan?",
   ["Warga terdampak bukan pihak dalam perumusan kebijakan maupun perizinan kawasan. Syarat keterlibatan setara tidak terpenuhi, dan ", ["cacat prosedur sudah cukup untuk membatalkan keabsahan hasilnya", "h"], "."]],
@@ -629,9 +629,9 @@ const aw = 4.20;
   const col = i % 2, row = (i / 2) | 0;
   const x = M + col * (aw + 0.45), y = 1.96 + row * 2.42;
   tag(s, x, y, 0.34, 0.34, String(l[0]), l[3], { size: 13, cs: 0 });
-  txt(s, l[1].toUpperCase(), x + 0.44, y, aw - 0.44, 0.34, { size: 14, bold: true, color: NEAR, face: HF, cs: -0.3, valign: "middle" });
-  txt(s, l[4], x, y + 0.44, aw, 0.38, { size: 10.5, bold: true, italic: true, color: BLUE, lh: 1.06 });
-  rich(s, l[5], x, y + 0.88, aw, 0.94, { fontSize: 10, color: "2B0812", lineSpacingMultiple: 1.12 });
+  txt(s, l[1].toUpperCase(), x + 0.44, y, aw - 0.44, 0.34, { size: 15, bold: true, color: WHITE, face: HF, cs: 0.5, valign: "middle" });
+  txt(s, l[4], x, y + 0.44, aw, 0.38, { size: 10.5, bold: true, italic: true, color: WHITE, lh: 1.06 });
+  rich(s, l[5], x, y + 0.88, aw, 0.94, { fontSize: 10, color: BLUE_D, lineSpacingMultiple: 1.12 });
   tag(s, x, y + 1.86, 2.00, 0.28, l[2], l[3], { size: 8 });
 });
 rule(s, M, 4.22, 8.85);
