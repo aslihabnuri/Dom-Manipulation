@@ -1,0 +1,4 @@
+{ "name":"toniblack-creator-brief","private":true,
+  "description":"Builds the Toni Black content creator brief",
+  "scripts":{"build":"node build_brief.js"},
+  "dependencies":{"pptxgenjs":"^3.12.0"} }
