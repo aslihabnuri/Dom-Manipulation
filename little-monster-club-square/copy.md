@@ -275,7 +275,7 @@ Ages 5 to 14 in Uluwatu, IDR 250k a session. Send us a message to register 💛
 Their first serve is going to be dreadful. Their fourth will not be.
 
 Little Monster Club is kids padel at Monster Social Club Bali, every Tuesday.
-Certified Spanish coaches, six spots, pool and milk included.
+There are certified Spanish coaches on court and only six spots in the group, and the pool and milk are included.
 
 Ages 5 to 14. Tap to register 🎾
 ```
