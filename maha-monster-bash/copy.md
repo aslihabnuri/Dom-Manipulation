@@ -44,6 +44,7 @@ Read off the asset so the copy matches what people just watched, in order:
 | | `Prize Pool Rp. 300.000.000` |
 | Dare | `COME IF YOU DARE`, `PLAY IF YOU ARE BRAVE`, `DARE TO PLAY ?` |
 | End card | MAHA MONSTER BASH, Uluwatu Bali, MASSIVE COMPETITIVE IMPRESSIVE, 31 Oktober 2026 |
+| Venue | Monster Padel Club Uluwatu, per the approved primary text |
 | Partners | Monster Social Club Bali, MAHA Resort Bali, Padelicious Bali Padel Club |
 
 Format: 2160 x 3840, 9:16, 48.7 seconds, 60fps. Vertical, so Reels, Stories and
@@ -67,15 +68,18 @@ which are `come if you dare` and `dare to play?`
 None of this appears anywhere in the 48 seconds, so none of it appears in the
 copy below. Fill it in before the campaign goes live.
 
-- How to enter, and the entry fee
+The entry route is now answered by the registration page you supplied, which
+is the one that mattered most. These are still open:
+
+- The entry fee, unless the registration page states it
 - Team format and categories, mixed or open, and whether there is a level cap
 - What time the day starts and finishes
-- Which WhatsApp number takes entries
+- Which WhatsApp number takes questions, since three numbers are in circulation
 - Whether spectators are welcome, and whether that costs anything
 
-The entry route is the important one. A Click to WhatsApp campaign with no
-stated way to enter converts into questions rather than registrations, and your
-admin absorbs the difference.
+The last one matters more than it looks. "Tournament Festival" and
+"competition, chill and party" invite people who have no intention of playing,
+and right now there is nowhere to send them.
 
 ---
 
@@ -105,104 +109,72 @@ Angle 2 and Angle 5 there.
 
 ---
 
-## 1. Primary text
+## 1. Primary text, approved
 
-Meta shows roughly the first 125 characters before it collapses to "... more",
-so each of these carries the prize pool or the invitation inside that window.
-Hook lengths in brackets.
-
-### Angle 1. The prize
-
-The plainest of the five, and probably the strongest, because no other padel
-event in Bali is offering this.
-
-> **This Halloween we are putting a prize pool of Rp 300 juta on a single court.** [76]
+This is the version you chose, and everything below is built to work with it.
 
 ```
-This Halloween we are putting a prize pool of Rp 300 juta on a single court, and we would love to see you out there for it.
+Maha Monster Bash
+Halloween Padel Tournament Festival
 
-MAHA Monster Bash comes to Uluwatu on Saturday 31 October, brought to you by Monster Social Club Bali together with MAHA Resort Bali and Padelicious.
+31 October 2026
+📍Monster Padel Club Uluwatu
 
-Come if you dare 🎾💚
+- play of you are brave
+- competition, chill and party
+- massive, competitive, impressive
+
+Prize Pool IDR 300.000.000
+
+Link Registration :
+
+https://www.maharesortbali.com/monsterbash-registration
 ```
 
-### Angle 2. The invitation
+### One typo to fix before it ships
 
-Closest to how Monster already writes when inviting people to the club.
+`play of you are brave` should read `play if you are brave`, which is what the
+film says on screen.
 
-> **Halloween falls on a Saturday this year and we are spending all of it on court with you.** [88]
+### Where Meta cuts it
 
-```
-Halloween falls on a Saturday this year and we are spending all of it on court with you.
-
-MAHA Monster Bash brings a very big day of padel to Uluwatu on 31 October, and the prize pool is Rp 300 juta.
-
-We are waiting for you 🎾💚
-```
-
-### Angle 3. The club
-
-Monster keeps saying it has never only been about the padel, so this angle
-simply continues that thought.
-
-> **It has never really been only about the padel with us.** [54]
+At 295 characters this runs well past the roughly 125 that Meta shows before it
+collapses to "... more". Here is exactly what a scrolling stranger sees:
 
 ```
-It has never really been only about the padel with us, and this is going to be our biggest day of the year.
+Maha Monster Bash
+Halloween Padel Tournament Festival
 
-MAHA Monster Bash takes over Uluwatu on Saturday 31 October with a prize pool of Rp 300 juta, and we are doing it together with MAHA Resort Bali and Padelicious.
+31 October 2026
+📍Monster Padel Club Uluwatu
 
-Come and be part of it 🎾💚
+- play of you are brave
+-
 ```
 
-### Angle 4. The partner
+**The prize pool and the registration link are both below that fold.** IDR 300
+juta is the strongest fact in the campaign and almost nobody taps "more" to
+find it.
 
-Padel is doubles, so the one thing a reader can act on straight away is
-messaging the person they always play with.
+Two ways to handle it, and they are not exclusive:
 
-> **Bring the partner you always play with, because Rp 300 juta is waiting on court.** [80]
+**Let the headline carry it.** That is the pairing rule, and it is why the
+headline set below leads with the prize pool rather than repeating the name or
+the date, both of which are already visible above the fold.
 
-```
-Bring the partner you always play with, because this Halloween there is a prize pool of Rp 300 juta waiting on court.
+**Or move one line up.** Putting `Prize Pool IDR 300.000.000` directly under
+`📍Monster Padel Club Uluwatu` brings it inside the visible window without
+changing a word of your copy. The three bullets then sit below the fold, where
+they cost nothing, since anyone who taps "more" is already interested.
 
-MAHA Monster Bash runs over one day in Uluwatu on Saturday 31 October, and we would love to have you both there.
+### One thing this version changes about targeting
 
-Send us a message and we will get you signed up 🎾💚
-```
-
-### Angle 5. The collaboration
-
-The format the April report says performs best on this account.
-
-> **Three of us are getting together for one very good day of padel this Halloween.** [79]
-
-```
-Three of us are getting together for one very good day of padel this Halloween.
-
-Monster Social Club Bali, MAHA Resort Bali and Padelicious are bringing you MAHA Monster Bash in Uluwatu on Saturday 31 October, and the prize pool is Rp 300 juta.
-
-Dare to play? 🎾💚
-```
-
-### Indonesian
-
-For a separate ad set aimed at the domestic audience.
-
-```
-Halloween tahun ini jatuh di hari Sabtu dan kami mau menghabiskan seharian penuh di lapangan bareng kamu.
-
-MAHA Monster Bash hadir di Uluwatu tanggal 31 Oktober dengan prize pool Rp 300 juta, bersama MAHA Resort Bali dan Padelicious.
-
-Kami tunggu kamu di sana 🎾💚
-```
-
-### How to run the test
-
-Angles 1, 3 and 4 to cold Sports Enthusiast. Angles 2 and 5 to retargeting,
-since a dare and a request for a partner both land harder on someone who
-already knows the club. Same video, same headline, primary text as the only
-variable. Minimum 14 day flight, and the report would say 21 for something this
-size. You have 63 days, so there is no reason to run it short.
+`Halloween Padel Tournament Festival` and `competition, chill and party` say
+this is not only for people chasing the prize. Somebody can come for the day
+itself. The April report puts Lifestyle and Expat at IDR 17,337 per
+conversation against Sports Enthusiast at IDR 12,017, so it is the more
+expensive segment, but a festival is the one format that justifies giving it a
+real share of budget rather than a token one. Sports Enthusiast still leads.
 
 ---
 
@@ -212,43 +184,46 @@ The bold line under the video, next to the CTA button, and the last thing read
 before the tap. Meta allows 40 characters and some placements clip nearer 27,
 so anything marked **safe** survives everywhere.
 
-One rule for pairing: if the primary text opened on the invitation, the
-headline carries the prize. If it opened on the prize, the headline invites.
-Never both in the same place.
+Your primary text already shows the name, the date and the venue above the
+fold, so a headline repeating any of those spends the slot on nothing. It
+should carry what the fold hides, and that is the prize pool.
 
-#### Carrying the prize
+#### Recommended, carrying the prize pool
 
 | Headline | Chars | |
 | --- | --- | --- |
-| Prize Pool Rp 300 Juta | 22 | safe |
-| Rp 300 Juta On One Court | 24 | safe |
-| Play For Rp 300 Juta | 20 | safe |
+| Prize Pool IDR 300 Juta | 23 | safe |
+| IDR 300 Juta Prize Pool | 23 | safe |
+| Play For IDR 300 Juta | 21 | safe |
+| Win IDR 300 Juta This Halloween | 31 | may clip |
 
-#### Inviting
+#### If you move the prize pool up in the primary text
+
+Then the headline is free to invite instead.
 
 | Headline | Chars | |
 | --- | --- | --- |
 | Come And Play With Us | 21 | safe |
 | We Are Waiting For You | 22 | safe |
-| Play With Us This Halloween | 27 | safe |
-| Join Us On Saturday 31 October | 30 | may clip |
+| Register Now For 31 October | 27 | safe |
 
 #### In Monster's own words from the film
 
 | Headline | Chars | |
 | --- | --- | --- |
 | Dare To Play? | 13 | safe |
-| Come If You Dare | 16 | safe |
 | Play If You Are Brave | 21 | safe |
+| Come If You Dare | 16 | safe |
 
 #### Indonesian ad set
 
 | Headline | Chars | |
 | --- | --- | --- |
 | Berani Main? | 12 | safe |
+| Daftar Sekarang | 15 | safe |
+| Hadiah IDR 300 Juta | 19 | safe |
 | Yuk Main Bareng Kami | 20 | safe |
-| Prize Pool Rp 300 Juta | 22 | safe |
-| Sabtu 31 Oktober, Uluwatu | 25 | safe |
+| Prize Pool IDR 300 Juta | 23 | safe |
 
 #### Descriptions, 30 characters
 
@@ -257,36 +232,42 @@ Shown on some placements and dropped on others, so nothing load bearing here.
 | Description | Chars |
 | --- | --- |
 | Bring your partner | 18 |
-| Message us to join | 18 |
+| Uluwatu, 31 October | 19 |
+| Register at the link | 20 |
 | We are waiting for you | 22 |
-| Uluwatu, Saturday 31 October | 28 |
 
-Call to action button: **Send Message** for Click to WhatsApp.
+Call to action button: **Sign Up** now that there is a registration page,
+which sends people straight to the form. Use **Send Message** only on the ad
+set you point at WhatsApp, which is what the two messages below are written
+for.
 
 ---
 
 ## 3. Welcome message
 
 One paragraph, no line breaks. No address, no opening hours and no service
-list, because all of that already lives in the business profile and a greeting
-that turns into a notice board gets read as a robot. The only jobs here are to
-sound like the people who run the club and to ask the one question that moves a
-doubles entry forward.
+list, because that already lives in the business profile and a greeting that
+turns into a notice board gets read as a robot.
+
+Now that registration has its own page, the greeting has a better job than
+collecting names. It sends people to the form straight away, then keeps the
+door open for the one thing the form cannot solve, which is finding a partner
+for a doubles event.
 
 ```
-Hi there and thank you so much for reaching out to Monster Social Club Bali 🎾 We are really happy you are asking about MAHA Monster Bash, our Halloween padel day on Saturday 31 October with a prize pool of Rp 300 juta. Send us your name and let us know whether you already have a partner, and our team will come back to you with the format and everything you need to join 💚
+Hi there and thank you so much for reaching out to Monster Social Club Bali 🎾 We are really happy you are asking about Maha Monster Bash, our Halloween padel festival here in Uluwatu on Saturday 31 October with a prize pool of IDR 300 juta. You can sign up straight away at https://www.maharesortbali.com/monsterbash-registration and if you are still looking for a partner or there is anything you want to ask us first, just say the word and our team will help you out 💚
 ```
 
 ### Shorter
 
 ```
-Hi there and welcome to Monster Social Club Bali 🎾 We are so glad you are interested in MAHA Monster Bash on Saturday 31 October. Just send us your name and let us know if you have a partner yet, and we will come straight back to you with how to join 💚
+Hi there and welcome to Monster Social Club Bali 🎾 So glad you are asking about Maha Monster Bash on Saturday 31 October. You can register at https://www.maharesortbali.com/monsterbash-registration and if you need a partner or have any questions at all just let us know and we will sort you out 💚
 ```
 
 ### Indonesian
 
 ```
-Halo dan terima kasih banyak sudah menghubungi Monster Social Club Bali 🎾 Kami senang sekali kamu tertarik dengan MAHA Monster Bash, hari padel Halloween kami pada Sabtu 31 Oktober dengan prize pool Rp 300 juta. Kirim nama kamu dan kabari apakah sudah punya partner, nanti tim kami balas dengan format dan cara ikutnya 💚
+Halo dan terima kasih banyak sudah menghubungi Monster Social Club Bali 🎾 Kami senang sekali kamu tertarik dengan Maha Monster Bash, festival padel Halloween kami di Uluwatu pada Sabtu 31 Oktober dengan prize pool IDR 300 juta. Kamu bisa langsung daftar di https://www.maharesortbali.com/monsterbash-registration dan kalau masih cari partner atau ada yang mau ditanya dulu, kabari saja ya, tim kami siap bantu 💚
 ```
 
 ---
@@ -298,19 +279,28 @@ Written from their side rather than the club's, and short enough that nobody
 deletes it and retypes their own.
 
 ```
-Hi Monster! I saw MAHA Monster Bash on Instagram and I would love to join on 31 October. Could you tell me the format and how to register?
+Hi Monster! I saw Maha Monster Bash on Instagram and I would love to play on 31 October. Could you help me get registered?
 ```
 
-### Shorter
+### For people who have nobody to play with
+
+Worth running as its own ad set. A doubles event loses entries to this exact
+problem, and a person who has to solve it before they can register usually just
+closes the tab. Letting them say it out loud is the difference between an entry
+and a scroll.
 
 ```
-Hi Monster! I would love to join MAHA Monster Bash on 31 October. How do I register?
+Hi Monster! I want to play Maha Monster Bash on 31 October but I do not have a partner yet. Could you help me find one?
 ```
 
 ### Indonesian
 
 ```
-Halo Monster! Saya lihat MAHA Monster Bash di Instagram dan mau ikut tanggal 31 Oktober. Boleh info format dan cara daftarnya?
+Halo Monster! Saya lihat Maha Monster Bash di Instagram dan mau ikut tanggal 31 Oktober. Boleh dibantu cara daftarnya?
+```
+
+```
+Halo Monster! Saya mau ikut Maha Monster Bash tanggal 31 Oktober tapi belum punya partner. Boleh dibantu carikan?
 ```
 
 ### Ready-made links
