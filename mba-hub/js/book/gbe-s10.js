@@ -2,7 +2,7 @@ window.MBA_BOOK = window.MBA_BOOK || {};
 window.MBA_BOOK.gbe = window.MBA_BOOK.gbe || {};
 window.MBA_BOOK.gbe[10] = {
   bab: 10,
-  judul: "BAB 10 LINGKUNGAN PEMERINTAHAN",
+  judul: "LINGKUNGAN PEMERINTAHAN",
   sumber: "Silabus GBE MAN 6521 dan referensi akademik standar topik Lingkungan Pemerintahan",
   lo: [
     "LO1 Menjelaskan struktur kelembagaan pemerintah serta fungsi alokasi, distribusi, dan stabilisasi yang melandasi campur tangan negara dalam perekonomian.",

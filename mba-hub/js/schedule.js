@@ -31,13 +31,13 @@ window.MBA_SCHEDULE = {
     { date: "2026-08-29", time: "15:30", course: "otm", session: 4, type: "class" },
 
     { date: "2026-08-31", time: "09:00", course: "gbe", session: 1, type: "block",
-      note: "Hari 1, kuliah blok GBE di MM Jogja" },
+      note: "Hari 1 : Sesi 1-3: silabus, lingkungan ekonomi, hukum bisnis Indonesia" },
     { date: "2026-09-01", time: "09:00", course: "gbe", session: 2, type: "block",
-      note: "Hari 2, kuliah blok GBE di MM Jogja" },
+      note: "Hari 2 : Sesi 4-5: hukum bisnis internasional, demografi" },
     { date: "2026-09-02", time: "09:00", course: "gbe", session: 3, type: "block",
-      note: "Hari 3, kuliah blok GBE di MM Jogja" },
+      note: "Hari 3 : Sesi 6-7: sosial budaya, politik domestik & internasional" },
     { date: "2026-09-03", time: "09:00", course: "gbe", session: 4, type: "block",
-      note: "Hari 4, kuliah blok GBE di MM Jogja" },
+      note: "Hari 4 : Sesi 8-10: teknologi, lingkungan alami, pemerintahan" },
 
     { date: "2026-09-11", time: "19:00", course: "otm", session: 5, type: "class" },
     { date: "2026-09-12", time: "09:00", course: "otm", session: 6, type: "class" },

@@ -2,7 +2,7 @@ window.MBA_BOOK = window.MBA_BOOK || {};
 window.MBA_BOOK.gbe = window.MBA_BOOK.gbe || {};
 window.MBA_BOOK.gbe[2] = {
   bab: 2,
-  judul: "BAB 2 LINGKUNGAN EKONOMI",
+  judul: "LINGKUNGAN EKONOMI",
   sumber: "Modul GBE: deck Gumilang Aryo Sahadewo (Google Drive) dan referensi akademik standar topik Lingkungan Ekonomi",
   lo: [
     "LO1 Menjelaskan struktur perekonomian serta perubahan kondisi ekonomi global dan nasional yang relevan bagi keputusan bisnis.",
