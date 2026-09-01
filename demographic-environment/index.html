@@ -1,0 +1,1037 @@
+<title>Bertanya Seperti Susilastuti</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Karla:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --ground:#EDF0EE;
+  --surface:#FAFBFA;
+  --surface-2:#E4E9E7;
+  --line:#D2D9D6;
+  --line-soft:#E1E6E4;
+  --ink:#0E1614;
+  --ink-2:#37443F;
+  --muted:#6B7975;
+  --teal:#0F5A4F;
+  --teal-ink:#0F5A4F;
+  --teal-soft:#E0EBE7;
+  --ochre:#94531E;
+  --ochre-ink:#94531E;
+  --ochre-soft:#F1E7DA;
+  --shadow:0 1px 2px rgba(14,22,20,.05), 0 8px 24px -16px rgba(14,22,20,.28);
+  --display:"Newsreader",Georgia,"Times New Roman",serif;
+  --body:"Karla","Helvetica Neue",Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0C1211;
+    --surface:#141D1B;
+    --surface-2:#1B2624;
+    --line:#283532;
+    --line-soft:#1F2B29;
+    --ink:#E7EDEA;
+    --ink-2:#BDC9C5;
+    --muted:#84928E;
+    --teal:#6CC3AF;
+    --teal-ink:#8FD6C4;
+    --teal-soft:#15302B;
+    --ochre:#DB9F65;
+    --ochre-ink:#E6B383;
+    --ochre-soft:#32241A;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0C1211;
+  --surface:#141D1B;
+  --surface-2:#1B2624;
+  --line:#283532;
+  --line-soft:#1F2B29;
+  --ink:#E7EDEA;
+  --ink-2:#BDC9C5;
+  --muted:#84928E;
+  --teal:#6CC3AF;
+  --teal-ink:#8FD6C4;
+  --teal-soft:#15302B;
+  --ochre:#DB9F65;
+  --ochre-ink:#E6B383;
+  --ochre-soft:#32241A;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.7);
+}
+
+*{box-sizing:border-box}
+body{
+  background:var(--ground);
+  color:var(--ink);
+  font-family:var(--body);
+  font-size:16.5px;
+  line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:var(--teal-ink);text-decoration-thickness:1px;text-underline-offset:2px}
+a:focus-visible,summary:focus-visible{outline:2px solid var(--teal);outline-offset:3px;border-radius:2px}
+
+/* ---------- shell ---------- */
+.shell{max-width:1220px;margin:0 auto;padding:0 22px 96px}
+.masthead{
+  border-bottom:1px solid var(--line);
+  padding:56px 0 34px;
+  margin-bottom:34px;
+}
+.eyebrow{
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);margin:0 0 18px;
+}
+h1{
+  font-family:var(--display);
+  font-optical-sizing:auto;
+  font-weight:600;
+  font-size:clamp(2.4rem,5.4vw,4rem);
+  line-height:1.02;
+  letter-spacing:-.018em;
+  margin:0 0 18px;
+  text-wrap:balance;
+}
+.standfirst{
+  font-size:clamp(1.02rem,1.6vw,1.16rem);
+  color:var(--ink-2);
+  max-width:60ch;
+  margin:0 0 26px;
+}
+.factbar{
+  display:flex;flex-wrap:wrap;gap:10px 8px;
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;
+}
+.factbar span{
+  border:1px solid var(--line);border-radius:999px;
+  padding:5px 11px;color:var(--ink-2);background:var(--surface);
+}
+
+.cols{display:grid;grid-template-columns:1fr;gap:40px}
+@media (min-width:1020px){
+  .cols{grid-template-columns:212px minmax(0,1fr);gap:56px;align-items:start}
+  .rail{position:sticky;top:26px;max-height:calc(100vh - 52px);overflow-y:auto}
+}
+.rail nav{display:flex;flex-direction:column;gap:2px;border-left:1px solid var(--line);padding-left:0}
+.rail a{
+  display:block;padding:5px 0 5px 14px;margin-left:-1px;
+  border-left:2px solid transparent;
+  font-size:13.5px;color:var(--muted);text-decoration:none;line-height:1.35;
+}
+.rail a:hover{color:var(--ink);border-left-color:var(--teal)}
+.rail .rail-head{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);padding:16px 0 6px 14px;border-left:2px solid transparent;
+}
+.rail .rail-head:first-child{padding-top:0}
+
+/* ---------- sections ---------- */
+section{margin:0 0 68px;scroll-margin-top:24px}
+.sec-head{display:flex;align-items:baseline;gap:14px;margin:0 0 8px;flex-wrap:wrap}
+.sec-num{font-family:var(--mono);font-size:12px;color:var(--teal-ink);letter-spacing:.08em}
+h2{
+  font-family:var(--display);font-weight:600;
+  font-size:clamp(1.55rem,3vw,2.1rem);line-height:1.12;letter-spacing:-.012em;
+  margin:0;text-wrap:balance;
+}
+.sec-lede{color:var(--ink-2);max-width:66ch;margin:10px 0 30px}
+h3{
+  font-family:var(--display);font-weight:600;font-size:1.22rem;line-height:1.24;
+  margin:34px 0 8px;letter-spacing:-.008em;text-wrap:balance;
+}
+p{max-width:66ch;margin:0 0 14px}
+.small{font-size:14.5px;color:var(--muted)}
+
+/* ---------- profile ---------- */
+.profile{
+  display:grid;gap:22px;grid-template-columns:1fr;
+  background:var(--surface);border:1px solid var(--line);border-radius:6px;
+  padding:26px;box-shadow:var(--shadow);
+}
+@media (min-width:760px){.profile{grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:34px}}
+.profile h3{margin-top:0}
+.idlist{margin:0;display:grid;gap:0}
+.idlist div{
+  display:grid;grid-template-columns:104px minmax(0,1fr);gap:12px;
+  padding:8px 0;border-top:1px solid var(--line-soft);
+}
+.idlist div:first-child{border-top:0;padding-top:0}
+.idlist dt{
+  font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--muted);padding-top:3px;
+}
+.idlist dd{margin:0;font-size:15px}
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:4px;overflow:hidden;margin:0 0 18px}
+.metric{background:var(--surface);padding:12px 13px}
+.metric b{
+  display:block;font-family:var(--display);font-weight:600;font-size:1.7rem;line-height:1;
+  font-variant-numeric:tabular-nums;letter-spacing:-.02em;
+}
+.metric span{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block;margin-top:6px}
+
+/* ---------- timeline ---------- */
+.tl{list-style:none;margin:0;padding:0;border-left:1px solid var(--line)}
+.tl li{position:relative;padding:0 0 22px 22px}
+.tl li::before{
+  content:"";position:absolute;left:-4.5px;top:9px;width:8px;height:8px;border-radius:50%;
+  background:var(--ground);border:2px solid var(--teal);
+}
+.tl li.alt::before{border-color:var(--ochre)}
+.tl .yr{
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;color:var(--muted);
+  display:block;margin-bottom:1px;
+}
+.tl .ev{display:block;font-size:15.2px;line-height:1.45;max-width:56ch}
+.tl .ev em{color:var(--ink-2);font-style:italic}
+
+/* ---------- moves ---------- */
+.moves{display:grid;gap:16px;grid-template-columns:1fr}
+@media (min-width:820px){.moves{grid-template-columns:1fr 1fr}}
+.move{
+  background:var(--surface);border:1px solid var(--line);border-radius:6px;
+  padding:20px 21px;display:flex;flex-direction:column;gap:9px;
+}
+.move .tag{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--teal-ink);
+}
+.move h4{
+  font-family:var(--display);font-weight:600;font-size:1.1rem;line-height:1.22;margin:0;
+  letter-spacing:-.006em;text-wrap:balance;
+}
+.move p{margin:0;font-size:15px;max-width:none;color:var(--ink-2)}
+.move .src{
+  font-size:12.5px;color:var(--muted);border-top:1px solid var(--line-soft);padding-top:9px;margin-top:auto;
+}
+.move .src b{font-weight:600;color:var(--ink-2)}
+
+/* ---------- coverage table ---------- */
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:6px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:14.5px}
+th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+thead th{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);background:var(--surface-2);border-bottom:1px solid var(--line);
+}
+tbody tr:last-child td{border-bottom:0}
+td.ids{font-family:var(--mono);font-size:12.5px;color:var(--teal-ink);white-space:nowrap}
+
+/* ---------- questions ---------- */
+.tier{margin:0 0 44px}
+.tier-head{
+  display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+  border-top:2px solid var(--ink);padding-top:12px;margin:0 0 6px;
+}
+.tier-code{font-family:var(--mono);font-size:12px;letter-spacing:.1em;color:var(--ochre-ink)}
+.tier-head h3{margin:0;font-size:1.35rem}
+.tier-note{color:var(--muted);font-size:14.5px;margin:0 0 20px;max-width:64ch}
+.qlist{display:flex;flex-direction:column;gap:14px}
+.q{
+  background:var(--surface);border:1px solid var(--line);border-radius:6px;
+  padding:18px 20px 16px;
+}
+.q-id{
+  font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--muted);
+  margin:0 0 8px;
+}
+.q-text{font-size:16.5px;line-height:1.55;margin:0 0 14px;color:var(--ink);max-width:70ch}
+.q-meta{margin:0;display:flex;flex-direction:column;gap:7px}
+.q-meta > div{padding-left:12px;border-left:2px solid var(--line)}
+.q-meta .probe{border-left-color:var(--teal)}
+.q-meta .trap{border-left-color:var(--ochre)}
+.q-meta dt{
+  font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:1px;
+}
+.q-meta .probe dt{color:var(--teal-ink)}
+.q-meta .trap dt{color:var(--ochre-ink)}
+.q-meta dd{margin:0;font-size:14.3px;line-height:1.5;color:var(--ink-2);max-width:70ch}
+
+/* ---------- rubric ---------- */
+.rubric{list-style:none;margin:0;padding:0;display:grid;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.rubric li{background:var(--surface);padding:16px 18px;display:grid;grid-template-columns:30px minmax(0,1fr);gap:14px}
+.rubric .n{font-family:var(--mono);font-size:12px;color:var(--ochre-ink);padding-top:3px}
+.rubric b{display:block;font-weight:700;margin-bottom:2px}
+.rubric span.t{font-size:14.6px;color:var(--ink-2)}
+
+/* ---------- glossary ---------- */
+.gloss{margin:0;display:grid;gap:0}
+.gloss div{padding:11px 0;border-top:1px solid var(--line-soft);display:grid;grid-template-columns:1fr;gap:2px}
+@media (min-width:700px){.gloss div{grid-template-columns:220px minmax(0,1fr);gap:20px}}
+.gloss div:first-child{border-top:0}
+.gloss dt{font-weight:700;font-size:15px}
+.gloss dd{margin:0;font-size:14.6px;color:var(--ink-2);max-width:66ch}
+
+/* ---------- notes / sources ---------- */
+.note{
+  border:1px solid var(--ochre);background:var(--ochre-soft);
+  border-radius:6px;padding:18px 20px;margin:0 0 24px;
+}
+.note h3{margin:0 0 8px;font-size:1.05rem}
+.note p{font-size:14.6px;color:var(--ink-2);margin-bottom:8px}
+.note p:last-child{margin-bottom:0}
+.srclist{list-style:none;margin:0;padding:0;display:grid;gap:9px}
+.srclist li{font-size:14.4px;color:var(--ink-2);padding-left:16px;position:relative;max-width:78ch}
+.srclist li::before{content:"";position:absolute;left:0;top:10px;width:6px;height:1px;background:var(--muted)}
+footer{border-top:1px solid var(--line);margin-top:56px;padding-top:22px;color:var(--muted);font-size:13.5px}
+</style>
+
+<div class="shell">
+
+<header class="masthead">
+  <p class="eyebrow">Panduan belajar · Demographic Environment · Sekolah Pascasarjana UGM</p>
+  <h1>Bertanya Seperti Susilastuti</h1>
+  <p class="standfirst">Profil akademik Dr. Dewi Haryani Susilastuti, peta cara berpikirnya yang ditarik dari 35 tahun karya, dan 48 pertanyaan kependudukan&ndash;lingkungan yang disusun pada tingkat pertanyaan yang biasa <em>dia</em> ajukan.</p>
+  <div class="factbar">
+    <span>Fulbright 1989 · Florida State</span>
+    <span>Ph.D. 2003 · Urban &amp; Regional Planning</span>
+    <span>h-index 9 · 279 sitasi</span>
+    <span>SINTA ID 6036416</span>
+    <span>48 pertanyaan · 6 tingkat</span>
+  </div>
+</header>
+
+<div class="cols">
+
+  <aside class="rail">
+    <nav aria-label="Daftar isi">
+      <span class="rail-head">Bagian</span>
+      <a href="#profil">1 · Profil</a>
+      <a href="#jejak">2 · Jejak akademik</a>
+      <a href="#pemikiran">3 · Peta pemikiran</a>
+      <a href="#cakupan">4 · Cakupan silabus</a>
+      <span class="rail-head">Bank soal</span>
+      <a href="#t1">T1 · Membaca angka</a>
+      <a href="#t2">T2 · Mekanisme</a>
+      <a href="#t3">T3 · Membongkar kategori</a>
+      <a href="#t4">T4 · Kebijakan</a>
+      <a href="#t5">T5 · Metode</a>
+      <a href="#t6">T6 · Esai sintesis</a>
+      <span class="rail-head">Bekal</span>
+      <a href="#rubrik">6 · Cara menjawab</a>
+      <a href="#kosakata">7 · Kosakata</a>
+      <a href="#sumber">8 · Sumber &amp; catatan</a>
+    </nav>
+  </aside>
+
+  <main>
+
+  <!-- ============ 1. PROFIL ============ -->
+  <section id="profil">
+    <div class="sec-head"><span class="sec-num">01</span><h2>Profil</h2></div>
+    <p class="sec-lede">Seorang sosiolog yang mengambil doktor di perencanaan kota dan wilayah &mdash; kombinasi yang menjelaskan hampir semua yang dia tulis: relasi sosial yang dilihat dari dekat, lalu ditanyakan konsekuensinya bagi ruang dan kebijakan.</p>
+
+    <div class="profile">
+      <div>
+        <h3>Dr. Dewi Haryani Susilastuti, M.Sc.</h3>
+        <p class="small">Ditulis juga sebagai <em>Dewi H. Susilastuti</em> pada publikasi berbahasa Inggris.</p>
+        <dl class="idlist">
+          <div><dt>Institusi</dt><dd>Sekolah Pascasarjana, Universitas Gadjah Mada &middot; <span class="small">dewi.pasca@ugm.ac.id</span></dd></div>
+          <div><dt>Afiliasi riset</dt><dd>Pusat Studi Kependudukan dan Kebijakan (PSKK) UGM</dd></div>
+          <div><dt>Rumpun</dt><dd>Studies in Human Society / Sociology of Development / Social Development</dd></div>
+          <div><dt>Minat</dt><dd>Gender studies · community development · social protection · nutrition policies · poverty alleviation</dd></div>
+          <div><dt>ORCID</dt><dd>0009-0002-2869-0552</dd></div>
+        </dl>
+      </div>
+      <div>
+        <div class="metrics">
+          <div class="metric"><b>9</b><span>h-index</span></div>
+          <div class="metric"><b>279</b><span>sitasi</span></div>
+          <div class="metric"><b>54</b><span>artikel</span></div>
+        </div>
+        <p class="small">Skor SINTA 384. Tercatat 3 artikel Scopus (26 sitasi) dan 1 artikel Web of Science (10 sitasi) &mdash; sebagian besar jejaknya ada di kanal Indonesia dan buku, bukan di indeks internasional.</p>
+        <h3>Proyek besar yang dipimpin</h3>
+        <p class="small">Evaluasi kuantitatif PEKKA &mdash; Program Pemberdayaan Perempuan Kepala Keluarga (2014, Rp&nbsp;2,13&nbsp;M) · Subkontrak Cardno Emerging Markets (2021, Rp&nbsp;617&nbsp;jt) · Pengembangan kebijakan <em>safeguarding</em> dan antifraud (2016) · Studi perilaku pelanggaran perda (2018).</p>
+      </div>
+    </div>
+
+    <h3>Kenapa profil ini penting untuk kelas Anda</h3>
+    <p>Tiga hal dari CV-nya langsung menentukan jenis jawaban yang akan dia nilai tinggi.</p>
+    <p><strong>Pertama, dia mulai dari lapangan, bukan dari teori.</strong> Karya-karya pertamanya (1990&ndash;1994) adalah studi buruh jahit rumahan di desa Jawa Tengah &mdash; orang yang bekerja penuh waktu tetapi tidak tercatat sebagai &ldquo;bekerja&rdquo;. Jawaban yang hanya mengutip teori tanpa menyebut siapa yang sedang dibicarakan akan terasa kosong baginya.</p>
+    <p><strong>Kedua, disertasinya adalah uji terhadap asumsi yang paling disukai perencana.</strong> Dia menguji rantai <em>pendidikan &rarr; kerja &rarr; otonomi perempuan</em> di Mesir, bukan di Indonesia &mdash; dan justru pilihan kasus lintas-negara itu yang menunjukkan dia tertarik pada apakah rantai kausal itu bertahan di luar konteks asalnya.</p>
+    <p><strong>Ketiga, dia membimbing lintas program studi.</strong> Publikasi bersamanya menyebar dari kebakaran hutan, pariwisata berbasis masyarakat, BUMDes, transportasi Trans Jogja, mobilitas penduduk, sampai kajian Amerika. Artinya yang dia ajarkan bukan isi bidang tertentu, melainkan cara menyusun pertanyaan yang bisa dijawab.</p>
+  </section>
+
+  <!-- ============ 2. JEJAK ============ -->
+  <section id="jejak">
+    <div class="sec-head"><span class="sec-num">02</span><h2>Jejak akademik</h2></div>
+    <p class="sec-lede">Empat fase yang bisa dibaca sebagai satu pertanyaan yang terus diperbesar skalanya: siapa yang tidak terlihat, dan apa akibatnya kalau kebijakan tidak melihatnya.</p>
+
+    <ul class="tl">
+      <li>
+        <span class="yr">1989</span>
+        <span class="ev">Menerima <strong>Fulbright Master&rsquo;s Degree Program</strong> untuk studi Sosiologi di Florida State University, dari UGM.</span>
+      </li>
+      <li>
+        <span class="yr">1990&ndash;1994 &middot; Fase lapangan</span>
+        <span class="ev">Peneliti di Pusat Penelitian Kependudukan UGM. <em>Buruh jahit di pedesaan Jawa</em> (1990) · <em>Sistem borongan wanita pekerja di pedesaan Jawa</em> (1990) · <em>Working for More than Salt: Female Home-Based Workers in a Garment Industry</em> (Kongres Interdisipliner Perempuan IV, 1990) · <em>Produksi dan reproduksi angkatan kerja perempuan</em> (1993) · <em>Feminisasi pasar tenaga kerja: kasus industri kulit</em> (1994, bersama B. Hudayana &amp; S. Hardyastuti).</span>
+      </li>
+      <li class="alt">
+        <span class="yr">1991</span>
+        <span class="ev">Tesis master, FSU: <em>Home-Based Workers in a Garment Industry: Evidence from a Central Javanese Village, Indonesia</em>.</span>
+      </li>
+      <li>
+        <span class="yr">1996 &middot; Karya penanda</span>
+        <span class="ev">Bab &ldquo;Home-based work as a rural survival strategy: a Central Javanese perspective&rdquo; dalam Eileen Boris &amp; Elisabeth Pr&uuml;gl (ed.), <em>Homeworkers in Global Perspective: Invisible No More</em>, Routledge, hlm. 129&ndash;141. Judul buku itu praktis adalah tesis kariernya.</span>
+      </li>
+      <li class="alt">
+        <span class="yr">2003 &middot; Titik belok</span>
+        <span class="ev">Ph.D., <strong>Department of Urban and Regional Planning</strong>, Florida State University. Disertasi: <em>Women&rsquo;s Education, Work and Autonomy: An Egyptian Case</em>. Dari sini masalah gender masuk ke kosakata perencanaan.</span>
+      </li>
+      <li>
+        <span class="yr">2013&ndash;2017 &middot; Fase kebijakan</span>
+        <span class="ev">Bekerja di PSKK UGM dan proyek donor. Perlindungan sosial bagi ODHA · <em>Social assistance policymaking in Indonesia</em> (2014, bersama A. Datta &amp; V. Febriany) · evaluasi PEKKA · <em>Kepemimpinan Perempuan: dari Politik Gagasan ke Politik Kehadiran</em> (Jurnal Perempuan, 2013) · evaluasi implementasi Perda No. 9/2011 (Populasi, 2017).</span>
+      </li>
+      <li class="alt">
+        <span class="yr">2015 &middot; Karya kependudukan inti</span>
+        <span class="ev">Bersama <strong>Muhadjir Darwin</strong> dkk., <em>The Inhibiting Factors of Fertility Rate Decrease and the Direction of Family Planning Program Revitalization</em>, Populasi 23(1): 51&ndash;69. Menjelaskan mengapa TFR Indonesia mandek di SDKI 2002, 2007, dan 2012.</span>
+      </li>
+      <li>
+        <span class="yr">2018&ndash;2026 &middot; Fase pembimbingan lintas bidang</span>
+        <span class="ev">Kebakaran hutan (<em>Forest and Society</em>, 2022) · pariwisata berbasis masyarakat (2024) · BUMDes dan pemberdayaan desa (2023) · refleksi metodologis pengumpulan data daring saat pandemi (Populasi, 2021) · <em>Meneropong Covid-19 dengan Lensa Gender</em> (2020) · peran gender kontemporer (Psikologika, 2022) · mobilitas dan mobilitas administratif (2024&ndash;2026, bersama Agus Joko Pitoyo).</span>
+      </li>
+    </ul>
+  </section>
+
+  <!-- ============ 3. PEMIKIRAN ============ -->
+  <section id="pemikiran">
+    <div class="sec-head"><span class="sec-num">03</span><h2>Peta pemikiran</h2></div>
+    <p class="sec-lede">Tujuh gerakan berpikir yang berulang di seluruh karyanya. Setiap pertanyaan di bank soal berikutnya menuntut minimal satu dari gerakan ini.</p>
+
+    <div class="moves">
+
+      <article class="move">
+        <span class="tag">Gerakan 1</span>
+        <h4>Yang tidak terhitung bukan berarti tidak ada</h4>
+        <p>Kategori statistik menentukan siapa yang terlihat oleh negara. Perempuan yang menjahit borongan di rumah bekerja penuh waktu, tetapi tercatat sebagai &ldquo;mengurus rumah tangga&rdquo;. Refleks pertamanya selalu: <em>siapa yang jatuh di luar angka ini, dan siapa yang diuntungkan oleh kelalaian itu?</em></p>
+        <p class="src"><b>Sumber:</b> Buruh jahit di pedesaan Jawa (1990) · Working for More than Salt (1990) · bab dalam <em>Invisible No More</em> (1996)</p>
+      </article>
+
+      <article class="move">
+        <span class="tag">Gerakan 2</span>
+        <h4>Produksi dan reproduksi adalah satu sistem</h4>
+        <p>Rumah tangga bukan sekadar unit konsumsi; ia tempat tenaga kerja diproduksi ulang setiap hari &mdash; memasak, mengambil air, merawat. Kerja itu tidak berupah, tidak masuk PDB, dan biayanya jatuh pada orang tertentu. Setiap kali beban lingkungan naik, di situlah ia mendarat lebih dulu.</p>
+        <p class="src"><b>Sumber:</b> Produksi dan reproduksi angkatan kerja perempuan (1993) · beban ganda dalam Psikologika (2022)</p>
+      </article>
+
+      <article class="move">
+        <span class="tag">Gerakan 3</span>
+        <h4>Modernisasi tidak berjalan otomatis</h4>
+        <p>Rantai <em>sekolah &rarr; kerja &rarr; otonomi</em> adalah hipotesis, bukan hukum alam. Dia mengujinya di Mesir dan menemukan setiap sambungan dimediasi institusi, pasar kerja, dan norma. Temuannya di Indonesia sejajar: setelah partisipasi pendidikan naik, peran gender &ldquo;relatif sama dengan peran gender tradisional era Soeharto&rdquo;.</p>
+        <p class="src"><b>Sumber:</b> Disertasi FSU (2003) · Peran Gender Kontemporer di Indonesia (2022)</p>
+      </article>
+
+      <article class="move">
+        <span class="tag">Gerakan 4</span>
+        <h4>Angka yang mandek adalah pertanyaan politik</h4>
+        <p>Ketika TFR Indonesia tidak bergerak selama satu dekade, jawabannya bukan alat kontrasepsi dan bukan &ldquo;budaya&rdquo;. Yang dia dan Darwin tunjuk: pergeseran paradigma politik, perubahan tata kelola daerah, dan perubahan kelembagaan. Indikator demografi macet &rarr; periksa siapa yang sekarang memegang program.</p>
+        <p class="src"><b>Sumber:</b> Darwin, Susilastuti, dkk., Populasi 23(1) (2015)</p>
+      </article>
+
+      <article class="move">
+        <span class="tag">Gerakan 5</span>
+        <h4>Kebijakan mati di ruang implementasi</h4>
+        <p>Berulang kali dia meneliti jarak antara teks aturan dan kenyataan: perda yang tidak ditegakkan, program lansia yang tidak sampai, tata kelola kolaboratif yang macet di satu aktor. Menyebut &ldquo;perlu regulasi&rdquo; sebagai solusi adalah jawaban yang paling mudah dia bantah.</p>
+        <p class="src"><b>Sumber:</b> Evaluasi implementasi Perda No. 9/2011 (2017) · Bina Keluarga Lansia (2022) · Collaborative Governance MSMEs (2023)</p>
+      </article>
+
+      <article class="move">
+        <span class="tag">Gerakan 6</span>
+        <h4>Partisipasi diperiksa, bukan diasumsikan</h4>
+        <p>Dia meneliti mengapa program &ldquo;berbasis masyarakat&rdquo; justru tidak melibatkan masyarakat, dan membedakan <em>politik gagasan</em> (mewakili kepentingan orang) dari <em>politik kehadiran</em> (orang itu sendiri ada di ruangan). Diterapkan ke lingkungan: siapa yang benar-benar hadir di forum AMDAL?</p>
+        <p class="src"><b>Sumber:</b> Barriers to Local Community Involvement in CBT (2024) · Kepemimpinan Perempuan (2013)</p>
+      </article>
+
+      <article class="move">
+        <span class="tag">Gerakan 7</span>
+        <h4>Metode adalah bagian dari temuan</h4>
+        <p>Siapa yang bisa dijangkau menentukan apa yang bisa ditemukan. Dia menulis refleksi metodologis tentang bias pengumpulan data daring saat pandemi, mencatat kesulitan mewawancarai kelompok terstigma, dan memetakan <em>perhatian ilmiah</em> pada kebakaran hutan &mdash; yaitu meneliti pertanyaan mana yang tidak pernah diajukan.</p>
+        <p class="src"><b>Sumber:</b> Methodological reflections on online data collection (Populasi, 2021) · studi ODHA (2013) · Scholarly Interest in Forest Fires (2022)</p>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ============ 4. CAKUPAN ============ -->
+  <section id="cakupan">
+    <div class="sec-head"><span class="sec-num">04</span><h2>Cakupan silabus</h2></div>
+    <p class="sec-lede">Deskripsi resmi mata kuliah kependudukan&ndash;lingkungan di Sekolah Pascasarjana UGM mencakup tujuh pokok. Tabel ini menunjukkan pertanyaan mana yang menutup pokok mana, sehingga tidak ada bagian silabus yang lolos.</p>
+
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th scope="col">Pokok bahasan</th><th scope="col">Pertanyaan</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Struktur dan proses kependudukan</td><td class="ids">T1·01–08, T5·05</td></tr>
+          <tr><td>Teori kependudukan</td><td class="ids">T2·02–03, T3·01–02, T6·01</td></tr>
+          <tr><td>Keselarasan penduduk dan lingkungan hidup</td><td class="ids">T2·01, T3·05, T3·08, T3·10</td></tr>
+          <tr><td>Perencanaan dan pengembangan SDM</td><td class="ids">T1·06–07, T2·09, T4·06, T6·03</td></tr>
+          <tr><td>Mobilitas penduduk dan masalah lingkungan</td><td class="ids">T2·06–08, T4·07, T6·02</td></tr>
+          <tr><td>Bonus demografi dan lingkungan</td><td class="ids">T2·04–05, T4·02, T6·03</td></tr>
+          <tr><td>Pembangunan ekonomi penduduk dan kualitas lingkungan</td><td class="ids">T2·10, T3·07, T4·05, T4·08</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============ BANK SOAL ============ -->
+  <section id="banksoal">
+    <div class="sec-head"><span class="sec-num">05</span><h2>Bank soal · 48 pertanyaan</h2></div>
+    <p class="sec-lede">Enam tingkat, disusun sebagai kemajuan nyata: dari membaca angka, ke menjelaskan mekanisme, ke membongkar kategori, ke merancang kebijakan dan riset. Setiap pertanyaan disertai <strong style="color:var(--teal-ink)">apa yang sedang diuji</strong> dan <strong style="color:var(--ochre-ink)">jebakan yang paling sering dimasuki</strong>.</p>
+
+    <!-- TIER 1 -->
+    <div class="tier" id="t1">
+      <div class="tier-head"><span class="tier-code">Tingkat 1</span><h3>Membaca angka secara kritis</h3></div>
+      <p class="tier-note">Bukan menghitung, tetapi menolak menerima angka apa adanya. Semua pertanyaan di sini bisa dijawab tanpa kalkulator.</p>
+      <div class="qlist">
+
+        <article class="q">
+          <p class="q-id">T1 · 01</p>
+          <p class="q-text">Piramida penduduk sebuah kabupaten menunjukkan cekungan tajam pada kelompok umur 20&ndash;29 tahun di sisi laki-laki, tetapi tidak di sisi perempuan. Sebutkan tiga proses demografis berbeda yang masing-masing bisa menghasilkan pola itu, lalu tentukan data tambahan apa yang Anda perlukan untuk memilih di antara ketiganya.</p>
+          <dl class="q-meta">
+            <div class="probe"><dt>Yang diuji</dt><dd>Memisahkan tiga komponen perubahan penduduk (fertilitas, mortalitas, migrasi) dan sadar bahwa satu pola bisa punya banyak penyebab.</dd></div>
+            <div class="trap"><dt>Jebakan</dt><dd>Langsung menyimpulkan &ldquo;migrasi keluar&rdquo; tanpa menyingkirkan kemungkinan mortalitas selektif atau kesalahan pencatatan domisili mahasiswa dan santri.</dd></div>
+          </dl>
+        </article>
+
+        <article class="q">
+          <p class="q-id">T1 · 02</p>
+          <p class="q-text">TFR nasional turun, tetapi jumlah kelahiran absolut per tahun tetap naik. Jelaskan mengapa keduanya bisa terjadi bersamaan. Mana di antara keduanya yang lebih relevan untuk menghitung tekanan terhadap daya dukung lingkungan sebuah kabupaten, dan mengapa?</p>
+          <dl class="q-meta">
+            <div class="probe"><dt>Yang diuji</dt><dd><em>Population momentum</em>, dan kesadaran bahwa lingkungan merespons jumlah dan aliran material, bukan rasio.</dd></div>
+            <div class="trap"><dt>Jebakan</dt><dd>Memperlakukan penurunan TFR sebagai kabar baik lingkungan tanpa melihat struktur umur yang sudah terlanjur terbentuk.</dd></div>
+          </dl>
+        </article>
+
+        <article class="q">
+          <p class="q-id">T1 · 03</p>
+          <p class="q-text">Data mencatat 62% penduduk usia kerja di sebuah desa &ldquo;bekerja&rdquo;. Sebutkan tiga bentuk kerja yang hampir pasti tidak masuk dalam angka tersebut, dan jelaskan konsekuensinya bagi penilaian tekanan penduduk terhadap sumber daya lokal.</p>
+          <dl class="q-meta">
+            <div class="probe"><dt>Yang diuji</dt><dd>Gerakan 1. Kerja rumahan borongan, kerja perawatan tak berupah, dan pemanenan sumber daya milik bersama semuanya tidak tercatat.</dd></div>
+            <div class="trap"><dt>Jebakan</dt><dd>Menyebut &ldquo;sektor informal&rdquo; sebagai satu kategori tanpa menunjukkan bagaimana definisi survei tenaga kerja secara spesifik menyaringnya keluar.</dd></div>
+          </dl>
+        </article>
+
+        <article class="q">
+          <p class="q-id">T1 · 04</p>
+          <p class="q-text">Bandingkan kepadatan penduduk aritmatik dan kepadatan agraris (fisiologis). Berikan satu kasus Indonesia di mana kedua ukuran itu memberi kesimpulan berlawanan tentang tekanan lingkungan, dan tentukan ukuran mana yang seharusnya dipakai perencana.</p>
+          <dl class="q-meta">
+            <div class="probe"><dt>Yang diuji</dt><dd>Bahwa pemilihan penyebut adalah keputusan analitis, bukan teknis.</dd></div>
+            <div class="trap"><dt>Jebakan</dt><dd>Menganggap ada satu ukuran &ldquo;benar&rdquo;. Jawaban yang kuat menyebut untuk keputusan apa ukuran itu dipakai.</dd></div>
+          </dl>
+        </article>
+
+        <article class="q">
+          <p class="q-id">T1 · 05</p>
+          <p class="q-text">Sebuah laporan menyebut tingkat urbanisasi provinsi naik empat poin dalam lima tahun. Bedakan tiga proses berbeda yang semuanya dilaporkan sebagai &ldquo;urbanisasi&rdquo;, dan jelaskan mana yang menambah beban infrastruktur dan limbah kota, mana yang tidak.</p>
+          <dl class="q-meta">
+            <div class="probe"><dt>Yang diuji</dt><dd>Migrasi desa&ndash;kota, pertambahan alami penduduk kota, dan reklasifikasi wilayah administratif. Yang ketiga sering paling besar dan paling tidak berdampak fisik.</dd></div>
+            <div class="trap"><dt>Jebakan</dt><dd>Menyamakan urbanisasi dengan perpindahan orang, lalu merancang kebijakan untuk masalah yang tidak terjadi.</dd></div>
+          </dl>
+        </article>
+
+        <article class="q">
+          <p class="q-id">T1 · 06</p>
+          <p class="q-text">Rasio ketergantungan sebuah kabupaten turun ke angka 44. Argumentasikan mengapa angka itu, dengan sendirinya, tidak memberi tahu apa pun tentang beban kerja yang ditanggung rumah tangga di kabupaten tersebut.</p>
+          <dl class="q-meta">
+            <div class="probe"><dt>Yang diuji</dt><dd>Gerakan 2. Rasio ketergantungan hanya menghitung umur, bukan kerja perawatan yang sesungguhnya dilakukan dan oleh siapa.</dd></div>
+            <div class="trap"><dt>Jebakan</dt><dd>Membaca turunnya rasio sebagai bukti berkurangnya beban, padahal penyusutan itu bisa terjadi bersamaan dengan naiknya beban perawatan lansia.</dd></div>
+          </dl>
+        </article>
+
+        <article class="q">
+          <p class="q-id">T1 · 07</p>
+          <p class="q-text">Sensus mencatat kepala rumah tangga laki-laki pada 86% rumah tangga di lokasi studi Anda. Apa yang disembunyikan kategori &ldquo;kepala rumah tangga&rdquo;, dan bagaimana Anda akan mengukur ulang unit itu agar berguna untuk penargetan bantuan lingkungan atau bencana?</p>
+          <dl class="q-meta">
+            <div class="probe"><dt>Yang diuji</dt><dd>Kesadaran bahwa kategori administratif menutupi rumah tangga yang secara ekonomi dikepalai perempuan &mdash; persis populasi yang diteliti dalam evaluasi PEKKA.</dd></div>
+            <div class="trap"><dt>Jebakan</dt><dd>Mengusulkan &ldquo;pendataan ulang&rdquo; tanpa menyebut definisi operasional pengganti yang konkret.</dd></div>
+          </dl>
+        </article>
+
+        <article class="q">
+          <p class="q-id">T1 · 08</p>
+          <p class="q-text">Angka harapan hidup naik enam tahun dalam dua dekade, sementara prevalensi penyakit kronis juga naik. Rekonsiliasikan kedua fakta itu, lalu jelaskan implikasinya bagi perencanaan layanan dan lingkungan permukiman.</p>
+          <dl class="q-meta">
+            <div class="probe"><dt>Yang diuji</dt><dd>Transisi epidemiologis; perbedaan antara memperpanjang hidup dan memperpanjang hidup sehat.</dd></div>
+            <div class="trap"><dt>Jebakan</dt><dd>Menyebut salah satu angka pasti keliru, alih-alih melihat keduanya sebagai konsisten.</dd></div>
+          </dl>
+        </article>
+
+      </div>
+    </div>
+
+    <!-- TIER 2 -->
+    <div class="tier" id="t2">
+      <div class="tier-head"><span class="tier-code">Tingkat 2</span><h3>Menjelaskan mekanisme penduduk &harr; lingkungan</h3></div>
+      <p class="tier-note">Korelasi tidak akan diterima. Setiap jawaban harus menyebut rantai sebab yang bisa dibayangkan terjadi pada satu rumah tangga atau satu bidang lahan.</p>
+      <div class="qlist">
+
+        <article class="q">
+          <p class="q-id">T2 · 01</p>
+          <p class="q-text">Uraikan persamaan IPAT (<em>I&nbsp;=&nbsp;P&nbsp;&times;&nbsp;A&nbsp;&times;&nbsp;T</em>), lalu tunjukkan satu kasus Indonesia di mana kerangka itu justru menyesatkan pembuat kebijakan. Apa yang hilang darinya?</p>
+          <dl class="q-meta">
+            <div class="probe"><dt>Yang diuji</dt><dd>Penguasaan kerangka dasar sekaligus kemampuan mengkritiknya: IPAT bersifat multiplikatif dan mengabaikan distribusi, kelembagaan, dan siapa yang mengonsumsi apa.</dd></div>
+            <div class="trap"><dt>Jebakan</dt><dd>Menghafal rumus tanpa menyadari bahwa menempatkan P di depan sudah merupakan pilihan politik.</dd></div>
+          </dl>
+        </article>
+
+        <article class="q">
+          <p class="q-id">T2 · 02</p>
+          <p class="q-text">Bandingkan tesis Malthus, kritik Boserup, dan posisi Cornucopian dalam menjelaskan hubungan pertumbuhan penduduk dengan degradasi lahan di kawasan hulu DAS. Posisi mana yang paling didukung bukti Indonesia, dan pada skala ruang serta waktu yang mana?</p>
+          <dl class="q-meta">
+            <div class="probe"><dt>Yang diuji</dt><dd>Bahwa jawaban atas pertanyaan teori bergantung pada skala. Boserup sering menang pada skala desa jangka panjang; Malthus tampak benar pada skala petak jangka pendek.</dd></div>
+            <div class="trap"><dt>Jebakan</dt><dd>Memilih satu &ldquo;pemenang&rdquo; tanpa menyebut skala &mdash; jawaban paling umum sekaligus paling lemah.</dd></div>
+          </dl>
+        </article>
+
+        <article class="q">
+          <p class="q-id">T2 · 03</p>
+          <p class="q-text">Transisi demografi dan kurva Kuznets lingkungan sering disandingkan sebagai dua kurva yang serupa. Jelaskan mengapa analogi itu tidak sah secara logis.</p>
+          <dl class="q-meta">
+            <div class="probe"><dt>Yang diuji</dt><dd>Transisi demografi punya mekanisme mikro yang jelas (keputusan rumah tangga); EKC sebagian besar adalah pola agregat yang bisa dihasilkan oleh pemindahan industri kotor ke negara lain.</dd></div>
+            <div class="trap"><dt>Jebakan</dt><dd>Menyimpulkan &ldquo;pembangunan akan memperbaiki lingkungan dengan sendirinya&rdquo; &mdash; versi lingkungan dari asumsi otomatis yang dibantah Gerakan 3.</dd></div>
+          </dl>
+        </article>
+
+        <article class="q">
+          <p class="q-id">T2 · 04</p>
+          <p class="q-text">&ldquo;Bonus demografi akan mendorong pertumbuhan ekonomi.&rdquo; Uraikan rantai kausal lengkap dari perubahan struktur umur sampai kenaikan output, lalu identifikasi tiga titik di mana rantai itu bisa putus dalam kondisi Indonesia.</p>
+          <dl class="q-meta">
+            <div class="probe"><dt>Yang diuji</dt><dd>Gerakan 3, diterapkan ke demografi ekonomi. Bonus adalah peluang bersyarat: butuh penyerapan kerja, mutu pendidikan, dan tabungan yang terinvestasi.</dd></div>
+            <div class="trap"><dt>Jebakan</dt><dd>Menyebut bonus demografi sebagai hadiah otomatis dari struktur umur.</dd></div>
+          </dl>
+        </article>
+
+        <article class="q">
+          <p class="q-id">T2 · 05</p>
+          <p class="q-text">Andaikan bonus demografi terwujud dan berbentuk kenaikan konsumsi kelas menengah. Susun argumen bahwa bonus demografi yang berhasil justru dapat menjadi beban lingkungan terbesar dalam sejarah kabupaten Anda.</p>
+          <dl class="q-meta">
+            <div class="probe"><dt>Yang diuji</dt><dd>Menghubungkan A dalam IPAT dengan struktur umur; keberanian mengambil kesimpulan yang tidak nyaman.</dd></div>
+            <div class="trap"><dt>Jebakan</dt><dd>Berhenti pada &ldquo;perlu pembangunan berkelanjutan&rdquo; tanpa menunjukkan jalur material: kendaraan, daging, pendingin ruangan, sampah kemasan.</dd></div>
+          </dl>
+        </article>
+
+        <article class="q">
+          <p class="q-id">T2 · 06</p>
+          <p class="q-text">Mobilitas sirkuler (nglaju harian, mondok mingguan) berbeda dari migrasi permanen dalam dampak lingkungannya. Jelaskan perbedaan itu pada tiga hal: beban infrastruktur kota, perubahan tutupan lahan di desa asal, dan ketepatan pencatatan administratif.</p>
+          <dl class="q-meta">
+            <div class="probe"><dt>Yang diuji</dt><dd>Pengetahuan tentang bentuk mobilitas khas Indonesia yang tidak tertangkap definisi migrasi standar.</dd></div>
+            <div class="trap"><dt>Jebakan</dt><dd>Menganggap penduduk sirkuler hanya &ldquo;setengah&rdquo; dari migran, padahal beban puncak infrastruktur yang mereka timbulkan bisa penuh.</dd></div>
+          </dl>
+        </article>
+
+        <article class="q">
+          <p class="q-id">T2 · 07</p>
+          <p class="q-text">Remitansi migran sering dipakai membeli lahan atau membangun rumah di desa asal. Rumuskan hipotesis tentang dampak bersihnya terhadap tutupan lahan desa, lalu rancang cara mengujinya dengan data yang benar-benar tersedia di Indonesia.</p>
+          <dl class="q-meta">
+            <div class="probe"><dt>Yang diuji</dt><dd>Kemampuan mengubah dugaan menjadi hipotesis yang dapat diuji, dan realisme tentang data (Podes, citra satelit, SUSENAS).</dd></div>
+            <div class="trap"><dt>Jebakan</dt><dd>Mengasumsikan arah dampak sudah pasti. Remitansi bisa mengurangi tekanan lahan (karena keluarga berhenti bertani) sekaligus menambahnya (karena lahan dibeli dan dibuka).</dd></div>
+          </dl>
+        </article>
+
+        <article class="q">
+          <p class="q-id">T2 · 08</p>
+          <p class="q-text">Jelaskan mekanisme yang membuat degradasi lingkungan mendorong orang bermigrasi, <em>dan</em> mekanisme sebaliknya yang membuat degradasi justru menahan orang tetap tinggal. Siapa yang tertinggal, dan mengapa justru mereka?</p>
+          <dl class="q-meta">
+            <div class="probe"><dt>Yang diuji</dt><dd>Konsep <em>trapped population</em>: migrasi butuh modal, sehingga kemerosotan yang paling parah dapat menurunkan angka migrasi.</dd></div>
+            <div class="trap"><dt>Jebakan</dt><dd>Memperlakukan &ldquo;migrasi iklim&rdquo; sebagai respons otomatis dan searah.</dd></div>
+          </dl>
+        </article>
+
+        <article class="q">
+          <p class="q-id">T2 · 09</p>
+          <p class="q-text">Di rumah tangga miskin pedesaan, siapa yang menanggung biaya waktu ketika sumber air bersih atau kayu bakar bergeser semakin jauh? Uraikan mekanismenya sampai ke dampak turunan pada pendidikan anak, lalu hubungkan dengan konsep beban ganda.</p>
+          <dl class="q-meta">
+            <div class="probe"><dt>Yang diuji</dt><dd>Gerakan 2, dijalankan sepenuhnya: degradasi lingkungan &rarr; waktu perempuan &rarr; kerja anak perempuan &rarr; capaian pendidikan &rarr; fertilitas generasi berikutnya.</dd></div>
+            <div class="trap"><dt>Jebakan</dt><dd>Berhenti pada &ldquo;perempuan lebih terdampak&rdquo; tanpa menunjukkan jalur waktu dan tenaga yang konkret.</dd></div>
+          </dl>
+        </article>
+
+        <article class="q">
+          <p class="q-id">T2 · 10</p>
+          <p class="q-text">Kerja rumahan memindahkan produksi industri ke dalam rumah tangga. Sebutkan dampak lingkungan yang secara struktural tidak tertangkap oleh sistem perizinan, pengawasan K3, dan AMDAL &mdash; dan jelaskan mengapa ketidaktangkapan itu bukan kebetulan.</p>
+          <dl class="q-meta">
+            <div class="probe"><dt>Yang diuji</dt><dd>Menerapkan temuan tesis dan bab bukunya sendiri ke ranah lingkungan: limbah pewarna, pelarut, dan debu serat yang keluar lewat saluran rumah tangga, bukan lewat cerobong pabrik.</dd></div>
+            <div class="trap"><dt>Jebakan</dt><dd>Memperlakukan celah regulasi sebagai kelalaian teknis, bukan sebagai bagian dari cara biaya dialihkan ke rumah tangga pekerja.</dd></div>
+          </dl>
+        </article>
+
+      </div>
+    </div>
+
+    <!-- TIER 3 -->
+    <div class="tier" id="t3">
+      <div class="tier-head"><span class="tier-code">Tingkat 3</span><h3>Membongkar kategori dan asumsi</h3></div>
+      <p class="tier-note">Tingkat paling khas dirinya. Yang diuji bukan pengetahuan tentang dunia, melainkan pengetahuan tentang alat yang dipakai untuk mendeskripsikan dunia.</p>
+      <div class="qlist">
+
+        <article class="q">
+          <p class="q-id">T3 · 01</p>
+          <p class="q-text">Apakah &ldquo;tekanan penduduk&rdquo; sebuah konsep analitis atau sebuah tuduhan? Bahas dengan merujuk satu kebijakan konservasi Indonesia yang memindahkan atau membatasi penduduk atas nama daya dukung.</p>
+          <dl class="q-meta">
+            <div class="probe"><dt>Yang diuji</dt><dd>Kesadaran bahwa istilah teknis dapat berfungsi sebagai penunjuk siapa yang layak dipindahkan.</dd></div>
+            <div class="trap"><dt>Jebakan</dt><dd>Menjawab hanya secara normatif. Argumen kuat tetap menunjukkan kapan konsep itu punya kandungan analitis yang sah.</dd></div>
+          </dl>
+        </article>
+
+        <article class="q">
+          <p class="q-id">T3 · 02</p>
+          <p class="q-text">Diskursus &ldquo;kelebihan penduduk&rdquo; memindahkan tanggung jawab kerusakan dari yang paling banyak mengonsumsi ke yang paling banyak jumlahnya. Bangun argumen tandingan menggunakan data emisi per kapita &mdash; lalu bangun bantahan terkuat terhadap argumen Anda sendiri.</p>
+          <dl class="q-meta">
+            <div class="probe"><dt>Yang diuji</dt><dd>Kemampuan mengargumentasikan dua arah. Dia menghargai mahasiswa yang menyerang posisinya sendiri sebelum orang lain melakukannya.</dd></div>
+            <div class="trap"><dt>Jebakan</dt><dd>Hanya menyampaikan sisi yang disukai. Bantahan yang lemah dan dibuat-buat sama buruknya dengan tidak ada bantahan.</dd></div>
+          </dl>
+        </article>
+
+        <article class="q">
+          <p class="q-id">T3 · 03</p>
+          <p class="q-text">Pendidikan perempuan disebut sebagai obat untuk fertilitas tinggi sekaligus untuk kerusakan lingkungan. Uji rantainya sambungan demi sambungan: pendidikan &rarr; kerja berupah &rarr; otonomi &rarr; keputusan fertilitas &rarr; perilaku sumber daya. Di sambungan mana rantai itu paling sering putus di Indonesia, dan apa yang menentukannya?</p>
+          <dl class="q-meta">
+            <div class="probe"><dt>Yang diuji</dt><dd>Pertanyaan disertasinya sendiri, dipindahkan ke konteks Indonesia. Otonomi tidak mengikuti pendidikan secara otomatis; ia dimediasi pasar kerja, struktur keluarga, dan norma.</dd></div>
+            <div class="trap"><dt>Jebakan</dt><dd>Memperlakukan lama sekolah sebagai proksi otonomi. Perempuan berpendidikan tinggi yang tidak menguasai pendapatannya sendiri adalah kasus yang mematahkan asumsi itu.</dd></div>
+          </dl>
+        </article>
+
+        <article class="q">
+          <p class="q-id">T3 · 04</p>
+          <p class="q-text">Setelah dua dekade kenaikan partisipasi pendidikan dan keterwakilan politik perempuan, pembagian kerja domestik di Indonesia relatif tidak berubah. Apa yang diajarkan temuan ini tentang hubungan antara indikator pembangunan dan relasi sosial?</p>
+          <dl class="q-meta">
+            <div class="probe"><dt>Yang diuji</dt><dd>Gerakan 3 dalam bentuknya yang paling langsung: perubahan dan keberlanjutan berjalan bersamaan; indikator dapat bergerak sementara relasi tidak.</dd></div>
+            <div class="trap"><dt>Jebakan</dt><dd>Menyalahkan &ldquo;budaya&rdquo;. Itu label, bukan penjelasan &mdash; jawaban kuat menyebut mekanisme sosialisasi, media, dan institusi pendidikan.</dd></div>
+          </dl>
+        </article>
+
+        <article class="q">
+          <p class="q-id">T3 · 05</p>
+          <p class="q-text">Kritik konsep daya dukung lingkungan (<em>carrying capacity</em>) ketika diterapkan pada manusia, dari tiga sisi: teknologi, perdagangan, dan distribusi. Setelah itu, pertahankan satu penggunaan konsep tersebut yang tetap sah.</p>
+          <dl class="q-meta">
+            <div class="probe"><dt>Yang diuji</dt><dd>Kritik yang tidak berakhir sebagai nihilisme. Daya dukung tetap berguna untuk sumber daya yang terikat lokasi &mdash; akuifer, misalnya &mdash; dan runtuh untuk barang yang bisa diperdagangkan.</dd></div>
+            <div class="trap"><dt>Jebakan</dt><dd>Membuang konsep sepenuhnya tanpa menyediakan penggantinya untuk keputusan tata ruang.</dd></div>
+          </dl>
+        </article>
+
+        <article class="q">
+          <p class="q-id">T3 · 06</p>
+          <p class="q-text">&ldquo;Kearifan lokal&rdquo; rutin diklaim sebagai solusi pengelolaan lingkungan. Sebutkan dua kondisi di mana klaim itu benar secara empiris, dan dua kondisi di mana ia justru menutupi ketimpangan di dalam komunitas itu sendiri.</p>
+          <dl class="q-meta">
+            <div class="probe"><dt>Yang diuji</dt><dd>Gerakan 6. Komunitas bukan aktor tunggal; aturan adat dapat sekaligus melestarikan hutan dan mengunci akses perempuan atau pendatang.</dd></div>
+            <div class="trap"><dt>Jebakan</dt><dd>Romantisasi. Menyebut komunitas sebagai entitas harmonis adalah kesalahan analitis yang sama dengan menyebut rumah tangga sebagai unit tunggal.</dd></div>
+          </dl>
+        </article>
+
+        <article class="q">
+          <p class="q-id">T3 · 07</p>
+          <p class="q-text">Program &ldquo;berbasis masyarakat&rdquo; sering gagal melibatkan masyarakat. Berdasarkan pengetahuan Anda tentang satu kasus konkret, sebutkan hambatan internal yang Anda duga paling menentukan, lalu jelaskan bukti apa yang akan membuktikan atau membatalkan dugaan itu.</p>
+          <dl class="q-meta">
+            <div class="probe"><dt>Yang diuji</dt><dd>Persis desain penelitiannya sendiri tentang hambatan pelibatan masyarakat di destinasi wisata berbasis masyarakat.</dd></div>
+            <div class="trap"><dt>Jebakan</dt><dd>Menyalahkan &ldquo;kurangnya sosialisasi&rdquo;. Itu gejala; hambatan biasanya berupa struktur kepemilikan, penguasaan elite desa, atau biaya waktu untuk ikut serta.</dd></div>
+          </dl>
+        </article>
+
+        <article class="q">
+          <p class="q-id">T3 · 08</p>
+          <p class="q-text">Sebagian besar analisis kependudukan&ndash;lingkungan memperlakukan rumah tangga sebagai unit tunggal dengan satu kepentingan. Apa yang hilang karenanya? Rancang satu indikator yang dapat menangkap konflik kepentingan di dalam rumah tangga terkait penggunaan sumber daya.</p>
+          <dl class="q-meta">
+            <div class="probe"><dt>Yang diuji</dt><dd>Model tawar-menawar intra-rumah tangga, dan kemampuan mengubah kritik teoretis menjadi sesuatu yang bisa diukur.</dd></div>
+            <div class="trap"><dt>Jebakan</dt><dd>Mengkritik tanpa menawarkan pengukuran. Kritik yang tidak bisa dioperasionalkan tidak akan mengubah kebijakan apa pun.</dd></div>
+          </dl>
+        </article>
+
+        <article class="q">
+          <p class="q-id">T3 · 09</p>
+          <p class="q-text">Siapa yang berhak berbicara atas nama &ldquo;masyarakat terdampak&rdquo; dalam konsultasi publik AMDAL? Jawab dengan membedakan politik gagasan dari politik kehadiran, lalu usulkan satu perubahan prosedural yang konkret.</p>
+          <dl class="q-meta">
+            <div class="probe"><dt>Yang diuji</dt><dd>Memakai kerangka representasi politiknya sendiri (Jurnal Perempuan, 2013) pada persoalan lingkungan &mdash; jenis pemindahan konsep yang paling dia hargai.</dd></div>
+            <div class="trap"><dt>Jebakan</dt><dd>Menganggap kehadiran fisik dengan sendirinya sudah setara dengan suara. Hadir tanpa hak veto, waktu, atau informasi bukanlah keterwakilan.</dd></div>
+          </dl>
+        </article>
+
+        <article class="q">
+          <p class="q-id">T3 · 10</p>
+          <p class="q-text">Bangun argumen bahwa pernyataan &ldquo;kemiskinan menyebabkan kerusakan lingkungan&rdquo; lemah secara empiris sekaligus berbahaya secara politik. Kemudian jelaskan apa yang tersisa benar dari pernyataan itu setelah kritik Anda.</p>
+          <dl class="q-meta">
+            <div class="probe"><dt>Yang diuji</dt><dd>Berpikir dua tahap: membongkar klaim, lalu menyelamatkan bagian yang masih berdiri.</dd></div>
+            <div class="trap"><dt>Jebakan</dt><dd>Membalikkan klaim secara total menjadi &ldquo;hanya orang kaya yang merusak&rdquo; &mdash; sama tumpulnya dengan klaim aslinya.</dd></div>
+          </dl>
+        </article>
+
+      </div>
+    </div>
+
+    <!-- TIER 4 -->
+    <div class="tier" id="t4">
+      <div class="tier-head"><span class="tier-code">Tingkat 4</span><h3>Kebijakan, kelembagaan, implementasi</h3></div>
+      <p class="tier-note">Di sinilah latar perencanaannya bekerja. Jawaban harus menyebut aktor tertentu dan insentif yang dia hadapi &mdash; bukan &ldquo;pemerintah&rdquo; sebagai satu kata benda.</p>
+      <div class="qlist">
+
+        <article class="q">
+          <p class="q-id">T4 · 01</p>
+          <p class="q-text">TFR Indonesia praktis tidak bergerak antara SDKI 2002, 2007, dan 2012 meskipun program KB tetap berjalan. Susun penjelasan yang tidak menyalahkan teknologi kontrasepsi maupun &ldquo;budaya&rdquo;.</p>
+          <dl class="q-meta">
+            <div class="probe"><dt>Yang diuji</dt><dd>Gerakan 4 dan temuan inti artikelnya bersama Darwin: pergeseran paradigma politik, perubahan tata kelola daerah, dan perubahan kelembagaan.</dd></div>
+            <div class="trap"><dt>Jebakan</dt><dd>Menjawab dengan sisi permintaan saja (&ldquo;orang ingin anak lebih banyak&rdquo;) tanpa memeriksa apa yang terjadi pada organisasi yang menjalankan program.</dd></div>
+          </dl>
+        </article>
+
+        <article class="q">
+          <p class="q-id">T4 · 02</p>
+          <p class="q-text">Desentralisasi memindahkan program kependudukan ke pemerintah kabupaten. Jelaskan bagaimana efektivitas program bisa turun tanpa satu pun aktor berniat buruk, dengan menyebut insentif yang dihadapi bupati, kepala dinas, dan penyuluh lapangan.</p>
+          <dl class="q-meta">
+            <div class="probe"><dt>Yang diuji</dt><dd>Analisis kelembagaan tanpa moralisasi: masa jabatan lima tahun tidak cocok dengan hasil demografis yang butuh dua dekade.</dd></div>
+            <div class="trap"><dt>Jebakan</dt><dd>Menyebut &ldquo;kurang komitmen&rdquo; sebagai penjelasan, padahal komitmen justru variabel yang harus dijelaskan.</dd></div>
+          </dl>
+        </article>
+
+        <article class="q">
+          <p class="q-id">T4 · 03</p>
+          <p class="q-text">Rancang mekanisme yang menyeimbangkan demokrasi lokal dengan efektivitas program kependudukan. Apa yang harus tetap disentralisasi, apa yang harus diserahkan, dan indikator apa yang membuat penyerahan itu dapat ditarik kembali?</p>
+          <dl class="q-meta">
+            <div class="probe"><dt>Yang diuji</dt><dd>Persis rekomendasi yang dia dan rekan penulisnya ajukan pada 2015. Yang dinilai adalah kekonkretan mekanismenya.</dd></div>
+            <div class="trap"><dt>Jebakan</dt><dd>Mengusulkan resentralisasi penuh, yang mengabaikan alasan politik mengapa desentralisasi terjadi.</dd></div>
+          </dl>
+        </article>
+
+        <article class="q">
+          <p class="q-id">T4 · 04</p>
+          <p class="q-text">Sebuah perda lingkungan telah berlaku sepuluh tahun tanpa satu pun penegakan tercatat. Rancang evaluasi implementasinya: apa yang Anda ukur, siapa yang Anda wawancarai, dan tanda kegagalan spesifik apa yang Anda cari?</p>
+          <dl class="q-meta">
+            <div class="probe"><dt>Yang diuji</dt><dd>Gerakan 5, dalam bentuk yang sama dengan evaluasi Perda No. 9/2011 yang dia kerjakan: anggaran, kewenangan, kejelasan aturan turunan, dan biaya politik penegakan.</dd></div>
+            <div class="trap"><dt>Jebakan</dt><dd>Mengevaluasi teks perda, bukan rantai organisasi yang seharusnya menjalankannya.</dd></div>
+          </dl>
+        </article>
+
+        <article class="q">
+          <p class="q-id">T4 · 05</p>
+          <p class="q-text">Bandingkan tiga instrumen pengendalian tekanan penduduk terhadap lingkungan: regulasi, insentif fiskal, dan perubahan norma. Pada kondisi kelembagaan seperti apa masing-masing bekerja, dan pada kondisi apa masing-masing pasti gagal?</p>
+          <dl class="q-meta">
+            <div class="probe"><dt>Yang diuji</dt><dd>Pemilihan instrumen sebagai keputusan yang bergantung pada kapasitas negara, bukan pada preferensi ideologis.</dd></div>
+            <div class="trap"><dt>Jebakan</dt><dd>Menyarankan ketiganya sekaligus. Jawaban yang menghindari trade-off dibaca sebagai jawaban yang menghindari pertanyaan.</dd></div>
+          </dl>
+        </article>
+
+        <article class="q">
+          <p class="q-id">T4 · 06</p>
+          <p class="q-text">Perlindungan sosial (PKH, bantuan pangan) mengubah keputusan rumah tangga tentang kerja, kelahiran, dan penggunaan sumber daya. Sebutkan efek yang diinginkan dan dua efek samping yang mungkin muncul pada tekanan lingkungan lokal, lalu jelaskan bagaimana Anda akan memantaunya.</p>
+          <dl class="q-meta">
+            <div class="probe"><dt>Yang diuji</dt><dd>Bidang keahliannya sendiri, diarahkan ke lingkungan. Bantuan tunai dapat mengurangi pemanenan hutan sekaligus meningkatkan konsumsi barang kemasan.</dd></div>
+            <div class="trap"><dt>Jebakan</dt><dd>Mengasumsikan perlindungan sosial bersifat netral terhadap lingkungan.</dd></div>
+          </dl>
+        </article>
+
+        <article class="q">
+          <p class="q-id">T4 · 07</p>
+          <p class="q-text">Program pemberdayaan ekonomi desa seperti BUMDes rutin diklaim menahan laju migrasi keluar. Uji klaim itu: apa yang harus benar agar klaim tersebut sahih, dan bukti apa yang akan membatalkannya?</p>
+          <dl class="q-meta">
+            <div class="probe"><dt>Yang diuji</dt><dd>Merujuk penelitiannya tentang strategi kolaborasi BUMDes. Menahan migrasi menuntut BUMDes menyaingi upah kota untuk kelompok umur yang sama yang berangkat.</dd></div>
+            <div class="trap"><dt>Jebakan</dt><dd>Menerima keberhasilan program dari jumlah unit usaha, bukan dari perubahan perilaku migrasi.</dd></div>
+          </dl>
+        </article>
+
+        <article class="q">
+          <p class="q-id">T4 · 08</p>
+          <p class="q-text">Kabupaten Anda ingin menaikkan IPM dan mempertahankan tutupan hutan sekaligus. Rumuskan satu trade-off yang benar-benar tidak bisa dihindari, dan rancang prosedur pengambilan keputusan yang membuat pilihan itu transparan dan dapat digugat.</p>
+          <dl class="q-meta">
+            <div class="probe"><dt>Yang diuji</dt><dd>Kejujuran mengenai konflik tujuan, ditambah keahlian perencanaan pada proseduralnya.</dd></div>
+            <div class="trap"><dt>Jebakan</dt><dd>Mengaku semua tujuan bisa dicapai bersama lewat &ldquo;ekonomi hijau&rdquo; tanpa menunjukkan siapa yang menanggung biaya transisinya.</dd></div>
+          </dl>
+        </article>
+
+      </div>
+    </div>
+
+    <!-- TIER 5 -->
+    <div class="tier" id="t5">
+      <div class="tier-head"><span class="tier-code">Tingkat 5</span><h3>Desain riset dan metode</h3></div>
+      <p class="tier-note">Tingkat yang paling menentukan nilai tesis. Yang dia cari: apakah Anda tahu apa yang <em>tidak</em> bisa dilihat oleh desain Anda.</p>
+      <div class="qlist">
+
+        <article class="q">
+          <p class="q-id">T5 · 01</p>
+          <p class="q-text">Anda harus mengukur beban waktu perempuan dalam pengambilan air di desa tanpa listrik dan sinyal yang stabil. Rancang instrumennya. Apa yang hilang bila Anda memakai survei daring, dan apa yang hilang bila Anda memakai wawancara terstruktur?</p>
+          <dl class="q-meta">
+            <div class="probe"><dt>Yang diuji</dt><dd>Pencatatan penggunaan waktu, dan kesadaran bahwa kerja simultan (mengasuh sambil mengambil air) sistematis dilaporkan terlalu rendah.</dd></div>
+            <div class="trap"><dt>Jebakan</dt><dd>Bertanya &ldquo;berapa jam sehari&rdquo;. Estimasi ingatan runtuh untuk kerja yang tidak punya batas awal dan akhir.</dd></div>
+          </dl>
+        </article>
+
+        <article class="q">
+          <p class="q-id">T5 · 02</p>
+          <p class="q-text">Pengumpulan data daring menghasilkan responden yang berbeda secara sistematis dari populasi sasaran. Sebutkan tiga bias yang Anda antisipasi, cara Anda menanganinya, dan cara Anda melaporkannya secara jujur di bagian temuan &mdash; bukan hanya di bagian keterbatasan.</p>
+          <dl class="q-meta">
+            <div class="probe"><dt>Yang diuji</dt><dd>Gerakan 7, langsung dari refleksi metodologisnya di Populasi (2021).</dd></div>
+            <div class="trap"><dt>Jebakan</dt><dd>Menyimpan seluruh pengakuan bias di paragraf &ldquo;keterbatasan penelitian&rdquo; lalu tetap menarik kesimpulan seolah-olah bias itu tidak ada.</dd></div>
+          </dl>
+        </article>
+
+        <article class="q">
+          <p class="q-id">T5 · 03</p>
+          <p class="q-text">Anda perlu mewawancarai kelompok yang distigma &mdash; ODHA, penambang tanpa izin, penghuni bantaran sungai yang terancam penggusuran. Rancang jalur akses, persetujuan, dan perlindungan datanya, lalu sebutkan secara eksplisit apa yang Anda korbankan dalam keterwakilan.</p>
+          <dl class="q-meta">
+            <div class="probe"><dt>Yang diuji</dt><dd>Etika sebagai keputusan desain yang punya harga, bukan sebagai formulir. Penelitiannya sendiri mencatat betapa sensitifnya kelompok semacam ini terhadap wawancara.</dd></div>
+            <div class="trap"><dt>Jebakan</dt><dd>Berjanji anonimitas penuh dalam studi kasus desa tunggal, tempat jabatan dan peran membuat orang tetap dikenali.</dd></div>
+          </dl>
+        </article>
+
+        <article class="q">
+          <p class="q-id">T5 · 04</p>
+          <p class="q-text">Lakukan pemetaan bibliografis atas satu topik lingkungan Indonesia. Selain merangkum isinya, apa yang bisa disimpulkan dari <em>pola perhatian ilmiah</em> itu sendiri &mdash; siapa yang meneliti, di provinsi mana, dengan pendanaan siapa, dan pertanyaan apa yang tidak pernah diajukan?</p>
+          <dl class="q-meta">
+            <div class="probe"><dt>Yang diuji</dt><dd>Persis logika kajian bibliografisnya tentang kebakaran hutan (209 artikel Scopus, 1989&ndash;2021): literatur adalah data tentang ilmu pengetahuan, bukan hanya sumber.</dd></div>
+            <div class="trap"><dt>Jebakan</dt><dd>Menghasilkan hitungan tanpa tafsiran. Grafik jumlah artikel per tahun bukan temuan.</dd></div>
+          </dl>
+        </article>
+
+        <article class="q">
+          <p class="q-id">T5 · 05</p>
+          <p class="q-text">Anda menemukan korelasi kuat antara kepadatan penduduk dan laju deforestasi pada data 514 kabupaten. Jelaskan mengapa itu tidak memberi tahu Anda apa pun tentang perilaku rumah tangga mana pun, dan sebutkan nama kekeliruan yang sedang mengancam Anda.</p>
+          <dl class="q-meta">
+            <div class="probe"><dt>Yang diuji</dt><dd><em>Ecological fallacy</em>, plus kesadaran bahwa kabupaten berpenduduk padat di Jawa dan kabupaten berhutan luas di luar Jawa adalah dua populasi yang berbeda.</dd></div>
+            <div class="trap"><dt>Jebakan</dt><dd>Menambah variabel kontrol sebagai jawaban. Masalahnya ada pada unit analisis, bukan pada spesifikasi model.</dd></div>
+          </dl>
+        </article>
+
+        <article class="q">
+          <p class="q-id">T5 · 06</p>
+          <p class="q-text">Anda punya akses ke SDKI, Susenas, Podes, dan citra satelit multitemporal. Rancang satu desain yang menggabungkan minimal dua sumber untuk menjawab satu pertanyaan penduduk&ndash;lingkungan. Sebutkan unit analisis, tahun rujukan, dan ancaman validitas terbesarnya.</p>
+          <dl class="q-meta">
+            <div class="probe"><dt>Yang diuji</dt><dd>Realisme tentang data Indonesia: beda tahun pencacahan, beda unit, dan pemekaran wilayah yang merusak deret waktu kabupaten.</dd></div>
+            <div class="trap"><dt>Jebakan</dt><dd>Menggabungkan sumber tanpa memeriksa apakah batas administratifnya masih sama di seluruh periode.</dd></div>
+          </dl>
+        </article>
+
+        <article class="q">
+          <p class="q-id">T5 · 07</p>
+          <p class="q-text">Kapan studi kasus satu desa lebih kuat daripada regresi 514 kabupaten? Jawab dengan menyebut jenis klaim yang ingin Anda buat, bukan dengan preferensi metode.</p>
+          <dl class="q-meta">
+            <div class="probe"><dt>Yang diuji</dt><dd>Kecocokan antara klaim dan bukti. Kasus tunggal unggul untuk mengidentifikasi mekanisme dan membantah klaim &ldquo;selalu&rdquo;; regresi unggul untuk klaim distribusi.</dd></div>
+            <div class="trap"><dt>Jebakan</dt><dd>Membela salah satu metode secara umum. Seluruh karyanya memakai keduanya, tergantung pertanyaan.</dd></div>
+          </dl>
+        </article>
+
+      </div>
+    </div>
+
+    <!-- TIER 6 -->
+    <div class="tier" id="t6">
+      <div class="tier-head"><span class="tier-code">Tingkat 6</span><h3>Esai sintesis</h3></div>
+      <p class="tier-note">Setara soal ujian akhir atau proposal tesis. Masing-masing menuntut teori, data, dan satu kasus dalam satu argumen.</p>
+      <div class="qlist">
+
+        <article class="q">
+          <p class="q-id">T6 · 01</p>
+          <p class="q-text">&ldquo;Masalah lingkungan Indonesia pada dasarnya adalah masalah jumlah penduduk.&rdquo; Setuju atau tidak. Bangun argumen dengan minimal dua teori kependudukan, satu set data yang Anda sebut sumbernya, dan satu kasus wilayah. Maksimal 1.500 kata.</p>
+          <dl class="q-meta">
+            <div class="probe"><dt>Yang diuji</dt><dd>Apakah Anda bisa memegang satu posisi tanpa mengabaikan bukti tandingan.</dd></div>
+            <div class="trap"><dt>Jebakan</dt><dd>Menutup dengan &ldquo;keduanya sama-sama benar&rdquo;. Kesimpulan berimbang tanpa keputusan dibaca sebagai penghindaran.</dd></div>
+          </dl>
+        </article>
+
+        <article class="q">
+          <p class="q-id">T6 · 02</p>
+          <p class="q-text">Susun kerangka teori untuk tesis berjudul &ldquo;Mobilitas penduduk dan perubahan tutupan lahan di [kawasan pilihan Anda]&rdquo;. Sebutkan tiga teori yang saling bersaing, prediksi berbeda yang mereka hasilkan, dan bukti apa yang akan memutuskan di antara mereka.</p>
+          <dl class="q-meta">
+            <div class="probe"><dt>Yang diuji</dt><dd>Kerangka teori sebagai alat pemilih hipotesis, bukan sebagai tinjauan pustaka yang ditumpuk.</dd></div>
+            <div class="trap"><dt>Jebakan</dt><dd>Meringkas teori satu per satu tanpa pernah mempertemukannya pada satu prediksi yang berbeda.</dd></div>
+          </dl>
+        </article>
+
+        <article class="q">
+          <p class="q-id">T6 · 03</p>
+          <p class="q-text">Jendela bonus demografi Indonesia menutup sekitar 2035&ndash;2040. Tulis nota kebijakan satu halaman kepada bupati: tiga keputusan yang harus diambil dalam masa jabatannya agar bonus itu tidak berubah menjadi beban lingkungan permanen. Sebutkan anggaran dan penanggung jawabnya.</p>
+          <dl class="q-meta">
+            <div class="probe"><dt>Yang diuji</dt><dd>Menerjemahkan analisis demografis menjadi keputusan yang muat dalam satu periode politik &mdash; keterampilan perencanaan, bukan keterampilan riset.</dd></div>
+            <div class="trap"><dt>Jebakan</dt><dd>Merekomendasikan tindakan yang hasilnya baru terlihat dua dekade kemudian, tanpa menjelaskan mengapa bupati ini mau memulainya.</dd></div>
+          </dl>
+        </article>
+
+        <article class="q">
+          <p class="q-id">T6 · 04</p>
+          <p class="q-text">Ambil satu temuan dari penelitian Susilastuti &mdash; misalnya kerja rumahan sebagai strategi bertahan hidup rumah tangga pedesaan Jawa &mdash; dan terjemahkan menjadi hipotesis yang dapat diuji tentang perilaku lingkungan rumah tangga hari ini. Jelaskan apa yang berubah dari konteks 1990-an, dan apa yang tidak.</p>
+          <dl class="q-meta">
+            <div class="probe"><dt>Yang diuji</dt><dd>Membaca literatur sebagai sumber hipotesis, bukan sebagai kutipan penghias.</dd></div>
+            <div class="trap"><dt>Jebakan</dt><dd>Memindahkan temuan lama begitu saja ke masa kini tanpa memeriksa apakah kondisi yang menghasilkannya masih ada.</dd></div>
+          </dl>
+        </article>
+
+        <article class="q">
+          <p class="q-id">T6 · 05</p>
+          <p class="q-text">Jika kategori statistik menentukan siapa yang terlihat oleh kebijakan, kategori mana dalam data kependudukan&ndash;lingkungan Indonesia yang paling perlu diubah? Usulkan definisi penggantinya, sebutkan siapa yang akan menjadi terlihat, dan siapa yang akan kehilangan sesuatu karena perubahan itu.</p>
+          <dl class="q-meta">
+            <div class="probe"><dt>Yang diuji</dt><dd>Seluruh kariernya dalam satu pertanyaan. Bagian terakhir &mdash; siapa yang kehilangan &mdash; adalah yang memisahkan jawaban baik dari jawaban terbaik.</dd></div>
+            <div class="trap"><dt>Jebakan</dt><dd>Mengusulkan kategori baru yang lebih adil tanpa mengakui bahwa setiap pendataan ulang memindahkan anggaran, dan karena itu akan dilawan.</dd></div>
+          </dl>
+        </article>
+
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ============ 6. RUBRIK ============ -->
+  <section id="rubrik">
+    <div class="sec-head"><span class="sec-num">06</span><h2>Cara menjawab yang akan dia hargai</h2></div>
+    <p class="sec-lede">Lima kebiasaan yang muncul konsisten di seluruh tulisannya. Pakai ini sebagai daftar periksa sebelum mengumpulkan jawaban.</p>
+    <ol class="rubric">
+      <li><span class="n">01</span><span><b>Pisahkan angka dari relasi.</b><span class="t">Sebutkan apa yang bergerak pada indikator, lalu tanyakan apakah relasi di baliknya ikut bergerak. Sering kali tidak.</span></span></li>
+      <li><span class="n">02</span><span><b>Sebut siapa yang tidak masuk hitungan.</b><span class="t">Setiap kali Anda mengutip angka, satu kalimat tentang siapa yang disaring keluar oleh definisinya.</span></span></li>
+      <li><span class="n">03</span><span><b>Berikan mekanisme, bukan korelasi.</b><span class="t">Rantai sebab harus bisa dibayangkan terjadi pada satu rumah tangga tertentu dalam satu minggu tertentu.</span></span></li>
+      <li><span class="n">04</span><span><b>Sebut aktor dan insentifnya.</b><span class="t">&ldquo;Pemerintah&rdquo; bukan aktor. Bupati, kepala dinas, penyuluh, dan ketua RT menghadapi insentif yang berbeda-beda.</span></span></li>
+      <li><span class="n">05</span><span><b>Akui batas data sebelum ditanya.</b><span class="t">Nyatakan apa yang tidak bisa dilihat desain Anda, di bagian temuan &mdash; bukan disembunyikan di keterbatasan.</span></span></li>
+    </ol>
+  </section>
+
+  <!-- ============ 7. KOSAKATA ============ -->
+  <section id="kosakata">
+    <div class="sec-head"><span class="sec-num">07</span><h2>Kosakata yang perlu siap</h2></div>
+    <p class="sec-lede">Istilah yang muncul di bank soal dan sebaiknya bisa Anda pakai tanpa ragu di kelas.</p>
+    <dl class="gloss">
+      <div><dt>Population momentum</dt><dd>Pertumbuhan penduduk yang terus berlanjut setelah fertilitas turun, karena banyaknya perempuan usia subur yang sudah terlanjur lahir.</dd></div>
+      <div><dt>IPAT / STIRPAT</dt><dd>Dampak = Penduduk × Kemakmuran × Teknologi. STIRPAT adalah versi stokastiknya yang memungkinkan hubungan tidak proporsional.</dd></div>
+      <div><dt>Tesis Boserup</dt><dd>Tekanan penduduk mendorong intensifikasi dan inovasi pertanian &mdash; kebalikan arah kausal dari Malthus.</dd></div>
+      <div><dt>Environmental Kuznets Curve</dt><dd>Dugaan bahwa pencemaran naik lalu turun seiring pendapatan. Sering menghilang begitu pemindahan produksi antarnegara diperhitungkan.</dd></div>
+      <div><dt>Daya dukung lingkungan</dt><dd>Batas populasi yang bisa ditopang suatu wilayah. Bermakna untuk sumber daya yang terikat lokasi; melemah untuk barang yang diperdagangkan.</dd></div>
+      <div><dt>Trapped population</dt><dd>Penduduk yang ingin pindah karena tekanan lingkungan tetapi tidak punya modal untuk pindah &mdash; sehingga degradasi terparah justru menurunkan migrasi.</dd></div>
+      <div><dt>Ecological fallacy</dt><dd>Menyimpulkan perilaku individu dari pola agregat wilayah.</dd></div>
+      <div><dt>Beban ganda</dt><dd>Kerja berupah ditambah kerja domestik tak berupah yang ditanggung orang yang sama; naik ketika sumber daya lingkungan menjauh.</dd></div>
+      <div><dt>Politik gagasan vs. politik kehadiran</dt><dd>Kepentingan seseorang diwakili orang lain, versus orang itu sendiri berada di ruang pengambilan keputusan.</dd></div>
+      <div><dt>Sistem borongan / putting-out</dt><dd>Pemberi kerja menyalurkan bahan untuk dikerjakan di rumah dengan upah satuan. Mengalihkan biaya tempat, listrik, dan risiko ke pekerja.</dd></div>
+      <div><dt>Implementation gap</dt><dd>Jarak antara isi kebijakan dan yang benar-benar dijalankan &mdash; tempat sebagian besar kebijakan lingkungan Indonesia berhenti.</dd></div>
+      <div><dt>Transisi epidemiologis</dt><dd>Pergeseran beban penyakit dari infeksi ke penyakit kronis seiring naiknya harapan hidup.</dd></div>
+    </dl>
+  </section>
+
+  <!-- ============ 8. SUMBER ============ -->
+  <section id="sumber">
+    <div class="sec-head"><span class="sec-num">08</span><h2>Sumber dan catatan verifikasi</h2></div>
+
+    <div class="note">
+      <h3>Tiga hal yang perlu Anda konfirmasi sendiri</h3>
+      <p><strong>Nama mata kuliah.</strong> Tidak ditemukan mata kuliah yang secara harfiah bernama &ldquo;Demographic Environment&rdquo; dalam katalog daring UGM. Padanan terdekat adalah <em>Kependudukan dan Lingkungan Hidup</em> pada Program Magister Ilmu Lingkungan, Sekolah Pascasarjana UGM, yang cakupannya dipakai untuk menyusun tabel di bagian 04. Cocokkan dengan RPS yang Anda terima.</p>
+      <p><strong>Daftar publikasi.</strong> Diambil dari profil Google Scholar yang dikelola sendiri oleh yang bersangkutan. Banyak entri merupakan karya bersama mahasiswa bimbingan lintas program studi, jadi tidak semuanya mencerminkan agenda risetnya sendiri.</p>
+      <p><strong>Satu keterangan yang tidak bisa diverifikasi.</strong> Cuplikan mesin pencari menyebut ia bergabung dengan Departemen Sosiologi FISIPOL UGM sejak 2009, tetapi halaman profil PSKK yang menjadi sumbernya sekarang tidak dapat diakses, dan namanya tidak muncul di daftar dosen Sosiologi saat ini. Alamat surel institusionalnya menunjuk ke Sekolah Pascasarjana.</p>
+    </div>
+
+    <ul class="srclist">
+      <li>Profil Acadstaff UGM &mdash; <a href="https://acadstaff.ugm.ac.id/OTkwMDAwMjQ0">acadstaff.ugm.ac.id/OTkwMDAwMjQ0</a></li>
+      <li>Google Scholar &mdash; <a href="https://scholar.google.com/citations?user=5M3ZiUYAAAAJ&amp;hl=en">daftar publikasi dan metrik sitasi</a></li>
+      <li>SINTA, ID 6036416 &mdash; <a href="https://sinta.kemdiktisaintek.go.id/authors/profile/6036416/">skor, indeks, dan daftar proyek penelitian</a></li>
+      <li>AMINEF &mdash; <a href="https://stu.aminef.or.id/alumny/detail/1090/Dewi-Haryani-Susilastuti">catatan alumni Fulbright Master&rsquo;s Program 1989, Florida State University</a></li>
+      <li>Darwin, Susilastuti, Abritaningrum, Setianingrum &amp; Sumini (2015), &ldquo;The Inhibiting Factors of Fertility Rate Decrease and the Direction of Family Planning Program Revitalization&rdquo;, <em>Populasi</em> 23(1) &mdash; <a href="https://journal.ugm.ac.id/populasi/article/view/8570">journal.ugm.ac.id</a></li>
+      <li>Susilastuti &amp; Nugraha (2022), &ldquo;Peran Gender Kontemporer di Indonesia &mdash; Perubahan dan Keberlanjutan: Studi Pustaka&rdquo;, <em>Psikologika</em> 27(2) &mdash; <a href="https://journal.uii.ac.id/Psikologika/article/view/23685">journal.uii.ac.id</a></li>
+      <li>Wulandari, Mardiatno, Susilastuti &amp; Maryudi (2022), &ldquo;Scholarly Interest in Forest Fires in Indonesia: A Bibliographical Review&rdquo;, <em>Forest and Society</em> 6(2): 609&ndash;619 &mdash; <a href="https://journal.unhas.ac.id/index.php/fs/article/view/21473">journal.unhas.ac.id</a></li>
+      <li>Rahman, Kutanegara, Bachruddin &amp; Susilastuti (2024), &ldquo;Barriers to Local Community Involvement in Community-Based Tourism Development&rdquo;, <em>Journal of Tourism Sustainability</em> &mdash; <a href="https://jtos.polban.ac.id/jtospolban/article/view/130">jtos.polban.ac.id</a></li>
+      <li>Susilastuti, D.H. (1996), &ldquo;Home-based work as a rural survival strategy: a Central Javanese perspective&rdquo;, dalam Boris &amp; Pr&uuml;gl (ed.), <em>Homeworkers in Global Perspective: Invisible No More</em>, Routledge, hlm. 129&ndash;141</li>
+      <li>Susilastuti, D.H. (2003), <em>Women&rsquo;s Education, Work and Autonomy: An Egyptian Case</em>, disertasi Ph.D., Department of Urban and Regional Planning, Florida State University</li>
+      <li>Kurikulum Magister Ilmu Lingkungan, Sekolah Pascasarjana UGM &mdash; <a href="https://lingkungan.pasca.ugm.ac.id/en/subject/">deskripsi mata kuliah Kependudukan dan Lingkungan Hidup</a></li>
+    </ul>
+
+    <footer>
+      Disusun 1 September 2026 sebagai bahan belajar pribadi. Profil dan kutipan berasal dari sumber publik yang ditautkan di atas; pertanyaan disusun untuk keperluan latihan dan bukan soal resmi dari mata kuliah mana pun.
+    </footer>
+  </section>
+
+  </main>
+</div>
+</div>
