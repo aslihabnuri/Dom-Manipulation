@@ -32,6 +32,7 @@ Preview template (tanpa foto): `preview-template.png`.
 | `--resolution` | `2K` | `1K`, `2K`, atau `4K` |
 | `--model` | `nano-banana-pro` | model kie.ai lain yang menerima `image_input` |
 | `--no-photo` | - | hanya template tanpa wajah (uji gaya) |
+| `--no-love` | - | tanpa stiker "i love you." |
 
 Biaya observasi: 18 kredit untuk 1K. 2K/4K lebih mahal, cek dashboard kie.ai.
 Jika hasil pertama kurang mirip, jalankan ulang: setiap run menghasilkan

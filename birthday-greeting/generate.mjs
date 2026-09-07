@@ -14,6 +14,7 @@
 //   --resolution <r>   1K | 2K | 4K (default 2K)
 //   --out <dir>        output directory (default birthday-greeting/output)
 //   --no-photo         generate the collage template without a photo
+//   --no-love          leave out the "i love you." sticker
 //
 // The API key is read from the KIE_API_KEY environment variable only.
 // Never hard-code it into this file.
@@ -32,6 +33,7 @@ function parseArgs(argv) {
     resolution: "2K",
     out: path.join("birthday-greeting", "output"),
     noPhoto: false,
+    noLove: false,
   };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
@@ -44,6 +46,7 @@ function parseArgs(argv) {
     else if (a === "--resolution") args.resolution = next();
     else if (a === "--out") args.out = next();
     else if (a === "--no-photo") args.noPhoto = true;
+    else if (a === "--no-love") args.noLove = true;
     else throw new Error(`Unknown argument: ${a}`);
   }
   if (!args.photo && !args.noPhoto) {
@@ -52,7 +55,7 @@ function parseArgs(argv) {
   return args;
 }
 
-function buildPrompt({ age, name, label, hasPhoto }) {
+function buildPrompt({ age, name, label, hasPhoto, noLove }) {
   const digits = String(age).split("").map((d) => `"${d}"`).join(" and ");
   const subject = hasPhoto
     ? `Use the person from the attached photo as the centrepiece. Keep her face, smile, skin tone, ` +
@@ -79,7 +82,9 @@ function buildPrompt({ age, name, label, hasPhoto }) {
     `red arrow pointing at her, placed next to the hat. ` +
     `Bottom: a round birthday cake with pale blue-green frosting, white piped swirls, fresh strawberries ` +
     `and ${age} lit striped candles (red, blue and white), on a plate at the bottom edge.${cakeText} ` +
-    `Bottom-right: a wobbly white rounded sticker with "i love you." handwritten in red cursive. ` +
+    (noLove
+      ? `Bottom-right corner stays empty apart from the paper texture; no love-note sticker. `
+      : `Bottom-right: a wobbly white rounded sticker with "i love you." handwritten in red cursive. `) +
     `Warm, soft, slightly nostalgic lighting. Every piece of text must be spelled exactly as written. ` +
     `No extra text, no watermark, no logos.`
   );
