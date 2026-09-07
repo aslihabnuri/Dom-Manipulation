@@ -1,697 +1,570 @@
 const pptxgen = require("pptxgenjs");
+const path = require("path");
 const pres = new pptxgen();
 pres.layout = "LAYOUT_WIDE"; // 13.33 x 7.5
 pres.author = "Kelompok 3";
 pres.title = "AirAsia: The World's Lowest Cost Airline";
 
-const RED = "C8102E";
-const DARKRED = "8E0B20";
-const INK = "1C1C1C";
-const MUTED = "6E6E6E";
-const LIGHT = "F4F4F4";
-const TINT = "FBE9EC";
-const WHITE = "FFFFFF";
-const LINE = "DDDDDD";
-const PINK = "F1C7CF";
-const GREEN = "2E7D32";
-const AMBER = "B26A00";
+const IMG = (n) => path.join(__dirname, "img", n + ".jpg");
+const W = 13.33, H = 7.5;
+
+// palette: aged fresco
+const PARCH = "F3E8D2";
+const INK = "2A1E14";
+const CRIMSON = "9E1B1B";
+const GOLD = "C69C4A";
+const DARK = "1B1410";
+const GREEN = "2F6B2F";
+const AMBER = "9C6410";
+const MUTED = "5C4A3A";
 const HFONT = "Cambria";
 const BFONT = "Calibri";
+const BODY = 24;
 
 const STEPS = ["Problem", "External environment", "Cost position", "Choice"];
 let slideNo = 0;
 
-function footer(slide, dark) {
-  slideNo += 1;
-  slide.addText("Kelompok 3  |  Strategic Management MAN 5422  |  Kasus AirAsia", {
-    x: 0.6, y: 7.05, w: 8, h: 0.3, fontFace: BFONT, fontSize: 9, color: dark ? PINK : MUTED, margin: 0, isTextBox: true,
-  });
-  slide.addText(String(slideNo), {
-    x: 12.1, y: 7.05, w: 0.63, h: 0.3, fontFace: BFONT, fontSize: 9, align: "right", color: dark ? PINK : MUTED, margin: 0, isTextBox: true,
-  });
+function bg(slide, name) {
+  slide.background = { color: DARK };
+  slide.addImage({ path: IMG(name), x: 0, y: 0, w: W, h: H });
 }
 
-// header with a step tracker so the audience always knows where we are in the flow
-function header(slide, title, step) {
-  slide.background = { color: WHITE };
+function pageNo(slide) {
+  slideNo += 1;
+  slide.addShape(pres.ShapeType.ellipse, { x: 12.35, y: 6.85, w: 0.5, h: 0.5, fill: { color: DARK, transparency: 25 }, line: { color: DARK, transparency: 25 } });
+  slide.addText(String(slideNo), { x: 12.35, y: 6.85, w: 0.5, h: 0.5, fontFace: BFONT, fontSize: 14, bold: true, color: PARCH, align: "center", valign: "middle", margin: 0, isTextBox: true });
+}
+
+// torn-paper style title band (slightly rotated parchment) + step tracker pill
+function title(slide, text, step, size) {
+  const w = Math.min(10.4, 0.9 + text.length * 0.27);
+  slide.addShape(pres.ShapeType.rect, { x: 0.45, y: 0.4, w, h: 0.95, fill: { color: PARCH }, line: { color: PARCH }, rotate: -1.2, shadow: { type: "outer", color: "000000", blur: 6, offset: 3, angle: 60, opacity: 0.45 } });
+  slide.addText(text, { x: 0.45, y: 0.4, w, h: 0.95, rotate: -1.2, fontFace: HFONT, fontSize: size || 38, bold: true, color: CRIMSON, valign: "middle", margin: [0, 0.3, 0, 0.3], isTextBox: true });
   if (step) {
     const runs = [];
     STEPS.forEach((st, i) => {
       const cur = i + 1 === step;
-      runs.push({ text: (i + 1) + "  " + st.toUpperCase(), options: { bold: cur, color: cur ? RED : "B5B5B5" } });
-      if (i < STEPS.length - 1) runs.push({ text: "      ", options: { color: "B5B5B5" } });
+      runs.push({ text: (i + 1) + " " + st, options: { bold: cur, color: cur ? GOLD : "B8A98F" } });
+      if (i < STEPS.length - 1) runs.push({ text: "   ·   ", options: { color: "8A7A64" } });
     });
-    slide.addText(runs, { x: 0.6, y: 0.35, w: 12.1, h: 0.3, fontFace: BFONT, fontSize: 10, charSpacing: 1.5, margin: 0, isTextBox: true });
+    slide.addShape(pres.ShapeType.roundRect, { x: 0.45, y: 1.42, w: 8.6, h: 0.42, rectRadius: 0.21, fill: { color: DARK, transparency: 25 }, line: { color: DARK, transparency: 25 } });
+    slide.addText(runs, { x: 0.65, y: 1.42, w: 8.3, h: 0.42, fontFace: BFONT, fontSize: 14, valign: "middle", margin: 0, isTextBox: true });
   }
-  slide.addText(title, {
-    x: 0.6, y: 0.68, w: 12.1, h: 0.7, fontFace: HFONT, fontSize: 30, bold: true, color: INK, margin: 0, isTextBox: true, valign: "middle",
+}
+
+function panel(slide, x, y, w, h, opts) {
+  opts = opts || {};
+  const dark = opts.dark;
+  slide.addShape(pres.ShapeType.roundRect, {
+    x, y, w, h, rectRadius: 0.06,
+    fill: { color: dark ? DARK : PARCH, transparency: opts.transparency !== undefined ? opts.transparency : (dark ? 18 : 8) },
+    line: { color: dark ? DARK : PARCH, transparency: 100 },
+    shadow: { type: "outer", color: "000000", blur: 8, offset: 3, angle: 60, opacity: 0.4 },
   });
 }
 
-// bridge sentence at the bottom: what this slide established and where the next one goes
-function bridge(slide, text) {
+// "Selanjutnya" link strip at the bottom
+function next(slide, text) {
+  slide.addShape(pres.ShapeType.rect, { x: 0, y: 6.62, w: W, h: 0.62, fill: { color: DARK, transparency: 22 }, line: { color: DARK, transparency: 100 } });
   slide.addText([
-    { text: "Kaitan.  ", options: { bold: true, color: RED } },
-    { text, options: { color: MUTED, italic: true } },
-  ], { x: 0.6, y: 6.58, w: 12.1, h: 0.4, fontFace: BFONT, fontSize: 10.5, margin: 0, isTextBox: true, valign: "middle" });
-}
-
-function numCircle(slide, x, y, n, d, fill, txtColor) {
-  d = d || 0.45;
-  slide.addShape(pres.ShapeType.ellipse, { x, y, w: d, h: d, fill: { color: fill || RED }, line: { color: fill || RED } });
-  slide.addText(String(n), {
-    x, y, w: d, h: d, fontFace: BFONT, fontSize: d >= 0.5 ? 16 : 13, bold: true, color: txtColor || WHITE, align: "center", valign: "middle", margin: 0, isTextBox: true,
-  });
-}
-
-function box(slide, x, y, w, h, fill) {
-  slide.addShape(pres.ShapeType.roundRect, { x, y, w, h, rectRadius: 0.08, fill: { color: fill }, line: { color: fill } });
+    { text: "Selanjutnya  ", options: { bold: true, color: GOLD } },
+    { text, options: { color: PARCH, italic: true } },
+  ], { x: 0.5, y: 6.62, w: 11.6, h: 0.62, fontFace: BFONT, fontSize: 22, valign: "middle", margin: 0, isTextBox: true });
 }
 
 function bullets(items, size, color) {
-  return items.map((t, i) => ({ text: t, options: { bullet: true, breakLine: i < items.length - 1, paraSpaceAfter: 5, fontSize: size || 12, color: color || INK } }));
+  return items.map((t, i) => ({ text: t, options: { bullet: { code: "25AA" }, breakLine: i < items.length - 1, paraSpaceAfter: 8, fontSize: size || BODY, color: color || INK } }));
 }
 
-function strip(slide, y, h, lead, body, fill, leadColor, textColor, size) {
-  box(slide, 0.6, y, 12.1, h, fill || TINT);
-  slide.addText([
-    { text: lead + " ", options: { bold: true, color: leadColor || RED } },
-    { text: body, options: { color: textColor || INK } },
-  ], { x: 0.85, y: y + 0.06, w: 11.6, h: h - 0.12, fontFace: BFONT, fontSize: size || 11.5, margin: 0, isTextBox: true, valign: "middle" });
+function numbered(items, size, color) {
+  return items.map((t, i) => ({ text: t, options: { bullet: { type: "number" }, breakLine: i < items.length - 1, paraSpaceAfter: 8, fontSize: size || BODY, color: color || INK } }));
 }
 
-// ---------------------------------------------------------------- 1. Title
+function heading(slide, text, x, y, w, color) {
+  slide.addText(text, { x, y, w, h: 0.55, fontFace: HFONT, fontSize: 28, bold: true, color: color || CRIMSON, margin: 0, isTextBox: true, valign: "middle" });
+}
+
+function tag(slide, x, y, w, h, word, color) {
+  slide.addShape(pres.ShapeType.roundRect, { x, y, w, h, rectRadius: 0.1, fill: { color }, line: { color } });
+  slide.addText(word, { x, y, w, h, fontFace: BFONT, fontSize: 20, bold: true, color: PARCH, align: "center", valign: "middle", margin: 0, isTextBox: true });
+}
+
+const NAMES = "Tifani Puspita  |  Dara Astrini Rahayu K  |  Happy Dinithasari  |  Aslih Abnuri";
+
+// ================================================================ 1. Title
 {
   const s = pres.addSlide();
-  s.background = { color: DARKRED };
-  s.addShape(pres.ShapeType.ellipse, { x: 9.2, y: -1.6, w: 6.2, h: 6.2, fill: { color: RED }, line: { color: RED } });
-  s.addText("CASE ANALYSIS  |  SESSION 4: EVALUATING A COMPANY'S EXTERNAL ENVIRONMENT", {
-    x: 0.7, y: 1.1, w: 9, h: 0.35, fontFace: BFONT, fontSize: 12, bold: true, color: PINK, charSpacing: 2, margin: 0, isTextBox: true,
-  });
-  s.addText("AirAsia", { x: 0.7, y: 1.55, w: 9, h: 1.2, fontFace: HFONT, fontSize: 60, bold: true, color: WHITE, margin: 0, isTextBox: true });
-  s.addText("The World's Lowest Cost Airline", { x: 0.7, y: 2.7, w: 9, h: 0.7, fontFace: HFONT, fontSize: 30, color: WHITE, margin: 0, isTextBox: true });
-  s.addText("Sejauh mana keunggulan biaya (cost advantage) yang dibangun di rute pendek dapat dibawa ke pasar penerbangan jarak jauh?", {
-    x: 0.7, y: 3.5, w: 8.5, h: 0.8, fontFace: BFONT, fontSize: 16, italic: true, color: PINK, margin: 0, isTextBox: true,
-  });
+  bg(s, "title");
+  s.addShape(pres.ShapeType.rect, { x: 0, y: 0, w: 7.6, h: H, fill: { color: DARK, transparency: 28 }, line: { color: DARK, transparency: 100 } });
+  s.addText("AirAsia", { x: 0.7, y: 1.2, w: 6.6, h: 1.5, fontFace: HFONT, fontSize: 72, bold: true, color: PARCH, margin: 0, isTextBox: true, valign: "middle" });
+  s.addText("The World's Lowest Cost Airline", { x: 0.7, y: 2.65, w: 6.6, h: 0.8, fontFace: HFONT, fontSize: 32, color: GOLD, margin: 0, isTextBox: true, valign: "middle" });
+  s.addText("Sejauh mana keunggulan biaya yang dibangun di rute pendek dapat dibawa ke pasar penerbangan jarak jauh?", { x: 0.7, y: 3.55, w: 6.4, h: 1.5, fontFace: BFONT, fontSize: BODY, italic: true, color: PARCH, margin: 0, isTextBox: true, valign: "top" });
   s.addText([
-    { text: "Kelompok 3", options: { bold: true, breakLine: true, fontSize: 14 } },
-    { text: "Tifani Puspita  |  Dara Astrini Rahayu K  |  Happy Dinithasari  |  Aslih Abnuri", options: { breakLine: true, fontSize: 12 } },
-    { text: " ", options: { breakLine: true, fontSize: 6 } },
-    { text: "Strategic Management (MAN 5422), Program Magister Manajemen, Fakultas Ekonomika dan Bisnis, Universitas Gadjah Mada", options: { breakLine: true, fontSize: 11 } },
-    { text: "Dosen: Dr. Rangga Almahendra, S.T., M.M.", options: { fontSize: 11 } },
-  ], { x: 0.7, y: 5.0, w: 11, h: 1.6, fontFace: BFONT, color: WHITE, margin: 0, isTextBox: true, valign: "top" });
-  footer(s, true);
-  s.addNotes("Pembuka. Sampaikan satu pertanyaan strategis: apakah keunggulan biaya AirAsia yang dibangun di rute pendek dapat dipindahkan ke rute jarak jauh melalui AirAsia X. Kasus ditulis Robert M. Grant (2010), data per 2008 sampai pertengahan 2009.");
+    { text: "Kelompok 3", options: { bold: true, fontSize: 26, color: GOLD, breakLine: true } },
+    { text: NAMES, options: { fontSize: 20, color: PARCH } },
+  ], { x: 0.7, y: 5.4, w: 6.6, h: 1.4, fontFace: BFONT, margin: 0, isTextBox: true, valign: "top" });
+  pageNo(s);
+  s.addNotes("Pembuka. Satu pertanyaan strategis: apakah keunggulan biaya AirAsia yang dibangun di rute pendek dapat dipindahkan ke rute jarak jauh melalui AirAsia X. Kasus Robert M. Grant (2010), data 2008 sampai pertengahan 2009.");
 }
 
-// ---------------------------------------------------------------- 2. Roadmap
+// ================================================================ 2. Roadmap
 {
   const s = pres.addSlide();
-  header(s, "How we read the case");
-  strip(s, 1.55, 0.95, "Titik berangkat.", "Predikat lowest cost airline sering dibaca sebagai kelemahan, seolah AirAsia hanya menjual murah. Dibaca dengan tepat, murah adalah hasil dari disiplin biaya (cost discipline) yang sistematis. Pertanyaannya bukan mengapa AirAsia murah, melainkan apakah sistem yang membuatnya murah dapat dipindahkan (transferable) ke medan yang berbeda.", LIGHT);
-  const steps = [
-    ["Problem", "Tujuan (goals) yang ingin dicapai AirAsia dan hambatan (barriers) yang menghalanginya.", "Slide 3 sampai 4"],
-    ["External environment", "PESTEL, Five Forces dalam logika Structure Conduct Performance, kekuatan pendorong (driving forces), peta kelompok strategis, faktor kunci keberhasilan.", "Slide 5 sampai 8"],
-    ["Cost position", "Benchmarking terhadap Malaysia Airlines, sumber keunggulan biaya, uji transferabilitas ke rute jauh, dan bukti awal di rute KL London.", "Slide 9 sampai 12"],
-    ["Choice", "Isu sebagai pertanyaan, tiga alternatif dinilai dengan kriteria yang sama, satu rekomendasi dengan KPI, waktu, penanggung jawab, dan mitigasi risiko.", "Slide 13 sampai 17"],
-  ];
-  steps.forEach((st, i) => {
-    const x = 0.6 + i * 3.1;
-    box(s, x, 2.75, 2.9, 3.0, LIGHT);
-    numCircle(s, x + 0.2, 2.93, i + 1, 0.42);
-    s.addText(st[0], { x: x + 0.75, y: 2.9, w: 2.0, h: 0.5, fontFace: BFONT, fontSize: 13.5, bold: true, color: INK, margin: 0, isTextBox: true, valign: "middle" });
-    s.addText(st[1], { x: x + 0.22, y: 3.5, w: 2.5, h: 1.7, fontFace: BFONT, fontSize: 11, color: INK, margin: 0, isTextBox: true, valign: "top" });
-    s.addText(st[2], { x: x + 0.22, y: 5.2, w: 2.5, h: 0.45, fontFace: BFONT, fontSize: 9.5, italic: true, color: RED, margin: 0, isTextBox: true, valign: "bottom" });
-  });
-  s.addText("Urutan ini mengikuti logika Structure Conduct Performance: struktur industri dibaca lebih dulu, baru posisi perusahaan di dalamnya, baru pilihan strategi. Kerangka dari Thompson dan Strickland Bab 3 serta panduan analisis kasus RPKPS. Seluruh angka bersumber dari tabel dalam kasus.", {
-    x: 0.6, y: 5.9, w: 12.1, h: 0.6, fontFace: BFONT, fontSize: 10.5, italic: true, color: MUTED, margin: 0, isTextBox: true, valign: "middle",
-  });
-  bridge(s, "Tahap pertama dimulai dengan mengenal perusahaannya: seberapa besar AirAsia pada 2009 dan dari mana keberhasilannya berasal.");
-  footer(s);
-  s.addNotes("Jelaskan bahwa urutan analisis mengikuti logika SCP: struktur industri menentukan perilaku perusahaan dan pada akhirnya kinerja. Analisis eksternal dulu, baru posisi perusahaan, baru pilihan. Penanda tahap di atas setiap slide menunjukkan posisi kita dalam alur ini.");
+  bg(s, "roadmap");
+  title(s, "How we read the case");
+  panel(s, 0.5, 1.5, 7.6, 4.95);
+  heading(s, "Titik berangkat", 0.8, 1.6, 7.0);
+  s.addText("Lowest cost sering dibaca sebagai kelemahan. Dibaca dengan tepat, murah adalah hasil disiplin biaya (cost discipline) yang sistematis. Apakah sistem itu dapat dipindahkan (transferable) ke rute jauh?", { x: 0.8, y: 2.2, w: 7.0, h: 2.1, fontFace: BFONT, fontSize: BODY, color: INK, margin: 0, isTextBox: true, valign: "top" });
+  s.addText([
+    { text: "1  Problem", options: { bold: true, color: CRIMSON } }, { text: "   tujuan dan hambatan", options: { color: INK, breakLine: true } },
+    { text: "2  External environment", options: { bold: true, color: CRIMSON } }, { text: "   PESTEL, Five Forces, peta", options: { color: INK, breakLine: true } },
+    { text: "3  Cost position", options: { bold: true, color: CRIMSON } }, { text: "   benchmarking, transferabilitas", options: { color: INK, breakLine: true } },
+    { text: "4  Choice", options: { bold: true, color: CRIMSON } }, { text: "   isu, alternatif, rekomendasi", options: { color: INK } },
+  ], { x: 0.8, y: 4.35, w: 7.0, h: 2.0, fontFace: BFONT, fontSize: BODY, margin: 0, isTextBox: true, valign: "top", paraSpaceAfter: 4 });
+  next(s, "Tahap 1 dimulai dengan mengenal AirAsia lebih dulu.");
+  pageNo(s);
+  s.addNotes("Urutan analisis mengikuti logika Structure Conduct Performance: struktur industri dibaca lebih dulu, baru posisi perusahaan, baru pilihan strategi. Kerangka dari Thompson dan Strickland Bab 3 serta panduan analisis kasus RPKPS. Seluruh angka bersumber dari tabel dalam kasus.");
 }
 
-// ---------------------------------------------------------------- 3. Company context
+// ================================================================ 3. At a glance
 {
   const s = pres.addSlide();
-  header(s, "AirAsia at a glance", 1);
-  const stats = [
-    ["79", "pesawat pada Maret 2009, dari 2 pesawat pada Januari 2002"],
-    ["11,8 juta", "penumpang per tahun, dari 200 ribu pada periode yang sama"],
-    ["10 negara", "jangkauan jaringan rute di Asia Tenggara, dengan hub KL, Bangkok, dan Jakarta"],
-    ["RM 1", "harga akuisisi tahun 2001, dengan warisan utang RM 40 juta"],
-  ];
+  bg(s, "glance");
+  title(s, "AirAsia at a glance", 1);
+  const stats = [["79", "pesawat (2009)"], ["11,8 juta", "penumpang"], ["10 negara", "dilayani"], ["RM 1", "harga akuisisi"]];
   stats.forEach((st, i) => {
-    const x = 0.6 + i * 3.1;
-    box(s, x, 1.6, 2.9, 1.7, LIGHT);
-    s.addText(st[0], { x: x + 0.2, y: 1.68, w: 2.5, h: 0.75, fontFace: HFONT, fontSize: 30, bold: true, color: RED, margin: 0, isTextBox: true, valign: "middle" });
-    s.addText(st[1], { x: x + 0.2, y: 2.45, w: 2.5, h: 0.75, fontFace: BFONT, fontSize: 11, color: MUTED, margin: 0, isTextBox: true, valign: "top" });
+    const x = 0.5 + i * 3.1;
+    panel(s, x, 2.0, 2.9, 1.4);
+    s.addText(st[0], { x: x + 0.2, y: 2.05, w: 2.5, h: 0.75, fontFace: HFONT, fontSize: 40, bold: true, color: CRIMSON, margin: 0, isTextBox: true, valign: "middle" });
+    s.addText(st[1], { x: x + 0.2, y: 2.78, w: 2.5, h: 0.55, fontFace: BFONT, fontSize: BODY, color: INK, margin: 0, isTextBox: true, valign: "top" });
   });
-  s.addText("Tonggak penting", { x: 0.6, y: 3.55, w: 5, h: 0.4, fontFace: BFONT, fontSize: 14, bold: true, color: INK, margin: 0, isTextBox: true });
-  s.addText(bullets([
-    "2001: Tony Fernandes dan Conor McCarthy (mantan direktur operasi Ryanair) mengambil alih AirAsia atas dorongan PM Mahathir.",
-    "2002: relaunch dengan tiga pesawat. Formula bisnisnya: strategi operasi ala Ryanair, strategi SDM ala Southwest, strategi merek ala easyJet.",
-    "2004: rute internasional pertama (KL ke Phuket); IPO menghimpun RM 717 juta; usaha patungan (joint venture) Thai AirAsia dan Indonesia AirAsia.",
-    "2007: AirAsia X mulai terbang jarak jauh ke Australia dan Cina; 2009 ke London, dengan rencana ke India dan hub kedua di Abu Dhabi.",
-  ], 12), { x: 0.6, y: 3.95, w: 7.4, h: 2.55, fontFace: BFONT, margin: 0, isTextBox: true, valign: "top" });
-  box(s, 8.4, 3.55, 4.3, 2.95, TINT);
-  s.addText("Pengakuan kinerja", { x: 8.65, y: 3.65, w: 3.9, h: 0.4, fontFace: BFONT, fontSize: 14, bold: true, color: RED, margin: 0, isTextBox: true });
-  s.addText(bullets([
-    "Riset UBS 2007: biaya per available seat kilometer (ASK) terendah di dunia, di bawah Southwest, JetBlue, Ryanair, dan Virgin Blue.",
-    "2008: imbal hasil aset (return on assets) 4 persen ketika hampir semua maskapai dunia merugi.",
-    "2009: Skytrax Award sebagai The World's Best Low Cost Airline.",
-  ], 11.5), { x: 8.65, y: 4.08, w: 3.85, h: 2.35, fontFace: BFONT, margin: 0, isTextBox: true, valign: "top" });
-  bridge(s, "Keberhasilan ini dibangun di rute pendek. Langkah ke rute jauh pada 2007 itulah yang memunculkan masalah strategis di slide berikutnya.");
-  footer(s);
-  s.addNotes("Tekankan skala pertumbuhan dan pengakuan eksternal. Angka ROA 4 persen mengacu pada laba operasi sebelum depresiasi, amortisasi, dan bunga terhadap rata-rata total aset (catatan kaki kasus).");
-}
-
-// ---------------------------------------------------------------- 4. Problem statement
-{
-  const s = pres.addSlide();
-  header(s, "The strategic problem", 1);
-  box(s, 0.6, 1.6, 5.9, 2.65, LIGHT);
-  s.addText("TUJUAN (GOALS)", { x: 0.85, y: 1.72, w: 5.4, h: 0.35, fontFace: BFONT, fontSize: 11, bold: true, color: RED, charSpacing: 1, margin: 0, isTextBox: true });
-  s.addText(bullets([
-    "Bertransformasi dari maskapai regional (radius 3,5 jam terbang dari hub) menjadi maskapai internasional.",
-    "Mempertahankan posisi sebagai operator berbiaya terendah (lowest cost operator) di setiap rute yang dilayani.",
-    "Menjaga pertumbuhan volume; rute gemuk (trunk routes) jarak jauh adalah sumber lalu lintas berikutnya (Azran Osman-Rani, CEO AirAsia X).",
-  ], 12), { x: 0.85, y: 2.1, w: 5.45, h: 2.1, fontFace: BFONT, margin: 0, isTextBox: true, valign: "top" });
-  box(s, 6.8, 1.6, 5.9, 2.65, TINT);
-  s.addText("HAMBATAN (BARRIERS)", { x: 7.05, y: 1.72, w: 5.4, h: 0.35, fontFace: BFONT, fontSize: 11, bold: true, color: RED, charSpacing: 1, margin: 0, isTextBox: true });
-  s.addText(bullets([
-    "Efisiensi model LCC bertumpu pada rute pendek, satu tipe pesawat, dan layanan minimal. Rute antarbenua tidak memenuhi ketiganya.",
-    "Pesaing jarak jauh adalah maskapai jaringan (network carriers) dengan rute pengumpan (feeder), tiket terusan, dan subsidi silang dari kelas premium.",
-    "Neraca 2008 lemah: rugi bersih RM 496,6 juta, utang RM 6,69 miliar berbanding ekuitas RM 1,61 miliar, kas RM 153,8 juta (Tabel 9.1).",
-  ], 12), { x: 7.05, y: 2.1, w: 5.45, h: 2.1, fontFace: BFONT, margin: 0, isTextBox: true, valign: "top" });
-  box(s, 0.6, 4.5, 12.1, 1.95, INK);
-  s.addText("PERTANYAAN STRATEGIS", { x: 0.9, y: 4.62, w: 6, h: 0.35, fontFace: BFONT, fontSize: 11, bold: true, color: PINK, charSpacing: 1, margin: 0, isTextBox: true });
+  panel(s, 0.5, 3.55, 12.3, 2.9);
+  heading(s, "Milestones", 0.8, 3.62, 6);
   s.addText([
-    { text: "Apakah sumber keunggulan biaya AirAsia dapat ditransfer ke pasar jarak jauh, dan bagaimana AirAsia sebaiknya menata hubungan dengan AirAsia X agar eksplorasi (exploration) pasar baru tidak mengganggu eksploitasi (exploitation) model yang sudah terbukti?", options: { fontSize: 15.5, color: WHITE, breakLine: true } },
-    { text: " ", options: { fontSize: 5, breakLine: true } },
-    { text: "Keputusan yang menunggu manajemen pada pertengahan 2009: merger AirAsia X ke dalam AirAsia, tetap terpisah dengan kontrak layanan, atau kembali fokus ke pasar regional.", options: { fontSize: 11.5, color: PINK } },
-  ], { x: 0.9, y: 4.95, w: 11.5, h: 1.45, fontFace: BFONT, margin: 0, isTextBox: true, valign: "top" });
-  bridge(s, "Untuk menjawab pertanyaan ini, tahap kedua membaca lingkungan eksternal lebih dulu: faktor makro, struktur industri, dinamika, dan peta pesaing.");
-  footer(s);
-  s.addNotes("Mengikuti panduan RPKPS: masalah dirumuskan sebagai tujuan yang terhalang. Kata kuncinya goals dan barrier. Istilah exploration dan exploitation mengacu pada March (1991): perusahaan perlu menyeimbangkan pendalaman kompetensi yang ada dengan pencarian peluang baru.");
+    { text: "2001   ", options: { bold: true, color: CRIMSON } }, { text: "Fernandes dan McCarthy mengambil alih AirAsia seharga RM 1", options: { breakLine: true } },
+    { text: "2002   ", options: { bold: true, color: CRIMSON } }, { text: "Relaunch: operasi ala Ryanair, SDM ala Southwest, merek ala easyJet", options: { breakLine: true } },
+    { text: "2004   ", options: { bold: true, color: CRIMSON } }, { text: "Rute internasional pertama, IPO RM 717 juta, JV Thailand dan Indonesia", options: { breakLine: true } },
+    { text: "2007   ", options: { bold: true, color: CRIMSON } }, { text: "AirAsia X mulai terbang jarak jauh; 2009 membuka rute London", options: { breakLine: true } },
+    { text: "2009   ", options: { bold: true, color: CRIMSON } }, { text: "Skytrax: World's Best Low Cost Airline; biaya per ASK terendah di dunia (UBS)" },
+  ], { x: 0.8, y: 4.15, w: 11.8, h: 2.25, fontFace: BFONT, fontSize: BODY, color: INK, margin: 0, isTextBox: true, valign: "top", paraSpaceAfter: 3 });
+  next(s, "Dibangun di rute pendek. Rute jauh memunculkan masalah baru.");
+  pageNo(s);
+  s.addNotes("Dari 2 pesawat dan 200 ribu penumpang (Januari 2002) menjadi 79 pesawat dan 11,8 juta penumpang (Maret 2009). Hub di KL, Bangkok, dan Jakarta. Akuisisi 2001 seharga RM 1 dengan warisan utang RM 40 juta. Riset UBS 2007: biaya per ASK terendah di dunia, di bawah Southwest, Ryanair, JetBlue, Virgin Blue. ROA 2008 sebesar 4 persen ketika hampir semua maskapai dunia merugi.");
 }
 
-// ---------------------------------------------------------------- 5. PESTEL
+// ================================================================ 4. Strategic problem
 {
   const s = pres.addSlide();
-  header(s, "PESTEL analysis", 2);
-  const items = [
-    ["P", "Politik", "Dukungan pemerintah Malaysia sejak akuisisi 2001. Namun rute jarak jauh menempatkan AirAsia berhadapan langsung dengan Malaysia Airlines, maskapai nasional (flag carrier). Itulah alasan AirAsia X didirikan sebagai entitas terpisah."],
-    ["E", "Ekonomi", "Kemakmuran Malaysia dan kawasan meningkat; 500 juta penduduk dalam radius 3,5 jam terbang, sebagian besar belum pernah naik pesawat. Harga minyak 2008 sangat fluktuatif; bahan bakar adalah 47 persen biaya operasi AirAsia (RM 1,39 miliar dari RM 2,97 miliar)."],
-    ["S", "Sosial", "Segmen wisatawan dan pebisnis berpendapatan menengah yang selama ini kurang terlayani (underserved). Slogan Now Everyone Can Fly pada dasarnya adalah strategi memperluas pasar (market expansion), bukan sekadar merebut pangsa."],
-    ["T", "Teknologi", "Sistem reservasi Navitaire Open Skies, yield management system, boarding pass cetak sendiri, pemesanan lewat ponsel (2006), ERP dan advanced planning system. Distribusi langsung memangkas komisi agen dan sulit ditiru maskapai lama."],
-    ["E", "Lingkungan", "Efisiensi bahan bakar menentukan biaya sekaligus jejak karbon. Armada A320 baru yang hemat bahan bakar menjadi keharusan. Di rute jauh, A340 bermesin empat justru lebih boros dibanding pesaing bermesin dua."],
-    ["L", "Legal", "Deregulasi penerbangan Asia Tenggara membuka rute lintas negara. Kepemilikan asing masih dibatasi, sehingga ekspansi ke Thailand dan Indonesia harus lewat usaha patungan (joint venture) yang operasinya dikontrakkan kembali ke AirAsia dengan imbalan fee bulanan."],
-  ];
-  items.forEach((it, i) => {
-    const col = i % 3, row = Math.floor(i / 3);
-    const x = 0.6 + col * 4.05, y = 1.6 + row * 2.5;
-    box(s, x, y, 3.85, 2.35, LIGHT);
-    s.addShape(pres.ShapeType.ellipse, { x: x + 0.2, y: y + 0.15, w: 0.5, h: 0.5, fill: { color: RED }, line: { color: RED } });
-    s.addText(it[0], { x: x + 0.2, y: y + 0.15, w: 0.5, h: 0.5, fontFace: HFONT, fontSize: 16, bold: true, color: WHITE, align: "center", valign: "middle", margin: 0, isTextBox: true });
-    s.addText(it[1], { x: x + 0.85, y: y + 0.15, w: 2.8, h: 0.5, fontFace: BFONT, fontSize: 14, bold: true, color: INK, valign: "middle", margin: 0, isTextBox: true });
-    s.addText(it[2], { x: x + 0.22, y: y + 0.72, w: 3.45, h: 1.58, fontFace: BFONT, fontSize: 10.5, color: INK, margin: 0, isTextBox: true, valign: "top" });
-  });
-  bridge(s, "Faktor makro membentuk peluang. Apakah peluang itu bisa diubah menjadi laba ditentukan oleh struktur industrinya, yang dibaca dengan Five Forces di slide berikutnya.");
-  footer(s);
-  s.addNotes("Simpulan PESTEL: faktor politik dan legal adalah pembentuk struktur paling kuat. Deregulasi menciptakan peluang, tetapi pembatasan kepemilikan asing dan relasi dengan maskapai nasional memaksa AirAsia memilih struktur joint venture dan entitas terpisah untuk AirAsia X. Angka 47 persen dihitung dari Tabel 9.1: 1.389,8 dibagi 2.966.");
+  bg(s, "problem");
+  title(s, "The strategic problem", 1);
+  panel(s, 0.5, 2.5, 6.0, 3.95);
+  heading(s, "Tujuan (goals)", 0.8, 2.6, 5.4);
+  s.addText(bullets([
+    "Menjadi maskapai internasional, bukan hanya regional",
+    "Tetap berbiaya terendah di setiap rute",
+    "Tumbuh lewat rute gemuk (trunk routes) jarak jauh",
+  ]), { x: 0.8, y: 3.2, w: 5.5, h: 3.2, fontFace: BFONT, margin: 0, isTextBox: true, valign: "top" });
+  panel(s, 6.8, 2.5, 6.0, 3.95);
+  heading(s, "Hambatan (barriers)", 7.1, 2.6, 5.4);
+  s.addText(bullets([
+    "Model LCC bertumpu pada rute pendek, satu tipe pesawat, layanan minimal",
+    "Pesaing jarak jauh punya feeder, tiket terusan, subsidi silang",
+    "Neraca 2008 lemah: utang RM 6,69 miliar, kas RM 153,8 juta",
+  ]), { x: 7.1, y: 3.2, w: 5.5, h: 3.2, fontFace: BFONT, margin: 0, isTextBox: true, valign: "top" });
+  next(s, "Tujuan yang terhalang. Pertanyaannya dirumuskan di slide berikutnya.");
+  pageNo(s);
+  s.addNotes("Mengikuti panduan RPKPS: masalah adalah tujuan yang terhalang. Angka neraca dari Tabel 9.1: rugi bersih RM 496,6 juta, utang RM 6,69 miliar berbanding ekuitas RM 1,61 miliar, kas RM 153,8 juta. Azran Osman-Rani (CEO AirAsia X): rute gemuk jarak jauh adalah sumber lalu lintas berikutnya.");
 }
 
-// ---------------------------------------------------------------- 6. Five Forces
+// ================================================================ 5. Strategic question
 {
   const s = pres.addSlide();
-  header(s, "Five Forces analysis", 2);
-  const cx = 4.35, cy = 3.3, cw = 2.7, ch = 1.45;
-  box(s, cx, cy, cw, ch, RED);
+  bg(s, "question");
+  title(s, "The strategic question", 1);
+  panel(s, 0.5, 1.95, 7.4, 4.5, { dark: true });
+  s.addText("Apakah keunggulan biaya AirAsia dapat ditransfer ke rute jauh, dan bagaimana menata hubungan dengan AirAsia X agar eksplorasi (exploration) tidak mengganggu eksploitasi (exploitation)?", { x: 0.8, y: 2.05, w: 6.8, h: 2.3, fontFace: BFONT, fontSize: 24, bold: true, color: PARCH, margin: 0, isTextBox: true, valign: "top" });
   s.addText([
-    { text: "Persaingan antar pemain (rivalry)", options: { bold: true, fontSize: 12, breakLine: true } },
-    { text: "TINGGI", options: { bold: true, fontSize: 16, breakLine: true } },
-    { text: "Banyak peniru model Southwest; MAS menekan di rute domestik; produk mudah dibandingkan lewat harga.", options: { fontSize: 9.5 } },
-  ], { x: cx + 0.12, y: cy + 0.08, w: cw - 0.24, h: ch - 0.16, fontFace: BFONT, color: WHITE, align: "center", valign: "middle", margin: 0, isTextBox: true });
-  const forces = [
-    { x: 4.35, y: 1.6, title: "Ancaman pendatang baru", level: "SEDANG", body: "Deregulasi dan pesawat sewaan menurunkan hambatan masuk (entry barriers). Penahan: slot bandara, merek, dan skala armada." },
-    { x: 4.35, y: 5.0, title: "Produk substitusi", level: "SEDANG di rute pendek, RENDAH di rute jauh", body: "Bus, kereta, dan feri bersaing di rute domestik. Untuk lintas laut dan antarbenua, tidak ada pengganti yang setara." },
-    { x: 0.6, y: 3.3, title: "Daya tawar pemasok", level: "TINGGI", body: "Airbus dan Boeing berduopoli; bahan bakar mengikuti harga minyak dunia; bandara dan navigasi menetapkan tarif tanpa ruang negosiasi." },
-    { x: 8.1, y: 3.3, title: "Daya tawar pembeli", level: "TINGGI", body: "Penumpang sangat peka harga (price sensitive), biaya berpindah nol, perbandingan harga di internet terbuka. Penahan: pembeli terfragmentasi." },
-  ];
-  forces.forEach((f) => {
-    const w = 3.5, h = 1.45;
-    box(s, f.x, f.y, w, h, LIGHT);
-    s.addText([
-      { text: f.title + ": ", options: { bold: true, fontSize: 11.5 } },
-      { text: f.level, options: { bold: true, fontSize: 11.5, color: RED, breakLine: true } },
-      { text: f.body, options: { fontSize: 9.5 } },
-    ], { x: f.x + 0.15, y: f.y + 0.08, w: w - 0.3, h: h - 0.16, fontFace: BFONT, color: INK, valign: "middle", margin: 0, isTextBox: true });
-  });
-  s.addShape(pres.ShapeType.line, { x: 5.7, y: 3.05, w: 0, h: 0.25, line: { color: MUTED, width: 1.25 } });
-  s.addShape(pres.ShapeType.line, { x: 5.7, y: 4.75, w: 0, h: 0.25, line: { color: MUTED, width: 1.25 } });
-  s.addShape(pres.ShapeType.line, { x: 4.1, y: 4.02, w: 0.25, h: 0, line: { color: MUTED, width: 1.25 } });
-  s.addShape(pres.ShapeType.line, { x: 7.05, y: 4.02, w: 1.05, h: 0, line: { color: MUTED, width: 1.25 } });
-  const side = [
-    { x: 8.1, y: 1.6, w: 4.6, title: "Logika Structure Conduct Performance", body: "Struktur industri (pemasok dan pembeli kuat, rivalitas tinggi) memaksa perilaku (conduct) berupa disiplin biaya. Kinerja (performance) unggul hanya lahir dari posisi biaya terendah, bukan dari diferensiasi." },
-    { x: 8.1, y: 5.0, w: 4.6, title: "Simpulan daya tarik industri", body: "Secara struktural industri kurang atraktif. Tahun 2008 hampir seluruh maskapai dunia merugi. Laba bukan berasal dari industri, melainkan dari posisi relatif perusahaan di dalamnya." },
-    { x: 0.6, y: 1.6, w: 3.5, title: "Implikasi untuk rute jarak jauh", body: "Pembeli di rute KL London tetap peka harga, tetapi pesaingnya (Emirates, BA, MAS) mampu mensubsidi kelas ekonomi dari kelas premium." },
-    { x: 0.6, y: 5.0, w: 3.5, title: "Kekuatan paling menentukan", body: "Daya tawar pemasok (bahan bakar dan pesawat) dan pembeli. Keduanya tidak dapat dikendalikan; yang bisa dikendalikan hanya struktur biaya sendiri." },
-  ];
-  side.forEach((b) => {
-    box(s, b.x, b.y, b.w, 1.45, TINT);
-    s.addText([
-      { text: b.title, options: { bold: true, fontSize: 11.5, color: RED, breakLine: true } },
-      { text: b.body, options: { fontSize: 10 } },
-    ], { x: b.x + 0.2, y: b.y + 0.08, w: b.w - 0.4, h: 1.29, fontFace: BFONT, color: INK, valign: "middle", margin: 0, isTextBox: true });
-  });
-  bridge(s, "Struktur industri menjelaskan mengapa laba langka. Slide berikutnya melihat apa yang sedang mengubah struktur itu dan faktor apa yang menentukan siapa yang menang.");
-  footer(s);
-  s.addNotes("Kaitkan dengan kerangka SCP yang dipresentasikan Kelompok 2 dan Porter (1980). Poin utamanya: profitabilitas AirAsia bukan karena industri menarik, tetapi karena posisi biaya relatifnya. Ini menjadi dasar pertanyaan transferabilitas ke rute jauh.");
+    { text: "Tiga pilihan manajemen, pertengahan 2009:", options: { color: GOLD, breakLine: true } },
+    { text: "Merger AirAsia X ke dalam AirAsia", options: { bullet: { code: "25AA" }, color: PARCH, breakLine: true } },
+    { text: "Tetap terpisah dengan kontrak layanan", options: { bullet: { code: "25AA" }, color: PARCH, breakLine: true } },
+    { text: "Kembali fokus ke pasar regional", options: { bullet: { code: "25AA" }, color: PARCH } },
+  ], { x: 0.8, y: 4.4, w: 6.8, h: 1.95, fontFace: BFONT, fontSize: BODY, margin: 0, isTextBox: true, valign: "top", paraSpaceAfter: 2 });
+  next(s, "Tahap 2: membaca lingkungan eksternal lebih dulu.");
+  pageNo(s);
+  s.addNotes("Istilah exploration dan exploitation mengacu pada March (1991): perusahaan perlu menyeimbangkan pendalaman kompetensi yang ada dengan pencarian peluang baru.");
 }
 
-// ---------------------------------------------------------------- 7. Driving forces & KSF
+// ================================================================ 6. PESTEL
 {
   const s = pres.addSlide();
-  header(s, "Driving forces and key success factors", 2);
-  s.addText("Kekuatan pendorong perubahan (driving forces)", { x: 0.6, y: 1.55, w: 6, h: 0.4, fontFace: BFONT, fontSize: 14, bold: true, color: INK, margin: 0, isTextBox: true });
-  const dfs = [
-    ["Deregulasi penerbangan regional", "Membuka rute lintas negara dan memungkinkan hub baru di Bangkok dan Jakarta melalui usaha patungan."],
-    ["Internet dan distribusi langsung", "Penjualan lewat situs web dan call center menghapus komisi agen; ponsel menjadi kanal pemesanan utama di Asia."],
-    ["Volatilitas harga bahan bakar", "Kenaikan lalu penurunan tajam pada 2008 merugikan maskapai yang salah posisi lindung nilai (hedging), termasuk AirAsia."],
-    ["Pertumbuhan kelas menengah Asia", "Permintaan baru dari penumpang yang sebelumnya tidak terbang; pasar membesar, bukan sekadar berpindah."],
-    ["Masuknya LCC ke jarak jauh", "AirAsia X, Jetstar, dan pemain lain menguji batas model; sangat sedikit yang berhasil sejauh ini."],
+  bg(s, "pestel1");
+  title(s, "PESTEL analysis", 2);
+  panel(s, 0.5, 2.0, 12.3, 4.45);
+  const rows = [
+    ["P", "Politik", "Dukungan pemerintah; rute jauh berhadapan dengan MAS"],
+    ["E", "Ekonomi", "500 juta penduduk dalam 3,5 jam terbang; BBM 47% biaya"],
+    ["S", "Sosial", "Segmen menengah kurang terlayani; pasar diperluas"],
+    ["T", "Teknologi", "Navitaire, yield management, ponsel; tanpa agen"],
+    ["E", "Lingkungan", "A320 baru hemat BBM; A340 boros di rute jauh"],
+    ["L", "Legal", "Deregulasi rute lintas negara; kepemilikan asing dibatasi"],
   ];
-  dfs.forEach((d, i) => {
-    const y = 2.0 + i * 0.86;
-    numCircle(s, 0.6, y + 0.05, i + 1, 0.4);
+  rows.forEach((r, i) => {
+    const y = 2.12 + i * 0.72;
+    s.addShape(pres.ShapeType.ellipse, { x: 0.8, y: y + 0.08, w: 0.52, h: 0.52, fill: { color: CRIMSON }, line: { color: CRIMSON } });
+    s.addText(r[0], { x: 0.8, y: y + 0.08, w: 0.52, h: 0.52, fontFace: HFONT, fontSize: 22, bold: true, color: PARCH, align: "center", valign: "middle", margin: 0, isTextBox: true });
     s.addText([
-      { text: d[0], options: { bold: true, fontSize: 12, breakLine: true } },
-      { text: d[1], options: { fontSize: 10.5, color: MUTED } },
-    ], { x: 1.15, y, w: 5.2, h: 0.8, fontFace: BFONT, color: INK, margin: 0, isTextBox: true, valign: "top" });
+      { text: r[1] + "   ", options: { bold: true, color: CRIMSON } },
+      { text: r[2], options: { color: INK } },
+    ], { x: 1.5, y, w: 11.1, h: 0.68, fontFace: BFONT, fontSize: BODY, margin: 0, isTextBox: true, valign: "middle" });
   });
-  box(s, 6.9, 1.55, 5.8, 4.9, LIGHT);
-  s.addText("Faktor kunci keberhasilan (key success factors) industri LCC", { x: 7.15, y: 1.67, w: 5.3, h: 0.4, fontFace: BFONT, fontSize: 13, bold: true, color: RED, margin: 0, isTextBox: true });
-  const ksf = [
-    ["Biaya per ASK terendah", "Satu-satunya sumber laba ketika harga menjadi dasar persaingan."],
-    ["Utilisasi pesawat tinggi", "Turnaround cepat dan jam terbang panjang menyebar biaya tetap ke lebih banyak kursi."],
-    ["Load factor tinggi", "Yield management yang disiplin; kursi kosong adalah biaya yang tidak kembali."],
-    ["Kesederhanaan operasi", "Satu tipe pesawat, satu kelas, titik ke titik (point to point), tanpa transfer bagasi."],
-    ["Merek yang dipercaya", "Persepsi aman dan andal agar harga murah tidak dibaca sebagai murahan."],
-    ["Produktivitas SDM", "Karyawan multi-skill, insentif berbasis produktivitas, retensi tinggi."],
-  ];
-  ksf.forEach((k, i) => {
-    const col = i % 2, row = Math.floor(i / 2);
-    const x = 7.15 + col * 2.75, y = 2.25 + row * 1.35;
-    s.addText([
-      { text: k[0], options: { bold: true, fontSize: 11.5, breakLine: true } },
-      { text: k[1], options: { fontSize: 10, color: MUTED } },
-    ], { x, y, w: 2.55, h: 1.25, fontFace: BFONT, color: INK, margin: 0, isTextBox: true, valign: "top" });
-  });
-  bridge(s, "Faktor kunci ini menjadi tolok ukur. Sebelum mengukur AirAsia terhadapnya, slide berikutnya memetakan di kelompok pesaing mana AirAsia dan AirAsia X berada.");
-  footer(s);
-  s.addNotes("KSF diturunkan dari struktur industri, bukan dari daftar generik. Kalau pembeli peka harga dan pemasok kuat, faktor penentu kemenangan adalah biaya, utilisasi, dan load factor.");
+  next(s, "Peluang makro terbuka. Bisakah menjadi laba? Lihat struktur industrinya.");
+  pageNo(s);
+  s.addNotes("Angka 47 persen dihitung dari Tabel 9.1: bahan bakar RM 1.389,8 juta dari biaya operasi RM 2.966 juta. Simpulan PESTEL: faktor politik dan legal adalah pembentuk struktur paling kuat. Joint venture Thai AirAsia dan Indonesia AirAsia mengontrakkan operasinya kembali ke AirAsia dengan imbalan fee bulanan. Distribusi langsung memangkas komisi agen dan sulit ditiru maskapai lama.");
 }
 
-// ---------------------------------------------------------------- 8. Strategic group map
+// ================================================================ 7. Five Forces
 {
   const s = pres.addSlide();
-  header(s, "Strategic group map", 2);
-  const ax = 1.2, ay = 1.6, aw = 7.3, ah = 4.55;
-  s.addShape(pres.ShapeType.rect, { x: ax, y: ay, w: aw, h: ah, fill: { color: WHITE }, line: { color: LINE, width: 1 } });
-  s.addShape(pres.ShapeType.line, { x: ax, y: ay + ah / 2, w: aw, h: 0, line: { color: LINE, width: 0.75, dashType: "dash" } });
-  s.addShape(pres.ShapeType.line, { x: ax + aw / 2, y: ay, w: 0, h: ah, line: { color: LINE, width: 0.75, dashType: "dash" } });
-  s.addText("Cakupan geografis: regional (kurang dari 4 jam)  ke  jarak jauh (lebih dari 4 jam)", { x: ax, y: ay + ah + 0.03, w: aw, h: 0.3, fontFace: BFONT, fontSize: 10, color: MUTED, align: "center", margin: 0, isTextBox: true });
-  s.addText("Layanan dan biaya: tinggi", { x: 0.55, y: ay, w: 0.6, h: 0.9, fontFace: BFONT, fontSize: 9, color: MUTED, margin: 0, isTextBox: true, valign: "top" });
-  s.addText("Layanan dan biaya: rendah", { x: 0.55, y: ay + ah - 0.9, w: 0.6, h: 0.9, fontFace: BFONT, fontSize: 9, color: MUTED, margin: 0, isTextBox: true, valign: "bottom" });
+  bg(s, "fiveforces");
+  title(s, "Five Forces analysis", 2);
+  panel(s, 0.5, 2.0, 6.4, 4.45);
+  const forces = [["Rivalitas antar pemain", "TINGGI", CRIMSON], ["Daya tawar pemasok", "TINGGI", CRIMSON], ["Daya tawar pembeli", "TINGGI", CRIMSON], ["Pendatang baru", "SEDANG", AMBER], ["Substitusi (pendek/jauh)", "SEDANG / RENDAH", AMBER]];
+  forces.forEach((f, i) => {
+    const y = 2.15 + i * 0.84;
+    s.addText(f[0], { x: 0.8, y, w: 3.4, h: 0.7, fontFace: BFONT, fontSize: BODY, color: INK, margin: 0, isTextBox: true, valign: "middle" });
+    tag(s, 4.2, y + 0.1, 2.5, 0.5, f[1], f[2]);
+  });
+  panel(s, 7.3, 4.05, 5.5, 2.4, { dark: true });
+  s.addText("Industri kurang atraktif. Laba lahir dari posisi biaya perusahaan, sesuai logika Structure Conduct Performance.", { x: 7.55, y: 4.15, w: 5.0, h: 2.2, fontFace: BFONT, fontSize: BODY, color: PARCH, margin: 0, isTextBox: true, valign: "middle" });
+  next(s, "Laba langka. Apa yang mengubah struktur ini, dan siapa yang menang?");
+  pageNo(s);
+  s.addNotes("Rivalitas: banyak peniru model Southwest, MAS menekan di rute domestik. Pemasok: duopoli Airbus dan Boeing, bahan bakar mengikuti harga minyak, tarif bandara tanpa negosiasi. Pembeli: sangat peka harga, biaya berpindah nol. Pendatang baru: deregulasi dan pesawat sewaan menurunkan hambatan; penahan slot, merek, skala. Substitusi: bus, kereta, feri di rute pendek; tidak ada pengganti setara di rute antarbenua. Tahun 2008 hampir seluruh maskapai dunia merugi.");
+}
+
+// ================================================================ 8. Driving forces and KSF
+{
+  const s = pres.addSlide();
+  bg(s, "driving");
+  title(s, "Driving forces and key success factors", 2, 34);
+  panel(s, 0.5, 2.0, 6.0, 4.45, { transparency: 12 });
+  heading(s, "Kekuatan pendorong", 0.8, 2.1, 5.4);
+  s.addText(numbered([
+    "Deregulasi penerbangan regional",
+    "Internet dan distribusi langsung",
+    "Volatilitas harga bahan bakar",
+    "Kelas menengah Asia tumbuh",
+    "LCC masuk rute jarak jauh",
+  ]), { x: 0.8, y: 2.7, w: 5.5, h: 3.6, fontFace: BFONT, margin: 0, isTextBox: true, valign: "top" });
+  panel(s, 6.8, 2.0, 6.0, 4.45, { transparency: 12 });
+  heading(s, "Faktor kunci keberhasilan", 7.1, 2.1, 5.4);
+  s.addText(bullets([
+    "Biaya per ASK terendah",
+    "Utilisasi pesawat tinggi",
+    "Load factor tinggi",
+    "Kesederhanaan operasi",
+    "Merek yang dipercaya",
+    "Produktivitas SDM",
+  ]), { x: 7.1, y: 2.7, w: 5.5, h: 3.6, fontFace: BFONT, margin: 0, isTextBox: true, valign: "top" });
+  next(s, "Tolok ukur siap. Di kelompok pesaing mana AirAsia dan AirAsia X berada?");
+  pageNo(s);
+  s.addNotes("Driving forces: deregulasi memungkinkan hub di Bangkok dan Jakarta lewat usaha patungan; ponsel menjadi kanal pemesanan utama di Asia; kenaikan lalu penurunan tajam harga minyak 2008 merugikan maskapai yang salah posisi lindung nilai, termasuk AirAsia; pasar membesar, bukan sekadar berpindah; AirAsia X dan Jetstar menguji batas model. KSF diturunkan dari struktur industri: kalau pembeli peka harga dan pemasok kuat, penentu kemenangan adalah biaya, utilisasi, dan load factor. Merek yang dipercaya: murah, bukan murahan.");
+}
+
+// ================================================================ 9. Strategic group map
+{
+  const s = pres.addSlide();
+  bg(s, "groupmap");
+  title(s, "Strategic group map", 2);
+  const ax = 0.5, ay = 2.0, aw = 7.6, ah = 4.45;
+  s.addShape(pres.ShapeType.rect, { x: ax, y: ay, w: aw, h: ah, fill: { color: PARCH, transparency: 45 }, line: { color: INK, width: 1 } });
+  s.addShape(pres.ShapeType.line, { x: ax, y: ay + ah / 2, w: aw, h: 0, line: { color: INK, width: 0.75, dashType: "dash" } });
+  s.addShape(pres.ShapeType.line, { x: ax + aw / 2, y: ay, w: 0, h: ah, line: { color: INK, width: 0.75, dashType: "dash" } });
+  s.addText("Regional", { x: ax + 0.1, y: ay + ah - 0.45, w: 3, h: 0.4, fontFace: BFONT, fontSize: 18, bold: true, color: INK, margin: 0, isTextBox: true });
+  s.addText("Jarak jauh", { x: ax + aw - 3.1, y: ay + ah - 0.45, w: 3, h: 0.4, fontFace: BFONT, fontSize: 18, bold: true, color: INK, align: "right", margin: 0, isTextBox: true });
+  s.addText("Layanan dan biaya tinggi", { x: ax + 0.1, y: ay + 0.05, w: 3.5, h: 0.4, fontFace: BFONT, fontSize: 18, bold: true, color: INK, margin: 0, isTextBox: true });
   const groups = [
-    { x: 5.4, y: 1.8, w: 2.8, h: 1.45, fill: "9E9E9E", txt: WHITE, title: "Network carriers jarak jauh", body: "Emirates, British Airways, Malaysia Airlines, Etihad, Qatar. Layanan penuh, hub and spoke, subsidi silang dari kelas premium." },
-    { x: 1.45, y: 2.2, w: 2.7, h: 1.2, fill: "C4C4C4", txt: INK, title: "Full service regional", body: "Malaysia Airlines domestik, Singapore Airlines rute pendek, Thai Airways." },
-    { x: 1.45, y: 4.5, w: 2.7, h: 1.4, fill: RED, txt: WHITE, title: "LCC regional", body: "AirAsia, Thai AirAsia, Indonesia AirAsia, Tiger, Cebu Pacific, Jetstar Asia. Titik ke titik, satu tipe pesawat." },
-    { x: 5.4, y: 4.4, w: 2.8, h: 1.55, fill: DARKRED, txt: WHITE, title: "LCC jarak jauh", body: "AirAsia X (A330 dan A340, kursi ekonomi dan premium, makanan pesan di muka). Kelompok baru dengan sedikit penghuni." },
+    { x: 4.6, y: 2.45, w: 3.2, h: 1.3, fill: "6E6259", title: "Network carriers", body: "Emirates, BA, MAS" },
+    { x: 0.8, y: 2.6, w: 3.2, h: 1.2, fill: "A69B8C", title: "Full service regional", body: "MAS domestik, SIA" },
+    { x: 0.8, y: 4.75, w: 3.2, h: 1.3, fill: CRIMSON, title: "LCC regional", body: "AirAsia, Tiger, Cebu" },
+    { x: 4.6, y: 4.65, w: 3.2, h: 1.3, fill: "6B1414", title: "LCC jarak jauh", body: "AirAsia X" },
   ];
   groups.forEach((g) => {
-    s.addShape(pres.ShapeType.ellipse, { x: g.x, y: g.y, w: g.w, h: g.h, fill: { color: g.fill }, line: { color: g.fill } });
+    s.addShape(pres.ShapeType.ellipse, { x: g.x, y: g.y, w: g.w, h: g.h, fill: { color: g.fill }, line: { color: PARCH, width: 1.5 } });
     s.addText([
-      { text: g.title, options: { bold: true, fontSize: 11.5, breakLine: true } },
-      { text: g.body, options: { fontSize: 9 } },
-    ], { x: g.x + 0.3, y: g.y + 0.1, w: g.w - 0.6, h: g.h - 0.2, fontFace: BFONT, color: g.txt, align: "center", valign: "middle", margin: 0, isTextBox: true });
+      { text: g.title, options: { bold: true, fontSize: 22, breakLine: true } },
+      { text: g.body, options: { fontSize: 20 } },
+    ], { x: g.x + 0.15, y: g.y + 0.05, w: g.w - 0.3, h: g.h - 0.1, fontFace: BFONT, color: PARCH, align: "center", valign: "middle", margin: 0, isTextBox: true });
   });
-  s.addShape(pres.ShapeType.rightArrow, { x: 4.25, y: 4.98, w: 1.05, h: 0.4, fill: { color: INK }, line: { color: INK } });
-  box(s, 8.9, 1.6, 3.8, 4.85, LIGHT);
-  s.addText("Cara membaca peta", { x: 9.15, y: 1.72, w: 3.3, h: 0.4, fontFace: BFONT, fontSize: 14, bold: true, color: RED, margin: 0, isTextBox: true });
-  s.addText(bullets([
-    "Hambatan mobilitas (mobility barriers) antar kelompok bukan hanya modal. Yang lebih sulit ditiru adalah budaya biaya rendah dan sistem operasi yang sederhana.",
-    "Ruang kanan bawah kosong karena alasan struktural: rute jauh butuh pesawat berbadan lebar, kru bermalam, dan penumpang transit yang biasanya dipasok jaringan pengumpan.",
-    "AirAsia X masuk dengan membawa aset dari kelompok asal: merek, sistem reservasi, SDM, dan disiplin biaya.",
-    "Pesaing terdekat AirAsia X bukan LCC lain, melainkan network carriers yang punya alasan kuat untuk membalas dengan harga.",
-  ], 11), { x: 9.15, y: 2.15, w: 3.35, h: 4.2, fontFace: BFONT, margin: 0, isTextBox: true, valign: "top" });
-  bridge(s, "Tahap kedua selesai: industri sulit, pesaing di rute jauh berbeda modelnya. Tahap ketiga menguji seberapa kuat posisi biaya AirAsia sendiri, dimulai dari benchmarking.");
-  footer(s);
-  s.addNotes("Peta ini adalah alat Bab 3 yang paling relevan untuk kasus ini. Tunjukkan bahwa AirAsia X pindah kelompok strategis, dan pesaing di kelompok tujuan memiliki model laba yang berbeda.");
+  s.addShape(pres.ShapeType.rightArrow, { x: 4.05, y: 5.1, w: 0.5, h: 0.4, fill: { color: INK }, line: { color: INK } });
+  panel(s, 8.4, 2.0, 4.4, 4.45, { dark: true });
+  s.addText("AirAsia X pindah kelompok. Lawannya bukan LCC lain, melainkan network carriers yang mampu mensubsidi harga ekonomi dari kelas premium.", { x: 8.65, y: 2.15, w: 3.9, h: 4.2, fontFace: BFONT, fontSize: BODY, color: PARCH, margin: 0, isTextBox: true, valign: "middle" });
+  next(s, "Tahap 2 selesai. Tahap 3: seberapa kuat posisi biaya AirAsia sendiri?");
+  pageNo(s);
+  s.addNotes("Hambatan mobilitas antar kelompok bukan hanya modal; yang sulit ditiru adalah budaya biaya rendah dan sistem operasi sederhana. Ruang LCC jarak jauh nyaris kosong karena rute jauh butuh pesawat berbadan lebar, kru bermalam, dan penumpang transit dari jaringan pengumpan. AirAsia X masuk membawa merek, sistem reservasi, SDM, dan disiplin biaya dari kelompok asal.");
 }
 
-// ---------------------------------------------------------------- 9. Benchmark
+// ================================================================ 10. Cost benchmarking
 {
   const s = pres.addSlide();
-  header(s, "Cost benchmarking", 3);
+  bg(s, "benchmark");
+  title(s, "Cost benchmarking", 3);
+  panel(s, 0.5, 2.0, 7.0, 4.45);
   s.addChart(pres.ChartType.bar, [
-    { name: "AirAsia", labels: ["Biaya per ASK (sen)", "Pendapatan per ASK (sen)"], values: [11.66, 14.11] },
-    { name: "Malaysia Airlines", labels: ["Biaya per ASK (sen)", "Pendapatan per ASK (sen)"], values: [22.80, 20.60] },
+    { name: "AirAsia", labels: ["Biaya per ASK", "Pendapatan per ASK"], values: [11.66, 14.11] },
+    { name: "Malaysia Airlines", labels: ["Biaya per ASK", "Pendapatan per ASK"], values: [22.80, 20.60] },
   ], {
-    x: 0.6, y: 1.55, w: 6.6, h: 4.1, barDir: "col", barGapWidthPct: 60,
-    chartColors: [RED, "9E9E9E"], showValue: true, dataLabelPosition: "outEnd", dataLabelFontSize: 11, dataLabelFontFace: BFONT, dataLabelColor: INK, dataLabelFormatCode: "0.00",
-    catAxisLabelFontSize: 11, catAxisLabelFontFace: BFONT, catAxisLabelColor: INK,
-    valAxisLabelFontSize: 9, valAxisLabelColor: MUTED, valAxisMinVal: 0, valAxisMaxVal: 25, valAxisMajorUnit: 5, valGridLine: { color: "E6E6E6", size: 0.5 }, catGridLine: { style: "none" },
-    showLegend: true, legendPos: "b", legendFontSize: 11, legendFontFace: BFONT,
-    showTitle: true, title: "Biaya dan pendapatan per available seat kilometer, 2008 (sen ringgit)", titleFontSize: 12, titleFontFace: BFONT, titleColor: INK,
+    x: 0.7, y: 2.1, w: 6.6, h: 4.25, barDir: "col", barGapWidthPct: 55,
+    chartColors: [CRIMSON, "8C7B68"], showValue: true, dataLabelPosition: "outEnd", dataLabelFontSize: 16, dataLabelFontFace: BFONT, dataLabelColor: INK, dataLabelFormatCode: "0.00",
+    catAxisLabelFontSize: 16, catAxisLabelFontFace: BFONT, catAxisLabelColor: INK,
+    valAxisLabelFontSize: 14, valAxisLabelColor: MUTED, valAxisMinVal: 0, valAxisMaxVal: 25, valAxisMajorUnit: 5, valGridLine: { color: "C9BBA3", size: 0.5 }, catGridLine: { style: "none" },
+    showLegend: true, legendPos: "b", legendFontSize: 16, legendFontFace: BFONT, legendColor: INK,
+    showTitle: true, title: "Sen ringgit per available seat kilometer, 2008", titleFontSize: 18, titleFontFace: BFONT, titleColor: INK,
   });
-  s.addText("Sumber: Tabel 9.1 kasus. Pendapatan per ASK AirAsia melampaui biayanya (margin positif per kursi), sedangkan MAS menjual di bawah biaya.", { x: 0.6, y: 5.7, w: 6.6, h: 0.5, fontFace: BFONT, fontSize: 9.5, color: MUTED, margin: 0, isTextBox: true });
-  const tiles = [
-    ["11,8 vs 11,1", "jam utilisasi pesawat per hari (AirAsia vs MAS)"],
-    ["75% vs 67,8%", "seat load factor 2008"],
-    ["49 vs 175", "karyawan per pesawat (3.799/78 vs 19.094/109)"],
-    ["25 menit", "turnaround time, tercepat di kawasan"],
-  ];
+  const tiles = [["49 vs 175", "karyawan per pesawat"], ["75% vs 67,8%", "load factor 2008"]];
   tiles.forEach((t, i) => {
-    const col = i % 2, row = Math.floor(i / 2);
-    const x = 7.5 + col * 2.65, y = 1.55 + row * 1.5;
-    box(s, x, y, 2.5, 1.35, LIGHT);
-    s.addText(t[0], { x: x + 0.15, y: y + 0.08, w: 2.2, h: 0.55, fontFace: HFONT, fontSize: 20, bold: true, color: RED, margin: 0, isTextBox: true, valign: "middle" });
-    s.addText(t[1], { x: x + 0.15, y: y + 0.65, w: 2.2, h: 0.65, fontFace: BFONT, fontSize: 10, color: MUTED, margin: 0, isTextBox: true, valign: "top" });
+    const x = 7.7 + i * 2.6;
+    panel(s, x, 4.35, 2.5, 2.1);
+    s.addText(t[0], { x: x + 0.12, y: 4.4, w: 2.3, h: 0.8, fontFace: HFONT, fontSize: 25, bold: true, color: CRIMSON, margin: 0, isTextBox: true, valign: "middle" });
+    s.addText(t[1], { x: x + 0.15, y: 5.2, w: 2.15, h: 1.2, fontFace: BFONT, fontSize: BODY, color: INK, margin: 0, isTextBox: true, valign: "top" });
   });
-  box(s, 7.5, 4.65, 5.15, 1.8, TINT);
-  s.addText([
-    { text: "Catatan. ", options: { bold: true, color: RED } },
-    { text: "Rugi 2008 (RM 496,6 juta) bukan karena operasi, melainkan karena keputusan melepas kontrak berjangka bahan bakar (rugi RM 830,2 juta). Tanpa pos itu, operasi tetap menghasilkan laba. Namun neraca yang sarat utang pesawat (RM 6,69 miliar) membuat ruang untuk kesalahan berikutnya sempit." },
-  ], { x: 7.7, y: 4.73, w: 4.8, h: 1.65, fontFace: BFONT, fontSize: 10.5, color: INK, margin: 0, isTextBox: true, valign: "middle" });
-  bridge(s, "Keunggulan biaya AirAsia terbukti nyata: separuh biaya MAS. Slide berikutnya membedah dari mana keunggulan itu berasal, karena itulah yang akan diuji transferabilitasnya.");
-  footer(s);
-  s.addNotes("Jaringan MAS memang berbeda (lebih banyak rute menengah dan jauh), tetapi kondisi biaya input sama. Selisih dua kali lipat pada biaya per ASK adalah bukti keunggulan biaya yang nyata, bukan sekadar klaim.");
+  next(s, "Separuh biaya MAS. Dari mana keunggulan itu berasal?");
+  pageNo(s);
+  s.addNotes("Sumber Tabel 9.1. Utilisasi 11,8 vs 11,1 jam per hari; turnaround 25 menit. Karyawan per pesawat: 3.799/78 vs 19.094/109. Catatan: rugi 2008 (RM 496,6 juta) bukan karena operasi, melainkan keputusan melepas kontrak berjangka bahan bakar (rugi RM 830,2 juta). Tanpa pos itu operasi tetap laba, tetapi neraca yang sarat utang pesawat membuat ruang untuk kesalahan berikutnya sempit.");
 }
 
-// ---------------------------------------------------------------- 10. Sources of cost advantage
+// ================================================================ 11. Sources of cost advantage
 {
   const s = pres.addSlide();
-  header(s, "Sources of cost advantage", 3);
-  const groups = [
-    { title: "Strategi operasi ala Ryanair", items: [
-      ["Satu tipe pesawat (A320, 180 kursi)", "Hemat di pembelian, perawatan, pelatihan pilot, dan penjadwalan."],
-      ["Satu kelas, tanpa embel-embel (no frills)", "148 kursi di 737 vs 132 pada konfigurasi dua kelas; makanan dan bagasi berbayar; tanpa aerobridge."],
-      ["Titik ke titik, tanpa transfer bagasi", "Turnaround 25 menit; jadwal padat; kru dan pesawat lebih produktif."],
-    ] },
-    { title: "Strategi SDM ala Southwest", items: [
-      ["Karyawan multi-skill", "Fleksibilitas tugas hingga tingkat administrasi; retensi tinggi menekan biaya pelatihan ulang."],
-      ["Insentif berbasis produktivitas", "Bonus per kontribusi, kepemilikan saham karyawan (ESOS) untuk semua, review hasil bersama tiap kuartal."],
-      ["Budaya tanpa hierarki", "Fernandes rutin bekerja sebagai porter dan awak kabin; departemen budaya menjaga semangat kerja."],
-    ] },
-    { title: "Strategi merek ala easyJet", items: [
-      ["Belanja iklan besar dan kontra-siklus", "Ditingkatkan saat SARS dan bom Bali ketika pesaing menahan diri."],
-      ["Co-branding dan sponsorship", "Williams F1, Manchester United, wasit Premier League, majalah Time, Tune Hotels, Tune Money."],
-      ["Distribusi langsung dan IT", "Situs web dan call center tanpa komisi agen; CRS Navitaire terhubung ke yield management."],
-    ] },
+  bg(s, "sources");
+  title(s, "Sources of cost advantage", 3);
+  panel(s, 0.5, 2.0, 12.3, 4.45);
+  const cols = [
+    ["Operasi ala Ryanair", ["Satu tipe pesawat (A320)", "Satu kelas, no frills", "Titik ke titik, 25 menit"]],
+    ["SDM ala Southwest", ["Karyawan multi-skill", "Insentif produktivitas", "Budaya tanpa hierarki"]],
+    ["Merek ala easyJet", ["Iklan kontra-siklus", "Co-branding, sponsorship", "Distribusi langsung, IT"]],
   ];
-  groups.forEach((g, i) => {
-    const x = 0.6 + i * 4.05;
-    box(s, x, 1.55, 3.85, 4.0, i === 1 ? TINT : LIGHT);
-    s.addText(g.title, { x: x + 0.22, y: 1.65, w: 3.4, h: 0.45, fontFace: BFONT, fontSize: 13.5, bold: true, color: RED, margin: 0, isTextBox: true, valign: "middle" });
-    g.items.forEach((it, j) => {
-      const y = 2.2 + j * 1.1;
-      numCircle(s, x + 0.22, y + 0.02, j + 1, 0.36);
-      s.addText([
-        { text: it[0], options: { bold: true, fontSize: 11, breakLine: true } },
-        { text: it[1], options: { fontSize: 10, color: MUTED } },
-      ], { x: x + 0.7, y, w: 2.95, h: 1.05, fontFace: BFONT, color: INK, margin: 0, isTextBox: true, valign: "top" });
-    });
+  cols.forEach((c, i) => {
+    const x = 0.8 + i * 4.05;
+    heading(s, c[0], x, 2.1, 3.8);
+    s.addText(bullets(c[1]), { x, y: 2.7, w: 3.8, h: 2.9, fontFace: BFONT, margin: 0, isTextBox: true, valign: "top" });
   });
-  strip(s, 5.7, 0.75, "Catatan.", "Ketiga pilar ini saling menopang (mutually reinforcing). Keunggulan biaya AirAsia adalah sebuah sistem, bukan satu kebijakan tunggal. Karena itu ia sulit ditiru pesaing, tetapi juga tidak mudah dipindahkan sebagian.", LIGHT, RED, INK, 11);
-  bridge(s, "Sekarang kita punya daftar sumber keunggulan biaya. Slide berikutnya menguji satu per satu: mana yang ikut ke rute jauh dan mana yang tertinggal.");
-  footer(s);
-  s.addNotes("Poin analitis: keunggulan biaya AirAsia adalah sistem, bukan satu trik. Tiga pilar ini saling menopang. Itulah sebabnya sulit ditiru, tetapi juga sulit dipindahkan sebagian.");
+  s.addText("Ketiganya saling menopang: sebuah sistem, bukan satu kebijakan tunggal.", { x: 0.8, y: 5.7, w: 11.8, h: 0.6, fontFace: BFONT, fontSize: BODY, italic: true, color: CRIMSON, margin: 0, isTextBox: true, valign: "middle" });
+  next(s, "Mana yang ikut ke rute jauh, mana yang tertinggal?");
+  pageNo(s);
+  s.addNotes("Formula Conor McCarthy: strategi operasi ala Ryanair, strategi SDM ala Southwest, strategi merek ala easyJet. Satu kelas: 148 kursi di 737 vs 132 pada dua kelas. ESOS untuk semua karyawan. Iklan ditingkatkan saat SARS dan bom Bali. Sponsorship Williams F1, Manchester United, wasit Premier League. CRS Navitaire terhubung ke yield management. Karena saling menopang, sistem ini sulit ditiru pesaing tetapi juga tidak mudah dipindahkan sebagian.");
 }
 
-// ---------------------------------------------------------------- 11. Transferability
+// ================================================================ 12. Transferability
 {
   const s = pres.addSlide();
-  header(s, "Transferability test", 3);
-  const rows = [
-    ["Sumber keunggulan biaya", "Transfer ke AirAsia X", "Penjelasan"],
-    ["Merek dan reputasi", "PENUH", "Kredibilitas langsung di setiap rute baru; iklan dan sponsorship sudah berskala internasional."],
-    ["Distribusi langsung dan sistem IT", "PENUH", "Situs web, call center, dan CRS dipakai bersama; biaya administrasi dibagi dua maskapai."],
-    ["Praktik SDM dan budaya biaya", "PENUH", "Manajemen dan budaya yang sama; AirAsia X dijalankan dalam ekosistem AirAsia."],
-    ["Bandara sekunder dan tarif rendah", "PENUH", "Stansted, bukan Heathrow: biaya bandara dan navigasi jauh lebih rendah (Tabel 9.4)."],
-    ["Outsourcing perawatan", "PENUH", "Kontrak lelang kompetitif tetap berlaku untuk armada berbadan lebar."],
-    ["Pesawat baru hemat bahan bakar", "SEBAGIAN", "A330 baru efisien, tetapi A340 untuk London boros: biaya bahan bakar per kursi lebih tinggi."],
-    ["Satu tipe pesawat", "TIDAK", "A320 tidak mampu terbang jauh; armada kedua (A330 dan A340) menambah kompleksitas perawatan dan pelatihan."],
-    ["Turnaround 25 menit dan utilisasi", "TIDAK", "Penerbangan 12 jam dibatasi jam kerja kru dan slot; keuntungan turnaround cepat menjadi kecil."],
-    ["Satu kelas, tanpa layanan", "TIDAK", "AirAsia X perlu menyediakan kursi premium, kursi bernomor, dan makanan pesan di muka."],
-    ["Jaringan titik ke titik", "TIDAK", "Rute jauh bergantung pada penumpang transit; tanpa tiket terusan dan transfer bagasi, pengumpan lemah."],
-  ];
-  const colors = { PENUH: GREEN, SEBAGIAN: AMBER, TIDAK: RED };
-  const tableRows = rows.map((r, i) => r.map((c, j) => {
-    if (i === 0) return { text: c, options: { bold: true, color: WHITE, fill: { color: INK }, fontSize: 11, align: j === 1 ? "center" : "left" } };
-    const base = { fontSize: 10.5, color: INK, fill: { color: i % 2 === 0 ? LIGHT : WHITE } };
-    if (j === 1) return { text: c, options: { ...base, bold: true, color: colors[c], align: "center" } };
-    if (j === 0) return { text: c, options: { ...base, bold: true } };
-    return { text: c, options: base };
-  }));
-  s.addTable(tableRows, {
-    x: 0.6, y: 1.55, w: 12.1, colW: [3.2, 1.7, 7.2], fontFace: BFONT, border: { type: "solid", color: WHITE, pt: 1 },
-    rowH: 0.41, margin: [0.04, 0.1, 0.04, 0.1], valign: "middle",
+  bg(s, "transfers");
+  title(s, "Transferability test", 3);
+  panel(s, 0.5, 2.0, 6.0, 4.45, { transparency: 12 });
+  heading(s, "Ikut terbawa", 0.8, 2.1, 5.4, GREEN);
+  const left = [["PENUH", GREEN, "Merek dan reputasi"], ["PENUH", GREEN, "Distribusi langsung dan IT"], ["PENUH", GREEN, "SDM dan budaya biaya"], ["PENUH", GREEN, "Bandara sekunder (Stansted)"], ["PENUH", GREEN, "Outsourcing perawatan"], ["SEBAGIAN", AMBER, "Pesawat hemat bahan bakar"]];
+  left.forEach((r, i) => {
+    const y = 2.72 + i * 0.6;
+    tag(s, 0.8, y + 0.06, 1.55, 0.46, r[0], r[1]);
+    s.addText(r[2], { x: 2.5, y, w: 3.9, h: 0.58, fontFace: BFONT, fontSize: BODY, color: INK, margin: 0, isTextBox: true, valign: "middle" });
   });
-  s.addText("Sumber: Tabel 9.2 dan 9.4 kasus. Yang terbawa adalah keunggulan organisasional (merek, sistem, SDM, budaya); yang hilang adalah keunggulan operasional khas rute pendek, dan itulah inti model LCC klasik.", { x: 0.6, y: 6.1, w: 12.1, h: 0.45, fontFace: BFONT, fontSize: 10, color: MUTED, margin: 0, isTextBox: true, valign: "middle" });
-  bridge(s, "Uji ini bersifat kualitatif. Slide berikutnya memeriksa apakah angka nyata di rute KL London mendukung kesimpulan yang sama.");
-  footer(s);
-  s.addNotes("Ini slide inti tahap ketiga. Kesimpulannya: yang terbawa adalah keunggulan organisasional, yang hilang adalah keunggulan operasional khas rute pendek. Maka AirAsia X harus membangun sumber biaya rendah baru, tidak cukup mewarisi.");
+  panel(s, 6.8, 2.0, 6.0, 4.45, { transparency: 12 });
+  heading(s, "Tidak terbawa", 7.1, 2.1, 5.4);
+  const right = [["TIDAK", CRIMSON, "Satu tipe pesawat"], ["TIDAK", CRIMSON, "Turnaround 25 menit"], ["TIDAK", CRIMSON, "Satu kelas tanpa layanan"], ["TIDAK", CRIMSON, "Jaringan titik ke titik"]];
+  right.forEach((r, i) => {
+    const y = 2.72 + i * 0.6;
+    tag(s, 7.1, y + 0.06, 1.55, 0.46, r[0], r[1]);
+    s.addText(r[2], { x: 8.8, y, w: 3.9, h: 0.58, fontFace: BFONT, fontSize: BODY, color: INK, margin: 0, isTextBox: true, valign: "middle" });
+  });
+  s.addText("Yang hilang justru inti model LCC klasik.", { x: 7.1, y: 5.2, w: 5.5, h: 1.1, fontFace: BFONT, fontSize: BODY, italic: true, color: INK, margin: 0, isTextBox: true, valign: "middle" });
+  next(s, "Yang terbawa bersifat organisasional. Apa kata angka di rute KL London?");
+  pageNo(s);
+  s.addNotes("Sumber Tabel 9.2 dan 9.4. Merek memberi kredibilitas langsung; situs web, call center, dan CRS dipakai bersama; Stansted jauh lebih murah dari Heathrow; kontrak perawatan lelang kompetitif tetap berlaku; A330 efisien tetapi A340 untuk London boros. Tidak terbawa: A320 tak mampu terbang jauh dan armada kedua menambah kompleksitas; penerbangan 12 jam dibatasi jam kerja kru dan slot; rute jauh butuh kursi premium dan makanan; rute jauh bergantung pada penumpang transit dan feeder. Maka AirAsia X harus membangun sumber biaya rendah baru, tidak cukup mewarisi.");
 }
 
-// ---------------------------------------------------------------- 12. Evidence KL London
+// ================================================================ 13. Evidence KL London
 {
   const s = pres.addSlide();
-  header(s, "Evidence from the KL to London route", 3);
+  bg(s, "london");
+  title(s, "Evidence from KL to London", 3);
+  panel(s, 0.5, 2.0, 7.2, 4.45);
   s.addChart(pres.ChartType.bar, [
-    { name: "Biaya per penumpang (US$)", labels: ["AirAsia X (A340, Stansted)", "British Airways (B747, Heathrow)", "Malaysia Airlines (B747, Heathrow)", "Emirates (B777 via Dubai)"], values: [373.14, 553.37, 589.50, 609.56] },
+    { name: "Biaya per penumpang (US$)", labels: ["AirAsia X", "British Airways", "Malaysia Airlines", "Emirates"], values: [373.14, 553.37, 589.50, 609.56] },
   ], {
-    x: 0.6, y: 1.55, w: 6.5, h: 3.5, barDir: "bar", barGapWidthPct: 45,
-    chartColors: [RED], showValue: true, dataLabelPosition: "outEnd", dataLabelFontSize: 10, dataLabelFontFace: BFONT, dataLabelColor: INK, dataLabelFormatCode: "#,##0",
-    catAxisLabelFontSize: 10, catAxisLabelFontFace: BFONT, catAxisLabelColor: INK, catAxisOrientation: "maxMin",
-    valAxisLabelFontSize: 9, valAxisLabelColor: MUTED, valAxisMinVal: 0, valAxisMaxVal: 700, valAxisMajorUnit: 100, valGridLine: { color: "E6E6E6", size: 0.5 }, catGridLine: { style: "none" },
-    showLegend: false, showTitle: true, title: "Biaya per penumpang satu arah, KL ke London (US$)", titleFontSize: 12, titleFontFace: BFONT, titleColor: INK,
+    x: 0.7, y: 2.1, w: 6.8, h: 4.25, barDir: "bar", barGapWidthPct: 40,
+    chartColors: [CRIMSON], showValue: true, dataLabelPosition: "outEnd", dataLabelFontSize: 16, dataLabelFontFace: BFONT, dataLabelColor: INK, dataLabelFormatCode: "#,##0",
+    catAxisLabelFontSize: 16, catAxisLabelFontFace: BFONT, catAxisLabelColor: INK, catAxisOrientation: "maxMin",
+    valAxisLabelFontSize: 14, valAxisLabelColor: MUTED, valAxisMinVal: 0, valAxisMaxVal: 700, valAxisMajorUnit: 100, valGridLine: { color: "C9BBA3", size: 0.5 }, catGridLine: { style: "none" },
+    showLegend: false, showTitle: true, title: "Biaya per penumpang satu arah (US$), Tabel 9.4", titleFontSize: 18, titleFontFace: BFONT, titleColor: INK,
   });
-  s.addText("Sumber: Tabel 9.4. Tidak termasuk perawatan, depresiasi, katering, dan gaji kru; belum memperhitungkan perbedaan load factor.", { x: 0.6, y: 5.05, w: 6.5, h: 0.4, fontFace: BFONT, fontSize: 9, color: MUTED, margin: 0, isTextBox: true });
-  const lbl = ["Periode 1", "Periode 2", "Periode 3", "Periode 4", "Periode 5"];
-  s.addChart(pres.ChartType.line, [
-    { name: "AirAsia", labels: lbl, values: [77.0, 75.0, 78.0, 80.0, 75.5] },
-    { name: "Emirates", labels: lbl, values: [73.4, 74.6, 75.9, 76.2, 79.8] },
-    { name: "British Airways", labels: lbl, values: [67.6, 69.7, 70.0, 70.4, 71.2] },
-    { name: "Malaysia Airlines", labels: lbl, values: [69.0, 71.5, 69.8, 71.4, 67.8] },
-  ], {
-    x: 7.3, y: 1.55, w: 5.4, h: 2.65, chartColors: [RED, "6E6E6E", "B0B0B0", "D9A5AE"], lineSize: 2, lineDataSymbol: "circle", lineDataSymbolSize: 5,
-    catAxisLabelFontSize: 9, catAxisLabelColor: MUTED, valAxisLabelFontSize: 9, valAxisLabelColor: MUTED, valAxisMinVal: 60, valAxisMaxVal: 85, valAxisMajorUnit: 5,
-    valGridLine: { color: "E6E6E6", size: 0.5 }, catGridLine: { style: "none" }, showLegend: true, legendPos: "b", legendFontSize: 9, legendFontFace: BFONT,
-    showTitle: true, title: "Load factor seluruh jaringan (%), Tabel 9.5", titleFontSize: 11, titleFontFace: BFONT, titleColor: INK,
-  });
-  const tiles = [
-    ["36,5%", "lebih murah: tarif pulang pergi KL London US$433,96 vs rata-rata tarif terendah pesaing US$683,68 (Tabel 9.3)"],
-    ["Lebih dari 90%", "load factor yang dilaporkan AirAsia X di rute KL London, di atas rata-rata industri"],
-  ];
+  const tiles = [["36,5%", "lebih murah dari pesaing"], ["> 90%", "load factor AirAsia X"]];
   tiles.forEach((t, i) => {
-    const x = 7.3 + i * 2.75;
-    box(s, x, 4.3, 2.65, 1.15, TINT);
-    s.addText(t[0], { x: x + 0.15, y: 4.33, w: 2.4, h: 0.42, fontFace: HFONT, fontSize: 18, bold: true, color: RED, margin: 0, isTextBox: true, valign: "middle" });
-    s.addText(t[1], { x: x + 0.15, y: 4.75, w: 2.4, h: 0.68, fontFace: BFONT, fontSize: 9, color: INK, margin: 0, isTextBox: true, valign: "top" });
+    const x = 7.95 + i * 2.5;
+    panel(s, x, 4.1, 2.4, 2.35);
+    s.addText(t[0], { x: x + 0.15, y: 4.15, w: 2.1, h: 0.8, fontFace: HFONT, fontSize: 32, bold: true, color: CRIMSON, margin: 0, isTextBox: true, valign: "middle" });
+    s.addText(t[1], { x: x + 0.15, y: 4.95, w: 2.1, h: 1.45, fontFace: BFONT, fontSize: BODY, color: INK, margin: 0, isTextBox: true, valign: "top" });
   });
-  strip(s, 5.55, 0.95, "Pembacaan kritis.", "Selisih biaya terlihat besar, tetapi tabel mengecualikan pos yang justru membesar di rute jauh: gaji kru yang bermalam, perawatan pesawat berbadan lebar, dan katering. AirAsia X juga hanya membawa 286 penumpang per penerbangan dibanding 337 sampai 360 pada pesaing. Keunggulan biaya per penumpang nyata, namun lebih tipis daripada yang tampak.", LIGHT, RED, INK, 10.5);
-  bridge(s, "Tahap ketiga selesai: keunggulan biaya sebagian terbawa, dan buktinya positif tetapi tipis. Tahap keempat merumuskan isu yang harus dijawab sebelum memilih.");
-  footer(s);
-  s.addNotes("Bahan bakar AirAsia X per penerbangan US$79.299 vs US$159.522 untuk B747 BA dan MAS. Tetapi biaya sewa pesawat US$5.952 hanya muncul di AirAsia X karena pesaing memiliki pesawatnya sendiri. Periode pada grafik load factor mengikuti urutan kolom Tabel 9.5; tahun tidak disebutkan eksplisit dalam kasus.");
+  next(s, "Selisih nyata, tetapi lebih tipis: tabel belum memuat kru, perawatan, katering.");
+  pageNo(s);
+  s.addNotes("Tabel 9.4 tidak termasuk perawatan, depresiasi, katering, dan gaji kru; pos itu justru membesar di rute jauh. AirAsia X membawa 286 penumpang per penerbangan, pesaing 337 sampai 360. Bahan bakar per penerbangan US$79.299 vs US$159.522 untuk B747. Tarif pulang pergi KL London AirAsia X US$433,96 vs rata-rata tarif terendah pesaing US$683,68 (Tabel 9.3). Load factor jaringan lima periode (Tabel 9.5): AirAsia 77, 75, 78, 80, 75,5; Emirates 73,4 sampai 79,8; BA 67,6 sampai 71,2; MAS 69 sampai 67,8. Keunggulan biaya per penumpang nyata, tetapi lebih tipis daripada yang tampak.");
 }
 
-// ---------------------------------------------------------------- 13. Key issues
+// ================================================================ 14. Key issues
 {
   const s = pres.addSlide();
-  header(s, "Key issues", 4);
-  const issues = [
-    ["Apakah pasar LCC jarak jauh cukup besar dan benar-benar kurang terlayani?", "Di rute regional AirAsia menciptakan pasar baru. Di rute KL London, ia harus merebut penumpang dari enam maskapai mapan. Tarif 36,5 persen lebih murah menjadi daya tarik, tetapi elastisitas permintaan jarak jauh belum terbukti."],
-    ["Bagaimana network carriers akan merespons?", "Emirates, BA, dan MAS memperoleh laba dari kelas premium. Mereka mampu menurunkan tarif ekonomi ke tingkat yang merugikan AirAsia X tanpa mengorbankan laba total. Perang harga di rute jauh berpihak pada yang punya subsidi silang."],
-    ["Seberapa besar toleransi finansial AirAsia terhadap kegagalan?", "Utang RM 6,69 miliar berbanding ekuitas RM 1,61 miliar, kas RM 153,8 juta, dan pesanan 10 A350 untuk 2016. Satu kesalahan lindung nilai pada 2008 sudah menghapus laba. Tidak ada bantalan untuk eksperimen yang lama merugi."],
-    ["Dapatkah eksploitasi dan eksplorasi berjalan dalam satu organisasi tanpa saling mengganggu?", "Dua armada, dua pola kru, dua tingkat layanan. Literatur ambidexterity (O'Reilly dan Tushman) menyebut dua jalan: dipisahkan secara struktural atau dipadukan dalam satu konteks. Berbagi merek, IT, dan administrasi memberi efisiensi, tetapi juga membawa kompleksitas."],
-    ["Apakah tata kelola AirAsia X selaras dengan kepentingan AirAsia?", "AirAsia hanya memegang 16 persen (opsi hingga 30 persen); Aero Ventures milik Fernandes 48 persen, Virgin 16 persen, Manara dan Orix 20 persen. Ini tata kelola hibrida (hybrid governance) khas portofolio aliansi. Kritik publik menyebut merger sebagai cara membiayai kerugian AirAsia X; Azran membantah dengan laba bersih RM 18 juta pada kuartal pertama 2009."],
-  ];
-  issues.forEach((it, i) => {
-    const col = i < 3 ? 0 : 1;
-    const row = i < 3 ? i : i - 3;
-    const x = 0.6 + col * 6.2;
-    const y = 1.55 + row * 1.65;
-    const w = 5.95, h = 1.52;
-    box(s, x, y, w, h, LIGHT);
-    numCircle(s, x + 0.18, y + 0.16, i + 1, 0.42);
-    s.addText([
-      { text: it[0], options: { bold: true, fontSize: 11.5, breakLine: true } },
-      { text: it[1], options: { fontSize: 9.5, color: MUTED } },
-    ], { x: x + 0.72, y: y + 0.08, w: w - 0.9, h: h - 0.16, fontFace: BFONT, color: INK, margin: 0, isTextBox: true, valign: "top" });
-  });
-  box(s, 6.8, 4.85, 5.95, 1.52, INK);
+  bg(s, "issues");
+  title(s, "Key issues", 4);
+  panel(s, 0.5, 2.0, 12.3, 3.9);
+  s.addText(numbered([
+    "Apakah pasar LCC jarak jauh cukup besar dan benar-benar kurang terlayani?",
+    "Bagaimana network carriers akan membalas?",
+    "Seberapa besar toleransi finansial AirAsia terhadap kegagalan?",
+    "Bisakah eksploitasi dan eksplorasi berjalan dalam satu organisasi?",
+    "Apakah tata kelola AirAsia X selaras dengan kepentingan AirAsia?",
+  ]), { x: 0.8, y: 2.1, w: 11.8, h: 2.6, fontFace: BFONT, margin: 0, isTextBox: true, valign: "top" });
   s.addText([
-    { text: "Benang merah", options: { bold: true, fontSize: 12, color: PINK, breakLine: true } },
-    { text: "Isu 1 dan 2 berasal dari tahap lingkungan eksternal; isu 3 berasal dari tahap posisi biaya; isu 4 dan 5 soal organisasi dan tata kelola. Alternatif yang baik harus menjawab semuanya, bukan hanya sebagian.", options: { fontSize: 11, color: WHITE } },
-  ], { x: 7.0, y: 4.93, w: 5.55, h: 1.36, fontFace: BFONT, margin: 0, isTextBox: true, valign: "middle" });
-  bridge(s, "Lima pertanyaan ini menjadi kriteria penilaian. Slide berikutnya menyajikan tiga alternatif yang akan diuji terhadapnya.");
-  footer(s);
-  s.addNotes("Sesuai panduan kasus, isu dirumuskan sebagai pertanyaan eksplisit. Setiap alternatif di slide berikut akan diuji terhadap lima pertanyaan ini. Isu 4 dan 5 memakai lensa ambidexterity dan tata kelola hibrida.");
+    { text: "Intisari.  ", options: { bold: true, color: CRIMSON } },
+    { text: "Isu 1 dan 2 dari lingkungan eksternal, isu 3 dari posisi biaya, isu 4 dan 5 soal organisasi dan tata kelola.", options: { color: INK, italic: true } },
+  ], { x: 0.8, y: 4.75, w: 11.8, h: 1.05, fontFace: BFONT, fontSize: BODY, margin: 0, isTextBox: true, valign: "middle" });
+  next(s, "Lima pertanyaan ini menjadi kriteria untuk menilai tiga alternatif.");
+  pageNo(s);
+  s.addNotes("Isu 1: di rute regional AirAsia menciptakan pasar baru; di KL London ia merebut penumpang dari enam maskapai mapan; elastisitas permintaan belum terbukti. Isu 2: Emirates, BA, dan MAS memperoleh laba dari kelas premium dan mampu menurunkan tarif ekonomi tanpa mengorbankan laba total. Isu 3: utang RM 6,69 miliar, ekuitas RM 1,61 miliar, kas RM 153,8 juta, pesanan 10 A350. Isu 4: literatur ambidexterity (O'Reilly dan Tushman) menyebut dua jalan, pemisahan struktural atau paduan kontekstual. Isu 5: AirAsia 16 persen (opsi 30 persen), Aero Ventures 48 persen, Virgin 16 persen, Manara dan Orix 20 persen; tata kelola hibrida khas portofolio aliansi. Azran membantah kritik dengan laba bersih RM 18 juta pada kuartal pertama 2009.");
 }
 
-// ---------------------------------------------------------------- 14. Alternatives
+// ================================================================ 15. Alternatives
 {
   const s = pres.addSlide();
-  header(s, "Strategic alternatives", 4);
+  bg(s, "altC");
+  title(s, "Strategic alternatives", 4);
   const alts = [
-    { code: "A", title: "Kembali ke Regional", sub: "Fokus penuh pada pasar 3,5 jam terbang", fill: LIGHT, lens: "Lensa: eksploitasi murni (pure exploitation). Mendalami model yang sudah terbukti, menyerahkan eksplorasi kepada pihak lain.", body: [
-      "AirAsia X tetap entitas terpisah dengan pemegang saham sendiri; AirAsia hanya penyedia jasa berbayar (merek, IT, administrasi).",
-      "Modal dan perhatian manajemen diarahkan ke pendalaman pasar Indonesia, Thailand, Vietnam, dan Filipina.",
-      "Opsi kepemilikan 30 persen tidak dieksekusi; risiko rute jauh ditanggung investor lain.",
-    ] },
-    { code: "B", title: "Integrasi Penuh", sub: "Merger AirAsia X ke dalam AirAsia", fill: TINT, lens: "Lensa: ambidexterity kontekstual. Eksploitasi dan eksplorasi dipadukan dalam satu organisasi, satu neraca, satu budaya.", body: [
-      "Satu perusahaan, satu neraca, satu jaringan. Rute regional menjadi pengumpan untuk rute gemuk jarak jauh melalui hub KL.",
-      "Membangun tiket terusan (through ticketing) dan transfer bagasi antar penerbangan AirAsia dan AirAsia X.",
-      "Ekspansi sesuai rencana: Abu Dhabi sebagai hub kedua, India, Seoul, Sydney, New York.",
-    ] },
-    { code: "C", title: "Integrasi Bertahap", sub: "Kendali naik ke 30 persen, rute dibatasi, merger menunggu bukti", fill: LIGHT, lens: "Lensa: ambidexterity struktural dengan tata kelola hibrida. Unit eksplorasi dipisahkan, tetapi dikendalikan lewat kepemilikan dan kontrak.", body: [
-      "AirAsia mengeksekusi opsi 30 persen dan menempatkan kendali operasional, tetapi neraca tetap terpisah.",
-      "Rute dibatasi pada 4 sampai 8 jam terbang (Australia, Cina, India, Timur Tengah) dengan A330; rute 12 jam ke Eropa ditunda sampai A350 tiba.",
-      "Merger penuh hanya jika AirAsia X mencapai target laba dan load factor selama empat kuartal berturut-turut.",
-    ] },
+    ["A", "Fokus Regional", ["AirAsia X tetap terpisah", "Fokus pasar 3,5 jam terbang"], "eksploitasi murni"],
+    ["B", "Integrasi Penuh", ["Merger AirAsia X ke AirAsia", "Feeder KL, ekspansi sesuai rencana"], "ambidexterity kontekstual"],
+    ["C", "Integrasi Bertahap", ["Kendali 30 persen, neraca terpisah", "Rute 4 sampai 8 jam, merger menunggu bukti"], "ambidexterity struktural, tata kelola hibrida"],
   ];
   alts.forEach((a, i) => {
-    const x = 0.6 + i * 4.05;
-    box(s, x, 1.55, 3.85, 4.9, a.fill);
-    s.addShape(pres.ShapeType.ellipse, { x: x + 0.22, y: 1.72, w: 0.6, h: 0.6, fill: { color: i === 2 ? RED : INK }, line: { color: i === 2 ? RED : INK } });
-    s.addText(a.code, { x: x + 0.22, y: 1.72, w: 0.6, h: 0.6, fontFace: HFONT, fontSize: 20, bold: true, color: WHITE, align: "center", valign: "middle", margin: 0, isTextBox: true });
+    const x = 0.5 + i * 4.15;
+    panel(s, x, 2.0, 3.95, 4.45, { transparency: 10 });
+    s.addShape(pres.ShapeType.ellipse, { x: x + 0.25, y: 2.15, w: 0.6, h: 0.6, fill: { color: i === 2 ? CRIMSON : INK }, line: { color: i === 2 ? CRIMSON : INK } });
+    s.addText(a[0], { x: x + 0.25, y: 2.15, w: 0.6, h: 0.6, fontFace: HFONT, fontSize: 24, bold: true, color: PARCH, align: "center", valign: "middle", margin: 0, isTextBox: true });
+    s.addText(a[1], { x: x + 1.0, y: 2.1, w: 2.9, h: 0.7, fontFace: HFONT, fontSize: 24, bold: true, color: CRIMSON, margin: 0, isTextBox: true, valign: "middle" });
+    s.addText(bullets(a[2]), { x: x + 0.25, y: 2.95, w: 3.5, h: 2.2, fontFace: BFONT, margin: 0, isTextBox: true, valign: "top" });
     s.addText([
-      { text: a.title, options: { bold: true, fontSize: 15, breakLine: true } },
-      { text: a.sub, options: { fontSize: 10.5, color: MUTED } },
-    ], { x: x + 0.95, y: 1.62, w: 2.75, h: 0.85, fontFace: BFONT, color: INK, margin: 0, isTextBox: true, valign: "middle" });
-    s.addText(bullets(a.body, 11), { x: x + 0.25, y: 2.65, w: 3.4, h: 2.5, fontFace: BFONT, margin: 0, isTextBox: true, valign: "top" });
-    box(s, x + 0.2, 5.25, 3.45, 1.05, i === 1 ? WHITE : TINT);
-    s.addText(a.lens, { x: x + 0.35, y: 5.3, w: 3.15, h: 0.95, fontFace: BFONT, fontSize: 9.5, italic: true, color: INK, margin: 0, isTextBox: true, valign: "middle" });
+      { text: "Sudut pandang.  ", options: { bold: true, color: CRIMSON } },
+      { text: a[3], options: { italic: true, color: INK } },
+    ], { x: x + 0.25, y: 5.15, w: 3.5, h: 1.2, fontFace: BFONT, fontSize: BODY, margin: 0, isTextBox: true, valign: "middle" });
   });
-  bridge(s, "Ketiga alternatif dideskripsikan tanpa argumen pro dan kontra, sesuai panduan RPKPS. Penilaiannya ada di slide berikutnya dengan lima kriteria dari isu kunci.");
-  footer(s);
-  s.addNotes("Sesuai panduan RPKPS, alternatif dideskripsikan ringkas tanpa argumen pro dan kontra. Lensa ambidexterity: March (1991), O'Reilly dan Tushman (2004). Tata kelola hibrida: Williamson (1991).");
+  next(s, "Ketiganya diuji dengan lima kriteria dari isu kunci.");
+  pageNo(s);
+  s.addNotes("Sesuai panduan RPKPS, alternatif dideskripsikan tanpa argumen pro dan kontra. A: AirAsia hanya penyedia jasa berbayar; modal ke Indonesia, Thailand, Vietnam, Filipina; opsi 30 persen tidak dieksekusi. B: satu perusahaan, satu neraca, satu jaringan; tiket terusan dan transfer bagasi; ekspansi Abu Dhabi, India, Seoul, Sydney. C: eksekusi opsi 30 persen dan tempatkan kendali operasional; rute 4 sampai 8 jam dengan A330, Eropa menunggu A350; merger hanya setelah empat kuartal laba dan load factor sesuai target. Sudut pandang: March (1991); O'Reilly dan Tushman (2004); Williamson (1991).");
 }
 
-// ---------------------------------------------------------------- 15. Evaluation
+// ================================================================ 16. Scorecard
 {
   const s = pres.addSlide();
-  header(s, "Evaluating the alternatives", 4);
+  bg(s, "scorecard");
+  title(s, "Scorecard", 4);
   const rows = [
-    ["Kriteria (dari isu kunci)", "A. Kembali ke Regional", "B. Integrasi Penuh", "C. Integrasi Bertahap"],
-    ["1. Menangkap peluang pasar jarak jauh", ["Lemah", RED, "Melepas rute gemuk yang menjadi sumber pertumbuhan berikutnya."], ["Kuat", GREEN, "Menangkap seluruh peluang, termasuk rute jauh ke Eropa."], ["Cukup", AMBER, "Menangkap rute 4 sampai 8 jam yang paling sesuai dengan A330."]],
-    ["2. Daya tahan terhadap balasan network carriers", ["Kuat", GREEN, "Tidak berhadapan langsung di rute jauh."], ["Lemah", RED, "Berhadapan langsung di rute yang pesaing subsidi silang."], ["Cukup", AMBER, "Menghindari rute yang paling padat pesaing premium."]],
-    ["3. Keamanan finansial (utang, kas, pesanan A350)", ["Kuat", GREEN, "Risiko rute jauh berada di neraca investor lain."], ["Lemah", RED, "Menggabungkan armada berbadan lebar ke neraca yang sudah sarat utang."], ["Cukup", AMBER, "Neraca tetap terpisah; komitmen bertahap sesuai bukti kinerja."]],
-    ["4. Keseimbangan eksploitasi dan eksplorasi", ["Lemah", RED, "Eksploitasi murni; kompetensi rute jauh tidak pernah terbangun."], ["Cukup", AMBER, "Eksplorasi berjalan, tetapi berisiko mengganggu disiplin rute pendek."], ["Kuat", GREEN, "Unit eksplorasi terpisah, kendali dan pembelajaran tetap mengalir ke induk."]],
-    ["5. Keselarasan tata kelola dan pemegang saham", ["Cukup", AMBER, "Konflik kepentingan pendiri tetap ada meski tidak terlihat."], ["Cukup", AMBER, "Transparan, tetapi pemegang saham AirAsia menanggung kerugian AirAsia X."], ["Kuat", GREEN, "Kendali sepadan dengan kepemilikan; merger diputuskan berdasar bukti."]],
+    ["Kriteria", "A. Regional", "B. Penuh", "C. Bertahap"],
+    ["Peluang pasar jarak jauh", ["Lemah", CRIMSON], ["Kuat", GREEN], ["Cukup", AMBER]],
+    ["Daya tahan vs network carriers", ["Kuat", GREEN], ["Lemah", CRIMSON], ["Cukup", AMBER]],
+    ["Keamanan finansial", ["Kuat", GREEN], ["Lemah", CRIMSON], ["Cukup", AMBER]],
+    ["Eksploitasi dan eksplorasi", ["Lemah", CRIMSON], ["Cukup", AMBER], ["Kuat", GREEN]],
+    ["Tata kelola dan pemegang saham", ["Cukup", AMBER], ["Cukup", AMBER], ["Kuat", GREEN]],
   ];
   const tableRows = rows.map((r, i) => r.map((c, j) => {
-    if (i === 0) return { text: c, options: { bold: true, color: WHITE, fill: { color: j === 3 ? RED : INK }, fontSize: 11, align: j === 0 ? "left" : "center" } };
-    const fill = j === 3 ? TINT : (i % 2 === 0 ? LIGHT : WHITE);
-    if (j === 0) return { text: c, options: { bold: true, fontSize: 10.5, color: INK, fill: { color: fill } } };
-    return { text: [
-      { text: c[0], options: { bold: true, color: c[1], fontSize: 11, breakLine: true } },
-      { text: c[2], options: { fontSize: 9, color: MUTED } },
-    ], options: { fill: { color: fill }, align: "left" } };
+    if (i === 0) return { text: c, options: { bold: true, color: PARCH, fill: { color: j === 3 ? CRIMSON : INK }, fontSize: 22, align: j === 0 ? "left" : "center" } };
+    if (j === 0) return { text: c, options: { bold: true, fontSize: 22, color: INK, fill: { color: PARCH } } };
+    return { text: c[0], options: { bold: true, fontSize: 22, color: c[1], fill: { color: j === 3 ? "F6E0D6" : PARCH }, align: "center" } };
   }));
-  s.addTable(tableRows, {
-    x: 0.6, y: 1.55, w: 12.1, colW: [2.9, 3.0, 3.0, 3.2], fontFace: BFONT, border: { type: "solid", color: WHITE, pt: 1 },
-    rowH: [0.42, 0.82, 0.82, 0.82, 0.82, 0.82], margin: [0.05, 0.1, 0.05, 0.1], valign: "middle",
-  });
-  s.addText("Skala: Kuat, Cukup, Lemah. Penilaian kualitatif berdasarkan data kasus; tidak ada pembobotan numerik agar diskusi kelas tetap terbuka.", { x: 0.6, y: 6.15, w: 12.1, h: 0.4, fontFace: BFONT, fontSize: 10, color: MUTED, margin: 0, isTextBox: true, valign: "middle" });
-  bridge(s, "Alternatif C paling seimbang: tidak ada kriteria yang lemah. Slide berikutnya menerjemahkannya menjadi rekomendasi dan rencana implementasi.");
-  footer(s);
-  s.addNotes("Alternatif A aman tetapi mengabaikan sumber pertumbuhan. Alternatif B menangkap peluang tetapi memindahkan seluruh risiko ke neraca yang lemah. Alternatif C mengunci kendali tanpa mengunci risiko.");
+  s.addTable(tableRows, { x: 0.5, y: 2.0, w: 12.3, colW: [5.1, 2.4, 2.4, 2.4], fontFace: BFONT, border: { type: "solid", color: "C9BBA3", pt: 1 }, rowH: 0.56, margin: [0.04, 0.12, 0.04, 0.12], valign: "middle" });
+  next(s, "Alternatif C tanpa satu pun kriteria lemah. Itulah rekomendasi kami.");
+  pageNo(s);
+  s.addNotes("Penilaian kualitatif dari data kasus. A: aman tetapi melepas sumber pertumbuhan dan tidak pernah membangun kompetensi rute jauh. B: menangkap seluruh peluang tetapi berhadapan langsung dengan pesaing yang bersubsidi silang dan menggabungkan armada lebar ke neraca yang sarat utang. C: menangkap rute 4 sampai 8 jam, neraca terpisah, unit eksplorasi terpisah dengan kendali dan pembelajaran mengalir ke induk, kendali sepadan dengan kepemilikan.");
 }
 
-// ---------------------------------------------------------------- 16. Recommendation
+// ================================================================ 17. Recommendation
 {
   const s = pres.addSlide();
-  header(s, "Recommendation and implementation plan", 4);
-  box(s, 0.6, 1.55, 12.1, 0.9, INK);
-  s.addText("Eksekusi opsi kepemilikan 30 persen pada AirAsia X, ambil kendali operasional dan komersial, batasi jaringan pada rute 4 sampai 8 jam sampai armada A350 tersedia, dan tetapkan merger penuh sebagai keputusan berbasis bukti kinerja (evidence based).", {
-    x: 0.85, y: 1.6, w: 11.6, h: 0.8, fontFace: BFONT, fontSize: 12.5, color: WHITE, margin: 0, isTextBox: true, valign: "middle",
-  });
-  const rows = [
-    ["Inisiatif", "KPI dan target", "Waktu", "Penanggung jawab", "Risiko dan mitigasi"],
-    ["Eksekusi opsi 30 persen dan tempatkan manajemen AirAsia di AirAsia X", "Kepemilikan 30 persen; satu tim komersial gabungan", "Kuartal 4 2009", "CEO Group dan Dewan Komisaris", "Konflik kepentingan Aero Ventures; mitigasi lewat komite independen untuk transaksi afiliasi"],
-    ["Disiplin rute: hanya 4 sampai 8 jam dengan A330; tunda penambahan rute Eropa", "Load factor di atas 85 persen; biaya per ASK AirAsia X di bawah 60 persen pesaing per rute", "2010 sampai 2011", "CEO AirAsia X", "Balasan harga Emirates dan MAS; mitigasi dengan bandara sekunder dan rute yang belum padat pesaing premium"],
-    ["Bangun pengumpan terbatas: tiket terusan dan transfer bagasi antar AirAsia dan AirAsia X di KL", "Porsi penumpang transit di atas 25 persen pada rute jauh", "2010", "Direktur Komersial Group", "Kompleksitas operasi; mitigasi dengan uji coba di tiga rute sebelum diperluas"],
-    ["Kebijakan lindung nilai bahan bakar berbasis aturan", "Rasio hedging 30 sampai 50 persen kebutuhan 12 bulan; batas rugi derivatif", "Segera", "CFO dan Komite Risiko", "Terulangnya kerugian 2008; mitigasi dengan mandat tertulis yang disetujui dewan"],
-    ["Perkuat neraca sebelum A350 tiba", "Utang terhadap ekuitas turun ke bawah 3 kali; kas minimal tiga bulan biaya operasi", "2010 sampai 2015", "CFO", "Ketergantungan sewa pesawat; mitigasi lewat sale and leaseback dan penerbitan saham bila valuasi mendukung"],
-    ["Gerbang keputusan merger (stage gate)", "Empat kuartal berturut laba bersih positif dan arus kas operasi positif di AirAsia X", "Evaluasi 2011", "Dewan Komisaris", "Tekanan untuk mempercepat; mitigasi dengan kriteria yang dipublikasikan ke pemegang saham"],
+  bg(s, "recommendation");
+  title(s, "Recommendation", 4);
+  panel(s, 0.5, 1.95, 7.4, 4.5, { dark: true });
+  s.addText("Integrasi bertahap: kendalikan AirAsia X, batasi rute, buktikan dulu, baru merger.", { x: 0.8, y: 2.05, w: 6.8, h: 1.35, fontFace: BFONT, fontSize: 26, bold: true, color: PARCH, margin: 0, isTextBox: true, valign: "top" });
+  s.addText(bullets([
+    "Eksekusi opsi 30 persen dan tempatkan manajemen AirAsia",
+    "Rute 4 sampai 8 jam dengan A330 sampai A350 tiba",
+    "Merger hanya setelah empat kuartal laba dan arus kas positif",
+  ], BODY, PARCH), { x: 0.8, y: 3.5, w: 6.8, h: 2.9, fontFace: BFONT, margin: 0, isTextBox: true, valign: "top" });
+  next(s, "Rencana implementasinya: KPI, waktu, penanggung jawab.");
+  pageNo(s);
+  s.addNotes("Merger penuh ditetapkan sebagai keputusan berbasis bukti kinerja (evidence based), bukan sekadar keyakinan manajemen.");
+}
+
+// ================================================================ 18. Implementation plan
+{
+  const s = pres.addSlide();
+  bg(s, "implementation");
+  title(s, "Implementation plan", 4);
+  panel(s, 0.5, 2.0, 12.3, 4.45, { transparency: 10 });
+  const items = [
+    ["Opsi 30 persen dan tim manajemen gabungan", "Q4 2009", "CEO dan Dewan"],
+    ["Rute 4 sampai 8 jam; load factor di atas 85 persen", "2010 sampai 2011", "CEO AirAsia X"],
+    ["Feeder terbatas di KL; transit di atas 25 persen", "2010", "Direktur Komersial"],
+    ["Hedging bahan bakar 30 sampai 50 persen", "Segera", "CFO, Komite Risiko"],
+    ["Utang/ekuitas di bawah 3 kali sebelum A350", "2010 sampai 2015", "CFO"],
+    ["Gerbang merger: empat kuartal laba positif", "Evaluasi 2011", "Dewan Komisaris"],
   ];
-  const tableRows = rows.map((r, i) => r.map((c, j) => {
-    if (i === 0) return { text: c, options: { bold: true, color: WHITE, fill: { color: RED }, fontSize: 10 } };
-    return { text: c, options: { fontSize: 9, color: INK, fill: { color: i % 2 === 0 ? LIGHT : WHITE }, bold: j === 0 } };
-  }));
-  s.addTable(tableRows, {
-    x: 0.6, y: 2.6, w: 12.1, colW: [3.2, 2.6, 1.2, 1.7, 3.4], fontFace: BFONT, border: { type: "solid", color: WHITE, pt: 1 },
-    rowH: [0.33, 0.58, 0.58, 0.58, 0.58, 0.58, 0.58], margin: [0.04, 0.08, 0.04, 0.08], valign: "middle",
+  s.addText([
+    { text: "Inisiatif dan KPI", options: { bold: true, color: CRIMSON } },
+  ], { x: 0.8, y: 2.08, w: 6.6, h: 0.5, fontFace: BFONT, fontSize: 22, margin: 0, isTextBox: true, valign: "middle" });
+  s.addText("Waktu", { x: 7.5, y: 2.08, w: 2.5, h: 0.5, fontFace: BFONT, fontSize: 22, bold: true, color: CRIMSON, margin: 0, isTextBox: true, valign: "middle" });
+  s.addText("Penanggung jawab", { x: 10.1, y: 2.08, w: 2.6, h: 0.5, fontFace: BFONT, fontSize: 22, bold: true, color: CRIMSON, margin: 0, isTextBox: true, valign: "middle" });
+  items.forEach((it, i) => {
+    const y = 2.62 + i * 0.63;
+    if (i % 2 === 0) s.addShape(pres.ShapeType.rect, { x: 0.7, y, w: 11.9, h: 0.6, fill: { color: "E6D8BE", transparency: 30 }, line: { color: "E6D8BE", transparency: 100 } });
+    s.addText((i + 1) + "  " + it[0], { x: 0.8, y, w: 6.6, h: 0.6, fontFace: BFONT, fontSize: 22, color: INK, margin: 0, isTextBox: true, valign: "middle" });
+    s.addText(it[1], { x: 7.5, y, w: 2.5, h: 0.6, fontFace: BFONT, fontSize: 22, color: INK, margin: 0, isTextBox: true, valign: "middle" });
+    s.addText(it[2], { x: 10.1, y, w: 2.6, h: 0.6, fontFace: BFONT, fontSize: 22, color: INK, margin: 0, isTextBox: true, valign: "middle" });
   });
-  bridge(s, "Rekomendasi ini menjawab pertanyaan strategis di slide 4. Slide berikutnya menarik pelajarannya kembali ke Bab 3.");
-  footer(s);
-  s.addNotes("Rencana implementasi mengikuti tuntutan CO 2 dalam RPKPS: KPI, waktu, penanggung jawab, sumber daya, dan mitigasi risiko. Angka target adalah usulan kelompok, bukan angka dari kasus.");
+  next(s, "Rekomendasi ini menjawab pertanyaan di slide 5. Apa pelajarannya?");
+  pageNo(s);
+  s.addNotes("Risiko dan mitigasi. 1: konflik kepentingan Aero Ventures, mitigasi komite independen untuk transaksi afiliasi. 2: balasan harga Emirates dan MAS, mitigasi bandara sekunder dan rute yang belum padat pesaing premium; target biaya per ASK AirAsia X di bawah 60 persen pesaing per rute. 3: kompleksitas operasi, mitigasi uji coba di tiga rute sebelum diperluas. 4: terulangnya kerugian 2008, mitigasi mandat tertulis yang disetujui dewan dan batas rugi derivatif. 5: ketergantungan sewa pesawat, mitigasi sale and leaseback dan penerbitan saham bila valuasi mendukung; kas minimal tiga bulan biaya operasi. 6: tekanan untuk mempercepat, mitigasi kriteria yang dipublikasikan ke pemegang saham. Angka target adalah usulan kelompok, bukan angka kasus.");
 }
 
-// ---------------------------------------------------------------- 17. Lessons
+// ================================================================ 19. Lessons and discussion
 {
   const s = pres.addSlide();
-  s.background = { color: DARKRED };
-  s.addShape(pres.ShapeType.ellipse, { x: -2.2, y: 4.2, w: 6, h: 6, fill: { color: RED }, line: { color: RED } });
-  s.addText("STEP 4  CHOICE", { x: 0.7, y: 0.5, w: 8, h: 0.35, fontFace: BFONT, fontSize: 10, bold: true, color: PINK, charSpacing: 2, margin: 0, isTextBox: true });
-  s.addText("Lessons for Chapter 3", { x: 0.7, y: 0.85, w: 11.5, h: 0.8, fontFace: HFONT, fontSize: 32, bold: true, color: WHITE, margin: 0, isTextBox: true, valign: "middle" });
-  const lessons = [
-    ["Struktur industri menjelaskan mengapa laba langka, bukan siapa yang meraihnya.", "Five Forces menunjukkan industri penerbangan tidak atraktif. Laba AirAsia lahir dari posisi biaya relatif, sesuai logika SCP."],
-    ["Keunggulan biaya adalah sistem yang saling menopang.", "Operasi, SDM, dan merek bekerja bersama. Memindahkan sebagian tanpa yang lain menghasilkan keunggulan yang lebih tipis."],
-    ["Pindah kelompok strategis berarti menghadapi pesaing dengan model laba berbeda.", "Peta kelompok strategis menunjukkan bahwa di rute jauh, lawan AirAsia X mampu mensubsidi harga ekonomi."],
-    ["Eksplorasi sebaiknya dijalankan dalam unit terpisah yang tetap dikendalikan induk.", "Lingkungan yang berubah cepat dan neraca yang lemah membuat integrasi bertahap lebih aman daripada merger penuh."],
-  ];
-  lessons.forEach((l, i) => {
-    const col = i % 2, row = Math.floor(i / 2);
-    const x = 0.7 + col * 6.1, y = 1.95 + row * 1.7;
-    numCircle(s, x, y + 0.05, i + 1, 0.42, WHITE, RED);
-    s.addText([
-      { text: l[0], options: { bold: true, fontSize: 13, color: WHITE, breakLine: true } },
-      { text: l[1], options: { fontSize: 11, color: PINK } },
-    ], { x: x + 0.6, y, w: 5.3, h: 1.55, fontFace: BFONT, margin: 0, isTextBox: true, valign: "top" });
-  });
-  s.addText("Apabila dirangkum dalam satu kata, kasus AirAsia adalah tentang transferabilitas: bukan hanya seberapa rendah biayanya, tetapi seberapa jauh biaya rendah itu dapat dibawa.", {
-    x: 0.7, y: 5.3, w: 11.9, h: 0.65, fontFace: BFONT, fontSize: 12.5, italic: true, color: WHITE, margin: 0, isTextBox: true, valign: "middle",
-  });
-  box(s, 0.7, 6.05, 11.9, 0.85, WHITE);
+  bg(s, "lessons");
+  title(s, "Lessons for Chapter 3", 4);
+  panel(s, 0.5, 2.0, 7.3, 4.45);
+  s.addText(numbered([
+    "Struktur industri menjelaskan mengapa laba langka, bukan siapa yang meraihnya.",
+    "Keunggulan biaya adalah sistem yang saling menopang.",
+    "Pindah kelompok strategis berarti melawan model laba yang berbeda.",
+    "Eksplorasi butuh unit terpisah yang tetap dikendalikan induk.",
+  ]), { x: 0.8, y: 2.12, w: 6.7, h: 3.55, fontFace: BFONT, margin: 0, isTextBox: true, valign: "top" });
+  s.addText("Dalam satu kata: transferabilitas.", { x: 0.8, y: 5.7, w: 6.7, h: 0.65, fontFace: HFONT, fontSize: 26, italic: true, bold: true, color: CRIMSON, margin: 0, isTextBox: true, valign: "middle" });
+  panel(s, 8.1, 2.0, 4.7, 4.45, { dark: true });
   s.addText([
-    { text: "Pertanyaan untuk diskusi kelas: ", options: { bold: true, color: RED } },
-    { text: "Jika Anda Tony Fernandes pada Juli 2009 dengan kas RM 153,8 juta, apakah Anda menyetujui merger sekarang, atau menunggu bukti empat kuartal? Apa yang hilang jika menunggu?", options: { color: INK } },
-  ], { x: 0.95, y: 6.08, w: 11.4, h: 0.79, fontFace: BFONT, fontSize: 12, margin: 0, isTextBox: true, valign: "middle" });
-  footer(s, true);
-  s.addNotes("Tutup dengan mengaitkan kembali ke Bab 3. Ajukan pertanyaan diskusi ke kelas dan minta kelompok lain merespons dengan argumen berbasis data kasus.");
+    { text: "Untuk didiskusikan", options: { bold: true, color: GOLD, breakLine: true } },
+    { text: "Jika Anda Tony Fernandes pada Juli 2009 dengan kas RM 153,8 juta, setujui merger sekarang, atau tunggu bukti empat kuartal? Apa yang hilang jika menunggu?", options: { color: PARCH } },
+  ], { x: 8.35, y: 2.15, w: 4.2, h: 4.2, fontFace: BFONT, fontSize: BODY, margin: 0, isTextBox: true, valign: "middle" });
+  pageNo(s);
+  s.addNotes("Kaitkan kembali ke Bab 3. Five Forces menunjukkan industri tidak atraktif; laba AirAsia lahir dari posisi biaya relatif. Operasi, SDM, dan merek bekerja bersama. Di rute jauh lawan AirAsia X mampu mensubsidi harga ekonomi. Lingkungan yang berubah cepat dan neraca yang lemah membuat integrasi bertahap lebih aman daripada merger penuh. Minta kelompok lain merespons pertanyaan diskusi dengan argumen berbasis data kasus.");
 }
 
-// ---------------------------------------------------------------- 18. Thank you
+// ================================================================ 20. Thank you
 {
   const s = pres.addSlide();
-  s.background = { color: DARKRED };
-  s.addShape(pres.ShapeType.ellipse, { x: 9.2, y: -1.6, w: 6.2, h: 6.2, fill: { color: RED }, line: { color: RED } });
-  s.addText("Thank you", { x: 0.7, y: 2.3, w: 9, h: 1.2, fontFace: HFONT, fontSize: 60, bold: true, color: WHITE, margin: 0, isTextBox: true });
-  s.addText("Terima kasih. Kami terbuka untuk pertanyaan dan diskusi.", { x: 0.7, y: 3.5, w: 9, h: 0.6, fontFace: BFONT, fontSize: 18, color: PINK, margin: 0, isTextBox: true });
+  bg(s, "thanks");
+  s.addShape(pres.ShapeType.rect, { x: 0, y: 0, w: 6.8, h: H, fill: { color: DARK, transparency: 30 }, line: { color: DARK, transparency: 100 } });
+  s.addText("Thank you", { x: 0.7, y: 2.0, w: 6.0, h: 1.4, fontFace: HFONT, fontSize: 64, bold: true, color: PARCH, margin: 0, isTextBox: true, valign: "middle" });
+  s.addText("Terima kasih. Kami terbuka untuk pertanyaan dan diskusi.", { x: 0.7, y: 3.4, w: 5.8, h: 1.0, fontFace: BFONT, fontSize: BODY, color: GOLD, margin: 0, isTextBox: true, valign: "top" });
   s.addText([
-    { text: "Kelompok 3", options: { bold: true, breakLine: true, fontSize: 14 } },
-    { text: "Tifani Puspita  |  Dara Astrini Rahayu K  |  Happy Dinithasari  |  Aslih Abnuri", options: { breakLine: true, fontSize: 12 } },
-    { text: " ", options: { breakLine: true, fontSize: 6 } },
-    { text: "Strategic Management (MAN 5422), Program Magister Manajemen, Fakultas Ekonomika dan Bisnis, Universitas Gadjah Mada", options: { breakLine: true, fontSize: 11 } },
-    { text: "Sumber data: Grant, R. M. (2010), AirAsia: The World's Lowest Cost Airline, Case 9, Tabel 9.1 sampai 9.5.", options: { fontSize: 11 } },
-  ], { x: 0.7, y: 5.0, w: 11, h: 1.6, fontFace: BFONT, color: WHITE, margin: 0, isTextBox: true, valign: "top" });
-  footer(s, true);
-  s.addNotes("Referensi lengkap: Grant (2010) Contemporary Strategy Analysis, Case 9. Thompson dan Strickland (2019) Strategic Management, Bab 3. Porter (1980) Competitive Strategy. March (1991) Organization Science 2(1). O'Reilly dan Tushman (2004) Harvard Business Review 82(4). Williamson (1991) Administrative Science Quarterly 36(2). Handoko, Indarti, dan Almahendra (2014) Manajemen dalam Berbagai Perspektif. RPKPS MAN 5422 FEB UGM (2026), Lampiran 3.");
+    { text: "Kelompok 3", options: { bold: true, fontSize: 26, color: GOLD, breakLine: true } },
+    { text: NAMES, options: { fontSize: 20, color: PARCH } },
+  ], { x: 0.7, y: 5.2, w: 6.0, h: 1.4, fontFace: BFONT, margin: 0, isTextBox: true, valign: "top" });
+  pageNo(s);
+  s.addNotes("Referensi: Grant (2010) Contemporary Strategy Analysis, Case 9, Tabel 9.1 sampai 9.5. Thompson dan Strickland (2019) Bab 3. Porter (1980). March (1991) Organization Science 2(1). O'Reilly dan Tushman (2004) Harvard Business Review 82(4). Williamson (1991) Administrative Science Quarterly 36(2). Handoko, Indarti, dan Almahendra (2014) Manajemen dalam Berbagai Perspektif. RPKPS MAN 5422 FEB UGM (2026), Lampiran 3.");
 }
 
-const out = process.argv[2] || "AirAsia_Kelompok3.pptx";
+const out = process.argv[2] || "AirAsia_visual.pptx";
 pres.writeFile({ fileName: out }).then((f) => console.log("written", f));
