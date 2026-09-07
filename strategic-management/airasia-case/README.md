@@ -1,14 +1,22 @@
-# Kasus AirAsia: The World's Lowest Cost Airline
+# AirAsia Case Deck (Strategic Management MAN 5422)
 
-Materi presentasi Kelompok 3 untuk Strategic Management (MAN 5422), sesi 4: Evaluating a Company's External Environment.
+Kelompok 3: Tifani Puspita, Dara Astrini Rahayu K, Happy Dinithasari, Aslih Abnuri.
 
-Berkas:
+Deliverables:
+- `SMJKT_Group 3_Aslih_Case AirAsia.pptx` (20 slide, gaya Bauhaus, judul Bebas Neue, isi Manrope)
+- `SMJKT_Group 3_Aslih_Case AirAsia.pdf` (versi PDF, font sudah tertanam)
 
-- `SMJKT_Group 3_Aslih_Case AirAsia.pptx`: deck 20 slide bergaya Bauhaus (latar krem, bentuk geometris, foto hitam putih), judul Bebas Neue, isi Manrope 24 pt.
-- `SMJKT_Group 3_Aslih_Case AirAsia.pdf`: versi PDF dengan font tertanam, aman dibuka di mana saja.
-- `fonts/`: Bebas Neue dan Manrope (lisensi SIL OFL). Pasang kedua font ini sebelum membuka PPTX agar tampilannya sama dengan PDF.
-- `build_deck.js`: skrip pptxgenjs penghasil deck. Jalankan `npm install pptxgenjs` lalu `node build_deck.js "nama_file.pptx"`.
-- `gen_bw.py`: skrip pembuat foto cutout lewat API kie.ai (butuh variabel lingkungan `KIE_KEY`; kunci tidak disimpan di repo).
-- `img/`: foto cutout hitam putih dengan latar transparan.
+Sebelum membuka PPTX, pasang font di folder `fonts/` (Bebas Neue dan Manrope) agar tampilan sama dengan PDF.
 
-Seluruh angka bersumber dari Tabel 9.1 sampai 9.5 kasus Grant (2010). Nama berkas mengikuti format RPKPS.
+Cara build ulang:
+
+```
+npm install pptxgenjs
+node build_deck.js "SMJKT_Group 3_Aslih_Case AirAsia.pptx"
+python3 fix_bullets.py "SMJKT_Group 3_Aslih_Case AirAsia.pptx"
+soffice --headless --convert-to pdf "SMJKT_Group 3_Aslih_Case AirAsia.pptx"
+```
+
+Ukuran font isi diatur lewat satu konstanta `BODY` di `build_deck.js`.
+
+Gambar di `img/` dibuat lewat kie.ai (`gen_aa.py`, `gen_bw.py`). Skrip membaca kunci API dari variabel lingkungan `KIE_KEY`; jangan menaruh kunci di dalam repo.
