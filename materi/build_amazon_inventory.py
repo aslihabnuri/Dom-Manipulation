@@ -30,7 +30,7 @@ OUT = "Materi_Studi_Kasus_4_Inventory_Management_Amazon.pdf"
 # ---------- gaya ----------
 BODY = ParagraphStyle("body", fontName="Serif", fontSize=11, leading=15,
                       alignment=TA_JUSTIFY, spaceAfter=6)
-BODY_L = ParagraphStyle("bodyl", parent=BODY, alignment=TA_LEFT)
+BODY_L = ParagraphStyle("bodyl", parent=BODY, alignment=TA_LEFT, keepWithNext=1)
 SMALL = ParagraphStyle("small", parent=BODY, fontSize=9.5, leading=12.5, spaceAfter=3)
 CELL = ParagraphStyle("cell", parent=BODY, fontSize=9.5, leading=12, alignment=TA_LEFT,
                       spaceAfter=0)
