@@ -39,3 +39,11 @@ Jika hasil pertama kurang mirip, jalankan ulang: setiap run menghasilkan
 variasi baru dan wajah biasanya lebih akurat jika foto sumbernya close-up.
 
 Jangan pernah menulis API key ke dalam file yang di-commit.
+
+## Mengedit hasil yang sudah ada
+
+Untuk mengubah satu detail tanpa membuat komposisi baru:
+
+```bash
+node birthday-greeting/edit.mjs --image birthday-greeting/output/hasil.png --prompt "Remove the sticker in the bottom-right corner."
+```
