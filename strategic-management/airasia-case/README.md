@@ -17,6 +17,6 @@ python3 fix_bullets.py "SMJKT_Group 3_Aslih_Case AirAsia.pptx"
 soffice --headless --convert-to pdf "SMJKT_Group 3_Aslih_Case AirAsia.pptx"
 ```
 
-Ukuran font diatur lewat konstanta `TITLE`, `BODY`, `SMALL`, `LABEL` di `build_deck.js`.
+Skala tipografi seragam: `TITLE` 24, `SUB` 12, `BODY` 14, `NUM` 40, `HERO` 60 di `build_deck.js`. Foto dipotong ke rasio kotak oleh `crop.py` saat build (folder `img/crops` dibuat otomatis) sehingga tidak pernah diregangkan.
 
 Gambar di `img/` dibuat lewat kie.ai (`gen_aa.py`, `gen_one.py`) lalu dikonversi hitam putih. Skrip membaca kunci API dari variabel lingkungan `KIE_KEY`; jangan menaruh kunci di dalam repo.
