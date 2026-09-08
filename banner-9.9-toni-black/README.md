@@ -21,7 +21,8 @@ Fonts: Zalando Sans Expanded (headline, tag, CTA), Arimo (benefits, terms). Colo
 ## Pipeline
 1. `scripts/kie.py` uploads the two references (Toni Black model photo for identity, pose reference) to kie.ai and runs **Nano Banana Pro** (`aspect_ratio 2:3`, `2K`) with `prompts/prompt_exact.txt` (pose reference passed first as the composition template, model photo second).
    `export KIE_API_KEY=...` then `python3 scripts/kie.py gen exact prompts/prompt_exact.txt <pose_url> <model_url>`.
-2. `scripts/compose.py PHOTO OUT [scale] [hero_y]` sets the typography with the brand fonts (`scale 2` gives 2160×3240).
-3. `scripts/logo.py` is a vector rebuild of the Toni Black logo, used because the brand-guideline PDF could not be downloaded from Drive in this session. Swap in the official SVG/PNG from the brand kit before print use.
+2. Second pass, `prompts/prompt_product.txt`: edit the generated photo with the Toni Black product shot (Drive `Boxer dewasa/2.png`, black boxer) as reference so the underwear is the real product: matte black boxer, black waistband with `TONI BLACK` embossed tone-on-tone. Nothing else changes.
+3. `scripts/compose.py PHOTO OUT [scale] [hero_y]` sets the typography with the brand fonts (`scale 2` gives 2160×3240).
+4. `scripts/logo.py` is a vector rebuild of the Toni Black logo, used because the brand-guideline PDF could not be downloaded from Drive in this session. Swap in the official SVG/PNG from the brand kit before print use.
 
 Fonts (not committed): Zalando Sans Expanded + Arimo static TTFs in `fonts/static/` (from the Toni Black Drive `Font` folder).
