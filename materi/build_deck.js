@@ -297,7 +297,7 @@ stepsSlide(4, "bg_sortation", "PROSES PEMENUHAN PESANAN · LANGKAH 5–8");
     ["SPEED", "Tiba 1–2 hari; tenaga kerja kurang dari 3 menit per pesanan."],
     ["QUALITY", "Kesalahan picking mendekati nol; bar code dipindai 15 kali; penimbangan sebelum keluar."],
     ["DEPENDABILITY", "Janji 1–2 hari terpenuhi; as promised, bukan sekadar cepat."],
-    ["FLEXIBILITY", "70% pesanan multiproduk dilayani satu sistem: batch picking, konsolidasi di chute."],
+    ["FLEXIBILITY", "70% pesanan multiproduk dilayani satu sistem: batch picking lalu konsolidasi."],
     ["COST", "Harga terendah; 60% kiriman lewat USPS; biaya sort-pick-pack turun 20–40%."],
   ];
   let y = TOP + 0.95;
