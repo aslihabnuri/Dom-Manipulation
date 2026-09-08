@@ -95,12 +95,15 @@ function doodle(s, x, y, size = 1.0) { s.addImage({ path: path.join(CUT, "arrow.
 // ============================================================ 1. SAMPUL
 {
   const s = frame({ mapT: 60 });
-  cut(s, "skyline", { h: 3.9, maxW: 12, x: FX + 0.25, y: FY + FH - 3.9 + 0.02 });
-  const t = label(s, "INVENTORY MANAGEMENT\nSEBAGAI KEUNGGULAN\nKOMPETITIF AMAZON", 6.35, FY + 0.35, 54, { maxW: 6.5 });
-  // identitas kelompok tepat di bawah judul, sejajar tepi kiri judul
-  const y0 = FY + 0.35 + t.h + 0.12;
-  HL(s, "KELOMPOK 4", 6.35, y0, 1.35, 0.3, { size: 11, bold: true });
-  T(s, "Bagaskoro  ·  25/574280/PEK/31778\nAulia Sisca Rahmadiyanti  ·  25/574305/PEK/31789\nFitra Aidila  ·  25/574309/PEK/31791", 7.85, y0 - 0.02, 4.9, 0.7, { size: 10.5, color: GRAY });
+  // pita identitas di dasar kartu: kolase "berdiri" di atasnya, judul bebas di kanan atas
+  const ribbonH = 0.5, ribbonY = FY + FH - ribbonH - 0.08;
+  cut(s, "skyline", { h: 3.7, maxW: 12, x: FX + 0.3, y: ribbonY - 3.7 + 0.02 });
+  s.addShape(pres.shapes.RECTANGLE, { x: FX + 0.08, y: ribbonY, w: FW - 0.16, h: ribbonH, fill: { color: WHITE }, line: { color: WHITE, width: 0 } });
+  s.addShape(pres.shapes.RECTANGLE, { x: FX + 0.08, y: ribbonY, w: 1.6, h: ribbonH, fill: { color: PINK }, line: { color: PINK, width: 0 } });
+  s.addText("KELOMPOK 4", { x: FX + 0.08, y: ribbonY, w: 1.6, h: ribbonH, fontFace: BF, fontSize: 12, bold: true, color: BLACK, align: "center", valign: "middle", isTextBox: true, margin: 0 });
+  s.addText("Bagaskoro  ·  25/574280/PEK/31778          Aulia Sisca Rahmadiyanti  ·  25/574305/PEK/31789          Fitra Aidila  ·  25/574309/PEK/31791",
+    { x: FX + 1.95, y: ribbonY, w: FW - 2.2, h: ribbonH, fontFace: BF, fontSize: 11, color: GRAY, valign: "middle", isTextBox: true, margin: 0 });
+  label(s, "INVENTORY MANAGEMENT\nSEBAGAI KEUNGGULAN\nKOMPETITIF AMAZON", 6.35, FY + 0.4, 54, { maxW: 6.5 });
 }
 
 // ============================================================ 2. TUJUAN & ALUR
@@ -400,12 +403,9 @@ stepsSlide(4, "bg_sortation", "PROSES PEMENUHAN PESANAN · LANGKAH 5–8");
 // ============================================================ 21. PENUTUP
 {
   const s = frame({ mapT: 60 });
-  cut(s, "skyline", { h: 3.6, maxW: 12, x: FX + 0.25, y: FY + FH - 3.6 + 0.02 });
-  label(s, "//", 6.35, FY + 0.35, 72, { color: MAGENTA });
-  label(s, "TERIMA KASIH", 7.15, FY + 0.45, 72, { maxW: 6.5 });
-  HL(s, "KELOMPOK 4", 6.35, FY + 1.75, 1.35, 0.3, { size: 11, bold: true });
-  T(s, "Bagaskoro  ·  Aulia Sisca Rahmadiyanti  ·  Fitra Aidila", 7.85, FY + 1.73, 4.9, 0.35, { size: 11, color: GRAY });
-  T(s, "Studi Kasus 4 · Inventory Management di Amazon · Operations & Technology Management", 6.35, FY + 2.15, 6.4, 0.35, { size: 10.5, color: "9A9A9A" });
+  cut(s, "skyline", { h: 3.7, maxW: 12, x: FX + 0.3, y: FY + FH - 3.7 + 0.02 });
+  label(s, "//", 6.35, FY + 0.5, 72, { color: MAGENTA });
+  label(s, "TERIMA KASIH", 7.15, FY + 0.6, 72, { maxW: 6.5 });
 }
 
 pres.writeFile({ fileName: OUT }).then(() => console.log("ditulis:", OUT, "| slide:", slideNo));
