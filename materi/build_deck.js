@@ -97,13 +97,14 @@ function doodle(s, x, y, size = 1.0) { s.addImage({ path: path.join(CUT, "arrow.
   const s = frame({ mapT: 60 });
   // pita identitas di dasar kartu: kolase "berdiri" di atasnya, judul bebas di kanan atas
   const ribbonH = 0.5, ribbonY = FY + FH - ribbonH - 0.08;
-  cut(s, "skyline", { h: 3.7, maxW: 12, x: FX + 0.3, y: ribbonY - 3.7 + 0.02 });
+  cut(s, "skyline", { h: 3.85, maxW: 12, x: FX + (FW - 3.85 * AR.skyline) / 2, y: ribbonY - 3.85 + 0.02 });
   s.addShape(pres.shapes.RECTANGLE, { x: FX + 0.08, y: ribbonY, w: FW - 0.16, h: ribbonH, fill: { color: WHITE }, line: { color: WHITE, width: 0 } });
   s.addShape(pres.shapes.RECTANGLE, { x: FX + 0.08, y: ribbonY, w: 1.6, h: ribbonH, fill: { color: PINK }, line: { color: PINK, width: 0 } });
   s.addText("KELOMPOK 4", { x: FX + 0.08, y: ribbonY, w: 1.6, h: ribbonH, fontFace: BF, fontSize: 12, bold: true, color: BLACK, align: "center", valign: "middle", isTextBox: true, margin: 0 });
   s.addText("Bagaskoro  ·  25/574280/PEK/31778          Aulia Sisca Rahmadiyanti  ·  25/574305/PEK/31789          Fitra Aidila  ·  25/574309/PEK/31791",
     { x: FX + 1.95, y: ribbonY, w: FW - 2.2, h: ribbonH, fontFace: BF, fontSize: 11, color: GRAY, valign: "middle", isTextBox: true, margin: 0 });
-  label(s, "INVENTORY MANAGEMENT\nSEBAGAI KEUNGGULAN\nKOMPETITIF AMAZON", 6.35, FY + 0.4, 54, { maxW: 6.5 });
+  // judul sebagai pita headline selebar kartu: dua baris, mengunci bidang atas
+  label(s, "INVENTORY MANAGEMENT SEBAGAI\nKEUNGGULAN KOMPETITIF AMAZON", FX + 0.55, FY + 0.35, 66, { maxW: 11.6 });
 }
 
 // ============================================================ 2. TUJUAN & ALUR
@@ -403,9 +404,10 @@ stepsSlide(4, "bg_sortation", "PROSES PEMENUHAN PESANAN · LANGKAH 5–8");
 // ============================================================ 21. PENUTUP
 {
   const s = frame({ mapT: 60 });
-  cut(s, "skyline", { h: 3.7, maxW: 12, x: FX + 0.3, y: FY + FH - 3.7 + 0.02 });
-  label(s, "//", 6.35, FY + 0.5, 72, { color: MAGENTA });
-  label(s, "TERIMA KASIH", 7.15, FY + 0.6, 72, { maxW: 6.5 });
+  cut(s, "skyline", { h: 3.9, maxW: 12, x: FX + (FW - 3.9 * AR.skyline) / 2, y: FY + FH - 3.9 + 0.02 });
+  // satu kata besar mengunci bidang atas: garis miring magenta + kata setinggi 150 pt
+  const sl = label(s, "//", FX + 0.55, FY + 0.3, 150, { color: MAGENTA });
+  label(s, "TERIMA KASIH", FX + 0.55 + sl.w - 0.15, FY + 0.3, 150, { maxW: 11.5 });
 }
 
 pres.writeFile({ fileName: OUT }).then(() => console.log("ditulis:", OUT, "| slide:", slideNo));
