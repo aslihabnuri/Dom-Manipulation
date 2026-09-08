@@ -22,3 +22,4 @@ Skala tipografi seragam: `TITLE` 24, `SUB` 12, `BODY` 14, `NUM` 40, `HERO` 60 di
 Gambar di `img/` dibuat lewat kie.ai (`gen_aa.py`, `gen_one.py`) lalu dikonversi hitam putih. Skrip membaca kunci API dari variabel lingkungan `KIE_KEY`; jangan menaruh kunci di dalam repo.
 
 Naskah presentasi per presenter: `SMJKT_Group 3_Naskah Presentasi AirAsia.pdf` (A4), sumber `naskah_presentasi.html`.
+Versi naratif satu cerita: `SMJKT_Group 3_Naskah Cerita Presentasi AirAsia.pdf` (A4), sumber `naskah_cerita.html`.
