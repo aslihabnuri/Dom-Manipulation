@@ -437,7 +437,7 @@ function slide() { const s = pres.addSlide(); base(s); N++; return s; }
   // route ornament: KUL to STN
   sub(s, "KUL", 8.35, 2.15, 0.6, BLACK);
   dotLine(s, 9.0, 2.31, 3.3, BLACK);
-  plane(s, "sil_red.png", 10.1, 1.78, 1.1, 0, true);
+  plane(s, "sil_red.png", 10.1, 1.97, 1.1, 0, true);
   sub(s, "STN", 12.4, 2.15, 0.6, BLACK, { align: "right" });
   sub(s, "BIAYA PER PENUMPANG SATU ARAH, US$", 8.35, 2.62, 4.7, GREY);
   const rows = [["AirAsia X", 373, RED], ["British Airways", 553, BLACK], ["MAS", 590, BLACK], ["Emirates", 610, BLACK]];
@@ -487,7 +487,7 @@ function slide() { const s = pres.addSlide(); base(s); N++; return s; }
     const x = 0.7 + i * 4.15, d = 2.9;
     circle(s, x + 0.45, 1.6, d, a[2]);
     mark(s, a[0], x + 0.8, 1.85, 0.8, a[6], MARK);
-    cut(s, a[3], x + 0.2, 2.9, 3.6, 1.5);
+    cut(s, a[3], x + 0.4, 2.95, 3.2, 1.4);
     sub(s, a[1], x, 4.7, 3.8, BLACK);
     para(s, a[4], x, 5.05, 3.7, 1.2);
     para(s, a[5], x, 6.3, 3.7, 0.8, { color: a[7] });
