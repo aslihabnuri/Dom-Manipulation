@@ -1,0 +1,7 @@
+Use the FIRST image as the exact composition template. Reproduce it one-to-one: identical camera position and lens, identical crop (top edge cuts through the chin so the lips and jaw are visible, bottom edge at the upper thighs), identical body position and torso angle, identical arm and hand position (the arm on the viewer's left bends down with the elbow out, the fingers hook inside the front of the waistband and pull it down and outward so the elastic band stretches wide and shows its inner side), identical lighting direction and glossy skin highlights, identical plain grey studio background with the same tonal gradient, identical framing where the body fills the frame edge to edge.
+
+Change only two things:
+1. The person is the man from the SECOND image: same dark skin tone, same lean muscular physique, same body. Keep the exact pose and crop of the first image.
+2. The underwear is a Toni Black product: black trunks (boxer briefs) with a wide black elastic waistband. On the waistband the words "TONI BLACK" are printed in clean light grey capital letters, clearly legible, repeated along the band like a signature waistband. No other brand names or logos anywhere.
+
+Output: vertical 2:3, photorealistic editorial underwear campaign photograph, tack sharp, no text overlays, no captions, no watermark.

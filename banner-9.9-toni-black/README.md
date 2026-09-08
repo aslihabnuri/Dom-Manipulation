@@ -1,6 +1,6 @@
 # Toni Black 9.9 Sale Banner
 
-Portrait banner (2:3). The photo recreates the "Pose Model" reference: tight torso crop from the chin down, hand pulling the waistband outward (shape retention), seamless grey studio backdrop. The photo runs full-bleed; typography sits in three balanced zones.
+Portrait banner (2:3). The photo reproduces the "Pose Model" reference (chin-down torso crop, hand pulling the waistband: shape retention) with the Toni Black model and product. Full-bleed photo, one centred type lockup, one CTA.
 
 ## Deliverables (`final/`)
 | File | Use |
@@ -10,17 +10,18 @@ Portrait banner (2:3). The photo recreates the "Pose Model" reference: tight tor
 | `model-photo_raw.jpg` | Untouched generated photo (no typography) |
 
 ## Layout
-- **Top zone**: logo (white, solid, no effects) left; `9.9 SALE` outlined tag right.
-- **Centre zone** (across the chest, like the logo placement in the pose reference): `SAVE UP TO` / `40%` / `Trunks built to hold their shape.` centred. `40%` is the single dominant element (Zalando Sans Expanded Black).
-- **Bottom zone**: benefits `Free shipping` and `Extra IDR 5K voucher for new buyers` left; `SHOP NOW` pill right; `*Terms & conditions apply` below.
-- Soft black gradients at the top and bottom edges only, for legibility (allowed by the brand guideline).
+- Photo full-bleed, reproducing the pose reference one-to-one (chin-down crop, elbow out, fingers hooked in the waistband pulling it down and outward, glossy directional light, grey seamless backdrop). Only the model and the product were changed.
+- Logo top-left (white, solid, no effects).
+- One centred lockup on the chest, where the reference places its brand mark: `9.9 SALE` / `SAVE UP TO` / `40%` / `Free shipping` / `Extra IDR 5K voucher for new buyers`. `40%` is the single dominant element (Zalando Sans Expanded Black).
+- `SHOP NOW` pill centred at the bottom, below the waistband so the `TONI BLACK` band stays unobstructed; `*Terms & conditions apply` beneath it.
+- One soft black gradient at the bottom edge only, for legibility.
 
-Fonts: Zalando Sans Expanded (headlines, CTA, tag), Arimo (body). Colours: Clean White on photo, Dark Charcoal `#282828` for CTA text, Steel Grey `#CCCCCC` for terms.
+Fonts: Zalando Sans Expanded (headline, tag, CTA), Arimo (benefits, terms). Colours: Clean White on photo, Dark Charcoal `#282828` for CTA text, Steel Grey `#CCCCCC` for terms.
 
 ## Pipeline
-1. `scripts/kie.py` uploads the two references (Toni Black model photo for identity, pose reference) to kie.ai and runs **Nano Banana Pro** (`aspect_ratio 2:3`, `2K`) with `prompts/prompt_pose.txt`.
-   `export KIE_API_KEY=...` then `python3 scripts/kie.py gen pose prompts/prompt_pose.txt <model_url> <pose_url>`.
-2. `scripts/compose.py PHOTO OUT [scale]` sets the typography with the brand fonts (`scale 2` gives 2160×3240).
+1. `scripts/kie.py` uploads the two references (Toni Black model photo for identity, pose reference) to kie.ai and runs **Nano Banana Pro** (`aspect_ratio 2:3`, `2K`) with `prompts/prompt_exact.txt` (pose reference passed first as the composition template, model photo second).
+   `export KIE_API_KEY=...` then `python3 scripts/kie.py gen exact prompts/prompt_exact.txt <pose_url> <model_url>`.
+2. `scripts/compose.py PHOTO OUT [scale] [hero_y]` sets the typography with the brand fonts (`scale 2` gives 2160×3240).
 3. `scripts/logo.py` is a vector rebuild of the Toni Black logo, used because the brand-guideline PDF could not be downloaded from Drive in this session. Swap in the official SVG/PNG from the brand kit before print use.
 
 Fonts (not committed): Zalando Sans Expanded + Arimo static TTFs in `fonts/static/` (from the Toni Black Drive `Font` folder).
