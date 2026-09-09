@@ -2092,7 +2092,7 @@ function detectRows(rows,filename){
     head400.includes('Semua Laporan Iklan CPC')?'shopee_cpc':
     head400.includes('Laporan Iklan Toko')?'shopee_toko':
     head400.includes('Search Brand Ads Report')?'shopee_sba':
-    head400.includes('Search Ads Report')?'shopee_toko':
+    (head400.includes('Ads Report - Shopee')||head400.includes('Search Ads Report')||head400.includes('Shop+ Ads Report'))?'shopee_toko':
     (head400.includes('Livestream')||head400.includes('Iklan Live'))?'shopee_live':null;
   if(shopeeKind){
     const perLine=rows.find(r=>String(r[0]||'').trim()==='Periode');
@@ -3206,14 +3206,18 @@ async function gdResolveServer(){
   return loose?loose.server:null;
 }
 async function gdCall(server,tool,input){
-  try{return await window.claude.mcp.callTool(server,tool,input,{cache:false});}
-  catch(e){
-    if(e&&e.retryable){
-      await new Promise(r=>setTimeout(r,(e.retryAfterMs||1500)+Math.random()*500));
-      return await window.claude.mcp.callTool(server,tool,input,{cache:false});
+  let lastErr=null;
+  for(let attempt=0;attempt<4;attempt++){
+    if(attempt)await new Promise(r=>setTimeout(r,(lastErr&&lastErr.retryAfterMs)||1200*Math.pow(2,attempt-1)+Math.random()*400));
+    try{return await window.claude.mcp.callTool(server,tool,input,{cache:false});}
+    catch(e){
+      lastErr=e;
+      const msg=String((e&&(e.message||e.code))||e);
+      const transient=(e&&e.retryable)||/50[234]|request failed|timed?[ -]?out|network|unavailable|overload/i.test(msg);
+      if(!transient)throw e;
     }
-    throw e;
   }
+  throw lastErr;
 }
 async function runWorksheetSync(onStatus){
   const report={applied:[],skipped:[],errors:[],ok:[]};
