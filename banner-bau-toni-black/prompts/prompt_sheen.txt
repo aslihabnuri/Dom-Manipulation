@@ -1,0 +1,5 @@
+Edit the FIRST image. Keep absolutely everything identical: same man, same face, same pose, same hands, same crop, same sofa, same wall, same underwear, same colour palette and overall grade.
+
+Change ONLY the skin finish so that it matches the SECOND image: the skin gets the same glossy, lightly oiled sheen with crisp specular highlights on the shoulders, chest, abs and arms, and the same sculpted muscle definition from stronger contrast between highlight and shadow. Keep the light direction and softness of the first image; do not add new lamps, do not change the background brightness, do not change the skin hue.
+
+No other changes. No text, no captions, no watermark. Photorealistic.
