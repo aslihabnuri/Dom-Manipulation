@@ -1,12 +1,12 @@
 # Toni Black Category Banner (Men / Kids)
 
-1200 px wide full-bleed banner (1200×950; retina 2400×1900). No bands: the photo's hazy sky is extended upward locally to hold the typography, and the sub-categories from the earlier `Banner_Category` are kept (MEN: Brief, Boxer, Singlet; KIDS: Brief, Boxer). Colour grade matched to the 9.9 banner photo.
+1200 px wide full-bleed banner (1200×990; retina 2400×1980). No bands: the photo's hazy sky is extended upward locally to hold the typography, and the sub-categories from the earlier `Banner_Category` are kept (MEN: Brief, Boxer, Singlet; KIDS: Brief, Boxer). Colour grade matched to the 9.9 banner photo.
 
 ## Deliverables (`final/`)
 | File | Use |
 |---|---|
-| `TONI-BLACK_Category-Banner_1200x950.jpg/.png` | Upload size (width 1200) |
-| `TONI-BLACK_Category-Banner_2400x1900.jpg` | Retina |
+| `TONI-BLACK_Category-Banner_1200x990.jpg/.png` | Upload size (width 1200) |
+| `TONI-BLACK_Category-Banner_2400x1980.jpg` | Retina |
 | `photo_beach_medium-shot.jpg` | Photo as generated |
 | `photo_beach_medium-shot_graded-9.9.jpg` | Photo after the 9.9 colour match (skin transfer 0.8, cooler, less chroma, more contrast) |
 
@@ -16,14 +16,14 @@ Follows the "_ (1)" lifestyle reference in what actually makes it read as a real
 Products only, from Drive: the man in the Toni Black white tank top and black men's boxer (wide black waistband, `TONI BLACK` embossed tone-on-tone); the boy in the Toni Black white T-shirt and black kids' boxer (plain covered waistband, small white icon on the right hip). Both stay sharp and lit.
 
 ## Layout
-- Full-bleed. The top 150 px is the photo's own sky, stretched upward and blurred, seam feathered, so the type sits on sky rather than on a white band.
-- Centred, symmetrical composition: the logo centred on top, alone on its row; beneath it `MEN` centred on the man's axis (30% of the width) and `KIDS` centred on the boy's axis (70%), one baseline, with `Brief · Boxer · Singlet` and `Brief · Boxer` centred under each label. Logo and the two labels form a triangle that fills the sky evenly; nothing sits in a corner, nothing stacks.
+- Full-bleed. The top 190 px is the photo's own sky, stretched upward and blurred, seam feathered, so the type sits on sky rather than on a white band.
+- Stepped (cascade) lockup, no shared baseline: the logo centred on top, alone on its row; `KIDS` high on the right above the boy (axis 78%), `MEN` one step lower on the left above the man (axis 24%), each with its sub-categories centred beneath (`Brief · Boxer` / `Brief · Boxer · Singlet`). Each label sits over its own figure and clears the heads, the umbrellas and the horizon; the three elements form an asymmetric triangle that fills the sky without stacking.
 - Zalando Sans Expanded Black 88 px, Arimo 25 px, Dark Charcoal `#282828` and Davi's Grey `#4F5052`. No lines, no overlays, no gradients.
 
 ## Pipeline
 1. `prompts/prompt_life_close.txt` with Nano Banana Pro at 3:2 (2K), five references: the lifestyle reference, the Toni Black model, men's boxer, kids' boxer, the previous pair photo (same boy). One generation.
 2. `scripts/grade.py`: colour match to the 9.9 banner photo (Reinhard skin transfer + global grade), local, no credits.
-3. `scripts/compose.py PHOTO OUT [scale] [ext] [label_size] [ax_men] [ax_kids]`: sky extension and typography (final: `1 150 88 0.30 0.70`, `2 150 88 0.30 0.70`).
+3. `scripts/compose.py PHOTO OUT [scale] [ext] [label_size] [ax_men] [ax_kids]`: sky extension and typography (final: `1 190 88 0.24,215 0.78,130`, `2 190 88 0.24,215 0.78,130`).
 4. `scripts/logo.py`: vector rebuild of the logo; swap in the official file from the brand kit before print use.
 
 Fonts (not committed): Zalando Sans Expanded + Arimo static TTFs in `fonts/static/`.
