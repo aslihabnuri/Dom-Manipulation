@@ -14,7 +14,7 @@ def tracked(d,xy,text,f,fill,track=0):
         d.text((x,y),ch,font=f,fill=fill); x+=d.textlength(ch,font=f)+track
 def tracked_w(d,text,f,track=0):
     return sum(d.textlength(ch,font=f) for ch in text)+track*(len(text)-1)
-def build(photo_path,out_path,k=1.0,pct="25%",bigw=560,hero_y=0.165,eyebrow="EVERYDAY ESSENTIALS",cutout=None,line_pos="offer"):
+def build(photo_path,out_path,k=1.0,pct="25%",bigw=560,hero_y=0.165,eyebrow="EVERYDAY ESSENTIALS",cutout=None,line_pos="offer",msg_y=0.47):
     W,H=int(1080*k),int(1620*k); g=lambda v:int(round(v*k))
     def font(name,size): return ImageFont.truetype(F+name,g(size))
     def fit_font(d,text,name,target_w,track=0,lo=50,hi=1200):
@@ -56,6 +56,11 @@ def build(photo_path,out_path,k=1.0,pct="25%",bigw=560,hero_y=0.165,eyebrow="EVE
     yb-=g(26)
     for t in reversed(["Free shipping","Extra IDR 5K voucher for new buyers"]):
         yb-=g(26); d.text((R-d.textlength(t,font=f_ben),yb),t,font=f_ben,fill=CHAR); yb-=g(8)
+    if line_pos=="standalone":  # independent message: own zone on the right wall, mid band, right-aligned, tracked caps
+        f_m=font("ZalandoSansExpanded-SemiBold.ttf",28); my=int(H*msg_y)
+        for t in ["MADE","TO MOVE","WITH YOU"]:
+            mb=d.textbbox((0,0),t,font=f_m); w=tracked_w(d,t,f_m,g(6))
+            tracked(d,(R-w-mb[0],my-mb[1]),t,f_m,CHAR,track=g(6)); my+=int((mb[3]-mb[1])*1.75)
     if line_pos=="vertical":  # tagline rotated 90 degrees along the left margin, reading upward
         f_v=font("ZalandoSansExpanded-Regular.ttf",30); t="Made to move with you."
         tw=int(tracked_w(d,t,f_v,g(2)))+g(4); th=g(40)
@@ -65,5 +70,5 @@ def build(photo_path,out_path,k=1.0,pct="25%",bigw=560,hero_y=0.165,eyebrow="EVE
 if __name__=="__main__":
     photo,out=sys.argv[1],sys.argv[2]; k=float(sys.argv[3]) if len(sys.argv)>3 else 1.0; pct=sys.argv[4] if len(sys.argv)>4 else "25%"
     bw=int(sys.argv[5]) if len(sys.argv)>5 else 560; hy=float(sys.argv[6]) if len(sys.argv)>6 else 0.165; cut=sys.argv[7] if len(sys.argv)>7 else None
-    lp=sys.argv[8] if len(sys.argv)>8 else 'offer'
-    im=build(photo,out,k=k,pct=pct,bigw=bw,hero_y=hy,cutout=cut,line_pos=lp); im.resize((540,810),Image.LANCZOS).save(out.rsplit(".",1)[0]+"_preview.jpg",quality=85); print(out,im.size)
+    lp=sys.argv[8] if len(sys.argv)>8 else 'offer'; my=float(sys.argv[9]) if len(sys.argv)>9 else 0.47
+    im=build(photo,out,k=k,pct=pct,bigw=bw,hero_y=hy,cutout=cut,line_pos=lp,msg_y=my); im.resize((540,810),Image.LANCZOS).save(out.rsplit(".",1)[0]+"_preview.jpg",quality=85); print(out,im.size)
