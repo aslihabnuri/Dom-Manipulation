@@ -62,7 +62,7 @@ def build(photo_path,out_path,k=1.0,pct="25%",bigw=560,hero_y=0.165,eyebrow="EVE
         tracked(d,((W-w)//2-tb[0],ty+logo.height+g(tag_gap)-tb[1]),t,f_t,DAVI,track=g(7))
     if line_pos=="midwall":  # standalone message on the left wall, separated from the lockup by >= 3x its internal leading
         f_w=font("ZalandoSansExpanded-Regular.ttf",40); wy=int(H*msg_y)
-        for t in ["Made to move","with you."]:
+        for t in ["Made to Move","With You"]:
             wb=d.textbbox((0,0),t,font=f_w); tracked(d,(L-wb[0],wy-wb[1]),t,f_w,CHAR,track=g(1)); wy+=int((wb[3]-wb[1])*1.25)+g(6)
     if line_pos=="standalone":  # independent message: own zone on the right wall, mid band, right-aligned, tracked caps
         f_m=font("ZalandoSansExpanded-SemiBold.ttf",28); my=int(H*msg_y)
