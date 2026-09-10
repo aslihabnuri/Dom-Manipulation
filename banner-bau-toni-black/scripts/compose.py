@@ -30,9 +30,6 @@ def build(photo_path,out_path,k=1.0,pct="25%",bigw=560,hero_y=0.165,eyebrow="EVE
     # --- top row: masthead ---
     logo=make_logo(color=CHAR,scale=8); lw=g(280); logo=logo.resize((lw,int(logo.height*lw/logo.width)),Image.LANCZOS)
     ty=g(64); canvas.paste(logo,(L,ty),logo)
-    f_eye=font("ZalandoSansExpanded-SemiBold.ttf",22)
-    ew=tracked_w(d,eyebrow,f_eye,g(6)); tracked(d,(R-ew,ty+(logo.height-g(22))//2-g(2)),eyebrow,f_eye,DAVI,track=g(6))
-    ry=ty+logo.height+g(26); d.line([(L,ry),(R,ry)],fill=(170,170,170),width=max(1,g(1.5)))
     # --- hero lockup, justified to the display number ---
     f_big=fit_font(d,pct,"ZalandoSansExpanded-Black.ttf",g(bigw),track=g(-10))
     bb=d.textbbox((0,0),pct,font=f_big); numw=bb[2]-bb[0]; numh=bb[3]-bb[1]
@@ -55,10 +52,9 @@ def build(photo_path,out_path,k=1.0,pct="25%",bigw=560,hero_y=0.165,eyebrow="EVE
     yb-=g(22)+ch
     d.rounded_rectangle([R-cw,yb,R,yb+ch],radius=ch//2,fill=CHAR)
     tracked(d,(R-cw+g(46),yb+(ch-g(26))//2-g(4)),"SHOP NOW",f_cta,WHITE,track=g(4))
-    # benefits: top-right, under the rule, right-aligned to the eyebrow axis
-    by=ry+g(22)
-    for t in ["Free shipping","Extra IDR 5K voucher for new buyers"]:
-        d.text((R-d.textlength(t,font=f_ben),by),t,font=f_ben,fill=CHAR); by+=g(26+8)
+    yb-=g(26)
+    for t in reversed(["Free shipping","Extra IDR 5K voucher for new buyers"]):
+        yb-=g(26); d.text((R-d.textlength(t,font=f_ben),yb),t,font=f_ben,fill=CHAR); yb-=g(8)
     canvas.save(out_path,quality=95); return canvas
 if __name__=="__main__":
     photo,out=sys.argv[1],sys.argv[2]; k=float(sys.argv[3]) if len(sys.argv)>3 else 1.0; pct=sys.argv[4] if len(sys.argv)>4 else "25%"
