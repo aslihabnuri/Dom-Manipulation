@@ -1,0 +1,7 @@
+Use the FIRST image as the exact composition template. Reproduce it one-to-one: identical camera position and lens, identical crop (head near the upper third, legs extending out of the frame at the lower left), identical pose (the man reclines on a cream boucle sofa, leaning back against the backrest, his right elbow resting on the backrest with his hand raised to his chin, gazing calmly off to the right, his other arm resting along the seat, legs stretched out and crossed at the lower left), identical soft daylight from the left with gentle shadows, identical plain off-white wall and the same cream textured sofa. Keep the upper-left part of the frame as clean, empty wall exactly as in the first image.
+
+Change only two things:
+1. The person is the man from the SECOND image: same face, same dark skin tone, same short hair, same lean athletic build. Keep the exact pose, expression direction and crop of the first image.
+2. The underwear is exactly the product in the THIRD image: the black Toni Black boxer, matte black cotton, wide black elastic waistband with "TONI BLACK" embossed tone-on-tone in the same black as the band (no white or light lettering, only a subtle raised sheen), same front panel seams as the product photo. No other brand names or logos anywhere.
+
+Colour grading: natural but restrained, neutral and slightly desaturated, calm and understated, clean whites. Output: vertical 2:3, photorealistic editorial underwear campaign photograph, tack sharp, no text overlays, no captions, no watermark.
