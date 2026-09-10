@@ -39,9 +39,13 @@ def build(photo_path,out_path,k=1.0,pct="25%",bigw=560,hero_y=0.165,eyebrow="EVE
     y=int(H*hero_y)
     tracked(d,(L-sb[0],y-sb[1]),"SAVE UP TO",f_save,CHAR,track=g(8)); y+=sh+g(14)
     tracked(d,(L-bb[0],y-bb[1]),pct,f_big,CHAR,track=g(-10)); y+=numh+g(30)
-    f_line=font("Arimo-Regular.ttf",30)
-    d.text((L,y),"Made to move with you.",font=f_line,fill=DAVI)
-    if cutout:  # subject layered in front of the display number (type-behind-subject)
+    # brand line in two lines, sized to the clean wall left of the head (not behind it)
+    lines=["Made to move","with you."]; maxw=g(520)
+    f_line=fit_font(d,lines[0],"ZalandoSansExpanded-Regular.ttf",maxw,track=g(2),hi=g(70))
+    ly=y+g(4)
+    for t in lines:
+        lb=d.textbbox((0,0),t,font=f_line); tracked(d,(L-lb[0],ly-lb[1]),t,f_line,DAVI,track=g(2)); ly+=int((lb[3]-lb[1])*1.32)
+    if cutout:  # subject layered in front of the type (type-behind-subject)
         cu=Image.open(cutout).convert("RGBA").resize(src.size,Image.LANCZOS).crop((ox,oy,ox+W,oy+H))
         canvas.paste(cu,(0,0),cu); d=ImageDraw.Draw(canvas)
     # --- bottom-right block on the sofa ---
