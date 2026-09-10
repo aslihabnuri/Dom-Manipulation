@@ -17,14 +17,13 @@ Products only, from Drive: the man in the Toni Black white tank top and black me
 
 ## Layout
 - Full-bleed. The top 150 px is the photo's own sky, stretched upward and blurred, seam feathered, so the type sits on sky rather than on a white band.
-- Logo top-left, alone on its row.
-- One two-column row beneath it: `MEN` with `Brief · Boxer · Singlet` on the left margin, `KIDS` with `Brief · Boxer` on the right margin, one baseline, Zalando Sans Expanded Black 92 px + Arimo 26 px, Dark Charcoal `#282828` and Davi's Grey `#4F5052`. The row fills the sky zone; the heads, umbrellas and props start right below it.
-- No lines, no overlays, no gradients.
+- Centred, symmetrical composition: the logo centred on top, alone on its row; beneath it `MEN` centred on the man's axis (30% of the width) and `KIDS` centred on the boy's axis (70%), one baseline, with `Brief · Boxer · Singlet` and `Brief · Boxer` centred under each label. Logo and the two labels form a triangle that fills the sky evenly; nothing sits in a corner, nothing stacks.
+- Zalando Sans Expanded Black 88 px, Arimo 25 px, Dark Charcoal `#282828` and Davi's Grey `#4F5052`. No lines, no overlays, no gradients.
 
 ## Pipeline
 1. `prompts/prompt_life_close.txt` with Nano Banana Pro at 3:2 (2K), five references: the lifestyle reference, the Toni Black model, men's boxer, kids' boxer, the previous pair photo (same boy). One generation.
 2. `scripts/grade.py`: colour match to the 9.9 banner photo (Reinhard skin transfer + global grade), local, no credits.
-3. `scripts/compose.py PHOTO OUT [scale] [ext] [label_size]`: sky extension and typography (final: `1 150 92`, `2 150 92`).
+3. `scripts/compose.py PHOTO OUT [scale] [ext] [label_size] [ax_men] [ax_kids]`: sky extension and typography (final: `1 150 88 0.30 0.70`, `2 150 88 0.30 0.70`).
 4. `scripts/logo.py`: vector rebuild of the logo; swap in the official file from the brand kit before print use.
 
 Fonts (not committed): Zalando Sans Expanded + Arimo static TTFs in `fonts/static/`.
