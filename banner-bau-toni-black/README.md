@@ -12,7 +12,7 @@ Portrait banner (2:3) for the always-on (BAU) promotion. The photo reproduces th
 
 ## Layout (editorial grid, diagonal balance, no rules)
 - 72 px margins, two vertical axes: the logo and the hero align to the left margin; the offer block aligns to the right margin.
-- **Logo** alone at the top-left with its brand-guideline exclusion zone; nothing shares its row.
+- **Logo** centred at the top with its brand-guideline exclusion zone; nothing shares its row.
 - **Hero**: `SAVE UP TO` sized so its width equals the display number (a justified lockup, not over-tracked), then `25%` in Zalando Sans Expanded Black spanning about 72% of the width. The model is cut out locally (rembg, no kie.ai credits) and layered in front, so the number runs behind the head, magazine-cover style, which fills the wall area without crowding the face. `Made to move with you.` (brand-guideline brand-story line) sits under the number in Davi's Grey.
 - **Offer block, bottom-right on the sofa**: `Free shipping`, `Extra IDR 5K voucher for new buyers`, `SHOP NOW` pill, `*Terms & conditions apply`, all right-aligned. The legs at bottom-left stay uncovered.
 - Type in Dark Charcoal `#282828` on the light scene; no lines, gradients or overlays.
