@@ -14,7 +14,7 @@ def tracked(d,xy,text,f,fill,track=0):
         d.text((x,y),ch,font=f,fill=fill); x+=d.textlength(ch,font=f)+track
 def tracked_w(d,text,f,track=0):
     return sum(d.textlength(ch,font=f) for ch in text)+track*(len(text)-1)
-def build(photo_path,out_path,k=1.0,pct="25%",bigw=560,hero_y=0.165,eyebrow="EVERYDAY ESSENTIALS",cutout=None):
+def build(photo_path,out_path,k=1.0,pct="25%",bigw=560,hero_y=0.165,eyebrow="EVERYDAY ESSENTIALS",cutout=None,line_pos="offer"):
     W,H=int(1080*k),int(1620*k); g=lambda v:int(round(v*k))
     def font(name,size): return ImageFont.truetype(F+name,g(size))
     def fit_font(d,text,name,target_w,track=0,lo=50,hi=1200):
@@ -39,12 +39,6 @@ def build(photo_path,out_path,k=1.0,pct="25%",bigw=560,hero_y=0.165,eyebrow="EVE
     y=int(H*hero_y)
     tracked(d,(L-sb[0],y-sb[1]),"SAVE UP TO",f_save,CHAR,track=g(8)); y+=sh+g(14)
     tracked(d,(L-bb[0],y-bb[1]),pct,f_big,CHAR,track=g(-10)); y+=numh+g(30)
-    # brand line in two lines, sized to the clean wall left of the head (not behind it)
-    lines=["Made to move","with you."]; maxw=g(520)
-    f_line=fit_font(d,lines[0],"ZalandoSansExpanded-Regular.ttf",maxw,track=g(2),hi=g(70))
-    ly=y+g(4)
-    for t in lines:
-        lb=d.textbbox((0,0),t,font=f_line); tracked(d,(L-lb[0],ly-lb[1]),t,f_line,DAVI,track=g(2)); ly+=int((lb[3]-lb[1])*1.32)
     if cutout:  # subject layered in front of the type (type-behind-subject)
         cu=Image.open(cutout).convert("RGBA").resize(src.size,Image.LANCZOS).crop((ox,oy,ox+W,oy+H))
         canvas.paste(cu,(0,0),cu); d=ImageDraw.Draw(canvas)
@@ -59,8 +53,19 @@ def build(photo_path,out_path,k=1.0,pct="25%",bigw=560,hero_y=0.165,eyebrow="EVE
     yb-=g(26)
     for t in reversed(["Free shipping","Extra IDR 5K voucher for new buyers"]):
         yb-=g(26); d.text((R-d.textlength(t,font=f_ben),yb),t,font=f_ben,fill=CHAR); yb-=g(8)
+    f_line=font("ZalandoSansExpanded-Regular.ttf",44); lines=["Made to move","with you."]
+    if line_pos=="offer":   # A: opener of the offer block, right-aligned above the benefits
+        yb-=g(30)
+        for t in reversed(lines):
+            lb=d.textbbox((0,0),t,font=f_line); h=lb[3]-lb[1]; yb-=h
+            tracked(d,(R-tracked_w(d,t,f_line,g(2))-lb[0],yb-lb[1]),t,f_line,CHAR,track=g(2)); yb-=g(12)
+    else:                   # B: beside the face on the right wall, right-aligned
+        ly=int(H*0.225)
+        for t in ["Made to","move","with you."]:
+            lb=d.textbbox((0,0),t,font=f_line); tracked(d,(R-tracked_w(d,t,f_line,g(2))-lb[0],ly-lb[1]),t,f_line,CHAR,track=g(2)); ly+=int((lb[3]-lb[1])*1.35)
     canvas.save(out_path,quality=95); return canvas
 if __name__=="__main__":
     photo,out=sys.argv[1],sys.argv[2]; k=float(sys.argv[3]) if len(sys.argv)>3 else 1.0; pct=sys.argv[4] if len(sys.argv)>4 else "25%"
     bw=int(sys.argv[5]) if len(sys.argv)>5 else 560; hy=float(sys.argv[6]) if len(sys.argv)>6 else 0.165; cut=sys.argv[7] if len(sys.argv)>7 else None
-    im=build(photo,out,k=k,pct=pct,bigw=bw,hero_y=hy,cutout=cut); im.resize((540,810),Image.LANCZOS).save(out.rsplit(".",1)[0]+"_preview.jpg",quality=85); print(out,im.size)
+    lp=sys.argv[8] if len(sys.argv)>8 else 'offer'
+    im=build(photo,out,k=k,pct=pct,bigw=bw,hero_y=hy,cutout=cut,line_pos=lp); im.resize((540,810),Image.LANCZOS).save(out.rsplit(".",1)[0]+"_preview.jpg",quality=85); print(out,im.size)
