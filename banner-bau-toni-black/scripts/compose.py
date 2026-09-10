@@ -37,6 +37,9 @@ def build(photo_path,out_path,k=1.0,pct="25%",bigw=560,hero_y=0.165,eyebrow="EVE
     f_save=fit_font(d,"SAVE UP TO","ZalandoSansExpanded-Bold.ttf",numw,track=g(8),hi=g(80))
     sb=d.textbbox((0,0),"SAVE UP TO",font=f_save); sh=sb[3]-sb[1]
     y=int(H*hero_y)
+    if line_pos=="eyebrow":  # tagline as a tracked-caps eyebrow above the kicker
+        f_eb=font("ZalandoSansExpanded-SemiBold.ttf",26); eb="MADE TO MOVE WITH YOU"
+        ebb=d.textbbox((0,0),eb,font=f_eb); tracked(d,(L-ebb[0],y-g(26)-(ebb[3]-ebb[1])-ebb[1]),eb,f_eb,DAVI,track=g(7))
     tracked(d,(L-sb[0],y-sb[1]),"SAVE UP TO",f_save,CHAR,track=g(8)); y+=sh+g(14)
     tracked(d,(L-bb[0],y-bb[1]),pct,f_big,CHAR,track=g(-10)); y+=numh+g(30)
     if cutout:  # subject layered in front of the type (type-behind-subject)
@@ -53,16 +56,11 @@ def build(photo_path,out_path,k=1.0,pct="25%",bigw=560,hero_y=0.165,eyebrow="EVE
     yb-=g(26)
     for t in reversed(["Free shipping","Extra IDR 5K voucher for new buyers"]):
         yb-=g(26); d.text((R-d.textlength(t,font=f_ben),yb),t,font=f_ben,fill=CHAR); yb-=g(8)
-    f_line=font("ZalandoSansExpanded-Regular.ttf",44); lines=["Made to move","with you."]
-    if line_pos=="offer":   # A: opener of the offer block, right-aligned above the benefits
-        yb-=g(30)
-        for t in reversed(lines):
-            lb=d.textbbox((0,0),t,font=f_line); h=lb[3]-lb[1]; yb-=h
-            tracked(d,(R-tracked_w(d,t,f_line,g(2))-lb[0],yb-lb[1]),t,f_line,CHAR,track=g(2)); yb-=g(12)
-    else:                   # B: beside the face on the right wall, right-aligned
-        ly=int(H*0.225)
-        for t in ["Made to","move","with you."]:
-            lb=d.textbbox((0,0),t,font=f_line); tracked(d,(R-tracked_w(d,t,f_line,g(2))-lb[0],ly-lb[1]),t,f_line,CHAR,track=g(2)); ly+=int((lb[3]-lb[1])*1.35)
+    if line_pos=="vertical":  # tagline rotated 90 degrees along the left margin, reading upward
+        f_v=font("ZalandoSansExpanded-Regular.ttf",30); t="Made to move with you."
+        tw=int(tracked_w(d,t,f_v,g(2)))+g(4); th=g(40)
+        tile=Image.new("RGBA",(tw,th),(0,0,0,0)); td=ImageDraw.Draw(tile); tracked(td,(0,0),t,f_v,CHAR+(255,),track=g(2))
+        rot=tile.rotate(90,expand=True); canvas.paste(rot,(M-g(6),H-M-g(20)-rot.height),rot)
     canvas.save(out_path,quality=95); return canvas
 if __name__=="__main__":
     photo,out=sys.argv[1],sys.argv[2]; k=float(sys.argv[3]) if len(sys.argv)>3 else 1.0; pct=sys.argv[4] if len(sys.argv)>4 else "25%"
