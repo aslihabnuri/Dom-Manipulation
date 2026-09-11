@@ -13,14 +13,14 @@
 One Nano Banana Pro pass, five references in order: the old banner (pose only), the Toni Black model, the black men's boxer (`Boxer dewasa/2.png`), the white crew-neck tee (`Crewneck/TNB 6 gm.jpg`), the BAU photo (set, light, grade). Framed with the subject in the right two-thirds so the left third is clean wall for the typography.
 
 ## Typography (decisions by rule)
-- **Axis.** One left-margin axis for the headline and the subline; the logo alone on the centre axis at the top, as in the BAU banner. Two axes only.
-- **Headline size from the column.** `TAILORED FOR` is fitted to the clean column (52% of the width minus the margin), so the stack never enters the body; `COMFORT.` is the shorter second line (no widow, natural rag). Zalando Sans Expanded Black, leading 1.0.
-- **Subline as its own group.** Arimo Regular, size 1/6 of the headline cap height (min 30 px), two lines, leading 1.5, Davi's Grey; its gap to the headline is 2x its own leading, so it reads as a separate group on the same axis (proximity), not as a third headline line.
-- **Hierarchy.** Headline (Black, caps) > subline (Regular, sentence case, grey). No third element: the CTA is removed and the offer system of the BAU banner does not apply to a brand-story piece.
-- **Position.** The stack starts at 40% height, at the model's waist, so the eye moves from the revealed torso to the headline and down the subline; the subject stays completely unobstructed.
+- **Knockout headline, as in the original.** `TAILORED FOR / COMFORT.` is centred and runs across the figure at hip height (47%); it is Dark Charcoal on the wall and turns Clean White exactly where it overlaps the subject, using the cutout mask as the colour boundary. Two brand colours only, as the brand guideline's black-on-white / white-on-black rule prescribes. The switch keeps every letter at high contrast on both backgrounds.
+- **Size from the measure.** `TAILORED FOR` is fitted to 86% of the width; `COMFORT.` is the shorter second line (natural rag, no widow). Zalando Sans Expanded Black, leading 1.0, tracking -4.
+- **Subline as its own group.** Arimo Regular, 1/6 of the headline cap height (min 30 px), two centred lines, leading 1.5, gap to the headline 2x its own leading; Davi's Grey on the wall, light grey over the subject.
+- **Axes.** Headline and subline share the centre axis; the logo sits alone top-left on clean wall, clear of the raised arms (top-centre was rejected because the arms and shirt rise into it).
+- **Hierarchy.** Headline (Black, caps) > subline (Regular, sentence case). No call-to-action.
 
 ## Pipeline
 1. `prompts/prompt_story.txt` with Nano Banana Pro, `aspect_ratio 4:5`, 2K.
 2. `scripts/grade.py`: colour match to the BAU photo, local, no credits.
-3. `scripts/compose.py PHOTO OUT [scale] [col_frac] [head_y] [cutout]` (final: `1 0.52 0.40 cutout.png`, `2 ...`).
+3. `scripts/compose.py PHOTO CUTOUT OUT [scale] [head_y] [width_frac]` (final: `1 0.47 0.86`, `2 0.47 0.86`).
 4. `scripts/logo.py`: vector rebuild of the logo; swap in the official file from the brand kit before print use.
