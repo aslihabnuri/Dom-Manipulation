@@ -7,7 +7,7 @@ F="fonts/static/"; BG=(40,40,40); WHITE=(255,255,255); STEEL=(204,204,204)
 # vertical rhythm on a 24 px unit; measured from the top edge
 def build(photo_path,out_path,k=1.0,top=120,logo_w=340,gap_logo=96,gap_head=56,gap_sub=120,gap_names=84,gap_run=112,gap_grid=132,grid_pitch=160,
           crop_top=300,prod_top_frac=0.37,prod_bot_frac=0.66,
-          headline=("MADE FOR","EVERY BODY."),sub="A FIT FOR EVERY SHAPE",sub_track=4,
+          headline=("MADE FOR","EVERY BODY."),sub="WHATEVER YOUR SHAPE, IT FITS",sub_track=4,
           products=(("BRIEF",0.19),("BOXER BRIEF",0.50),("BOXER",0.81)),sizes=("S","M","L","XL","XXL","XXXL")):
     W,H=int(1600*k),int(2400*k); g=lambda v:int(round(v*k)); C=W//2
     def font(name,size): return ImageFont.truetype(F+name,g(size))
