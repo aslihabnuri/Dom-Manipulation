@@ -7,7 +7,7 @@ F="fonts/static/"; BG=(40,40,40); WHITE=(255,255,255); STEEL=(204,204,204)
 # vertical rhythm on a 24 px unit; measured from the top edge
 def build(photo_path,out_path,k=1.0,top=120,logo_w=340,gap_logo=96,gap_head=56,gap_sub=120,gap_names=84,gap_run=112,gap_grid=132,grid_pitch=160,
           crop_top=300,prod_top_frac=0.37,prod_bot_frac=0.66,
-          headline=("MADE FOR","EVERY BODY."),sub="A fit for every shape and every size.",
+          headline=("MADE FOR","EVERY BODY."),sub="A FIT FOR EVERY SHAPE",sub_track=4,
           products=(("BRIEF",0.19),("BOXER BRIEF",0.50),("BOXER",0.81)),sizes=("S","M","L","XL","XXL","XXXL")):
     W,H=int(1600*k),int(2400*k); g=lambda v:int(round(v*k)); C=W//2
     def font(name,size): return ImageFont.truetype(F+name,g(size))
@@ -21,7 +21,7 @@ def build(photo_path,out_path,k=1.0,top=120,logo_w=340,gap_logo=96,gap_head=56,g
     probe=ImageDraw.Draw(Image.new("RGB",(10,10)))
     f_h=fit_font(probe,headline[1],"ZalandoSansExpanded-Black.ttf",int(W*0.70),track=g(-3))
     hb=probe.textbbox((0,0),headline[1],font=f_h); hl=hb[3]-hb[1]
-    f_s=font("Arimo-Regular.ttf",int(hl/g(1)*0.5)); sb=probe.textbbox((0,0),sub,font=f_s); sh=sb[3]-sb[1]
+    f_s=font("Arimo-Regular.ttf",int(hl/g(1)*0.44)); sb=probe.textbbox((0,0),sub,font=f_s); sh=sb[3]-sb[1]
     logo=make_logo(color=WHITE,scale=8); lw=g(logo_w); logo=logo.resize((lw,int(logo.height*lw/logo.width)),Image.LANCZOS)
     y_logo=g(top); y_head=y_logo+logo.height+g(gap_logo); y_sub=y_head+2*hl+g(14)+g(gap_head)
     y_prod=y_sub+sh+g(gap_sub)
@@ -38,7 +38,7 @@ def build(photo_path,out_path,k=1.0,top=120,logo_w=340,gap_logo=96,gap_head=56,g
     y=y_head
     for t in headline:
         b=d.textbbox((0,0),t,font=f_h); w=tracked_w(d,t,f_h,g(-3)); tracked(d,(C-w//2-b[0],y-b[1]),t,f_h,WHITE,track=g(-3)); y+=hl+g(14)
-    d.text((C-d.textlength(sub,font=f_s)/2-sb[0],y_sub-sb[1]),sub,font=f_s,fill=STEEL)
+    sw=tracked_w(d,sub,f_s,g(sub_track)); tracked(d,(C-sw//2-sb[0],y_sub-sb[1]),sub,f_s,STEEL,track=g(sub_track))
     f_p=font("ZalandoSansExpanded-SemiBold.ttf",28); y_names=y_prod_bot+g(gap_names)
     for name,fx in products:
         b=d.textbbox((0,0),name,font=f_p); w=tracked_w(d,name,f_p,g(4)); cx=int(W*fx); tracked(d,(cx-w//2-b[0],y_names-b[1]),name,f_p,WHITE,track=g(4))
