@@ -4,9 +4,9 @@ from logo import make_logo
 from compose_alt_a import tracked, tracked_w, invert_icon
 import icons
 F="fonts/static/"; BG=(40,40,40); WHITE=(255,255,255); STEEL=(204,204,204)
-def build(photo_path,out_path,k=1.0,head_y=0.075,crop_top=300,ext_top=600,label_y=0.65,run_y=0.72,icon_y=0.78,
-          headline=("MADE FOR","EVERY BODY."),sub="Three cuts. Six sizes.",
-          products=(("MODAL CLOUD BRIEF",0.19),("BOXER BRIEF",0.50),("BOXER",0.81)),sizes=("S","M","L","XL","XXL","XXXL")):
+def build(photo_path,out_path,k=1.0,head_y=0.075,crop_top=300,ext_top=600,label_y=0.65,run_y=0.72,icon_y=0.775,grid_pitch=136,grid_inset=40,
+          headline=("MADE FOR","EVERY BODY."),sub="A fit for every shape and every size.",
+          products=(("BRIEF",0.19),("BOXER BRIEF",0.50),("BOXER",0.81)),sizes=("S","M","L","XL","XXL","XXXL")):
     W,H=int(1600*k),int(2400*k); g=lambda v:int(round(v*k))
     def font(name,size): return ImageFont.truetype(F+name,g(size))
     def fit_font(d,text,name,target_w,track=0,lo=40,hi=700):
@@ -35,11 +35,13 @@ def build(photo_path,out_path,k=1.0,head_y=0.075,crop_top=300,ext_top=600,label_
     M=g(100); f_z=font("ZalandoSansExpanded-SemiBold.ttf",34); n=len(sizes); cw=(W-2*M)/n; ry=int(H*run_y)
     for i,sz in enumerate(sizes):
         zb=d.textbbox((0,0),sz,font=f_z); w=tracked_w(d,sz,f_z,g(3)); cx=int(M+cw*(i+0.5)); tracked(d,(cx-w//2-zb[0],ry-zb[1]),sz,f_z,WHITE,track=g(3))
-    size=g(112); f_i=font("ZalandoSansExpanded-SemiBold.ttf",18); iy=int(H*icon_y)
+    # benefits: two columns, three rows, icon beside label, block as wide as the headline measure
+    size=g(96); f_i=font("ZalandoSansExpanded-SemiBold.ttf",20); bw=int(W*0.70); cwid=bw//2; x0=C-bw//2; pitch=g(grid_pitch); iy=int(H*icon_y)
     for i,(label,fn) in enumerate(icons.ICONS):
-        ic=invert_icon(fn(size)); cx=int(M+cw*(i+0.5)); canvas.paste(ic,(cx-size//2,iy),ic); yy=iy+size+g(22)
-        for line in label.split("\n"):
-            lb=d.textbbox((0,0),line,font=f_i); w=tracked_w(d,line,f_i,g(2)); tracked(d,(cx-w//2-lb[0],yy-lb[1]),line,f_i,WHITE,track=g(2)); yy+=int((lb[3]-lb[1])*1.45)
+        col,row=i//3,i%3; ic=invert_icon(fn(size)); x=x0+col*cwid+g(grid_inset); y0=iy+row*pitch
+        canvas.paste(ic,(x,y0),ic); text=label.replace("\n"," "); lb=d.textbbox((0,0),text,font=f_i)
+        tracked(d,(x+size+g(28)-lb[0],y0+size//2-(lb[3]-lb[1])//2-lb[1]),text,f_i,WHITE,track=g(2))
+    yy=iy+2*pitch+size
     print("photo",ET,ET+src.height,"labels",ly,"run",ry,"icons",iy,"end",yy)
     canvas.save(out_path); return canvas
 if __name__=="__main__":
