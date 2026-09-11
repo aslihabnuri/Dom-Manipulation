@@ -35,7 +35,7 @@ def build(photo_path,cutout_path,out_path,k=1.0,head_y=0.47,width_frac=0.86,
         for dr,col in ((dd,CHAR+(255,)),(dl,WHITE+(255,))): tracked(dr,(x-hb[0],y-hb[1]),t,f_h,col,track=g(-4))
         y+=int((hb[3]-hb[1])*1.0)+g(18)
     f_s=font("Arimo-Regular.ttf",max(30,int((hb[3]-hb[1])/g(1)*sub_scale)))
-    # subline: centred; each letter is either charcoal or white, decided by what lies under it (no split letters)
+    # subline: centred; each letter is either charcoal or white, white as soon as any part of it touches the subject
     sb=dd.textbbox((0,0),sub[0],font=f_s); sl=int((sb[3]-sb[1])*1.5); y+=sl*2-g(18)
     import numpy as np
     A=np.asarray(alpha).astype(float)/255
@@ -46,7 +46,7 @@ def build(photo_path,cutout_path,out_path,k=1.0,head_y=0.47,width_frac=0.86,
             if ch.strip():
                 x0,x1=int(x),int(x+cw); y0,y1=int(y),int(y+(sb[3]-sb[1]))
                 cover=A[y0:y1,x0:x1].mean() if x1>x0 and y1>y0 else 0
-                dd.text((x-sb[0],y-sb[1]),ch,font=f_s,fill=(WHITE if cover>0.5 else CHAR)+(255,))
+                dd.text((x-sb[0],y-sb[1]),ch,font=f_s,fill=(WHITE if cover>0.03 else CHAR)+(255,))
             x+=cw
         y+=sl
     canvas.paste(dark,(0,0),dark)
