@@ -26,3 +26,9 @@ Show, don't claim. A line of real-looking bodies wearing the same product commun
 2. `scripts/grade.py`: colour match to the BAU photo, local.
 3. `scripts/compose.py PHOTO OUT [scale] [head_y] [run_y] [icon_y]` (final: `1 0.075 0.80 0.855`).
 4. `scripts/icons.py`, `scripts/logo.py` (vector rebuild; swap in the official logo before print).
+
+## Alternatives (same message, different visual)
+Both keep the copy, the size run and the six benefits. What changes is the visual code.
+
+- **Alt A, dark panels** (`alternatives/…Alt-A_Dark-Panels…`, `prompts/prompt_alt_a.txt`, `scripts/compose_alt_a.py`). Four separate portraits, one man per panel, never in the same frame, so no relation between the men can be read. Low key on Dark Charcoal, one hard key light from high camera-left, split light with deep shadow: the tonal key of sport and strength, not fashion. Each man is doing something (guard up, mid-stride, catching breath, braced), not presenting himself to the camera. Panels sit full bleed with gutters of background, no rules.
+- **Alt B, rooftop** (`alternatives/…Alt-B_Rooftop…`, `prompts/prompt_alt_b.txt`). One man, environmental portrait: raw concrete rooftop, hard low sun, long shadow, walking toward the camera mid-stride, eyes past the lens. The setting and the action carry the masculinity; the size run and the icons carry the "every body" promise. Photo widened locally at the edges (stretched, feathered) to sit full bleed under the type.
