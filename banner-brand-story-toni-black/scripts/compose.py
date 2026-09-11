@@ -35,17 +35,11 @@ def build(photo_path,cutout_path,out_path,k=1.0,head_y=0.47,width_frac=0.86,
         for dr,col in ((dd,CHAR+(255,)),(dl,WHITE+(255,))): tracked(dr,(x-hb[0],y-hb[1]),t,f_h,col,track=g(-4))
         y+=int((hb[3]-hb[1])*1.0)+g(18)
     f_s=font("Arimo-Regular.ttf",max(30,int((hb[3]-hb[1])/g(1)*sub_scale)))
-    # subline: one colour only, left edge on the headline's left edge, wrapped to a narrow measure on the clean wall
-    words=" ".join(sub).split(); lines=list(sub_lines) if sub_lines else []; cur=""
-    for wd in ([] if sub_lines else words):
-        t=(cur+" "+wd).strip()
-        if dd.textlength(t,font=f_s)<=int(W*sub_measure): cur=t
-        else: lines.append(cur); cur=wd
-    if not sub_lines: lines.append(cur)
-    sb=dd.textbbox((0,0),lines[0],font=f_s); sl=int((sb[3]-sb[1])*1.5); y+=sl*2-g(18)
-    x_left=(W-tracked_w(dd,headline[0],f_h,g(-4)))//2
-    for t in lines:
-        sb=dd.textbbox((0,0),t,font=f_s); dd.text((x_left-sb[0],y-sb[1]),t,font=f_s,fill=DAVI+(255,)); y+=sl
+    # subline: centred, same knockout as the headline (charcoal on the wall, pure white over the subject)
+    sb=dd.textbbox((0,0),sub[0],font=f_s); sl=int((sb[3]-sb[1])*1.5); y+=sl*2-g(18)
+    for t in sub:
+        sb=dd.textbbox((0,0),t,font=f_s); w=dd.textlength(t,font=f_s); x=(W-w)//2
+        dd.text((x-sb[0],y-sb[1]),t,font=f_s,fill=CHAR+(255,)); dl.text((x-sb[0],y-sb[1]),t,font=f_s,fill=WHITE+(255,)); y+=sl
     canvas.paste(dark,(0,0),dark)
     lm=Image.new("L",(W,H),0); lm.paste(light.split()[3],(0,0),alpha)   # white only where the subject is
     canvas.paste(light,(0,0),lm)

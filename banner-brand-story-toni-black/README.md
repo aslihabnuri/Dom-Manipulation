@@ -26,4 +26,4 @@ One Nano Banana Pro pass, five references in order: the old banner (pose only), 
 4. `scripts/logo.py`: vector rebuild of the logo; swap in the official file from the brand kit before print use.
 
 ### Subline revision
-The two-line subline used to run across the legs and the stool and flipped to white there. A small text set in two colours inside one line loses its shape, and the flip reads as an artefact, not a device. The knockout now belongs to the headline only. The subline is set in one colour (Davi's Grey on the wall), left edge on the headline's left edge so the two share an axis, wrapped at sense breaks into four short lines on the clean wall left of the legs.
+Subline centred under the headline, two lines, 0.40 of the headline cap height, with the same knockout as the headline: Dark Charcoal on the wall, pure white where it crosses the subject. Earlier versions used Davi's Grey and a light grey for the two layers, which read as a soft gradient; the two layers are now the same two colours as the headline so the device reads as one system.
