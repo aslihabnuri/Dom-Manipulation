@@ -26,4 +26,4 @@ One Nano Banana Pro pass, five references in order: the old banner (pose only), 
 4. `scripts/logo.py`: vector rebuild of the logo; swap in the official file from the brand kit before print use.
 
 ### Subline revision
-Subline centred under the headline, two lines, 0.40 of the headline cap height, title case except `by` and `is`. Each letter is set whole in one colour, Dark Charcoal or pure white, white as soon as any part of the letter touches the subject (cutout alpha), charcoal otherwise; no letter is split at the subject's edge. The headline keeps the pixel knockout, which works at display size.
+Subline centred under the headline, two lines, 0.40 of the headline cap height, title case except `by` and `is`. Each letter is set whole in one colour, Dark Charcoal or pure white, white when the photo under the letter's own ink is dark (mean luminance below 150 of 255), charcoal when it is light; so a letter over a bright gap between the legs or the stool stays dark and readable; no letter is split at the subject's edge. The headline keeps the pixel knockout, which works at display size.
