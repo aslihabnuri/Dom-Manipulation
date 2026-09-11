@@ -26,4 +26,4 @@ One Nano Banana Pro pass, five references in order: the old banner (pose only), 
 4. `scripts/logo.py`: vector rebuild of the logo; swap in the official file from the brand kit before print use.
 
 ### Subline revision
-Subline centred under the headline, two lines, 0.40 of the headline cap height, with the same knockout as the headline: Dark Charcoal on the wall, pure white where it crosses the subject. Earlier versions used Davi's Grey and a light grey for the two layers, which read as a soft gradient; the two layers are now the same two colours as the headline so the device reads as one system.
+Subline centred under the headline, two lines, 0.40 of the headline cap height, title case except `by` and `is`. Each letter is set whole in one colour, Dark Charcoal or pure white, chosen by whether more than half of the letter's box lies over the subject (cutout alpha); no letter is split at the subject's edge. The headline keeps the pixel knockout, which works at display size.

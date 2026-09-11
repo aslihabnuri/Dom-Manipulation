@@ -12,7 +12,7 @@ def tracked(d,xy,text,f,fill,track=0):
         d.text((x,y),ch,font=f,fill=fill); x+=d.textlength(ch,font=f)+track
 def tracked_w(d,text,f,track=0): return sum(d.textlength(ch,font=f) for ch in text)+track*(len(text)-1)
 def build(photo_path,cutout_path,out_path,k=1.0,head_y=0.47,width_frac=0.86,
-          headline=("TAILORED FOR","COMFORT."),sub_scale=0.40,sub_measure=0.36,sub_lines=("Defined by originality,","driven by innovation.","Every detail is","created with purpose."),sub=("Defined by originality, driven by innovation.","Every detail is created with purpose.")):
+          headline=("TAILORED FOR","COMFORT."),sub_scale=0.40,sub_measure=0.36,sub_lines=("Defined by originality,","driven by innovation.","Every detail is","created with purpose."),sub=("Defined by Originality, Driven by Innovation.","Every Detail is Created With Purpose.")):
     W,H=int(1600*k),int(2000*k); g=lambda v:int(round(v*k))
     def font(name,size): return ImageFont.truetype(F+name,g(size))
     def fit_font(d,text,name,target_w,track=0,lo=40,hi=900):
@@ -35,11 +35,20 @@ def build(photo_path,cutout_path,out_path,k=1.0,head_y=0.47,width_frac=0.86,
         for dr,col in ((dd,CHAR+(255,)),(dl,WHITE+(255,))): tracked(dr,(x-hb[0],y-hb[1]),t,f_h,col,track=g(-4))
         y+=int((hb[3]-hb[1])*1.0)+g(18)
     f_s=font("Arimo-Regular.ttf",max(30,int((hb[3]-hb[1])/g(1)*sub_scale)))
-    # subline: centred, same knockout as the headline (charcoal on the wall, pure white over the subject)
+    # subline: centred; each letter is either charcoal or white, decided by what lies under it (no split letters)
     sb=dd.textbbox((0,0),sub[0],font=f_s); sl=int((sb[3]-sb[1])*1.5); y+=sl*2-g(18)
+    import numpy as np
+    A=np.asarray(alpha).astype(float)/255
     for t in sub:
         sb=dd.textbbox((0,0),t,font=f_s); w=dd.textlength(t,font=f_s); x=(W-w)//2
-        dd.text((x-sb[0],y-sb[1]),t,font=f_s,fill=CHAR+(255,)); dl.text((x-sb[0],y-sb[1]),t,font=f_s,fill=WHITE+(255,)); y+=sl
+        for ch in t:
+            cw=dd.textlength(ch,font=f_s)
+            if ch.strip():
+                x0,x1=int(x),int(x+cw); y0,y1=int(y),int(y+(sb[3]-sb[1]))
+                cover=A[y0:y1,x0:x1].mean() if x1>x0 and y1>y0 else 0
+                dd.text((x-sb[0],y-sb[1]),ch,font=f_s,fill=(WHITE if cover>0.5 else CHAR)+(255,))
+            x+=cw
+        y+=sl
     canvas.paste(dark,(0,0),dark)
     lm=Image.new("L",(W,H),0); lm.paste(light.split()[3],(0,0),alpha)   # white only where the subject is
     canvas.paste(light,(0,0),lm)
