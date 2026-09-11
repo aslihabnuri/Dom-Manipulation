@@ -5,11 +5,11 @@ from compose_alt_a import tracked, tracked_w, invert_icon
 import icons
 F="fonts/static/"; BG=(40,40,40); WHITE=(255,255,255); STEEL=(204,204,204)
 # vertical rhythm on a 24 px unit; measured from the top edge
-def build(photo_path,out_path,k=1.0,top=120,logo_w=340,gap_logo=96,gap_head=56,gap_sub=120,gap_names=84,gap_run=112,gap_grid=132,grid_pitch=160,
+def build(photo_path,out_path,k=1.0,height=2400,grid_cols=2,top=120,logo_w=340,gap_logo=96,gap_head=56,gap_sub=120,gap_names=84,gap_run=112,gap_grid=132,grid_pitch=160,
           crop_top=300,prod_top_frac=0.37,prod_bot_frac=0.66,
           headline=("MADE FOR","EVERY BODY."),sub="WHATEVER YOUR SHAPE, IT FITS",sub_track=4,
           products=(("BRIEF",0.19),("BOXER BRIEF",0.50),("BOXER",0.81)),sizes=("S","M","L","XL","XXL","XXXL")):
-    W,H=int(1600*k),int(2400*k); g=lambda v:int(round(v*k)); C=W//2
+    W,H=int(1600*k),int(height*k); g=lambda v:int(round(v*k)); C=W//2
     def font(name,size): return ImageFont.truetype(F+name,g(size))
     def fit_font(d,text,name,target_w,track=0,lo=40,hi=700):
         while lo<hi:
@@ -47,12 +47,12 @@ def build(photo_path,out_path,k=1.0,top=120,logo_w=340,gap_logo=96,gap_head=56,g
     for i,sz in enumerate(sizes):
         b=d.textbbox((0,0),sz,font=f_z); w=tracked_w(d,sz,f_z,g(3)); cx=int(M+cw*(i+0.5)); tracked(d,(cx-w//2-b[0],y_run-b[1]),sz,f_z,WHITE,track=g(3))
     zb=d.textbbox((0,0),"XL",font=f_z); y_grid=y_run+(zb[3]-zb[1])+g(gap_grid)
-    size=g(112); f_i=font("ZalandoSansExpanded-SemiBold.ttf",24); bw=int(W*0.70); cwid=bw//2; x0=C-bw//2; pitch=g(grid_pitch)
+    size=g(112); f_i=font("ZalandoSansExpanded-SemiBold.ttf",24); rows=-(-len(icons.ICONS)//grid_cols); bw=int(W*0.70) if grid_cols==2 else W-2*g(60); cwid=bw//grid_cols; x0=C-bw//2; pitch=g(grid_pitch)
     for i,(label,fn) in enumerate(icons.ICONS):
-        col,row=i//3,i%3; ic=invert_icon(fn(size)); x=x0+col*cwid+g(40); y0=y_grid+row*pitch
+        col,row=(i//rows,i%rows) if grid_cols==2 else (i%grid_cols,i//grid_cols); ic=invert_icon(fn(size)); x=x0+col*cwid+(g(40) if grid_cols==2 else g(16)); y0=y_grid+row*pitch
         canvas.paste(ic,(x,y0),ic); text=label.replace("\n"," "); b=d.textbbox((0,0),text,font=f_i)
-        tracked(d,(x+size+g(32)-b[0],y0+size//2-(b[3]-b[1])//2-b[1]),text,f_i,WHITE,track=g(2))
-    y_end=y_grid+2*pitch+size
+        tracked(d,(x+size+(g(32) if grid_cols==2 else g(26))-b[0],y0+size//2-(b[3]-b[1])//2-b[1]),text,f_i,WHITE,track=g(2))
+    y_end=y_grid+(rows-1)*pitch+size
     print(f"logo {y_logo} head {y_head} sub {y_sub} sub_size {f_s.size} prod {y_prod}-{y_prod_bot} names {y_names} run {y_run} grid {y_grid} end {y_end} bottom {H-y_end}")
     canvas.save(out_path); return canvas
 if __name__=="__main__":
