@@ -12,7 +12,7 @@ def tracked(d,xy,text,f,fill,track=0):
         d.text((x,y),ch,font=f,fill=fill); x+=d.textlength(ch,font=f)+track
 def tracked_w(d,text,f,track=0): return sum(d.textlength(ch,font=f) for ch in text)+track*(len(text)-1)
 def build(photo_path,cutout_path,out_path,k=1.0,head_y=0.47,width_frac=0.86,
-          headline=("TAILORED FOR","COMFORT."),sub=("Defined by originality, driven by innovation.","Every detail is created with purpose.")):
+          headline=("TAILORED FOR","COMFORT."),sub_scale=0.40,sub=("Defined by originality, driven by innovation.","Every detail is created with purpose.")):
     W,H=int(1600*k),int(2000*k); g=lambda v:int(round(v*k))
     def font(name,size): return ImageFont.truetype(F+name,g(size))
     def fit_font(d,text,name,target_w,track=0,lo=40,hi=900):
@@ -34,7 +34,7 @@ def build(photo_path,cutout_path,out_path,k=1.0,head_y=0.47,width_frac=0.86,
         hb=dd.textbbox((0,0),t,font=f_h); w=tracked_w(dd,t,f_h,g(-4)); x=(W-w)//2
         for dr,col in ((dd,CHAR+(255,)),(dl,WHITE+(255,))): tracked(dr,(x-hb[0],y-hb[1]),t,f_h,col,track=g(-4))
         y+=int((hb[3]-hb[1])*1.0)+g(18)
-    f_s=font("Arimo-Regular.ttf",max(30,int((hb[3]-hb[1])/g(1)/6.0)))
+    f_s=font("Arimo-Regular.ttf",max(30,int((hb[3]-hb[1])/g(1)*sub_scale)))
     sb=dd.textbbox((0,0),sub[0],font=f_s); sl=int((sb[3]-sb[1])*1.5); y+=sl*2-g(18)
     for t in sub:
         sb=dd.textbbox((0,0),t,font=f_s); w=dd.textlength(t,font=f_s); x=(W-w)//2

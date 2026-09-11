@@ -22,5 +22,5 @@ One Nano Banana Pro pass, five references in order: the old banner (pose only), 
 ## Pipeline
 1. `prompts/prompt_story.txt` with Nano Banana Pro, `aspect_ratio 4:5`, 2K.
 2. `scripts/grade.py`: colour match to the BAU photo, local, no credits.
-3. `scripts/compose.py PHOTO CUTOUT OUT [scale] [head_y] [width_frac]` (final: `1 0.47 0.86`, `2 0.47 0.86`).
+3. `scripts/compose.py PHOTO CUTOUT OUT [scale] [head_y] [width_frac]` (final: `1 0.47 0.86`, `2 0.47 0.86`). Subline set at 0.40 of the headline cap height (about 44 px at 1600 wide, `sub_scale` in `build`), leading 1.5, so it stays legible at thumbnail size.
 4. `scripts/logo.py`: vector rebuild of the logo; swap in the official file from the brand kit before print use.
