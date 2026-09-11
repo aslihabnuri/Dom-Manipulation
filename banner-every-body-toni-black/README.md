@@ -21,7 +21,8 @@ Show, don't claim. A line of real-looking bodies wearing the same product commun
 - **Icon row.** Six charcoal discs with white line icons, tracked-caps labels, two lines where needed, no hyphen at a line break.
 
 ## Pipeline
-1. `prompts/prompt_every.txt` with Nano Banana Pro, `aspect_ratio 4:5`, 2K, three references: the Toni Black model, the men's boxer, the BAU photo (set, light, grade). One generation.
+1. `prompts/prompt_every.txt` with Nano Banana Pro, `aspect_ratio 4:5`, 2K, three references: the Toni Black model, the men's boxer, the BAU photo (set, light, grade). First generation.
+   `prompts/prompt_every2.txt`: the re-shoot used in the final. Same four men, spaced apart, wide grounded stances, arms crossed / hands on hips / thumbs in the waistband, direct serious gaze. Two generations in total.
 2. `scripts/grade.py`: colour match to the BAU photo, local.
 3. `scripts/compose.py PHOTO OUT [scale] [head_y] [run_y] [icon_y]` (final: `1 0.075 0.80 0.855`).
 4. `scripts/icons.py`, `scripts/logo.py` (vector rebuild; swap in the official logo before print).
