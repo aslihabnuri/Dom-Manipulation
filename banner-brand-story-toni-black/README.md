@@ -24,3 +24,6 @@ One Nano Banana Pro pass, five references in order: the old banner (pose only), 
 2. `scripts/grade.py`: colour match to the BAU photo, local, no credits.
 3. `scripts/compose.py PHOTO CUTOUT OUT [scale] [head_y] [width_frac]` (final: `1 0.47 0.86`, `2 0.47 0.86`). Subline set at 0.40 of the headline cap height (about 44 px at 1600 wide, `sub_scale` in `build`), leading 1.5, so it stays legible at thumbnail size.
 4. `scripts/logo.py`: vector rebuild of the logo; swap in the official file from the brand kit before print use.
+
+### Subline revision
+The two-line subline used to run across the legs and the stool and flipped to white there. A small text set in two colours inside one line loses its shape, and the flip reads as an artefact, not a device. The knockout now belongs to the headline only. The subline is set in one colour (Davi's Grey on the wall), left edge on the headline's left edge so the two share an axis, wrapped at sense breaks into four short lines on the clean wall left of the legs.
