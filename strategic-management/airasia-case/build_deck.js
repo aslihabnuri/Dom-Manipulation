@@ -218,20 +218,20 @@ function slide() { const s = pres.addSlide(); base(s); N++; return s; }
   photo(s, "aa_fuel.jpg", 4.45, 0, 4.44, 3.2, "0.5,0.5");
   photo(s, "aa_board.jpg", 8.89, 0, 4.44, 3.2, "0.5,0.5");
   title(s, "AIRASIA AT A GLANCE", 0.7, 3.45);
-  const stats = [["79", "pesawat, 2009", BLACK], ["11,8 jt", "penumpang per tahun", RED], ["10", "negara dilayani", BLUE], ["RM 1", "harga akuisisi 2001", BLACK]];
+  const stats = [["79", "pesawat, 2009", BLACK], ["11,8 jt", "penumpang per tahun", RED], ["10", "negara dilayani", BLUE], ["RM 1", "harga akuisisi 2001, sekitar Rp 2.700", BLACK]];
   stats.forEach((st, i) => {
     const x = 0.7 + i * 3.1;
     num(s, st[0], x, 4.25, 2.9, 0.7, st[2]);
     para(s, st[1], x, 4.95, 2.9, 0.35, { color: GREY });
   });
   sub(s, "MILESTONES", 0.7, 5.45, 3, GREY);
-  const ms = [["2001", "Diambil alih Fernandes dan McCarthy seharga **RM 1**"], ["2002", "Relaunch mengikuti **Ryanair, Southwest, easyJet**"], ["2004", "Rute internasional pertama; IPO RM 717 juta"], ["2007", "AirAsia X mulai terbang **jarak jauh**"], ["2009", "Skytrax: **World's Best Low Cost Airline**"]];
+  const ms = [["2001", "Diambil alih Fernandes dan McCarthy seharga **RM 1** (Rp 2.700)"], ["2002", "Relaunch mengikuti **Ryanair, Southwest, easyJet**"], ["2004", "Rute internasional pertama; IPO RM 717 juta (Rp 1,7 triliun)"], ["2007", "AirAsia X mulai terbang **jarak jauh**"], ["2009", "Skytrax: **World's Best Low Cost Airline**"]];
   ms.forEach((m, i) => {
     const x = 0.7 + i * 2.5;
     sub(s, m[0], x, 5.8, 1.2, RED);
     para(s, m[1], x, 6.12, 2.3, 1.2, { para: 0 });
   });
-  s.addNotes("Dari 2 pesawat dan 200 ribu penumpang (Januari 2002) menjadi 79 pesawat dan 11,8 juta penumpang (Maret 2009). Hub di KL, Bangkok, dan Jakarta. Akuisisi 2001 seharga RM 1 dengan warisan utang RM 40 juta. Riset UBS 2007: biaya per ASK terendah di dunia. ROA 2008 sebesar 4 persen ketika hampir semua maskapai dunia merugi.");
+  s.addNotes("Dari 2 pesawat dan 200 ribu penumpang (Januari 2002) menjadi 79 pesawat dan 11,8 juta penumpang (Maret 2009). Hub di KL, Bangkok, dan Jakarta. Akuisisi 2001 seharga RM 1 (sekitar Rp 2.700 saat itu, Rp 10.000 nilai 2026) dengan warisan utang RM 40 juta (Rp 108 miliar saat itu, Rp 400 miliar nilai 2026). IPO 2004 RM 717 juta (Rp 1,7 triliun saat itu, Rp 4,9 triliun nilai 2026). Kurs: RM 1 = Rp 2.700 (2001), Rp 2.350 (2004), Rp 2.900 (2008), Rp 2.950 (2009); inflasi Indonesia 2009 ke 2026 sekitar 1,9 kali. Riset UBS 2007: biaya per ASK terendah di dunia. ROA 2008 sebesar 4 persen ketika hampir semua maskapai dunia merugi.");
 }
 
 // ================================================================ 4. Strategic problem
@@ -251,10 +251,11 @@ function slide() { const s = pres.addSlide(); base(s); N++; return s; }
   para(s, items([
     "Model LCC bertumpu pada **rute pendek, satu tipe pesawat, layanan minimal**",
     "Pesaing jarak jauh punya feeder, tiket terusan, **subsidi silang**",
-    "Neraca 2008 lemah: utang ^^RM 6,69 miliar^^, kas ^^RM 153,8 juta^^",
+    "Neraca 2008 lemah: utang ^^RM 6,69 miliar^^ (Rp 19,5 triliun), kas ^^RM 153,8 juta^^ (Rp 447 miliar)",
   ]), 8.05, 4.25, 4.3, 2.6);
   para(s, "A320 rute pendek dan A330 rute jauh: dua pesawat, dua model bisnis.", 0.7, 5.7, 4.4, 0.8, { color: GREY });
-  s.addNotes("Mengikuti panduan RPKPS: masalah adalah tujuan yang terhalang. Angka neraca dari Tabel 9.1: rugi bersih RM 496,6 juta, utang RM 6,69 miliar berbanding ekuitas RM 1,61 miliar, kas RM 153,8 juta. Azran Osman-Rani (CEO AirAsia X): rute gemuk jarak jauh adalah sumber lalu lintas berikutnya.");
+  para(s, "Kurs 2008: RM 1 sekitar Rp 2.900; nilai 2026 kira-kira dua kali lipat.", 8.05, 6.85, 4.3, 0.6, { color: GREY });
+  s.addNotes("Mengikuti panduan RPKPS: masalah adalah tujuan yang terhalang. Angka neraca dari Tabel 9.1: rugi bersih RM 496,6 juta (Rp 1,4 triliun saat itu, Rp 2,9 triliun nilai 2026), utang RM 6,69 miliar (Rp 19,5 triliun; Rp 39 triliun nilai 2026) berbanding ekuitas RM 1,61 miliar (Rp 4,7 triliun; Rp 9,3 triliun), kas RM 153,8 juta (Rp 447 miliar; Rp 0,9 triliun). Azran Osman-Rani (CEO AirAsia X): rute gemuk jarak jauh adalah sumber lalu lintas berikutnya.");
 }
 
 // ================================================================ 5. Strategic question
@@ -373,8 +374,8 @@ function slide() { const s = pres.addSlide(); base(s); N++; return s; }
     num(s, b, 3.0, y, 1.9, 0.7, BLUE);
     para(s, cap, 0.7, y + 0.7, 5.2, 0.35);
   };
-  stat(1.95, "11,66", "22,80", "sen ringgit biaya per available seat kilometer");
-  stat(3.2, "14,11", "20,60", "sen ringgit pendapatan per ASK");
+  stat(1.95, "11,66", "22,80", "sen ringgit biaya per ASK (Rp 340 vs Rp 660)");
+  stat(3.2, "14,11", "20,60", "sen ringgit pendapatan per ASK (Rp 410 vs Rp 600)");
   stat(4.45, "11,8", "11,1", "jam utilisasi pesawat per hari");
   para(s, "**Separuh biaya MAS** dengan tenaga kerja yang jauh lebih ramping. Rugi 2008 bukan dari operasi, melainkan dari pelepasan kontrak berjangka bahan bakar.", 0.7, 5.7, 5.4, 1.3);
   circle(s, 6.9, 1.15, 5.4, YELLOW);
@@ -383,7 +384,7 @@ function slide() { const s = pres.addSlide(); base(s); N++; return s; }
   num(s, "75% vs 67,8%", 7.3, 3.1, 4.4, 0.7, BLACK);
   para(s, "**load factor** 2008", 7.3, 3.85, 3.6, 0.35);
   cut(s, "aa_crew.png", 8.5, 4.3, 4.7, 3.2, "bottom");
-  s.addNotes("Sumber Tabel 9.1. Karyawan per pesawat: 3.799/78 vs 19.094/109. Turnaround 25 menit. Rugi 2008 (RM 496,6 juta) karena keputusan melepas kontrak berjangka bahan bakar (rugi RM 830,2 juta). Tanpa pos itu operasi tetap laba, tetapi neraca yang sarat utang pesawat membuat ruang untuk kesalahan berikutnya sempit.");
+  s.addNotes("Sumber Tabel 9.1. Biaya per ASK 11,66 sen = Rp 340 (Rp 670 nilai 2026); MAS 22,80 sen = Rp 660 (Rp 1.300). Karyawan per pesawat: 3.799/78 vs 19.094/109. Rugi 2008 RM 496,6 juta (Rp 1,4 triliun) karena melepas kontrak berjangka bahan bakar, rugi RM 830,2 juta (Rp 2,4 triliun; Rp 4,8 triliun nilai 2026). Kas MAS RM 3,57 miliar (Rp 10,4 triliun) berbanding AirAsia RM 153,8 juta (Rp 447 miliar). Tanpa pos itu operasi tetap laba, tetapi neraca yang sarat utang pesawat membuat ruang untuk kesalahan berikutnya sempit.");
 }
 
 // ================================================================ 11. Sources of cost advantage
@@ -447,8 +448,8 @@ function slide() { const s = pres.addSlide(); base(s); N++; return s; }
     rect(s, 8.35, y + 0.34, 3.7 * r[1] / 610, 0.22, r[2]);
     num(s, String(r[1]), 8.35 + 3.7 * r[1] / 610 + 0.1, y + 0.26, 0.8, 0.38, r[2], BODY);
   });
-  para(s, "Selisih nyata, tetapi lebih tipis dari yang terlihat: Tabel 9.4 belum memuat kru, perawatan, dan katering yang justru membesar di rute jauh.", 8.35, 5.6, 4.5, 1.5);
-  s.addNotes("Tabel 9.4 tidak termasuk perawatan, depresiasi, katering, dan gaji kru. AirAsia X membawa 286 penumpang per penerbangan, pesaing 337 sampai 360. Bahan bakar per penerbangan US$79.299 vs US$159.522 untuk B747. Tarif pulang pergi KL London AirAsia X US$433,96 vs rata-rata tarif terendah pesaing US$683,68 (Tabel 9.3). Load factor jaringan lima periode (Tabel 9.5): AirAsia 77, 75, 78, 80, 75,5; Emirates 73,4 sampai 79,8; BA 67,6 sampai 71,2; MAS 69 sampai 67,8.");
+  para(s, "Kurs 2009: US$373 sekitar Rp 3,9 juta, US$610 sekitar Rp 6,3 juta. Selisih nyata, tetapi lebih tipis dari yang terlihat: Tabel 9.4 belum memuat kru, perawatan, dan katering.", 8.35, 5.55, 4.5, 1.9);
+  s.addNotes("Tabel 9.4 tidak termasuk perawatan, depresiasi, katering, dan gaji kru. AirAsia X membawa 286 penumpang per penerbangan, pesaing 337 sampai 360. Bahan bakar per penerbangan US$79.299 (Rp 824 juta, kurs 2009) vs US$159.522 (Rp 1,66 miliar) untuk B747. Tarif pulang pergi KL London AirAsia X US$433,96 (Rp 4,5 juta saat itu, Rp 8,6 juta nilai 2026) vs rata-rata tarif terendah pesaing US$683,68 (Rp 7,1 juta; Rp 13,5 juta) (Tabel 9.3). Biaya per penumpang US$373 = Rp 3,9 juta (Rp 7,4 juta nilai 2026). Load factor jaringan lima periode (Tabel 9.5): AirAsia 77, 75, 78, 80, 75,5; Emirates 73,4 sampai 79,8; BA 67,6 sampai 71,2; MAS 69 sampai 67,8.");
 }
 
 // ================================================================ 14. Key issues
@@ -470,7 +471,7 @@ function slide() { const s = pres.addSlide(); base(s); N++; return s; }
     para(s, q, x, 4.9, 2.25, 1.6);
   });
   para(s, [{ text: "Intisari.  ", options: { bold: true, color: RED, fontSize: BODY } }, ...rich("Isu 1 dan 2 dari **lingkungan eksternal**, isu 3 dari **posisi biaya**, isu 4 dan 5 soal **organisasi dan tata kelola**.", { fontSize: BODY, color: INK })], 0.7, 6.5, 11.5, 0.6);
-  s.addNotes("Isu 1: di rute regional AirAsia menciptakan pasar baru; di KL London ia merebut penumpang dari enam maskapai mapan. Isu 2: Emirates, BA, dan MAS memperoleh laba dari kelas premium dan mampu menurunkan tarif ekonomi. Isu 3: utang RM 6,69 miliar, ekuitas RM 1,61 miliar, kas RM 153,8 juta, pesanan 10 A350. Isu 4: literatur ambidexterity (O'Reilly dan Tushman) menyebut pemisahan struktural atau paduan kontekstual. Isu 5: AirAsia 16 persen (opsi 30 persen), Aero Ventures 48 persen, Virgin 16 persen, Manara dan Orix 20 persen; tata kelola hibrida khas portofolio aliansi.");
+  s.addNotes("Isu 1: di rute regional AirAsia menciptakan pasar baru; di KL London ia merebut penumpang dari enam maskapai mapan. Isu 2: Emirates, BA, dan MAS memperoleh laba dari kelas premium dan mampu menurunkan tarif ekonomi. Isu 3: utang RM 6,69 miliar (Rp 19,5 triliun), ekuitas RM 1,61 miliar (Rp 4,7 triliun), kas RM 153,8 juta (Rp 447 miliar), pesanan 10 A350. Isu 4: literatur ambidexterity (O'Reilly dan Tushman) menyebut pemisahan struktural atau paduan kontekstual. Isu 5: AirAsia 16 persen (opsi 30 persen), Aero Ventures 48 persen, Virgin 16 persen, Manara dan Orix 20 persen; tata kelola hibrida khas portofolio aliansi.");
 }
 
 // ================================================================ 15. Strategic alternatives
