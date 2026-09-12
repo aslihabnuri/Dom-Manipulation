@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>Modul Bab 3: Mengevaluasi Lingkungan Eksternal Perusahaan (Kasus AirAsia)</title>
+<style>
+  @page { size: A4; margin: 17mm 16mm 18mm 16mm;
+    @bottom-center { content: "Modul Bab 3 · Lingkungan Eksternal · Kasus AirAsia · hal. " counter(page); font-family: "Liberation Sans", Arial, sans-serif; font-size: 8pt; color: #666; } }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body { font-family: "Liberation Serif", "Times New Roman", serif; font-size: 10.6pt; line-height: 1.42; color: #1a1a1a; }
+  h1, h2, h3, h4, .sans { font-family: "Liberation Sans", Arial, sans-serif; }
+  h1 { font-size: 20pt; color: #0b2a4a; margin: 0 0 4mm 0; padding-bottom: 2mm; border-bottom: 2.2pt solid #c8102e; page-break-after: avoid; }
+  h1 .kicker { display: block; font-size: 9.5pt; letter-spacing: 0.14em; text-transform: uppercase; color: #c8102e; margin-bottom: 1.5mm; font-weight: 700; }
+  h2 { font-size: 13.5pt; color: #0b2a4a; margin: 6mm 0 2mm 0; page-break-after: avoid; }
+  h3 { font-size: 11.2pt; color: #222; margin: 4mm 0 1.5mm 0; page-break-after: avoid; }
+  h4 { font-size: 10.2pt; color: #333; margin: 3mm 0 1mm 0; page-break-after: avoid; }
+  p { margin: 0 0 2.2mm 0; text-align: justify; }
+  ul, ol { margin: 0 0 2.5mm 0; padding-left: 5.5mm; }
+  li { margin-bottom: 1mm; }
+  li > ul, li > ol { margin-top: 1mm; }
+  strong { color: #0b2a4a; }
+  .section { page-break-before: always; }
+  .nobreak { page-break-inside: avoid; }
+  table { border-collapse: collapse; width: 100%; margin: 2mm 0 3.5mm 0; font-size: 9.4pt; page-break-inside: auto; }
+  th, td { border: 0.6pt solid #b9c2cc; padding: 1.6mm 2mm; vertical-align: top; text-align: left; }
+  th { background: #0b2a4a; color: #fff; font-family: "Liberation Sans", Arial, sans-serif; font-size: 8.8pt; letter-spacing: 0.02em; }
+  tr { page-break-inside: avoid; }
+  tbody tr:nth-child(even) td { background: #f4f6f9; }
+  td.k { font-weight: 700; color: #0b2a4a; width: 24%; }
+  .box { border: 0.8pt solid #b9c2cc; border-left: 4pt solid #0b2a4a; background: #f7f9fc; padding: 2.5mm 3.2mm; margin: 2.5mm 0 3.5mm 0; page-break-inside: avoid; }
+  .box .t { font-family: "Liberation Sans", Arial, sans-serif; font-weight: 700; font-size: 9pt; text-transform: uppercase; letter-spacing: 0.08em; color: #0b2a4a; margin-bottom: 1.2mm; }
+  .box.simple { border-left-color: #2a7f62; background: #f3faf6; } .box.simple .t { color: #2a7f62; }
+  .box.case { border-left-color: #c8102e; background: #fdf4f5; } .box.case .t { color: #c8102e; }
+  .box.sowhat { border-left-color: #b8860b; background: #fdf9ee; } .box.sowhat .t { color: #8a6508; }
+  .box.trap { border-left-color: #555; background: #f2f2f2; } .box.trap .t { color: #444; }
+  .box.dosen { border-left-color: #5b3a8c; background: #f7f3fc; } .box.dosen .t { color: #5b3a8c; }
+  .tag { display: inline-block; font-family: "Liberation Sans", Arial, sans-serif; font-size: 8pt; font-weight: 700; padding: 0.3mm 1.6mm; border-radius: 2pt; margin-right: 1mm; vertical-align: middle; }
+  .pasti { background: #dff3e8; color: #1e6b47; border: 0.5pt solid #1e6b47; }
+  .kb { background: #fff3d6; color: #8a6508; border: 0.5pt solid #b8860b; }
+  .tebak { background: #fde3e3; color: #a12020; border: 0.5pt solid #a12020; }
+  .kuat { background: #c8102e; color: #fff; } .sedang { background: #e8a317; color: #fff; } .lemah { background: #2a7f62; color: #fff; }
+  .cover { height: 250mm; display: flex; flex-direction: column; justify-content: space-between; }
+  .cover .top { border-top: 6pt solid #c8102e; padding-top: 6mm; }
+  .cover .kicker { font-family: "Liberation Sans", Arial, sans-serif; font-size: 10pt; letter-spacing: 0.18em; text-transform: uppercase; color: #c8102e; font-weight: 700; }
+  .cover h1.title { font-size: 30pt; border: none; line-height: 1.12; margin: 6mm 0 3mm 0; }
+  .cover .sub { font-family: "Liberation Sans", Arial, sans-serif; font-size: 13pt; color: #333; line-height: 1.35; }
+  .cover .meta { font-family: "Liberation Sans", Arial, sans-serif; font-size: 10pt; color: #444; border-top: 0.8pt solid #b9c2cc; padding-top: 4mm; }
+  .cover .meta div { margin-bottom: 1.4mm; }
+  .toc { columns: 2; column-gap: 8mm; font-family: "Liberation Sans", Arial, sans-serif; font-size: 9.4pt; }
+  .toc div { margin-bottom: 1.2mm; break-inside: avoid; }
+  .toc .l1 { font-weight: 700; color: #0b2a4a; margin-top: 2mm; }
+  .toc .l2 { padding-left: 4mm; color: #333; }
+  figure { margin: 2.5mm 0 4mm 0; page-break-inside: avoid; text-align: center; }
+  figcaption { font-family: "Liberation Sans", Arial, sans-serif; font-size: 8.6pt; color: #555; margin-top: 1.2mm; text-align: left; }
+  svg { max-width: 100%; }
+  .two { display: flex; gap: 5mm; } .two > div { flex: 1; }
+  .small { font-size: 9pt; color: #444; }
+  .step { display: flex; gap: 2.5mm; margin-bottom: 1.8mm; page-break-inside: avoid; }
+  .step .n { flex: 0 0 7mm; height: 7mm; border-radius: 50%; background: #0b2a4a; color: #fff; font-family: "Liberation Sans", Arial, sans-serif; font-weight: 700; font-size: 10pt; display: flex; align-items: center; justify-content: center; }
+  .step .b { flex: 1; }
+  .rating { font-family: "Liberation Sans", Arial, sans-serif; font-size: 8.4pt; font-weight: 700; padding: 0.4mm 1.5mm; border-radius: 2pt; white-space: nowrap; }
+  .mono { font-family: "Liberation Mono", monospace; font-size: 9pt; }
+  .q { font-style: italic; color: #333; }
+  .divider { height: 0.6pt; background: #b9c2cc; margin: 4mm 0; }
+</style>
+</head>
+<body>
+
+<!-- ============================ COVER ============================ -->
+<div class="cover">
+  <div class="top">
+    <div class="kicker">Modul Belajar · Strategic Management (MAN 5422) · MM UGM Jakarta · SEMBA</div>
+    <h1 class="title">Bab 3<br>Mengevaluasi Lingkungan Eksternal Perusahaan</h1>
+    <div class="sub">Semua framework Bab 3 dijelaskan dengan bahasa sederhana, disusun mengikuti standar kelas <strong>Dr. Rangga Almahendra, S.T., M.M.</strong>, dan diterapkan pada kasus <strong>AirAsia: The World's Lowest Cost Airline</strong>.</div>
+  </div>
+  <div>
+    <table style="font-size:9.6pt">
+      <tr><td class="k">Buku acuan</td><td>Thompson, Peteraf, Gamble &amp; Strickland, <em>Crafting &amp; Executing Strategy: The Quest for Competitive Advantage</em>, Bab 3 “Evaluating a Company’s External Environment”.</td></tr>
+      <tr><td class="k">Kasus</td><td>Robert M. Grant (2010), <em>Contemporary Strategy Analysis</em>, Case 9 “AirAsia: The World’s Lowest Cost Airline”. Data 2008 sampai pertengahan 2009.</td></tr>
+      <tr><td class="k">Standar dosen</td><td>RPKPS “@2026 AOL Course Outline SM MM_JKT SEMBA” (disahkan 9 Agustus 2026), termasuk rubrik nilai, panduan analisis kasus (Appendix 3), struktur term paper, learning diary, dan sesi framework.</td></tr>
+      <tr><td class="k">Sesi terkait</td><td>Sesi 4 (12 September 2026): Ch. 03 + Group 3 Case Presentation AirAsia. Sesi 3: SCP Paradigm (Group 2) sebagai akar teori bab ini. Sesi 5: Ch. 04 (analisis internal) sebagai lanjutannya.</td></tr>
+    </table>
+  </div>
+  <div class="meta">
+    <div><strong>Disusun untuk:</strong> Aslih Abnuri (Kelompok 3)</div>
+    <div><strong>Cara membaca label keyakinan:</strong> <span class="tag pasti">[Pasti]</span> bukti langsung dari silabus/buku/kasus · <span class="tag kb">[Kemungkinan Besar]</span> inferensi kuat · <span class="tag tebak">[Menebak]</span> mengisi celah informasi.</div>
+    <div><strong>Kode warna kotak:</strong> hijau = bahasa sederhana · merah = terapkan ke AirAsia · kuning = “so what” (implikasi strategi) · abu = jebakan yang menurunkan nilai · ungu = sudut pandang dosen.</div>
+  </div>
+</div>
+
+<!-- ============================ DAFTAR ISI ============================ -->
+<div class="section">
+<h1><span class="kicker">Daftar isi</span>Peta modul</h1>
+<div class="toc">
+  <div class="l1">Bagian A: Standar Dr. Rangga: apa yang dinilai</div>
+  <div class="l2">A.1 Apa yang diminta silabus (bukti langsung)</div>
+  <div class="l2">A.2 Cara berpikir dosen: tujuh prinsip</div>
+  <div class="l2">A.3 Pola analisis kasus yang beliau pakai</div>
+  <div class="l1">Bagian B: Peta besar Bab 3</div>
+  <div class="l2">B.1 Dari analisis situasi ke pilihan strategi (Figure 3.1)</div>
+  <div class="l2">B.2 Tujuh pertanyaan, delapan alat</div>
+  <div class="l2">B.3 Dua lapis lingkungan (Figure 3.2)</div>
+  <div class="l1">Bagian C: Framework satu per satu + AirAsia</div>
+  <div class="l2">C.1 PESTEL dan guncangan sosial (Table 3.1)</div>
+  <div class="l2">C.2 Five Forces Porter (Figure 3.3–3.8, Table 3.2)</div>
+  <div class="l2">C.3 Value Net dan complementors (Figure 3.9)</div>
+  <div class="l2">C.4 Driving Forces (Table 3.3)</div>
+  <div class="l2">C.5 Strategic Group Map</div>
+  <div class="l2">C.6 Competitor Analysis: kerangka SOAR</div>
+  <div class="l2">C.7 Key Success Factors (KSF)</div>
+  <div class="l2">C.8 Industry Outlook: menarik atau tidak?</div>
+  <div class="l1">Bagian D: Menyatukan semuanya dengan pola dosen</div>
+  <div class="l2">D.1 Problem, Alternatives, Issues, Conclusion</div>
+  <div class="l2">D.2 Contoh utuh: keputusan AirAsia X 2009</div>
+  <div class="l2">D.3 Rencana implementasi dan evaluasi dampak</div>
+  <div class="l1">Bagian E: Checklist mutu: pembeda nilai A dan B-</div>
+  <div class="l1">Bagian F: Latihan, learning diary, dan 5 slide</div>
+  <div class="l1">Glosarium</div>
+  <div class="l1">Lampiran: data kasus dan catatan sumber</div>
+</div>
+
+<div class="box dosen">
+  <div class="t">Cara pakai modul ini (3 langkah)</div>
+  <p>1) Baca Bagian A dulu supaya tahu <em>apa yang dinilai</em>. 2) Untuk setiap framework di Bagian C, jangan berhenti di “apa itu”, paksa diri menjawab kotak kuning “so what”. 3) Tutup dengan Bagian D: latih mengubah hasil analisis menjadi keputusan, rencana, dan ukuran keberhasilan. Itulah urutan yang dipakai dosen di kelas dan di term paper.</p>
+</div>
+</div>
+
+<!-- ============================ BAGIAN A ============================ -->
+<div class="section">
+<h1><span class="kicker">Bagian A</span>Standar Dr. Rangga: apa yang dinilai</h1>
+
+<p>Kebenaran yang tidak nyaman dulu: di kelas ini, <strong>tahu isi bab tidak cukup</strong>. Rubrik nilai A menuntut “originalitas”, “argumen yang saling bertentangan”, dan “evaluasi kritis atas masalah, solusinya, dan implikasinya”. Sementara nilai B- sampai C diberikan untuk pemahaman yang “dangkal, sebagian, atau keliru” dan “argumen yang tidak didukung”. Jadi modul ini dibangun bukan untuk menghafal framework, tetapi untuk <em>memakai</em> framework sampai menghasilkan keputusan yang didukung data.</p>
+
+<h2>A.1 Apa yang diminta silabus <span class="tag pasti">[Pasti]</span></h2>
+<table>
+  <thead><tr><th style="width:26%">Komponen silabus</th><th>Isi ringkas</th><th style="width:30%">Artinya untuk Bab 3</th></tr></thead>
+  <tbody>
+  <tr><td class="k">Course Objective 1</td><td>“Apply strategic frameworks to analyze organizational strategic issues” dan “develop holistic strategic solutions supported by evidence-based analysis”.</td><td>Setiap framework Bab 3 harus dipakai pada kasus nyata dan didukung angka, bukan diceritakan ulang.</td></tr>
+  <tr><td class="k">Course Objective 2</td><td>Rencana implementasi dengan KPI, timeline, ownership, resources, mitigasi risiko; evaluasi dampak dengan metrik finansial dan non-finansial serta logika risiko/skenario.</td><td>Analisis eksternal harus bermuara pada tindakan yang terukur (lihat Bagian D.3).</td></tr>
+  <tr><td class="k">Bobot penilaian</td><td>UTS 40%, Term Paper 40%, Partisipasi 10%, Group Report 10%.</td><td>Bab 3 muncul di UTS dan menjadi bagian “Strategic Diagnosis” term paper.</td></tr>
+  <tr><td class="k">Kriteria penilaian kasus</td><td>Kemampuan memahami isu strategis, memakai teknik analisis yang tepat, dan “marshal the relevant data”; kualitas = kejelasan dan daya persuasi.</td><td>Pilih alat yang tepat untuk pertanyaan yang tepat; data kasus wajib dikutip.</td></tr>
+  <tr><td class="k">Panduan analisis kasus (Appendix 3)</td><td>Empat komponen: (i) Problem = tujuan + penghalang; (ii) Alternatives = beberapa strategi bersaing, diberi judul, tanpa pro-kontra; (iii) Issues = pertanyaan eksplisit yang menentukan pilihan; (iv) Conclusion = deduksi dari isu, kuantitatif bila data ada.</td><td>Ini “tulang punggung” presentasi kasus AirAsia (Bagian D).</td></tr>
+  <tr><td class="k">Struktur term paper</td><td>Executive Summary → Company &amp; Industry Context (dengan data) → Strategic Diagnosis (internal + eksternal dengan framework) → Holistic Recommendation → Implementation → Impact Evaluation (metrik, trade-off, risiko, horizon waktu) → References.</td><td>Bab 3 = bagian “eksternal” dari Strategic Diagnosis.</td></tr>
+  <tr><td class="k">Sesi framework</td><td>Tiap kelompok mencari satu framework tambahan yang sejalan dengan bab: dimensi dan ukurannya, definisinya, manfaatnya untuk bisnis internasional. Sesi 3: SCP Paradigm.</td><td>Dosen menyukai keterkaitan antar-framework. SCP adalah akar teori Five Forces (lihat C.8).</td></tr>
+  <tr><td class="k">Learning diary</td><td>Esai reflektif singkat tentang insight paling berkesan, plus interpretasi dan pertanyaan sendiri. Bukan catatan mentah.</td><td>Template ada di Bagian F.</td></tr>
+  <tr><td class="k">Presentasi kasus</td><td>5 slide ringkasan temuan kunci; kelompok non-presenter wajib mengajukan pertanyaan (dasar nilai partisipasi).</td><td>Template 5 slide dan contoh pertanyaan tajam di Bagian F.</td></tr>
+  </tbody>
+</table>
+
+<h2>A.2 Cara berpikir dosen: tujuh prinsip</h2>
+<p>Prinsip 1 sampai 5 dibaca langsung dari silabus. Prinsip 6 dan 7 adalah inferensi: dari rekam jejak akademik beliau dan dari cara Kelompok 3 menyusun naskah presentasinya (yang memakai bahasa eksplorasi–eksploitasi dan <em>ambidexterity</em>). Kalau di kelas beliau menyangkalnya, ikuti beliau.</p>
+<table>
+  <thead><tr><th style="width:5%">#</th><th style="width:30%">Prinsip</th><th>Wujudnya dalam tugas</th><th style="width:14%">Keyakinan</th></tr></thead>
+  <tbody>
+  <tr><td>1</td><td class="k">Framework dulu, opini belakangan</td><td>Setiap klaim tentang industri harus lahir dari alat analisis yang disebut namanya (PESTEL, Five Forces, dst.). “Menurut saya industrinya berat” tidak bernilai; “Rivalry kuat karena tiga faktor ini, buktinya…” bernilai.</td><td><span class="tag pasti">[Pasti]</span></td></tr>
+  <tr><td>2</td><td class="k">Bukti mengalahkan kesan</td><td>Silabus memakai frasa “marshal the relevant data”. Angka kasus (CASK, load factor, utang, kas) harus dikutip; angka usulan sendiri harus dibedakan dari angka kasus.</td><td><span class="tag pasti">[Pasti]</span></td></tr>
+  <tr><td>3</td><td class="k">Analisis harus berujung keputusan</td><td>Alur: diagnosis → rekomendasi holistik → implementasi (KPI, waktu, pemilik, sumber daya, risiko) → evaluasi dampak. Analisis yang berhenti di “industri tidak menarik” dianggap setengah jadi.</td><td><span class="tag pasti">[Pasti]</span></td></tr>
+  <tr><td>4</td><td class="k">Urutan: struktur industri → posisi perusahaan → pilihan strategi</td><td>Bab 3 (eksternal) mendahului Bab 4 (internal) dan Bab 5 (strategi generik). Ini persis Figure 3.1 buku. Jangan melompat ke rekomendasi sebelum medan dipetakan.</td><td><span class="tag pasti">[Pasti]</span></td></tr>
+  <tr><td>5</td><td class="k">Nilai A butuh perspektif yang saling bertentangan</td><td>Rubrik A: “identifying, producing and communicating conflicting arguments, perspectives or problem-solving approaches”. Selalu tunjukkan mengapa alternatif yang <em>tidak</em> dipilih juga masuk akal, lalu patahkan dengan bukti.</td><td><span class="tag pasti">[Pasti]</span></td></tr>
+  <tr><td>6</td><td class="k">Tertarik pada dilema eksplorasi vs eksploitasi</td><td>Kasus-kasus yang dipilih (AirAsia X, Manchester United pasca-Ferguson, NYT digital, Renault–Nissan) semuanya tentang organisasi yang harus menjaga bisnis inti sambil membangun yang baru. Bahasa <em>ambidexterity</em> (kontekstual vs struktural) layak dipakai.</td><td><span class="tag kb">[Kemungkinan Besar]</span></td></tr>
+  <tr><td>7</td><td class="k">Menyukai jembatan antar-framework dan “berbagai perspektif”</td><td>Beliau menulis buku “Manajemen dalam Berbagai Perspektif”; sesi framework dipasangkan dengan bab (SCP ↔ Bab 2–3, Benchmarking ↔ Bab 5, BCG ↔ Bab 6). Tunjukkan bagaimana Five Forces, SCP, dan RBV saling melengkapi, bukan bersaing.</td><td><span class="tag kb">[Kemungkinan Besar]</span></td></tr>
+  </tbody>
+</table>
+
+<h2>A.3 Pola analisis kasus yang beliau pakai</h2>
+<figure>
+<svg viewBox="0 0 760 120" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="Liberation Sans, Arial" font-size="12">
+  <defs><marker id="ar" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#0b2a4a"/></marker></defs>
+  <g>
+    <rect x="5" y="20" width="170" height="80" rx="6" fill="#f7f9fc" stroke="#0b2a4a" stroke-width="1.5"/>
+    <text x="90" y="42" text-anchor="middle" font-weight="700" fill="#0b2a4a">1. PROBLEM</text>
+    <text x="90" y="60" text-anchor="middle">Tujuan yang ingin dicapai</text>
+    <text x="90" y="76" text-anchor="middle">+ penghalang yang mengancam</text>
+    <text x="90" y="92" text-anchor="middle" font-size="10" fill="#666">(goals &amp; barrier)</text>
+  </g>
+  <line x1="177" y1="60" x2="193" y2="60" stroke="#0b2a4a" stroke-width="1.5" marker-end="url(#ar)"/>
+  <g>
+    <rect x="195" y="20" width="170" height="80" rx="6" fill="#f7f9fc" stroke="#0b2a4a" stroke-width="1.5"/>
+    <text x="280" y="42" text-anchor="middle" font-weight="700" fill="#0b2a4a">2. ALTERNATIVES</text>
+    <text x="280" y="60" text-anchor="middle">2–4 strategi bersaing,</text>
+    <text x="280" y="76" text-anchor="middle">masing-masing diberi judul</text>
+    <text x="280" y="92" text-anchor="middle" font-size="10" fill="#666">(belum ada pro-kontra)</text>
+  </g>
+  <line x1="367" y1="60" x2="383" y2="60" stroke="#0b2a4a" stroke-width="1.5" marker-end="url(#ar)"/>
+  <g>
+    <rect x="385" y="20" width="170" height="80" rx="6" fill="#f7f9fc" stroke="#0b2a4a" stroke-width="1.5"/>
+    <text x="470" y="42" text-anchor="middle" font-weight="700" fill="#0b2a4a">3. ISSUES</text>
+    <text x="470" y="60" text-anchor="middle">Pertanyaan eksplisit yang</text>
+    <text x="470" y="76" text-anchor="middle">menentukan pilihan</text>
+    <text x="470" y="92" text-anchor="middle" font-size="10" fill="#666">(di sinilah framework dipakai)</text>
+  </g>
+  <line x1="557" y1="60" x2="573" y2="60" stroke="#0b2a4a" stroke-width="1.5" marker-end="url(#ar)"/>
+  <g>
+    <rect x="575" y="20" width="180" height="80" rx="6" fill="#fdf4f5" stroke="#c8102e" stroke-width="1.5"/>
+    <text x="665" y="42" text-anchor="middle" font-weight="700" fill="#c8102e">4. CONCLUSION</text>
+    <text x="665" y="60" text-anchor="middle">Deduksi: alternatif mana</text>
+    <text x="665" y="76" text-anchor="middle">yang unggul, dan mengapa</text>
+    <text x="665" y="92" text-anchor="middle" font-size="10" fill="#666">(kuantitatif bila ada data)</text>
+  </g>
+</svg>
+<figcaption>Gambar A.1. Empat komponen analisis kasus menurut Appendix 3 silabus. Framework Bab 3 hidup terutama di kotak 1 (mendefinisikan penghalang) dan kotak 3 (menjawab isu).</figcaption>
+</figure>
+<div class="box dosen">
+  <div class="t">Sudut pandang dosen</div>
+  <p>Perhatikan: silabus melarang memasukkan argumen pro-kontra di bagian Alternatives. Alasannya, argumen itu akan diulang di bagian Issues dan hanya mengaburkan deskripsi. Banyak kelompok kehilangan nilai karena mencampur “apa pilihannya” dengan “mengapa pilihannya”.</p>
+</div>
+</div>
+
+<!-- ============================ BAGIAN B ============================ -->
+<div class="section">
+<h1><span class="kicker">Bagian B</span>Peta besar Bab 3</h1>
+
+<h2>B.1 Dari analisis situasi ke pilihan strategi (Figure 3.1)</h2>
+<div class="box simple">
+  <div class="t">Bahasa sederhana</div>
+  <p>Sebelum memilih strategi, perusahaan harus memotret dua hal: <strong>medan di luar</strong> (industri dan lingkungan makro) dan <strong>kekuatan di dalam</strong> (sumber daya dan kapabilitas). Dua potret itu digabung menjadi visi strategis, dari visi lahir beberapa opsi, dan dari opsi dipilih model bisnis dan strategi terbaik. Bab 3 mengurus potret pertama. Bab 4 mengurus potret kedua.</p>
+</div>
+<figure>
+<svg viewBox="0 0 760 170" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="Liberation Sans, Arial" font-size="11.5">
+  <defs><marker id="ar2" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#0b2a4a"/></marker></defs>
+  <rect x="5" y="10" width="190" height="60" rx="6" fill="#fdf4f5" stroke="#c8102e" stroke-width="1.6"/>
+  <text x="100" y="34" text-anchor="middle" font-weight="700" fill="#c8102e">Analisis lingkungan EKSTERNAL</text>
+  <text x="100" y="52" text-anchor="middle">← BAB 3 (modul ini)</text>
+  <rect x="5" y="100" width="190" height="60" rx="6" fill="#f7f9fc" stroke="#0b2a4a" stroke-width="1.6"/>
+  <text x="100" y="124" text-anchor="middle" font-weight="700" fill="#0b2a4a">Analisis lingkungan INTERNAL</text>
+  <text x="100" y="142" text-anchor="middle">← Bab 4 (sesi berikutnya)</text>
+  <path d="M197,40 C230,40 230,85 260,85" fill="none" stroke="#0b2a4a" stroke-width="1.5"/>
+  <path d="M197,130 C230,130 230,85 260,85" fill="none" stroke="#0b2a4a" stroke-width="1.5" marker-end="url(#ar2)"/>
+  <rect x="262" y="55" width="150" height="60" rx="6" fill="#f7f9fc" stroke="#0b2a4a" stroke-width="1.6"/>
+  <text x="337" y="79" text-anchor="middle" font-weight="700" fill="#0b2a4a">Visi strategis</text>
+  <text x="337" y="97" text-anchor="middle">ke mana perusahaan harus menuju</text>
+  <line x1="414" y1="85" x2="432" y2="85" stroke="#0b2a4a" stroke-width="1.5" marker-end="url(#ar2)"/>
+  <rect x="434" y="55" width="150" height="60" rx="6" fill="#f7f9fc" stroke="#0b2a4a" stroke-width="1.6"/>
+  <text x="509" y="79" text-anchor="middle" font-weight="700" fill="#0b2a4a">Opsi strategis</text>
+  <text x="509" y="97" text-anchor="middle">yang menjanjikan</text>
+  <line x1="586" y1="85" x2="604" y2="85" stroke="#0b2a4a" stroke-width="1.5" marker-end="url(#ar2)"/>
+  <rect x="606" y="55" width="150" height="60" rx="6" fill="#f7f9fc" stroke="#0b2a4a" stroke-width="1.6"/>
+  <text x="681" y="79" text-anchor="middle" font-weight="700" fill="#0b2a4a">Model bisnis &amp; strategi</text>
+  <text x="681" y="97" text-anchor="middle">terbaik untuk perusahaan</text>
+</svg>
+<figcaption>Gambar B.1. Alur Figure 3.1 buku, digambar ulang. Inilah alasan Prinsip 4 dosen: eksternal dan internal dipotret dulu, baru memilih.</figcaption>
+</figure>
+
+<h2>B.2 Tujuh pertanyaan, delapan alat</h2>
+<p>Buku membuka bab dengan tujuh pertanyaan. Setiap pertanyaan punya alat jawabnya. Inilah daftar lengkap framework Bab 3, tidak ada yang tertinggal:</p>
+<table>
+  <thead><tr><th style="width:4%">#</th><th style="width:40%">Pertanyaan yang harus dijawab</th><th style="width:30%">Alat / framework</th><th>Bentuk jawaban yang diharapkan</th></tr></thead>
+  <tbody>
+  <tr><td>1</td><td>Apakah faktor makro dan karakter industri memberi peluang tumbuh dan laba yang menarik?</td><td><strong>PESTEL</strong> + guncangan sosial (Table 3.1) dan ciri ekonomi industri</td><td>Daftar faktor yang <em>relevan secara strategis</em>, bukan semua faktor.</td></tr>
+  <tr><td>2</td><td>Kekuatan kompetitif apa yang dihadapi, dan seberapa kuat masing-masing?</td><td><strong>Five Forces</strong> (Figure 3.3–3.8) + senjata kompetitif (Table 3.2) + <strong>Value Net</strong> (Figure 3.9)</td><td>Rating kuat/sedang/lemah per kekuatan, lalu kesimpulan kolektif; siapa complementor-nya.</td></tr>
+  <tr><td>3</td><td>Kekuatan apa yang sedang mengubah industri, dan apa dampaknya pada intensitas persaingan dan laba?</td><td><strong>Driving Forces</strong> (Table 3.3)</td><td>Maksimal 3–4 pendorong utama + tiga pertanyaan dampak + penyesuaian strategi.</td></tr>
+  <tr><td>4</td><td>Posisi pasar apa yang ditempati pesaing: siapa kuat, siapa lemah?</td><td><strong>Strategic Group Map</strong></td><td>Peta dua sumbu dengan lingkaran kelompok; siapa pesaing terdekat.</td></tr>
+  <tr><td>5</td><td>Langkah apa yang kemungkinan besar diambil pesaing berikutnya?</td><td><strong>Competitor Analysis</strong> (kerangka SOAR)</td><td>Prediksi gerakan pesaing dari Strategi, Objektif, Asumsi, Resources-nya.</td></tr>
+  <tr><td>6</td><td>Apa faktor kunci keberhasilan bersaing di industri ini?</td><td><strong>Key Success Factors</strong> (tiga pertanyaan penyaring)</td><td>3–5 KSF saja, diuji dengan data.</td></tr>
+  <tr><td>7</td><td>Apakah prospek industri menjanjikan laba yang baik?</td><td><strong>Industry Outlook</strong> (sintesis semua alat di atas)</td><td>Menarik/tidak menarik, <em>relatif</em> terhadap posisi perusahaan.</td></tr>
+  </tbody>
+</table>
+
+<h2>B.3 Dua lapis lingkungan (Figure 3.2)</h2>
+<div class="two">
+<div>
+<p>Lingkungan eksternal punya dua lapis. <strong>Lapis luar</strong> adalah lingkungan makro: enam komponen PESTEL yang memengaruhi semua industri, tetapi dengan derajat berbeda. <strong>Lapis dalam</strong> adalah lingkungan industri dan kompetitif: pesaing, pendatang baru, pengganti, pemasok, dan pembeli. Buku menegaskan bahwa faktor yang paling menentukan strategi biasanya ada di lapis dalam, sehingga sebagian besar bab dicurahkan untuk lapis itu.</p>
+<div class="box case">
+  <div class="t">Terapkan ke AirAsia</div>
+  <p>Lapis luar AirAsia: deregulasi penerbangan Asia Tenggara, kemakmuran Malaysia yang naik, harga minyak 2008, penetrasi ponsel. Lapis dalam: Malaysia Airlines, Tiger, Jetstar, Cebu Pacific; Airbus dan Boeing; bandara; penumpang yang peka harga. Kesalahan umum: menghabiskan waktu di lapis luar (PESTEL panjang lebar) lalu kehabisan ruang untuk lapis dalam yang justru menentukan.</p>
+</div>
+</div>
+<div style="flex:0 0 62mm">
+<svg viewBox="0 0 240 240" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="Liberation Sans, Arial" font-size="9.5">
+  <circle cx="120" cy="120" r="115" fill="#fdf9ee" stroke="#b8860b" stroke-width="1.5"/>
+  <circle cx="120" cy="120" r="72" fill="#fdf4f5" stroke="#c8102e" stroke-width="1.5"/>
+  <circle cx="120" cy="120" r="26" fill="#0b2a4a"/>
+  <text x="120" y="124" text-anchor="middle" fill="#fff" font-weight="700" font-size="9">PERUSAHAAN</text>
+  <text x="120" y="20" text-anchor="middle" fill="#8a6508" font-weight="700">Politik</text>
+  <text x="205" y="70" text-anchor="middle" fill="#8a6508" font-weight="700">Ekonomi</text>
+  <text x="208" y="175" text-anchor="middle" fill="#8a6508" font-weight="700">Sosbud</text>
+  <text x="120" y="228" text-anchor="middle" fill="#8a6508" font-weight="700">Teknologi</text>
+  <text x="34" y="175" text-anchor="middle" fill="#8a6508" font-weight="700">Lingkungan</text>
+  <text x="34" y="70" text-anchor="middle" fill="#8a6508" font-weight="700">Hukum</text>
+  <text x="120" y="60" text-anchor="middle" fill="#c8102e" font-weight="700">Pendatang baru</text>
+  <text x="176" y="112" text-anchor="middle" fill="#c8102e" font-weight="700">Pembeli</text>
+  <text x="120" y="182" text-anchor="middle" fill="#c8102e" font-weight="700">Pengganti</text>
+  <text x="64" y="112" text-anchor="middle" fill="#c8102e" font-weight="700">Pemasok</text>
+  <text x="120" y="82" text-anchor="middle" fill="#c8102e" font-size="8.5">Pesaing langsung</text>
+</svg>
+<div class="small" style="text-align:left">Gambar B.2. Lapis luar (makro, PESTEL) dan lapis dalam (industri/kompetitif).</div>
+</div>
+</div>
+</div>
+
+<!-- ============================ C.1 PESTEL ============================ -->
+<div class="section">
+<h1><span class="kicker">Bagian C.1</span>PESTEL dan guncangan sosial</h1>
+<table class="nobreak" style="font-size:9.2pt;margin-top:1mm"><thead><tr><th colspan="2">Kartu framework (format sesi framework silabus: dimensi, definisi, manfaat)</th></tr></thead><tbody><tr><td class="k">Nama</td><td>PESTEL analysis (+ guncangan sosial)</td></tr><tr><td class="k">Sumber di buku</td><td>Figure 3.2, Table 3.1, Illustration Capsule 3.1, LO 3-1</td></tr><tr><td class="k">Pertanyaan yang dijawab</td><td>Q1: apakah faktor makro dan ciri industri memberi peluang tumbuh dan laba?</td></tr><tr><td class="k">Dimensi / ukuran</td><td>Enam komponen: Political, Economic, Sociocultural, Technological, Environmental, Legal/regulatory; ditambah kelas guncangan sosial di luar PESTEL. Ukuran: tingkat relevansi strategis (besar/kecil) dan arah (peluang/ancaman).</td></tr><tr><td class="k">Langkah</td><td>Daftar faktor per komponen → saring yang relevan secara strategis → tandai O/T → tarik implikasi ke strategi.</td></tr><tr><td class="k">Keluaran</td><td>Daftar pendek faktor strategis dengan O/T dan konsekuensinya; yang berdampak kecil cukup dipantau.</td></tr><tr><td class="k">Manfaat untuk bisnis internasional</td><td>Membandingkan “cuaca” antar-negara sebelum masuk pasar baru (kepemilikan asing, deregulasi, kurs, budaya).</td></tr></tbody></table>
+
+<div class="box simple">
+  <div class="t">Bahasa sederhana</div>
+  <p>PESTEL adalah daftar periksa enam “cuaca” di luar industri yang tidak bisa dikendalikan perusahaan tetapi bisa memengaruhi nasibnya: <strong>P</strong>olitik, <strong>E</strong>konomi, <strong>S</strong>osial-budaya, <strong>T</strong>eknologi, <strong>E</strong>nvironmental (alam), <strong>L</strong>egal (hukum/regulasi). Tujuannya bukan mendaftar semua cuaca, melainkan memilih mana yang <em>relevan secara strategis</em>: cukup penting untuk mengubah arah, tujuan, atau model bisnis perusahaan.</p>
+</div>
+
+<h3>Enam komponen dan isi yang diperiksa (Table 3.1, diparafrasekan)</h3>
+<table>
+  <thead><tr><th style="width:20%">Komponen</th><th>Yang diperiksa</th><th style="width:30%">Contoh industri yang sensitif</th></tr></thead>
+  <tbody>
+  <tr><td class="k">Politik</td><td>Kebijakan dan proses politik, seberapa jauh pemerintah campur tangan: pajak, fiskal, tarif, iklim politik, kekuatan institusi. Ada yang khusus industri (bailout), ada yang menyasar jenis industri tertentu (kebijakan energi).</td><td>Energi, perbankan, maskapai penerbangan (kepemilikan negara).</td></tr>
+  <tr><td class="k">Ekonomi</td><td>Iklim ekonomi umum dan faktor spesifik: suku bunga, kurs, inflasi, pengangguran, pertumbuhan, neraca perdagangan, tabungan, pendapatan per kapita.</td><td>Konstruksi (rentan resesi), ritel diskon (justru untung saat ekonomi lemah).</td></tr>
+  <tr><td class="k">Sosial-budaya</td><td>Nilai, sikap, gaya hidup, dan demografi (ukuran populasi, pertumbuhan, distribusi usia). Berbeda per lokasi dan berubah seiring waktu.</td><td>Kesehatan, perjalanan, hiburan (efek populasi menua); makanan (tren hidup sehat).</td></tr>
+  <tr><td class="k">Teknologi</td><td>Laju perubahan teknologi dan institusinya (R&amp;D, paten, inkubator). Bisa melahirkan industri baru, mendisrupsi, atau membunuh industri lama.</td><td>Kamera film dan CD musik (mati), cloud dan big data (mendisrupsi).</td></tr>
+  <tr><td class="k">Environmental (alam)</td><td>Cuaca, iklim, perubahan iklim, banjir, kebakaran, kelangkaan air; plus tekanan regulasi dan publik agar beroperasi lebih ramah lingkungan.</td><td>Asuransi, pertanian, energi, pariwisata, transportasi.</td></tr>
+  <tr><td class="k">Legal/regulasi</td><td>Hukum yang wajib dipatuhi: perlindungan konsumen, ketenagakerjaan, antimonopoli, K3. Ada yang khusus industri (jasa keuangan).</td><td>Industri upah rendah (UMR), pertambangan dan baja (K3).</td></tr>
+  </tbody>
+</table>
+
+<h3>Tambahan penting: guncangan sosial di luar PESTEL</h3>
+<p>Buku (dengan contoh pandemi COVID-19) menegaskan ada kelas faktor makro yang <strong>tidak</strong> termasuk PESTEL karena datang tidak teratur dan sulit diramalkan: terorisme, perang saudara, invasi, epidemi/pandemi. Perusahaan yang punya <em>organizational agility</em> dan <em>dynamic capabilities</em> (dibahas Bab 4) paling siap menghadapinya.</p>
+
+<div class="box case">
+  <div class="t">Terapkan ke AirAsia: PESTEL yang relevan secara strategis</div>
+  <table style="margin-bottom:1mm">
+    <thead><tr><th style="width:14%">Komponen</th><th>Fakta dari kasus</th><th style="width:34%">Peluang (O) / Ancaman (T) bagi AirAsia</th></tr></thead>
+    <tbody>
+    <tr><td class="k">P</td><td>PM Mahathir mendorong Fernandes mengakuisisi AirAsia (harga RM 1, utang RM 40 juta). Tetapi rute jauh berarti bersaing langsung dengan Malaysia Airlines milik negara, sehingga AirAsia X didirikan sebagai perusahaan terpisah agar hubungan baik dengan pemerintah tidak rusak.</td><td>O: dukungan politik di awal. T: konflik kepentingan negara sebagai pemilik MAS; struktur AirAsia X (AirAsia hanya 16%) adalah <em>solusi politik</em>, bukan hanya finansial.</td></tr>
+    <tr><td class="k">E</td><td>Kemakmuran Malaysia naik; 500 juta orang dalam 3,5 jam terbang dari hub; bahan bakar RM 1.389,8 juta dari total beban RM 2.966 juta (sekitar 47%); 2008 hampir semua maskapai dunia rugi; kerugian pelepasan kontrak berjangka bahan bakar RM 830,2 juta.</td><td>O: pasar besar yang belum terbang. T: biaya terbesar (bahan bakar) ditentukan pasar minyak dunia; satu keputusan lindung nilai yang salah menghapus laba setahun.</td></tr>
+    <tr><td class="k">S</td><td>Hanya sebagian kecil populasi yang rutin terbang; segmen tertentu “kurang terlayani”; slogan “Now Everyone Can Fly”; penggunaan ponsel tinggi di Asia-Pasifik; budaya tanpa hierarki yang “sangat tidak lazim di Asia”.</td><td>O: AirAsia <em>memperluas</em> pasar, bukan sekadar merebut. O: kanal pemesanan lewat ponsel. Catatan: budaya adalah faktor internal (Bab 4), bukan PESTEL.</td></tr>
+    <tr><td class="k">T</td><td>CRS Navitaire Open Skies terintegrasi dengan yield management (YMS) dan sistem perencanaan (APS); ERP 2005; pemesanan nirkabel 2006; boarding pass cetak sendiri; A320 hemat bahan bakar; pesanan 10 A350 untuk 2016.</td><td>O: teknologi menghapus komisi agen dan menaikkan load factor. T: teknologi yang sama tersedia bagi peniru (lihat “diffusion of know-how” di C.4).</td></tr>
+    <tr><td class="k">E (alam)</td><td>Bahan bakar adalah pos biaya terbesar; armada baru lebih hemat; rute London memakai A340.</td><td>T: paparan harga dan emisi bahan bakar makin besar di rute jauh. <span class="tag tebak">[Menebak]</span> Skema perdagangan emisi Uni Eropa untuk penerbangan (mulai 2012) akan menambah biaya rute London, tetapi ini di luar teks kasus.</td></tr>
+    <tr><td class="k">L</td><td>Deregulasi penerbangan di Asia Tenggara “sangat memudahkan ekspansi internasional”; hub Bangkok dan Jakarta dibangun lewat perusahaan patungan (Thai AirAsia, Indonesia AirAsia) yang operasinya dikontrakkan ke AirAsia dengan imbalan fee bulanan; kepatuhan pada regulasi keselamatan dunia.</td><td>O: pasar lintas negara terbuka. T/O: <span class="tag kb">[Kemungkinan Besar]</span> pembatasan kepemilikan asing memaksa struktur patungan, tetapi struktur itu sekaligus menyebarkan risiko modal.</td></tr>
+    <tr><td class="k">Guncangan sosial</td><td>Wabah SARS dan bom Bali: AirAsia justru <em>menambah</em> belanja iklan saat itu (counter-cyclical).</td><td>Bukti agility: guncangan dipakai untuk merebut perhatian pasar ketika pesaing menciut.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="box sowhat">
+  <div class="t">So what: implikasi strategi</div>
+  <p>Peluang makro AirAsia besar dan nyata (pasar belum terbang, deregulasi, teknologi distribusi). Tetapi ancaman terbesar (harga bahan bakar, harga pesawat) tidak bisa dikendalikan siapa pun. Kesimpulan PESTEL yang bernilai: <strong>karena faktor eksternal paling berat tidak bisa dikendalikan, satu-satunya sumber laba yang bisa dikendalikan adalah struktur biaya sendiri</strong>. Ini jembatan ke Five Forces (mengapa laba langka) dan ke Bab 4 (mengapa AirAsia tetap untung).</p>
+</div>
+
+<div class="box trap">
+  <div class="t">Jebakan yang menurunkan nilai</div>
+  <ul>
+    <li>Mendaftar 20 faktor tanpa memilih mana yang relevan secara strategis. Buku eksplisit: faktor berdampak besar layak perhatian terbesar, faktor kecil cukup diawasi.</li>
+    <li>Memasukkan faktor internal (budaya, IT milik perusahaan) ke PESTEL. PESTEL hanya untuk hal di luar industri.</li>
+    <li>Berhenti di daftar O/T tanpa menjelaskan konsekuensinya bagi keputusan.</li>
+  </ul>
+</div>
+</div>
+
+<!-- ============================ C.2 FIVE FORCES ============================ -->
+<div class="section">
+<h1><span class="kicker">Bagian C.2</span>Five Forces Porter</h1>
+<table class="nobreak" style="font-size:9.2pt;margin-top:1mm"><thead><tr><th colspan="2">Kartu framework (format sesi framework silabus: dimensi, definisi, manfaat)</th></tr></thead><tbody><tr><td class="k">Nama</td><td>Five Forces Framework (Porter)</td></tr><tr><td class="k">Sumber di buku</td><td>Figure 3.3 sampai 3.8, Table 3.2, LO 3-2</td></tr><tr><td class="k">Pertanyaan yang dijawab</td><td>Q2: kekuatan kompetitif apa yang dihadapi dan seberapa kuat masing-masing?</td></tr><tr><td class="k">Dimensi / ukuran</td><td>Lima kekuatan: rivalry, ancaman pendatang baru, pengganti, daya tawar pemasok, daya tawar dan sensitivitas harga pembeli. Tiap kekuatan diukur kuat/sedang/lemah dari daftar faktor penentunya.</td></tr><tr><td class="k">Langkah</td><td>(1) identifikasi pihak dan faktor; (2) nilai kekuatan tiap tekanan; (3) simpulkan dukungan kolektif terhadap laba, dengan aturan “kekuatan terkuat menentukan”.</td></tr><tr><td class="k">Keluaran</td><td>Rating per kekuatan, kekuatan terkuat, vonis laba industri, dan dua respons strategi: shield dan shift.</td></tr><tr><td class="k">Manfaat untuk bisnis internasional</td><td>Struktur kekuatan berbeda per negara dan per arena; alat ini memaksa analisis per arena, bukan “industri” secara umum.</td></tr></tbody></table>
+
+<div class="box simple">
+  <div class="t">Bahasa sederhana</div>
+  <p>Bayangkan laba industri sebagai kue. Ada lima pihak yang bisa “menggigit” kue itu: pesaing langsung yang berebut pelanggan, pendatang baru yang ingin masuk, produk pengganti dari industri lain, pemasok yang menekan harga input, dan pembeli yang menekan harga jual. Makin kuat gigitan mereka, makin sedikit kue yang tersisa untuk rata-rata perusahaan di industri. Five Forces adalah cara sistematis mengukur seberapa kuat tiap gigitan.</p>
+</div>
+
+<h3>Tiga langkah pemakaian</h3>
+<div class="step"><div class="n">1</div><div class="b"><strong>Identifikasi</strong> pihak yang terlibat di tiap kekuatan dan faktor spesifik yang menimbulkan tekanan.</div></div>
+<div class="step"><div class="n">2</div><div class="b"><strong>Nilai</strong> seberapa kuat tekanan tiap kekuatan: kuat, sedang, atau lemah, dengan bukti.</div></div>
+<div class="step"><div class="n">3</div><div class="b"><strong>Simpulkan</strong> apakah kelima kekuatan secara keseluruhan mendukung laba industri yang tinggi. Aturan emas buku: <em>kekuatan yang paling kuat menentukan besarnya tekanan pada laba</em>; satu kekuatan yang sangat kuat saja sudah cukup merusak laba.</div></div>
+
+<figure>
+<svg viewBox="0 0 760 300" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="Liberation Sans, Arial" font-size="11">
+  <defs><marker id="ar3" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#c8102e"/></marker></defs>
+  <rect x="280" y="110" width="200" height="80" rx="8" fill="#0b2a4a"/>
+  <text x="380" y="140" text-anchor="middle" fill="#fff" font-weight="700" font-size="12">RIVALRY</text>
+  <text x="380" y="158" text-anchor="middle" fill="#fff">persaingan antar-penjual</text>
+  <text x="380" y="176" text-anchor="middle" fill="#fff" font-size="10">(biasanya yang terkuat)</text>
+  <rect x="280" y="8" width="200" height="52" rx="6" fill="#fdf4f5" stroke="#c8102e" stroke-width="1.4"/>
+  <text x="380" y="30" text-anchor="middle" font-weight="700" fill="#c8102e">PENDATANG BARU</text>
+  <text x="380" y="48" text-anchor="middle">ancaman masuk (entry barriers + reaksi incumbent)</text>
+  <line x1="380" y1="62" x2="380" y2="106" stroke="#c8102e" stroke-width="1.6" marker-end="url(#ar3)"/>
+  <rect x="280" y="240" width="200" height="52" rx="6" fill="#fdf4f5" stroke="#c8102e" stroke-width="1.4"/>
+  <text x="380" y="262" text-anchor="middle" font-weight="700" fill="#c8102e">PRODUK PENGGANTI</text>
+  <text x="380" y="280" text-anchor="middle">dari industri lain, fungsi sama</text>
+  <line x1="380" y1="238" x2="380" y2="194" stroke="#c8102e" stroke-width="1.6" marker-end="url(#ar3)"/>
+  <rect x="20" y="120" width="190" height="60" rx="6" fill="#fdf4f5" stroke="#c8102e" stroke-width="1.4"/>
+  <text x="115" y="145" text-anchor="middle" font-weight="700" fill="#c8102e">PEMASOK</text>
+  <text x="115" y="163" text-anchor="middle">daya tawar pemasok</text>
+  <line x1="212" y1="150" x2="276" y2="150" stroke="#c8102e" stroke-width="1.6" marker-end="url(#ar3)"/>
+  <rect x="550" y="120" width="190" height="60" rx="6" fill="#fdf4f5" stroke="#c8102e" stroke-width="1.4"/>
+  <text x="645" y="145" text-anchor="middle" font-weight="700" fill="#c8102e">PEMBELI</text>
+  <text x="645" y="163" text-anchor="middle">daya tawar + sensitivitas harga</text>
+  <line x1="548" y1="150" x2="484" y2="150" stroke="#c8102e" stroke-width="1.6" marker-end="url(#ar3)"/>
+</svg>
+<figcaption>Gambar C.2. Lima kekuatan (Figure 3.3 buku, digambar ulang). Semua panah menekan ke arah laba perusahaan di tengah.</figcaption>
+</figure>
+
+<h2>Kekuatan 1: Rivalry (persaingan antar-penjual)</h2>
+<p>Sering menjadi kekuatan terkuat. Rivalry <strong>menguat</strong> ketika (Figure 3.4):</p>
+<ul>
+  <li>permintaan tumbuh lambat atau menurun (semua berebut pelanggan yang sama);</li>
+  <li>biaya berpindah merek bagi pembeli rendah (termasuk biaya waktu, repot, dan psikologis);</li>
+  <li>produk komoditas atau lemah diferensiasinya (pembeli memilih berdasarkan harga);</li>
+  <li>ada kelebihan kapasitas atau persediaan, terutama bila biaya tetap atau biaya simpan tinggi (tekanan memotong harga agar kapasitas terisi);</li>
+  <li>pesaing banyak atau berukuran dan berkekuatan setara;</li>
+  <li>pesaing beragam tujuan, strategi, dan negara asal (ada “maverick” yang melanggar aturan main);</li>
+  <li>hambatan keluar tinggi atau ada ikatan emosional, sehingga perusahaan rugi tetap bertahan dan membanting harga.</li>
+</ul>
+<p>Rivalry kuat berarti margin sebagian besar pemain tergencet; sedang berarti manuver hidup tetapi laba masih wajar; lemah berarti pemain puas dan jarang menyerang.</p>
+
+<h3>Senjata kompetitif dan efeknya pada P, C, V (Table 3.2)</h3>
+<p>Persaingan tidak hanya lewat harga. Buku memetakan senjata dan efek utamanya pada harga (P), biaya (C), dan nilai (V), yaitu tiga unsur kerangka value-price-cost Bab 1:</p>
+<table>
+  <thead><tr><th style="width:36%">Senjata</th><th>Efek utama</th></tr></thead>
+  <tbody>
+  <tr><td>Diskon harga, cuci gudang</td><td>P turun, volume dan pangsa naik, laba turun bila volume tidak cukup menutup.</td></tr>
+  <tr><td>Kupon, promosi item</td><td>Volume naik, P turun, C per unit naik, margin per unit bisa turun.</td></tr>
+  <tr><td>Iklan produk dan citra</td><td>V dan diferensiasi naik, volume naik, C naik.</td></tr>
+  <tr><td>Inovasi kinerja dan kualitas</td><td>V naik, permintaan naik, C cenderung naik.</td></tr>
+  <tr><td>Fitur baru, lebih banyak varian</td><td>V naik, permintaan naik, C naik.</td></tr>
+  <tr><td>Kustomisasi</td><td>V naik, biaya berpindah pembeli naik, C naik.</td></tr>
+  <tr><td>Jaringan dealer/distribusi lebih luas</td><td>Akses ke pembeli meluas, volume naik, C bisa naik.</td></tr>
+  <tr><td>Garansi lebih baik, pembiayaan bunga rendah</td><td>V naik, C naik, biaya berpindah pembeli naik.</td></tr>
+  </tbody>
+</table>
+
+<h2>Kekuatan 2: Ancaman pendatang baru</h2>
+<p>Bahkan <em>ancaman</em> masuk (belum terjadi) sudah menekan, karena incumbent menurunkan harga atau bersiap bertahan. Seberapa serius ancamannya ditentukan dua hal: <strong>tinggi-rendahnya hambatan masuk</strong> dan <strong>reaksi yang diharapkan dari pemain lama</strong>.</p>
+<p>Hambatan masuk <strong>tinggi</strong> (Figure 3.5) ketika ada:</p>
+<ul>
+  <li>skala ekonomi besar dalam produksi, distribusi, atau iklan;</li>
+  <li>keunggulan biaya lain yang sulit ditiru: paten, akses pemasok termurah, lokasi, biaya tetap rendah, dan efek kurva pembelajaran (biaya turun setiap volume kumulatif berlipat);</li>
+  <li>preferensi merek dan loyalitas pelanggan yang kuat;</li>
+  <li>perlindungan paten dan kekayaan intelektual;</li>
+  <li>efek jaringan (produk makin bernilai bila penggunanya banyak);</li>
+  <li>kebutuhan modal besar;</li>
+  <li>sulitnya membangun jaringan distribusi atau mendapat ruang rak;</li>
+  <li>kebijakan regulasi yang membatasi (lisensi, izin, standar);</li>
+  <li>kebijakan perdagangan yang membatasi (tarif, kuota, muatan lokal).</li>
+</ul>
+<p>Dua catatan buku yang sering ditanyakan di ujian: (1) hambatan tinggi tidak selalu menahan pendatang yang punya sumber daya dan merek kuat (contoh Honda masuk mesin pemotong rumput, Samsung masuk ponsel pintar); (2) hambatan bisa berubah seiring waktu (paten kedaluwarsa menurunkan hambatan; investasi iklan dan R&amp;D incumbent menaikkannya).</p>
+
+<h2>Kekuatan 3: Produk pengganti</h2>
+<p>Pengganti datang dari <strong>luar</strong> industri dan memenuhi kebutuhan yang sama (kacamata vs operasi laser; gula vs pemanis buatan; koran vs berita daring). Merek lain dalam industri yang sama bukan pengganti, melainkan pesaing. Tekanan pengganti <strong>kuat</strong> bila (Figure 3.6): pengganti tersedia dan harganya menarik (menjadi plafon harga industri); kinerjanya sebanding atau lebih baik; biaya berpindah ke pengganti rendah. Tanda tekanan makin kuat: penjualan pengganti tumbuh lebih cepat, produsennya menambah kapasitas, labanya naik. Menentukan batas industri adalah soal sudut pandang; pada akhirnya pembeli yang memutuskan apa yang layak jadi pengganti.</p>
+
+<h2>Kekuatan 4: Daya tawar pemasok</h2>
+<p>Pemasok kuat bisa menaikkan harga, melempar biaya, dan membatasi pilihan (contoh buku: Microsoft dan Intel terhadap pabrikan PC; serikat pilot terhadap maskapai). Daya tawar pemasok <strong>kuat</strong> ketika (Figure 3.7):</p>
+<ul>
+  <li>produk pemasok langka dan permintaannya tinggi;</li>
+  <li>input terdiferensiasi dan menaikkan kinerja produk industri;</li>
+  <li>biaya berpindah pemasok tinggi;</li>
+  <li>industri pemasok lebih terkonsentrasi daripada industri pembelinya;</li>
+  <li>industri tidak mampu berintegrasi ke belakang (membuat sendiri inputnya);</li>
+  <li>input hanya porsi kecil dari total biaya (pembeli kurang sensitif);</li>
+  <li>tidak ada pengganti bagi input pemasok;</li>
+  <li>industri bukan pelanggan besar bagi pemasok.</li>
+</ul>
+<p>Langkah praktis: pisahkan dulu jenis-jenis pemasok, lalu nilai daya tawar tiap jenis secara terpisah.</p>
+
+<h2>Kekuatan 5: Daya tawar pembeli dan sensitivitas harga</h2>
+<p>Ada dua hal berbeda yang sering dicampur: <strong>daya tawar</strong> (kemampuan menuntut konsesi) dan <strong>sensitivitas harga</strong> (kecenderungan lari bila harga naik). Konsumen individu hampir tidak punya daya tawar, tetapi bisa sangat peka harga. Daya tawar pembeli <strong>kuat</strong> ketika (Figure 3.8): permintaan lemah dibanding pasokan; produk standar; biaya berpindah rendah; pembeli besar dan sedikit; pembeli bisa berintegrasi ke belakang; pembeli sangat terinformasi (internet, aplikasi pembanding harga); pembeli bisa menunda pembelian. Pembeli <strong>peka harga</strong> ketika: berpendapatan atau berlaba rendah; produk memakan porsi besar anggaran; kualitas bukan pertimbangan utama. Analisis dimulai dengan memilah jenis pembeli di sepanjang rantai nilai, karena tidak semua pembeli setara.</p>
+
+<h2>Menyimpulkan dan mencocokkan strategi</h2>
+<p>Industri paling tidak menarik bila kelima kekuatan kuat sekaligus; tetapi <strong>satu kekuatan yang sangat kuat saja sudah cukup</strong> untuk merusak laba. Buku menyebut manufaktur ban, pakaian jadi, dan <em>maskapai komersial</em> sebagai industri dengan banyak kekuatan kuat dan margin historis yang tipis. Lingkungan ideal: pemasok dan pembeli lemah, tidak ada pengganti, hambatan masuk tinggi, rivalry teredam.</p>
+<p>Mencocokkan strategi dengan kondisi kompetitif punya dua sisi: (1) <strong>melindungi diri</strong> (shield) dari sebanyak mungkin tekanan; (2) <strong>menggeser</strong> (shift) kekuatan-kekuatan itu ke arah yang menguntungkan dengan mengubah faktor yang mendasarinya.</p>
+
+<div class="box case">
+  <div class="t">Terapkan ke AirAsia: dua arena, dua hasil</div>
+  <p>Kesalahan umum kelompok: menilai Five Forces “industri penerbangan” secara umum. Yang bernilai adalah membedakan <strong>arena regional jarak pendek</strong> (bisnis inti AirAsia) dan <strong>arena jarak jauh KL–London</strong> (AirAsia X), karena gigitan kekuatannya berbeda.</p>
+  <table style="margin-bottom:1mm">
+    <thead><tr><th style="width:15%">Kekuatan</th><th style="width:42%">Arena regional (A320, &lt; 4 jam)</th><th>Arena jarak jauh (A330/A340, KL–London)</th></tr></thead>
+    <tbody>
+    <tr><td class="k">Rivalry</td><td><span class="rating sedang">SEDANG → KUAT</span> Banyak peniru model Southwest (Tiger, Cebu Pacific, Jetstar Asia); produk hampir identik; biaya berpindah nol; biaya tetap tinggi. Peredamnya: permintaan tumbuh sangat cepat (200 ribu → 11,8 juta penumpang) sehingga tidak semua harus saling rebut.</td><td><span class="rating kuat">KUAT</span> Minimal enam maskapai internasional di KL–London; pesaing terdekat MAS, Emirates, British Airways; 2008–2009 kelebihan kapasitas global; network carrier bisa menutup tarif ekonomi dengan laba kelas premium (subsidi silang).</td></tr>
+    <tr><td class="k">Pendatang baru</td><td><span class="rating sedang">SEDANG</span> Deregulasi dan sewa pesawat menurunkan hambatan (AirAsia sendiri buktinya). Penahan: skala, merek, slot bandara, dan reaksi incumbent (MAS milik negara).</td><td><span class="rating lemah">RENDAH → SEDANG</span> Modal pesawat berbadan lebar sangat besar; “sangat sedikit LCC yang mencoba, lebih sedikit lagi yang berhasil”; tetapi Jetstar mulai mencoba.</td></tr>
+    <tr><td class="k">Pengganti</td><td><span class="rating sedang">SEDANG</span> Bus, kereta, feri, mobil pribadi: murah tetapi lambat. AirAsia justru mengubah arah tekanan: menarik pengguna moda darat ke udara.</td><td><span class="rating lemah">LEMAH</span> Tidak ada pengganti untuk perjalanan antarbenua selain tidak bepergian.</td></tr>
+    <tr><td class="k">Pemasok</td><td colspan="2"><span class="rating kuat">KUAT</span> Pesawat hanya dari Airbus atau Boeing (duopoli); bahan bakar 47% biaya dengan harga ditentukan pasar minyak; bandara dan navigasi menetapkan tarif; pilot terampil langka. Cara AirAsia mengurangi: satu tipe pesawat dengan pesanan besar (daya tawar ke Airbus), bandara sekunder (Stansted, bukan Heathrow), perawatan dialihdayakan lewat tender kompetitif. Di rute jauh, biaya sewa A340 (US$ 5.952 per penerbangan) menjadi pos tambahan yang tidak dipikul pesaing yang memiliki pesawatnya sendiri.</td></tr>
+    <tr><td class="k">Pembeli</td><td colspan="2">Daya tawar individu: <span class="rating lemah">LEMAH</span> (tidak ada negosiasi tarif). Sensitivitas harga: <span class="rating kuat">SANGAT KUAT</span> (penumpang leisure berpendapatan menengah-bawah; tiket porsi besar anggaran; produk tidak terdiferensiasi; internet membuat harga transparan; perjalanan bisa ditunda). Di rute jauh, pembeli bisnis kurang peka harga tetapi menuntut jaringan, tiket terusan, dan program frequent flyer yang tidak dimiliki AirAsia X.</td></tr>
+    </tbody>
+  </table>
+  <p><strong>Kesimpulan kolektif:</strong> kekuatan terkuat adalah pemasok (bahan bakar) dan sensitivitas harga pembeli, disusul rivalry. Industri ini <em>tidak menarik</em> secara rata-rata, persis seperti yang disebut buku. Bukti: 2008 “sangat sedikit maskapai dunia yang untung”, dan bahkan AirAsia rugi bersih RM 496,6 juta, meski karena keputusan lindung nilai, bukan operasinya.</p>
+</div>
+
+<div class="box sowhat">
+  <div class="t">So what: shield dan shift ala AirAsia</div>
+  <table style="margin-bottom:0">
+    <thead><tr><th style="width:22%">Kekuatan</th><th>Shield (melindungi diri)</th><th>Shift (menggeser kekuatan)</th></tr></thead>
+    <tbody>
+    <tr><td class="k">Rivalry</td><td>Biaya per ASK terendah di dunia: bertahan hidup dalam perang harga yang membunuh pesaing.</td><td>“Now Everyone Can Fly” memperbesar kue (permintaan tumbuh cepat meredam rivalry); merek yang kuat menaikkan biaya berpindah psikologis.</td></tr>
+    <tr><td class="k">Pendatang baru</td><td>Skala dan kurva pembelajaran 2002–2009.</td><td>Membangun hub Bangkok dan Jakarta lebih dulu lewat patungan; menduduki posisi sebelum pendatang lain.</td></tr>
+    <tr><td class="k">Pengganti</td><td>Tarif mendekati harga bus dan feri.</td><td>Menjadikan moda darat sebagai pelengkap: bus AA Express dari bandara ke kota, dipesan bersama tiket.</td></tr>
+    <tr><td class="k">Pemasok</td><td>Satu tipe pesawat, bandara sekunder, outsourcing dengan tender.</td><td>Pesanan besar (10 A350) memberi posisi tawar terhadap Airbus.</td></tr>
+    <tr><td class="k">Pembeli</td><td>Penjualan langsung menghapus perantara (agen) yang biasanya menekan komisi.</td><td>Yield management menjual kursi yang sama dengan harga berbeda menurut permintaan: memanen sensitivitas harga, bukan menjadi korbannya.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="box trap">
+  <div class="t">Jebakan yang menurunkan nilai</div>
+  <ul>
+    <li>Menyebut semua kekuatan “tinggi” tanpa faktor pendukung. Dosen menilai <em>alasan</em>, bukan label.</li>
+    <li>Memasukkan Malaysia Airlines sebagai “pengganti”. Merek lain dalam industri yang sama adalah pesaing, bukan pengganti.</li>
+    <li>Mencampur daya tawar pembeli dengan sensitivitas harga. Buku memisahkan keduanya, dan pemisahan itulah yang menjelaskan mengapa penumpang tidak bisa menawar tetapi tetap “kuat”.</li>
+    <li>Berhenti di “industri tidak menarik” tanpa bertanya: lalu dari mana laba AirAsia datang? (jawabannya: posisi biaya, Bab 4).</li>
+  </ul>
+</div>
+</div>
+
+<!-- ============================ C.3 VALUE NET ============================ -->
+<div class="section">
+<h1><span class="kicker">Bagian C.3</span>Value Net dan complementors</h1>
+<table class="nobreak" style="font-size:9.2pt;margin-top:1mm"><thead><tr><th colspan="2">Kartu framework (format sesi framework silabus: dimensi, definisi, manfaat)</th></tr></thead><tbody><tr><td class="k">Nama</td><td>Value Net (Brandenburger &amp; Nalebuff, diadopsi buku)</td></tr><tr><td class="k">Sumber di buku</td><td>Figure 3.9, Core Concept “Complementors”</td></tr><tr><td class="k">Pertanyaan yang dijawab</td><td>Sisi kooperatif dari Q2: siapa yang memperbesar nilai bersama kita?</td></tr><tr><td class="k">Dimensi / ukuran</td><td>Empat kategori di sekeliling perusahaan: pelanggan, pemasok, pesaing (termasuk pengganti dan calon pendatang), complementor.</td></tr><tr><td class="k">Langkah</td><td>Taruh perusahaan di tengah → petakan tiap kategori → cari interaksi kooperatif, bukan hanya kompetitif.</td></tr><tr><td class="k">Keluaran</td><td>Daftar complementor dan mitra, plus peluang kerja sama yang memperbaiki posisi.</td></tr><tr><td class="k">Manfaat untuk bisnis internasional</td><td>Mitra lokal, pemerintah, dan complementor sering menjadi kunci masuk pasar asing.</td></tr></tbody></table>
+
+<div class="box simple">
+  <div class="t">Bahasa sederhana</div>
+  <p>Five Forces melihat semua pihak sebagai penggigit kue. Value Net mengingatkan bahwa sebagian pihak justru <strong>memperbesar kue</strong>. Perusahaan ditaruh di tengah; di sekelilingnya ada pelanggan, pemasok, pesaing (termasuk pengganti dan calon pendatang), dan satu kategori baru: <strong>complementor</strong>, yaitu produsen produk pelengkap yang menaikkan nilai produk kita bila dipakai bersama (sepatu dan tali sepatu; konsol dan gim).</p>
+</div>
+
+<div class="two">
+<div>
+<p>Tiga perbedaan Value Net dari Five Forces:</p>
+<ol>
+  <li>Fokusnya pada interaksi pihak-pihak itu dengan <em>satu perusahaan tertentu</em>, bukan industri secara umum.</li>
+  <li>Kategori “pesaing” diperluas: pesaing langsung, penjual pengganti, dan calon pendatang dijadikan satu.</li>
+  <li>Ada complementor. Kenaikan penjualan complementor cenderung menaikkan penjualan kita juga.</li>
+</ol>
+<p>Pesan utamanya: sukses tidak harus mengorbankan pihak lain; nilai diciptakan <em>bersama</em> oleh semua peserta industri. Bahkan pesaing langsung bisa bekerja sama dalam asosiasi industri atau lobi bersama. Pemasok pun bisa menjadi mitra (contoh buku: P&amp;G dan Newell-Rubbermaid bekerja sama sebagai pemasok Walmart).</p>
+</div>
+<div style="flex:0 0 70mm">
+<svg viewBox="0 0 260 230" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="Liberation Sans, Arial" font-size="10">
+  <line x1="130" y1="40" x2="130" y2="190" stroke="#b9c2cc" stroke-width="1.2"/>
+  <line x1="40" y1="115" x2="220" y2="115" stroke="#b9c2cc" stroke-width="1.2"/>
+  <rect x="80" y="95" width="100" height="40" rx="6" fill="#0b2a4a"/>
+  <text x="130" y="119" text-anchor="middle" fill="#fff" font-weight="700">PERUSAHAAN</text>
+  <rect x="85" y="10" width="90" height="30" rx="5" fill="#f7f9fc" stroke="#0b2a4a"/>
+  <text x="130" y="29" text-anchor="middle" font-weight="700" fill="#0b2a4a">PELANGGAN</text>
+  <rect x="85" y="190" width="90" height="30" rx="5" fill="#f7f9fc" stroke="#0b2a4a"/>
+  <text x="130" y="209" text-anchor="middle" font-weight="700" fill="#0b2a4a">PEMASOK</text>
+  <rect x="2" y="95" width="78" height="40" rx="5" fill="#fdf4f5" stroke="#c8102e"/>
+  <text x="41" y="112" text-anchor="middle" font-weight="700" fill="#c8102e">PESAING</text>
+  <text x="41" y="126" text-anchor="middle" font-size="8">+pengganti, +pendatang</text>
+  <rect x="180" y="95" width="78" height="40" rx="5" fill="#f3faf6" stroke="#2a7f62"/>
+  <text x="219" y="112" text-anchor="middle" font-weight="700" fill="#2a7f62">COMPLE-</text>
+  <text x="219" y="126" text-anchor="middle" font-weight="700" fill="#2a7f62">MENTOR</text>
+</svg>
+<div class="small">Gambar C.3. Value Net (Figure 3.9 buku, digambar ulang).</div>
+</div>
+</div>
+
+<div class="box case">
+  <div class="t">Terapkan ke AirAsia: ekosistem yang memperbesar kue</div>
+  <table style="margin-bottom:1mm">
+    <thead><tr><th style="width:24%">Peserta</th><th>Siapa (dari kasus)</th><th style="width:36%">Cara mereka memperbesar nilai AirAsia</th></tr></thead>
+    <tbody>
+    <tr><td class="k">Complementor buatan sendiri</td><td>Tune Hotels (hotel tanpa embel-embel), Tune Money (jasa keuangan daring), bus AA Express bandara–kota; semuanya co-branded AirAsia.</td><td>Menjual “perjalanan utuh”, bukan hanya kursi: pendapatan tambahan tanpa menaikkan tarif dasar, dan alasan tambahan untuk memilih AirAsia.</td></tr>
+    <tr><td class="k">Complementor merek</td><td>Sponsor tim F1 AT&amp;T Williams, Manchester United, wasit Liga Inggris; iklan bersama majalah Time; kartu kredit Citibank–AirAsia dengan aplikasi Facebook.</td><td>Kepercayaan merek dipinjam dari mitra yang sudah dipercaya; biaya membangun merek dibagi.</td></tr>
+    <tr><td class="k">Pemasok sebagai mitra</td><td>Navitaire (CRS Open Skies), penyedia perawatan “paling ternama di dunia”, Airbus (pesanan besar A320/A350).</td><td>Keandalan dan keselamatan yang ditopang mitra; sistem IT yang dipakai bersama AirAsia X menekan biaya start-up.</td></tr>
+    <tr><td class="k">Pesaing yang menjadi mitra</td><td>Investor AirAsia X: Virgin Group (pengalaman mendirikan empat maskapai), Aero Ventures (dipimpin mantan CEO Air Canada), Manara, Orix.</td><td>Keahlian dan modal dari pihak yang di arena lain adalah pesaing; risiko eksplorasi dibagi.</td></tr>
+    <tr><td class="k">Pemerintah dan bandara</td><td>Pemerintah Malaysia, Thailand, Indonesia; bandara sekunder.</td><td>Bandara sekunder butuh lalu lintas, AirAsia butuh tarif murah: kepentingan searah.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="box sowhat">
+  <div class="t">So what</div>
+  <p>Value Net menjelaskan sesuatu yang Five Forces lewatkan: sebagian keunggulan AirAsia lahir dari <strong>kerja sama</strong>, bukan dari menekan pihak lain. Untuk keputusan AirAsia X, alat ini menunjukkan bahwa keunggulan yang paling mudah dipindahkan ke rute jauh justru yang bersifat relasional: merek, sistem pemesanan bersama, dan mitra investor.</p>
+</div>
+</div>
+
+<!-- ============================ C.4 DRIVING FORCES ============================ -->
+<div class="section">
+<h1><span class="kicker">Bagian C.4</span>Driving Forces: kekuatan yang mengubah industri</h1>
+<table class="nobreak" style="font-size:9.2pt;margin-top:1mm"><thead><tr><th colspan="2">Kartu framework (format sesi framework silabus: dimensi, definisi, manfaat)</th></tr></thead><tbody><tr><td class="k">Nama</td><td>Driving Forces Analysis</td></tr><tr><td class="k">Sumber di buku</td><td>Table 3.3, Core Concept “Driving forces”</td></tr><tr><td class="k">Pertanyaan yang dijawab</td><td>Q3: kekuatan apa yang mengubah industri dan apa dampaknya pada persaingan dan laba?</td></tr><tr><td class="k">Dimensi / ukuran</td><td>Dua belas kategori pendorong umum (pertumbuhan, globalisasi, internet, pembeli, teknologi, produk, pemasaran, masuk/keluar pemain besar, difusi know-how, biaya-efisiensi, risiko, regulasi) plus sikap masyarakat. Ukuran: arah dampak pada permintaan, intensitas persaingan, laba.</td></tr><tr><td class="k">Langkah</td><td>(1) identifikasi maksimal 3–4 pendorong sejati; (2) nilai dampak kolektif lewat tiga pertanyaan; (3) tentukan penyesuaian strategi.</td></tr><tr><td class="k">Keluaran</td><td>Daftar pendek pendorong, matriks dampak, dan tindakan penyesuaian.</td></tr><tr><td class="k">Manfaat untuk bisnis internasional</td><td>Globalisasi dan perubahan kebijakan pemerintah adalah dua pendorong yang paling sering muncul lintas negara.</td></tr></tbody></table>
+
+<div class="box simple">
+  <div class="t">Bahasa sederhana</div>
+  <p>Five Forces adalah foto: kondisi hari ini. Driving forces adalah video: apa yang sedang mengubah kondisi itu. Driving forces adalah penyebab utama perubahan industri yang paling berpengaruh membentuk ulang lanskap persaingan. Sebagian datang dari lapis luar (makro), tetapi kebanyakan dari lapis dalam (industri). Siklus hidup industri (lepas landas, tumbuh, matang, jenuh, turun) hanyalah salah satu aspek perubahan.</p>
+</div>
+
+<h3>Tiga langkah analisis</h3>
+<div class="step"><div class="n">1</div><div class="b"><strong>Identifikasi</strong> pendorong perubahan. Disiplin buku: dari sekian banyak perubahan, <strong>hanya 3–4</strong> yang benar-benar layak disebut driving forces. Jangan menamai setiap perubahan sebagai driving force.</div></div>
+<div class="step"><div class="n">2</div><div class="b"><strong>Nilai dampak kolektifnya</strong> lewat tiga pertanyaan: (a) apakah permintaan industri naik atau turun? (b) apakah persaingan makin ketat atau makin longgar? (c) apakah laba industri naik atau turun? Nilai tiap pendorong terpisah dulu, karena arahnya bisa berlawanan; yang menang adalah pendorong terkuat.</div></div>
+<div class="step"><div class="n">3</div><div class="b"><strong>Tentukan penyesuaian strategi</strong> untuk menghadapi dampak itu. Di sinilah “payoff” sebenarnya, dan hanya bisa benar bila langkah 1–2 akurat.</div></div>
+
+<h3>Dua belas pendorong yang paling umum (Table 3.3, diparafrasekan)</h3>
+<table>
+  <thead><tr><th style="width:34%">Pendorong</th><th>Cara kerjanya (ringkas)</th></tr></thead>
+  <tbody>
+  <tr><td class="k">1. Perubahan laju pertumbuhan jangka panjang industri</td><td>Mengubah keseimbangan pasokan-permintaan, arus masuk-keluar pemain, dan intensitas rivalry; efeknya bergantung pada tinggi-rendahnya hambatan masuk.</td></tr>
+  <tr><td class="k">2. Globalisasi yang meningkat</td><td>Permintaan negara berkembang, input asing lebih murah, turunnya hambatan dagang; memaksa perusahaan melebarkan jangkauan negara.</td></tr>
+  <tr><td class="k">3. Kapabilitas dan aplikasi internet baru</td><td>Pemesanan daring, aplikasi, VoIP; memungkinkan pemain diskon menantang pemain layanan penuh.</td></tr>
+  <tr><td class="k">4. Pergeseran siapa pembeli dan cara produk dipakai</td><td>Demografi dan pola pemakaian baru mengubah kondisi persaingan.</td></tr>
+  <tr><td class="k">5. Perubahan teknologi dan inovasi proses</td><td>Membuka pengganti atau batas industri baru.</td></tr>
+  <tr><td class="k">6. Inovasi produk</td><td>Menarik pembeli baru, meremajakan pertumbuhan, menaikkan diferensiasi.</td></tr>
+  <tr><td class="k">7. Inovasi pemasaran</td><td>Cara baru memasarkan memicu minat, memperluas permintaan, menurunkan biaya per unit.</td></tr>
+  <tr><td class="k">8. Masuk atau keluarnya pemain besar</td><td>Masuknya pemain besar menciptakan “permainan baru” dengan aturan baru; keluarnya pemain mengubah struktur.</td></tr>
+  <tr><td class="k">9. Penyebaran pengetahuan teknis antar-perusahaan dan negara</td><td>Produk menjadi mirip komoditas ketika cara membuatnya diketahui semua.</td></tr>
+  <tr><td class="k">10. Perubahan biaya dan efisiensi</td><td>Melebar atau menyempitnya selisih biaya antar-pesaing mengubah peta persaingan.</td></tr>
+  <tr><td class="k">11. Berkurangnya ketidakpastian dan risiko bisnis</td><td>Risiko yang turun mengundang masuknya pemain baru dan investasi.</td></tr>
+  <tr><td class="k">12. Pengaruh regulasi dan perubahan kebijakan pemerintah</td><td>Membuka atau menutup pasar; memaksa perubahan praktik industri.</td></tr>
+  <tr><td class="k">(+) Perubahan kepedulian, sikap, dan gaya hidup masyarakat</td><td>Isu sosial baru mengubah pola persaingan dan menguntungkan pemain yang merespons.</td></tr>
+  </tbody>
+</table>
+
+<div class="box case">
+  <div class="t">Terapkan ke AirAsia: memilih empat driving forces yang sebenarnya</div>
+  <p>Kandidat yang muncul dari kasus ada banyak. Dengan disiplin “maksimal 3–4”, inilah pilihan yang dapat dipertahankan, masing-masing dipetakan ke kategori buku:</p>
+  <table style="margin-bottom:1mm">
+    <thead><tr><th style="width:26%">Driving force (kategori)</th><th>Bukti kasus</th><th style="width:34%">Dampak: permintaan / persaingan / laba</th></tr></thead>
+    <tbody>
+    <tr><td class="k">A. Deregulasi penerbangan Asia Tenggara (regulasi &amp; kebijakan, #12)</td><td>“Sangat memudahkan ekspansi internasional”; hub Bangkok dan Jakarta lewat patungan; rute KL–Phuket 2004, Indonesia 2005.</td><td>Permintaan ↑ (pasar lintas negara terbuka); persaingan ↑ (hambatan masuk turun); laba: tergantung siapa yang paling cepat menduduki hub.</td></tr>
+    <tr><td class="k">B. Kelas menengah Asia yang baru pertama kali terbang (pertumbuhan jangka panjang, #1, dan pergeseran pembeli, #4)</td><td>500 juta orang dalam 3,5 jam terbang; “hanya sebagian kecil yang rutin terbang”; tarif rendah “menstimulasi perjalanan”.</td><td>Permintaan ↑↑; persaingan sementara teredam karena kue membesar; laba ↑ bagi pemain berbiaya rendah.</td></tr>
+    <tr><td class="k">C. Distribusi langsung berbasis internet dan ponsel (internet, #3, dan biaya-efisiensi, #10)</td><td>Situs web dan call center menghapus komisi agen; pemesanan lewat ponsel sejak 2006; boarding pass cetak sendiri.</td><td>Persaingan ↑ (harga transparan bagi pembeli); laba ↑ bagi yang paling dulu memangkas biaya distribusi, lalu menyempit ketika semua meniru.</td></tr>
+    <tr><td class="k">D. Volatilitas biaya bahan bakar (biaya &amp; efisiensi, #10)</td><td>Harga minyak melonjak lalu “jatuh” pada paruh kedua 2008; kerugian derivatif RM 830,2 juta; bahan bakar 47% beban.</td><td>Laba ↓ tajam bagi yang salah posisi lindung nilai; memperlebar selisih antara maskapai hemat bahan bakar dan yang boros.</td></tr>
+    </tbody>
+  </table>
+  <p>Kandidat yang <em>sengaja tidak</em> dinaikkan menjadi driving force utama, dengan alasan: masuknya LCC ke rute jauh (AirAsia X, Jetstar; kategori #8) memang penting untuk arena jarak jauh, tetapi pada 2009 volumenya masih terlalu kecil untuk membentuk ulang industri; ini lebih tepat disebut <em>gerakan pesaing</em> (C.6). Menyebutkan alasan penolakan seperti ini adalah cara mendapatkan kredit “argumen yang saling bertentangan” dalam rubrik A.</p>
+</div>
+
+<div class="box sowhat">
+  <div class="t">So what: penyesuaian strategi (langkah 3)</div>
+  <ul>
+    <li>Dari A dan B: bergerak lebih dulu ke hub baru sebelum pesaing (sudah dilakukan: Thailand, Indonesia). Pertanyaan berikutnya adalah apakah rute jauh juga “hub yang harus diduduki lebih dulu” atau bukan.</li>
+    <li>Dari C: keunggulan distribusi akan menyempit karena pengetahuan menyebar (#9). Maka keunggulan harus dipindahkan ke hal yang lebih sulit ditiru: merek, budaya, dan sistem yang saling menopang.</li>
+    <li>Dari D: keputusan lindung nilai tidak boleh bergantung pada keyakinan satu orang. Perlu kebijakan lindung nilai tertulis dengan batas yang disetujui dewan (masuk ke rencana implementasi di D.3).</li>
+  </ul>
+</div>
+
+<div class="box trap">
+  <div class="t">Jebakan yang menurunkan nilai</div>
+  <ul>
+    <li>Mendaftar 8–10 driving forces. Buku eksplisit: tidak lebih dari 3–4.</li>
+    <li>Menjawab langkah 1 saja. Nilai ada di langkah 2 (tiga pertanyaan dampak) dan langkah 3 (penyesuaian strategi).</li>
+    <li>Mengulang PESTEL dengan nama lain. PESTEL = daftar cuaca; driving forces = 3–4 badai yang benar-benar mengubah medan.</li>
+  </ul>
+</div>
+</div>
+
+<!-- ============================ C.5 STRATEGIC GROUP MAP ============================ -->
+<div class="section">
+<h1><span class="kicker">Bagian C.5</span>Strategic Group Map</h1>
+<table class="nobreak" style="font-size:9.2pt;margin-top:1mm"><thead><tr><th colspan="2">Kartu framework (format sesi framework silabus: dimensi, definisi, manfaat)</th></tr></thead><tbody><tr><td class="k">Nama</td><td>Strategic Group Mapping</td></tr><tr><td class="k">Sumber di buku</td><td>Bagian “Strategic Group Analysis”, LO 3-3, Illustration Capsule (contoh peta jasa pesan-antar makanan)</td></tr><tr><td class="k">Pertanyaan yang dijawab</td><td>Q4: posisi pasar apa yang ditempati pesaing; siapa kuat dan siapa lemah?</td></tr><tr><td class="k">Dimensi / ukuran</td><td>Dua variabel kompetitif yang tidak berkorelasi (harga/kualitas, cakupan geografis, integrasi vertikal, lebar lini, saluran distribusi, tingkat layanan); ukuran lingkaran = pangsa penjualan kelompok.</td></tr><tr><td class="k">Langkah</td><td>Pilih variabel → plot → kelompokkan → gambar lingkaran; buat beberapa peta bila perlu.</td></tr><tr><td class="k">Keluaran</td><td>Peta kelompok, pesaing terdekat, kelompok yang diuntungkan/dirugikan driving forces, hambatan mobilitas.</td></tr><tr><td class="k">Manfaat untuk bisnis internasional</td><td>Menunjukkan kelompok mana yang kosong di pasar tujuan dan seberapa mahal berpindah ke sana.</td></tr></tbody></table>
+
+<div class="box simple">
+  <div class="t">Bahasa sederhana</div>
+  <p>Dalam satu industri, tidak semua perusahaan bertarung dengan cara yang sama. <strong>Kelompok strategis</strong> adalah sekumpulan perusahaan yang pendekatan bersaing dan posisi pasarnya mirip. Peta kelompok strategis adalah gambar dua sumbu yang menunjukkan siapa berkumpul dengan siapa, sehingga terlihat siapa pesaing terdekat kita dan tekanan mana yang mengenai kelompok mana.</p>
+</div>
+
+<h3>Cara menyusun peta</h3>
+<div class="step"><div class="n">1</div><div class="b">Pilih <strong>variabel kompetitif</strong> yang membedakan perusahaan: rentang harga/kualitas, cakupan geografis, derajat integrasi vertikal, lebar lini produk, saluran distribusi, tingkat layanan.</div></div>
+<div class="step"><div class="n">2</div><div class="b">Plot perusahaan pada peta dua variabel.</div></div>
+<div class="step"><div class="n">3</div><div class="b">Kelompokkan perusahaan yang berdekatan ke dalam kelompok strategis yang sama.</div></div>
+<div class="step"><div class="n">4</div><div class="b">Gambar lingkaran tiap kelompok dengan ukuran sebanding dengan pangsa penjualannya dalam industri.</div></div>
+<p>Pedoman memilih variabel: (a) dua variabel <strong>jangan berkorelasi kuat</strong> (kalau harga tinggi selalu berarti layanan tinggi, petanya hanya garis diagonal); (b) pilih variabel yang <strong>memperlihatkan perbedaan besar</strong> dalam cara bersaing; (c) variabel boleh kuantitatif/kontinu atau diskrit/kategori; (d) buat <strong>beberapa peta</strong> dengan pasangan variabel berbeda bila lebih dari dua variabel penting.</p>
+
+<h3>Nilai peta ini untuk strategi</h3>
+<ul>
+  <li>Tekanan kompetitif dan driving forces sering <strong>menguntungkan sebagian kelompok dan merugikan kelompok lain</strong>.</li>
+  <li>Potensi laba tiap kelompok berbeda, karena kekuatan dan kelemahan posisi pasarnya berbeda.</li>
+  <li>Pesaing terdekat adalah anggota kelompok yang sama; kelompok yang jauh di peta hampir tidak bersaing langsung.</li>
+  <li>Berpindah kelompok sering terhalang <strong>hambatan mobilitas</strong>: aset, kapabilitas, dan reputasi yang harus dibangun dulu.</li>
+</ul>
+
+<div class="box case">
+  <div class="t">Terapkan ke AirAsia: peta yang menjelaskan seluruh kasus</div>
+  <p>Pasangan variabel yang bekerja: <strong>jangkauan rute</strong> (regional pendek ↔ jarak jauh antarbenua) melawan <strong>tingkat layanan/harga</strong> (tanpa embel-embel ↔ layanan penuh). Keduanya tidak berkorelasi (ada maskapai layanan penuh di rute pendek dan ada LCC di rute jauh), dan keduanya memperlihatkan perbedaan cara bersaing yang besar.</p>
+  <figure>
+  <svg viewBox="0 0 700 380" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="Liberation Sans, Arial" font-size="11">
+    <defs><marker id="ar5" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#c8102e"/></marker></defs>
+    <line x1="70" y1="330" x2="680" y2="330" stroke="#333" stroke-width="1.4"/>
+    <line x1="70" y1="330" x2="70" y2="20" stroke="#333" stroke-width="1.4"/>
+    <text x="375" y="360" text-anchor="middle" font-weight="700">JANGKAUAN RUTE  →  regional pendek (&lt;4 jam) ............ jarak jauh antarbenua</text>
+    <text x="22" y="175" text-anchor="middle" font-weight="700" transform="rotate(-90 22 175)">TINGKAT LAYANAN / HARGA  →  tanpa embel-embel ...... layanan penuh</text>
+    <line x1="375" y1="20" x2="375" y2="330" stroke="#b9c2cc" stroke-dasharray="4 4"/>
+    <line x1="70" y1="175" x2="680" y2="175" stroke="#b9c2cc" stroke-dasharray="4 4"/>
+    <ellipse cx="215" cy="95" rx="120" ry="58" fill="#e9eef5" stroke="#0b2a4a" stroke-width="1.5"/>
+    <text x="215" y="80" text-anchor="middle" font-weight="700" fill="#0b2a4a">Layanan penuh regional</text>
+    <text x="215" y="98" text-anchor="middle">MAS domestik, Singapore Airlines</text>
+    <text x="215" y="114" text-anchor="middle">(rute regional), Thai Airways</text>
+    <ellipse cx="530" cy="95" rx="135" ry="62" fill="#e9eef5" stroke="#0b2a4a" stroke-width="1.5"/>
+    <text x="530" y="78" text-anchor="middle" font-weight="700" fill="#0b2a4a">Network carriers jarak jauh</text>
+    <text x="530" y="96" text-anchor="middle">Emirates, British Airways, MAS internasional,</text>
+    <text x="530" y="112" text-anchor="middle">Qatar, Etihad, Gulf Air</text>
+    <text x="530" y="130" text-anchor="middle" font-size="9.5" fill="#555">laba dari kelas premium, jaringan pengumpan</text>
+    <ellipse cx="215" cy="255" rx="125" ry="58" fill="#fdf4f5" stroke="#c8102e" stroke-width="2"/>
+    <text x="215" y="240" text-anchor="middle" font-weight="700" fill="#c8102e">LCC regional (AirAsia berada di sini)</text>
+    <text x="215" y="258" text-anchor="middle">AirAsia, Tiger Airways, Cebu Pacific,</text>
+    <text x="215" y="274" text-anchor="middle">Jetstar Asia, Nok Air</text>
+    <ellipse cx="530" cy="255" rx="105" ry="50" fill="#fff" stroke="#c8102e" stroke-width="2" stroke-dasharray="6 4"/>
+    <text x="530" y="243" text-anchor="middle" font-weight="700" fill="#c8102e">LCC jarak jauh (hampir kosong)</text>
+    <text x="530" y="261" text-anchor="middle">AirAsia X, Jetstar (Qantas)</text>
+    <text x="530" y="278" text-anchor="middle" font-size="9.5" fill="#555">sangat sedikit yang berhasil</text>
+    <line x1="340" y1="255" x2="420" y2="255" stroke="#c8102e" stroke-width="2.2" marker-end="url(#ar5)"/>
+    <text x="380" y="245" text-anchor="middle" font-size="9.5" font-weight="700" fill="#c8102e">2007</text>
+    <line x1="530" y1="200" x2="530" y2="162" stroke="#555" stroke-width="1.4" stroke-dasharray="3 3" marker-end="url(#ar5)"/>
+    <text x="600" y="185" text-anchor="start" font-size="9.5" fill="#555">lawan baru:</text>
+    <text x="600" y="198" text-anchor="start" font-size="9.5" fill="#555">model laba berbeda</text>
+  </svg>
+  <figcaption>Gambar C.5. Peta kelompok strategis industri penerbangan dari sudut pandang AirAsia, 2009. Ukuran lingkaran indikatif, bukan pangsa pasar terukur. Nama pesaing diambil dari teks dan tabel kasus.</figcaption>
+  </figure>
+  <p><strong>Pembacaan:</strong> AirAsia X <em>berpindah kelompok</em>. Di kelompok lama, lawannya sesama maskapai murah dengan model laba yang sama. Di kelompok baru, lawan sebenarnya bukan sesama LCC jarak jauh (kelompok itu hampir kosong), melainkan network carriers di atasnya, yang bisa menurunkan tarif ekonomi tanpa kehilangan laba total karena ditopang kelas premium, jaringan pengumpan, tiket terusan, transfer bagasi, dan program frequent flyer. Itulah <strong>hambatan mobilitas</strong> yang harus dibayar AirAsia X.</p>
+</div>
+
+<div class="box sowhat">
+  <div class="t">So what</div>
+  <p>Peta ini mengubah pertanyaan kasus. Bukan “apakah AirAsia murah?” (sudah terbukti), melainkan “<strong>apakah keunggulan yang dibangun di kelompok kiri-bawah bisa dibawa ke kelompok kanan-bawah, ketika lawan sebenarnya ada di kanan-atas?</strong>”. Data KL–London memberi jawaban awal: biaya AirAsia X per penumpang US$ 373 melawan US$ 553 (BA), 590 (MAS), 610 (Emirates), tetapi angka itu belum memuat gaji kru, perawatan, dan katering, tiga pos yang membesar di rute jauh.</p>
+</div>
+
+<div class="box trap">
+  <div class="t">Jebakan yang menurunkan nilai</div>
+  <ul>
+    <li>Sumbu “harga” melawan “layanan”: keduanya berkorelasi, petanya menjadi garis lurus tanpa informasi.</li>
+    <li>Menaruh AirAsia dan AirAsia X di titik yang sama. Seluruh kasus justru tentang perpindahan kelompok.</li>
+    <li>Tidak menyebut hambatan mobilitas. Tanpa itu, peta hanya gambar, bukan analisis.</li>
+  </ul>
+</div>
+</div>
+
+<!-- ============================ C.6 COMPETITOR ANALYSIS ============================ -->
+<div class="section">
+<h1><span class="kicker">Bagian C.6</span>Competitor Analysis: kerangka SOAR</h1>
+<table class="nobreak" style="font-size:9.2pt;margin-top:1mm"><thead><tr><th colspan="2">Kartu framework (format sesi framework silabus: dimensi, definisi, manfaat)</th></tr></thead><tbody><tr><td class="k">Nama</td><td>Competitor Analysis: kerangka SOAR</td></tr><tr><td class="k">Sumber di buku</td><td>Bagian “Competitor Analysis and the SOAR Framework”, Figure 3.10</td></tr><tr><td class="k">Pertanyaan yang dijawab</td><td>Q5: langkah apa yang kemungkinan besar diambil pesaing berikutnya?</td></tr><tr><td class="k">Dimensi / ukuran</td><td>Empat komponen per pesaing: Strategy (saat ini), Objectives, Assumptions (tentang diri dan industri), Resources &amp; capabilities.</td></tr><tr><td class="k">Langkah</td><td>Kumpulkan informasi tiap komponen → simpulkan pola → prediksi langkah (serang, bertahan, tiru, abaikan).</td></tr><tr><td class="k">Keluaran</td><td>Prediksi gerakan pesaing dan implikasinya bagi pilihan strategi kita.</td></tr><tr><td class="k">Manfaat untuk bisnis internasional</td><td>Pesaing di negara lain punya asumsi dan pemilik (negara, keluarga) yang berbeda; SOAR memaksa membaca itu.</td></tr></tbody></table>
+
+<div class="box simple">
+  <div class="t">Bahasa sederhana</div>
+  <p>Peta kelompok memberi tahu <em>siapa</em> lawan terdekat. Analisis pesaing memberi tahu <em>apa yang akan mereka lakukan berikutnya</em>. Cara berpikirnya seperti pemain catur: langkah lawan bisa diprediksi kalau kita tahu strateginya sekarang, tujuannya, asumsinya tentang dirinya dan industri, serta sumber daya yang dimilikinya. Empat hal itu disingkat <strong>SOAR</strong>: <strong>S</strong>trategy, <strong>O</strong>bjectives, <strong>A</strong>ssumptions, <strong>R</strong>esources &amp; capabilities.</p>
+</div>
+
+<table>
+  <thead><tr><th style="width:22%">Komponen</th><th>Pertanyaan yang dijawab</th><th style="width:34%">Sumber informasi yang biasa dipakai</th></tr></thead>
+  <tbody>
+  <tr><td class="k">S = Strategi saat ini</td><td>Bagaimana pesaing bersaing sekarang: biaya rendah atau diferensiasi, cakupan pasar, langkah terakhirnya.</td><td>Laporan tahunan, pernyataan manajemen, pola investasi, iklan.</td></tr>
+  <tr><td class="k">O = Objektif</td><td>Apa yang ingin dicapai: pangsa, pertumbuhan, laba, dominasi wilayah; seberapa puas dengan posisi sekarang.</td><td>Target yang diumumkan, tekanan pemilik (negara, keluarga, pasar modal).</td></tr>
+  <tr><td class="k">A = Asumsi</td><td>Apa yang pesaing yakini tentang dirinya dan tentang industri (termasuk keyakinan yang mungkin keliru).</td><td>Pidato eksekutif, cara mereka memperlakukan pendatang baru sebelumnya.</td></tr>
+  <tr><td class="k">R = Sumber daya &amp; kapabilitas</td><td>Apa yang mampu mereka lakukan: neraca, armada, jaringan, merek, orang.</td><td>Data keuangan dan operasional.</td></tr>
+  </tbody>
+</table>
+<p>Keluaran yang diharapkan: <strong>prediksi langkah berikutnya</strong> pesaing (menyerang, bertahan, mengabaikan, meniru) dan seberapa serius ancamannya bagi rencana kita. Prinsip tambahan buku: pesaing yang sedang berhasil cenderung melanjutkan strateginya; pesaing yang tertekan cenderung mengubahnya.</p>
+
+<div class="box case">
+  <div class="t">Terapkan ke AirAsia: tiga pesaing yang paling menentukan nasib AirAsia X</div>
+  <table style="margin-bottom:1mm">
+    <thead><tr><th style="width:15%">Pesaing</th><th>S: Strategi</th><th>O = Objektif</th><th>A = Asumsi</th><th>R: Sumber daya (kasus)</th><th style="width:20%">Prediksi langkah &amp; implikasi</th></tr></thead>
+    <tbody>
+    <tr><td class="k">Malaysia Airlines (MAS)</td><td>Network carrier layanan penuh, jaringan domestik + internasional, laba dari kelas premium.</td><td>Mempertahankan status flag carrier dan rute gemuk KL–London; melindungi pangsa domestik dari AirAsia.</td><td>LCC hanya cocok untuk rute pendek; penumpang jarak jauh mau membayar layanan.</td><td>109 pesawat, kas RM 3.571,7 juta, utang hanya RM 433,4 juta, laba 2008 RM 245,6 juta; tetapi CASK 22,80 sen dan 175 karyawan per pesawat.</td><td><span class="tag kuat" style="color:#fff">Serang</span> Mampu menandingi tarif ekonomi AirAsia X di KL–London lama sekali karena kasnya 23 kali kas AirAsia. Implikasi: perang harga di rute jauh adalah perang yang AirAsia tidak boleh pilih.</td></tr>
+    <tr><td class="k">Emirates</td><td>Hub Dubai menghubungkan Asia–Eropa; armada berbadan lebar; layanan premium.</td><td>Pertumbuhan volume lewat hub; load factor naik terus (73,4% → 79,8%).</td><td>Kenyamanan dan konektivitas mengalahkan tarif murni di rute jauh.</td><td>Biaya per penumpang KL–Dubai–London US$ 610, tetapi ditopang kelas premium dan skala.</td><td><span class="tag kb">Abaikan dulu</span> Pendatang kecil tidak mengganggu laba mereka (prinsip buku: entri kecil jarang memancing reaksi). Bahaya muncul bila AirAsia X membesar.</td></tr>
+    <tr><td class="k">Jetstar (Qantas)</td><td>LCC anak perusahaan network carrier, mencoba rute jauh.</td><td>Menangkap segmen murah tanpa merusak merek induk.</td><td>LCC jarak jauh bisa berjalan bila ditopang jaringan induk.</td><td>Dukungan penuh neraca dan jaringan Qantas.</td><td><span class="tag sedang" style="color:#fff">Tiru &amp; rebut</span> Pesaing yang paling mirip AirAsia X tetapi dengan “orang tua” yang lebih kaya. Implikasi: keunggulan AirAsia X harus datang dari biaya, bukan dari dukungan induk.</td></tr>
+    </tbody>
+  </table>
+  <p class="small">Isi kolom S, O, A untuk Emirates dan Jetstar sebagian adalah inferensi dari pengetahuan industri, bukan kutipan kasus <span class="tag kb">[Kemungkinan Besar]</span>. Kolom R untuk MAS dan Emirates diambil dari Tabel 9.1, 9.4, dan 9.5 kasus <span class="tag pasti">[Pasti]</span>.</p>
+</div>
+
+<div class="box sowhat">
+  <div class="t">So what</div>
+  <p>Analisis pesaing mengubah rekomendasi. Kalau MAS mampu dan mau menandingi tarif di KL–London, maka “masuk rute jauh secara besar-besaran” berarti memilih perang yang lawannya punya amunisi 23 kali lebih banyak. Rekomendasi yang masuk akal harus <strong>menghindari konfrontasi langsung</strong>: rute 4–8 jam yang kurang diperebutkan, bandara sekunder, dan pembuktian bertahap.</p>
+</div>
+</div>
+
+<!-- ============================ C.7 KSF ============================ -->
+<div class="section">
+<h1><span class="kicker">Bagian C.7</span>Key Success Factors (KSF)</h1>
+<table class="nobreak" style="font-size:9.2pt;margin-top:1mm"><thead><tr><th colspan="2">Kartu framework (format sesi framework silabus: dimensi, definisi, manfaat)</th></tr></thead><tbody><tr><td class="k">Nama</td><td>Key Success Factors (KSF)</td></tr><tr><td class="k">Sumber di buku</td><td>Bagian “Key Success Factors”, Core Concept KSF</td></tr><tr><td class="k">Pertanyaan yang dijawab</td><td>Q6: apa faktor kunci keberhasilan bersaing di industri ini?</td></tr><tr><td class="k">Dimensi / ukuran</td><td>Tiga pertanyaan penyaring: dasar pilihan pembeli; sumber daya dan kapabilitas yang wajib; kekurangan yang pasti mematikan. Jumlah: 3–5.</td></tr><tr><td class="k">Langkah</td><td>Jawab tiga pertanyaan → ringkas menjadi 3–5 KSF → uji posisi perusahaan pada tiap KSF dengan data.</td></tr><tr><td class="k">Keluaran</td><td>Daftar KSF industri dan skor perusahaan vs pesaing.</td></tr><tr><td class="k">Manfaat untuk bisnis internasional</td><td>KSF berubah ketika perusahaan pindah arena atau negara; alat ini mendeteksi apa yang tidak ikut terbawa.</td></tr></tbody></table>
+
+<div class="box simple">
+  <div class="t">Bahasa sederhana</div>
+  <p>KSF adalah beberapa hal yang <strong>wajib</strong> dikuasai perusahaan mana pun agar bisa menang di industri tertentu. Bukan “semua yang penting”, melainkan 3–5 hal yang paling menentukan; sisanya hanya syarat minimal. KSF berbeda antar-industri dan bisa berubah seiring driving forces.</p>
+</div>
+
+<h3>Tiga pertanyaan penyaring</h3>
+<div class="step"><div class="n">1</div><div class="b">Atas dasar apa pembeli <strong>memilih</strong> di antara merek yang bersaing? Atribut produk mana yang menentukan?</div></div>
+<div class="step"><div class="n">2</div><div class="b">Sumber daya dan kapabilitas apa yang <strong>harus dimiliki</strong> perusahaan untuk sukses bersaing?</div></div>
+<div class="step"><div class="n">3</div><div class="b">Kekurangan apa yang <strong>hampir pasti</strong> menempatkan perusahaan pada posisi kalah?</div></div>
+
+<div class="box case">
+  <div class="t">Terapkan ke AirAsia: lima KSF industri LCC, diuji dengan angka</div>
+  <table style="margin-bottom:1mm">
+    <thead><tr><th style="width:26%">KSF industri LCC</th><th>Dari pertanyaan penyaring mana</th><th>Bukti AirAsia (2008)</th><th style="width:22%">Pembanding MAS (2008)</th></tr></thead>
+    <tbody>
+    <tr><td class="k">1. Biaya per kursi-kilometer (CASK) terendah</td><td>Q1: pembeli memilih tarif termurah; Q3: biaya tinggi = mati.</td><td>11,66 sen; “termurah di dunia” menurut riset UBS 2007.</td><td>22,80 sen (hampir dua kali).</td></tr>
+    <tr><td class="k">2. Utilisasi pesawat dan kru yang tinggi</td><td>Q2: aset mahal harus terus bekerja.</td><td>11,8 jam/hari; putar balik 25 menit “tercepat di kawasan”; tanpa aerobridge; tanpa kursi bernomor.</td><td>11,1 jam/hari.</td></tr>
+    <tr><td class="k">3. Kursi terisi (load factor) yang tinggi lewat yield management</td><td>Q2: pendapatan per penerbangan harus menutup biaya tetap.</td><td>75%; KL–London di atas 90%; YMS memberi harga per kursi menurut permintaan.</td><td>67,8%.</td></tr>
+    <tr><td class="k">4. Operasi sederhana: satu tipe pesawat, satu kelas, titik-ke-titik, distribusi langsung</td><td>Q2 dan Q3: kerumitan = biaya.</td><td>A320 seragam (hemat pembelian, perawatan, pelatihan); 148 kursi vs 132 pada dua kelas; web dan call center tanpa komisi agen; perawatan dan IT dialihdayakan.</td><td>Armada campuran, dua kelas, jaringan hub, komisi agen (masuk “other operating expenses” RM 5.020 juta).</td></tr>
+    <tr><td class="k">5. Orang yang produktif dan merek yang dipercaya</td><td>Q1: keselamatan dan keandalan tetap syarat; Q2: SDM multi-peran.</td><td>3.799 karyawan untuk 78 pesawat (49 per pesawat); bonus produktivitas; ESOS untuk semua; retensi tinggi; Skytrax 2009; belanja iklan relatif besar untuk LCC.</td><td>19.094 karyawan untuk 109 pesawat (175 per pesawat); biaya staf RM 2.179,9 juta vs RM 236,8 juta.</td></tr>
+    </tbody>
+  </table>
+  <p><strong>Pembacaan kritis:</strong> AirAsia menang di kelima KSF arena regional. Tetapi KSF arena jarak jauh <em>berbeda</em>: jaringan pengumpan, kelas premium untuk subsidi silang, tiket terusan dan transfer bagasi, program frequent flyer. Dari daftar itu AirAsia X hanya membawa merek, sistem pemesanan, budaya biaya, bandara sekunder, dan outsourcing. Yang tertinggal justru inti model LCC: satu tipe pesawat (A320 tidak bisa terbang jauh), putar balik 25 menit (dibatasi jam kerja kru), satu kelas (penumpang jarak jauh butuh premium dan makanan), dan jaringan titik-ke-titik (rute jauh hidup dari penumpang transit).</p>
+</div>
+
+<div class="box sowhat">
+  <div class="t">So what</div>
+  <p>KSF menjelaskan pola yang dilihat semua orang tetapi jarang diucapkan: <strong>ketika KSF arena berubah, keunggulan yang dibawa bersifat organisasional (merek, sistem, orang), bukan operasional</strong>. Maka strategi yang benar bukan “meniru AirAsia di rute jauh”, melainkan “membangun model kedua yang ditopang aset organisasional yang sama”. Ini persis argumen unit terpisah yang tetap dikendalikan induk (D.2).</p>
+</div>
+
+<div class="box trap">
+  <div class="t">Jebakan yang menurunkan nilai</div>
+  <ul>
+    <li>Mendaftar 10 KSF. Buku: biasanya tidak lebih dari 3–5; selebihnya syarat minimal.</li>
+    <li>Menulis KSF sebagai kekuatan perusahaan (“AirAsia punya budaya bagus”). KSF adalah syarat <em>industri</em>; kekuatan perusahaan adalah Bab 4.</li>
+    <li>Menganggap KSF regional otomatis berlaku di rute jauh. Kasus ini justru menunjukkan sebaliknya.</li>
+  </ul>
+</div>
+</div>
+
+<!-- ============================ C.8 INDUSTRY OUTLOOK ============================ -->
+<div class="section">
+<h1><span class="kicker">Bagian C.8</span>Industry Outlook: menarik atau tidak?</h1>
+<table class="nobreak" style="font-size:9.2pt;margin-top:1mm"><thead><tr><th colspan="2">Kartu framework (format sesi framework silabus: dimensi, definisi, manfaat)</th></tr></thead><tbody><tr><td class="k">Nama</td><td>Industry Outlook for Profitability</td></tr><tr><td class="k">Sumber di buku</td><td>Bagian penutup bab, “The Industry Outlook for Profitability”</td></tr><tr><td class="k">Pertanyaan yang dijawab</td><td>Q7: apakah prospek industri menjanjikan laba yang baik?</td></tr><tr><td class="k">Dimensi / ukuran</td><td>Pertumbuhan, kekuatan kompetitif, arah driving forces, posisi vs KSF, kemampuan memanfaatkan kelemahan pesaing dan bertahan, tingkat risiko.</td></tr><tr><td class="k">Langkah</td><td>Sintesis semua alat sebelumnya → vonis menarik/tidak menarik → ingat vonis bersifat relatif terhadap posisi perusahaan.</td></tr><tr><td class="k">Keluaran</td><td>Keputusan investasi: tambah, tahan, atau keluar; bagi calon pendatang: masuk atau tidak.</td></tr><tr><td class="k">Manfaat untuk bisnis internasional</td><td>Pasar yang “tidak menarik” secara rata-rata bisa menarik bagi pendatang dengan posisi biaya atau merek yang unik.</td></tr></tbody></table>
+
+<div class="box simple">
+  <div class="t">Bahasa sederhana</div>
+  <p>Ini langkah terakhir Bab 3: menggabungkan semua alat menjadi satu vonis. Apakah industri ini tempat yang baik untuk mencari laba? Jawabannya <strong>selalu relatif</strong>: industri yang sama bisa menarik bagi pemain dengan posisi kuat dan tidak menarik bagi pemain lemah. “Menarik” bagi pemain lama berarti layak menambah investasi; bagi calon pendatang berarti layak masuk.</p>
+</div>
+
+<h3>Faktor yang ditimbang</h3>
+<ul>
+  <li>Potensi pertumbuhan industri (dari PESTEL dan driving forces).</li>
+  <li>Apakah kekuatan kompetitif memungkinkan laba yang memadai (dari Five Forces).</li>
+  <li>Apakah driving forces membuat industri lebih baik atau lebih buruk.</li>
+  <li>Posisi perusahaan relatif terhadap pesaing dan kemampuannya memenuhi KSF (dari peta kelompok, analisis pesaing, dan KSF).</li>
+  <li>Apakah perusahaan bisa memanfaatkan kelemahan pesaing dan melindungi diri dari faktor yang merugikan.</li>
+  <li>Derajat risiko dan ketidakpastian masa depan industri.</li>
+</ul>
+
+<div class="box case">
+  <div class="t">Terapkan ke AirAsia: satu industri, dua vonis</div>
+  <table style="margin-bottom:1mm">
+    <thead><tr><th style="width:26%">Faktor</th><th>Arena regional (bisnis inti)</th><th>Arena jarak jauh (AirAsia X)</th></tr></thead>
+    <tbody>
+    <tr><td class="k">Pertumbuhan</td><td>Sangat tinggi; pasar yang belum terbang.</td><td>Ada, tetapi harus merebut penumpang dari maskapai mapan, bukan menciptakan pasar baru.</td></tr>
+    <tr><td class="k">Kekuatan kompetitif</td><td>Tidak menarik secara rata-rata, tetapi AirAsia adalah pemain berbiaya terendah.</td><td>Lebih berat: lawan bersubsidi silang dan berkas tebal.</td></tr>
+    <tr><td class="k">Driving forces</td><td>Deregulasi dan kelas menengah menguntungkan pemain pertama di hub.</td><td>Volatilitas bahan bakar lebih menggigit (pesawat besar, rute panjang).</td></tr>
+    <tr><td class="k">Posisi vs KSF</td><td>Menang di lima KSF.</td><td>Menang di biaya (US$ 373 vs 553–610 per penumpang), kalah di jaringan, premium, dan FFP.</td></tr>
+    <tr><td class="k">Kemampuan menanggung risiko</td><td>Rugi 2008 hanya karena derivatif; operasi tetap untung; ROA 4% saat industri rugi.</td><td>Utang RM 6.690,8 juta vs kas RM 153,8 juta; ekuitas RM 1.605,5 juta: ruang untuk salah sangat sempit.</td></tr>
+    <tr><td class="k" style="background:#0b2a4a;color:#fff">Vonis</td><td style="background:#e6f4ec"><strong>Menarik bagi AirAsia</strong> (meski tidak menarik bagi rata-rata pemain): layak terus diinvestasikan.</td><td style="background:#fdf9ee"><strong>Menarik bersyarat</strong>: hanya bila masuk secara bertahap, menghindari konfrontasi langsung, dan tidak membebani neraca induk.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="box dosen">
+  <div class="t">Jembatan ke SCP Paradigm (framework Kelompok 2) dan ke Bab 4</div>
+  <p>SCP (Structure → Conduct → Performance) adalah akar teori Five Forces: struktur industri menentukan perilaku pemain, dan perilaku menentukan kinerja. Kasus AirAsia menunjukkan batas SCP sekaligus kegunaannya. <strong>Struktur menjelaskan mengapa laba di industri penerbangan langka</strong> (2008 hampir semua rugi). <strong>Struktur tidak menjelaskan siapa yang mendapatkannya</strong>: AirAsia untung karena <em>conduct</em>-nya (sistem biaya yang saling menopang) berbeda. Itulah pintu masuk Bab 4, pandangan berbasis sumber daya (RBV): keunggulan bersaing lahir dari sumber daya dan kapabilitas yang bernilai, langka, sulit ditiru, dan terorganisasi. Menghubungkan ketiganya (Five Forces – SCP – RBV) adalah jenis “jembatan antar-framework” yang dihargai dosen.</p>
+</div>
+</div>
+
+<!-- ============================ BAGIAN D ============================ -->
+<div class="section">
+<h1><span class="kicker">Bagian D</span>Menyatukan semuanya dengan pola dosen</h1>
+
+<h2>D.1 Ke mana setiap framework masuk dalam Problem, Alternatives, Issues, Conclusion</h2>
+<table>
+  <thead><tr><th style="width:22%">Komponen (Appendix 3)</th><th>Framework Bab 3 yang memberi makan</th><th style="width:34%">Bentuk keluaran</th></tr></thead>
+  <tbody>
+  <tr><td class="k">Problem: tujuan + penghalang</td><td>PESTEL (peluang yang memicu tujuan); Five Forces dan Strategic Group Map (penghalang struktural); Industry Outlook (mengapa masalahnya mendesak).</td><td>Tiga tujuan, tiga penghalang, satu pertanyaan strategis.</td></tr>
+  <tr><td class="k">Alternatives</td><td>Strategic Group Map (pilihan “tetap di kelompok”, “pindah kelompok”, “pindah bertahap”); Driving Forces (opsi mana yang sejalan dengan arah perubahan).</td><td>2–4 strategi berjudul, tanpa argumen.</td></tr>
+  <tr><td class="k">Issues</td><td>Semua alat, dirumuskan sebagai pertanyaan: ukuran pasar (PESTEL/driving forces), reaksi pesaing (SOAR), daya tahan finansial (Outlook), KSF yang bisa dibawa (KSF), tata kelola (Value Net: mitra investor).</td><td>4–6 pertanyaan eksplisit = kriteria penilaian alternatif.</td></tr>
+  <tr><td class="k">Conclusion</td><td>Matriks alternatif × isu; deduksi; angka kasus dipakai sebagai bukti.</td><td>Satu rekomendasi + alasan mengapa alternatif lain kalah.</td></tr>
+  </tbody>
+</table>
+
+<h2>D.2 Contoh utuh: keputusan AirAsia X, pertengahan 2009</h2>
+<p class="small">Contoh ini konsisten dengan naskah presentasi Kelompok 3, dipadatkan dan diberi label keyakinan. Target angka pada rencana implementasi adalah <em>usulan</em>, bukan angka kasus.</p>
+
+<h3>1. Problem</h3>
+<div class="two">
+<div>
+<p><strong>Tujuan:</strong> (a) menjadi maskapai internasional, bukan hanya regional; (b) tetap termurah di setiap rute yang diterbangi; (c) tumbuh lewat rute gemuk jarak jauh (trunk routes) yang menjadi sumber volume.</p>
+</div>
+<div>
+<p><strong>Penghalang:</strong> (a) model LCC bertumpu pada rute pendek, satu tipe pesawat, layanan minimal; (b) pesaing rute jauh punya jaringan pengumpan, tiket terusan, dan subsidi silang dari kelas premium; (c) neraca 2008 lemah: utang RM 6.690,8 juta, kas RM 153,8 juta.</p>
+</div>
+</div>
+<p><strong>Pertanyaan strategis:</strong> sejauh mana keunggulan biaya AirAsia dapat dipindahkan (transferable) ke rute jauh, dan bagaimana menata hubungan AirAsia–AirAsia X agar eksplorasi tidak merusak eksploitasi bisnis inti?</p>
+
+<h3>2. Alternatives (tanpa pro-kontra)</h3>
+<table>
+  <thead><tr><th style="width:8%">Kode</th><th style="width:26%">Judul</th><th>Isi ringkas</th><th style="width:24%">Logika organisasi <span class="tag kb">[KB]</span></th></tr></thead>
+  <tbody>
+  <tr><td class="k">A</td><td class="k">Fokus regional</td><td>AirAsia X dibiarkan terpisah; AirAsia hanya penyedia jasa berbayar; modal dipusatkan ke pasar 3,5 jam terbang.</td><td>Eksploitasi murni.</td></tr>
+  <tr><td class="k">B</td><td class="k">Integrasi penuh</td><td>AirAsia X digabung: satu perusahaan, satu neraca, satu jaringan dengan tiket terusan dan transfer bagasi; ekspansi ke Abu Dhabi, India, Seoul, Sydney sesuai rencana.</td><td>Ambidexterity kontekstual (dua kegiatan dalam satu organisasi).</td></tr>
+  <tr><td class="k">C</td><td class="k">Integrasi bertahap</td><td>AirAsia mengeksekusi opsi 30% dan memegang kendali operasional; neraca tetap terpisah; rute dibatasi 4–8 jam; merger hanya setelah bukti kinerja.</td><td>Ambidexterity struktural dengan tata kelola hibrida.</td></tr>
+  </tbody>
+</table>
+
+<h3>3. Issues (pertanyaan eksplisit) dan alat yang menjawabnya</h3>
+<ol>
+  <li><span class="q">Apakah pasar LCC jarak jauh cukup besar dan kurang terlayani?</span> (PESTEL, driving forces) Di regional AirAsia menciptakan pasar; di London ia merebut.</li>
+  <li><span class="q">Bagaimana network carriers akan membalas?</span> (SOAR) MAS bisa menandingi tarif ekonomi lama sekali; kas RM 3.571,7 juta.</li>
+  <li><span class="q">Seberapa besar kegagalan yang sanggup ditanggung AirAsia?</span> (Industry Outlook) Utang 6.690,8 vs kas 153,8: sangat sempit.</li>
+  <li><span class="q">KSF mana yang benar-benar ikut ke rute jauh?</span> (KSF) Merek, sistem, orang ikut; inti operasional LCC tertinggal.</li>
+  <li><span class="q">Apakah tata kelola AirAsia X selaras dengan AirAsia?</span> (Value Net) AirAsia hanya 16%; sisanya Aero Ventures 48%, Virgin 16%, Manara–Orix 20%.</li>
+</ol>
+
+<h3>4. Conclusion</h3>
+<table>
+  <thead><tr><th>Isu / kriteria</th><th style="width:22%">A. Fokus regional</th><th style="width:22%">B. Integrasi penuh</th><th style="width:22%">C. Integrasi bertahap</th></tr></thead>
+  <tbody>
+  <tr><td>1. Menangkap peluang pasar</td><td><span class="rating lemah">LEMAH</span></td><td><span class="rating kuat" style="background:#2a7f62">KUAT</span></td><td><span class="rating sedang">CUKUP</span> (Eropa ditunda sampai A350)</td></tr>
+  <tr><td>2. Tahan terhadap balasan pesaing</td><td><span class="rating kuat" style="background:#2a7f62">KUAT</span></td><td><span class="rating lemah" style="background:#c8102e">LEMAH</span></td><td><span class="rating kuat" style="background:#2a7f62">KUAT</span> (rute 4–8 jam kurang diperebutkan)</td></tr>
+  <tr><td>3. Keamanan finansial</td><td><span class="rating kuat" style="background:#2a7f62">KUAT</span></td><td><span class="rating lemah" style="background:#c8102e">LEMAH</span> (armada lebar masuk neraca sarat utang)</td><td><span class="rating kuat" style="background:#2a7f62">KUAT</span> (neraca terpisah)</td></tr>
+  <tr><td>4. Membangun kapabilitas jarak jauh</td><td><span class="rating lemah" style="background:#c8102e">TIDAK</span></td><td><span class="rating kuat" style="background:#2a7f62">YA</span></td><td><span class="rating kuat" style="background:#2a7f62">YA</span></td></tr>
+  <tr><td>5. Keselarasan tata kelola</td><td><span class="rating sedang">CUKUP</span></td><td><span class="rating kuat" style="background:#2a7f62">KUAT</span></td><td><span class="rating kuat" style="background:#2a7f62">KUAT</span> (opsi 30% + kendali operasional)</td></tr>
+  </tbody>
+</table>
+<p><strong>Deduksi:</strong> C satu-satunya alternatif yang tidak lemah di kriteria mana pun. <strong>Argumen tandingan yang harus diakui (rubrik A):</strong> B bisa dibela dengan argumen CEO AirAsia X bahwa “AirAsia butuh pertumbuhan dari AirAsia X” dan bahwa AirAsia X sudah laba bersih RM 18 juta pada kuartal I 2009 dengan arus kas positif. Bantahannya: satu kuartal bukan bukti; kerugian derivatif 2008 (RM 830,2 juta) membuktikan satu keputusan salah bisa menghabiskan ruang gerak; dan C tidak menutup pintu B, hanya menundanya sampai ada bukti.</p>
+
+<h2>D.3 Rencana implementasi dan evaluasi dampak (standar CO2)</h2>
+<table>
+  <thead><tr><th style="width:26%">Langkah</th><th style="width:22%">KPI (usulan)</th><th style="width:14%">Waktu</th><th style="width:16%">Pemilik</th><th>Risiko &amp; mitigasi</th></tr></thead>
+  <tbody>
+  <tr><td>Eksekusi opsi 30% dan bentuk tim manajemen gabungan AirAsia–AirAsia X</td><td>Opsi tereksekusi; manajemen kunci AirAsia di AirAsia X</td><td>Q4 2009</td><td>CEO + Dewan</td><td>Penolakan pemegang saham lain → tawarkan hak veto terbatas untuk keputusan armada.</td></tr>
+  <tr><td>Batasi rute pada 4–8 jam dengan A330; tunda Eropa sampai A350</td><td>Load factor &gt; 85%; CASK AirAsia X di bawah pesaing pada tiap rute</td><td>2010–2011</td><td>CEO AirAsia X</td><td>Permintaan rute menengah lebih rendah dari dugaan → uji rute dengan frekuensi rendah dulu.</td></tr>
+  <tr><td>Bangun jaringan pengumpan di KL (jadwal tersambung AirAsia → AirAsia X)</td><td>Penumpang transit &gt; 25%</td><td>2010</td><td>Direktur Komersial</td><td>Kerumitan transfer bagasi menaikkan biaya → mulai dengan tiket terusan tanpa transfer bagasi.</td></tr>
+  <tr><td>Kebijakan lindung nilai bahan bakar tertulis, 30–50% konsumsi</td><td>Kepatuhan 100%; tidak ada posisi di luar mandat</td><td>Segera</td><td>CFO + Komite Risiko</td><td>Harga minyak turun setelah lindung nilai → terima biaya premi sebagai asuransi; larang “unwind” tanpa persetujuan dewan.</td></tr>
+  <tr><td>Jaga rasio utang/ekuitas di bawah 3× sebelum A350 tiba</td><td>D/E &lt; 3; kas minimum 3 bulan beban operasi</td><td>s/d 2015</td><td>CFO</td><td>Kebutuhan modal pesawat → sale-and-leaseback sebagian armada.</td></tr>
+  <tr><td>Gerbang merger: evaluasi penggabungan penuh</td><td>Empat kuartal berturut-turut laba positif dan arus kas positif di AirAsia X</td><td>2011</td><td>Dewan Komisaris</td><td>Tekanan “buru-buru merger” → kriteria gerbang ditetapkan di muka dan diumumkan.</td></tr>
+  </tbody>
+</table>
+<div class="box sowhat">
+  <div class="t">Evaluasi dampak (metrik, trade-off, risiko, horizon)</div>
+  <ul>
+    <li><strong>Metrik finansial:</strong> CASK dan RASK per arena, load factor, D/E, kas, laba AirAsia X per kuartal.</li>
+    <li><strong>Metrik non-finansial:</strong> ketepatan waktu, retensi karyawan, penghargaan merek, porsi penumpang transit.</li>
+    <li><strong>Trade-off:</strong> C mengorbankan kecepatan menangkap pasar Eropa demi keamanan neraca; kerugian peluang harus diakui, bukan disembunyikan.</li>
+    <li><strong>Risiko dan skenario:</strong> minyak &gt; US$ 100/barel; resesi berkepanjangan 2009–2010; MAS memulai perang tarif KL–London. Untuk tiap skenario tanyakan: apakah C tetap bertahan? (Ya, karena eksposur dibatasi.)</li>
+    <li><strong>Horizon:</strong> jangka pendek (2009–2010) bukti kinerja; menengah (2011–2012) keputusan merger; panjang (2016) armada A350 dan rute Eropa.</li>
+  </ul>
+</div>
+</div>
+
+<!-- ============================ BAGIAN E ============================ -->
+<div class="section">
+<h1><span class="kicker">Bagian E</span>Checklist mutu: pembeda nilai A dan B-</h1>
+<p>Gunakan sebelum mengumpulkan apa pun (slide, laporan kelompok, term paper, jawaban UTS). Kolom kanan menyebut rubrik silabus yang terkena.</p>
+<table>
+  <thead><tr><th style="width:5%">✓</th><th>Pertanyaan periksa</th><th style="width:30%">Kalau gagal, rubrik menyebutnya…</th></tr></thead>
+  <tbody>
+  <tr><td>☐</td><td>Setiap framework diakhiri dengan “so what” yang mengubah keputusan?</td><td>“superficial understanding”, “limited ability to apply”.</td></tr>
+  <tr><td>☐</td><td>Setiap rating Five Forces punya minimal dua faktor pendukung dari daftar buku dan satu bukti kasus?</td><td>“unsupported or improper argument”.</td></tr>
+  <tr><td>☐</td><td>Kekuatan yang paling kuat disebut eksplisit dan dipakai untuk menyimpulkan laba industri?</td><td>Konsep inti bab (“the strongest force determines…”).</td></tr>
+  <tr><td>☐</td><td>Driving forces maksimal 3–4, masing-masing dinilai dengan tiga pertanyaan dampak?</td><td>Pemahaman “partial”.</td></tr>
+  <tr><td>☐</td><td>Peta kelompok strategis memakai dua variabel yang tidak berkorelasi, dan hambatan mobilitas disebut?</td><td>“erroneous understanding of basic concepts”.</td></tr>
+  <tr><td>☐</td><td>KSF 3–5 saja, ditulis sebagai syarat industri, diuji dengan angka?</td><td>“communicate ideas in incomplete ways”.</td></tr>
+  <tr><td>☐</td><td>Ada argumen tandingan yang jujur untuk alternatif yang tidak dipilih, lalu dipatahkan?</td><td>Syarat nilai A: “conflicting arguments, perspectives”.</td></tr>
+  <tr><td>☐</td><td>Angka kasus dan angka usulan dibedakan jelas?</td><td>“marshal the relevant data”; integritas akademik.</td></tr>
+  <tr><td>☐</td><td>Rekomendasi punya KPI, waktu, pemilik, sumber daya, mitigasi risiko?</td><td>CO2 (“actionable implementation plans”).</td></tr>
+  <tr><td>☐</td><td>Evaluasi dampak memuat metrik finansial dan non-finansial, trade-off, risiko/skenario, horizon waktu?</td><td>CO2 (“evaluate strategic impact”).</td></tr>
+  <tr><td>☐</td><td>Sumber dikutip (buku, kasus, data tambahan) dan tidak ada salin-tempel?</td><td>Plagiarisme = E untuk seluruh tim.</td></tr>
+  <tr><td>☐</td><td>Subjek email dan nama file mengikuti format “SMJKT_Group 3_Aslih_Case AirAsia”?</td><td>Ketentuan administrasi silabus.</td></tr>
+  </tbody>
+</table>
+
+<div class="box dosen">
+  <div class="t">Tiga kalimat yang membuat dosen mengangguk</div>
+  <ol>
+    <li>“Struktur industri menjelaskan mengapa laba langka; posisi perusahaan menjelaskan siapa yang meraihnya.” (Five Forces → RBV)</li>
+    <li>“Keunggulan biaya AirAsia adalah sistem yang saling menopang, bukan satu kebijakan; karena itu sulit ditiru, dan karena itu pula sulit dipindahkan sebagian.” (KSF + Value Net)</li>
+    <li>“Pindah kelompok strategis berarti melawan model laba yang berbeda.” (Strategic Group Map + SOAR)</li>
+  </ol>
+</div>
+</div>
+
+<!-- ============================ BAGIAN F ============================ -->
+<div class="section">
+<h1><span class="kicker">Bagian F</span>Latihan, learning diary, dan 5 slide</h1>
+
+<h2>F.1 Sepuluh pertanyaan latihan (gaya preparatory questions)</h2>
+<ol>
+  <li>Dari enam komponen PESTEL, mana dua yang paling relevan secara strategis bagi AirAsia pada 2009, dan mengapa yang lain hanya perlu “diawasi”?</li>
+  <li>Bahan bakar adalah 47% beban AirAsia. Kekuatan Porter mana yang paling tepat untuk menganalisisnya, dan faktor apa dari Figure 3.7 yang membuatnya kuat?</li>
+  <li>Mengapa penumpang AirAsia disebut “kuat” padahal tidak bisa menawar harga? Bedakan dua konsep dari Figure 3.8.</li>
+  <li>Sebutkan dua tindakan AirAsia yang “menggeser” (shift) kekuatan kompetitif, bukan sekadar “melindungi diri” (shield).</li>
+  <li>Siapa complementor AirAsia, dan mengapa Five Forces tidak menangkapnya?</li>
+  <li>Pilih tiga driving forces industri LCC Asia Tenggara 2009. Untuk masing-masing, jawab tiga pertanyaan dampak buku.</li>
+  <li>Gambar peta kelompok strategis dengan pasangan variabel <em>selain</em> yang dipakai modul ini. Apakah kesimpulannya berubah?</li>
+  <li>Dengan kerangka SOAR, prediksi reaksi Malaysia Airlines bila AirAsia X menambah frekuensi KL–London. Data kasus apa yang mendukung prediksi Anda?</li>
+  <li>KSF mana yang <em>tidak</em> bisa dibawa AirAsia ke rute jauh, dan apa konsekuensinya bagi rekomendasi?</li>
+  <li>Mengapa industri yang “tidak menarik” bagi rata-rata maskapai tetap “menarik” bagi AirAsia? Hubungkan dengan SCP dan Bab 4.</li>
+</ol>
+
+<h2>F.2 Template learning diary (esai reflektif, bukan catatan)</h2>
+<div class="box">
+  <div class="t">Struktur tiga paragraf</div>
+  <p><strong>Paragraf 1, insight paling berkesan:</strong> satu ide dari sesi ini yang mengubah cara saya melihat sesuatu. Contoh: “Saya dulu mengira Five Forces menjelaskan siapa yang untung; ternyata ia hanya menjelaskan mengapa untung itu langka.”</p>
+  <p><strong>Paragraf 2, interpretasi saya:</strong> apa artinya bagi organisasi tempat saya bekerja atau industri yang saya kenal. Sebutkan satu kekuatan Porter yang paling menggigit di industri saya dan satu tindakan “shift” yang mungkin.</p>
+  <p><strong>Paragraf 3, pertanyaan yang tersisa:</strong> hal yang belum terjawab dan ingin saya tanyakan. Contoh: “Kalau KSF berubah saat perusahaan pindah kelompok strategis, apakah lebih baik membangun unit baru atau mengakuisisi pemain yang sudah ada di kelompok tujuan?”</p>
+</div>
+
+<h2>F.3 Kerangka lima slide presentasi kasus</h2>
+<table>
+  <thead><tr><th style="width:10%">Slide</th><th style="width:26%">Judul</th><th>Isi wajib</th></tr></thead>
+  <tbody>
+  <tr><td>1</td><td class="k">Problem &amp; pertanyaan strategis</td><td>Tiga tujuan, tiga penghalang, satu pertanyaan. Satu angka pembuka (CASK 11,66 vs 22,80 sen).</td></tr>
+  <tr><td>2</td><td class="k">Medan eksternal</td><td>PESTEL yang relevan (maks. 4 poin), Five Forces dengan rating dan kekuatan terkuat, 3–4 driving forces.</td></tr>
+  <tr><td>3</td><td class="k">Posisi dan pesaing</td><td>Peta kelompok strategis (AirAsia X pindah kelompok), SOAR satu pesaing kunci, KSF yang ikut vs tertinggal.</td></tr>
+  <tr><td>4</td><td class="k">Alternatif dan penilaian</td><td>Tiga alternatif berjudul; matriks alternatif × isu; argumen tandingan yang diakui.</td></tr>
+  <tr><td>5</td><td class="k">Rekomendasi dan implementasi</td><td>Satu rekomendasi; tabel KPI–waktu–pemilik–risiko; metrik dampak; satu kalimat pelajaran Bab 3.</td></tr>
+  </tbody>
+</table>
+
+<h2>F.4 Contoh pertanyaan tajam untuk kelompok presenter (nilai partisipasi)</h2>
+<ul>
+  <li>“Rating rivalry Anda ‘kuat’: faktor mana dari Figure 3.4 yang paling berat, dan bukti kasus apa yang mendukungnya?”</li>
+  <li>“Anda menyebut enam driving forces. Buku membatasi 3–4. Mana yang akan Anda buang, dan mengapa?”</li>
+  <li>“Kalau MAS menandingi tarif KL–London dengan kas 23 kali lebih besar, di titik mana rekomendasi Anda berhenti masuk akal?”</li>
+  <li>“Angka target load factor 85% itu dari kasus atau usulan kelompok? Apa dasarnya?”</li>
+</ul>
+</div>
+
+<!-- ============================ GLOSARIUM ============================ -->
+<div class="section">
+<h1><span class="kicker">Glosarium</span>Istilah kunci Bab 3 (Inggris → Indonesia sederhana)</h1>
+<table>
+  <thead><tr><th style="width:30%">Istilah</th><th>Arti sederhana</th></tr></thead>
+  <tbody>
+  <tr><td class="k">Macro-environment</td><td>Lapis luar lingkungan: cuaca besar (PESTEL) yang memengaruhi semua industri dengan derajat berbeda.</td></tr>
+  <tr><td class="k">Strategically relevant factor</td><td>Faktor luar yang cukup penting untuk mengubah arah, tujuan, strategi, atau model bisnis.</td></tr>
+  <tr><td class="k">Societal shock</td><td>Guncangan tak terduga di luar PESTEL: pandemi, terorisme, perang.</td></tr>
+  <tr><td class="k">Five forces</td><td>Lima sumber tekanan pada laba: pesaing, pendatang baru, pengganti, pemasok, pembeli.</td></tr>
+  <tr><td class="k">Switching cost</td><td>Biaya (uang, waktu, repot, psikologis) untuk berpindah merek atau pemasok.</td></tr>
+  <tr><td class="k">Entry barrier</td><td>Hambatan yang membuat pendatang baru sulit atau mahal masuk.</td></tr>
+  <tr><td class="k">Learning/experience curve</td><td>Biaya per unit turun setiap volume kumulatif berlipat, karena makin berpengalaman.</td></tr>
+  <tr><td class="k">Network effect</td><td>Produk makin bernilai ketika penggunanya makin banyak.</td></tr>
+  <tr><td class="k">Substitute</td><td>Produk dari industri lain yang memenuhi kebutuhan yang sama.</td></tr>
+  <tr><td class="k">Bargaining power vs price sensitivity</td><td>Kemampuan menuntut konsesi vs kecenderungan lari saat harga naik. Dua hal berbeda.</td></tr>
+  <tr><td class="k">Backward integration</td><td>Membuat sendiri input yang biasanya dibeli dari pemasok.</td></tr>
+  <tr><td class="k">Value-price-cost (V-P-C)</td><td>Nilai bagi pembeli, harga jual, biaya produksi: tiga unsur model bisnis (Bab 1).</td></tr>
+  <tr><td class="k">Value net</td><td>Peta pihak-pihak yang berinteraksi dengan satu perusahaan, termasuk complementor.</td></tr>
+  <tr><td class="k">Complementor</td><td>Produsen produk pelengkap yang menaikkan nilai produk kita bila dipakai bersama.</td></tr>
+  <tr><td class="k">Driving forces</td><td>Penyebab utama perubahan kondisi industri dan persaingan; maksimal 3–4 yang sebenarnya.</td></tr>
+  <tr><td class="k">Strategic group</td><td>Kumpulan perusahaan dengan pendekatan bersaing dan posisi pasar serupa.</td></tr>
+  <tr><td class="k">Mobility barrier</td><td>Hambatan untuk berpindah dari satu kelompok strategis ke kelompok lain.</td></tr>
+  <tr><td class="k">SOAR</td><td>Strategy, Objectives, Assumptions, Resources: kerangka menebak langkah pesaing.</td></tr>
+  <tr><td class="k">Key success factors</td><td>3–5 syarat wajib untuk menang di industri tertentu.</td></tr>
+  <tr><td class="k">Industry attractiveness</td><td>Prospek laba industri, selalu relatif terhadap posisi perusahaan.</td></tr>
+  <tr><td class="k">ASK / CASK / RASK</td><td>Available seat kilometer; biaya per ASK; pendapatan per ASK. Ukuran standar efisiensi maskapai.</td></tr>
+  <tr><td class="k">Load factor</td><td>Persentase kursi yang terisi.</td></tr>
+  <tr><td class="k">Exploration vs exploitation; ambidexterity</td><td>Mencari yang baru vs mendalami yang ada; kemampuan organisasi menjalankan keduanya (kontekstual: dalam satu unit; struktural: unit terpisah). <span class="tag kb">[KB]</span> bahasa yang disukai dosen.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<!-- ============================ LAMPIRAN ============================ -->
+<div class="section">
+<h1><span class="kicker">Lampiran</span>Data kasus dan catatan sumber</h1>
+
+<h2>L.1 AirAsia vs Malaysia Airlines, 2008 (Tabel 9.1 kasus)</h2>
+<table>
+  <thead><tr><th>Indikator</th><th style="width:22%">AirAsia</th><th style="width:22%">MAS</th><th style="width:26%">Bacaan</th></tr></thead>
+  <tbody>
+  <tr><td>Penumpang (juta)</td><td>11,81</td><td>13,76</td><td>Hampir setara volume.</td></tr>
+  <tr><td>ASK (juta)</td><td>18.720</td><td>53.380</td><td>MAS jauh lebih “panjang” rutenya.</td></tr>
+  <tr><td>Load factor (%)</td><td>75,0</td><td>67,8</td><td>KSF 3.</td></tr>
+  <tr><td>CASK (sen)</td><td>11,66</td><td>22,80</td><td>KSF 1: separuh biaya.</td></tr>
+  <tr><td>RASK (sen)</td><td>14,11</td><td>20,60</td><td>Selisih biaya &gt; selisih pendapatan.</td></tr>
+  <tr><td>Armada (31 Des 2008)</td><td>78</td><td>109</td><td></td></tr>
+  <tr><td>Karyawan</td><td>3.799</td><td>19.094</td><td>49 vs 175 per pesawat.</td></tr>
+  <tr><td>Utilisasi (jam/hari)</td><td>11,8</td><td>11,1</td><td>KSF 2.</td></tr>
+  <tr><td>Pendapatan (RM juta)</td><td>2.635</td><td>15.035</td><td></td></tr>
+  <tr><td>Biaya bahan bakar (RM juta)</td><td>1.389,8</td><td>6.531,6</td><td>47% dari beban AirAsia.</td></tr>
+  <tr><td>Biaya staf (RM juta)</td><td>236,8</td><td>2.179,9</td><td></td></tr>
+  <tr><td>Rugi pelepasan derivatif (RM juta)</td><td>830,2</td><td>tidak ada</td><td>Penyebab rugi 2008.</td></tr>
+  <tr><td>Laba (rugi) operasi (RM juta)</td><td>(351,7)</td><td>305,5</td><td></td></tr>
+  <tr><td>Laba (rugi) setelah pajak (RM juta)</td><td>(496,6)</td><td>245,6</td><td></td></tr>
+  <tr><td>Kas (RM juta)</td><td>153,8</td><td>3.571,7</td><td>Daya tahan perang harga.</td></tr>
+  <tr><td>Utang (RM juta)</td><td>6.690,8</td><td>433,4</td><td>Penghalang (c).</td></tr>
+  <tr><td>Ekuitas (RM juta)</td><td>1.605,5</td><td>4.197,0</td><td></td></tr>
+  </tbody>
+</table>
+
+<h2>L.2 Rute Kuala Lumpur–London: biaya dan tarif (Tabel 9.3–9.5 kasus)</h2>
+<table>
+  <thead><tr><th>Maskapai</th><th>Pesawat</th><th>Rute</th><th>Kapasitas</th><th>Biaya per penumpang (US$)*</th><th>Load factor 2008 (%)</th></tr></thead>
+  <tbody>
+  <tr><td>AirAsia X</td><td>A340-300</td><td>KUL–STN</td><td>286</td><td>373,14</td><td>75,5 (grup); &gt; 90 (rute London)</td></tr>
+  <tr><td>Malaysia Airlines</td><td>747-400</td><td>KUL–LHR</td><td>337</td><td>589,50</td><td>67,8</td></tr>
+  <tr><td>British Airways</td><td>747-400</td><td>KUL–LHR</td><td>359</td><td>553,37</td><td>71,2</td></tr>
+  <tr><td>Emirates</td><td>777-300</td><td>KUL–DXB–LHR</td><td>360</td><td>609,56</td><td>79,8</td></tr>
+  </tbody>
+</table>
+<p class="small">*Belum termasuk perawatan, depresiasi, katering, dan gaji kru. Tarif pulang-pergi rata-rata September 2009: AirAsia US$ 433,96 vs tarif terendah pesaing US$ 683,68 (KL–London, selisih 36,5%) dan US$ 530,35 (London–KL, selisih 18,2%).</p>
+
+<h2>L.3 Catatan sumber dan tingkat keyakinan</h2>
+<ul>
+  <li><span class="tag pasti">[Pasti]</span> Standar dosen (Bagian A.1, E) dibaca langsung dari dokumen RPKPS 2026. Kutipan bahasa Inggris di dalamnya adalah kutipan silabus.</li>
+  <li><span class="tag pasti">[Pasti]</span> Isi PESTEL, Five Forces (semua faktor Figure 3.4–3.8 dan Table 3.2), Value Net, dan Driving Forces (Table 3.3, tiga langkah, tiga pertanyaan dampak) diparafrasekan dari teks Bab 3 buku, halaman 51–77.</li>
+  <li><span class="tag kb">[Kemungkinan Besar]</span> Bagian Strategic Group Map, Competitor Analysis/SOAR, Key Success Factors, dan Industry Outlook (halaman 77–85 buku) disusun dari struktur daftar isi bab dan pengetahuan edisi-edisi buku ini, karena salinan digital yang tersedia terpotong di halaman 77. Konsep intinya stabil antar-edisi; periksa detail rumusan pada buku cetak Anda.</li>
+  <li><span class="tag pasti">[Pasti]</span> Semua angka AirAsia diambil dari kasus Grant (2010) Case 9. Angka target dalam rencana implementasi (D.3) adalah usulan, konsisten dengan naskah presentasi Kelompok 3.</li>
+  <li><span class="tag kb">[Kemungkinan Besar]</span> Prinsip 6–7 tentang cara berpikir dosen adalah inferensi dari pilihan kasus dan pasangan framework dalam silabus, serta dari bahasa yang dipakai naskah Kelompok 3; bukan pernyataan langsung beliau.</li>
+</ul>
+</div>
+
+</body>
+</html>
