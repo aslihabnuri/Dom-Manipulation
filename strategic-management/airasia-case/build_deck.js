@@ -358,8 +358,9 @@ function slide() { const s = pres.addSlide(); base(s); N++; return s; }
   dotLine(s, gx[0] + d + 0.05, cym, gx[1] - gx[0] - d - 0.1, BLACK);
   plane(s, "sil_red.png", gx[0] + d + 0.12, cym - 0.36, 0.85, 0, true);
   para(s, "^^AirAsia X pindah kelompok.^^ Lawannya bukan LCC lain, melainkan **network carriers** yang mampu **mensubsidi harga ekonomi** dari kelas premium.", 8.9, 1.7, 3.8, 2.4);
-  para(s, "Hambatan mobilitas antar kelompok bukan hanya modal. Yang sulit ditiru adalah budaya biaya rendah dan sistem operasi sederhana.", 8.9, 4.2, 3.8, 1.8, { color: GREY });
-  s.addNotes("Ruang LCC jarak jauh nyaris kosong karena rute jauh butuh pesawat berbadan lebar, kru bermalam, dan penumpang transit dari jaringan pengumpan. AirAsia X masuk membawa merek, sistem reservasi, SDM, dan disiplin biaya dari kelompok asal.");
+  sub(s, "LANGKAH PESAING BERIKUTNYA", 8.9, 4.2, 3.8, RED);
+  para(s, "**Emirates dan BA** menurunkan tarif ekonomi di rute yang sama. **MAS** menahan slot dan menekan di domestik. LCC regional lain menyusul ke rute jauh bila AirAsia X terbukti laba.", 8.9, 4.6, 3.8, 2.2);
+  s.addNotes("Ruang LCC jarak jauh nyaris kosong karena rute jauh butuh pesawat berbadan lebar, kru bermalam, dan penumpang transit dari jaringan pengumpan. AirAsia X masuk membawa merek, sistem reservasi, SDM, dan disiplin biaya dari kelompok asal. Hambatan mobilitas bukan hanya modal; yang sulit ditiru adalah budaya biaya rendah dan operasi sederhana. Prediksi langkah pesaing adalah inferensi kelompok dari Tabel 9.3 dan 9.5, bukan pernyataan kasus.");
 }
 
 // ================================================================ 10. Cost benchmarking
