@@ -1320,12 +1320,14 @@ function detectRows(rows,filename){
   {
     let bhi=findHeader(rows,['Campaign name','Spend','New consideration size']);
     if(bhi<0)bhi=findHeader(rows,['Campaign name','Spend','Paid follows']);
+    /* TikTok Ads Manager kadang mengekspor dengan header bahasa Indonesia */
+    if(bhi<0)bhi=findHeader(rows,['Nama Kampanye','Belanja']);
     if(bhi>=0){
       const H=H_at(bhi);
-      const cName=colIdxOf(H,'Campaign name'),cSpend=colIdxOf(H,'Spend'),
-            cReach=colIdxOf(H,'Reach'),cImp=colIdxOf(H,'Impressions'),
-            cCons=colIdxOf(H,'New consideration size','Consideration size'),
-            cFol=colIdxOf(H,'Paid follows');
+      const cName=colIdxOf(H,'Campaign name','Nama Kampanye'),cSpend=colIdxOf(H,'Spend','Belanja'),
+            cReach=colIdxOf(H,'Reach','Jangkauan'),cImp=colIdxOf(H,'Impressions','Impresi'),
+            cCons=colIdxOf(H,'New consideration size','Consideration size','Ukuran pertimbangan baru','Ukuran pertimbangan'),
+            cFol=colIdxOf(H,'Paid follows','Pengikut berbayar');
       let fnDate=null,fm;
       if((fm=String(filename||'').match(/(\d{4})[-_.]?(\d{2})[-_.]?(\d{2})/)))fnDate=`${fm[1]}-${fm[2]}-${fm[3]}`;
       if(fnDate&&!inData(fnDate))fnDate=null;
