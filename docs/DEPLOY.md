@@ -1,5 +1,44 @@
 # Berbagi aplikasi ke teman
 
+Ada dua cara menjalankan aplikasi ini:
+
+| | Opsi 0: GitHub Pages + Actions | Opsi A–D: server sendiri |
+|---|---|---|
+| Biaya | **Gratis selamanya, tanpa kartu** (repo publik) | gratis terbatas / kartu / bayar |
+| Pembaruan data | terjadwal tiap ±20 menit saat jam bursa (GitHub bisa terlambat 5–15 menit saat sibuk) | tiap 15 menit + tombol Refresh |
+| Analisis saham di luar daftar | tidak bisa; tambahkan kode ke `data/watchlist.txt` lalu tunggu jadwal berikutnya | bisa langsung |
+| Keamanan | data dienkripsi AES-256 dengan password (situs publik, isi tidak terbaca tanpa password) | login password |
+| Perlu keahlian | klik-klik di GitHub | daftar layanan hosting |
+
+## Opsi 0: GitHub Pages + GitHub Actions (gratis selamanya)
+
+Cara kerja: file `.github/workflows/update-site.yml` menyuruh server GitHub menjalankan screener sesuai jadwal,
+`scripts/build_site.py` menghasilkan folder `site/` (halaman + bundel data yang dienkripsi dengan `APP_PASSWORD`),
+lalu hasilnya dipublikasikan ke branch `gh-pages` yang ditayangkan GitHub Pages di
+`https://<username>.github.io/<nama-repo>/`. Tidak ada server yang perlu disewa.
+
+Pengaturan sekali saja (semua di situs GitHub):
+
+1. **Workflow harus ada di branch default.** Buka *Settings → General → Default branch*, ganti ke branch yang
+   memuat kode ini (atau merge pull request-nya). Jadwal (`schedule`) hanya berjalan dari branch default.
+2. **Password.** *Settings → Secrets and variables → Actions → New repository secret*: nama `APP_PASSWORD`, isi
+   password yang akan dibagikan ke teman. Tanpa secret ini situs dipublikasikan tanpa enkripsi (siapa pun yang tahu
+   alamatnya bisa melihat).
+3. **Jalankan pertama kali.** Tab *Actions → Update site → Run workflow*. Tunggu ±3 menit sampai hijau.
+4. **Aktifkan Pages.** *Settings → Pages → Build and deployment → Source: Deploy from a branch*, Branch: `gh-pages`,
+   folder `/ (root)`, Save. Alamat situs muncul di halaman yang sama setelah ±1 menit.
+5. Bagikan alamat + password. Password dicek di browser teman (kunci diturunkan dengan PBKDF2, data dibuka dengan
+   AES-GCM); tidak ada server yang tahu password itu.
+
+Catatan:
+- GitHub menonaktifkan jadwal bila repo tidak ada aktivitas 60 hari. Workflow ini mem-push ke `gh-pages` setiap kali
+  berjalan, jadi repo selalu "aktif".
+- Bila Yahoo Finance membatasi akses dari server GitHub, workflow memakai cache data sebelumnya (`actions/cache`)
+  sehingga situs tetap tayang dengan tanggal data yang lebih lama.
+- Untuk memaksa pembaruan di luar jadwal: *Actions → Update site → Run workflow*.
+
+## Opsi A–D: server sendiri
+
 Aplikasi ini satu proses Python (FastAPI) + file statis. Semua opsi di bawah memakai `APP_PASSWORD` sebagai
 gerbang: teman membuka URL, memasukkan password, dan mendapat cookie sesi 30 hari. Jangan pernah mempublikasikan
 tanpa password; screener memukul Yahoo Finance dan Google News atas nama server Anda.

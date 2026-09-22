@@ -49,8 +49,10 @@ python -m pytest -q                      # tes unit
 
 ## Berbagi ke teman lewat internet
 
-Lihat `docs/DEPLOY.md`. Ringkas: klik *New Blueprint* di Render.com dan arahkan ke repo ini (`render.yaml` sudah
-ada), isi `APP_PASSWORD`, bagikan URL + password. Alternatif: `docker compose up -d` di VPS, atau Fly.io/Railway.
+Cara gratis selamanya tanpa kartu: **GitHub Pages + GitHub Actions**. Screener dijalankan server GitHub tiap ±20 menit
+saat jam bursa, hasilnya dienkripsi dengan password dan ditayangkan sebagai halaman statis. Langkah pengaturan
+(5 klik di GitHub) ada di `docs/DEPLOY.md` Opsi 0. Alternatif dengan server sendiri (Render, Railway, Docker) juga
+dijelaskan di sana.
 
 ## Struktur
 

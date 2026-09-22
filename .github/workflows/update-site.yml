@@ -1,0 +1,59 @@
+# Menjalankan screener di server GitHub (gratis) lalu menayangkan hasilnya ke GitHub Pages.
+# Jadwal: tiap 20 menit, 09:00-16:40 WIB (02:00-09:40 UTC), Senin-Jumat; plus bisa dijalankan manual.
+name: Update site
+
+on:
+  schedule:
+    - cron: "*/20 2-9 * * 1-5"
+  workflow_dispatch:
+  push:
+    branches: [claude/confident-brown-yannc7, main, master]
+    paths: [engine/**, web/**, scripts/build_site.py, .github/workflows/update-site.yml, data/watchlist.txt]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-site
+  cancel-in-progress: false
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt cryptography
+
+      - name: Restore OHLCV cache (dipakai bila Yahoo membatasi akses)
+        uses: actions/cache@v4
+        with:
+          path: data/cache
+          key: ohlcv-${{ github.run_id }}
+          restore-keys: ohlcv-
+
+      - name: Download InSet lexicon
+        run: python scripts/download_lexicon.py || echo "lexicon dilewati"
+
+      - name: Build site
+        env:
+          APP_PASSWORD: ${{ secrets.APP_PASSWORD }}
+          DEFAULT_EQUITY: "100000000"
+          SENTIMENT_LLM: "0"
+        run: python scripts/build_site.py
+
+      - name: Publish to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site
+          publish_branch: gh-pages
+          force_orphan: true
+          commit_message: "Update screener ${{ github.run_id }}"

@@ -12,28 +12,91 @@ async function api(path, opts = {}) {
   return r.json();
 }
 
+/* ---------- lapisan data: mode server (FastAPI) atau mode statis (GitHub Pages, bundle terenkripsi) ---------- */
+const STATIC = !!window.STATIC_MODE;
+let bundle = null;
+
+const b64 = (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
+async function gunzip(bytes) {
+  const ds = new DecompressionStream("gzip");
+  const stream = new Blob([bytes]).stream().pipeThrough(ds);
+  return new Response(stream).text();
+}
+async function decryptBundle(enc, password) {
+  const baseKey = await crypto.subtle.importKey("raw", new TextEncoder().encode(password), "PBKDF2", false, ["deriveKey"]);
+  const key = await crypto.subtle.deriveKey({ name: "PBKDF2", salt: b64(enc.salt), iterations: enc.iter, hash: "SHA-256" }, baseKey, { name: "AES-GCM", length: 256 }, false, ["decrypt"]);
+  let plain;
+  try { plain = await crypto.subtle.decrypt({ name: "AES-GCM", iv: b64(enc.nonce) }, key, b64(enc.ct)); }
+  catch { throw new Error("password salah"); }
+  return JSON.parse(await gunzip(new Uint8Array(plain)));
+}
+async function loadBundle(password) {
+  if (window.STATIC_ENCRYPTED) {
+    const enc = await fetch("./data/bundle.enc", { cache: "no-store" }).then((r) => r.json());
+    bundle = await decryptBundle(enc, password);
+    try { sessionStorage.setItem("pw", password); } catch {}
+  } else {
+    const bytes = new Uint8Array(await fetch("./data/bundle.json.gz", { cache: "no-store" }).then((r) => r.arrayBuffer()));
+    bundle = JSON.parse(await gunzip(bytes));
+  }
+  return bundle;
+}
+function resize(a, equity, risk = 0.01) {
+  // hitung ulang lot di sisi klien (Tharp: risiko 1% modal; maks 20% modal per saham)
+  const p = a.plan; if (!p || !equity) return a;
+  const lots = Math.max(0, Math.min(Math.floor((equity * risk) / (p.risk_per_share * 100)), Math.floor((equity * 0.2) / (p.entry * 100))));
+  return { ...a, plan: { ...p, lots, position_value: lots * 100 * p.entry, risk_amount: lots * 100 * p.risk_per_share } };
+}
+const backend = STATIC ? {
+  async health() {
+    const meta = await fetch("./data/meta.json", { cache: "no-store" }).then((r) => r.json()).catch(() => ({}));
+    return { market_phase: bundle ? bundle.market_phase : "-", last_run: meta.generated_at ? Date.parse(meta.generated_at) / 1000 : null,
+      running: false, error: null, auth_required: !!window.STATIC_ENCRYPTED, authed: !!bundle, data_source: "Yahoo Finance (delay ~10 menit), dihitung di GitHub Actions" };
+  },
+  async login(pw) { await loadBundle(pw); },
+  async logout() { try { sessionStorage.removeItem("pw"); } catch {} bundle = null; },
+  async screen() { return bundle.screen; },
+  async analyze(t, equity) { const d = bundle.detail[t]; if (!d) throw new Error(`${t} tidak ada di daftar pantau. Tambahkan di data/watchlist.txt di GitHub.`); return resize(d.analysis, equity); },
+  async chart(t) { return bundle.detail[t].chart; },
+  async news(t) { const n = bundle.detail[t].news; if (!n) throw new Error("berita tidak tersedia"); return n; },
+} : {
+  health: () => fetch("/api/health").then((r) => r.json()),
+  login: (pw) => api("/api/login", { method: "POST", body: JSON.stringify({ password: pw }) }),
+  logout: () => api("/api/logout", { method: "POST" }),
+  screen: (force) => api(`/api/screen${force ? "?refresh=1" : ""}`),
+  analyze: (t, equity) => api(`/api/analyze/${t}?equity=${equity}`),
+  chart: (t) => api(`/api/chart/${t}`),
+  news: (t) => api(`/api/news/${t}`),
+};
+
 function showLogin(show) { $("#login").classList.toggle("hidden", !show); }
 
 async function init() {
-  const h = await fetch("/api/health").then((r) => r.json());
+  if (STATIC && !bundle) {
+    let saved = null; try { saved = sessionStorage.getItem("pw"); } catch {}
+    if (!window.STATIC_ENCRYPTED) await loadBundle("");
+    else if (saved) { try { await loadBundle(saved); } catch { saved = null; } }
+  }
+  const h = await backend.health();
   $("#logout").classList.toggle("hidden", !h.auth_required);
+  $("#refresh").classList.toggle("hidden", STATIC);
   if (h.auth_required && !h.authed) { showLogin(true); return; }
   showLogin(false);
   renderStatus(h);
   await loadScreen(false);
-  setInterval(async () => { renderStatus(await fetch("/api/health").then((r) => r.json())); loadScreen(false); }, 60000);
+  setInterval(async () => { renderStatus(await backend.health()); if (!STATIC) loadScreen(false); }, 60000);
 }
 
 function renderStatus(h) {
   const phase = { closed: "bursa tutup", pre_opening: "pre-opening", session_1: "sesi I", break: "istirahat", session_2: "sesi II", pre_closing: "pre-closing", post_trading: "post-trading" }[h.market_phase] || h.market_phase;
-  const last = h.last_run ? new Date(h.last_run * 1000).toLocaleTimeString("id-ID") : "-";
+  const last = h.last_run ? new Date(h.last_run * 1000).toLocaleString("id-ID", { dateStyle: "short", timeStyle: "short" }) : "-";
   $("#status").textContent = `${phase} · data ${h.data_source} · refresh terakhir ${last}${h.running ? " · menghitung…" : ""}${h.error ? " · error: " + h.error : ""}`;
 }
 
 async function loadScreen(force) {
   $("#refresh").disabled = true;
   try {
-    screenData = await api(`/api/screen${force ? "?refresh=1" : ""}`);
+    screenData = await backend.screen(force);
     renderScreen();
   } catch (e) { $("#screenMeta").textContent = e.message; }
   finally { $("#refresh").disabled = false; }
@@ -72,11 +135,11 @@ async function openDetail(ticker) {
   det.scrollIntoView({ behavior: "smooth", block: "start" });
   const equity = Number($("#equity").value) || 0;
   try {
-    const [a, ch] = await Promise.all([api(`/api/analyze/${currentTicker}?equity=${equity}`), api(`/api/chart/${currentTicker}`)]);
+    const [a, ch] = await Promise.all([backend.analyze(currentTicker, equity), backend.chart(currentTicker)]);
     renderAnalysis(a);
     try { renderChart(ch, a); } catch (err) { $("#chart").innerHTML = `<p class="muted small">grafik tidak bisa dimuat: ${err.message}</p>`; }
   } catch (e) { $("#dBadges").innerHTML = `<span class="badge bad">${e.message}</span>`; return; }
-  api(`/api/news/${currentTicker}`).then(renderNews).catch((e) => { $("#news").innerHTML = `<li class="muted">${e.message}</li>`; });
+  backend.news(currentTicker).then(renderNews).catch((e) => { $("#news").innerHTML = `<li class="muted">${e.message}</li>`; });
 }
 
 function renderAnalysis(a) {
@@ -151,10 +214,10 @@ function renderChart(d, a) {
 
 $("#loginForm").onsubmit = async (e) => {
   e.preventDefault(); $("#loginError").textContent = "";
-  try { await api("/api/login", { method: "POST", body: JSON.stringify({ password: $("#password").value }) }); showLogin(false); init(); }
+  try { await backend.login($("#password").value); showLogin(false); init(); }
   catch (err) { $("#loginError").textContent = err.message; }
 };
-$("#logout").onclick = async () => { await api("/api/logout", { method: "POST" }); location.reload(); };
+$("#logout").onclick = async () => { await backend.logout(); location.reload(); };
 $("#refresh").onclick = () => loadScreen(true);
 $("#onlyPass").onchange = renderScreen;
 $("#lookupForm").onsubmit = (e) => { e.preventDefault(); const t = $("#lookup").value.trim(); if (t) openDetail(t); };
