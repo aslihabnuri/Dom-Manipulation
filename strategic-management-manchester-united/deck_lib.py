@@ -323,3 +323,14 @@ def note(s, parts, dark=False, size=12, top=NOTE_TOP, h=0.76,
     rich(b, parts, size=size, first=True, spacing=1.16,
          color=WHITE if dark else INK)
     return b
+
+def notes(s, text):
+    """Speaker notes: the full explanation the presenter talks through, so the
+    slide itself can stay short enough for the audience to read at a glance."""
+    tf = s.notes_slide.notes_text_frame
+    tf.text = text
+    for p in tf.paragraphs:
+        for r in p.runs:
+            r.font.size = Pt(12)
+            r.font.name = H_FONT
+    return tf

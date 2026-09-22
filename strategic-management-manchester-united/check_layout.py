@@ -101,6 +101,26 @@ def main(path):
                     msgs.append("  COVERED     by later shape #%d (%.2fx%.2f in)  %s"
                                 % (sj, ox, oy, lab))
                     break
+        # A filled shape PARTIALLY covered by a later filled shape: the later
+        # one paints over its edge. Full containment is normal (accent bars,
+        # card headers sit inside their card), so only partial overlap counts.
+        fills = [(i, l, t, w, h) for i, l, t, w, h, has_text, filled, lab
+                 in boxes if filled and w < SW - 0.5 and h < SH - 0.5]
+        for ai in range(len(fills)):
+            for bi in range(ai + 1, len(fills)):
+                _, l1, t1, w1, h1 = fills[ai]
+                _, l2, t2, w2, h2 = fills[bi]
+                ox = min(l1 + w1, l2 + w2) - max(l1, l2)
+                oy = min(t1 + h1, t2 + h2) - max(t1, t2)
+                if ox <= 0.04 or oy <= 0.04:
+                    continue
+                inside = (l2 >= l1 - 0.01 and t2 >= t1 - 0.01
+                          and l2 + w2 <= l1 + w1 + 0.01 and t2 + h2 <= t1 + h1 + 0.01)
+                if inside:
+                    continue
+                msgs.append("  SHAPE CLIP  later fill overlaps %.2fx%.2f in at "
+                            "(%.2f, %.2f)" % (ox, oy, l2, t2))
+
         # Two text boxes whose RENDERED extents overlap. A text frame does not
         # clip, so its real height is the wrapped height, not the declared one.
         tb = []
