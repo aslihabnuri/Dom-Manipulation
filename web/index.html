@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IDX Swing Engine</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%235aa9ff%27/%3E%3Cpath d=%27M6 22l6-8 5 5 9-11%27 stroke=%27%2306111f%27 stroke-width=%273%27 fill=%27none%27/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+<div id="login" class="login hidden">
+  <form id="loginForm" class="card">
+    <h1>IDX Swing Engine</h1>
+    <p class="muted">Masukkan password yang dibagikan pemilik aplikasi.</p>
+    <input id="password" type="password" placeholder="Password" autocomplete="current-password" required>
+    <button type="submit">Masuk</button>
+    <p id="loginError" class="error"></p>
+  </form>
+</div>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="logo">IDX</span>
+    <div>
+      <div class="title">Swing Engine</div>
+      <div id="status" class="muted small">memuat…</div>
+    </div>
+  </div>
+  <div class="actions">
+    <form id="lookupForm" class="lookup">
+      <input id="lookup" placeholder="kode saham, mis. BBRI" maxlength="6" autocapitalize="characters">
+      <button type="submit">Analisis</button>
+    </form>
+    <label class="equity">Modal (Rp) <input id="equity" type="number" step="1000000" value="100000000"></label>
+    <button id="refresh" class="ghost" title="Hitung ulang seluruh universe">Refresh</button>
+    <button id="logout" class="ghost hidden">Keluar</button>
+  </div>
+</header>
+
+<main class="layout">
+  <section class="panel">
+    <div class="panel-head">
+      <h2>Screener LQ45 + watchlist</h2>
+      <div class="filters">
+        <label><input type="checkbox" id="onlyPass" checked> hanya yang lolos gerbang</label>
+        <span id="screenMeta" class="muted small"></span>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table id="screenTable">
+        <thead><tr>
+          <th>Kode</th><th>Close</th><th>Skor</th><th>Setup</th><th>Tren</th><th>Mom</th><th>Vol</th><th>Volat</th><th>Candle</th><th>Status</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <p class="muted small disclaimer">
+      Skor 0–100 memakai gerbang wajib (tren, ADX, likuiditas, Impulse Elder) lalu komponen tren 30 / momentum 25 /
+      volume 20 / volatilitas 15 / candlestick 10. Bukan rekomendasi investasi; data Yahoo Finance tertunda ±10 menit.
+    </p>
+  </section>
+
+  <section id="detail" class="panel detail hidden">
+    <div class="panel-head">
+      <h2><span id="dTicker"></span> <span id="dCompany" class="muted"></span></h2>
+      <div id="dBadges" class="badges"></div>
+    </div>
+    <div id="chart" class="chart"></div>
+    <div id="chartRsi" class="chart small-chart"></div>
+    <div class="grid">
+      <div class="card">
+        <h3>Rencana transaksi</h3>
+        <table class="kv" id="planTable"></table>
+        <p class="muted small">Entry = buy-stop 1 fraksi di atas high kemarin (Elder). Stop = low 2 hari atau 3×ATR, mana yang lebih dekat. Target 2R / 3R. Time-stop 10 hari bursa.</p>
+      </div>
+      <div class="card">
+        <h3>Indikator</h3>
+        <table class="kv" id="indTable"></table>
+      </div>
+      <div class="card">
+        <h3>Alasan</h3>
+        <ul id="reasons" class="list good"></ul>
+        <h3>Peringatan</h3>
+        <ul id="warnings" class="list bad"></ul>
+        <h3>Sinyal keluar (bila sudah pegang)</h3>
+        <ul id="exits" class="list bad"></ul>
+      </div>
+      <div class="card">
+        <h3>Sentimen berita <span id="sentBadge" class="badge"></span></h3>
+        <p id="sentMeta" class="muted small"></p>
+        <ul id="news" class="news"></ul>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script src="/static/vendor/lightweight-charts.standalone.production.js"></script>
+<script src="/static/app.js"></script>
+</body>
+</html>
