@@ -3117,11 +3117,58 @@ const GD_FOLDERS=[
   {id:'1Gf7CPzQmBnyfnHugTq0yYSN-uzuLohgj',name:'09 Branding Ads'},
 ];
 function b64ToBuf(b64){const bin=atob(b64);const u8=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u8[i]=bin.charCodeAt(i);return u8.buffer;}
+const GD_ROOT_ID='1hkF1IvfonDkb7E68COSlXLs-93nrmBK2';
+const GD_BACKUP_PREFIX='puresia-dashboard-state-';
+/* proses beberapa file sekaligus supaya sinkron jauh lebih cepat */
+async function runPool(items,worker,size){
+  let i=0;
+  const runners=Array(Math.min(size,items.length)).fill(0).map(async()=>{
+    while(i<items.length){const it=items[i++];await worker(it);}
+  });
+  await Promise.all(runners);
+}
+async function gdFindBackups(server){
+  const r=await gdCall(server,'search_files',{query:`parentId = '${GD_ROOT_ID}' and title contains '${GD_BACKUP_PREFIX}'`,pageSize:20,excludeContentSnippets:true});
+  return ((r&&r.payload&&r.payload.files)||[])
+    .filter(x=>/\.json$/i.test(String(x.title||'')))
+    .sort((a,b)=>String(b.modifiedTime||'').localeCompare(String(a.modifiedTime||'')));
+}
 async function runDriveSync(onStatus){
   const report={applied:[],skipped:[],errors:[],ok:[]};
   let cells=0,filesDone=0;
   const server=await gdResolveServer();
   if(!server){report.errors.push(gdErrMsg({code:'server_not_connected'}));return {report,cells,filesDone};}
+  /* cache browser baru dikosongkan? pulihkan dulu hasil sinkron terakhir dari backup Drive,
+     supaya hanya file baru yang perlu diunduh ulang */
+  try{
+    if(Object.keys(syncedIds).length===0){
+      onStatus(L('Memeriksa backup dashboard di Drive\u2026','Checking the dashboard backup on Drive\u2026'));
+      const hits=await gdFindBackups(server);
+      if(hits.length){
+        onStatus(L('Memulihkan data dari backup Drive\u2026','Restoring data from the Drive backup\u2026'));
+        const dl=await gdCall(server,'download_file_content',{fileId:hits[0].id});
+        const b64=dl&&dl.payload&&dl.payload.content;
+        if(b64){
+          const B=JSON.parse(new TextDecoder().decode(b64ToBuf(b64)));
+          if(B&&B.keys){
+            if(B.keys[LS_O]){overlay=B.keys[LS_O];store.set(LS_O,overlay);}
+            if(B.keys[LS_P]){prodStore=B.keys[LS_P];store.set(LS_P,prodStore);}
+            if(B.keys[LS_V]){vidStore=B.keys[LS_V];store.set(LS_V,vidStore);}
+            if(B.keys[LS_PN]){prodNames=B.keys[LS_PN];store.set(LS_PN,prodNames);}
+            if(B.keys[LS_B]){budgetOv=B.keys[LS_B];store.set(LS_B,budgetOv);}
+            if(B.keys[LS_GMVMP]){gmvMpOv=B.keys[LS_GMVMP];store.set(LS_GMVMP,gmvMpOv);}
+            if(B.keys[LS_T]){targets=Object.assign({},DEFAULT_TARGETS,B.keys[LS_T]);store.set(LS_T,B.keys[LS_T]);}
+            if(B.keys[LS_MASK]){maskMonths=B.keys[LS_MASK];store.set(LS_MASK,maskMonths);}
+            if(B.syncedIds){syncedIds=B.syncedIds;store.set(LS_SYNCF,syncedIds);}
+            if(B.syncState){syncState=B.syncState;store.set(LS_SYNC,syncState);}
+            for(const cid in overlay)for(const k in overlay[cid])for(const iso in overlay[cid][k])ensureMonth(String(iso).slice(0,7));
+            invalidateCache();GLOBAL_LAST=computeGlobalLast();
+            report.ok.push(L('Data dipulihkan dari backup Drive: ','Data restored from the Drive backup: ')+String(hits[0].title||''));
+          }
+        }
+      }
+    }
+  }catch(e){report.errors.push(L('Pemulihan backup: ','Backup restore: ')+gdErrMsg(e));}
   async function gdWalk(fid,depth){
     let out=[];
     const res=await gdCall(server,'search_files',{query:`parentId = '${fid}'`,pageSize:200,excludeContentSnippets:true});
@@ -3137,34 +3184,34 @@ async function runDriveSync(onStatus){
     let list;
     try{list=await gdWalk(f.id,0);}
     catch(e){report.errors.push(f.name+': '+gdErrMsg(e));continue;}
-    for(const file of list){
+    await runPool(list,async file=>{
       const prevMark=syncedIds[file.id];
-      if(prevMark&&prevMark!=='skip-detect'&&prevMark!=='skip-format')continue;
+      if(prevMark&&prevMark!=='skip-detect'&&prevMark!=='skip-format')return;
       const t=String(file.title||'');
       const okType=/\.(csv|xlsx|txt)$/i.test(t)||/csv|excel|spreadsheetml|text\/plain/.test(String(file.mimeType||''));
-      if(!okType){report.skipped.push(t+': '+L('format tidak didukung','unsupported format'));syncedIds[file.id]='skip-format';continue;}
+      if(!okType){report.skipped.push(t+': '+L('format tidak didukung','unsupported format'));syncedIds[file.id]='skip-format';return;}
       onStatus(L('Memproses ','Processing ')+t+'\u2026');
       let dl;
       try{dl=await gdCall(server,'download_file_content',{fileId:file.id});}
-      catch(e){report.errors.push(t+': '+gdErrMsg(e));continue;}
+      catch(e){report.errors.push(t+': '+gdErrMsg(e));return;}
       const dpay=dl&&dl.payload?dl.payload:{};
-      if(!dpay.content){report.errors.push(t+': '+L('konten kosong','empty content'));continue;}
+      if(!dpay.content){report.errors.push(t+': '+L('konten kosong','empty content'));return;}
       let rows;
       try{
         if(/\.xlsx$/i.test(t)||/officedocument|spreadsheetml|ms-excel/.test(String(dpay.mimeType||'')))
           rows=await xlsxToRows(b64ToBuf(dpay.content));
         else rows=csvParse(new TextDecoder().decode(b64ToBuf(dpay.content)).replace(/^\uFEFF/,''));
-      }catch(e){report.errors.push(t+': '+(e.message||e));continue;}
+      }catch(e){report.errors.push(t+': '+(e.message||e));return;}
       const det=detectRows(rows,t);
-      if(det.error){report.skipped.push(t+': '+det.error);syncedIds[file.id]='skip-detect';continue;}
+      if(det.error){report.skipped.push(t+': '+det.error);syncedIds[file.id]='skip-detect';return;}
       if(det.mapping){prodNames=Object.assign({},prodNames,det.mapping);store.set(LS_PN,prodNames);}
       let entries=null;
       if(det.entries)entries=det.entries.map(e=>({...e,chId:f.channel||e.chId||det.defaultCh}));
       else if(det.entriesNoDate){
-        if(!det.date){report.skipped.push(t+': '+L('tanggal tidak terbaca, tambahkan tanggal pada nama file','date unreadable, add the date to the file name'));continue;}
+        if(!det.date){report.skipped.push(t+': '+L('tanggal tidak terbaca, tambahkan tanggal pada nama file','date unreadable, add the date to the file name'));return;}
         entries=det.entriesNoDate.map(e=>({...e,iso:det.date,chId:f.channel||e.chId||det.defaultCh}));
       }else if(det.single){
-        if(!det.date){report.skipped.push(t+': '+L('tanggal tidak terbaca','date unreadable'));continue;}
+        if(!det.date){report.skipped.push(t+': '+L('tanggal tidak terbaca','date unreadable'));return;}
         entries=[{chId:f.channel||det.defaultCh,iso:det.date,metrics:det.single}];
       }
       if(entries&&entries.length)cells+=applyEntries(entries);
@@ -3181,11 +3228,29 @@ async function runDriveSync(onStatus){
       syncedIds[file.id]=new Date().toISOString();
       filesDone++;
       report.applied.push(t+' \u2192 '+f.name);
-    }
+    },4);
   }
   store.set(LS_SYNCF,syncedIds);
   store.set(LS_O,overlay);
   invalidateCache();GLOBAL_LAST=computeGlobalLast();
+  /* simpan hasil sinkron ke backup di folder Drive: hapus cache browser tidak lagi menghilangkan data */
+  if(filesDone>0||cells>0){
+    try{
+      onStatus(L('Menyimpan backup dashboard ke Drive\u2026','Saving the dashboard backup to Drive\u2026'));
+      let olds=[];
+      try{olds=(await gdFindBackups(server)).map(x=>x.id);}catch(e){}
+      const title=GD_BACKUP_PREFIX+new Date().toISOString().replace(/[:.]/g,'-')+'.json';
+      const full={stamp:new Date().toISOString(),keys:currentBake().keys,syncedIds,syncState};
+      try{
+        await gdCall(server,'create_file',{title,parentId:GD_ROOT_ID,textContent:JSON.stringify(full),contentMimeType:'application/json',disableConversionToGoogleType:true});
+      }catch(e){
+        const mini={stamp:full.stamp,keys:{[LS_O]:overlay,[LS_PN]:prodNames,[LS_B]:budgetOv,[LS_GMVMP]:gmvMpOv,[LS_T]:targets,[LS_MASK]:maskMonths},syncedIds,syncState};
+        await gdCall(server,'create_file',{title,parentId:GD_ROOT_ID,textContent:JSON.stringify(mini),contentMimeType:'application/json',disableConversionToGoogleType:true});
+      }
+      for(const id of olds){try{await gdCall(server,'trash_file',{fileId:id});}catch(e){}}
+      report.ok.push(L('Backup dashboard tersimpan di folder Drive.','Dashboard backup saved to the Drive folder.'));
+    }catch(e){report.errors.push('Backup: '+gdErrMsg(e));}
+  }
   return {report,cells,filesDone};
 }
 const gdAvailable=()=>!!(window.claude&&window.claude.mcp);
