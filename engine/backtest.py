@@ -61,6 +61,7 @@ def _simulate_ticker(ticker: str, df: pd.DataFrame, bench: pd.DataFrame, cfg: St
             continue
         fill = max(float(nxt["open"]), plan.entry) + tick
         stop = float(plan.stop)
+        initial_risk = max(1.0, fill - stop)  # R dihitung dari risiko awal, bukan stop yang sudah di-trail
         target = float(plan.target2)
         lots = plan.lots
         shares = lots * idx_rules.LOT_SIZE
@@ -86,7 +87,7 @@ def _simulate_ticker(ticker: str, df: pd.DataFrame, bench: pd.DataFrame, cfg: St
         gross = (exit_price - fill) * shares
         fees = fill * shares * cost.buy_fee + exit_price * shares * cost.sell_fee
         pnl = gross - fees
-        r = (exit_price - fill) / max(1.0, fill - stop) if plan.risk_per_share else 0.0
+        r = (exit_price - fill) / initial_risk
         trades.append(Trade(ticker, df.index[entry_i].strftime("%Y-%m-%d"), df.index[exit_i].strftime("%Y-%m-%d"),
                             fill, exit_price, stop, lots, round(pnl), round(r, 2), exit_i - entry_i, reason))
         i = exit_i + 1
