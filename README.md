@@ -72,8 +72,9 @@ Perbarui daftar `LQ45` di `engine/universe.py` setiap rebalancing kuartalan BEI.
 ## Batasan yang harus Anda tahu
 
 - Data Yahoo Finance tertunda ±10 menit dan kadang kena rate limit (mesin memakai cache dan mencoba dua host).
-- Skor adalah ringkasan aturan buku, bukan prediksi. Backtest di repo ini kasar. Pasar lemah = daftar kandidat
-  kosong, dan itu memang perilaku yang benar.
+- Skor adalah ringkasan aturan buku, bukan prediksi. Backtest 1 tahun terakhir (LQ45, biaya BEI) menghasilkan
+  91 transaksi, win rate 36 %, ekspektansi ≈ 0 R, profit factor 1,02: **impas setelah biaya**, belum ada edge yang
+  terbukti (rincian di `docs/METODOLOGI.md` bagian 6). Pasar lemah = daftar kandidat kosong, dan itu memang benar.
 - Aturan Elder 6 % (berhenti buka posisi baru bila rugi bulan berjalan ≥ 6 %) tidak diotomasi karena mesin tidak
   tahu posisi Anda.
 - Aturan auto rejection BEI berubah 28 Sep 2026 dan 1 Jan 2027; `engine/idx_rules.py` sudah sadar tanggal, tetapi

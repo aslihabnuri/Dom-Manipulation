@@ -89,3 +89,25 @@ prioritas para penulis (tren > momentum > volume > struktur > candle); ubah di `
   alasan untuk **tidak** membeli (negatif kuat: suspensi, UMA, gagal bayar) lebih daripada alasan untuk membeli.
 - Keterbukaan informasi resmi BEI (`idx.co.id/id/perusahaan-tercatat/keterbukaan-informasi`) tidak ber-RSS dan
   diproteksi Cloudflare; belum diintegrasikan.
+
+## 6. Hasil backtest awal (jujur, belum dioptimasi)
+
+`python -m engine.backtest --days 250`, universe LQ45 (45 saham), 22 Sep 2025 – 22 Sep 2026, modal Rp 100 juta,
+risiko 1 % per posisi, biaya 0,15 % / 0,25 %, slippage 1 fraksi tiap sisi, aturan persis seperti `strategy.py`:
+
+| Metrik | Nilai |
+|---|---|
+| Jumlah transaksi | 91 |
+| Win rate | 36 % |
+| Ekspektansi | −0,005 R (≈ nol) |
+| Profit factor | 1,02 |
+| Total P/L | +Rp 1,17 juta (+1,2 %) |
+| Rata-rata durasi | 5,4 hari bursa |
+| Drawdown maksimum | −Rp 9,1 juta |
+| Alasan keluar | stop 44, time-stop 20, target 3R 17, gap-stop 8, chandelier 2 |
+
+Kesimpulan [Pasti untuk periode ini]: aturan buku yang dikodekan apa adanya **impas setelah biaya** pada tahun
+yang lemah untuk IHSG. Ini normal: buku memberi kerangka, bukan edge; edge datang dari seleksi konteks pasar
+(mis. hanya trading saat IHSG sendiri di atas SMA50), disiplin, dan penyesuaian yang Anda uji sendiri.
+Yang **tidak** boleh dilakukan: mengutak-atik bobot sampai backtest 1 tahun terlihat bagus (curve fitting).
+Yang layak diuji berikutnya: filter rezim IHSG, ambang skor 70, hanya setup "pullback", dan jual separuh di 2R.
