@@ -21,3 +21,6 @@ Three groups, three places, each on its own field; the gaps between groups are m
 ## Pipeline
 1. `prompts/prompt_payday2.txt` with Nano Banana Pro, `aspect_ratio 2:3`, 2K, references in order: the Payday reference (composition and ambience), the Toni Black model (identity), the men's boxer (`Boxer dewasa/2.png`). One generation for this version (`prompts/prompt_payday.txt` was the first, greyer attempt, dropped).
 2. `scripts/compose.py PHOTO OUT [scale] [hero_y] [bigw]` (final: `1 0.235 500`, `2 0.235 500`). No grade.
+
+## Variant: 9.9 layout (`variant-9.9-layout/`)
+The 9.9 banner photo and layout with the eyebrow changed from `9.9 SALE` to `PAYDAY SALE` and enlarged (Zalando SemiBold 40 instead of 26, tracked). Nothing else changed, so the offer still reads `40%`. `scripts/compose_9.9_layout.py PHOTO OUT [scale] [hero_y]` (final: `1 0.29`, `2 0.29`).
