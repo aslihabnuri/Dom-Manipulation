@@ -1,0 +1,8 @@
+Recreate the FIRST image as faithfully as possible: the same view from inside the washing machine drum through the round open door, the same stainless drum and rim, the same laundry room beyond with the same mustard-yellow ceramic tiles, the same white tiled floor, the same warm tungsten light, the same 35mm film colour, grain and softness, the same framing with the man cropped at the neck, torso and legs visible, standing in the same place. Vertical 2:3, the round opening filling the width and sitting a little above the middle, the curved steel drum floor in the lower part of the frame.
+
+Change only these things:
+- the man's body is the body of the man from the SECOND image (same skin tone, same athletic build);
+- he wears only the black Toni Black boxer brief from the THIRD image, black waistband with the "TONI BLACK" lettering visible, instead of the white boxers;
+- the blue sock hanging on the door rim is replaced by a black Toni Black boxer brief from the THIRD image hanging over the rim the same way, waistband lettering readable;
+- no socks: bare feet on the tiles.
+Keep the dark garment lying on the drum floor. Keep everything else exactly as in the FIRST image. Photorealistic film photograph, not a render. No text, no captions, no logos other than the waistbands, no watermark.
