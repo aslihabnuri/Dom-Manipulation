@@ -23,4 +23,4 @@ Three groups, three places, each on its own field; the gaps between groups are m
 2. `scripts/compose.py PHOTO OUT [scale] [hero_y] [bigw]` (final: `1 0.235 500`, `2 0.235 500`). No grade.
 
 ## Variant: 9.9 layout (`variant-9.9-layout/`)
-The 9.9 banner photo and layout with the eyebrow changed from `9.9 SALE` to `PAYDAY SALE` and set as a headline line at the same level as `SAVE UP TO` (both Zalando Bold 48, tracked 10), `40%` the dominant line. Leading opened: 34 px after `PAYDAY SALE`, 30 after `SAVE UP TO`, 56 after `40%` before the benefits, 16 between benefit lines. Offer unchanged at `40%`. `scripts/compose_9.9_layout.py PHOTO OUT [scale] [hero_y]` (final: `1 0.255`, `2 0.255`).
+The 9.9 banner photo and layout with the eyebrow changed from `9.9 SALE` to `PAYDAY SALE` and set as a headline line at the same level as `SAVE UP TO` (both Zalando Bold 48, tracked 10), `35%` the dominant line. Leading opened: 34 px after `PAYDAY SALE`, 30 after `SAVE UP TO`, 56 after `40%` before the benefits, 16 between benefit lines. Offer set to `35%`. `scripts/compose_9.9_layout.py PHOTO OUT [scale] [hero_y]` (final: `1 0.255`, `2 0.255`).

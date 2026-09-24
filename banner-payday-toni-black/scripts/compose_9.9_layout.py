@@ -34,11 +34,11 @@ def build(photo_path,out_path,k=1.0,bigw=640,hero_y=0.30):
     # hero lockup, centred on the chest
     f_eye=font("ZalandoSansExpanded-Bold.ttf",48)
     f_save=font("ZalandoSansExpanded-Bold.ttf",46)
-    f_big=fit_font(d,"40%","ZalandoSansExpanded-Black.ttf",g(bigw),track=g(-8))
+    f_big=fit_font(d,"35%","ZalandoSansExpanded-Black.ttf",g(bigw),track=g(-8))
     y=int(H*hero_y)
     w=tracked_w(d,"PAYDAY SALE",f_eye,g(10)); tracked(d,((W-w)//2,y),"PAYDAY SALE",f_eye,WHITE,track=g(10)); y+=g(48+34)
     w=tracked_w(d,"SAVE UP TO",f_save,g(10)); tracked(d,((W-w)//2,y),"SAVE UP TO",f_save,WHITE,track=g(10)); y+=g(48+30)
-    bb=d.textbbox((0,0),"40%",font=f_big); tracked(d,((W-(bb[2]-bb[0]))//2-bb[0],y-bb[1]),"40%",f_big,WHITE,track=g(-8))
+    bb=d.textbbox((0,0),"35%",font=f_big); tracked(d,((W-(bb[2]-bb[0]))//2-bb[0],y-bb[1]),"35%",f_big,WHITE,track=g(-8))
     y+= (bb[3]-bb[1]) + g(56)
     # benefits directly under the hero, still one centred block
     f_ben=font("Arimo-Regular.ttf",30); f_cta=font("ZalandoSansExpanded-Bold.ttf",28); f_tc=font("Arimo-Regular.ttf",20)
