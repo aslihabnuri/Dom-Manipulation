@@ -16,7 +16,7 @@ Deck presentasi 32 slide (16:9) untuk mata kuliah Strategic Management.
 
 `Kelompok 4 - Strategic Management - Chapter 4 & Manchester United.pptx`
 
-Setiap slide punya **catatan presenter** (Notes Page di PowerPoint, ±4.400
+Setiap slide punya **catatan presenter** (Notes Page di PowerPoint, ±5.700
 kata total). Teks di slide sengaja dibuat pendek supaya terbaca sekilas oleh
 audiens; penjelasan lengkapnya ada di catatan, termasuk kutipan buku, contoh
 tambahan, dan jawaban untuk pertanyaan yang kemungkinan muncul.
@@ -51,6 +51,13 @@ slidenya sendiri**:
   6.2, 6.3, 6.5, 6.6 dan 6.7. Nilainya judgment, sebagaimana Tabel 4.4 di buku
   juga memakai contoh hipotetis.
 
+## Audit
+
+Seluruh isi sudah dicek ulang terhadap buku dan PDF kasus. `AUDIT.md` mencatat
+setiap koreksi beserta halamannya, termasuk koreksi utama: sistem Ferguson
+**lolos** tes Nonsubstitutable, karena tes N menguji pengganti di tangan
+pesaing, bukan kemampuan klub mengganti Ferguson.
+
 ## Membangun ulang
 
 ```bash
@@ -75,3 +82,4 @@ kepanjangan dan tidak memperingatkan saat elemen bertumpuk.
 | `part_b.py` | Slide 19–32 — penerapan ke kasus |
 | `build.py` | Merangkai dan menyimpan file .pptx |
 | `check_layout.py` | Pemeriksa layout |
+| `AUDIT.md` | Daftar koreksi hasil audit terhadap buku dan PDF kasus |

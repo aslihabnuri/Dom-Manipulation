@@ -592,8 +592,8 @@ def s11_vrin(d):
              ("I", "Inimitable", "Sulit ditiru?",
               "Sulit ditiru kalau unik, harus dibangun bertahun-tahun, butuh biaya "
               "sangat besar, atau melibatkan social complexity dan causal ambiguity."),
-             ("N", "Nonsubstitutable", "Tidak ada penggantinya?",
-              "Pesaing bisa saja tidak meniru, tapi menemukan cara lain dengan hasil "
+             ("N", "Nonsubstitutable", "Pesaing tak punya jalan lain?",
+              "Pesaing tidak meniru, tapi memakai resource JENIS LAIN untuk hasil yang "
               "sama. Keunggulan otomasi bisa dibatalkan pesaing yang memakai tenaga "
               "kerja murah di luar negeri.")]
     w = (CW - 3 * 0.26) / 4
@@ -635,6 +635,13 @@ def s11_vrin(d):
              "Tes N adalah yang paling sulit dinilai, kata buku, karena substitusi lebih "
              "sulit dikenali. Caranya: cari resource lain, di perusahaan mana pun, yang "
              "bisa menjalankan FUNGSI yang sama.\n\n"
+             "HATI-HATI dengan salah kaprah yang paling umum: tes N BUKAN bertanya "
+             "'kalau resource ini hilang, bisakah perusahaan menggantinya?'. Tes N "
+             "bertanya 'bisakah PESAING mencapai hasil yang sama dengan resource jenis "
+             "lain?'. Definisi buku: 'invulnerable to the threat of substitution from "
+             "different types of resources and capabilities'. Keunggulan bisa hilang 'if "
+             "rivals possess equivalent substitute resources'. Jadi resource yang tidak "
+             "punya pengganti setara di tangan pesaing justru LOLOS tes N.\n\n"
              "Fakta penting untuk ditutup: sangat sedikit perusahaan punya resource yang "
              "lolos keempat tes. Kebanyakan hanya punya campuran — satu dua sangat "
              "berharga, beberapa bagus, banyak yang biasa saja. Contoh yang lolos "
@@ -646,8 +653,8 @@ def s11_vrin(d):
 def s12_dynamic(d):
     s = d.blank()
     y = d.head(s, "Pertanyaan 3 · Lanjutan", "Resource harus dikelola secara dinamis",
-               "Lolos VRIN hari ini tidak berarti aman selamanya. Resource bisa "
-               "menyusut nilainya kalau dibiarkan.", sublines=1)
+               "VRIN menguji serangan dari pesaing. Tapi resource juga bisa menyusut, "
+               "bahkan hilang, dari dalam perusahaan sendiri.", sublines=1)
 
     risks = [("Pesaing menyusul", "Yang awalnya tidak bisa meniru, lama-lama menemukan "
               "pengganti yang makin baik."),
@@ -687,7 +694,13 @@ def s12_dynamic(d):
               "rutinitas manajemen, kemampuan memperbarui itu sendiri berubah menjadi "
               "sebuah capability. Di titik itulah ia disebut dynamic capability.",
               False, INK)])
-    notes(s, "Kalimat pembuka yang bagus: bahkan Costco dan Lincoln Electric — dua "
+    notes(s, "Slide ini menutup celah VRIN. Keempat tes VRIN hanya menguji ancaman "
+             "dari LUAR: apakah pesaing bisa meniru, atau mengakali dengan resource lain. "
+             "VRIN tidak menguji ancaman dari DALAM: resource yang menyusut, usang, atau "
+             "hilang dari perusahaan sendiri. Buku membahas ancaman dari dalam itu di "
+             "sini, di bagian 'resources and capabilities must be managed dynamically'. "
+             "Ini akan sangat penting di kasus Manchester United.\n\n"
+             "Kalimat pembuka yang bagus: bahkan Costco dan Lincoln Electric — dua "
              "perusahaan yang lolos keempat tes VRIN — tidak boleh berpuas diri.\n\n"
              "Tiga risiko di kiri itu langsung dari buku. Frasa 'from diamonds to rust' "
              "layak dikutip: aset strategis bisa berubah dari berlian jadi karat kalau "

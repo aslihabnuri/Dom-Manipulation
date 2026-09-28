@@ -42,9 +42,9 @@ def s19_divider_b(d):
               "Menyiapkan pengganti Sir Alex Ferguson, yang akhir 2009 berusia 68 tahun "
               "dan diperkirakan pensiun akhir musim 2009–10"),
              ("Dilema intinya", 1.86, 1.28,
-              "Pilih orang dalam supaya sistem Ferguson tetap jalan, tapi berisiko "
-              "kurang berwibawa di depan pemain bintang. Atau pilih manajer berwibawa "
-              "seperti Mourinho, yang hampir pasti membongkar seluruh sistem itu.")]
+              "Pilih orang dalam supaya sistem Ferguson tetap jalan, tapi berisiko kurang "
+              "berwibawa di depan pemain bintang. Atau pilih manajer berwibawa seperti "
+              "Mourinho, yang kemungkinan besar membongkar sebagian besar sistem itu.")]
     x0, y = 7.05, 0.92
     for nm, h, th, body in facts:
         rect(s, x0, y, 5.55, h, fill=RGBColor(0x76, 0x14, 0x0D))
@@ -56,15 +56,21 @@ def s19_divider_b(d):
     notes(s, "Buka dengan jujur soal sumber: kasus ini ditulis Robert M. Grant, bukan "
              "diambil dari buku Thompson. Yang kita pakai dari Thompson adalah "
              "KERANGKANYA, yaitu enam pertanyaan Chapter 4.\n\n"
-             "Tegaskan waktunya: Juli 2009. Ferguson MASIH menjabat. Jadi semua analisis "
-             "kita berdiri di titik itu, bukan dengan pengetahuan hari ini.\n\n"
-             "Ceritakan pembukanya supaya audiens masuk: David Gill sedang ikut tur Asia "
-             "bersama tim. Pertandingan di Malaysia, Indonesia, Korea, dan Cina itu "
-             "resminya latihan pra-musim, tapi kasus menyebut tujuannya hampir "
-             "seluruhnya komersial. Rutenya bahkan ditentukan oleh kesepakatan sponsor "
-             "yang sudah ada.\n\n"
-             "Tapi yang ada di kepala Gill bukan urusan komersial. Yang ada di kepalanya "
-             "adalah: siapa yang akan menggantikan Ferguson.")
+             "Tegaskan waktunya: Juli 2009. Ferguson MASIH menjabat. Semua analisis kita "
+             "berdiri di titik itu, bukan dengan pengetahuan hari ini.\n\n"
+             "Ceritakan pembukanya (hlm. 572–573): David Gill ikut tur Asia bersama tim. "
+             "Pertandingan di Malaysia, Indonesia, Korea, dan Cina resminya latihan "
+             "pra-musim, tapi kasus menyebut tujuannya hampir seluruhnya komersial. Rutenya "
+             "ditentukan kesepakatan sponsor: laga Kuala Lumpur adalah imbalan sponsor tur "
+             "Telekom Malaysia senilai £2 juta.\n\n"
+             "Tapi yang ada di kepala Gill bukan urusan komersial. Kasus menyebut masalah "
+             "terbesarnya adalah pensiunnya Ferguson — arsitek utama sukses klub selama "
+             "23 tahun, yang sudah membangun seluruh infrastruktur pemanduan bakat, latihan, "
+             "disiplin tim, serta taktik dan strategi.\n\n"
+             "Dilema di kotak terakhir dikutip dari hlm. 588. Perhatikan kata kasusnya: "
+             "manajer seperti Mourinho 'likely' — kemungkinan besar — membongkar "
+             "'much of' — sebagian besar — infrastruktur Ferguson. Bukan pasti, "
+             "bukan seluruhnya.")
     return s
 
 
@@ -78,8 +84,8 @@ def s20_industry(d):
               "Serie A, La Liga dan Bundesliga masing-masing sekitar €1,4 miliar"),
              ("62%", "Porsi gaji terhadap pendapatan di Premier League. Serie A 68%, "
               "La Liga 63%. Gaji adalah pos biaya terbesar klub Eropa"),
-             ("8 dari 10", "Klub besar Eropa merugi selama 2000–2006. Industri ini "
-              "tumbuh pesat, tapi tidak menguntungkan")]
+             ("6 dari 10", "Klub besar di Tabel 6.6 merugi selama 2000–2006. Industri "
+              "ini tumbuh pesat, tapi sangat tidak menguntungkan")]
     w = (CW - 2 * 0.28) / 3
     x = ML
     for big, body in stats:
@@ -99,11 +105,11 @@ def s20_industry(d):
              "Tiket dan hospitality. Dibatasi kapasitas stadion — itu sebabnya klub "
              "besar merenovasi atau membangun stadion baru"),
             ("Broadcasting", "£931 jt",
-             "Hak siar dijual kolektif oleh liga. Kontrak 2006 bernilai £2,7 miliar; "
-             "tiap klub dapat rata-rata £45 juta per tahun"),
+             "Hak siar dinegosiasikan Premier League. Kontrak 2006 bernilai £2,7 "
+             "miliar; tiap klub dapat rata-rata £45 juta per tahun"),
             ("Commercial", "£447 jt",
-             "Sponsor, lisensi merchandise, iklan stadion. Terpusat di sedikit klub "
-             "— Real Madrid dan Barcelona menguasai lebih dari 60% La Liga")]
+             "Sponsor, lisensi merchandise, iklan. Terpusat di sedikit klub — Real "
+             "Madrid dan Barcelona meraup lebih dari 60% sponsor La Liga")]
     yy = y2 + 0.32
     for nm, val, body in revs:
         rect(s, ML, yy, half, 0.82, fill=PAPER, line=RULE)
@@ -119,9 +125,9 @@ def s20_industry(d):
     txt(s, "Aturan main dan logika ekonominya", x2, y2, half, 0.28, size=11,
         color=INK, bold=True, caps=True)
     pts = [("Struktur kompetisi", "20 klub Premier League, tiga terbawah turun kasta. "
-            "Empat teratas lolos Champions League bersama 31 klub terbaik Eropa lain."),
+            "Empat teratas lolos Champions League, kompetisi 32 klub terbaik Eropa."),
            ("Yang kaya makin kaya", "Sejak UCL dimulai 1992, muncul jurang keuangan antara "
-            "empat klub teratas Inggris dan sisanya. Uang Eropa dipakai membeli pemain bagus."),
+            "MU, Chelsea, Liverpool, Arsenal dan sisanya. Uang Eropa membeli pemain bagus."),
            ("Harga pemain meledak", "Rekor transfer baru tercipta musim panas 2009 meski "
             "resesi. Pendorongnya: Real Madrid, lalu Chelsea, lalu Manchester City.")]
     yy = y2 + 0.32
@@ -129,21 +135,23 @@ def s20_industry(d):
         txt(s, nm, x2, yy, half, 0.24, size=12, color=RED, bold=True)
         txt(s, body, x2, yy + 0.24, half, 0.46, size=11, color=INK_SOFT, spacing=1.12)
         yy += 0.78
-    notes(s, "Tujuan slide ini satu: membuat audiens paham bahwa sepakbola Eropa adalah "
-             "industri yang besar tapi rugi. Itu penting, karena Q1 menilai kinerja "
-             "RELATIF terhadap industri.\n\n"
-             "Angka 8 dari 10 klub merugi itu dari Tabel 6.6 kasus. Yang untung cuma "
-             "Manchester United, Arsenal, Bayern, dan Real Madrid (nyaris nol, 0,4%). "
-             "Chelsea minus 60,4% dan Inter Milan minus 78,4%.\n\n"
-             "Jelaskan mekanisme 'yang kaya makin kaya': lolos Champions League memberi "
-             "uang besar, uang itu dipakai beli pemain bagus, pemain bagus membuat lolos "
-             "lagi tahun depan. Lingkaran ini yang memisahkan empat klub teratas Inggris "
-             "dari sisanya sejak 1992.\n\n"
-             "Kalau ditanya: nilai kontrak sponsor jersey yang disebut kasus — "
-             "Juventus dengan Tamoil €110 juta untuk 5 tahun, Arsenal dengan Emirates "
-             "£100 juta untuk 15 tahun, MU dengan Aon £80 juta untuk 4 tahun, "
-             "Chelsea dengan Samsung £50 juta untuk 5 tahun. Kalau dihitung per "
-             "tahun, MU paling mahal.")
+    notes(s, "Tujuan slide ini satu: audiens paham bahwa sepakbola Eropa adalah industri "
+             "yang besar tapi merugi. Itu penting, karena Q1 menilai kinerja RELATIF "
+             "terhadap industri.\n\n"
+             "Angka 6 dari 10 dari Tabel 6.6 (hlm. 580), ukurannya laba sebelum pajak dibagi "
+             "pendapatan. Yang merugi: Chelsea (minus 60,4%), Inter (minus 78,4%), Rangers, "
+             "Juventus, Celtic, Liverpool. Yang untung: MU (12,6%), Arsenal (5,6%), Bayern "
+             "(4,7%), dan Real Madrid yang nyaris nol (0,4%). Kasus sendiri menyebut hanya "
+             "MU, Arsenal, dan Bayern yang mencetak laba signifikan.\n\n"
+             "Mekanisme 'yang kaya makin kaya' (hlm. 575): pendapatan Liga Champions dipakai "
+             "membeli pemain kelas atas, dan itu memperlebar jurang antara empat klub teratas "
+             "Inggris dan sisanya.\n\n"
+             "Kalau ditanya soal kontrak sponsor jersey (hlm. 578): Juventus–Tamoil "
+             "€110 juta/5 tahun, Arsenal–Emirates £100 juta/15 tahun, "
+             "MU–Aon £80 juta/4 tahun, Chelsea–Samsung £50 juta/5 tahun. "
+             "Per tahun dalam pound: MU £20 juta, Chelsea £10 juta, Arsenal sekitar "
+             "£6,7 juta. Juventus sekitar €22 juta per tahun, tapi tidak bisa "
+             "dibandingkan langsung karena kasus tidak memberi kurs euro–pound.")
     d.footer(s, FOOT_B)
     return s
 
@@ -154,12 +162,12 @@ def s21_q1_sport(d):
                "Indikator kedua Thompson — apakah posisi dan kekuatan bersaingnya "
                "membaik — dijawab data kompetisi kasus.", sublines=1)
 
-    stats = [("1.460", "Poin performa Eropa 2000–2009, tertinggi", "Tabel 6.2",
+    stats = [("1.460", "Poin Eropa 2000–2009, tertinggi", "Tabel 6.2",
               "Barcelona 1.411 · Real Madrid 1.314 · Arsenal 1.310"),
              ("3", "Gelar liga beruntun 2007, 2008, 2009", "Tabel 6.1",
               "Total 11 gelar liga sejak 1993 dalam rentang kasus"),
-             ("2008", "Juara Liga Champions, gelar Eropa kedua Ferguson", "Halaman 584",
-              "Setelah 1999: liga, FA Cup, European Cup, Intercontinental")]
+             ("2008", "Liga Champions kedua di era Ferguson", "Halaman 584",
+              "Yang pertama 1999, bersama gelar liga dan FA Cup")]
     w = (CW - 2 * 0.28) / 3
     x = ML
     for big, cap, src, sub in stats:
@@ -192,36 +200,37 @@ def s21_q1_sport(d):
         style_cell(tbl.cell(1, ci), rows[1][ci], size=11.5, color=WHITE, bold=True,
                    fill=RED, align=PP_ALIGN.LEFT if ci == 0 else PP_ALIGN.CENTER)
         set_cell_border(tbl.cell(1, ci), ("T", "B", "L", "R"), RED, 0.75)
-    txt(s, "Skuad MU paling besar (34 pemain) sekaligus salah satu termuda (25,6 tahun) "
-           "— cocok dengan strategi memadukan pemain muda dan pemain senior.",
+    txt(s, "Di antara enam klub ini, skuad MU paling besar (34 pemain) dan termuda kedua "
+           "(25,6 tahun) setelah Arsenal — cocok dengan strategi memadukan pemain muda "
+           "dan pemain berpengalaman.",
         ML, y2 + 2.32, CW, 0.26, size=10, color=MUTED, italic=True)
     notes(s, "Sumber angka: Tabel 6.2 (poin Eropa), Tabel 6.1 (juara liga), dan Tabel 6.7 "
-             "(poin performa, ukuran dan usia skuad) di kasus.\n\n"
+             "(poin performa, ukuran dan usia skuad).\n\n"
              "Bedakan dua kolom poin supaya tidak membingungkan:\n"
-             "- Poin Eropa 2000–09 (Tabel 6.2): akumulasi performa di liga domestik, "
-             "piala domestik, dan Liga Champions, disesuaikan dengan tingkat kesulitan "
-             "liga masing-masing. MU nomor satu.\n"
-             "- Poin performa (Tabel 6.7): ukuran serupa, dipakai kasus untuk "
-             "dibandingkan dengan belanja transfer. Di sini MU nomor dua, tipis di bawah "
-             "Barcelona.\n\n"
-             "Kalau ada yang tanya kenapa peringkatnya beda: keduanya memang ukuran yang "
-             "berbeda dengan cakupan berbeda. Jangan dipaksa sama.\n\n"
-             "Catatan skuad di bawah tabel itu penting untuk slide capability nanti: "
-             "skuad terbesar tapi termuda kedua. Itu bukti strategi mengembangkan pemain "
-             "muda sendiri, bukan membeli pemain jadi.")
+             "- Poin Eropa 2000–09 (Tabel 6.2): berdasarkan prestasi di liga domestik, "
+             "piala domestik, Liga Champions, dan Intertoto Cup, disesuaikan dengan tingkat "
+             "kesulitan liga. MU nomor satu.\n"
+             "- Poin performa (Tabel 6.7): ukuran yang dipakai kasus untuk dibandingkan "
+             "dengan belanja transfer. Di sini MU nomor dua, tipis di bawah Barcelona.\n\n"
+             "Soal kartu 2008: itu Liga Champions (European Cup) KEDUA di era Ferguson, "
+             "setelah 1999. Jangan sebut 'gelar Eropa kedua', karena kasus hlm. 584 juga "
+             "mencatat Piala Winners Eropa 1991 — itu juga gelar Eropa.\n\n"
+             "Soal ukuran skuad: klaimnya hanya berlaku untuk enam klub di tabel ini. Di "
+             "Tabel 6.7 lengkap, Roma punya skuad 46 pemain dan Lyon juga 34. Jadi jangan "
+             "bilang skuad MU terbesar di Eropa.")
     d.footer(s, FOOT_B)
     return s
 
 
 def s22_q1_fin(d):
     s = d.blank()
-    y = d.head(s, "Pertanyaan 1 · Diterapkan", "Di keuangan: paling untung di Eropa",
+    y = d.head(s, "Pertanyaan 1 · Diterapkan", "Di keuangan: paling untung di antara klub besar",
                "Indikator pertama Thompson — apakah kekuatan keuangan dan labanya "
-               "membaik — dijawab Appendix kasus dan Tabel 6.5 serta 6.6.",
+               "membaik — dijawab Appendix kasus serta Tabel 6.5 dan 6.6.",
                sublines=1)
 
     wl = CW * 0.545
-    txt(s, "Pendapatan Manchester United, £ juta — naik 121% sejak 2000",
+    txt(s, "Pendapatan MU, £ juta — naik 53% dari 2006 ke 2008",
         ML, y, wl, 0.28, size=11, color=RED, bold=True, caps=True)
     years = ["2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008"]
     vals = [116.0, 129.6, 146.1, 173.0, 169.1, 157.2, 167.8, 212.2, 257.1]
@@ -259,21 +268,21 @@ def s22_q1_fin(d):
     va.has_major_gridlines = False
     va.visible = False
     va.maximum_scale = 300.0
-    txt(s, "2000–2004 = Manchester United plc, 12 bulan sampai 31 Juli. "
-           "2005–2008 = Manchester United Limited, 11 bulan sampai 30 Juni. Kasus "
-           "menyatakan kedua periode tidak sepenuhnya sebanding.",
+    txt(s, "Entitas: plc untuk 2000–2005, Limited untuk 2006–2008. Tahun buku "
+           "2000–04 sampai 31 Juli, 2005–08 sampai 30 Juni. Kasus: data 2000–04 "
+           "tidak sebanding dengan 2005–08 karena perubahan akuntansi.",
         ML, y + 3.24, wl, 0.54, size=9.5, color=MUTED, spacing=1.14, italic=True)
 
     x2 = ML + wl + 0.42
     w2 = CW - wl - 0.42
-    kpis = [("18,2%", "Net profit margin 2008 — laba bersih £46,8 jt atas "
-             "pendapatan £257,1 jt"),
+    kpis = [("×2,2", "Laba bersih naik dari £21,6 jt (2006) ke £46,8 jt "
+             "(2008). Margin bersih 2008: 18,2%"),
             ("12,6%", "Return on sales 2000–2006 (Tabel 6.6), tertinggi dari 10 "
-             "klub besar Eropa; Real Madrid hanya 0,4%"),
-            ("€101,9 jt", "EBITDA 2009 (Tabel 6.5), tertinggi di Eropa. Margin "
-             "31,4% vs Barcelona 22,3% dan Real Madrid 14,1%"),
-            ("£1,14 M", "Nilai klub (Forbes 2009), nomor 1 dunia — di atas "
-             "Barcelona £960 jt dan Real Madrid £850 jt")]
+             "klub; Real Madrid hanya 0,4%"),
+            ("€101,9 jt", "EBITDA tertinggi di Tabel 6.5 (data Forbes 2009). "
+             "Margin 31,4% vs Barcelona 22,3%, Real Madrid 14,1%"),
+            ("£1,14 M", "Nilai klub tertinggi di Tabel 6.5 — di atas Barcelona "
+             "£960 jt dan Real Madrid £850 jt")]
     txt(s, "Bukti pendukung", x2, y, w2, 0.28, size=11, color=RED, bold=True, caps=True)
     yy = y + 0.34
     for big, body in kpis:
@@ -286,57 +295,71 @@ def s22_q1_fin(d):
         yy += 0.88
 
     note(s, [("Satu angka yang merusak gambaran ini: ", True, SALMON),
-             ("utang £616 juta (Tabel 6.5), tertinggi kedua di Eropa setelah Arsenal "
-              "(£896 juta). Utang ini datang dari akuisisi Glazer 2005 yang dibiayai "
-              "pinjaman, bukan dari operasi klub.", False, WHITE)], dark=True)
-    notes(s, "Grafik ini memakai baris Turnover dari Appendix kasus. Dua batang merah "
-             "adalah dua tahun terakhir sebelum kasus ditulis.\n\n"
-             "Jelaskan pola grafiknya, jangan cuma ditunjuk: naik terus sampai 2003, "
-             "turun di 2004 dan 2005, lalu melonjak tajam 2007 dan 2008. Lonjakan itu "
-             "sebagian datang dari perluasan Old Trafford tahun 2006 yang menambah 7.500 "
-             "kursi, dan sebagian dari pendapatan Liga Champions.\n\n"
-             "PENTING dan sering ditanya dosen: kenapa periode 2000–2004 dan "
-             "2005–2008 tidak sepenuhnya sebanding? Karena entitas pelapornya "
-             "berganti dari Manchester United plc menjadi Manchester United Limited, dan "
-             "tahun bukunya berubah dari 12 bulan sampai 31 Juli menjadi 11 bulan sampai "
-             "30 Juni. Kasus menyatakan ini sendiri di catatan kaki Appendix.\n\n"
-             "Soal utang £616 juta — siapkan jawaban ini: Appendix kasus "
-             "memperlihatkan ekuitas pemegang saham £294 juta dan TIDAK menampilkan "
-             "utang itu sama sekali. Sebabnya, utang akuisisi Glazer berada di perusahaan "
-             "induk, di atas Manchester United Limited. Jadi laporan anak usahanya "
-             "terlihat sehat sementara grupnya berat.")
+             ("utang £616 juta, tertinggi kedua di Tabel 6.5 setelah Arsenal "
+              "(£896 juta). Kasus mencatat akuisisi Glazer 2005 dibiayai terutama "
+              "dengan utang (hlm. 584).", False, WHITE)], dark=True)
+    notes(s, "Grafik memakai baris Turnover dari Appendix kasus (hlm. 589). Dua batang "
+             "merah adalah dua tahun terakhir sebelum kasus ditulis.\n\n"
+             "Cara membacanya: bandingkan hanya di dalam periode yang sebanding. Dari 2006 "
+             "ke 2008 pendapatan naik 53%, dari £167,8 juta ke £257,1 juta. Kasus hlm. 587 "
+             "menyebut perluasan Old Trafford tahun 2006, terutama dari tambahan 7.500 "
+             "kursi, memberi dorongan besar pada pendapatan. Penurunan 2004 ke 2005 "
+             "jangan ditafsirkan sebagai kemunduran, karena di titik itulah akuntansi "
+             "dan periode laporannya berubah.\n\n"
+             "Kalau ditanya kualitas laba: laba sebelum pajak 2008 (£66,4 juta) sudah "
+             "termasuk keuntungan penjualan pemain £21,8 juta. Jadi sebagian laba datang "
+             "dari menjual pemain — itu bagian dari model bisnis MU (slide 29).\n\n"
+             "PENTING dan sering ditanya dosen — kenapa data tidak sepenuhnya "
+             "sebanding? Catatan kaki Appendix menyebut dua hal yang TERPISAH:\n"
+             "(1) Entitas pelapor: Manchester United plc untuk 2000–2005, Manchester "
+             "United Limited untuk 2006–2008.\n"
+             "(2) Periode dan akuntansi: kolom 2000–2004 bertanda 12 bulan sampai 31 "
+             "Juli, kolom 2005–2008 bertanda 11 bulan sampai 30 Juni, dan kasus "
+             "menegaskan data 2000–4 tidak sebanding dengan 2005–8 karena "
+             "perubahan akuntansi.\n"
+             "Karena itu angka laba di kartu pertama sengaja memakai 2006 dan 2008, "
+             "dua-duanya di periode yang sebanding.\n\n"
+             "Soal 'tertinggi': Tabel 6.5 hanya memuat 15 klub besar Eropa dari daftar "
+             "Forbes 2009. Jadi sebut 'tertinggi di tabel', bukan 'tertinggi di dunia'.\n\n"
+             "Soal utang £616 juta — siapkan jawaban ini. Appendix menampilkan "
+             "ekuitas £294 juta dan tidak memuat utang sebesar itu. Penjelasan yang "
+             "paling mungkin (ini dugaan kami, tidak ditulis di kasus): utang akuisisi "
+             "Glazer berada di perusahaan induk, di atas Manchester United Limited. Yang "
+             "pasti dari kasus hanya dua hal: akuisisinya dibiayai terutama dengan utang "
+             "(hlm. 584), dan karena itu MU tidak mendapat suntikan dana pemilik seperti "
+             "Chelsea atau Man City (hlm. 579).")
     d.footer(s, FOOT_B)
     return s
 
 
 def s23_q1_efficiency(d):
     s = d.blank()
-    y = d.head(s, "Pertanyaan 1 · Kesimpulan", "Prestasi puncak, belanja paling hemat",
-               "Analisis turunan kami dari Tabel 6.7: bukti terkuat bahwa keunggulan MU "
-               "bukan soal uang.", sublines=1)
+    y = d.head(s, "Pertanyaan 1 · Kesimpulan", "Prestasi puncak, belanja relatif hemat",
+               "Analisis turunan kami dari Tabel 6.7: dari empat klub berprestasi "
+               "tertinggi, belanja bersih MU yang paling kecil.", sublines=1)
 
     wl = CW * 0.55
-    txt(s, "Belanja transfer bersih 2003–2009, £ juta (Tabel 6.7)", ML, y,
-        wl, 0.28, size=11, color=RED, bold=True, caps=True)
-    clubs = ["Real Madrid", "Chelsea", "Barcelona", "Liverpool", "Bayern München",
-             "Manchester United", "Arsenal"]
-    net = [438, 430, 249, 157, 122, 100, 22]
+    txt(s, "Belanja transfer bersih 2003–09, £ juta — empat klub dengan poin "
+           "performa tertinggi", ML, y, wl, 0.28, size=11, color=RED, bold=True, caps=True)
+    clubs = ["Real Madrid (183,0 poin)", "Barcelona (200,0 poin)",
+             "Bayern München (179,5 poin)", "Manchester United (192,5 poin)"]
+    net = [438, 249, 122, 100]
     cd = CategoryChartData()
     cd.categories = list(reversed(clubs))
     cd.add_series("Net transfer fees", list(reversed(net)))
     gf = s.shapes.add_chart(XL_CHART_TYPE.BAR_CLUSTERED, Inches(ML), Inches(y + 0.34),
-                            Inches(wl), Inches(3.00), cd)
+                            Inches(wl), Inches(2.70), cd)
     ch = gf.chart
     ch.has_legend = False
     ch.has_title = False
     plot = ch.plots[0]
-    plot.gap_width = 45
+    plot.gap_width = 55
     plot.vary_by_categories = False
     ser = plot.series[0]
     ser.format.fill.solid()
     ser.format.fill.fore_color.rgb = MUTED
     ser.format.line.fill.background()
-    pt = ser.points[1]
+    pt = ser.points[0]
     pt.format.fill.solid()
     pt.format.fill.fore_color.rgb = RED
     pt.format.line.fill.background()
@@ -345,7 +368,7 @@ def s23_q1_efficiency(d):
     dl.number_format = '0'
     dl.number_format_is_linked = False
     dl.position = XL_LABEL_POSITION.OUTSIDE_END
-    _chart_text(dl, size=10, color=INK_SOFT, bold=True)
+    _chart_text(dl, size=10.5, color=INK_SOFT, bold=True)
     ca = ch.category_axis
     ca.has_major_gridlines = False
     ca.format.line.color.rgb = RULE
@@ -353,7 +376,11 @@ def s23_q1_efficiency(d):
     va = ch.value_axis
     va.has_major_gridlines = False
     va.visible = False
-    va.maximum_scale = 490.0
+    va.maximum_scale = 500.0
+    txt(s, "Klub lain di Tabel 6.7 ada yang belanja lebih sedikit — Arsenal £22 jt, "
+           "AC Milan justru penjual bersih (−£66 jt) — tapi poinnya 162,0 dan "
+           "169,0, di bawah MU.",
+        ML, y + 3.10, wl, 0.48, size=10, color=MUTED, italic=True, spacing=1.14)
 
     x2 = ML + wl + 0.42
     w2 = CW - wl - 0.42
@@ -366,8 +393,8 @@ def s23_q1_efficiency(d):
         x2 + 0.30, y + 0.74, w2 - 0.62, 0.76, size=12, color=WHITE, spacing=1.18)
 
     comps = [("Chelsea", "£430 jt belanja bersih, hanya 144,5 poin."),
-             ("Barcelona", "£249 jt → 200,0 poin; satu-satunya yang mengungguli MU."),
-             ("Arsenal & Bayern", "Lebih hemat, tapi poinnya di bawah MU.")]
+             ("Barcelona", "Satu-satunya yang mengungguli MU, dengan belanja 2,5× lipat."),
+             ("Kata kasus sendiri", "Belanja bersih MU “relatif sederhana” (hlm. 586).")]
     yy = y + 1.82
     for nm, body in comps:
         rect(s, x2, yy, w2, 0.58, fill=PAPER, line=RULE)
@@ -380,22 +407,25 @@ def s23_q1_efficiency(d):
              ("strategi MU bekerja sangat baik. Kedua indikator Thompson terpenuhi "
               "sekaligus, di industri yang mayoritas pelakunya merugi. Yang harus "
               "dijelaskan pertanyaan berikutnya: kenapa bisa begitu.", False, INK)])
-    notes(s, "Slide ini analisis kami sendiri, bukan tabel yang tercetak di kasus. "
-             "KATAKAN ITU. Angka mentahnya dari Tabel 6.7; perbandingannya yang kami "
-             "susun.\n\n"
-             "Jelaskan dulu apa itu belanja transfer bersih: total uang keluar membeli "
-             "pemain dikurangi total uang masuk menjual pemain. Jadi ini ukuran seberapa "
-             "banyak uang baru yang benar-benar disuntikkan ke skuad.\n\n"
-             "Angka kotornya juga menarik: MU belanja kotor £322 juta, tapi bersihnya "
-             "cuma £100 juta. Artinya MU juga menjual banyak, dan menjual mahal.\n\n"
-             "Cara paling mudah menyampaikan intinya: Real Madrid mengeluarkan uang empat "
-             "kali lipat lebih banyak, dan hasilnya tetap kalah. Chelsea mengeluarkan "
-             "empat kali lipat, hasilnya jauh lebih buruk lagi.\n\n"
-             "Jangan sembunyikan Barcelona. Barcelona memang mengungguli MU di poin "
-             "performa, tapi dengan belanja 2,5 kali lipat. Kejujuran ini justru "
-             "memperkuat argumen kita, dan menghindari pertanyaan menjebak.\n\n"
-             "Tutup dengan menyambung ke Q2 dan Q3: kalau bukan uang, lalu apa? "
-             "Jawabannya ada di resource dan capability.")
+    notes(s, "Slide ini analisis kami sendiri, bukan tabel yang tercetak di kasus. KATAKAN "
+             "ITU. Angka mentahnya dari Tabel 6.7; perbandingannya yang kami susun.\n\n"
+             "Jelaskan pilihan klubnya supaya tidak terkesan memilih-milih: grafik memuat "
+             "EMPAT klub dengan poin performa tertinggi di Tabel 6.7, yaitu Barcelona "
+             "(200,0), MU (192,5), Real Madrid (183,0), dan Bayern (179,5). Di antara "
+             "keempatnya, belanja bersih MU paling kecil.\n\n"
+             "Jangan klaim MU paling hemat di seluruh tabel — itu tidak benar. Arsenal, "
+             "Lyon, Juventus, Roma, dan Valencia belanja bersih lebih sedikit, sedangkan AC "
+             "Milan, Porto, dan PSV malah penjual bersih. Kalimat kasus sendiri (hlm. 586): "
+             "belanja bersih MU 'relatively modest compared to other leading European clubs'.\n\n"
+             "Apa itu belanja transfer bersih: total uang untuk membeli pemain dikurangi "
+             "total uang dari menjual pemain. MU belanja kotor £322 juta, tapi bersihnya "
+             "£100 juta — artinya MU juga banyak menjual. Kasus: Ferguson mau menjual "
+             "pemain yang dihargai lebih tinggi oleh klub lain.\n\n"
+             "Kasus sendiri (hlm. 580) menyebut Real Madrid dan Chelsea 'distinguished by "
+             "their massive expenditures on star players'. Itu yang membuat perbandingan "
+             "4,4 kali lipat relevan.\n\n"
+             "Tutup dengan menyambung ke Q2 dan Q3: kalau bukan uang, lalu apa? Jawabannya "
+             "ada di resource dan capability.")
     d.footer(s, FOOT_B)
     return s
 
@@ -408,23 +438,23 @@ def s24_swot(d):
 
     quads = [("S", "Strengths", RED, [
         "Merek global dengan 80 juta pendukung di Asia",
-        "Laba tertinggi di Eropa: EBITDA €101,9 jt, RoS 12,6%",
+        "Laba tertinggi di antara klub besar: EBITDA €101,9 jt, RoS 12,6%",
         "Akademi dan jaringan pemandu bakat yang matang",
         "Disiplin transfer: belanja bersih hanya £100 jt"]),
         ("W", "Weaknesses", RED, [
-            "Utang £616 jt warisan akuisisi Glazer 2005",
-            "Bergantung pada satu orang berusia 67 tahun",
-            "Belum ada rencana suksesi saat kasus ditulis",
-            "Ronaldo, satu-satunya pemain MU di peringkat FIFA, baru dijual"]),
+            "Bergantung pada satu orang yang akhir 2009 berusia 68 tahun",
+            "Belum ada keputusan suksesi; Ferguson belum menyatakan niat pensiun",
+            "Ronaldo, satu-satunya pemain MU di peringkat FIFA, baru dijual",
+            "Utang £616 jt; akuisisi Glazer 2005 dibiayai utang"]),
         ("O", "Opportunities", INK, [
             "Pasar Asia — India dan Cina disebut Aon sebagai target utama",
-            "Sponsor per negara masih bisa diperbanyak",
+            "Sponsor khusus per negara masih bisa diperbanyak",
             "Pendapatan siaran Premier League naik 43% dalam setahun",
             "Kanal digital: MUTV, MU Mobile, toko online"]),
         ("T", "Threats", INK, [
             "Harga pemain meledak, didorong Manchester City (£185 jt)",
             "Pesaing berpemilik sangat kaya: Abramovich, Sheikh Mansour",
-            "Beban bunga membatasi kemampuan membeli pemain",
+            "MU tak dapat suntikan dana pemilik seperti Chelsea dan City",
             "Barcelona unggul poin performa (200,0 vs 192,5)"])]
     gw = (CW - 0.30) / 2
     gh = 1.60
@@ -439,25 +469,30 @@ def s24_swot(d):
                 color=INK_SOFT, gap=3, marker="·", marker_color=col, spacing=1.08)
 
     note(s, [("Kesimpulan (langkah 2): ", True, RED_DEEP),
-             ("kekuatan MU cukup untuk menangkap peluang komersial di Asia, tapi tidak "
-              "cukup menahan ancaman di pasar pemain — karena dua kelemahan "
-              "terbesarnya justru menyerang sisi lapangan, yang jadi syarat bagi seluruh "
-              "pendapatan komersialnya.", False, INK)])
-    notes(s, "Ingatkan audiens: SWOT bukan bikin empat daftar. Jadi setelah membacakan "
-             "daftarnya sekilas, langsung masuk ke kesimpulan di kotak bawah. Itu langkah "
-             "2 dari Figure 4.2.\n\n"
-             "Kesimpulannya, diuraikan: kekuatan MU terpusat di sisi komersial dan "
+             ("kekuatan MU cukup untuk menangkap peluang komersial di Asia. Tapi kelemahan "
+              "terbesarnya — ketergantungan pada Ferguson — menyerang sisi lapangan, "
+              "padahal bagi Gill sisi lapangan adalah syarat mengalirnya pendapatan komersial.",
+              False, INK)])
+    notes(s, "Ingatkan audiens: SWOT bukan bikin empat daftar. Setelah membacakan daftarnya "
+             "sekilas, langsung masuk ke kesimpulan di kotak bawah — itu langkah 2 dari "
+             "Figure 4.2.\n\n"
+             "Kesimpulannya diuraikan: kekuatan MU terpusat di sisi komersial dan "
              "pengembangan pemain. Peluang terbesarnya juga komersial, di Asia. Jadi "
-             "kekuatan dan peluang cocok — sampai sini bagus.\n\n"
-             "Masalahnya ada di sisi ancaman. Ancaman terbesar MU ada di pasar pemain: "
-             "harga meledak, pesaing punya pemilik berkantong sangat dalam. Dan dua "
-             "kelemahan terbesar MU — utang dan ketergantungan pada Ferguson — "
-             "keduanya menyerang sisi lapangan, bukan sisi komersial.\n\n"
-             "Kenapa itu berbahaya: karena David Gill sendiri berkata pendapatan komersial "
-             "mengalir SELAMA tim terus menang. Jadi kalau sisi lapangan runtuh, sisi "
-             "komersial ikut terancam, walau tidak langsung.\n\n"
+             "kekuatan dan peluang cocok — sampai di sini bagus.\n\n"
+             "Masalahnya ada di kelemahan nomor satu: ketergantungan pada Ferguson. Itu "
+             "menyerang sisi lapangan. Dan kasus hlm. 573 menyebut, bagi Gill, pendapatan "
+             "komersial dari jersey, siaran, dan sponsor terus mengalir SELAMA tim menang "
+             "dan bermain menarik. Jadi kalau sisi lapangan goyah, sisi komersial ikut "
+             "terancam.\n\n"
+             "PENTING soal utang, karena sering salah: kasus hlm. 584 menyatakan ketakutan "
+             "bahwa utang akan membatasi Ferguson membeli pemain 'proved groundless' — "
+             "tidak terbukti. Jadi jangan bilang utang membatasi pembelian pemain. Yang "
+             "benar (hlm. 579): karena akuisisinya dibiayai utang, MU tidak mendapat "
+             "suntikan dana pemilik seperti yang dinikmati Chelsea dan Man City. Itu "
+             "sebabnya poin itu ada di kolom Threats dalam bentuk 'tak dapat suntikan dana', "
+             "sementara utangnya sendiri ada di Weaknesses.\n\n"
              "Untuk langkah 3 (tindakan), sambungkan: itu yang akan kita bahas di slide "
-             "terakhir sebagai rekomendasi.")
+             "priority list dan rekomendasi.")
     d.footer(s, FOOT_B)
     return s
 
@@ -465,25 +500,25 @@ def s24_swot(d):
 def s25_resources(d):
     s = d.blank()
     y = d.head(s, "Pertanyaan 3 · Diterapkan", "Inventarisasi resource Manchester United",
-               "Langkah pertama Q3: mendaftar aset bersaing klub memakai tipologi "
+               "Langkah pertama Q3: mendaftar aset bersaing klub memakai delapan kategori "
                "Tabel 4.3, semuanya berdasarkan bukti dari kasus.", sublines=1)
 
-    tang = [("Finansial", "EBITDA €101,9 jt tertinggi di Eropa; laba bersih "
-             "£46,8 jt; ekuitas £294 jt"),
-            ("Fisik", "Old Trafford, diperluas 2006 dengan tambahan 7.500 kursi; museum "
-             "dan tur stadion"),
-            ("Organisasional", "Pemisahan tegas urusan tim (Ferguson) dan komersial "
-             "(Gill, Arnold); anak usaha MU International"),
-            ("Teknologi & kontrak", "Kontrak 34 pemain; portofolio hak sponsor "
-             "berjangka panjang")]
-    intang = [("Merek", "“Kami bukan sekadar klub olahraga, kami merek "
-               "internasional” — Andy Anson. Sub-merek Fred the Red, MUFC, Red Devil"),
-              ("Basis pendukung", "80 juta pendukung di Asia; 1,2 juta pemegang kartu "
-               "kredit MU di Korea Selatan saja"),
-              ("Human assets", "Sir Alex Ferguson sejak 1986; Cristiano Ronaldo "
-               "(peringkat 1 FIFA, dijual Juni 2009); lebih dari 20 pemandu bakat"),
-              ("Reputasi & relasi", "Aon: MU tak ada tandingannya dalam kesadaran merek "
-               "global; AIG melompat ke peringkat 47 merek dunia dalam setahun")]
+    tang = [("Finansial", "EBITDA €101,9 jt, tertinggi di Tabel 6.5; laba bersih 2008 "
+             "£46,8 jt; ekuitas £294 jt."),
+            ("Fisik", "Old Trafford, diperluas 2006 dengan tambahan 7.500 kursi; museum, tur "
+             "stadion, suite dan ballroom."),
+            ("Teknologi", "MUTV (siaran web), MU Mobile (SMS dan video), toko online "
+             "store.manutd.com."),
+            ("Organisasional", "Urusan tim (Ferguson) terpisah dari komersial (Gill; direktur "
+             "komersial Richard Arnold); MU International.")]
+    intang = [("Human assets", "Ferguson sejak 1986; skuad 34 pemain; lebih dari 20 pemandu "
+               "bakat. Ronaldo, peringkat 1 FIFA, dijual 2009."),
+              ("Merek & reputasi", "80 juta pendukung di Asia; sub-merek Fred the Red, MUFC, "
+               "Red Devil. Menurut Aon, tak tertandingi di dunia olahraga."),
+              ("Relasi", "Nike dan AIG (diganti Aon, £80 jt/4 tahun), ditambah 13 sponsor "
+               "lain, termasuk Tri Indonesia dan Bharti Airtel."),
+              ("Budaya & insentif", "Disiplin latihan ketat, perang terhadap alkohol, prinsip "
+               "“tidak ada pemain yang lebih besar dari klub”.")]
     w = (CW - 0.40) / 2
     for i, (label, rows, col) in enumerate([("Tangible", tang, INK),
                                             ("Intangible", intang, RED)]):
@@ -499,26 +534,26 @@ def s25_resources(d):
             yy += 0.72
 
     note(s, [("Perhatikan komposisinya: ", True, RED_DEEP),
-             ("aset paling berharga MU hampir seluruhnya ada di kolom kanan, yang tidak "
-              "berwujud. Itu yang membuat klub ini menarik sebagai contoh — dan "
-              "sekaligus rapuh, karena aset tak berwujud bisa berjalan keluar pintu.",
-              False, INK)])
-    notes(s, "Sambungkan ke Tabel 4.3 yang dibahas di slide 9: tangible dibagi fisik, "
-             "finansial, teknologi, organisasional. Intangible dibagi human assets, merek "
-             "dan reputasi, relasi, budaya dan insentif.\n\n"
-             "Tunjukkan bahwa MU punya isian di hampir semua kotak. Tapi yang benar-benar "
-             "memberi keunggulan ada di kolom kanan.\n\n"
-             "Bukti kekuatan mereknya layak diceritakan lengkap, karena kuat sekali: "
-             "David Prosperi, VP Global PR Aon, mengatakan bahwa di tahun pertama setelah "
-             "kesepakatan sponsor AIG dimulai, AIG melompat dari tidak masuk daftar 100 "
-             "merek dunia menjadi peringkat 47. Kalimatnya: Manchester United tidak ada "
-             "tandingannya di dunia olahraga soal kesadaran merek global, khususnya di "
-             "Asia.\n\n"
-             "Itu bukan klaim MU sendiri. Itu kesaksian pihak yang membayar. Jauh lebih "
-             "kuat sebagai bukti.\n\n"
-             "Kalimat penutup slide penting untuk dijelaskan: aset tak berwujud bisa "
-             "pergi. Ferguson bisa pensiun. Ronaldo sudah dijual. Itu yang membedakannya "
-             "dari stadion, yang tidak bisa ke mana-mana.")
+             ("aset yang paling membedakan MU ada di kolom kanan, yang tidak berwujud. Itu "
+              "yang membuat klub ini unggul — dan sekaligus rapuh, karena sebagian aset "
+              "tak berwujud melekat pada orang, dan orang bisa pergi.", False, INK)])
+    notes(s, "Sambungkan ke Tabel 4.3 di slide 9. Delapan kotak di slide ini mengikuti "
+             "persis delapan kategori buku: fisik, finansial, teknologi, organisasional "
+             "di kiri; human assets, merek dan reputasi, relasi, budaya dan insentif di kanan.\n\n"
+             "Bukti kekuatan merek yang layak diceritakan lengkap (hlm. 573): David "
+             "Prosperi, VP Global Public Relations Aon, mengatakan bahwa setahun setelah "
+             "sponsor AIG dimulai, AIG melompat dari luar daftar 100 merek dunia ke peringkat "
+             "47. Kalimatnya: Manchester United tidak ada tandingannya di dunia olahraga soal "
+             "kesadaran merek global, khususnya di Asia. Itu bukan klaim MU, tapi kesaksian "
+             "pihak yang membayar.\n\n"
+             "Kutipan Andy Anson, mantan direktur komersial (hlm. 587): 'We're not just a "
+             "sports club, we are an international brand.' Sub-mereknya dibagi per usia: "
+             "Fred the Red untuk anak, MUFC untuk remaja, Red Devil untuk dewasa.\n\n"
+             "Angka sponsor dari kasus hlm. 587: selain dua sponsor utama Nike dan AIG, ada "
+             "Budweiser, Audi, Betfred, Hublot, Tri Indonesia, Bharti Airtel, plus tujuh "
+             "sponsor lain — total 13.\n\n"
+             "Kalimat penutup slide penting: aset tak berwujud bisa pergi. Ronaldo sudah "
+             "dijual. Ferguson akan pensiun. Stadion dan merek tidak ke mana-mana.")
     d.footer(s, FOOT_B)
     return s
 
@@ -530,23 +565,23 @@ def s26_capabilities(d):
                "distinctive, dan mana yang benar-benar core competence.", sublines=2)
 
     caps = [("Mengenali dan mengembangkan bakat", "CORE",
-             "Pemandu bakat diperbanyak dari 5 jadi lebih dari 20 orang; Youth Academy; "
-             "dua pemandu bakat penuh waktu di Brasil sejak 2008.", RED_DEEP),
-            ("Membentuk tim, bukan kumpulan bintang", "CORE",
-             "“Tim terbaik menonjol karena mereka benar-benar sebuah tim — "
-             "anggotanya menyatu sehingga tim bergerak dengan satu semangat.”", RED_DEEP),
-            ("Disiplin di pasar transfer", "DISTINCTIVE",
-             "Belanja kotor £322 jt, bersih hanya £100 jt. Menjual di puncak "
-             "nilai: Beckham, Verón, van Nistelrooy, Ronaldo (£80 jt).", RED),
+             "Pemandu bakat dari 5 jadi lebih dari 20 orang; Youth Academy; dua pemandu "
+             "bakat penuh waktu di Brasil sejak 2008.", RED_DEEP),
+            ("Membentuk dan merotasi tim", "CORE",
+             "Memadukan pemain muda dengan pemain berpengalaman. Kasus menyebut Ferguson "
+             "pelopor rotasi skuad.", RED_DEEP),
             ("Mengubah merek jadi uang", "CORE",
-             "Sponsor khusus per negara (Tri Indonesia, Bharti Airtel), sub-merek per "
-             "usia, MU Finance, MU Mobile, MUTV, Soccer Schools, tur Asia.", RED_DEEP),
-            ("Rotasi skuad", "DISTINCTIVE",
-             "Kasus menyebut Ferguson pelopornya: menyusun ulang tim untuk "
-             "mengistirahatkan pemain dan menyesuaikan taktik pada lawan.", RED),
-            ("Tata kelola dan pemisahan peran", "COMPETENCE",
-             "Glazer memilih peran pasif; Ferguson dan Gill diberi kebebasan memutuskan. "
-             "Berjalan baik, tapi bukan pembeda dari pesaing.", MUTED)]
+             "Sponsor khusus Indonesia dan India, sub-merek per usia, MU Finance, MU Mobile, "
+             "MUTV, Soccer Schools, tur Asia.", RED_DEEP),
+            ("Disiplin di pasar transfer", "DISTINCTIVE",
+             "Belanja kotor £322 jt, bersih £100 jt. Mau menjual pemain yang "
+             "dihargai lebih tinggi klub lain, seperti Ronaldo (£80 jt).", RED),
+            ("Tata kelola klub", "DISTINCTIVE",
+             "Kasus: klub Inggris “paling berhasil membangun tata kelola yang efektif”. "
+             "Glazer memilih peran pasif.", RED),
+            ("Mengelola stadion dan acara", "COMPETENCE",
+             "Old Trafford disewakan untuk konferensi dan pernikahan; museum dan tur. "
+             "Dikerjakan baik, tapi klub besar lain juga melakukannya.", MUTED)]
     w = (CW - 2 * 0.26) / 3
     for i, (nm, tag, body, col) in enumerate(caps):
         x = ML + (i % 3) * (w + 0.26)
@@ -561,100 +596,116 @@ def s26_capabilities(d):
             spacing=1.14)
 
     note(s, [("Yang perlu disadari: ", True, RED_DEEP),
-             ("empat dari enam capability ini — bakat, pembentukan tim, disiplin "
-              "transfer, rotasi skuad — semuanya bermuara pada satu orang yang sama. "
-              "Hanya kemampuan komersial yang berdiri di luar Ferguson.", False, INK)])
-    notes(s, "Slide ini menerapkan tangga competence dari slide 7. Jelaskan alasan "
-             "penempatannya, jangan cuma dibacakan.\n\n"
-             "CORE COMPETENCE — dikerjakan sangat baik DAN ada di jantung strategi:\n"
-             "- Mengenali dan mengembangkan bakat: ini sumber pemain MU, langsung "
-             "menentukan kekuatan tim.\n"
-             "- Membentuk tim: ini yang membedakan MU dari klub yang sekadar mengumpulkan "
-             "bintang seperti Real Madrid.\n"
-             "- Mengubah merek jadi uang: ini mesin pendapatan klub.\n\n"
-             "DISTINCTIVE COMPETENCE — lebih baik dari pesaing, tapi bukan inti "
-             "strategi:\n"
-             "- Disiplin transfer dan rotasi skuad. Keduanya nyata lebih baik dari "
-             "pesaing, tapi sifatnya mendukung.\n\n"
-             "COMPETENCE biasa — dikerjakan baik, tapi tidak membedakan:\n"
-             "- Tata kelola. Kasus memang memuji MU sebagai klub Inggris yang paling "
-             "berhasil membangun tata kelola efektif, tapi banyak klub lain juga punya "
-             "struktur serupa.\n\n"
-             "Kalimat penutup di kotak bawah adalah jembatan ke slide VRIN. Ucapkan "
-             "pelan: empat dari enam kemampuan ini bermuara pada satu orang. Itu "
-             "pertanda bahaya, dan uji VRIN akan menunjukkan kenapa.")
+             ("tiga capability yang langsung menentukan prestasi lapangan — bakat, tim, "
+              "dan transfer — dibangun dan diarahkan oleh Ferguson. Tiga lainnya "
+              "berdiri di luar dirinya.", False, INK)])
+    notes(s, "Slide ini menerapkan tangga competence dari slide 7. Label CORE, DISTINCTIVE "
+             "dan COMPETENCE adalah penilaian kelompok kami; jelaskan alasannya.\n\n"
+             "CORE — dikerjakan sangat baik DAN berada di jantung strategi:\n"
+             "- Mengenali dan mengembangkan bakat. Catatan jujur: kasus (hlm. 580) menyebut "
+             "Bayern, Barcelona, Arsenal, dan Valencia juga menekankan pengembangan pemain "
+             "sendiri. Jadi ini core bagi MU, tapi tidak unik. Yang khas MU menurut kasus "
+             "(hlm. 583) adalah memadukan talenta muda dengan pemain berpengalaman.\n"
+             "- Membentuk dan merotasi tim. Kutipan Ferguson (hlm. 585): 'The best teams "
+             "stand out because they are teams.' Ia juga disebut pelopor squad rotation.\n"
+             "- Mengubah merek jadi uang. Kasus menyebut MU dan Real Madrid klub paling "
+             "fokus komersial di Eropa.\n\n"
+             "DISTINCTIVE — lebih baik dari pesaing, tapi bukan inti strategi:\n"
+             "- Disiplin transfer. Kasus (hlm. 586): Ferguson mau menjual pemain yang "
+             "dihargai lebih tinggi klub lain — Beckham, Verón, van Nistelrooy, "
+             "Ronaldo dengan rekor dunia £80 juta.\n"
+             "- Tata kelola. Kasus hlm. 587 menyebut MU salah satu klub Inggris pertama yang "
+             "go public dan yang paling berhasil membangun tata kelola efektif. 'Paling "
+             "berhasil' berarti lebih baik dari pesaing, jadi distinctive.\n\n"
+             "COMPETENCE — dikerjakan baik, tapi tidak membedakan:\n"
+             "- Mengelola stadion. Kasus hlm. 577 menyebut sebagian besar klub papan atas "
+             "merenovasi stadionnya, dan Arsenal membangun stadion baru. Jadi ini wajar "
+             "dimiliki klub besar.\n\n"
+             "Kalimat penutup di kotak bawah adalah jembatan ke slide VRIN.")
     d.footer(s, FOOT_B)
     return s
 
 
 def s27_vrin(d):
     s = d.blank()
-    y = d.head(s, "Pertanyaan 3 · Uji VRIN", "Dua keunggulan, dua hasil yang berbeda",
+    y = d.head(s, "Pertanyaan 3 · Uji VRIN", "Dua keunggulan, sama-sama lolos VRIN",
                "Kami uji dua hal dengan empat saringan yang sama: sistem Ferguson, dan "
                "merek beserta mesin komersialnya.", sublines=1)
 
     rows = [["Tes", "Sistem Ferguson", "Merek & mesin komersial"],
             ["Valuable",
-             "LOLOS. Poin Eropa tertinggi, tiga gelar liga beruntun, Liga Champions 2008, "
-             "laba tertinggi di Eropa.",
-             "LOLOS. Aon membayar £20 juta per tahun — nilai per tahun "
-             "tertinggi di antara kesepakatan yang disebut kasus."],
+             "LOLOS. Poin Eropa tertinggi, tiga gelar liga beruntun, Liga Champions 2008. "
+             "Ferguson memenangi lebih banyak gelar daripada seluruh sejarah klub sebelumnya.",
+             "LOLOS. Aon membayar £80 jt untuk 4 tahun, atau £20 jt per tahun — "
+             "dua kali lipat Chelsea–Samsung (£10 jt per tahun)."],
             ["Rare",
-             "LOLOS. Tabel 6.8 hanya memuat 16 pelatih paling dihormati dunia; Ferguson "
-             "punya masa jabatan terpanjang di satu klub.",
-             "LOLOS. 80 juta pendukung di Asia. Kasus menyebut hanya Real Madrid yang "
-             "setara dalam mengeksploitasi merek global."],
+             "LOLOS. Tabel 6.8 hanya memuat 15 pelatih paling dihormati dunia; Ferguson "
+             "paling lama di satu klub, sejak 1986.",
+             "LOLOS. Kasus hanya menyebut MU dan Real Madrid sebagai pemimpin eksploitasi "
+             "merek global. MU punya 80 juta pendukung di Asia."],
             ["Inimitable",
              "LOLOS. Kasus sendiri menyebut penentu performa tim “tetap misteri … "
-             "menentang analisis” — causal ambiguity. Ditambah 23 tahun "
-             "akumulasi dan social complexity.",
-             "LOLOS. Basis pendukung dibangun puluhan tahun lewat prestasi dan siaran "
-             "televisi. Chelsea dan Manchester City dengan dana lebih besar pun tidak "
-             "berhasil menyamainya."],
+             "menentang analisis” — causal ambiguity. Ditambah 23 tahun akumulasi "
+             "dan social complexity.",
+             "LOLOS. Dibangun sejak 1878 lewat sejarah dan prestasi panjang. Chelsea, meski "
+             "belanja besar, pendapatannya masih di bawah MU: €268,9 jt vs €324,8 jt "
+             "(Tabel 6.5)."],
             ["Nonsubstitutable",
-             "GAGAL. Tidak ada penggantinya. Kasus menegaskan pelatih yang sangat sukses "
-             "di satu tim sering gagal total di tim lain.",
-             "LOLOS. Tidak ada pengganti bagi loyalitas pendukung. Sponsor membeli akses "
-             "ke basis fan itu, bukan ke stadion atau pemain tertentu."]]
+             "LOLOS. Jalan lain pesaing — membeli bintang dengan uang besar — tidak "
+             "menyamai hasilnya: tim bertabur bintang Real Madrid dan Chelsea “gagal "
+             "mencapai kejayaan” (hlm. 583).",
+             "LOLOS. Superstar bisa mendongkrak penjualan merchandise (hlm. 578), tapi "
+             "pemain datang dan pergi. Basis fan tetap: Aon menyebut fan Asia MU faktor "
+             "kunci kontraknya (hlm. 573)."]]
     cwd = [1.70, (CW - 1.70) / 2, (CW - 1.70) / 2]
     tbl = make_table(s, rows, ML, y, CW, cwd, row_h=0.64, head_h=0.38,
                      size=10.5, head_size=10.5,
-                     aligns=[PP_ALIGN.LEFT, PP_ALIGN.LEFT, PP_ALIGN.LEFT],
-                     body_fills=[PAPER, TINT, PAPER, RED_TINT])
-    for ri, h in enumerate([0.60, 0.60, 0.86, 0.68], start=1):
+                     aligns=[PP_ALIGN.LEFT, PP_ALIGN.LEFT, PP_ALIGN.LEFT])
+    for ri, h in enumerate([0.64, 0.60, 0.82, 0.78], start=1):
         tbl.rows[ri].height = Inches(h)
-    style_cell(tbl.cell(4, 0), "Nonsubstitutable", size=10.5, color=WHITE, bold=True,
-               fill=RED, align=PP_ALIGN.LEFT)
-    set_cell_border(tbl.cell(4, 0), ("T", "B", "L", "R"), RULE, 0.75)
-    style_cell(tbl.cell(4, 1), rows[4][1], size=10.5, color=WHITE, bold=False,
-               fill=RED, align=PP_ALIGN.LEFT)
-    set_cell_border(tbl.cell(4, 1), ("T", "B", "L", "R"), RULE, 0.75)
 
     note(s, [("Kesimpulan Q3: ", True, SALMON),
-             ("keunggulan MU dari Ferguson itu nyata, tapi tidak tahan lama karena gagal "
-              "tes terakhir. Klub memperlakukan Ferguson sebagai resource — sesuatu "
-              "yang dimiliki — padahal yang dibutuhkan agar bertahan adalah "
-              "capability yang melekat pada organisasi.", False, WHITE)], dark=True)
+             ("keduanya lolos VRIN, jadi keduanya tahan terhadap serangan PESAING. Bedanya "
+              "ada di luar VRIN: merek melekat pada klub, sedangkan sistem Ferguson "
+              "dibangun dan dipimpin satu orang yang akan segera pensiun.", False, WHITE)],
+         dark=True)
     notes(s, "Ini slide paling penting di seluruh presentasi. Beri waktu lebih.\n\n"
-             "Jalankan baris per baris, bandingkan kiri dan kanan. Tiga baris pertama "
-             "hasilnya SAMA: dua-duanya lolos. Baru di baris keempat hasilnya berpisah.\n\n"
-             "Untuk baris Inimitable, kutip kalimat kasusnya langsung, karena ini hadiah "
-             "dari penulis kasus: 'the determinants of team performance remained a "
-             "mystery … depends on a complex mix of factors that defies analysis.' "
-             "Itu definisi causal ambiguity, ditulis oleh kasusnya sendiri.\n\n"
-             "Untuk social complexity, kutip Ferguson: ia ingin membangun hubungan "
-             "personal dengan semua orang di klub — bukan hanya pemain dan pelatih, "
-             "tapi juga pegawai kantor, juru masak, dan petugas binatu. Itu persis yang "
-             "dimaksud social complexity di slide 11.\n\n"
-             "Untuk baris Nonsubstitutable, kutip: 'coaches that achieve outstanding "
-             "success with one team are often dismal failures with another.' Artinya "
-             "tidak ada mekanisme pengganti.\n\n"
-             "Kesimpulan yang harus sampai ke audiens: MU bingung membedakan resource dan "
-             "capability. Ferguson adalah resource — aset yang dimiliki, dan bisa "
-             "pergi. Yang dibutuhkan agar keunggulan bertahan adalah capability yang "
-             "hidup di dalam organisasi, bukan di kepala satu orang.\n\n"
-             "Kalau ditanya 'tapi bukankah Ferguson membangun sistem?' — jawab: "
-             "itulah pertanyaan inti kasus, dan kami bahas di slide berikutnya.")
+             "Jalankan baris per baris. Hasilnya sama di kedua kolom: empat-empatnya lolos. "
+             "Itu menjelaskan kenapa MU mendominasi sepakbola Inggris dan Eropa selama "
+             "dua dekade.\n\n"
+             "Baris Inimitable — kutip kasusnya langsung, karena ini hadiah dari "
+             "penulis kasus (hlm. 583): 'the determinants of team performance remained a "
+             "mystery … depends on a complex mix of factors that defies analysis.' Itu "
+             "definisi causal ambiguity. Untuk social complexity, kutip Ferguson (hlm. 585): "
+             "ia ingin membangun hubungan personal dengan semua orang di klub, termasuk "
+             "pegawai kantor, juru masak, dan petugas binatu.\n\n"
+             "Baris Nonsubstitutable — jelaskan definisinya dulu, karena paling sering "
+             "keliru. Tes N BUKAN bertanya 'kalau Ferguson pergi, bisakah MU menggantinya?'. "
+             "Tes N bertanya 'bisakah PESAING mencapai hasil yang sama dengan resource JENIS "
+             "LAIN?'. Buku: 'invulnerable to the threat of substitution from different types "
+             "of resources and capabilities'.\n\n"
+             "Resource jenis lain yang dipakai pesaing adalah UANG untuk membeli bintang. "
+             "Kasus menjawab sendiri bahwa jalan itu gagal: 'Real Madrid and Chelsea's "
+             "lavishing of vast sums of money to build star-studded teams has yielded teams "
+             "that have failed to achieve greatness.' Kasus juga bilang 'team performance is "
+             "not simply a product of the quality of the players in the team.' Jadi uang "
+             "bukan pengganti yang setara.\n\n"
+             "Catatan jujur kalau ditanya: Chelsea tetap juara liga 2005 dan 2006 (Tabel 6.1) "
+             "dengan cara itu. Tapi ongkosnya return on sales minus 60,4% (Tabel 6.6). "
+             "Substitusi bisa berhasil sesaat, tapi tidak setara dan tidak berkelanjutan.\n\n"
+             "Untuk merek, jalan lain pesaing adalah membeli superstar. Kasus hlm. 578 "
+             "mengakui itu: Zidane, Beckham dan Ronaldo mendongkrak lisensi dan merchandise "
+             "Real Madrid. Tapi itu pengganti parsial, karena pemain bisa pergi — Ronaldo "
+             "sudah dijual MU. Basis fan melekat pada klub, dan Aon sendiri menyebut basis "
+             "fan Asia sebagai faktor kunci kontrak £80 juta (hlm. 573). Jadi tetap LOLOS, "
+             "dengan catatan itu.\n\n"
+             "KESIMPULAN YANG HARUS SAMPAI: kalau keduanya lolos VRIN, di mana masalah MU? "
+             "Jawabannya ada di luar VRIN. VRIN hanya menguji ancaman dari pesaing. VRIN "
+             "tidak menguji risiko perusahaan KEHILANGAN resource-nya sendiri. Merek "
+             "dimiliki klub dan tidak bisa pensiun. Sistem Ferguson dibangun dan dipimpin "
+             "satu orang yang akhir 2009 berusia 68 tahun. Buku membahas risiko ini di "
+             "bagian 'resources must be managed dynamically' (slide 12) — dan itulah "
+             "isi slide berikutnya.")
     d.footer(s, FOOT_B)
     return s
 
@@ -662,22 +713,23 @@ def s27_vrin(d):
 def s28_dynamic(d):
     s = d.blank()
     y = d.head(s, "Pertanyaan 3 · Dynamic Capability", "Tiga kali membangun ulang tim juara",
-               "MU bukan cuma punya satu skuad bagus. MU berulang kali membongkar dan "
-               "menyusun ulang skuadnya — dan tetap juara.", sublines=1)
+               "Inilah yang tidak diukur VRIN: apakah kemampuan memperbarui diri ini "
+               "milik klub, atau milik satu orang.", sublines=1)
 
     cycles = [("1986 – 1993", "Membersihkan dan membangun fondasi",
                "Ferguson menyingkirkan pemain yang dinilai kurang berbakat atau kurang "
                "berkomitmen, mempertahankan Bryan Robson, mendatangkan Hughes, Ince, "
                "Cantona, Keane. Ia juga menegakkan disiplin latihan.",
-               "FA Cup 1990 · Piala Winners 1991 · gelar liga pertama 1993"),
+               "FA Cup 1990 · Piala Winners 1991 · liga pertama era Ferguson 1993"),
               ("1994 – 2003", "Generasi akademi",
                "Juara liga junior 1990 menghasilkan Giggs, Beckham, Butt, Gary dan Phil "
                "Neville, serta Scholes. Mereka jadi inti tim yang mendominasi sepakbola "
-               "Inggris satu dekade.",
+               "Inggris.",
                "Puncaknya 1999: liga, FA Cup, European Cup, Intercontinental Cup"),
               ("2003 – 2008", "Regenerasi kedua",
-               "Beckham, Keane, Schmeichel, Cole, Sheringham, Stam dijual. Penggantinya "
-               "Ferdinand, Ronaldo, Rooney, van der Sar, Evra, Vidić, Carrick.",
+               "Kasus mencatat Beckham, Keane, Schmeichel, Cole, Sheringham, Stam dijual. "
+               "Penggantinya antara lain Ferdinand, Ronaldo, Rooney, van der Sar, Evra, "
+               "Vidić, Carrick.",
                "Liga Champions 2008 · tiga gelar liga beruntun 2007–2009")]
     w = (CW - 2 * 0.28) / 3
     x = ML
@@ -695,29 +747,31 @@ def s28_dynamic(d):
             bold=True, spacing=1.12)
         x += w + 0.28
 
-    note(s, [("Pertanyaan yang menentukan seluruh kasus: ", True, SALMON),
-             ("kemampuan memperbarui diri ini milik siapa — Ferguson, atau klub? "
-              "Setelah Matt Busby pensiun 1969, MU tidak juara liga selama 18 tahun. "
-              "Kasus menyediakan sendiri presedennya.", False, WHITE)], dark=True)
+    note(s, [("Preseden dari kasus sendiri: ", True, SALMON),
+             ("setelah Matt Busby pensiun 1969, MU merosot. Selama 18 tahun sebelum "
+              "Ferguson datang, MU tidak memenangi satu pun gelar liga dan hanya sekali "
+              "jadi runner-up (hlm. 583).", False, WHITE)], dark=True)
     notes(s, "Sambungkan ke slide 12: dynamic capability adalah kemampuan memperbarui "
-             "resource dan capability secara terus-menerus, sampai memperbarui itu "
-             "sendiri jadi rutinitas.\n\n"
+             "resource dan capability secara terus-menerus, sampai memperbarui itu sendiri "
+             "jadi rutinitas.\n\n"
              "Tiga siklus di slide ini adalah buktinya. MU tidak sekadar beruntung punya "
              "satu generasi emas. MU membongkar dan membangun ulang tiga kali, dan setiap "
              "kali menghasilkan tim juara.\n\n"
-             "Siklus kedua yang paling terkenal: juara liga junior 1990 melahirkan "
-             "kelompok yang sering disebut Class of '92. Enam pemain dari satu angkatan "
-             "akademi menjadi inti tim utama. Itu hasil dari capability nomor satu di "
-             "slide sebelumnya.\n\n"
-             "Siklus ketiga membuktikan MU juga berani menjual legendanya sendiri. "
-             "Beckham, Keane, Schmeichel semuanya dijual, padahal mereka ikon. Itu "
-             "disiplin yang jarang dimiliki klub lain.\n\n"
-             "Sekarang pertanyaan pentingnya, dan sampaikan ini dengan tenang: apakah "
-             "kemampuan memperbarui ini milik KLUB, atau milik FERGUSON?\n\n"
-             "Kasus memberi kita petunjuk yang tidak menyenangkan. Setelah Matt Busby "
-             "pensiun pada 1969, MU merosot dan tidak memenangi satu pun gelar liga "
-             "selama 18 tahun, dan hanya sekali jadi runner-up. Kasus menuliskan itu "
-             "sendiri di bagian sejarah. Pola yang sama bisa terulang.")
+             "Siklus kedua: kasus hlm. 584 menyebut MU juara liga junior Inggris tahun 1990, "
+             "dengan tim yang berisi Giggs, Beckham, Butt, Gary dan Phil Neville, serta "
+             "Scholes. Pakai tahun 1990 sesuai kasus.\n\n"
+             "Siklus ketiga: kasus mencatat pemain inti tim 1999 dijual antara 2003 dan "
+             "2008. Ini menunjukkan MU berani melepas ikonnya sendiri.\n\n"
+             "INI TITIK SAMBUNG DENGAN SLIDE VRIN. Di slide sebelumnya, sistem Ferguson "
+             "lolos keempat tes VRIN — artinya pesaing tidak bisa meniru atau "
+             "mengakalinya. Tapi VRIN tidak menjawab pertanyaan di slide ini: apakah "
+             "kemampuan memperbarui diri itu milik KLUB, atau milik FERGUSON? Buku membahas "
+             "risiko ini di bagian 'resources and capabilities must be managed "
+             "dynamically': resource bisa menyusut dan hilang.\n\n"
+             "Kasus memberi petunjuk yang tidak menyenangkan (hlm. 583): setelah Busby "
+             "pensiun 1969, MU merosot dan Liverpool menjadi klub terkuat Inggris. Selama "
+             "18 tahun sebelum Ferguson datang, MU tidak memenangi satu pun gelar liga. Pola "
+             "yang sama bisa terulang.")
     d.footer(s, FOOT_B)
     return s
 
@@ -736,7 +790,7 @@ def s29_valuechain(d):
             ("Distribution", "Menyalurkan tontonan",
              "Hak siar liga dan UEFA, MUTV, Old Trafford"),
             ("Sales & Marketing", "Menjual merek",
-             "Aon, Nike, 13+ sponsor per negara, tur Asia"),
+             "Nike, AIG/Aon, 13 sponsor lain, tur Asia"),
             ("Service", "Melayani pendukung",
              "Superstore, museum, Soccer Schools, MU Mobile")]
     w = (CW * 0.62 - 4 * 0.12) / 5
@@ -761,13 +815,14 @@ def s29_valuechain(d):
     srcs = [("Gaji hanya ± 50% pendapatan",
              "Rata-rata Premier League 62%, Serie A 68%, Chelsea 81%. Selisih 31 poin "
              "dengan Chelsea.", RED),
-            ("Akademi menghasilkan pemain gratis",
-             "Tanpa biaya transfer. Belanja bersih 2003–09 hanya £100 jt.", RED),
-            ("Menjual di puncak harga",
-             "Ronaldo dilepas dengan rekor dunia £80 jt; laba penjualan pemain "
-             "£21,8 jt pada 2008 saja.", RED),
+            ("Akademi: pemain tanpa biaya transfer",
+             "Giggs, Beckham, Butt, Neville bersaudara, Scholes: inti tim 1994–2003 "
+             "(hlm. 584).", RED),
+            ("Menjual pemain yang dihargai tinggi",
+             "Kotor £322 jt, bersih hanya £100 jt (2003–09). Ronaldo dilepas £80 jt, "
+             "rekor dunia.", RED),
             ("Yang melawan arah",
-             "Amortisasi pemain naik dari £13,1 jt (2000) ke £35,5 jt (2008).",
+             "Amortisasi pemain naik dari £24,2 jt (2005) ke £35,5 jt (2008).",
              INK)]
     yy = y + 0.30
     for nm, body, col in srcs:
@@ -800,24 +855,34 @@ def s29_valuechain(d):
               "bekerja — lompatan AIG ke peringkat 47 merek dunia dalam satu tahun.",
               False, INK)])
     notes(s, "Terjemahkan Figure 4.3 ke bahasa sepakbola dulu, supaya audiens paham:\n"
-             "Supply chain di pabrik artinya membeli bahan baku. Di klub sepakbola, "
-             "'bahan bakunya' adalah pemain. Jadi supply chain MU adalah akademi dan "
-             "pasar transfer.\n"
+             "Supply chain di pabrik artinya membeli bahan baku. Di klub, 'bahan bakunya' "
+             "adalah pemain — jadi supply chain MU adalah akademi dan pasar transfer.\n"
              "Operations di pabrik artinya mengolah bahan jadi produk. Di klub, artinya "
              "latihan dan pertandingan.\n"
-             "Distribution artinya menyalurkan produknya. Di klub, produknya adalah "
-             "tontonan, disalurkan lewat siaran televisi dan stadion.\n\n"
-             "Temuan utamanya: keunggulan biaya MU ada di HULU, bukan di operasi atau "
-             "pemasaran. MU tidak lebih hemat dalam melatih atau beriklan. MU lebih hemat "
-             "dalam MENDAPATKAN pemain.\n\n"
-             "Angka gaji dari kasus halaman 578: rata-rata Premier League 62%, Serie A "
-             "68%, La Liga 63%. Chelsea 81%, tertinggi di Inggris. MU dan Arsenal "
-             "masing-masing sekitar setengah pendapatannya.\n\n"
-             "Jangan lupa menyebut yang melawan arah: amortisasi pemain naik hampir tiga "
-             "kali lipat antara 2000 dan 2008. Itu biaya akuntansi dari pembelian pemain, "
-             "dan artinya MU juga makin banyak membeli. Kejujuran ini penting.\n\n"
+             "Distribution artinya menyalurkan produk. Di klub, produknya tontonan, "
+             "disalurkan lewat siaran televisi dan stadion.\n\n"
+             "Temuan utamanya: keunggulan biaya MU ada di HULU. MU tidak lebih hemat dalam "
+             "melatih atau beriklan; MU lebih hemat dalam MENDAPATKAN pemain.\n\n"
+             "Angka gaji dari kasus hlm. 578: rata-rata Premier League 62%, Serie A 68%, "
+             "La Liga 63%. Chelsea 81%, tertinggi di antara klub Inggris. MU dan Arsenal "
+             "masing-masing membayar sekitar setengah pendapatannya untuk gaji.\n\n"
+             "Soal sponsor (hlm. 587): selain Nike dan AIG (yang diganti Aon 2010), ada "
+             "Budweiser, Audi, Betfred, Hublot, Tri Indonesia, Bharti Airtel, plus tujuh "
+             "sponsor lain — total 13. Hanya Tri Indonesia dan Bharti Airtel yang "
+             "khusus satu negara.\n\n"
+             "Bedakan sumber dua kartu tengah. Akademi menekan kebutuhan MEMBELI: generasi "
+             "Giggs dan Scholes menjadi inti tim 1994–2003 tanpa biaya transfer (hlm. 584). "
+             "Penjualan menekan belanja BERSIH: kasus hlm. 586 menyebut Ferguson mau menjual "
+             "pemain yang dinilai lebih tinggi oleh klub lain, dan 'as a result' belanja "
+             "bersih MU relatif sederhana. Laba penjualan pemain di Appendix 2008 saja "
+             "£21,8 juta. Jangan sebut 'menjual di puncak harga' — kasus tidak bilang "
+             "begitu.\n\n"
+             "Jangan lupa yang melawan arah: amortisasi pemain naik hampir 50% dari 2005 "
+             "ke 2008. Angka ini sengaja memakai periode 2005–2008 karena Appendix "
+             "menyatakan data 2000–2004 tidak sebanding. Amortisasi adalah biaya "
+             "akuntansi dari pembelian pemain, jadi MU juga makin banyak membeli.\n\n"
              "Untuk customer value proposition, ingatkan rumus di slide 13: V dikurangi P. "
-             "MU punya dua 'pelanggan' dengan V yang berbeda — pendukung dan sponsor.")
+             "MU punya dua 'pelanggan' dengan V berbeda — pendukung dan sponsor.")
     d.footer(s, FOOT_B)
     return s
 
@@ -864,8 +929,8 @@ def s30_csa(d):
     set_cell_border(tbl.cell(10, 2), ("T", "B", "L", "R"), INK, 0.75)
 
     y2 = y + head_h + 10 * row_h + 0.24
-    boxes = [("Unggul 0,25 poin", "MU 8,65 vs Barcelona 8,40. Tipis, dan seluruhnya "
-              "bertumpu pada satu baris saja.", RED),
+    boxes = [("Unggul 0,25 poin", "MU 8,65 vs Barcelona 8,40. Tipis: cukup satu baris "
+              "turun untuk menghapusnya.", RED),
              ("Turun ke 7,90", "Kalau rating manajer jatuh dari 10 ke 5 karena ganti "
               "pelatih, MU langsung di bawah Barcelona.", INK),
              ("Butuh minimal 8,3", "Rating yang harus dicapai pengganti Ferguson supaya "
@@ -885,28 +950,40 @@ def s30_csa(d):
              "data kasus. Itu memang cara kerja alat ini — buku pun memakai contoh "
              "hipotetis di Tabel 4.4.\n\n"
              "Alasan beberapa rating yang mungkin ditanya:\n"
-             "- Kualitas skuad MU hanya 6, padahal juara. Sebabnya: Tabel 6.3 memuat "
-             "peringkat pemain dunia FIFA 2008–09, dan satu-satunya pemain MU di "
-             "sana adalah Ronaldo — yang baru dijual Juni 2009. Jadi per Juli 2009, "
-             "MU tidak punya pemain di daftar itu. Barcelona punya lima.\n"
+             "- Kualitas skuad MU hanya 6, padahal juara. Sebabnya: Tabel 6.3 (peringkat "
+             "pemain dunia FIFA 2008–09) hanya memuat satu pemain MU, yaitu Ronaldo — dan "
+             "ia dijual ke Real Madrid sebelum akhir Juni 2009 (Tabel 6.4). Jadi per Juli "
+             "2009, MU tidak punya pemain di daftar itu. Barcelona punya empat (Messi, Xavi, "
+             "Eto'o, Iniesta), ditambah Deco yang tercatat 'Barcelona and Chelsea'. Kasus "
+             "hlm. 580 menyebut Barcelona dan Chelsea sebagai tim paling bertabur bintang. "
+             "Real Madrid tetap 9 karena musim panas 2009 membeli Ronaldo, Kaká dan Benzema "
+             "(Tabel 6.4).\n"
              "- Kemampuan manajer MU 10, Real Madrid 5. Sebabnya: Ferguson punya masa "
-             "jabatan terpanjang di Tabel 6.8, sementara Real Madrid memecat 10 pelatih "
-             "antara 2003 dan Juli 2009.\n"
-             "- Keleluasaan finansial MU hanya 4 karena utang £616 juta. Arsenal "
-             "malah 2 karena utangnya £896 juta.\n\n"
-             "Sekarang bagian yang paling penting, dan ini poin puncak presentasi:\n"
-             "MU unggul dari Barcelona hanya 0,25 poin. Dan penyumbang terbesar "
-             "keunggulan itu adalah baris 'kemampuan manajer', tempat MU dapat 10 "
-             "sementara Barcelona 8.\n\n"
+             "jabatan di satu klub terpanjang di Tabel 6.8, sementara Real Madrid "
+             "mengganti 10 pelatih kepala antara 2003 dan Juli 2009 (hlm. 581).\n"
+             "- Keleluasaan finansial MU hanya 4 karena utang £616 juta dan tidak ada "
+             "suntikan dana pemilik (hlm. 579). Tapi jangan bilang utang membatasi "
+             "belanja pemain — kasus hlm. 584 menyebut ketakutan itu 'proved groundless'. "
+             "Arsenal 2 karena utangnya £896 juta, tertinggi di Tabel 6.5.\n\n"
+             "Sekarang bagian yang paling penting.\n"
+             "MU unggul dari Barcelona hanya 0,25 poin. Dari mana selisih itu? MU unggul "
+             "di merek (+0,45), lalu di manajer, komersial, dan profitabilitas (masing-"
+             "masing +0,30). MU kalah di kualitas skuad (−0,60) dan keleluasaan finansial "
+             "(−0,50). Baris lainnya seri.\n\n"
+             "Dari semua baris itu, hanya satu yang diperkirakan berubah drastis dalam "
+             "waktu dekat: baris manajer, karena Ferguson diperkirakan pensiun musim panas "
+             "2010 (hlm. 588).\n\n"
              "Coba turunkan rating itu dari 10 ke 5, seolah penggantinya manajer "
              "rata-rata. Skor MU turun 0,75 menjadi 7,90 — langsung di bawah "
              "Barcelona.\n\n"
-             "Hitung titik impasnya: MU tanpa baris manajer punya 7,15. Supaya totalnya "
-             "kembali ke 8,40, baris manajer harus menyumbang 1,25. Dengan bobot 0,15, "
-             "berarti ratingnya minimal 8,3. Artinya penggantinya harus manajer kelas "
-             "dunia, bukan sekadar bagus.\n\n"
+             "Hitung titik impasnya, dengan asumsi baris lain tetap: MU tanpa baris "
+             "manajer punya 7,15. Supaya totalnya kembali ke 8,40, baris manajer harus "
+             "menyumbang 1,25. Dengan bobot 0,15, ratingnya minimal 8,3. Artinya "
+             "penggantinya harus manajer kelas dunia, bukan sekadar bagus.\n\n"
              "Ini menghubungkan Q5 kembali ke Q3: baris yang paling rapuh di matriks "
-             "adalah justru resource yang gagal tes Nonsubstitutable.")
+             "adalah resource yang lolos VRIN tapi melekat pada satu orang. Itu risiko "
+             "yang tidak diukur VRIN — dan karena itulah slide 28 membahas dynamic "
+             "capability.")
     d.footer(s, FOOT_B)
     return s
 
@@ -918,18 +995,18 @@ def s31_q6(d):
                "ditambah usulan tindakan dari kelompok kami.", sublines=1)
 
     wl = CW * 0.45
-    worries = [("1", "Bagaimana mengganti Ferguson tanpa merusak sistemnya?",
-                "Gill belum memutuskan; Ferguson belum mengumumkan niat pensiun."),
-               ("2", "Apa yang harus dilakukan soal utang £616 juta?",
-                "Membatasi daya beli justru saat Manchester City belanja £185 jt."),
-               ("3", "Bagaimana menambal skuad setelah Ronaldo pergi?",
-                "Tidak ada lagi pemain MU di peringkat FIFA Tabel 6.3."),
-               ("4", "Apakah perlu membangun penyangga organisasi?",
-                "Tanpa director of football, semua fungsi menumpuk pada manajer tim."),
+    worries = [("1", "Siapa pengganti Ferguson: orang dalam atau dari luar?",
+                "Dilema Gill: kesinambungan sistem vs wibawa di depan bintang."),
+               ("2", "Bagaimana mempertahankan sistem latihan, bakat, dan tim?",
+                "Gill ingin sistem Ferguson dipertahankan sebanyak mungkin."),
+               ("3", "Apa yang dilakukan dengan uang penjualan Ronaldo?",
+                "Media menyorot apakah uangnya dipakai membeli Ribéry."),
+               ("4", "Apakah perlu posisi director of football?",
+                "Lazim di Eropa daratan; di Inggris sering memicu konflik."),
                ("5", "Bagaimana menjaga pendapatan komersial jika prestasi turun?",
-                "Gill sendiri bilang uang mengalir selama tim menang."),
-               ("6", "Apakah tata kelola tetap aman tanpa Ferguson dan Gill?",
-                "Peran pasif Glazer berjalan karena ada dua orang ini.")]
+                "Menurut Gill, uang komersial mengalir selama tim terus menang."),
+               ("6", "Bagaimana bersaing tanpa suntikan dana pemilik?",
+                "Utang £616 jt; tak ada suntikan dana seperti Chelsea dan City.")]
     txt(s, "Priority list — berisi pertanyaan, bukan jawaban", ML, y, wl, 0.26,
         size=11, color=RED, bold=True, caps=True)
     yy = y + 0.32
@@ -946,22 +1023,22 @@ def s31_q6(d):
     x2 = ML + wl + 0.40
     w2 = CW - wl - 0.40
     txt(s, "Rekomendasi kelompok 4", x2, y, w2, 0.26, size=11, color=INK, bold=True, caps=True)
-    recs = [("Ubah resource jadi capability sebelum Ferguson pergi",
-             "Tuliskan sistem pemanduan bakat, akademi, dan rotasi skuad menjadi prosedur "
-             "organisasi. Selama ini sistem itu hidup di kepala satu orang."),
+    recs = [("Lembagakan sistem Ferguson sebelum ia pergi",
+             "Tuliskan sistem pemanduan bakat, akademi, latihan dan rotasi menjadi prosedur "
+             "klub, supaya tidak ikut pensiun bersama orangnya."),
             ("Pilih penerus dari dalam, dengan masa transisi",
-             "Orang dalam menjaga sistem tetap jalan. Ferguson tetap mendampingi sebagai "
-             "mentor untuk menutup kekurangan wibawa yang dikhawatirkan Gill."),
+             "Orang dalam menjaga sistem tetap jalan; Ferguson mendampingi sebagai mentor "
+             "untuk menutup kekurangan wibawa yang dikhawatirkan Gill."),
             ("Tolak opsi revolusi",
-             "Mourinho berkonflik dengan Abramovich. Real Madrid memecat 10 pelatih "
-             "dalam enam tahun. Membongkar sistem Ferguson menghancurkan aset yang "
-             "paling sulit ditiru."),
+             "Kasus sendiri menyebut manajer seperti Mourinho kemungkinan besar membongkar "
+             "sebagian besar infrastruktur Ferguson — padahal sistem itu lolos keempat "
+             "tes VRIN."),
             ("Lindungi dan percepat mesin komersial",
-             "Merek adalah satu-satunya keunggulan yang lolos keempat tes VRIN. Perkuat "
-             "India dan Cina sekarang, selagi prestasi masih tinggi."),
-            ("Turunkan utang untuk memulihkan keleluasaan",
-             "Keleluasaan finansial adalah baris terlemah MU di matriks Q5. Tanpa "
-             "perbaikan, klub tidak bisa bereaksi saat transisi menuntut belanja besar.")]
+             "Merek lolos VRIN dan, tidak seperti sistem Ferguson, melekat pada klub. "
+             "Perkuat India dan Cina sekarang, selagi prestasi masih tinggi."),
+            ("Siapkan ruang finansial untuk masa transisi",
+             "Utang sejauh ini tidak menghambat belanja pemain (hlm. 584), tapi masa ganti "
+             "pelatih adalah saat klub paling butuh keleluasaan.")]
     yy = y + 0.32
     for nm, body in recs:
         rect(s, x2, yy, w2, 0.78, fill=TINT, line=RULE)
@@ -971,26 +1048,37 @@ def s31_q6(d):
             spacing=1.08)
         yy += 0.86
     notes(s, "Ingatkan aturan Q6 dari slide 17: priority list berisi PERTANYAAN, bukan "
-             "jawaban. Itu sebabnya kolom kiri semuanya berbentuk 'bagaimana', 'apa yang "
-             "harus dilakukan soal', dan 'apakah perlu'. Persis pola yang diminta buku.\n\n"
+             "jawaban. Kolom kiri semuanya berbentuk 'siapa', 'bagaimana', 'apa yang "
+             "dilakukan', dan 'apakah perlu' — persis pola buku.\n\n"
+             "Sumber tiap isu di kasus:\n"
+             "1. Dilema suksesi: hlm. 588, dilema yang disadari Gill saat menimbang calon "
+             "pengganti.\n"
+             "2. Mempertahankan sistem: hlm. 588 — 'it was important to maintain as "
+             "much as possible of the system of training, scouting, and team development "
+             "that Sir Alex had put in place.'\n"
+             "3. Uang penjualan Ronaldo: hlm. 588 — media menyorot apakah uangnya "
+             "dipakai untuk menawar Franck Ribéry dari Bayern.\n"
+             "4. Director of football: hlm. 581 — lazim di Eropa daratan, tapi di "
+             "Inggris sering memicu konflik dengan manajer (Chelsea, Newcastle).\n"
+             "5. Ketergantungan komersial: hlm. 573 — bagi Gill, pendapatan komersial "
+             "terus mengalir selama tim menang dan bermain menarik.\n"
+             "6. Dana pemilik: hlm. 579 — karena Glazer membiayai akuisisinya dengan "
+             "utang, MU tidak mendapat suntikan dana seperti Chelsea atau Man City.\n\n"
+             "PENTING soal utang: jangan bilang utang membatasi pembelian pemain. Kasus "
+             "hlm. 584 justru menyatakan ketakutan itu 'proved groundless'. Isunya adalah "
+             "tidak adanya suntikan dana pemilik di pasar transfer yang sedang meledak.\n\n"
              "Kolom kanan adalah rekomendasi kami, dan itu sudah masuk tahap berikutnya "
-             "— penyusunan strategi. Pisahkan keduanya dengan jelas saat bicara, "
-             "jangan dicampur.\n\n"
-             "Logika rekomendasi nomor satu, yang paling penting: seluruh analisis Q3 "
-             "menunjukkan masalah MU bukan kekurangan resource, tapi kenyataan bahwa "
-             "capability terpentingnya tidak melekat pada organisasi. Maka solusinya "
-             "bukan membeli pemain, melainkan memindahkan sistem Ferguson dari kepalanya "
-             "ke dalam prosedur klub.\n\n"
-             "Kenapa menolak Mourinho: kasus menyediakan dua buktinya sendiri. Pertama, "
-             "kepergian Mourinho dari Chelsea disebabkan gesekan dengan Abramovich soal "
-             "pembelian pemain, pemilihan pemain, dan gaya bermain. Kedua, Real Madrid "
-             "yang presidennya ikut campur memecat 10 pelatih dalam enam tahun. "
-             "Keduanya menunjukkan pola yang sama: campur tangan dan pergantian cepat "
-             "merusak kesinambungan.\n\n"
-             "Kalau ada yang berargumen bahwa orang dalam terlalu lemah wibawanya "
-             "— itu memang kekhawatiran Gill sendiri di kasus, dan kami tidak "
-             "menyangkalnya. Justru itu sebabnya kami mengusulkan masa transisi dengan "
-             "Ferguson tetap mendampingi.")
+             "— penyusunan strategi. Pisahkan keduanya saat bicara.\n\n"
+             "Logika rekomendasi 1: sistem Ferguson lolos VRIN, jadi layak dipertahankan. "
+             "Masalahnya hanya satu: sistem itu dibangun dan dipimpin satu orang. Solusinya "
+             "memindahkan sistem itu ke dalam prosedur klub supaya bertahan setelah ia pergi.\n\n"
+             "Logika rekomendasi 3, dari kasus hlm. 588: jika MU menunjuk manajer berwibawa "
+             "seperti Mourinho, 'it was likely that this would involve a revolutionary change "
+             "in coaching strategy in which much of Ferguson's infrastructure would be taken "
+             "down and rebuilt.' Membongkar aset yang lolos VRIN adalah pilihan yang mahal.\n\n"
+             "Kalau ada yang berargumen orang dalam kurang berwibawa — itu memang "
+             "kekhawatiran Gill di kasus, dan kami tidak menyangkalnya. Karena itulah kami "
+             "mengusulkan masa transisi dengan Ferguson tetap mendampingi.")
     d.footer(s, FOOT_B)
     return s
 
@@ -1015,26 +1103,42 @@ def s32_thanks(d):
            "Kasus: Manchester United, Robert M. Grant (2010)",
         0, 6.40, SW, 0.30, size=10, color=RGBColor(0x5A, 0x51, 0x4D),
         align=PP_ALIGN.CENTER)
-    notes(s, "Lima pertanyaan yang paling mungkin muncul, dan jawabannya:\n\n"
+    notes(s, "Pertanyaan yang paling mungkin muncul, dan jawabannya:\n\n"
              "1. Kenapa enam pertanyaan, bukan lima?\n"
              "Edisi lama buku ini memakai lima pertanyaan dengan SWOT diselipkan ke dalam "
              "analisis resource. Edisi 2024 memisahkan SWOT jadi Q2 tersendiri.\n\n"
-             "2. Kenapa laporan keuangan MU terlihat sehat padahal utangnya £616 juta?\n"
-             "Karena Appendix kasus menampilkan akun Manchester United Limited, sedangkan "
-             "utang akuisisi Glazer berada di perusahaan induk di atasnya.\n\n"
-             "3. Apakah akademi MU capability organisasi atau perpanjangan tangan Ferguson?\n"
-             "Ini pertanyaan inti kasus, dan jujur saja kasus tidak memberi jawaban pasti. "
-             "Bukti yang mendukung 'milik organisasi': ada Youth Academy, lebih dari 20 "
-             "pemandu bakat, struktur yang jelas. Bukti yang mendukung 'milik Ferguson': "
-             "semuanya dibangun olehnya, dan Gill sendiri khawatir sistem itu ikut hilang.\n\n"
-             "4. Kalau merek MU lolos keempat tes VRIN, kenapa klubnya tetap rentan?\n"
-             "Karena dua keunggulan itu saling bergantung. Gill berkata pendapatan "
-             "komersial mengalir SELAMA tim menang. Uji VRIN menilai satu resource pada "
-             "satu waktu, dan tidak menangkap ketergantungan antar-keunggulan.\n\n"
-             "5. Utang £616 juta itu weakness atau threat?\n"
-             "Weakness, karena sumbernya internal — keputusan pemilik membiayai "
-             "akuisisi dengan pinjaman. Threat adalah faktor dari luar. Bedanya penting: "
-             "weakness bisa diperbaiki sendiri, threat hanya bisa diantisipasi.")
+             "2. Kenapa sistem Ferguson lolos Nonsubstitutable, padahal ia akan pensiun?\n"
+             "Karena tes N bertanya apakah PESAING bisa mencapai hasil yang sama dengan "
+             "resource jenis lain — bukan apakah MU bisa mengganti Ferguson. Jalan lain "
+             "pesaing, membeli bintang dengan uang besar, tidak menyamai hasilnya: tim "
+             "Real Madrid dan Chelsea 'failed to achieve greatness' (hlm. 583). Risiko "
+             "pensiun itu nyata, tapi tempatnya di luar VRIN: resource harus dikelola "
+             "secara dinamis (slide 12 dan 28).\n\n"
+             "3. Kalau sistem Ferguson dan merek sama-sama lolos VRIN, kenapa MU tetap "
+             "rentan?\n"
+             "Karena VRIN menguji serangan dari pesaing, bukan kehilangan dari dalam. "
+             "Sistem Ferguson dibangun dan dipimpin satu orang yang diperkirakan pensiun "
+             "musim panas 2010. Selain itu, kedua keunggulan saling bergantung: menurut "
+             "pandangan Gill, pendapatan komersial terus mengalir selama tim menang dan "
+             "bermain menarik (hlm. 573).\n\n"
+             "4. Kenapa laporan keuangan MU terlihat sehat padahal utangnya £616 juta?\n"
+             "Angka £616 juta berasal dari Tabel 6.5 (data Forbes). Appendix memuat akun "
+             "Manchester United plc (2000–2005) dan Manchester United Limited "
+             "(2006–2008), dan tidak memuat utang sebesar itu — bunga bersih 2008 malah "
+             "tercatat positif, £0,46 juta. Dugaan kami, dan ini tidak ditulis di kasus: "
+             "utang akuisisi Glazer berada di perusahaan induk, di atas klub.\n\n"
+             "5. Apakah akademi MU capability organisasi atau perpanjangan tangan "
+             "Ferguson?\n"
+             "Kasus tidak memberi jawaban pasti. Yang mendukung 'milik organisasi': ada "
+             "akademi dan lebih dari 20 pemandu bakat. Yang mendukung 'milik Ferguson': "
+             "seluruh infrastruktur itu ia yang membangun (hlm. 573), dan Gill menilai "
+             "penting untuk mempertahankannya sebanyak mungkin (hlm. 588).\n\n"
+             "6. Utang £616 juta itu weakness atau threat?\n"
+             "Weakness, karena sumbernya internal: akuisisi Glazer dibiayai terutama "
+             "dengan utang (hlm. 584). Threat adalah faktor dari luar. Tapi hati-hati: "
+             "kasus yang sama menyebut kekhawatiran bahwa utang akan membatasi pembelian "
+             "pemain 'proved groundless'. Kelemahannya ada di neraca dan di tidak adanya "
+             "suntikan dana pemilik, bukan di belanja pemain yang terhambat.")
     return s
 
 
