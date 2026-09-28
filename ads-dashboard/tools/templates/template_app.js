@@ -1049,7 +1049,7 @@ function prodAgg(rows){
   return Object.values(agg).map(derive);
 }
 function prodInsights(){
-  const all=store.get(LS_P,[]).filter(r=>!LIVE_CH.has(r.chId))
+  const all=prodStore.filter(r=>!LIVE_CH.has(r.chId))
     .filter(r=>['tiktok','shopee'].includes(chDef(r.chId)?.platform)).map(resolveProdName);
   if(!all.length)return null;
   const months=[...new Set(all.map(r=>mkOf(r.iso)))].sort();
@@ -1063,7 +1063,7 @@ function prodInsights(){
   return {mk,n:list.length,tot,totC,top,low,noBoost,roi:totC?tot/totC:null};
 }
 function creatorInsights(){
-  const all=store.get(LS_V,[]);
+  const all=vidStore;
   if(!all.length)return null;
   const months=[...new Set(all.map(r=>mkOf(r.iso)))].sort();
   const mk=months[months.length-1];
@@ -1733,8 +1733,12 @@ async function xlsxToRows(buf){
 }
 let PENDING=[];
 const LS_P='smoAdsProducts', LS_V='smoAdsVideos', LS_PN='smoAdsProdNames';
-let prodStore=store.get(LS_P,[]);
-let vidStore=store.get(LS_V,[]);
+/* data rinci produk/kreator ikut tertanam di terbitan (RAW.detail) sehingga semua
+   pemegang link melihat tab Produk & Kreator tanpa sinkron; baris hasil sinkron di
+   browser ini menimpa per channel-hari (mergeDetail) */
+const BASE_DETAIL=RAW.detail||{};
+let prodStore=mergeDetail(BASE_DETAIL.products||[],store.get(LS_P,[]));
+let vidStore=mergeDetail(BASE_DETAIL.videos||[],store.get(LS_V,[]));
 let prodNames=store.get(LS_PN,{});
 function mergeDetail(storeArr, incoming){
   const keys=new Set(incoming.map(r=>r.chId+'|'+r.iso));
@@ -2683,7 +2687,7 @@ const resolveProdName=r=>{
 };
 function renderProducts(){
   if(!prodView.to)prodView.to=DATA_END();
-  const data=store.get(LS_P,[]).filter(r=>!LIVE_CH.has(r.chId))
+  const data=prodStore.filter(r=>!LIVE_CH.has(r.chId))
     .filter(r=>['tiktok','shopee'].includes(chDef(r.chId)?.platform))
     .map(resolveProdName);
   let rows=data.filter(r=>r.iso>=prodView.from&&r.iso<=prodView.to);
@@ -2799,7 +2803,7 @@ function renderProducts(){
 let creatorView={from:FIRST_ISO,to:null,preset:'custom',creator:''};
 function renderCreators(){
   if(!creatorView.to)creatorView.to=DATA_END();
-  const data=store.get(LS_V,[]);
+  const data=vidStore;
   let rows=data.filter(r=>r.iso>=creatorView.from&&r.iso<=creatorView.to);
   const byCreator={};
   for(const r of rows){
@@ -3034,7 +3038,7 @@ function channelTrendReply(q){
 
 /* --- tren produk --- */
 function prodAggRange(from,to){
-  const all=store.get(LS_P,[]).filter(r=>!LIVE_CH.has(r.chId))
+  const all=prodStore.filter(r=>!LIVE_CH.has(r.chId))
     .filter(r=>['tiktok','shopee'].includes(chDef(r.chId)?.platform)).map(resolveProdName)
     .filter(r=>r.iso>=from&&r.iso<=to);
   return prodAgg(all);
@@ -3056,7 +3060,7 @@ function prodTrendReply(){
 
 /* --- tren kreator --- */
 function creatorAggRange(from,to){
-  const rows=store.get(LS_V,[]).filter(r=>r.iso>=from&&r.iso<=to);
+  const rows=vidStore.filter(r=>r.iso>=from&&r.iso<=to);
   const by={};
   for(const r of rows){const o=by[r.creator]??={creator:r.creator,qty:0,val:0,cost:0,imp:0,clk:0,vids:new Set()};
     o.qty+=r.qty||0;o.val+=r.val||0;o.cost+=r.cost||0;o.imp+=r.imp||0;o.clk+=r.clk||0;o.vids.add(r.vid||r.title);}
