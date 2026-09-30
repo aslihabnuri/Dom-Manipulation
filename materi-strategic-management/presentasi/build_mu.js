@@ -168,7 +168,7 @@ function fullBleed(image, o = {}) {
   txt(s, 'DOSEN PENGAMPU', 0.7, 5.95, 3, 0.25, { fontFace: F.s, fontSize: 8, color: C.gold, charSpacing: 2 });
   txt(s, 'Dr. Rangga Almahendra, S.T., M.M.', 0.7, 6.2, 4, 0.3, { fontFace: F.m, fontSize: 11, color: C.white });
   txt(s, 'KELOMPOK 4', 4.3, 5.95, 3, 0.25, { fontFace: F.s, fontSize: 8, color: C.gold, charSpacing: 2 });
-  txt(s, 'Fitra Aidila  ·  Aulia Sisca Rahmadiyanti  ·  Bagaskoro  ·  Imam Prayudha  ·  Tegar Awanto', 4.3, 6.2, 8.3, 0.55, { fontFace: F.m, fontSize: 11, color: C.white });
+  txt(s, 'Fitra Aidila  ·  Aulia Sisca Rahmadiyanti  ·  Bagaskoro\nImam Prayudha  ·  Tegar Awanto', 4.3, 6.2, 5.8, 0.7, { fontFace: F.m, fontSize: 11, color: C.white, lineSpacingMultiple: 1.15 });
 }
 
 // =============== 2. AGENDA ===============
