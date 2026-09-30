@@ -1,0 +1,135 @@
+[
+ {
+  "name": "paper_32",
+  "ar": "3:2",
+  "res": "1K",
+  "ref": true,
+  "prompt": "A single blank piece of aged cream newsprint paper with roughly torn edges on all four sides, slightly crumpled, faint halftone grain, one small strip of masking tape at the top left corner. It fills about 92% of the frame. Completely blank, no text, no lines. Render it isolated on a completely solid, flat, pure bright green (#00FF00) chroma-key background that fills the rest of the frame: no shadow on the background, no gradient, no vignette, nothing else in the frame. Fanzine collage style matching the reference images: torn paper edges, halftone print grain, Manchester United red (#DA291C), black, white, cream and yellow (#FBE122)."
+ },
+ {
+  "name": "paper_43",
+  "ar": "4:3",
+  "res": "1K",
+  "ref": true,
+  "prompt": "A single blank piece of aged off-white newsprint paper with roughly torn edges, slightly crumpled, faint grain, a small piece of red tape at the top right corner. It fills about 92% of the frame. Completely blank, no text. Render it isolated on a completely solid, flat, pure bright green (#00FF00) chroma-key background that fills the rest of the frame: no shadow on the background, no gradient, no vignette, nothing else in the frame. Fanzine collage style matching the reference images: torn paper edges, halftone print grain, Manchester United red (#DA291C), black, white, cream and yellow (#FBE122)."
+ },
+ {
+  "name": "paper_169",
+  "ar": "16:9",
+  "res": "1K",
+  "ref": true,
+  "prompt": "A single wide blank piece of aged cream newsprint paper with roughly torn edges, slightly crumpled, faint grain, two small strips of masking tape at the top corners. It fills about 94% of the frame. Completely blank, no text. Render it isolated on a completely solid, flat, pure bright green (#00FF00) chroma-key background that fills the rest of the frame: no shadow on the background, no gradient, no vignette, nothing else in the frame. Fanzine collage style matching the reference images: torn paper edges, halftone print grain, Manchester United red (#DA291C), black, white, cream and yellow (#FBE122)."
+ },
+ {
+  "name": "paper_11",
+  "ar": "1:1",
+  "res": "1K",
+  "ref": true,
+  "prompt": "A single square blank piece of aged cream newsprint paper with roughly torn edges and a folded corner, faint grain. It fills about 92% of the frame. Completely blank, no text. Render it isolated on a completely solid, flat, pure bright green (#00FF00) chroma-key background that fills the rest of the frame: no shadow on the background, no gradient, no vignette, nothing else in the frame. Fanzine collage style matching the reference images: torn paper edges, halftone print grain, Manchester United red (#DA291C), black, white, cream and yellow (#FBE122)."
+ },
+ {
+  "name": "red_219",
+  "ar": "21:9",
+  "res": "1K",
+  "ref": true,
+  "prompt": "A single wide horizontal strip of Manchester United red (#DA291C) paper with roughly torn top and bottom edges, slight halftone texture, filling about 95% of the frame width and 80% of its height. Completely blank, no text. Render it isolated on a completely solid, flat, pure bright green (#00FF00) chroma-key background that fills the rest of the frame: no shadow on the background, no gradient, no vignette, nothing else in the frame. Fanzine collage style matching the reference images: torn paper edges, halftone print grain, Manchester United red (#DA291C), black, white, cream and yellow (#FBE122)."
+ },
+ {
+  "name": "red_32",
+  "ar": "3:2",
+  "res": "1K",
+  "ref": true,
+  "prompt": "A single block of Manchester United red (#DA291C) paper with roughly torn edges on all sides and slight halftone texture, filling about 92% of the frame. Completely blank, no text. Render it isolated on a completely solid, flat, pure bright green (#00FF00) chroma-key background that fills the rest of the frame: no shadow on the background, no gradient, no vignette, nothing else in the frame. Fanzine collage style matching the reference images: torn paper edges, halftone print grain, Manchester United red (#DA291C), black, white, cream and yellow (#FBE122)."
+ },
+ {
+  "name": "black_219",
+  "ar": "21:9",
+  "res": "1K",
+  "ref": true,
+  "prompt": "A single wide horizontal strip of matte black paper with roughly torn top and bottom edges and slight print grain, filling about 95% of the frame width and 80% of its height. Completely blank, no text. Render it isolated on a completely solid, flat, pure bright green (#00FF00) chroma-key background that fills the rest of the frame: no shadow on the background, no gradient, no vignette, nothing else in the frame. Fanzine collage style matching the reference images: torn paper edges, halftone print grain, Manchester United red (#DA291C), black, white, cream and yellow (#FBE122)."
+ },
+ {
+  "name": "st_crest",
+  "ar": "1:1",
+  "res": "1K",
+  "ref": true,
+  "prompt": "In the same fanzine collage style as the reference images (torn paper, halftone, newsprint, Manchester United red, black, white and yellow), a die-cut sticker of a Manchester United style red devil club crest (red shield, yellow trim, red devil holding a trident, footballs, 'MANCHESTER UNITED' text) with a thick white sticker border, filling about 85% of the frame. Render it isolated on a completely solid, flat, pure bright green (#00FF00) chroma-key background that fills the rest of the frame: no shadow on the background, no gradient, no vignette, nothing else in the frame. Fanzine collage style matching the reference images: torn paper edges, halftone print grain, Manchester United red (#DA291C), black, white, cream and yellow (#FBE122)."
+ },
+ {
+  "name": "st_scarf",
+  "ar": "3:2",
+  "res": "1K",
+  "ref": true,
+  "prompt": "In the same fanzine collage style as the reference images (torn paper, halftone, newsprint, Manchester United red, black, white and yellow), a cutout of a red, white and black knitted football scarf with tassels, lying diagonally, with a thin white cutout border, filling about 85% of the frame. Render it isolated on a completely solid, flat, pure bright green (#00FF00) chroma-key background that fills the rest of the frame: no shadow on the background, no gradient, no vignette, nothing else in the frame. Fanzine collage style matching the reference images: torn paper edges, halftone print grain, Manchester United red (#DA291C), black, white, cream and yellow (#FBE122)."
+ },
+ {
+  "name": "st_ticket",
+  "ar": "3:2",
+  "res": "1K",
+  "ref": true,
+  "prompt": "In the same fanzine collage style as the reference images (torn paper, halftone, newsprint, Manchester United red, black, white and yellow), a cutout of two overlapping vintage football match ticket stubs, aged cream paper with red print reading 'OLD TRAFFORD' and 'MANCHESTER UNITED', small perforated edges, with a thin white cutout border, filling about 85% of the frame. Render it isolated on a completely solid, flat, pure bright green (#00FF00) chroma-key background that fills the rest of the frame: no shadow on the background, no gradient, no vignette, nothing else in the frame. Fanzine collage style matching the reference images: torn paper edges, halftone print grain, Manchester United red (#DA291C), black, white, cream and yellow (#FBE122)."
+ },
+ {
+  "name": "st_trophy",
+  "ar": "1:1",
+  "res": "1K",
+  "ref": true,
+  "prompt": "In the same fanzine collage style as the reference images (torn paper, halftone, newsprint, Manchester United red, black, white and yellow), a halftone cutout of a big European Cup trophy with large handles, silver, with a thin white cutout border, filling about 85% of the frame. Render it isolated on a completely solid, flat, pure bright green (#00FF00) chroma-key background that fills the rest of the frame: no shadow on the background, no gradient, no vignette, nothing else in the frame. Fanzine collage style matching the reference images: torn paper edges, halftone print grain, Manchester United red (#DA291C), black, white, cream and yellow (#FBE122)."
+ },
+ {
+  "name": "st_players",
+  "ar": "3:2",
+  "res": "1K",
+  "ref": true,
+  "prompt": "In the same fanzine collage style as the reference images (torn paper, halftone, newsprint, Manchester United red, black, white and yellow), a halftone illustrated cutout of four football players in red kits and white shorts celebrating, one lifting a trophy, natural complete faces, generic players, with a thin white cutout border, filling about 90% of the frame. Render it isolated on a completely solid, flat, pure bright green (#00FF00) chroma-key background that fills the rest of the frame: no shadow on the background, no gradient, no vignette, nothing else in the frame. Fanzine collage style matching the reference images: torn paper edges, halftone print grain, Manchester United red (#DA291C), black, white, cream and yellow (#FBE122)."
+ },
+ {
+  "name": "st_devil",
+  "ar": "1:1",
+  "res": "1K",
+  "ref": true,
+  "prompt": "In the same fanzine collage style as the reference images (torn paper, halftone, newsprint, Manchester United red, black, white and yellow), a cutout of the red devil mascot figure holding a trident, bold flat red silhouette with yellow accents, thin white cutout border, filling about 85% of the frame. Render it isolated on a completely solid, flat, pure bright green (#00FF00) chroma-key background that fills the rest of the frame: no shadow on the background, no gradient, no vignette, nothing else in the frame. Fanzine collage style matching the reference images: torn paper edges, halftone print grain, Manchester United red (#DA291C), black, white, cream and yellow (#FBE122)."
+ },
+ {
+  "name": "st_glory",
+  "ar": "3:2",
+  "res": "1K",
+  "ref": true,
+  "prompt": "In the same fanzine collage style as the reference images (torn paper, halftone, newsprint, Manchester United red, black, white and yellow), a torn white newsprint label with bold black and red block letters reading exactly 'GLORY GLORY MAN UNITED' on three lines, and a second smaller torn black label below reading exactly '#IAMUNITED' in white and red, both slightly tilted, filling about 90% of the frame. Render it isolated on a completely solid, flat, pure bright green (#00FF00) chroma-key background that fills the rest of the frame: no shadow on the background, no gradient, no vignette, nothing else in the frame. Fanzine collage style matching the reference images: torn paper edges, halftone print grain, Manchester United red (#DA291C), black, white, cream and yellow (#FBE122)."
+ },
+ {
+  "name": "st_stadium",
+  "ar": "3:2",
+  "res": "1K",
+  "ref": true,
+  "prompt": "In the same fanzine collage style as the reference images (torn paper, halftone, newsprint, Manchester United red, black, white and yellow), a halftone black-and-red cutout of the Old Trafford stadium exterior seen from a low angle with floodlights, thin white cutout border, filling about 90% of the frame. Render it isolated on a completely solid, flat, pure bright green (#00FF00) chroma-key background that fills the rest of the frame: no shadow on the background, no gradient, no vignette, nothing else in the frame. Fanzine collage style matching the reference images: torn paper edges, halftone print grain, Manchester United red (#DA291C), black, white, cream and yellow (#FBE122)."
+ },
+ {
+  "name": "frame_a",
+  "ar": "16:9",
+  "res": "2K",
+  "ref": true,
+  "prompt": "Slide background in the same fanzine collage style as the reference images. The whole frame is a very dark maroon-black (#1A0809) paper surface with subtle print grain and faint halftone. Collage ornaments (torn red paper strips, small crest stickers, ticket stubs, a scarf, halftone player cutouts, small torn headlines 'GLORY GLORY', 'OLD TRAFFORD') appear ONLY in the top-right corner and the bottom-left corner, each cluster covering at most 15% of the frame. The center and the rest of the frame stay plain dark and empty for text. No large text."
+ },
+ {
+  "name": "frame_b",
+  "ar": "16:9",
+  "res": "2K",
+  "ref": true,
+  "prompt": "Slide background in the same fanzine collage style as the reference images. The whole frame is a very dark maroon-black (#1A0809) paper surface with subtle print grain. Collage ornaments (torn red and cream paper strips, crest sticker, halftone player cutouts, a trophy, torn headline 'MANCHESTER IS RED') form a narrow band ONLY along the bottom 14% of the frame, fading upward into the dark. The upper 86% stays plain dark and empty for text. No large text."
+ },
+ {
+  "name": "frame_c",
+  "ar": "16:9",
+  "res": "2K",
+  "ref": true,
+  "prompt": "Slide background in the same fanzine collage style as the reference images. The whole frame is a very dark maroon-black (#1A0809) paper surface with subtle print grain. Collage ornaments (torn red paper, crest sticker, scarf, ticket stubs, halftone Old Trafford cutout, torn headline '#IAMUNITED') form a narrow vertical strip ONLY along the right 14% of the frame, fading leftward into the dark. The left 86% stays plain dark and empty for text. No large text."
+ },
+ {
+  "name": "frame_d",
+  "ar": "16:9",
+  "res": "2K",
+  "ref": true,
+  "prompt": "Slide background in the same fanzine collage style as the reference images. The whole frame is a very dark maroon-black (#1A0809) paper surface with subtle print grain and faint halftone. Collage ornaments (torn red and black paper strips, small crest sticker, red devil cutout, halftone crowd with scarves, torn headline 'THE TREBLE') appear ONLY in the top-left corner and the bottom-right corner, each cluster covering at most 15% of the frame. The center and the rest of the frame stay plain dark and empty for text. No large text."
+ }
+]

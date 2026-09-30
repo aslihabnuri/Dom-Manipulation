@@ -1,5 +1,4 @@
 import json, sys, time, urllib.request, os
-import os
 KEY = os.environ.get('KIE_API_KEY', '')
 H = {'Authorization': 'Bearer ' + KEY, 'Content-Type': 'application/json'}
 def post(url, body):
