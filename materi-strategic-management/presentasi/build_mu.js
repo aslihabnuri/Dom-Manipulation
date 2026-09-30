@@ -548,6 +548,7 @@ function page(kicker, title, lede, o = {}) {
 // =============== 19. SITUASI JULI 2009 ===============
 {
   const { s, top } = page('KASUS  ·  SITUASI', 'JULI 2009: KEPUTUSAN YANG DIHADAPI DAVID GILL', null, { notes: '21', src: 'Sumber: Grant (2010), Case 6, hlm. 573 dan 588.' });
+  s.addNotes('Tegaskan setting waktunya: Juli 2009, saat tur pramusim Asia. Ferguson masih menjabat; kasus hanya menyebut ia akan berusia 68 tahun pada akhir 2009 dan Gill memperkirakan pensiun akhir musim 2009-10.\n\nPengambil keputusannya David Gill, Chief Executive. Keputusan yang disiapkan: siapa pengganti Ferguson.\n\nDilema inti (hlm. 588): orang dalam menjaga sistem tetap jalan tapi wibawanya diragukan; orang luar seperti Mourinho berarti membongkar dan membangun ulang infrastruktur Ferguson.\n\nTutup dengan pertanyaan yang jadi benang merah Bagian B: aset mana yang milik klub, aset mana yang milik satu orang.');
   const cards = [['Waktu', 'Juli 2009, tur pramusim ke Malaysia, Indonesia, Korea, dan China. Skuad pulang 28 Juli 2009.'], ['Pengambil keputusan', 'David Gill, Chief Executive Manchester United Football Club Limited.'], ['Keputusan', 'Menyiapkan pengganti Ferguson, yang akhir 2009 berusia 68 tahun. Gill memperkirakan ia pensiun akhir musim 2009–10.']];
   const w = 2.8, ch = 2.35;
   cards.forEach((it, i) => note(s, 0.7 + i * (w + 0.15), top, w, ch, { head: it[0], body: it[1] }));
