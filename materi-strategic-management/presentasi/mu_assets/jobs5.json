@@ -1,0 +1,65 @@
+[
+ {
+  "name": "c_cover",
+  "ar": "16:9",
+  "res": "2K",
+  "ref": true,
+  "prompt": "Make a new fan-made Manchester United poster collage in EXACTLY the same visual style as the four reference images: overlapping torn-paper cutouts and vintage magazine and newspaper clippings, halftone dot texture, grainy print, bold palette of Manchester United red (#DA291C), black, white and yellow (#FBE122), football players in red kits celebrating (generic faces, not real identifiable people), the red devil club crest, lifted trophies, Old Trafford stadium cutouts, red scarves and flags, and big block typography headlines such as 'GLORY GLORY MAN UNITED', 'THE TREBLE', 'MANCHESTER IS RED', '#IAMUNITED', 'OLD TRAFFORD'. Keep all text spelled correctly and short. High quality print poster. Composition for a slide cover: the collage fills the RIGHT 55% of the frame densely; the LEFT 45% is nearly solid very dark maroon-black (#1C0A0B) with only faint torn-paper texture, kept empty for a headline."
+ },
+ {
+  "name": "c_section",
+  "ar": "16:9",
+  "res": "2K",
+  "ref": true,
+  "prompt": "Make a new fan-made Manchester United poster collage in EXACTLY the same visual style as the four reference images: overlapping torn-paper cutouts and vintage magazine and newspaper clippings, halftone dot texture, grainy print, bold palette of Manchester United red (#DA291C), black, white and yellow (#FBE122), football players in red kits celebrating (generic faces, not real identifiable people), the red devil club crest, lifted trophies, Old Trafford stadium cutouts, red scarves and flags, and big block typography headlines such as 'GLORY GLORY MAN UNITED', 'THE TREBLE', 'MANCHESTER IS RED', '#IAMUNITED', 'OLD TRAFFORD'. Keep all text spelled correctly and short. High quality print poster. Composition: a full-frame, dense, energetic collage with 'GLORY GLORY MAN UNITED' as the dominant headline, players lifting trophies in the middle, crest at the top right; the bottom 25% of the frame is darker so a caption panel can sit there."
+ },
+ {
+  "name": "c_thanks",
+  "ar": "16:9",
+  "res": "2K",
+  "ref": true,
+  "prompt": "Make a new fan-made Manchester United poster collage in EXACTLY the same visual style as the four reference images: overlapping torn-paper cutouts and vintage magazine and newspaper clippings, halftone dot texture, grainy print, bold palette of Manchester United red (#DA291C), black, white and yellow (#FBE122), football players in red kits celebrating (generic faces, not real identifiable people), the red devil club crest, lifted trophies, Old Trafford stadium cutouts, red scarves and flags, and big block typography headlines such as 'GLORY GLORY MAN UNITED', 'THE TREBLE', 'MANCHESTER IS RED', '#IAMUNITED', 'OLD TRAFFORD'. Keep all text spelled correctly and short. High quality print poster. Composition for a closing slide: the collage fills the RIGHT 50% of the frame with 'THE TREBLE 1999' headline and three trophies; the LEFT 50% is nearly solid very dark maroon-black (#1C0A0B) with faint paper texture, empty for a big headline."
+ },
+ {
+  "name": "c_tall_a",
+  "ar": "9:16",
+  "res": "1K",
+  "ref": true,
+  "prompt": "Make a new fan-made Manchester United poster collage in EXACTLY the same visual style as the four reference images: overlapping torn-paper cutouts and vintage magazine and newspaper clippings, halftone dot texture, grainy print, bold palette of Manchester United red (#DA291C), black, white and yellow (#FBE122), football players in red kits celebrating (generic faces, not real identifiable people), the red devil club crest, lifted trophies, Old Trafford stadium cutouts, red scarves and flags, and big block typography headlines such as 'GLORY GLORY MAN UNITED', 'THE TREBLE', 'MANCHESTER IS RED', '#IAMUNITED', 'OLD TRAFFORD'. Keep all text spelled correctly and short. High quality print poster. Composition: a tall vertical fanzine poster, dense from top to bottom, crest at the top, players and trophies in the middle, 'MANCHESTER IS RED' headline near the bottom. The poster has clean straight edges (it will be placed as a card on a slide)."
+ },
+ {
+  "name": "c_tall_b",
+  "ar": "9:16",
+  "res": "1K",
+  "ref": true,
+  "prompt": "Make a new fan-made Manchester United poster collage in EXACTLY the same visual style as the four reference images: overlapping torn-paper cutouts and vintage magazine and newspaper clippings, halftone dot texture, grainy print, bold palette of Manchester United red (#DA291C), black, white and yellow (#FBE122), football players in red kits celebrating (generic faces, not real identifiable people), the red devil club crest, lifted trophies, Old Trafford stadium cutouts, red scarves and flags, and big block typography headlines such as 'GLORY GLORY MAN UNITED', 'THE TREBLE', 'MANCHESTER IS RED', '#IAMUNITED', 'OLD TRAFFORD'. Keep all text spelled correctly and short. High quality print poster. Composition: a tall vertical fanzine poster themed on Old Trafford: stadium cutouts, floodlights, ticket stubs, a red scarf, 'OLD TRAFFORD' and 'THEATRE OF DREAMS' headlines, crest near the top. Clean straight edges."
+ },
+ {
+  "name": "c_sq_a",
+  "ar": "1:1",
+  "res": "1K",
+  "ref": true,
+  "prompt": "Make a new fan-made Manchester United poster collage in EXACTLY the same visual style as the four reference images: overlapping torn-paper cutouts and vintage magazine and newspaper clippings, halftone dot texture, grainy print, bold palette of Manchester United red (#DA291C), black, white and yellow (#FBE122), football players in red kits celebrating (generic faces, not real identifiable people), the red devil club crest, lifted trophies, Old Trafford stadium cutouts, red scarves and flags, and big block typography headlines such as 'GLORY GLORY MAN UNITED', 'THE TREBLE', 'MANCHESTER IS RED', '#IAMUNITED', 'OLD TRAFFORD'. Keep all text spelled correctly and short. High quality print poster. Composition: a square poster centered on the red devil crest surrounded by torn clippings, scarves and a lifted trophy, with '#IAMUNITED' as a small headline. Clean straight edges."
+ },
+ {
+  "name": "c_sq_b",
+  "ar": "1:1",
+  "res": "1K",
+  "ref": true,
+  "prompt": "Make a new fan-made Manchester United poster collage in EXACTLY the same visual style as the four reference images: overlapping torn-paper cutouts and vintage magazine and newspaper clippings, halftone dot texture, grainy print, bold palette of Manchester United red (#DA291C), black, white and yellow (#FBE122), football players in red kits celebrating (generic faces, not real identifiable people), the red devil club crest, lifted trophies, Old Trafford stadium cutouts, red scarves and flags, and big block typography headlines such as 'GLORY GLORY MAN UNITED', 'THE TREBLE', 'MANCHESTER IS RED', '#IAMUNITED', 'OLD TRAFFORD'. Keep all text spelled correctly and short. High quality print poster. Composition: a square poster centered on a manager silhouette in a long coat seen from behind facing a packed red stand, surrounded by torn clippings, with 'THE BOSS' headline in block letters. Clean straight edges."
+ },
+ {
+  "name": "c_wide",
+  "ar": "21:9",
+  "res": "2K",
+  "ref": true,
+  "prompt": "Make a new fan-made Manchester United poster collage in EXACTLY the same visual style as the four reference images: overlapping torn-paper cutouts and vintage magazine and newspaper clippings, halftone dot texture, grainy print, bold palette of Manchester United red (#DA291C), black, white and yellow (#FBE122), football players in red kits celebrating (generic faces, not real identifiable people), the red devil club crest, lifted trophies, Old Trafford stadium cutouts, red scarves and flags, and big block typography headlines such as 'GLORY GLORY MAN UNITED', 'THE TREBLE', 'MANCHESTER IS RED', '#IAMUNITED', 'OLD TRAFFORD'. Keep all text spelled correctly and short. High quality print poster. Composition: an ultra-wide horizontal collage strip, players in red celebrating with a trophy in the center, scarves and flags either side, crest at the far right, small 'GLORY GLORY' headline at left. Clean straight edges."
+ },
+ {
+  "name": "c_land",
+  "ar": "3:2",
+  "res": "1K",
+  "ref": true,
+  "prompt": "Make a new fan-made Manchester United poster collage in EXACTLY the same visual style as the four reference images: overlapping torn-paper cutouts and vintage magazine and newspaper clippings, halftone dot texture, grainy print, bold palette of Manchester United red (#DA291C), black, white and yellow (#FBE122), football players in red kits celebrating (generic faces, not real identifiable people), the red devil club crest, lifted trophies, Old Trafford stadium cutouts, red scarves and flags, and big block typography headlines such as 'GLORY GLORY MAN UNITED', 'THE TREBLE', 'MANCHESTER IS RED', '#IAMUNITED', 'OLD TRAFFORD'. Keep all text spelled correctly and short. High quality print poster. Composition: a landscape poster of Old Trafford at night with red floodlight glow, torn newspaper strips around it, 'THEATRE OF DREAMS' headline at the bottom, crest at the top left. Clean straight edges."
+ }
+]

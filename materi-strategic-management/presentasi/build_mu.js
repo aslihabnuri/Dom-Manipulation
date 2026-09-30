@@ -9,8 +9,8 @@ pptx.title = 'Chapter 4 · Manchester United';
 const W = 13.333, H = 7.5;
 
 const C = {
-  bg: '1B0F10', card: '27161A', card2: '32191E', red: 'C8102E', red2: '8E0B20',
-  gold: 'FBE122', white: 'FFFFFF', grey: 'D9CFC7', mute: 'A08F8B', line: '46292D', black: '120A0B'
+  bg: '1A0809', card: '2B0F11', card2: '381418', red: 'DA291C', red2: 'A81D14',
+  gold: 'FBE122', white: 'FFFFFF', grey: 'E9DDD8', mute: 'A8928E', line: '4C2226', black: '0E0505'
 };
 const F = { x: 'Poppins ExtraBold', s: 'Poppins SemiBold', m: 'Poppins Medium', r: 'Poppins', l: 'Poppins Light' };
 
@@ -38,7 +38,10 @@ function page(kicker, title, lede, o = {}) {
   s.background = { color: C.bg };
   let cw = W - 1.2;
   rect(s, 0.6, 0.47, 0.32, 0.06, C.red);
-  txt(s, kicker, 1.02, 0.33, cw - 0.4, 0.35, { fontFace: F.s, fontSize: 9.5, color: C.red, charSpacing: 2 });
+  txt(s, kicker, 1.02, 0.33, cw - 4.5, 0.35, { fontFace: F.s, fontSize: 9.5, color: C.red, charSpacing: 2 });
+  txt(s, 'Manchester United  ·  Chapter 4', 0.6 + cw - 4.6, 0.33, 3.6, 0.35, { fontFace: F.r, fontSize: 8, color: C.mute, align: 'right' });
+  rect(s, 0.6 + cw - 0.85, 0.36, 0.01, 0.28, C.line);
+  txt(s, String(pageNo).padStart(2, '0'), 0.6 + cw - 0.7, 0.33, 0.7, 0.35, { fontFace: F.s, fontSize: 9, color: C.gold, align: 'right' });
   const two = o.two === true;
   txt(s, title, 0.6, 0.72, cw, two ? 0.95 : 0.55, {
     fontFace: F.x, fontSize: o.tsize || 26, color: C.white, lineSpacingMultiple: 0.92, valign: 'top'
@@ -149,26 +152,26 @@ function fullBleed(image, o = {}) {
   const s = pptx.addSlide();
   pageNo += 1;
   s.background = { path: image };
-  img(s, 'mu_assets/grad_left.png', 0, 0, W, H);
+  if (o.grad) img(s, 'mu_assets/grad_left.png', 0, 0, W, H);
   notes(s, o.notes);
   return s;
 }
 
 // =============== 1. TITLE ===============
 {
-  const s = fullBleed('mu_assets/hero.jpg', { notes: '1' });
+  const s = fullBleed('mu_assets/c_cover.jpg', { notes: '1' });
   rect(s, 0.7, 0.75, 0.4, 0.07, C.gold);
   txt(s, 'STRATEGIC MANAGEMENT  ·  CHAPTER 4', 1.25, 0.6, 7, 0.35, { fontFace: F.s, fontSize: 11, color: C.gold, charSpacing: 3 });
-  txt(s, "EVALUATING A COMPANY'S RESOURCES, CAPABILITIES, AND COMPETITIVENESS", 0.7, 1.15, 7.5, 2.4, { fontFace: F.x, fontSize: 36, color: C.white, lineSpacingMultiple: 0.92 });
-  txt(s, 'Thompson  ·  Peteraf  ·  Gamble  ·  Strickland      Crafting & Executing Strategy, 2024 Release ISE', 0.7, 3.62, 7.5, 0.35, { fontFace: F.r, fontSize: 10.5, color: C.grey });
-  rect(s, 0.7, 4.2, 7.5, 1.45, C.red);
-  txt(s, 'STUDI KASUS', 0.95, 4.35, 3, 0.25, { fontFace: F.s, fontSize: 8, color: C.gold, charSpacing: 2 });
-  txt(s, 'Manchester United: Preparing for Life without Ferguson', 0.95, 4.62, 7.0, 0.5, { fontFace: F.x, fontSize: 17, color: C.white });
-  txt(s, 'Robert M. Grant (2010)   ·   setting Juli 2009', 0.95, 5.18, 7.0, 0.3, { fontFace: F.r, fontSize: 10.5, color: C.white });
-  txt(s, 'DOSEN PENGAMPU', 0.7, 5.95, 3, 0.25, { fontFace: F.s, fontSize: 8, color: C.gold, charSpacing: 2 });
-  txt(s, 'Dr. Rangga Almahendra, S.T., M.M.', 0.7, 6.2, 4, 0.3, { fontFace: F.m, fontSize: 11, color: C.white });
-  txt(s, 'KELOMPOK 4', 4.3, 5.95, 3, 0.25, { fontFace: F.s, fontSize: 8, color: C.gold, charSpacing: 2 });
-  txt(s, 'Fitra Aidila  ·  Aulia Sisca Rahmadiyanti  ·  Bagaskoro\nImam Prayudha  ·  Tegar Awanto', 4.3, 6.2, 5.8, 0.7, { fontFace: F.m, fontSize: 11, color: C.white, lineSpacingMultiple: 1.15 });
+  txt(s, "EVALUATING A COMPANY'S RESOURCES, CAPABILITIES, AND COMPETITIVENESS", 0.7, 1.1, 5.7, 2.5, { fontFace: F.x, fontSize: 32, color: C.white, lineSpacingMultiple: 0.92 });
+  txt(s, 'Thompson  ·  Peteraf  ·  Gamble  ·  Strickland\nCrafting & Executing Strategy, 2024 Release ISE', 0.7, 3.62, 5.7, 0.55, { fontFace: F.r, fontSize: 10, color: C.grey, lineSpacingMultiple: 1.15 });
+  rect(s, 0.7, 4.35, 5.5, 1.45, C.red);
+  txt(s, 'STUDI KASUS', 0.95, 4.5, 3, 0.25, { fontFace: F.s, fontSize: 8, color: C.gold, charSpacing: 2 });
+  txt(s, 'Manchester United: Preparing for Life without Ferguson', 0.95, 4.76, 5.1, 0.6, { fontFace: F.x, fontSize: 14, color: C.white, lineSpacingMultiple: 0.98 });
+  txt(s, 'Robert M. Grant (2010)   ·   setting Juli 2009', 0.95, 5.4, 5.1, 0.3, { fontFace: F.r, fontSize: 9.5, color: C.white });
+  txt(s, 'DOSEN PENGAMPU', 0.7, 6.0, 3, 0.25, { fontFace: F.s, fontSize: 8, color: C.gold, charSpacing: 2 });
+  txt(s, 'Dr. Rangga Almahendra, S.T., M.M.', 0.7, 6.24, 3.2, 0.3, { fontFace: F.m, fontSize: 9.5, color: C.white });
+  txt(s, 'KELOMPOK 4', 3.7, 6.0, 3, 0.25, { fontFace: F.s, fontSize: 8, color: C.gold, charSpacing: 2 });
+  txt(s, 'Fitra Aidila  ·  Aulia Sisca Rahmadiyanti  ·  Bagaskoro\nImam Prayudha  ·  Tegar Awanto', 3.7, 6.24, 3.0, 0.7, { fontFace: F.m, fontSize: 9.5, color: C.white, lineSpacingMultiple: 1.15 });
 }
 
 // =============== 2. AGENDA ===============
@@ -180,7 +183,7 @@ function fullBleed(image, o = {}) {
     ['03', 'Priority List', 'SLIDE 32', 'Enam isu yang harus ditangani David Gill, ditulis sebagai pertanyaan sesuai aturan buku.'],
     ['04', 'Diskusi', 'SLIDE 33', 'Tanya jawab dan diskusi kelas.'],
   ];
-  const lw = 6.9, rh = 1.05;
+  const lw = 7.2, rh = 1.05;
   items.forEach((it, i) => {
     const y = top + i * (rh + 0.12);
     rect(s, 0.6, y, lw, rh, i % 2 ? C.card2 : C.card);
@@ -190,17 +193,16 @@ function fullBleed(image, o = {}) {
     txt(s, it[2], 2.0, y + 0.43, 2.5, 0.22, { fontFace: F.s, fontSize: 7.5, color: C.gold, charSpacing: 1.5 });
     txt(s, it[3], 2.0, y + 0.64, lw - 2.2, 0.42, { fontFace: F.r, fontSize: 8.5, color: C.grey, lineSpacingMultiple: 1.04 });
   });
-  const ix = 0.6 + lw + 0.3, iw = W - 0.6 - ix, ih = iw / 1.5;
-  img(s, 'mu_assets/manager.jpg', ix, top, iw, ih);
-  rect(s, ix, top + ih, iw, 0.06, C.red);
-  txt(s, 'Juli 2009. Ferguson masih di pinggir lapangan. Pertanyaannya: aset mana yang milik klub, dan aset mana yang milik satu orang?', ix, top + ih + 0.18, iw, 0.7, { fontFace: F.r, fontSize: 9, color: C.grey, lineSpacingMultiple: 1.08 });
+  const iw = 4.55, ix = W - 0.6 - iw, ih = iw;
+  img(s, 'mu_assets/c_sq_b.jpg', ix, top - 0.05, iw, ih);
+  txt(s, 'Juli 2009. Ferguson masih di pinggir lapangan. Pertanyaannya: aset mana yang milik klub, dan aset mana yang milik satu orang?', ix, top + ih + 0.05, iw, 0.45, { fontFace: F.r, fontSize: 8, color: C.mute, lineSpacingMultiple: 1.06 });
 }
 
 // =============== 3. ENAM PERTANYAAN ===============
 {
   const { s, top, cw } = page('BAGIAN A', 'ENAM PERTANYAAN', 'Chapter 4 bukan kumpulan alat yang berdiri sendiri. Isinya satu alur pemeriksaan, disusun sebagai enam pertanyaan berurutan. Jawaban pertanyaan sebelumnya jadi bahan pertanyaan berikutnya.', { notes: '3' });
   const ph = 4.32, pw = ph * 768 / 1376;
-  img(s, 'mu_assets/strip.jpg', W - 0.6 - pw, top, pw, ph);
+  img(s, 'mu_assets/c_tall_a.jpg', W - 0.6 - pw, top, pw, ph);
   const q = [
     ['Seberapa baik strategi yang sekarang bekerja?', 'Performance indicators + Table 4.1'],
     ['Apa kekuatan dan kelemahan kita, dihadapkan pada peluang dan ancaman?', 'SWOT Analysis'],
@@ -354,8 +356,8 @@ function fullBleed(image, o = {}) {
 {
   const { s, top } = page('PERTANYAAN 3  ·  LANJUTAN', 'CARA MENEMUKAN CAPABILITY PERUSAHAAN', 'Capability lebih sulit ditemukan daripada resource, karena wujudnya tidak kelihatan. Buku memberi dua cara.', { notes: '11' });
   const cw = 9.6, hw = (cw - 0.25) / 2;
-  img(s, 'mu_assets/trophy_icon.jpg', 0.6 + cw + 0.25, top + 0.55, 2.35, 2.35);
-  txt(s, 'Capability yang lolos semua saringan adalah yang membawa gelar. Alat ujinya di slide berikutnya: VRIN Test.', 0.6 + cw + 0.25, top + 3.05, 2.35, 1.3, { fontFace: F.r, fontSize: 8.5, color: C.mute, lineSpacingMultiple: 1.08, align: 'center' });
+  img(s, 'mu_assets/c_sq_a.jpg', 0.6 + cw + 0.25, top + 0.15, 2.35, 2.35);
+  txt(s, 'Capability yang lolos semua saringan adalah yang membawa gelar. Alat ujinya di slide berikutnya: VRIN Test.', 0.6 + cw + 0.25, top + 2.65, 2.35, 1.3, { fontFace: F.r, fontSize: 8.5, color: C.mute, lineSpacingMultiple: 1.08, align: 'center' });
   card(s, 0.6, top, hw, 1.7, { tag: 'CARA 1', head: 'Berangkat dari daftar resource', body: 'Lihat daftar resource, lalu tanya: kemampuan apa yang mungkin tumbuh dari sini? Armada truk dan pusat distribusi otomatis menandakan kemampuan logistik yang matang.', headSize: 12, bodySize: 9.5 });
   card(s, 0.6 + hw + 0.25, top, hw, 1.7, { tag: 'CARA 2', head: 'Berangkat dari fungsi perusahaan', body: 'Telusuri tiap fungsi. Injection molding dan metal stamping di produksi; direct selling dan database marketing di penjualan; riset dasar dan pengembangan produk baru di R&D.', headSize: 12, bodySize: 9.5 });
   card(s, 0.6, top + 1.9, cw, 1.15, { head: 'Masalahnya: capability terpenting justru lintas fungsi', body: 'Cara 2 gagal menangkap kemampuan yang lahir dari kerja sama antarbagian. Kemampuan desain Warby Parker bukan cuma karena desainernya, tapi juga riset pasar, rekayasa, dan relasi dengan pemasok serta pabrik.', headSize: 12, bodySize: 9.5, accent: C.gold });
@@ -516,11 +518,13 @@ function fullBleed(image, o = {}) {
 // =============== 17. PRIORITY LIST ===============
 {
   const { s, top, cw } = page('PERTANYAAN 6', 'ISU APA YANG HARUS DITANGANI LEBIH DULU?', 'Langkah terakhir dan paling penting. Semua temuan dari Q1 sampai Q5, ditambah analisis industri dari Chapter 3, dikerucutkan jadi satu daftar prioritas.', { notes: '18' });
-  rect(s, 0.6, top, 5.6, 3.3, C.red);
+  const ph = 3.3, pw = ph * 768 / 1376;
+  img(s, 'mu_assets/c_tall_b.jpg', W - 0.6 - pw, top, pw, ph);
+  rect(s, 0.6, top, 5.0, 3.3, C.red);
   txt(s, 'PRIORITY LIST', 0.85, top + 0.2, 4, 0.3, { fontFace: F.s, fontSize: 9, color: C.gold, charSpacing: 2 });
-  txt(s, 'Daftar isu dan masalah yang harus dituntaskan manajemen agar perusahaan lebih berhasil, secara keuangan maupun secara bersaing, di tahun-tahun mendatang.', 0.85, top + 0.55, 5.1, 1.3, { fontFace: F.s, fontSize: 13, color: C.white, lineSpacingMultiple: 1.02 });
-  txt(s, 'Isinya selalu berbentuk "bagaimana caranya…", "apa yang harus dilakukan soal…", dan "apakah perlu…".', 0.85, top + 2.0, 5.1, 1.1, { fontFace: F.r, fontSize: 11, color: C.white, lineSpacingMultiple: 1.06 });
-  const x = 6.5, w = cw - 5.9;
+  txt(s, 'Daftar isu dan masalah yang harus dituntaskan manajemen agar perusahaan lebih berhasil, secara keuangan maupun secara bersaing, di tahun-tahun mendatang.', 0.85, top + 0.55, 4.5, 1.4, { fontFace: F.s, fontSize: 12, color: C.white, lineSpacingMultiple: 1.02 });
+  txt(s, 'Isinya selalu berbentuk "bagaimana caranya…", "apa yang harus dilakukan soal…", dan "apakah perlu…".', 0.85, top + 2.05, 4.5, 1.1, { fontFace: F.r, fontSize: 10.5, color: C.white, lineSpacingMultiple: 1.06 });
+  const x = 5.85, w = W - 0.6 - pw - 0.25 - x;
   label(s, 'DUA HAL YANG SERING KELIRU', x, top - 0.02, 4);
   card(s, x, top + 0.3, w, 1.4, { head: 'Ini bukan daftar solusi', body: 'Tujuannya mengidentifikasi ISU yang harus ditangani, bukan memutuskan tindakan apa yang diambil. Keputusan tindakan datang belakangan, saat menyusun strategi.', headSize: 12, bodySize: 10 });
   card(s, x, top + 1.9, w, 1.4, { head: 'Panjang daftar itu diagnosis', body: 'Kalau isinya ringan, strategi sekarang sudah cukup dan tinggal disetel halus. Kalau isinya berat, menyusun strategi baru harus jadi agenda nomor satu manajemen.', headSize: 12, bodySize: 10, accent: C.gold });
@@ -531,9 +535,8 @@ function fullBleed(image, o = {}) {
 {
   const s = pptx.addSlide();
   pageNo += 1;
-  s.background = { color: C.bg };
-  img(s, 'mu_assets/band.jpg', 0, 0, W, W * 1344 / 3168);
-  const py = W * 1344 / 3168;
+  s.background = { path: 'mu_assets/c_section.jpg' };
+  const py = 5.62;
   rect(s, 0, py, W, H - py, C.red);
   rect(s, 0.7, py + 0.36, 0.4, 0.07, C.gold);
   txt(s, 'BAGIAN B  ·  STUDI KASUS', 1.25, py + 0.22, 6, 0.35, { fontFace: F.s, fontSize: 10, color: C.gold, charSpacing: 3 });
@@ -550,8 +553,8 @@ function fullBleed(image, o = {}) {
   const cards = [['Waktu', 'Juli 2009, tur pramusim ke Malaysia, Indonesia, Korea, dan China. Skuad pulang 28 Juli 2009.'], ['Pengambil keputusan', 'David Gill, Chief Executive Manchester United Football Club Limited.'], ['Keputusan', 'Menyiapkan pengganti Sir Alex Ferguson. Kasus: "at the end of 2009 Ferguson would be 68 years old". Gill memperkirakan ia pensiun akhir musim 2009–10.']];
   const w = 2.75;
   cards.forEach((it, i) => card(s, 0.6 + i * (w + 0.2), top, w, 2.2, { head: it[0], body: it[1], headSize: 12, bodySize: 9.5, accent: i === 2 ? C.gold : C.red }));
-  img(s, 'mu_assets/stadium.jpg', 9.55, top, 3.15, 2.1);
-  txt(s, 'Old Trafford, diperluas 2006 (ilustrasi)', 9.55, top + 2.13, 3.15, 0.25, { fontFace: F.r, fontSize: 7.5, color: C.mute });
+  img(s, 'mu_assets/c_land.jpg', 9.55, top, 3.15, 2.1);
+  txt(s, 'Old Trafford, Theatre of Dreams', 9.55, top + 2.13, 3.15, 0.25, { fontFace: F.r, fontSize: 7.5, color: C.mute });
   const y = top + 2.45;
   rect(s, 0.6, y, 12.1, 2.55, C.card2);
   rect(s, 0.6, y, 0.06, 2.55, C.red);
@@ -855,15 +858,15 @@ function fullBleed(image, o = {}) {
 
 // =============== 33. THANKS ===============
 {
-  const s = fullBleed('mu_assets/trophies.jpg', { notes: '35' });
+  const s = fullBleed('mu_assets/c_thanks.jpg', { notes: '35' });
   rect(s, 0.7, 1.75, 0.4, 0.07, C.gold);
   txt(s, 'STRATEGIC MANAGEMENT  ·  CHAPTER 4', 1.25, 1.6, 7, 0.35, { fontFace: F.s, fontSize: 11, color: C.gold, charSpacing: 3 });
-  txt(s, 'TERIMA KASIH', 0.7, 2.15, 7.7, 1.2, { fontFace: F.x, fontSize: 52, color: C.white });
+  txt(s, 'TERIMA KASIH', 0.7, 2.15, 6.2, 1.2, { fontFace: F.x, fontSize: 48, color: C.white });
   txt(s, 'Kami membuka sesi tanya jawab dan diskusi', 0.7, 3.35, 7.7, 0.5, { fontFace: F.m, fontSize: 18, color: C.grey });
-  rect(s, 0.7, 4.3, 7.5, 1.35, C.red);
+  rect(s, 0.7, 4.3, 5.9, 1.35, C.red);
   txt(s, 'KELOMPOK 4', 0.95, 4.45, 3, 0.25, { fontFace: F.s, fontSize: 8, color: C.gold, charSpacing: 2 });
-  txt(s, 'Fitra Aidila  ·  Aulia Sisca Rahmadiyanti  ·  Bagaskoro  ·  Imam Prayudha  ·  Tegar Awanto', 0.95, 4.72, 7.1, 0.8, { fontFace: F.s, fontSize: 11, color: C.white, lineSpacingMultiple: 1.1 });
-  txt(s, 'Strategic Management  ·  Dr. Rangga Almahendra, S.T., M.M.\nChapter 4: Thompson, Peteraf, Gamble & Strickland, 2024 Release ISE   |   Kasus: Manchester United, Robert M. Grant (2010)', 0.7, 5.95, 7.8, 0.8, { fontFace: F.r, fontSize: 9, color: C.grey, lineSpacingMultiple: 1.15 });
+  txt(s, 'Fitra Aidila  ·  Aulia Sisca Rahmadiyanti  ·  Bagaskoro  ·  Imam Prayudha  ·  Tegar Awanto', 0.95, 4.72, 5.5, 0.8, { fontFace: F.s, fontSize: 10.5, color: C.white, lineSpacingMultiple: 1.1 });
+  txt(s, 'Strategic Management  ·  Dr. Rangga Almahendra, S.T., M.M.\nChapter 4: Thompson, Peteraf, Gamble & Strickland, 2024 Release ISE   |   Kasus: Manchester United, Robert M. Grant (2010)', 0.7, 5.95, 5.9, 0.8, { fontFace: F.r, fontSize: 8.5, color: C.grey, lineSpacingMultiple: 1.15 });
 }
 
 pptx.writeFile({ fileName: 'deck.pptx' }).then(f => console.log('wrote', f, 'slides', pageNo));
