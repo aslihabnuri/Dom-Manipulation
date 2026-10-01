@@ -484,7 +484,7 @@ function page(kicker, title, lede, o = {}) {
 
 // =============== 19. SITUASI ===============
 {
-  const { s, top } = page('KASUS  ·  SITUASI', 'JULI 2009: KEPUTUSAN YANG DIHADAPI DAVID GILL', null, { src: SRC_C + 'hlm. 573 dan 588.' });
+  const { s, top } = page('KASUS  ·  SITUASI', 'JULI 2009: KEPUTUSAN YANG DIHADAPI DAVID GILL', null, { src: SRC_C + 'hlm. 573 dan 588.', noMed: true });
   const cards = [['Waktu', 'Juli 2009, tur pramusim ke Malaysia, Indonesia, Korea, dan China. Skuad pulang 28 Juli 2009.'], ['Pengambil keputusan', 'David Gill, Chief Executive Manchester United Football Club Limited.'], ['Keputusan', 'Menyiapkan pengganti Sir Alex Ferguson. Kasus: "at the end of 2009 Ferguson would be 68 years old". Gill memperkirakan ia pensiun akhir musim 2009–10.']];
   const w = 2.85, ch = 2.1;
   cards.forEach((it, i) => note(s, 0.7 + i * (w + 0.15), top, w, ch, { head: it[0], body: it[1], bodySize: 10.5 }));
@@ -763,5 +763,5 @@ function page(kicker, title, lede, o = {}) {
 }
 
 flush();
-fs.writeFileSync('layout.json', JSON.stringify(LAYOUT));
+fs.writeFileSync('mu_cream/layout.json', JSON.stringify(LAYOUT));
 pptx.writeFile({ fileName: 'deck6.pptx' }).then(f => console.log('wrote', f, 'slides', pageNo));

@@ -1,0 +1,194 @@
+[
+ {
+  "name": "hero_stadium",
+  "ar": "16:9",
+  "res": "2K",
+  "prompt": "Documentary sports photograph in the style of a Getty Images or Reuters editorial photo, real location, natural light, realistic grain and imperfections, candid, not staged, no text overlays, no watermark, no identifiable real faces (people seen from behind or at a distance). The East Stand of Old Trafford stadium in Manchester seen from Sir Matt Busby Way at golden hour: the famous glass facade with the large red 'MANCHESTER UNITED' letters and the club crest above it, red brick base, supporters in red shirts and scarves walking toward the stadium, matchday atmosphere."
+ },
+ {
+  "name": "hero_crowd",
+  "ar": "21:9",
+  "res": "2K",
+  "prompt": "Documentary sports photograph in the style of a Getty Images or Reuters editorial photo, real location, natural light, realistic grain and imperfections, candid, not staged, no text overlays, no watermark, no identifiable real faces (people seen from behind or at a distance). Inside Old Trafford on matchday: the packed Stretford End (West Stand) full of supporters in red, red flags and scarves raised, the lower tier white seats spelling 'STRETFORD END' partly visible, floodlights on, evening."
+ },
+ {
+  "name": "hero_trophies",
+  "ar": "16:9",
+  "res": "2K",
+  "prompt": "Documentary sports photograph in the style of a Getty Images or Reuters editorial photo, real location, natural light, realistic grain and imperfections, candid, not staged, no text overlays, no watermark, no identifiable real faces (people seen from behind or at a distance). The three trophies of Manchester United's 1999 Treble displayed together on a table draped in red cloth: the Premier League trophy (silver with gold crown on top and two lions), the FA Cup (silver cup with lid) and the UEFA Champions League trophy (large silver cup with big handles), red and white confetti, warm museum light, dark cream background fading to the left."
+ },
+ {
+  "name": "p_pitch_tunnel",
+  "ar": "3:2",
+  "prompt": "Documentary sports photograph in the style of a Getty Images or Reuters editorial photo, real location, natural light, realistic grain and imperfections, candid, not staged, no text overlays, no watermark, no identifiable real faces (people seen from behind or at a distance). View from inside the Old Trafford players' tunnel in the south-west corner looking out onto the pitch: dark tunnel walls, bright green pitch, red seats of the Stretford End rising ahead, floodlit evening.",
+  "res": "1K"
+ },
+ {
+  "name": "p_stand_tifo",
+  "ar": "3:2",
+  "prompt": "Documentary sports photograph in the style of a Getty Images or Reuters editorial photo, real location, natural light, realistic grain and imperfections, candid, not staged, no text overlays, no watermark, no identifiable real faces (people seen from behind or at a distance). The Sir Alex Ferguson Stand (North Stand) at Old Trafford, three tiers of red seats with white seats spelling 'MANCHESTER UNITED' across the lower tier, supporters filling in before kick-off.",
+  "res": "1K"
+ },
+ {
+  "name": "p_ticket",
+  "ar": "3:2",
+  "prompt": "Documentary sports photograph in the style of a Getty Images or Reuters editorial photo, real location, natural light, realistic grain and imperfections, candid, not staged, no text overlays, no watermark, no identifiable real faces (people seen from behind or at a distance). A Manchester United 'United Review' matchday programme and a matchday ticket lying on a wooden table beside a red and white scarf, Old Trafford, soft window light, close-up.",
+  "res": "1K"
+ },
+ {
+  "name": "p_boardroom",
+  "ar": "3:2",
+  "prompt": "Documentary sports photograph in the style of a Getty Images or Reuters editorial photo, real location, natural light, realistic grain and imperfections, candid, not staged, no text overlays, no watermark, no identifiable real faces (people seen from behind or at a distance). Old Trafford directors' lounge: polished wooden table, red leather chairs, framed historic photographs of the stadium on the wall, a window overlooking the green pitch and red seats.",
+  "res": "1K"
+ },
+ {
+  "name": "p_scarves",
+  "ar": "3:2",
+  "prompt": "Documentary sports photograph in the style of a Getty Images or Reuters editorial photo, real location, natural light, realistic grain and imperfections, candid, not staged, no text overlays, no watermark, no identifiable real faces (people seen from behind or at a distance). Red, white and black Manchester United scarves held high above heads by supporters in the Stretford End during a song, scarves reading 'MANCHESTER UNITED', floodlight glow.",
+  "res": "1K"
+ },
+ {
+  "name": "p_youth_trophy",
+  "ar": "3:2",
+  "prompt": "Documentary sports photograph in the style of a Getty Images or Reuters editorial photo, real location, natural light, realistic grain and imperfections, candid, not staged, no text overlays, no watermark, no identifiable real faces (people seen from behind or at a distance). Manchester United academy youngsters in red training kit at the Carrington training ground (Trafford Training Centre), passing drills on a green pitch, grey Manchester sky, seen from behind.",
+  "res": "1K"
+ },
+ {
+  "name": "p_dugout",
+  "ar": "3:2",
+  "prompt": "Documentary sports photograph in the style of a Getty Images or Reuters editorial photo, real location, natural light, realistic grain and imperfections, candid, not staged, no text overlays, no watermark, no identifiable real faces (people seen from behind or at a distance). The Old Trafford home dugout: rows of red padded seats with the club crest embroidered, glass canopy, the pitch and the Stretford End in the background, pre-match.",
+  "res": "1K"
+ },
+ {
+  "name": "p_training",
+  "ar": "3:2",
+  "prompt": "Documentary sports photograph in the style of a Getty Images or Reuters editorial photo, real location, natural light, realistic grain and imperfections, candid, not staged, no text overlays, no watermark, no identifiable real faces (people seen from behind or at a distance). Manchester United first-team training session at Carrington: players in red training tops and black shorts doing rondo drills, cones on the grass, the Carrington buildings behind, overcast morning, seen from behind.",
+  "res": "1K"
+ },
+ {
+  "name": "p_european_cup",
+  "ar": "3:2",
+  "prompt": "Documentary sports photograph in the style of a Getty Images or Reuters editorial photo, real location, natural light, realistic grain and imperfections, candid, not staged, no text overlays, no watermark, no identifiable real faces (people seen from behind or at a distance). The UEFA Champions League trophy with red Manchester United ribbons on its handles, on a podium in the rain at the Luzhniki Stadium, Moscow, 21 May 2008, red confetti and wet pitch, floodlights.",
+  "res": "1K"
+ },
+ {
+  "name": "p_floodlights",
+  "ar": "3:2",
+  "prompt": "Documentary sports photograph in the style of a Getty Images or Reuters editorial photo, real location, natural light, realistic grain and imperfections, candid, not staged, no text overlays, no watermark, no identifiable real faces (people seen from behind or at a distance). Old Trafford exterior at dusk from the car park on Sir Matt Busby Way: the stadium's steel roof structure and the red illuminated 'MANCHESTER UNITED' crest sign on the East Stand facade, dramatic sky.",
+  "res": "1K"
+ },
+ {
+  "name": "p_megastore",
+  "ar": "3:2",
+  "prompt": "Documentary sports photograph in the style of a Getty Images or Reuters editorial photo, real location, natural light, realistic grain and imperfections, candid, not staged, no text overlays, no watermark, no identifiable real faces (people seen from behind or at a distance). Interior of the Manchester United Megastore in the East Stand at Old Trafford: two floors of red replica shirts on racks, scarves and merchandise, bright retail lighting, shoppers in red.",
+  "res": "1K"
+ },
+ {
+  "name": "p_handshake",
+  "ar": "3:2",
+  "prompt": "Documentary sports photograph in the style of a Getty Images or Reuters editorial photo, real location, natural light, realistic grain and imperfections, candid, not staged, no text overlays, no watermark, no identifiable real faces (people seen from behind or at a distance). Old Trafford media room: a long desk with microphones in front of a red Manchester United sponsor backdrop board, empty red chairs, before a press conference.",
+  "res": "1K"
+ },
+ {
+  "name": "p_boots",
+  "ar": "3:2",
+  "prompt": "Documentary sports photograph in the style of a Getty Images or Reuters editorial photo, real location, natural light, realistic grain and imperfections, candid, not staged, no text overlays, no watermark, no identifiable real faces (people seen from behind or at a distance). A pair of black football boots and a red Manchester United shirt laid on the Old Trafford pitch grass, with the Stretford End red seats blurred behind, early morning dew.",
+  "res": "1K"
+ },
+ {
+  "name": "p_ball",
+  "ar": "3:2",
+  "prompt": "Documentary sports photograph in the style of a Getty Images or Reuters editorial photo, real location, natural light, realistic grain and imperfections, candid, not staged, no text overlays, no watermark, no identifiable real faces (people seen from behind or at a distance). A Premier League match ball on the centre spot of the Old Trafford pitch, white touchlines, red seats of the stadium in soft focus, floodlit evening.",
+  "res": "1K"
+ },
+ {
+  "name": "p_clock",
+  "ar": "3:2",
+  "prompt": "Documentary sports photograph in the style of a Getty Images or Reuters editorial photo, real location, natural light, realistic grain and imperfections, candid, not staged, no text overlays, no watermark, no identifiable real faces (people seen from behind or at a distance). The Munich Clock on the south-east corner of Old Trafford: a two-faced clock in a dark frame with 'FEB 6TH 1958' above the face and 'MUNICH' below, hands stopped at 3:04, mounted on the stadium wall, red scarves and flowers laid beneath the Munich memorial plaque, overcast day.",
+  "res": "1K"
+ },
+ {
+  "name": "p_manager",
+  "ar": "3:2",
+  "prompt": "Documentary sports photograph in the style of a Getty Images or Reuters editorial photo, real location, natural light, realistic grain and imperfections, candid, not staged, no text overlays, no watermark, no identifiable real faces (people seen from behind or at a distance). The nine-foot bronze statue of Sir Alex Ferguson (2012, sculptor Philip Jackson) standing with arms crossed in a long coat in front of the Sir Alex Ferguson Stand at Old Trafford, red brick and glass behind, autumn light, seen from a low angle.",
+  "res": "1K"
+ },
+ {
+  "name": "p_tv_studio",
+  "ar": "3:2",
+  "prompt": "Documentary sports photograph in the style of a Getty Images or Reuters editorial photo, real location, natural light, realistic grain and imperfections, candid, not staged, no text overlays, no watermark, no identifiable real faces (people seen from behind or at a distance). A television broadcast camera on the Old Trafford gantry high above the pitch, filming a floodlit match below, red crowd and green pitch, MUTV-style matchday broadcast.",
+  "res": "1K"
+ },
+ {
+  "name": "p_celebration",
+  "ar": "3:2",
+  "prompt": "Documentary sports photograph in the style of a Getty Images or Reuters editorial photo, real location, natural light, realistic grain and imperfections, candid, not staged, no text overlays, no watermark, no identifiable real faces (people seen from behind or at a distance). Manchester United players in red shirts piling together in celebration on a rain-soaked pitch at the Luzhniki Stadium in Moscow after the 2008 Champions League final penalty shootout, confetti falling, seen from behind, generic faces.",
+  "res": "1K"
+ },
+ {
+  "name": "p_pitch_aerial",
+  "ar": "3:2",
+  "prompt": "Documentary sports photograph in the style of a Getty Images or Reuters editorial photo, real location, natural light, realistic grain and imperfections, candid, not staged, no text overlays, no watermark, no identifiable real faces (people seen from behind or at a distance). Aerial drone photograph of Old Trafford stadium in Trafford, Manchester: the large rectangular stadium with its steel roof, green pitch and red seats, the surrounding car parks, railway line and the Bridgewater Canal, sunset.",
+  "res": "1K"
+ },
+ {
+  "name": "p_transfer",
+  "ar": "3:2",
+  "prompt": "Documentary sports photograph in the style of a Getty Images or Reuters editorial photo, real location, natural light, realistic grain and imperfections, candid, not staged, no text overlays, no watermark, no identifiable real faces (people seen from behind or at a distance). A new signing presented on the Old Trafford pitch holding up a red Manchester United shirt in front of photographers, red seats behind, face turned toward the shirt, 2009 era.",
+  "res": "1K"
+ },
+ {
+  "name": "p_night_stadium",
+  "ar": "3:2",
+  "prompt": "Documentary sports photograph in the style of a Getty Images or Reuters editorial photo, real location, natural light, realistic grain and imperfections, candid, not staged, no text overlays, no watermark, no identifiable real faces (people seen from behind or at a distance). Old Trafford at night seen from the forecourt: the East Stand glass facade glowing, red 'MANCHESTER UNITED' letters lit, crowds in red streaming in under the floodlights, long exposure.",
+  "res": "1K"
+ },
+ {
+  "name": "p_museum",
+  "ar": "3:2",
+  "prompt": "Documentary sports photograph in the style of a Getty Images or Reuters editorial photo, real location, natural light, realistic grain and imperfections, candid, not staged, no text overlays, no watermark, no identifiable real faces (people seen from behind or at a distance). The trophy room of the Manchester United Museum at Old Trafford: glass cabinets filled with silver and gold trophies, Premier League trophies and European Cups, dark red walls, spotlights.",
+  "res": "1K"
+ },
+ {
+  "name": "p_statue",
+  "ar": "3:2",
+  "prompt": "Documentary sports photograph in the style of a Getty Images or Reuters editorial photo, real location, natural light, realistic grain and imperfections, candid, not staged, no text overlays, no watermark, no identifiable real faces (people seen from behind or at a distance). The bronze statue of Sir Matt Busby (1996, sculptor Philip Jackson) in front of the East Stand at Old Trafford: Busby standing in a coat with a football at his feet and a scarf, the glass facade with the crest behind, soft afternoon light.",
+  "res": "1K"
+ },
+ {
+  "name": "p_trinity",
+  "ar": "3:2",
+  "prompt": "Documentary sports photograph in the style of a Getty Images or Reuters editorial photo, real location, natural light, realistic grain and imperfections, candid, not staged, no text overlays, no watermark, no identifiable real faces (people seen from behind or at a distance). The United Trinity bronze statue (2008, Philip Jackson) of George Best, Denis Law and Bobby Charlton standing arm in arm on a plinth on Sir Matt Busby Way opposite the East Stand of Old Trafford, stadium behind, blue sky.",
+  "res": "1K"
+ },
+ {
+  "name": "p_bus_parade",
+  "ar": "3:2",
+  "prompt": "Documentary sports photograph in the style of a Getty Images or Reuters editorial photo, real location, natural light, realistic grain and imperfections, candid, not staged, no text overlays, no watermark, no identifiable real faces (people seen from behind or at a distance). Manchester United's 1999 Treble victory parade on Deansgate, Manchester, 30 May 1999: an open-top red double-decker bus carrying the team with three trophies held aloft, hundreds of thousands of supporters in red filling the street, Victorian buildings either side, seen from street level, generic faces.",
+  "res": "1K"
+ },
+ {
+  "name": "p_asia_tour",
+  "ar": "3:2",
+  "prompt": "Documentary sports photograph in the style of a Getty Images or Reuters editorial photo, real location, natural light, realistic grain and imperfections, candid, not staged, no text overlays, no watermark, no identifiable real faces (people seen from behind or at a distance). Manchester United's 2009 Asia tour: Bukit Jalil National Stadium in Kuala Lumpur packed with 85,000 Malaysian supporters in red Manchester United shirts, evening floodlights, tropical sky, seen from the stands.",
+  "res": "1K"
+ },
+ {
+  "name": "p_fans_asia",
+  "ar": "3:2",
+  "prompt": "Documentary sports photograph in the style of a Getty Images or Reuters editorial photo, real location, natural light, realistic grain and imperfections, candid, not staged, no text overlays, no watermark, no identifiable real faces (people seen from behind or at a distance). Indonesian supporters in red Manchester United shirts watching a match on a big screen in a crowded Jakarta cafe at night, cheering, faces turned to the screen.",
+  "res": "1K"
+ },
+ {
+  "name": "p_press_box",
+  "ar": "3:2",
+  "prompt": "Documentary sports photograph in the style of a Getty Images or Reuters editorial photo, real location, natural light, realistic grain and imperfections, candid, not staged, no text overlays, no watermark, no identifiable real faces (people seen from behind or at a distance). The Old Trafford press box seen from behind: rows of journalists with laptops under the Sir Alex Ferguson Stand roof overlooking a floodlit pitch and the red crowd.",
+  "res": "1K"
+ },
+ {
+  "name": "p_armband",
+  "ar": "3:2",
+  "prompt": "Documentary sports photograph in the style of a Getty Images or Reuters editorial photo, real location, natural light, realistic grain and imperfections, candid, not staged, no text overlays, no watermark, no identifiable real faces (people seen from behind or at a distance). The Munich Tunnel at Old Trafford: the old red-brick players' tunnel under the South Stand, the only surviving part of the original 1910 stadium, with the Munich memorial plaque listing names, dim warm light.",
+  "res": "1K"
+ }
+]
