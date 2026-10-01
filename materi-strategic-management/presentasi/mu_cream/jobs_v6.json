@@ -1,0 +1,200 @@
+[
+ {
+  "name": "bg_cream",
+  "ar": "16:9",
+  "res": "2K",
+  "prompt": "Elegant presentation background: smooth cream parchment paper texture (hex F3EBDD), very subtle fibers and a faint, barely visible decorative pattern of tiny football and laurel motifs in slightly darker beige, uniform lighting, no vignette, no text, no objects, no logos. Must stay very light and clean so dark text is readable everywhere."
+ },
+ {
+  "name": "bg_cream_fade",
+  "ar": "16:9",
+  "res": "2K",
+  "prompt": "Elegant presentation background: smooth cream parchment paper texture (hex F3EBDD) with a soft warm beige-gold gradient glow in the bottom right corner and a faint, very light watermark of a classic football stadium silhouette in the bottom right, 10% opacity. No text, no logos. Must stay very light so dark text is readable."
+ },
+ {
+  "name": "hero_stadium",
+  "ar": "16:9",
+  "res": "2K",
+  "prompt": "Photorealistic, editorial sports photography, warm golden light, rich Manchester United red tones, high detail, no text, no letters, no logos, no watermark, no identifiable real people (faces generic or turned away). Grand exterior of a famous old red-brick English football stadium at golden hour, wide low angle, dramatic sky, crowds in red walking toward the entrance, flags."
+ },
+ {
+  "name": "hero_crowd",
+  "ar": "21:9",
+  "res": "2K",
+  "prompt": "Photorealistic, editorial sports photography, warm golden light, rich Manchester United red tones, high detail, no text, no letters, no logos, no watermark, no identifiable real people (faces generic or turned away). Ultra-wide view of a packed football stand, a sea of supporters in red raising scarves and flags, red flares and confetti, celebration, seen from pitch level."
+ },
+ {
+  "name": "hero_trophies",
+  "ar": "16:9",
+  "res": "2K",
+  "prompt": "Photorealistic, editorial sports photography, warm golden light, rich Manchester United red tones, high detail, no text, no letters, no logos, no watermark, no identifiable real people (faces generic or turned away). Three football trophies on a wooden table draped in red cloth: a large European cup with big handles, a league trophy with a crown on top, and a classic cup with a lid, red and gold confetti, dark cream background fading to the left."
+ },
+ {
+  "name": "p_pitch_tunnel",
+  "ar": "3:2",
+  "prompt": "Photorealistic, editorial sports photography, warm golden light, rich Manchester United red tones, high detail, no text, no letters, no logos, no watermark, no identifiable real people (faces generic or turned away). View from inside the players' tunnel out onto a floodlit green pitch at night, red stadium seats, dramatic light.",
+  "res": "1K"
+ },
+ {
+  "name": "p_european_cup",
+  "ar": "3:2",
+  "prompt": "Photorealistic, editorial sports photography, warm golden light, rich Manchester United red tones, high detail, no text, no letters, no logos, no watermark, no identifiable real people (faces generic or turned away). A large silver European football cup with big curved handles on a plinth, red ribbons, red confetti falling, stadium bokeh behind.",
+  "res": "1K"
+ },
+ {
+  "name": "p_training",
+  "ar": "3:2",
+  "prompt": "Photorealistic, editorial sports photography, warm golden light, rich Manchester United red tones, high detail, no text, no letters, no logos, no watermark, no identifiable real people (faces generic or turned away). Youth academy footballers in red training kits practicing passing drills on a dewy green pitch at dawn, mist, seen from behind.",
+  "res": "1K"
+ },
+ {
+  "name": "p_manager",
+  "ar": "3:2",
+  "prompt": "Photorealistic, editorial sports photography, warm golden light, rich Manchester United red tones, high detail, no text, no letters, no logos, no watermark, no identifiable real people (faces generic or turned away). A football manager in a long dark coat standing alone on the touchline, seen from behind, arms crossed, facing a floodlit pitch and a red crowd.",
+  "res": "1K"
+ },
+ {
+  "name": "p_ball",
+  "ar": "3:2",
+  "prompt": "Photorealistic, editorial sports photography, warm golden light, rich Manchester United red tones, high detail, no text, no letters, no logos, no watermark, no identifiable real people (faces generic or turned away). Classic vintage brown leather football resting on lush green grass with the white touchline, stadium seats in red blurred behind.",
+  "res": "1K"
+ },
+ {
+  "name": "p_scarves",
+  "ar": "3:2",
+  "prompt": "Photorealistic, editorial sports photography, warm golden light, rich Manchester United red tones, high detail, no text, no letters, no logos, no watermark, no identifiable real people (faces generic or turned away). Close-up of many red, white and black knitted football scarves held up above heads by supporters, warm stadium light.",
+  "res": "1K"
+ },
+ {
+  "name": "p_shirt",
+  "ar": "3:2",
+  "prompt": "Photorealistic, editorial sports photography, warm golden light, rich Manchester United red tones, high detail, no text, no letters, no logos, no watermark, no identifiable real people (faces generic or turned away). A red football shirt with white collar hanging in a wooden dressing room locker, boots on the bench below, warm light.",
+  "res": "1K"
+ },
+ {
+  "name": "p_boots",
+  "ar": "3:2",
+  "prompt": "Photorealistic, editorial sports photography, warm golden light, rich Manchester United red tones, high detail, no text, no letters, no logos, no watermark, no identifiable real people (faces generic or turned away). A pair of classic black leather football boots with white laces on the grass of a stadium pitch, red seats blurred behind.",
+  "res": "1K"
+ },
+ {
+  "name": "p_stand_tifo",
+  "ar": "3:2",
+  "prompt": "Photorealistic, editorial sports photography, warm golden light, rich Manchester United red tones, high detail, no text, no letters, no logos, no watermark, no identifiable real people (faces generic or turned away). A football stand with a huge red, white and black mosaic tifo made of cards held up by supporters, floodlights.",
+  "res": "1K"
+ },
+ {
+  "name": "p_night_stadium",
+  "ar": "3:2",
+  "prompt": "Photorealistic, editorial sports photography, warm golden light, rich Manchester United red tones, high detail, no text, no letters, no logos, no watermark, no identifiable real people (faces generic or turned away). A large football stadium exterior at night glowing with red lights, people streaming in, long exposure.",
+  "res": "1K"
+ },
+ {
+  "name": "p_statue",
+  "ar": "3:2",
+  "prompt": "Photorealistic, editorial sports photography, warm golden light, rich Manchester United red tones, high detail, no text, no letters, no logos, no watermark, no identifiable real people (faces generic or turned away). A bronze statue of a football manager in a coat, hands in pockets, in front of a red-brick stadium wall, autumn light.",
+  "res": "1K"
+ },
+ {
+  "name": "p_trinity",
+  "ar": "3:2",
+  "prompt": "Photorealistic, editorial sports photography, warm golden light, rich Manchester United red tones, high detail, no text, no letters, no logos, no watermark, no identifiable real people (faces generic or turned away). A bronze statue of three footballers standing arm in arm on a plinth outside a red-brick stadium, blue sky.",
+  "res": "1K"
+ },
+ {
+  "name": "p_clock",
+  "ar": "3:2",
+  "prompt": "Photorealistic, editorial sports photography, warm golden light, rich Manchester United red tones, high detail, no text, no letters, no logos, no watermark, no identifiable real people (faces generic or turned away). An old station-style clock mounted on a red-brick stadium wall with a small memorial plaque beneath it, flowers and scarves laid below.",
+  "res": "1K"
+ },
+ {
+  "name": "p_bus_parade",
+  "ar": "3:2",
+  "prompt": "Photorealistic, editorial sports photography, warm golden light, rich Manchester United red tones, high detail, no text, no letters, no logos, no watermark, no identifiable real people (faces generic or turned away). An open-top red bus parade through a city street, players on the upper deck holding a trophy, crowds in red waving flags, seen from street level, faces generic.",
+  "res": "1K"
+ },
+ {
+  "name": "p_boardroom",
+  "ar": "3:2",
+  "prompt": "Photorealistic, editorial sports photography, warm golden light, rich Manchester United red tones, high detail, no text, no letters, no logos, no watermark, no identifiable real people (faces generic or turned away). A football club boardroom: a long polished table with a red leather chair at the head, framed photos of the stadium on the wall, morning light.",
+  "res": "1K"
+ },
+ {
+  "name": "p_megastore",
+  "ar": "3:2",
+  "prompt": "Photorealistic, editorial sports photography, warm golden light, rich Manchester United red tones, high detail, no text, no letters, no logos, no watermark, no identifiable real people (faces generic or turned away). Interior of a large football club megastore, racks of red shirts and scarves, bright retail lighting.",
+  "res": "1K"
+ },
+ {
+  "name": "p_tv_studio",
+  "ar": "3:2",
+  "prompt": "Photorealistic, editorial sports photography, warm golden light, rich Manchester United red tones, high detail, no text, no letters, no logos, no watermark, no identifiable real people (faces generic or turned away). Broadcast camera on a gantry filming a floodlit football match below, red crowd, lens flare.",
+  "res": "1K"
+ },
+ {
+  "name": "p_asia_tour",
+  "ar": "3:2",
+  "prompt": "Photorealistic, editorial sports photography, warm golden light, rich Manchester United red tones, high detail, no text, no letters, no logos, no watermark, no identifiable real people (faces generic or turned away). A packed Asian city stadium at dusk, thousands of supporters in red shirts waving, giant screens, tropical sky.",
+  "res": "1K"
+ },
+ {
+  "name": "p_transfer",
+  "ar": "3:2",
+  "prompt": "Photorealistic, editorial sports photography, warm golden light, rich Manchester United red tones, high detail, no text, no letters, no logos, no watermark, no identifiable real people (faces generic or turned away). A football press conference desk with a red backdrop, a new signing holding up a red shirt, photographers' flashes, face turned to the shirt.",
+  "res": "1K"
+ },
+ {
+  "name": "p_celebration",
+  "ar": "3:2",
+  "prompt": "Photorealistic, editorial sports photography, warm golden light, rich Manchester United red tones, high detail, no text, no letters, no logos, no watermark, no identifiable real people (faces generic or turned away). Footballers in red kits piling together in celebration on the pitch, confetti, seen from behind.",
+  "res": "1K"
+ },
+ {
+  "name": "p_floodlights",
+  "ar": "3:2",
+  "prompt": "Photorealistic, editorial sports photography, warm golden light, rich Manchester United red tones, high detail, no text, no letters, no logos, no watermark, no identifiable real people (faces generic or turned away). Tall old-style stadium floodlight towers against a dramatic sunset sky, silhouette, red hues.",
+  "res": "1K"
+ },
+ {
+  "name": "p_ticket",
+  "ar": "3:2",
+  "prompt": "Photorealistic, editorial sports photography, warm golden light, rich Manchester United red tones, high detail, no text, no letters, no logos, no watermark, no identifiable real people (faces generic or turned away). Vintage football match tickets and a matchday programme on a wooden table with a red scarf, soft light.",
+  "res": "1K"
+ },
+ {
+  "name": "p_dugout",
+  "ar": "3:2",
+  "prompt": "Photorealistic, editorial sports photography, warm golden light, rich Manchester United red tones, high detail, no text, no letters, no logos, no watermark, no identifiable real people (faces generic or turned away). Empty red dugout seats by the pitch at golden hour, dew on the grass.",
+  "res": "1K"
+ },
+ {
+  "name": "p_handshake",
+  "ar": "3:2",
+  "prompt": "Photorealistic, editorial sports photography, warm golden light, rich Manchester United red tones, high detail, no text, no letters, no logos, no watermark, no identifiable real people (faces generic or turned away). Two executives in suits shaking hands in front of a stadium pitch, sponsor-style ceremony, red backdrop, faces turned away.",
+  "res": "1K"
+ },
+ {
+  "name": "p_youth_trophy",
+  "ar": "3:2",
+  "prompt": "Photorealistic, editorial sports photography, warm golden light, rich Manchester United red tones, high detail, no text, no letters, no logos, no watermark, no identifiable real people (faces generic or turned away). A small youth cup trophy held up by young players in red kits, seen from behind, evening light.",
+  "res": "1K"
+ },
+ {
+  "name": "p_museum",
+  "ar": "3:2",
+  "prompt": "Photorealistic, editorial sports photography, warm golden light, rich Manchester United red tones, high detail, no text, no letters, no logos, no watermark, no identifiable real people (faces generic or turned away). A football club museum display case with glittering trophies and medals, dark red walls, spotlights.",
+  "res": "1K"
+ },
+ {
+  "name": "p_pitch_aerial",
+  "ar": "3:2",
+  "prompt": "Photorealistic, editorial sports photography, warm golden light, rich Manchester United red tones, high detail, no text, no letters, no logos, no watermark, no identifiable real people (faces generic or turned away). Aerial drone view of a large football stadium with a perfect green pitch and red seats, city around, sunset.",
+  "res": "1K"
+ },
+ {
+  "name": "p_fans_asia",
+  "ar": "3:2",
+  "prompt": "Photorealistic, editorial sports photography, warm golden light, rich Manchester United red tones, high detail, no text, no letters, no logos, no watermark, no identifiable real people (faces generic or turned away). A group of supporters in red shirts watching a match in a lively street cafe in Southeast Asia at night, cheering, faces turned to the screen.",
+  "res": "1K"
+ }
+]
