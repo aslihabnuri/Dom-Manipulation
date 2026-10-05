@@ -1550,13 +1550,24 @@ function detectRows(rows,filename){
       if(/kartu|card/.test(jenis))return ns?'tt_psa_ns':'tt_psa';
       return ns?'tt_vsa_ns':'tt_vsa';
     };
-    const agg={};let skipped=0,rowsUsed=0,zeroDropped=0;
+    const agg={};let skipped=0,rowsUsed=0,zeroDropped=0,clamped=0;
+    /* Laporan LIVE bulanan memuat kampanye jangka panjang yang DILUNCURKAN pada bulan
+       sebelumnya, padahal metrik baris adalah aktivitas PERIODE LAPORAN. Tanpa penjagaan,
+       file bulan baru menimpa hari-hari bulan lama. Aturan: file hanya boleh menulis di
+       rentang periodenya sendiri (dua tanggal pada nama file); baris di luar periode
+       dipetakan ke batas periode terdekat (total bulanan tetap akurat). */
+    let pS=null,pE=null;
+    if(isLive){
+      const pr=(String(filename||'').match(/\d{4}-\d{2}-\d{2}/g)||[]);
+      if(pr.length>=2){pS=pr[0]<pr[pr.length-1]?pr[0]:pr[pr.length-1];pE=pr[0]<pr[pr.length-1]?pr[pr.length-1]:pr[0];}
+    }
     const products=[],videos=[];
     for(const r of rows.slice(hi+1)){
       const name=r[cName];
       if(!name&&!(r[cBiaya]))continue;
-      const iso=hasDateCol?anyDateToIso(r[cWaktu>=0?cWaktu:cDate]):null;
+      let iso=hasDateCol?anyDateToIso(r[cWaktu>=0?cWaktu:cDate]):null;
       if(hasDateCol&&iso==null){skipped++;continue;}
+      if(iso&&pS&&pE&&(iso<pS||iso>pE)){iso=iso<pS?pS:pE;clamped++;}
       let chId;
       if(isLive)chId=liveChannelFromName(name);
       else{
@@ -1600,7 +1611,7 @@ function detectRows(rows,filename){
         hint:L('Tidak ada kolom tanggal. Pilih tanggal data di samping. Saran: ekspor per 1 hari dan tambahkan tanggal pada nama file (contoh: RAW_TIKTOK_PRODUCT_2026-07-14.xlsx) agar terisi otomatis.','No date column. Choose the data date beside. Tip: export per single day and add the date to the file name (example: RAW_TIKTOK_PRODUCT_2026-07-14.xlsx) so it fills automatically.')};
     }
     return {type:isLive?'tt_live':'tt_product',
-      label:`TikTok ${isLive?'Live GMV Max':'Product GMV Max'} · ${rowsUsed} ${L('baris','rows')} → ${chs}${skipped?` · ${skipped} ${L('baris tanpa tanggal valid','rows without valid dates')}`:''}${zeroDropped?` · ${zeroDropped} ${L('baris biaya dan pesanan 0 dibuang','zero cost and order rows dropped')}`:''}`,entries,products,videos};
+      label:`TikTok ${isLive?'Live GMV Max':'Product GMV Max'} · ${rowsUsed} ${L('baris','rows')} → ${chs}${skipped?` · ${skipped} ${L('baris tanpa tanggal valid','rows without valid dates')}`:''}${zeroDropped?` · ${zeroDropped} ${L('baris biaya dan pesanan 0 dibuang','zero cost and order rows dropped')}`:''}${clamped?` · ${clamped} ${L('baris kampanye lintas bulan dipetakan ke periode laporan','carryover campaign rows mapped into the report period')}`:''}`,entries,products,videos};
   }
   /* --- Laporan produk TikTok Seller Center (ekspor "exportsc_confirmed"):
      per produk per hari, kolom Periode Data + Produk + Klik Produk + Penjualan.
