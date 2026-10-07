@@ -1,1 +1,13 @@
 .kie_key
+# Folder kerja: isinya sudah disalin ke generated/, slide-*/, prod-new/, refs-new/
+__pycache__/
+gen/
+slides250/
+slides1000/
+slides2/
+slides5/
+prod/
+refs/
+# All Round Gothic adalah berkas DEMO Fontspring dan tidak boleh disebar ulang;
+# Comfortaa dan Shippori Mincho (OFL) ikut di-commit supaya build tahan reset.
+fonts/arg/
