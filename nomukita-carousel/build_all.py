@@ -15,6 +15,7 @@ MAP = [
     (4, "cookiescream"), (5, "charcoal"), (6, "avocado"), (7, "vanilla"),
     (8, "milktea"), (9, "lemontea"), (10, "frappebase"), (11, "lemongrass"),
     (12, "puredarkcocoa"), (13, "darkcocoa"), (14, "cappuccino"), (15, "taro"),
+    (16, "ube"),
 ]
 NO_PROP = {"frappebase"}
 # Teh Tarik dan Milk Tea memakai gundukan daun teh yang sama - digenerate sekali.

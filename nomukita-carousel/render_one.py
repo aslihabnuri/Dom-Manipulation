@@ -37,6 +37,7 @@ PROP_CM = {
     "darkcocoa": 7.0,      # gundukan biji kakao dan gundukan bubuknya
     "cappuccino": 6.0,     # gundukan biji kopi
     "taro": 8.0,           # tiga irisan talas bersusun
+    "ube": 9.0,            # ubi ungu utuh terbelah dan irisannya
 }
 # Prop tidak boleh melebihi lebar pouch: begitu lewat, ia tidak lagi terbaca
 # sebagai bahan di sebelah produk melainkan bersaing dengan produknya.

@@ -61,6 +61,10 @@ DRINKS = {
     "darkcocoa": ("DarkCocoa_drink.webp", None),
     "cappuccino": ("Cappucino_drink.jpg", None),
     "taro": ("Taro_drink.jpg", None),
+    # Ube: foto minuman dari pelanggan, gelas tabung lurus berisi lapisan ungu
+    # dan putih dengan pusaran krim di atasnya, tanpa straw. Dipentaskan ulang
+    # apa adanya.
+    "ube": ("Ube_drink.jpg", None),
 }
 
 # slug -> (reference, what to build from it). Shared props are generated once.
@@ -104,6 +108,11 @@ PROPS = {
              "dark purple skin, overlapping in a fan, two fresh green leaves tucked behind "
              "them, arranged the same way as the reference. No bowl, no dish, no container, "
              "nothing scattered away from the group"),
+    "ube": ("Ube_ref.jpg",
+            "a group of purple yam pieces: one whole yam cut open and several thick round "
+            "slices leaning on each other, each cut face a deep violet purple with a thin "
+            "rough brown skin around it, grouped and coloured the same way as the reference. "
+            "No bowl, no dish, no container, nothing scattered away from the group"),
 }
 
 # Produk yang gelasnya TIDAK diwarisi dari acuannya, dengan minuman yang harus

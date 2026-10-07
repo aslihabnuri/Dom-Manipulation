@@ -255,6 +255,7 @@ EXPECTED = {
     "DarkCocoa": ("ダークココア", "DARK COCOA", "exclusive"),
     "Cappuccino": ("カプチーノ", "CAPPUCCINO", "premium"),
     "Taro": ("タロイモ", "TARO", "premium"),
+    "Ube": ("ウベ", "UBE", "premium"),
 }
 
 
@@ -332,6 +333,7 @@ S5_SUB = {
     # rendernya bisa diulang, bukan bahwa isinya benar.
     "PureDarkCocoa": "one pure cocoa", "DarkCocoa": "one dark cocoa",
     "Cappuccino": "one cappuccino", "Taro": "one taro",
+    "Ube": "one ube",
 }
 
 # Jendela pengukuran keterangan. Kolom tengah turun 124 px sehingga tidak pernah

@@ -141,6 +141,11 @@ PRODUCTS = [
          kanji="タロイモ",
          p250="nomukita-taro-250g.png",
          p1000="Mockup nomukita-Premium series-Taro.png"),
+    # Ube baru punya mockup 250 gram; mockup 1000 gramnya belum dibuat pelanggan,
+    # jadi varian 1000 gram dan kombinasinya belum bisa dirender.
+    dict(slug="Ube", head="UBE", series="premium",
+         kanji="ウベ",
+         p250="nomukita-ube-250g.png"),
 ]
 
 # Kemasan kecil tiap produk dan tingginya relatif terhadap pouch 1000 gram.

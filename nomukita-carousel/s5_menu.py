@@ -36,6 +36,7 @@ KEY = {
     "FrappeBase": "frappebase", "LemonGrass": "lemongrass",
     "PureDarkCocoa": "puredarkcocoa", "DarkCocoa": "darkcocoa",
     "Cappuccino": "cappuccino", "Taro": "taro",
+    "Ube": "ube",
 }
 
 MENU = {
@@ -177,5 +178,13 @@ MENU = {
          "an iced taro latte: soft lilac purple, thick and creamy, with ice cubes"),
         ("TARO FLOAT", "tall", ["30g taro + 150 ml milk,", "ice cream & taro dust"],
          "a taro float: lilac purple taro milk with one scoop of vanilla ice cream on the rim, dusted with purple taro powder"),
+    ]),
+    "Ube": ("one ube", [
+        ("HOT UBE LATTE", "mug", ["30g ube + 200 ml hot milk,", "stirred until smooth"],
+         "a hot ube latte: deep violet purple, creamy and even, with a fine milk foam and a wisp of steam"),
+        ("ICED UBE LATTE", "tall", ["30g ube + 150 ml cold milk,", "poured over ice"],
+         "an iced ube latte: violet purple, thick and creamy, with ice cubes"),
+        ("UBE FLOAT", "tall", ["30g ube + 150 ml milk,", "ice cream & ube dust"],
+         "an ube float: violet purple ube milk with one scoop of vanilla ice cream on the rim, dusted with purple ube powder"),
     ]),
 }

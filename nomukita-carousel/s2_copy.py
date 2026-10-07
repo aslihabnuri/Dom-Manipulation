@@ -159,4 +159,12 @@ COPY = {
         ("NATURAL COLOUR",
          "That soft lilac comes from the root, so the cup looks the way it tastes."),
     ], "The purple everyone photographs."),
+
+    # Ube satu kata, jadi katakana dari kemasannya menjadi baris kedua.
+    "Ube": ("UBE", "ウベ", [
+        ("PURPLE YAM",
+         "Ube is a purple yam, and it brings the fibre and the anthocyanins that give it its colour."),
+        ("NATURAL VIOLET",
+         "That deep violet comes from the yam itself, so nothing is added for the colour."),
+    ], "Sweet, nutty and violet by nature."),
 }
