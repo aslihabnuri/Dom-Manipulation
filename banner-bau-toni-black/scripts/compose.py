@@ -28,7 +28,7 @@ def build(photo_path,out_path,k=1.0,pct="25%",bigw=560,hero_y=0.165,eyebrow="EVE
     ox=(src.width-W)//2; oy=(src.height-H)//2; canvas=src.crop((ox,oy,ox+W,oy+H))
     d=ImageDraw.Draw(canvas); M=g(72); L=M; R=W-M
     # --- top row: masthead ---
-    logo=make_logo(color=CHAR,scale=8); lw=g(280); logo=logo.resize((lw,int(logo.height*lw/logo.width)),Image.LANCZOS)
+    logo=make_logo(color=CHAR,scale=8); lw=g(1.2*280); logo=logo.resize((lw,int(logo.height*lw/logo.width)),Image.LANCZOS)
     ty=g(64); canvas.paste(logo,((W-lw)//2,ty),logo)
     # --- hero lockup, justified to the display number ---
     f_big=fit_font(d,pct,"ZalandoSansExpanded-Black.ttf",g(bigw),track=g(-10))

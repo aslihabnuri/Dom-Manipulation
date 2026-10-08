@@ -27,3 +27,7 @@ Products only, from Drive: the man in the Toni Black white tank top and black me
 4. `scripts/logo.py`: vector rebuild of the logo; swap in the official file from the brand kit before print use.
 
 Fonts (not committed): Zalando Sans Expanded + Arimo static TTFs in `fonts/static/`.
+
+
+## Logo update
+The logo is now the official file from Drive (`6.png`, saved as `scripts/logo_6.png`): `scripts/logo.py` extracts the light mark as a mask and tints it to the colour the layout asks for. Because the official lockup is wider and has no tagline, logo widths are 1.2x the old value so the wordmark keeps its visual size.

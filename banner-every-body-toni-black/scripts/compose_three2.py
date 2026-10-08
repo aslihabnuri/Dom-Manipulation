@@ -22,7 +22,7 @@ def build(photo_path,out_path,k=1.0,height=2400,grid_cols=2,top=120,logo_w=340,g
     f_h=fit_font(probe,headline[1],"ZalandoSansExpanded-Black.ttf",int(W*0.70),track=g(-3))
     hb=probe.textbbox((0,0),headline[1],font=f_h); hl=hb[3]-hb[1]
     f_s=font("Arimo-Regular.ttf",int(hl/g(1)*0.44)); sb=probe.textbbox((0,0),sub,font=f_s); sh=sb[3]-sb[1]
-    logo=make_logo(color=WHITE,scale=8); lw=g(logo_w); logo=logo.resize((lw,int(logo.height*lw/logo.width)),Image.LANCZOS)
+    logo=make_logo(color=WHITE,scale=8); lw=g(1.2*logo_w); logo=logo.resize((lw,int(logo.height*lw/logo.width)),Image.LANCZOS)
     y_logo=g(top); y_head=y_logo+logo.height+g(gap_logo); y_sub=y_head+2*hl+g(14)+g(gap_head)
     y_prod=y_sub+sh+g(gap_sub)
     # --- photo placed so the garments start at y_prod
@@ -47,12 +47,12 @@ def build(photo_path,out_path,k=1.0,height=2400,grid_cols=2,top=120,logo_w=340,g
     for i,sz in enumerate(sizes):
         b=d.textbbox((0,0),sz,font=f_z); w=tracked_w(d,sz,f_z,g(3)); cx=int(M+cw*(i+0.5)); tracked(d,(cx-w//2-b[0],y_run-b[1]),sz,f_z,WHITE,track=g(3))
     zb=d.textbbox((0,0),"XL",font=f_z); y_grid=y_run+(zb[3]-zb[1])+g(gap_grid)
-    size=g(112); f_i=font("ZalandoSansExpanded-SemiBold.ttf",24); rows=-(-len(icons.ICONS)//grid_cols); bw=int(W*0.70) if grid_cols==2 else W-2*g(60); cwid=bw//grid_cols; x0=C-bw//2; pitch=g(grid_pitch)
-    for i,(label,fn) in enumerate(icons.ICONS):
+    size=g(112); f_i=font("ZalandoSansExpanded-SemiBold.ttf",24); rows=-(-len(icons.ICONS)//grid_cols) if grid_cols else 0; bw=int(W*0.70) if grid_cols==2 else W-2*g(60); cwid=bw//max(grid_cols,1); x0=C-bw//2; pitch=g(grid_pitch)
+    for i,(label,fn) in (enumerate(icons.ICONS) if grid_cols else []):
         col,row=(i//rows,i%rows) if grid_cols==2 else (i%grid_cols,i//grid_cols); ic=invert_icon(fn(size)); x=x0+col*cwid+(g(40) if grid_cols==2 else g(16)); y0=y_grid+row*pitch
         canvas.paste(ic,(x,y0),ic); text=label.replace("\n"," "); b=d.textbbox((0,0),text,font=f_i)
         tracked(d,(x+size+(g(32) if grid_cols==2 else g(26))-b[0],y0+size//2-(b[3]-b[1])//2-b[1]),text,f_i,WHITE,track=g(2))
-    y_end=y_grid+(rows-1)*pitch+size
+    y_end=y_grid+(rows-1)*pitch+size if grid_cols else y_run+g(40)
     print(f"logo {y_logo} head {y_head} sub {y_sub} sub_size {f_s.size} prod {y_prod}-{y_prod_bot} names {y_names} run {y_run} grid {y_grid} end {y_end} bottom {H-y_end}")
     canvas.save(out_path); return canvas
 if __name__=="__main__":

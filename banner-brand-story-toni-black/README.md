@@ -27,3 +27,7 @@ One Nano Banana Pro pass, five references in order: the old banner (pose only), 
 
 ### Subline revision
 Subline centred under the headline, two lines, 0.40 of the headline cap height, title case except `by` and `is`. Each letter is set whole in one colour, Dark Charcoal or pure white, white when the photo under the letter's own ink is dark (mean luminance below 150 of 255), charcoal when it is light; so a letter over a bright gap between the legs or the stool stays dark and readable; no letter is split at the subject's edge. The headline keeps the pixel knockout, which works at display size.
+
+
+## Logo update
+The logo is now the official file from Drive (`6.png`, saved as `scripts/logo_6.png`): `scripts/logo.py` extracts the light mark as a mask and tints it to the colour the layout asks for. Because the official lockup is wider and has no tagline, logo widths are 1.2x the old value so the wordmark keeps its visual size.

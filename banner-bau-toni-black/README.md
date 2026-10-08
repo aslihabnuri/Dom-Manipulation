@@ -27,3 +27,7 @@ Portrait banner (2:3) for the always-on (BAU) promotion. The photo reproduces th
 6. `scripts/logo.py` is the vector rebuild of the Toni Black logo; swap in the official file from the brand kit before print use.
 
 Fonts (not committed): Zalando Sans Expanded + Arimo static TTFs in `fonts/static/` (from the Toni Black Drive `Font` folder).
+
+
+## Logo update
+The logo is now the official file from Drive (`6.png`, saved as `scripts/logo_6.png`): `scripts/logo.py` extracts the light mark as a mask and tints it to the colour the layout asks for. Because the official lockup is wider and has no tagline, logo widths are 1.2x the old value so the wordmark keeps its visual size.

@@ -54,7 +54,7 @@ def build(photo_path,cutout_path,out_path,k=1.0,head_y=0.47,width_frac=0.86,
     lm=Image.new("L",(W,H),0); lm.paste(light.split()[3],(0,0),alpha)   # white only where the subject is
     canvas.paste(light,(0,0),lm)
     d=ImageDraw.Draw(canvas)
-    logo=make_logo(color=CHAR,scale=8); lw=g(300); logo=logo.resize((lw,int(logo.height*lw/logo.width)),Image.LANCZOS)
+    logo=make_logo(color=CHAR,scale=8); lw=g(1.2*300); logo=logo.resize((lw,int(logo.height*lw/logo.width)),Image.LANCZOS)
     canvas.paste(logo,(g(100),g(90)),logo)
     canvas.save(out_path,quality=95); return canvas
 if __name__=="__main__":

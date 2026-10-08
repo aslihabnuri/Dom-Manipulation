@@ -21,7 +21,7 @@ def build(photo_path,out_path,k=1.0,ext=190,label_size=88,men=(0.24,130),kids=(0
     mask=Image.new("L",(W,PH),255); md=ImageDraw.Draw(mask); fe=g(120)
     for i in range(fe): md.line([(0,i),(W,i)],fill=int(255*i/fe))
     canvas.paste(photo,(0,E),mask); d=ImageDraw.Draw(canvas)
-    logo=make_logo(color=CHAR,scale=8); lw=g(logo_w); logo=logo.resize((lw,int(logo.height*lw/logo.width)),Image.LANCZOS)
+    logo=make_logo(color=CHAR,scale=8); lw=g(1.2*logo_w); logo=logo.resize((lw,int(logo.height*lw/logo.width)),Image.LANCZOS)
     canvas.paste(logo,((W-lw)//2,g(logo_y)),logo)
     f_lab=font("ZalandoSansExpanded-Black.ttf",label_size); f_sub=font("Arimo-Regular.ttf",25)
     for text,sub,(ax,ty) in (("MEN",sub_men,men),("KIDS",sub_kids,kids)):
