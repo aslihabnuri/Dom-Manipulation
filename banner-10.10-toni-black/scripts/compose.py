@@ -32,18 +32,18 @@ def build(photo_path,out_path,k=1.0,bigw=640,hero_y=0.30):
     logo=make_logo(color=WHITE,scale=8); lw=g(1.2*280); logo=logo.resize((lw,int(logo.height*lw/logo.width)),Image.LANCZOS)
     canvas.paste(logo,(M,g(64)),logo)
     # hero lockup, centred on the chest
-    f_eye=font("ZalandoSansExpanded-Bold.ttf",48)
-    f_save=font("ZalandoSansExpanded-Bold.ttf",46)
+    f_eye=font("ZalandoSansExpanded-Bold.ttf",56)
+    f_save=font("ZalandoSansExpanded-Bold.ttf",40)
     f_big=fit_font(d,"45%","ZalandoSansExpanded-Black.ttf",g(bigw),track=g(-8))
     y=int(H*hero_y)
-    w=tracked_w(d,"SUPER SALE 10.10",f_eye,g(10)); tracked(d,((W-w)//2,y),"SUPER SALE 10.10",f_eye,WHITE,track=g(10)); y+=g(48+34)
-    w=tracked_w(d,"SAVE UP TO",f_save,g(10)); tracked(d,((W-w)//2,y),"SAVE UP TO",f_save,WHITE,track=g(10)); y+=g(48+30)
+    w=tracked_w(d,"SUPER SALE 10.10",f_eye,g(8)); tracked(d,((W-w)//2,y),"SUPER SALE 10.10",f_eye,WHITE,track=g(8)); y+=g(56+96)
+    w=tracked_w(d,"SAVE UP TO",f_save,g(10)); tracked(d,((W-w)//2,y),"SAVE UP TO",f_save,WHITE,track=g(10)); y+=g(40+22)
     bb=d.textbbox((0,0),"45%",font=f_big); tracked(d,((W-(bb[2]-bb[0]))//2-bb[0],y-bb[1]),"45%",f_big,WHITE,track=g(-8))
-    y+= (bb[3]-bb[1]) + g(56)
+    y+= (bb[3]-bb[1]) + g(84)
     # benefits directly under the hero, still one centred block
-    f_ben=font("Arimo-Regular.ttf",30); f_cta=font("ZalandoSansExpanded-Bold.ttf",28); f_tc=font("Arimo-Regular.ttf",20)
+    f_ben=font("Arimo-Regular.ttf",32); f_cta=font("ZalandoSansExpanded-Bold.ttf",28); f_tc=font("Arimo-Regular.ttf",20)
     for t in ["Free shipping","Extra IDR 5K voucher for new buyers"]:
-        d.text(((W-d.textlength(t,font=f_ben))//2,y),t,font=f_ben,fill=WHITE); y+=g(30+16)
+        d.text(((W-d.textlength(t,font=f_ben))//2,y),t,font=f_ben,fill=WHITE); y+=g(32+20)
     # CTA alone at the bottom centre, below the waistband
     cw=int(tracked_w(d,"SHOP NOW",f_cta,g(4)))+2*g(50); ch=g(74)
     yt=H-M-g(20); yb=yt-g(24)-ch
