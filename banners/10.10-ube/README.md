@@ -1,4 +1,4 @@
-# Nomukita 10.10 promo banner (revisi 3, final)
+# Nomukita 10.10 promo banner (revisi 4, final)
 
 File utama
 - `nomukita-1010-feed-1080x1350.jpg/png` : feed / marketplace 4:5, plus `nomukita-1010-feed-2K.jpg`
@@ -8,9 +8,12 @@ File utama
 - `compose3.py` (+ helper `compose.py`, `compose2.py`) : seluruh teks dirender dari file font asli
 
 Visual
-- Model: GPT Image 2 (image-to-image, 2K) via kie.ai, dengan referensi mockup pouch Ube, foto ube latte, foto ube.
-- Konsep: tuang susu ke ube latte di konter marmer kafe dengan cahaya jendela. Satu tangan, satu pitcher, kondensasi, ube terbelah.
-- Nano Banana Pro dan Seedream 5 Pro ikut diuji; GPT Image 2 paling menyerupai foto asli dan paling setia pada pouch.
+- Scene digenerate TANPA pouch (GPT Image 2, 2K, via kie.ai) dengan referensi gaya banner BIRU: backdrop putih,
+  pedestal kubus putih, matahari keras dari kiri atas, bayangan tajam. Gelas kaca tebal berembun, sedotan kaca,
+  mangkuk keramik abu dengan bubuk ube dan chashaku bambu. Prompt lengkap di `prompt_feed.txt`, `prompt_toko.txt`.
+- Pouch adalah file mockup asli `nomukita-ube-250g.png`, dikomposit dengan `pouch_comp.py`: relight arah cahaya,
+  bayangan jatuh ke kanan bawah mengikuti matahari, contact shadow, mangkuk dikembalikan ke depan pouch.
+- `raw_scene_*_no_pouch.jpg` : scene polos; `raw_visual_*_with_pouch_no_text.jpg` : scene + pouch tanpa teks.
 
 Hierarki tipografi (kanvas 1080x1350)
 1. 45% : All Round Gothic Bold 345 px, elemen terbesar
