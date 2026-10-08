@@ -49,4 +49,4 @@ Positions are no longer fractions of the canvas; the page is set as a vertical f
 
 ## Logo update
 The logo is now the official file from Drive (`6.png`, saved as `scripts/logo_6.png`): `scripts/logo.py` extracts the light mark as a mask and tints it to the colour the layout asks for. Because the official lockup is wider and has no tagline, logo widths are 1.2x the old value so the wordmark keeps its visual size.
-The 1600x2000 Three Cuts banner now ends at the size run: the benefit grid is removed (`grid_cols 0`), the flow re-balanced (`compose_three2.py PHOTO OUT 1 2000 0 170 340 112 56 270 140 220`).
+The 1600x2000 Three Cuts banner keeps the benefit grid (3x2) with the official logo (`compose_three2.py PHOTO OUT 1 2000 3 130 340 96 52 140 96 112 140 150`); a version without the grid is kept as `…_no-benefits_…` (`1 2000 0 170 340 112 56 270 140 220`).
