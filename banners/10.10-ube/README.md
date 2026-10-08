@@ -1,4 +1,4 @@
-# Nomukita 10.10 promo banner (revisi 4, final)
+# Nomukita 10.10 promo banner (revisi 5, final)
 
 File utama
 - `nomukita-1010-feed-1080x1350.jpg/png` : feed / marketplace 4:5, plus `nomukita-1010-feed-2K.jpg`
@@ -15,16 +15,16 @@ Visual
   bayangan jatuh ke kanan bawah mengikuti matahari, contact shadow, mangkuk dikembalikan ke depan pouch.
 - `raw_scene_*_no_pouch.jpg` : scene polos; `raw_visual_*_with_pouch_no_text.jpg` : scene + pouch tanpa teks.
 
-Hierarki tipografi (kanvas 1080x1350)
-1. 45% : All Round Gothic Bold 345 px, elemen terbesar
-2. 10.10 : All Round Gothic Bold 190 px
-3. DISC UP TO, SEMUA PRODUK : All Round Gothic Demi 34 px, tracking 9
-4. GRATIS ONGKIR, VOUCHER HINGGA 15RB : pill tinggi 86 px, teks Demi 32 px
+Tipografi (struktur referensi BIRU: logo kecil, headline dua baris, satu subline)
+1. Logo nomukita kecil di pojok kiri atas, lebar 170 px
+2. Headline dua baris, All Round Gothic Bold 128 px (feed) / 96 px (toko), deep violet, sentence case:
+   "10.10 Sale." / "Disc up to 45%."  (4 dan % digambar vektor)
+3. Subline Comfortaa Regular 30 px, abu gelap: "gratis ongkir & voucher hingga 15rb, semua produk."
+   Pill dan label SEMUA PRODUK dilebur ke subline ini. Skrip: `compose4.py`.
+- Sedotan kaca dipendekkan secara digital agar tidak menabrak headline (`raw_visual_feed_with_pouch_no_text.jpg`).
 
 Warna
 - Teks deep violet (58,40,104), label charcoal (28,28,28)
-- Pill Ube Purple (104,85,158) disampel dari tetes ungu pouch, teks bone white (241,240,235)
-- Veil gradien bone white tipis di atas dan bawah foto untuk keterbacaan teks
 
 Catatan produksi
 - Font All Round Gothic di Drive masih DEMO: karakter 4, %, dan - terkunci. Angka 4 dan % digambar vektor
