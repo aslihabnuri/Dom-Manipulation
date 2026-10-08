@@ -1,29 +1,29 @@
-# Nomukita 10.10 promo banner (revisi 2)
+# Nomukita 10.10 promo banner (revisi 3, final)
 
-Dua arah visual, keduanya dibangun dari layout yang sama.
+File utama
+- `nomukita-1010-feed-1080x1350.jpg/png` : feed / marketplace 4:5, plus `nomukita-1010-feed-2K.jpg`
+- `nomukita-1010-toko-2000x1000.png`, `nomukita-1010-toko-1200x600.jpg` : banner toko 2:1
+- `nomukita-1010-feed-ALT-lift-1080x1350.jpg` : alternatif feed (tangan mengangkat gelas)
+- `raw_visual_*_no_text.jpg` : foto AI tanpa teks, untuk revisi layout tanpa generate ulang
+- `compose3.py` (+ helper `compose.py`, `compose2.py`) : seluruh teks dirender dari file font asli
 
-A. `nomukita-1010-A-deep-*` : studio deep violet, cahaya key dari kiri atas, kabut bubuk ube. Rekomendasi utama.
-B. `nomukita-1010-B-sun-*`  : cahaya matahari berbayang daun di dinding dan linen, lanjutan bahasa visual banner 8.8.
+Visual
+- Model: GPT Image 2 (image-to-image, 2K) via kie.ai, dengan referensi mockup pouch Ube, foto ube latte, foto ube.
+- Konsep: tuang susu ke ube latte di konter marmer kafe dengan cahaya jendela. Satu tangan, satu pitcher, kondensasi, ube terbelah.
+- Nano Banana Pro dan Seedream 5 Pro ikut diuji; GPT Image 2 paling menyerupai foto asli dan paling setia pada pouch.
 
-Format
-- `*-feed-1080x1350.jpg/png` : feed / marketplace 4:5 (master), plus `*-feed-2K.jpg`
-- `*-toko-2000x1000.png`, `*-toko-1200x600.jpg` : banner toko 2:1
-- `raw_visual_*_no_text.jpg` : visual AI tanpa teks (kie.ai nano-banana-2, 2K) untuk revisi layout
-- `compose2.py` (+ `archive-v1/compose.py` untuk helper) : semua teks dirender dari file font asli
-
-Hierarki copy
-1. 10.10 : All Round Gothic Bold 300 px (feed) / 270 px (toko), header utama
-2. DISC UP TO | 45% | SEMUA PRODUK : lockup satu baris, label Demi 27 px tracking 6, angka Bold 150 px
-3. GRATIS ONGKIR, VOUCHER HINGGA 15RB : pill tinggi 82 px, teks Demi 30 px tracking 5
+Hierarki tipografi (kanvas 1080x1350)
+1. 45% : All Round Gothic Bold 345 px, elemen terbesar
+2. 10.10 : All Round Gothic Bold 190 px
+3. DISC UP TO, SEMUA PRODUK : All Round Gothic Demi 34 px, tracking 9
+4. GRATIS ONGKIR, VOUCHER HINGGA 15RB : pill tinggi 86 px, teks Demi 32 px
 
 Warna
-- A: teks bone white (241,240,235), label lavender (214,206,232), pill bone white dengan teks deep violet (58,40,104)
-- B: teks deep violet (58,40,104), label charcoal, pill Ube Purple (104,85,158) dengan teks bone white
-- Ube Purple disampel dari tetes ungu pada pouch
+- Teks deep violet (58,40,104), label charcoal (28,28,28)
+- Pill Ube Purple (104,85,158) disampel dari tetes ungu pouch, teks bone white (241,240,235)
+- Veil gradien bone white tipis di atas dan bawah foto untuk keterbacaan teks
 
 Catatan produksi
-- Font All Round Gothic masih DEMO: karakter 4, %, dan - terkunci. Angka 4 dan % digambar vektor
+- Font All Round Gothic di Drive masih DEMO: karakter 4, %, dan - terkunci. Angka 4 dan % digambar vektor
   dengan tebal stroke 0.135 em. Beli lisensi resmi sebelum produksi massal.
-- Logo ditempel dari file asli (lebar 300 px, y=52, rata tengah pada feed). Versi putih untuk arah A.
 - Periode promo belum dicantumkan karena belum ditentukan.
-- Teks UBE DAY dihapus: ube hanya subjek visual, promo berlaku semua produk.
