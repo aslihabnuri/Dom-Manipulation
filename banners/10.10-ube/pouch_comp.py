@@ -59,7 +59,7 @@ def restore_foreground(orig, comp, box):
     comp.alpha_composite(region, (x0, y0))
 
 
-def composite(scene_path, out_path, xc, yb, width, sdx=0.55, sdy=0.0, restore=()):
+def composite(scene_path, out_path, xc, yb, width, sdx=0.55, sdy=0.0, restore=(), clip_x=None):
     scene = Image.open(scene_path).convert("RGBA")
     orig = scene.copy()
     p = load_pouch()
@@ -71,7 +71,7 @@ def composite(scene_path, out_path, xc, yb, width, sdx=0.55, sdy=0.0, restore=()
     alpha = p.split()[3]
 
     # cast shadow: hard sun from upper-left -> shadow to the lower-right, foreshortened
-    sh = cast_shadow(alpha, k=sdx, sy=0.16, blur=7, opacity=0.6)
+    sh = cast_shadow(alpha, k=sdx, sy=0.12, blur=6, opacity=0.5)
     shadow_layer = Image.new("RGBA", scene.size, (0, 0, 0, 0))
     dark = Image.new("RGBA", sh.size, (40, 36, 52, 255)); dark.putalpha(sh)
     shadow_layer.alpha_composite(dark, (x0, y0 + ph - 8 + int(sdy)))
@@ -87,6 +87,14 @@ def composite(scene_path, out_path, xc, yb, width, sdx=0.55, sdy=0.0, restore=()
     # shadow last so it also falls on restored props, but never on the pouch itself
     hole = Image.new("L", scene.size, 255); hole.paste(ImageChops.invert(alpha), (x0, y0), alpha)
     sa = shadow_layer.split()[3]; shadow_layer.putalpha(ImageChops.multiply(sa, hole))
+    if clip_x is not None:
+        # fade the cast shadow out before it reaches the glass
+        cw = scene.size[0]
+        ramp = Image.new("L", (cw, 1), 255); rp = ramp.load()
+        for xx in range(cw):
+            rp[xx, 0] = 255 if xx < clip_x - 40 else (0 if xx > clip_x else int(255 * (clip_x - xx) / 40))
+        ramp = ramp.resize(scene.size)
+        shadow_layer.putalpha(ImageChops.multiply(shadow_layer.split()[3], ramp))
     scene.alpha_composite(shadow_layer)
     scene.convert("RGB").save(out_path)
     print("composited", out_path, "pouch at", (x0, y0, pw, ph))
@@ -94,8 +102,9 @@ def composite(scene_path, out_path, xc, yb, width, sdx=0.55, sdy=0.0, restore=()
 
 if __name__ == "__main__":
     args = sys.argv[1:]
-    boxes = []
+    boxes = []; clip = None
     for b in args[7:]:
+        if b.startswith("clip="): clip = int(b[5:]); continue
         boxes.append(tuple(int(v) for v in b.split(",")))
     composite(args[0], args[1], float(args[2]), float(args[3]), float(args[4]),
-              float(args[5]) if len(args) > 5 else 0.55, float(args[6]) if len(args) > 6 else 0.0, boxes)
+              float(args[5]) if len(args) > 5 else 0.55, float(args[6]) if len(args) > 6 else 0.0, boxes, clip)
