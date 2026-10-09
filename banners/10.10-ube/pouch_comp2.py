@@ -79,13 +79,30 @@ def cast_shadow_left(alpha, k, sy, blur, opacity):
     return sh, W - w
 
 
+def _fill_holes_pil(mask_img):
+    """Fill enclosed holes: flood the outside from the border, everything not reached is object."""
+    from PIL import ImageDraw
+    w, h = mask_img.size
+    outside = mask_img.copy()            # 0 = background, 255 = object
+    seeds = [(0, 0), (w - 1, 0), (0, h - 1), (w - 1, h - 1), (w // 2, 0), (w // 2, h - 1), (0, h // 2), (w - 1, h // 2)]
+    for sx, sy in seeds:
+        if outside.getpixel((sx, sy)) == 0:
+            ImageDraw.floodfill(outside, (sx, sy), 128)
+    a = np.asarray(outside)
+    return Image.fromarray(np.where(a == 128, 0, 255).astype(np.uint8), "L")
+
+
 def restore_foreground(orig, comp, box):
+    """Paste the whole cup (its full solid silhouette, straw and cast shadow) back over the pouch."""
     x0, y0, x1, y1 = box
     o = np.asarray(orig.crop(box).convert("RGB")).astype(np.int16)
     bg = np.percentile(o.reshape(-1, 3), 92, axis=0)
     dist = np.abs(o - bg).max(axis=2)
-    m = (dist > RESTORE_T).astype(np.uint8) * 255
-    mask = Image.fromarray(m, "L").filter(ImageFilter.MaxFilter(7)).filter(ImageFilter.GaussianBlur(1.5))
+    m = Image.fromarray(((dist > RESTORE_T) * 255).astype(np.uint8), "L")
+    m = m.filter(ImageFilter.MaxFilter(15)).filter(ImageFilter.MinFilter(13))   # closing: seal rim gaps
+    m = _fill_holes_pil(m)                                                     # solid cup: milk, lid, ice
+    m = m.filter(ImageFilter.MinFilter(3)).filter(ImageFilter.MaxFilter(3))   # drop specks
+    mask = m.filter(ImageFilter.GaussianBlur(1.2))
     region = orig.crop(box).convert("RGBA"); region.putalpha(mask)
     comp.alpha_composite(region, (x0, y0))
 

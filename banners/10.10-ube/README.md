@@ -1,4 +1,4 @@
-# Nomukita 10.10 promo banner (revisi 9, final): tiga produk, packaging asli
+# Nomukita 10.10 promo banner (revisi 10, final): tiga produk, packaging asli
 
 File utama
 - `nomukita-1010-feed-1080x1350.jpg/png` : feed / marketplace 4:5, plus `nomukita-1010-feed-2K.jpg`
@@ -16,8 +16,8 @@ Visual
   yang sama dengan bayangan cup di scene ini, yaitu ke kiri dan ke belakang (naik di layar), tepi tajam, kegelapan
   dikalibrasi ke bayangan cup (sekitar 70 persen putih permukaan); (2) pouch berdiri tepat di belakang cup sehingga
   cup dan sedotan menutupi bagian bawah pouch (oklusi = petunjuk kedalaman terkuat); (3) putih pouch disamakan dengan
-  putih scene secara global, keystone perspektif kamera dari atas, grain, dan penggelapan dasar; (4) bayangan cup yang
-  jatuh ke pouch dikembalikan dari foto asli.
+  putih scene secara global, keystone perspektif kamera dari atas, grain, dan penggelapan dasar; (4) cup dikembalikan ke depan pouch sebagai siluet
+  pejal (tutup, susu, es, sedotan, dan bayangan cup) dengan closing + fill-holes, bukan hanya piksel berwarna.
 - `raw_visual_feed_no_text.jpg`, `raw_visual_toko_no_text.jpg` : scene + pouch tanpa teks.
 - `nomukita-1010-story-1080x1920.jpg` : versi 9:16 (rasio referensi), teks disusun ulang untuk kanvas story.
 
