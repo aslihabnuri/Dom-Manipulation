@@ -9,6 +9,8 @@ from PIL import Image, ImageFilter, ImageChops, ImageOps
 import numpy as np
 
 ROOT = "/tmp/claude-0/-home-user-Dom-Manipulation/cc5b59a6-6b87-5897-882c-ef3d3b14e312/scratchpad"
+SY = 0.42
+RESTORE_T = 14
 FILES = {"ube": ROOT + "/assets/nomukita-ube-250g.png",
          "charcoal": ROOT + "/assets/nomukita-charcoal-250g.png",
          "matcha": ROOT + "/assets/nomukita-matcha-latte-250g.png"}
@@ -43,7 +45,7 @@ def find_coeffs(pa, pb):
     return _np.linalg.solve(A, B)
 
 
-def integrate(p, scene_white, keystone=0.035, grain=2.2, ao=0.16):
+def integrate(p, scene_white, keystone=0.035, grain=2.2, ao=0.22):
     """Make the mockup sit in the photo: match its whites to the scene, add a slight downward
     keystone (camera above), darken the base (ambient occlusion) and add the scene's grain."""
     w, h = p.size
@@ -65,12 +67,14 @@ def integrate(p, scene_white, keystone=0.035, grain=2.2, ao=0.16):
 
 
 def cast_shadow_left(alpha, k, sy, blur, opacity):
-    """Ground projection to the lower LEFT. Returns (shadow L image, x offset of silhouette base)."""
+    """Ground projection to the LEFT and toward the BACK (upward on screen), matching the cups'
+    shadows in the scene. Returns (shadow L image, x offset of silhouette base). Canvas bottom = base line."""
     w, h = alpha.size
     fl = ImageOps.mirror(alpha)
     W = int(w + k * h) + 60; H = int(sy * h) + 60
     sh = fl.transform((W, H), Image.AFFINE, (1, -k / sy, 0, 0, -1 / sy, h), resample=Image.BILINEAR)
     sh = ImageOps.mirror(sh)
+    sh = ImageOps.flip(sh)                      # base line now at the bottom of the canvas
     sh = sh.filter(ImageFilter.GaussianBlur(blur)).point(lambda v: int(v * opacity))
     return sh, W - w
 
@@ -80,8 +84,8 @@ def restore_foreground(orig, comp, box):
     o = np.asarray(orig.crop(box).convert("RGB")).astype(np.int16)
     bg = np.percentile(o.reshape(-1, 3), 92, axis=0)
     dist = np.abs(o - bg).max(axis=2)
-    m = (dist > 22).astype(np.uint8) * 255
-    mask = Image.fromarray(m, "L").filter(ImageFilter.MaxFilter(5)).filter(ImageFilter.GaussianBlur(1.5))
+    m = (dist > RESTORE_T).astype(np.uint8) * 255
+    mask = Image.fromarray(m, "L").filter(ImageFilter.MaxFilter(7)).filter(ImageFilter.GaussianBlur(1.5))
     region = orig.crop(box).convert("RGBA"); region.putalpha(mask)
     comp.alpha_composite(region, (x0, y0))
 
@@ -97,14 +101,16 @@ def composite(scene_path, out_path, items, restore=(), k=0.55, opacity=0.5):
         p = relight(p.resize((int(p.width * s), int(p.height * s)), Image.LANCZOS))
         pw, ph = p.size
         x0 = int(xc - pw / 2); y0 = int(yb - ph)
-        # scene white reference: cube top just below-left of the pouch base
-        patch = np.asarray(orig.convert("RGB").crop((max(0, x0 - 80), int(yb) + 10, max(1, x0 - 10), int(yb) + 60))).reshape(-1, 3)
-        scene_white = np.percentile(patch, 90, axis=0) if len(patch) else (240, 240, 238)
+        # scene white reference: global, from neutral bright pixels of the untouched scene
+        oa = np.asarray(orig.convert("RGB")).astype(np.int16)
+        neutral = (oa.max(axis=2) - oa.min(axis=2)) < 10
+        sel = oa[neutral & (oa.mean(axis=2) > 200)]
+        scene_white = np.percentile(sel, 80, axis=0)
         p = integrate(p, scene_white)
         alpha = p.split()[3]
-        sh, off = cast_shadow_left(alpha, k, 0.10, 4, opacity)
+        sh, off = cast_shadow_left(alpha, k, SY, 3, opacity)
         dark = Image.new("RGBA", sh.size, (40, 36, 52, 255)); dark.putalpha(sh)
-        shadows.alpha_composite(dark, (x0 - off, y0 + ph - 8))
+        shadows.alpha_composite(dark, (x0 - off, y0 + ph + 6 - sh.height))
         # contact shadow
         cs = Image.new("L", (pw + 60, 60), 0)
         cs.paste(Image.new("L", (pw - 10, 18), 255), (35, 10))
@@ -128,6 +134,8 @@ if __name__ == "__main__":
         if t.startswith("restore="): boxes.append(tuple(int(v) for v in t[8:].split(",")))
         elif t.startswith("k="): k = float(t[2:])
         elif t.startswith("op="): op = float(t[3:])
+        elif t.startswith("sy="): globals()["SY"] = float(t[3:])
+        elif t.startswith("rt="): globals()["RESTORE_T"] = int(t[3:])
         else:
             n, xc, yb, w = t.split(":"); items.append((n, float(xc), float(yb), float(w)))
     composite(a[1], a[2], items, boxes, k, op)

@@ -1,4 +1,4 @@
-# Nomukita 10.10 promo banner (revisi 8, final): tiga produk
+# Nomukita 10.10 promo banner (revisi 9, final): tiga produk, packaging asli
 
 File utama
 - `nomukita-1010-feed-1080x1350.jpg/png` : feed / marketplace 4:5, plus `nomukita-1010-feed-2K.jpg`
@@ -11,12 +11,14 @@ Visual
 - Scene digenerate dengan GPT Image 2 (2K, kie.ai) meniru referensi BIRU: backdrop off-white bertekstur, kubus putih
   dilihat dari sudut depan, cahaya keras dari kanan atas, tiga cup takeaway transparan bertutup dengan sedotan hitam
   (Ube, Charcoal, Matcha Latte) tersusun diagonal. Prompt lengkap di `prompt_feed.txt`, `prompt_toko.txt`.
-- Feed dan story: pouch dirender DI DALAM set oleh GPT Image 2 (edit image-to-image atas scene cup, dengan tiga
-  mockup asli sebagai referensi ketat), sehingga cahaya, perspektif dan bayangan satu kesatuan dengan cup.
-  Prompt di `prompt_feed_pouch_edit.txt`. Cetakan pouch diverifikasi pada zoom penuh.
-- Toko: pouch mockup asli dikomposit dengan `pouch_comp2.py` (tone match ke putih scene, keystone, grain,
-  ambient occlusion, bayangan ke kiri bawah). Render in-scene untuk toko butuh 10 kredit tambahan.
-- `raw_visual_feed_in_scene_no_text.jpg` : scene feed final tanpa teks; `raw_visual_toko_composited_no_text.jpg` : scene toko tanpa teks.
+- Semua format memakai tiga mockup pouch ASLI 250 gram (bukan render AI), dikomposit dengan `pouch_comp2.py`
+  ke scene cup. Kunci agar menapak, hasil mempelajari scene dan referensi: (1) bayangan pouch diproyeksikan ke arah
+  yang sama dengan bayangan cup di scene ini, yaitu ke kiri dan ke belakang (naik di layar), tepi tajam, kegelapan
+  dikalibrasi ke bayangan cup (sekitar 70 persen putih permukaan); (2) pouch berdiri tepat di belakang cup sehingga
+  cup dan sedotan menutupi bagian bawah pouch (oklusi = petunjuk kedalaman terkuat); (3) putih pouch disamakan dengan
+  putih scene secara global, keystone perspektif kamera dari atas, grain, dan penggelapan dasar; (4) bayangan cup yang
+  jatuh ke pouch dikembalikan dari foto asli.
+- `raw_visual_feed_no_text.jpg`, `raw_visual_toko_no_text.jpg` : scene + pouch tanpa teks.
 - `nomukita-1010-story-1080x1920.jpg` : versi 9:16 (rasio referensi), teks disusun ulang untuk kanvas story.
 
 Tipografi (struktur referensi BIRU: logo kecil, headline dua baris, satu subline)
