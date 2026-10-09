@@ -11,8 +11,8 @@ def tracked(d,xy,text,f,fill,track=0):
         d.text((x,y),ch,font=f,fill=fill); x+=d.textlength(ch,font=f)+track
 def tracked_w(d,text,f,track=0):
     return sum(d.textlength(ch,font=f) for ch in text)+track*(len(text)-1)
-def build(photo_path,out_path,k=1.0,bigw=640,hero_y=0.30):
-    W,H=int(1080*k),int(1620*k); g=lambda v:int(round(v*k))
+def build(photo_path,out_path,k=1.0,bigw=640,hero_y=0.30,height=1620,crop_pos=0.5):
+    W,H=int(1080*k),int(height*k); g=lambda v:int(round(v*k))
     def font(name,size): return ImageFont.truetype(F+name,g(size))
     def fit_font(d,text,name,target_w,track=0,lo=50,hi=1200):
         while lo<hi:
@@ -22,7 +22,7 @@ def build(photo_path,out_path,k=1.0,bigw=640,hero_y=0.30):
         return ImageFont.truetype(F+name,lo)
     src=Image.open(photo_path).convert("RGB")
     s=max(W/src.width,H/src.height); src=src.resize((int(src.width*s+0.5),int(src.height*s+0.5)),Image.LANCZOS)
-    ox=(src.width-W)//2; oy=(src.height-H)//2; canvas=src.crop((ox,oy,ox+W,oy+H))
+    ox=(src.width-W)//2; oy=int((src.height-H)*crop_pos); canvas=src.crop((ox,oy,ox+W,oy+H))
     # bottom legibility gradient only
     ov=Image.new("L",(W,H),0); od=ImageDraw.Draw(ov); bot=g(360)
     for i in range(bot): od.line([(0,H-1-i),(W,H-1-i)],fill=int(130*(1-i/bot)**1.5))

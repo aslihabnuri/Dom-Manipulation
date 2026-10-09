@@ -7,4 +7,4 @@ The 9.9 banner photo and layout, re-set for 10.10: Three levels by size and spac
 | `final/TONI-BLACK_10.10-Banner_1080x1620.jpg/.png` | Feed / marketplace |
 | `final/TONI-BLACK_10.10-Banner_2160x3240.jpg/.png` | Retina / print |
 
-`scripts/compose.py PHOTO OUT [scale] [hero_y]` with `../banner-9.9-toni-black/final/model-photo_raw.jpg` (final: `1 0.225`, `2 0.225`).
+Square version 1080x1080 and 2160x2160: `build(..., hero_y=0.165, bigw=560, height=1080, crop_pos=0.42)`, the photo cropped to the torso so the lockup stays on the chest and the CTA sits on the waistband. Portrait: `scripts/compose.py PHOTO OUT [scale] [hero_y]` with `../banner-9.9-toni-black/final/model-photo_raw.jpg` (final: `1 0.225`, `2 0.225`).
