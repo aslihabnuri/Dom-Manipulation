@@ -1,12 +1,12 @@
 # Soal A. Benar atau Salah dengan Alasan
 
-> **Keterangan ujian (ditulis sama persis):** UJIAN BUSINESS ETHICS AND SUSTAINABILITY. Waktu 120 menit, open book, tidak boleh akses internet. Jawaban ditulis tangan pada kertas yang disediakan.
+> **Keterangan ujian:** UJIAN BUSINESS ETHICS AND SUSTAINABILITY. Waktu 120 menit, open book, tidak boleh akses internet. Jawaban ditulis tangan pada kertas yang disediakan.
 
-> **Perintah Soal A (ditulis sama persis):** Nyatakan BENAR atau SALAH pernyataan berikut ini dan berikan alasan prinsip etika yang mendasarinya.
+> **Perintah Soal A:** Nyatakan BENAR atau SALAH pernyataan berikut ini dan berikan alasan prinsip etika yang mendasarinya.
 
 ### Pernyataan 1
 
-> **Soal (ditulis sama persis):** Ketimpangan yang terjadi antar negara dan dalam suatu negara dapat diakibatkan oleh penghinadar pajak dan perubahan iklim, hal ini sejalan dengan prinsip fairness.
+> **Soal:** Ketimpangan yang terjadi antar negara dan dalam suatu negara dapat diakibatkan oleh penghinadar pajak dan perubahan iklim, hal ini sejalan dengan prinsip fairness.
 
 <div class="qa">
 <div class="q">Jawaban: SALAH</div>
@@ -25,7 +25,7 @@ Contoh dari kelas: dosen menjelaskan race to the bottom, yaitu negara berlomba m
 
 ### Pernyataan 2
 
-> **Soal (ditulis sama persis):** Etika lingkungan semakin terbukti pentingnya bagi siapapun lebih-lebih bagi Perusahaan besar di bidang perkebunan, properti dan pertambangan, terlebih dengan terjadinya tanah longsor dan banjir bandang di Sumbar, Sumut, Aceh, Sebagian lain Indonesia dan belahan dunia.
+> **Soal:** Etika lingkungan semakin terbukti pentingnya bagi siapapun lebih-lebih bagi Perusahaan besar di bidang perkebunan, properti dan pertambangan, terlebih dengan terjadinya tanah longsor dan banjir bandang di Sumbar, Sumut, Aceh, Sebagian lain Indonesia dan belahan dunia.
 
 <div class="qa">
 <div class="q">Jawaban: BENAR</div>
@@ -44,7 +44,7 @@ Ethic of Care menuntut perusahaan menjaga hubungan dengan masyarakat di sekitar 
 
 ### Pernyataan 3
 
-> **Soal (ditulis sama persis):** Anggaran Pendidikan yang tepat semestinya dipandang sebagai Investasi dalam pengembangan modal manusia, karena dapat mencegah problematika demografi dan mendorong capaian bonus demografi. Hal tersebut sangat sesuai dengan prinsip keberlanjutan bagi negara ini.
+> **Soal:** Anggaran Pendidikan yang tepat semestinya dipandang sebagai Investasi dalam pengembangan modal manusia, karena dapat mencegah problematika demografi dan mendorong capaian bonus demografi. Hal tersebut sangat sesuai dengan prinsip keberlanjutan bagi negara ini.
 
 <div class="qa">
 <div class="q">Jawaban: BENAR</div>
@@ -63,7 +63,7 @@ Satu catatan kecil untuk jawaban yang lebih lengkap: kata "yang tepat" penting. 
 
 ### Pernyataan 4
 
-> **Soal (ditulis sama persis):** Biaya-biaya untuk peningkatan kualitas pelayanan, proses produksi dan kualitas produk agar produk aman dan memuaskan pelanggan merupakan biaya yang etis.
+> **Soal:** Biaya-biaya untuk peningkatan kualitas pelayanan, proses produksi dan kualitas produk agar produk aman dan memuaskan pelanggan merupakan biaya yang etis.
 
 <div class="qa">
 <div class="q">Jawaban: BENAR</div>
@@ -82,7 +82,7 @@ Kasus General Motors di Bab 6 menunjukkan apa yang terjadi kalau biaya seperti i
 
 ### Pernyataan 5
 
-> **Soal (ditulis sama persis):** Kasus membanjirnya impor tekstil baik yang legal dan illegal, sebagaimana yang diberitakan CNBC Indonesia, yang mengakibatkan kesulitan produsen tekstil dalam negeri bukan merupakan masalah prinsip etika bisnis.
+> **Soal:** Kasus membanjirnya impor tekstil baik yang legal dan illegal, sebagaimana yang diberitakan CNBC Indonesia, yang mengakibatkan kesulitan produsen tekstil dalam negeri bukan merupakan masalah prinsip etika bisnis.
 
 <div class="qa">
 <div class="q">Jawaban: SALAH</div>
@@ -103,7 +103,7 @@ Jadi mengatakan "bukan masalah etika" salah. Ada pelanggaran hukum dan fairness 
 
 ### Pernyataan 6
 
-> **Soal (ditulis sama persis):** Environment, social and governance (ESG) menunjukan betapa pentingnya yang harus dilakukan oleh perusahaan, dengan adanya kasus banjir dan tanah longsor di Sumbar, Sumut dan Aceh.
+> **Soal:** Environment, social and governance (ESG) menunjukan betapa pentingnya yang harus dilakukan oleh perusahaan, dengan adanya kasus banjir dan tanah longsor di Sumbar, Sumut dan Aceh.
 
 <div class="qa">
 <div class="q">Jawaban: BENAR</div>
@@ -122,7 +122,7 @@ Prinsip yang dipakai: sustainability, corporate accountability (perusahaan harus
 
 ### Pernyataan 7
 
-> **Soal (ditulis sama persis):** Peran keluarga sangat penting dalam mengatasi problematika sosial dan ekonomi sekarang terjadi karena segalanya bermula dari keluarga, terutama pendidikan karakter sehari-hari.
+> **Soal:** Peran keluarga sangat penting dalam mengatasi problematika sosial dan ekonomi sekarang terjadi karena segalanya bermula dari keluarga, terutama pendidikan karakter sehari-hari.
 
 <div class="qa">
 <div class="q">Jawaban: BENAR</div>
@@ -141,7 +141,7 @@ Catatan agar jawaban tidak terlalu sederhana: keluarga penting, tetapi bukan sat
 
 ### Pernyataan 8
 
-> **Soal (ditulis sama persis):** Dalam era digital biaya-biaya untuk penguatan keamanan siber dan sistem digital baik pada sektor korporasi sektor maupun publik merupakan investasi yang tidak etis.
+> **Soal:** Dalam era digital biaya-biaya untuk penguatan keamanan siber dan sistem digital baik pada sektor korporasi sektor maupun publik merupakan investasi yang tidak etis.
 
 <div class="qa">
 <div class="q">Jawaban: SALAH</div>
@@ -160,7 +160,7 @@ Dengan Utilitarianism juga jelas: biaya pengamanan jauh lebih kecil daripada ker
 
 ### Pernyataan 9
 
-> **Soal (ditulis sama persis):** Pada masa pendaftaran siswa baru, prilaku sebagian orang tua calon murid medekatkan domisili calon siswa dengan cara menitipkan catatan kependudukan anaknya pada KK yang dekat sekolahan yang dituju supaya masuk zonasi, merupakan wujud prilaku yang masih etis.
+> **Soal:** Pada masa pendaftaran siswa baru, prilaku sebagian orang tua calon murid medekatkan domisili calon siswa dengan cara menitipkan catatan kependudukan anaknya pada KK yang dekat sekolahan yang dituju supaya masuk zonasi, merupakan wujud prilaku yang masih etis.
 
 <div class="qa">
 <div class="q">Jawaban: SALAH</div>
@@ -181,7 +181,7 @@ Untuk jawaban yang lebih adil, boleh ditambahkan: akar masalahnya ada di level s
 
 ### Pernyataan 10
 
-> **Soal (ditulis sama persis):** Akhir-akhir ini ada beberapa contoh suatu perbuatan legal, misalnya perijinan alih fungsi hutan menjadi kebun dan area konsesi tambang, tetapi tidak etis, baik pada level masyarakat umum maupun kalangan korporasi.
+> **Soal:** Akhir-akhir ini ada beberapa contoh suatu perbuatan legal, misalnya perijinan alih fungsi hutan menjadi kebun dan area konsesi tambang, tetapi tidak etis, baik pada level masyarakat umum maupun kalangan korporasi.
 
 <div class="qa">
 <div class="q">Jawaban: BENAR</div>
@@ -200,7 +200,7 @@ Contoh dari kelas yang bisa dikutip: Andrew Fastow dari Enron yang berkata ia ti
 
 # Soal B Nomor 1. Kasus Kelompok Sendiri: Hilirisasi Nikel
 
-> **Soal (ditulis sama persis):** Soal no 1 dan no 2. Tuliskan kembali satu kasus yang kelompok Anda presentasikan dan satu kasus yang dipresentasikan kelompok lain. Dengan penekanan pada tema kasus, problematika etisnya atau delima etikanya, prinsip etika yang dilanggar, siapa yang terlibat dan bertanggungjawab dan lesson learned yang dapat diambil dan saran untuk mencegah terjadinya kasus serupa.
+> **Soal:** Soal no 1 dan no 2. Tuliskan kembali satu kasus yang kelompok Anda presentasikan dan satu kasus yang dipresentasikan kelompok lain. Dengan penekanan pada tema kasus, problematika etisnya atau delima etikanya, prinsip etika yang dilanggar, siapa yang terlibat dan bertanggungjawab dan lesson learned yang dapat diambil dan saran untuk mencegah terjadinya kasus serupa.
 
 **Dari chapter mana:** Bab 3 Evaluating Business Ethics (sembilan teori etika normatif). Ditambah Bab 2 (Stakeholder Theory untuk pihak yang dirugikan) dan Bab 5 (alat pencegahan).
 
@@ -253,7 +253,7 @@ Masukkan biaya yang tertunda sejak awal perencanaan: biaya kesehatan warga, pemu
 
 # Soal B Nomor 2. Kasus Kelompok Lain: Siemens dan Program Antikorupsi
 
-> **Soal (ditulis sama persis):** Soal no 1 dan no 2. Tuliskan kembali satu kasus yang kelompok Anda presentasikan dan satu kasus yang dipresentasikan kelompok lain. Dengan penekanan pada tema kasus, problematika etisnya atau delima etikanya, prinsip etika yang dilanggar, siapa yang terlibat dan bertanggungjawab dan lesson learned yang dapat diambil dan saran untuk mencegah terjadinya kasus serupa.
+> **Soal:** Soal no 1 dan no 2. Tuliskan kembali satu kasus yang kelompok Anda presentasikan dan satu kasus yang dipresentasikan kelompok lain. Dengan penekanan pada tema kasus, problematika etisnya atau delima etikanya, prinsip etika yang dilanggar, siapa yang terlibat dan bertanggungjawab dan lesson learned yang dapat diambil dan saran untuk mencegah terjadinya kasus serupa.
 
 **Dari chapter mana:** Bab 5 Managing Business Ethics (business ethics management, code of ethics, compliance orientation dan values orientation, ethical leadership, kasus Siemens). Ditambah Bab 3 (Ethics of Duty, fairness) untuk prinsip yang dilanggar.
 
@@ -296,7 +296,7 @@ Untuk Indonesia, mahasiswa praktisi di kelas memberi contoh nyata: mengubah prak
 
 # Soal B Nomor 3. Banjir dan Tanah Longsor di Jawa, Sumatera Barat, Sumatera Utara, dan Aceh
 
-> **Soal (ditulis sama persis):** Soal no 3. Lakukan analisis dari sisi prinsip etika bisnis/etika lingkungan kasus banjir dan tanah longsor yang terjadi di sebagian wilayah Jawa, Sumbar, Sumut dan Aceh yang terjadi baru-baru ini. Apa akar permasalahan etikanya, siapa yang dominan bertanggungjawab, mengapa kasus ini bisa terjadi, lesson learned dan saran agar tidak terjadi lagi bencana di masa yang akan datang?
+> **Soal:** Soal no 3. Lakukan analisis dari sisi prinsip etika bisnis/etika lingkungan kasus banjir dan tanah longsor yang terjadi di sebagian wilayah Jawa, Sumbar, Sumut dan Aceh yang terjadi baru-baru ini. Apa akar permasalahan etikanya, siapa yang dominan bertanggungjawab, mengapa kasus ini bisa terjadi, lesson learned dan saran agar tidak terjadi lagi bencana di masa yang akan datang?
 
 **Dari chapter mana:** Bab 1 (etika dimulai ketika hukum berakhir, sustainability, biaya sosial), Bab 2 (Carroll's CSR Pyramid, corporate accountability), Bab 3 (Ethic of Care, Theory of Justice, Ethics of Rights, Discourse Ethics), Bab 4 (moral intensity, moral framing, rationalization), Bab 5 (environmental management system, social accounting, kasus Abengoa), dan Bab 6 (agency problem).
 
@@ -360,4 +360,4 @@ Untuk masyarakat dan lembaga lain: media, lembaga swadaya, dan perguruan tinggi 
 
 Kalimat penutup yang bisa dipakai di ujian: hutan di hulu bukan milik pemegang izin, dan bukan warisan nenek moyang, tetapi pinjaman dari anak cucu. Etika bisnis meminta kita mengembalikannya dalam keadaan utuh.
 
-> **Penutup soal (ditulis sama persis):** Selamat untuk semuanya semoga sehat, sukses dan selalu menjaga integritas.
+> **Penutup soal:** Selamat untuk semuanya semoga sehat, sukses dan selalu menjaga integritas.
