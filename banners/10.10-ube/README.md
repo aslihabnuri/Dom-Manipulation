@@ -18,8 +18,8 @@ Visual
   dikalibrasi ke bayangan cup (sekitar 70 persen putih permukaan); (2) pouch berdiri tepat di belakang cup sehingga
   cup dan sedotan menutupi bagian bawah pouch (oklusi = petunjuk kedalaman terkuat); (3) putih pouch disamakan dengan
   putih scene secara global, keystone perspektif kamera dari atas, grain, dan penggelapan dasar; (4) pouch berdiri tepat di belakang cup tanpa
-  bersinggungan dengan tutup transparan (seperti referensi, objek tidak saling tumpang tindih); cup dikembalikan
-  sebagai siluet pejal bila ada tumpang tindih, dengan zona tutup transparan memakai multiply blend.
+  bersinggungan dengan tutup transparan (seperti referensi, objek tidak saling tumpang tindih); hanya sedotan yang
+  dikembalikan ke depan pouch; bayangan cup dari foto asli dikalikan ke pouch sehingga bayangan jatuh KE pouch.
 - `raw_visual_feed_no_text.jpg`, `raw_visual_toko_no_text.jpg` : scene + pouch tanpa teks.
 - `nomukita-1010-story-1080x1920.jpg` : versi 9:16 (rasio referensi), teks disusun ulang untuk kanvas story.
 

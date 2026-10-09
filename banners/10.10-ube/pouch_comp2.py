@@ -11,6 +11,7 @@ import numpy as np
 ROOT = "/tmp/claude-0/-home-user-Dom-Manipulation/cc5b59a6-6b87-5897-882c-ef3d3b14e312/scratchpad"
 SY = 0.42
 RESTORE_T = 14
+STRAW_ONLY = False
 FILES = {"ube": ROOT + "/assets/nomukita-ube-250g.png",
          "charcoal": ROOT + "/assets/nomukita-charcoal-250g.png",
          "matcha": ROOT + "/assets/nomukita-matcha-latte-250g.png"}
@@ -101,10 +102,14 @@ def restore_foreground(orig, comp, box, lid_y=None):
     o = np.asarray(orig.crop(box).convert("RGB")).astype(np.int16)
     bg = np.percentile(o.reshape(-1, 3), 92, axis=0)
     dist = np.abs(o - bg).max(axis=2)
-    m = Image.fromarray(((dist > RESTORE_T) * 255).astype(np.uint8), "L")
-    m = m.filter(ImageFilter.MaxFilter(15)).filter(ImageFilter.MinFilter(13))
-    m = _fill_holes_pil(m)
-    m = m.filter(ImageFilter.MinFilter(3)).filter(ImageFilter.MaxFilter(3))
+    if STRAW_ONLY:
+        # only the dark straw (and dark cup parts) come forward; shadows and lids are handled elsewhere
+        m = Image.fromarray(((o.max(axis=2) < 100) * 255).astype(np.uint8), "L").filter(ImageFilter.MaxFilter(3))
+    else:
+        m = Image.fromarray(((dist > RESTORE_T) * 255).astype(np.uint8), "L")
+        m = m.filter(ImageFilter.MaxFilter(15)).filter(ImageFilter.MinFilter(13))
+        m = _fill_holes_pil(m)
+        m = m.filter(ImageFilter.MinFilter(3)).filter(ImageFilter.MaxFilter(3))
     mask = np.asarray(m.filter(ImageFilter.GaussianBlur(1.2))).astype(np.float32) / 255.0
     region = orig.crop(box).convert("RGB")
     cur = comp.crop(box).convert("RGB")
@@ -139,6 +144,14 @@ def composite(scene_path, out_path, items, restore=(), k=0.55, opacity=0.5):
         sel = oa[neutral & (oa.mean(axis=2) > 200)]
         scene_white = np.percentile(sel, 80, axis=0)
         p = integrate(p, scene_white)
+        # let the scene's own shadows (from the cups) fall onto the pouch
+        reg = np.asarray(orig.convert("RGB").crop((x0, y0, x0 + pw, y0 + ph))).astype(np.float32)
+        if reg.shape[:2] == (ph, pw):
+            lum = reg.mean(axis=2); neutral = (reg.max(axis=2) - reg.min(axis=2)) < 14
+            ratio = np.where(neutral, np.clip(lum / float(np.mean(scene_white)), 0.45, 1.0), 1.0)
+            ratio = np.asarray(Image.fromarray((ratio * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(2))).astype(np.float32) / 255.0
+            pa = np.asarray(p).astype(np.float32); pa[..., :3] *= ratio[..., None]
+            p = Image.fromarray(np.clip(pa, 0, 255).astype(np.uint8), "RGBA")
         alpha = p.split()[3]
         sh, off = cast_shadow_left(alpha, k, SY, 3, opacity)
         dark = Image.new("RGBA", sh.size, (40, 36, 52, 255)); dark.putalpha(sh)
@@ -168,6 +181,7 @@ if __name__ == "__main__":
         elif t.startswith("op="): op = float(t[3:])
         elif t.startswith("sy="): globals()["SY"] = float(t[3:])
         elif t.startswith("rt="): globals()["RESTORE_T"] = int(t[3:])
+        elif t == "straw": globals()["STRAW_ONLY"] = True
         else:
             n, xc, yb, w = t.split(":"); items.append((n, float(xc), float(yb), float(w)))
     composite(a[1], a[2], items, boxes, k, op)
