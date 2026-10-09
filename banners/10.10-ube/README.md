@@ -1,4 +1,4 @@
-# Nomukita 10.10 promo banner (revisi 6, final)
+# Nomukita 10.10 promo banner (revisi 7, final): tiga produk
 
 File utama
 - `nomukita-1010-feed-1080x1350.jpg/png` : feed / marketplace 4:5, plus `nomukita-1010-feed-2K.jpg`
@@ -8,22 +8,24 @@ File utama
 - `compose3.py` (+ helper `compose.py`, `compose2.py`) : seluruh teks dirender dari file font asli
 
 Visual
-- Scene digenerate TANPA pouch (GPT Image 2, 2K, via kie.ai) mengikuti referensi: backdrop putih, pedestal kubus
-  putih, matahari keras dari kiri atas, satu objek saja (gelas kaca tebal berembun, tanpa sedotan, tanpa properti),
-  objek kecil dengan ruang kosong luas. Prompt lengkap di `prompt_feed.txt`, `prompt_toko.txt`.
-- Pouch adalah mockup asli `nomukita-ube-250g.png`, dikomposit kecil di kiri gelas dengan `pouch_comp.py`:
-  relight, bayangan jatuh ke kanan mengikuti bayangan gelas, contact shadow, bayangan dipudarkan sebelum gelas.
-- `raw_scene_*_no_pouch.jpg` : scene polos; `raw_visual_*_with_pouch_no_text.jpg` : scene + pouch tanpa teks.
+- Scene digenerate dengan GPT Image 2 (2K, kie.ai) meniru referensi BIRU: backdrop off-white bertekstur, kubus putih
+  dilihat dari sudut depan, cahaya keras dari kanan atas, tiga cup takeaway transparan bertutup dengan sedotan hitam
+  (Ube, Charcoal, Matcha Latte) tersusun diagonal. Prompt lengkap di `prompt_feed.txt`, `prompt_toko.txt`.
+- Tiga pouch adalah mockup asli 250 gram (`nomukita-ube-250g.png`, `nomukita-charcoal-250g.png`,
+  `nomukita-matcha-latte-250g.png`), dikomposit berdiri di belakang cup masing-masing dengan `pouch_comp2.py`:
+  relight dari kanan, bayangan jatuh ke kiri bawah mengikuti bayangan cup, sedotan dikembalikan di depan pouch.
+- `raw_scene_*_cups_only.jpg` : scene polos; `raw_visual_*_with_pouches_no_text.jpg` : scene + pouch tanpa teks.
+- Tambahan: `nomukita-1010-story-1080x1920.jpg`, crop 9:16 dari master feed (rasio referensi).
 
 Tipografi (struktur referensi BIRU: logo kecil, headline dua baris, satu subline)
 1. Logo nomukita kecil di pojok kiri atas, lebar 170 px
-2. Headline dua baris, All Round Gothic Bold 128 px (feed) / 96 px (toko), deep violet, sentence case:
+2. Headline dua baris, All Round Gothic Bold 114 px (feed) / 96 px (toko), charcoal (tiga produk, bukan ube saja), sentence case:
    "10.10 Sale." / "Disc up to 45%."  (4 dan % digambar vektor)
 3. Subline Comfortaa Regular 30 px, abu gelap: "gratis ongkir & voucher hingga 15rb, semua produk."
    Pill dan label SEMUA PRODUK dilebur ke subline ini. Skrip: `compose4.py`.
 
 Warna
-- Teks deep violet (58,40,104), label charcoal (28,28,28)
+- Headline charcoal (28,28,28), subline abu (70,70,68)
 
 Catatan produksi
 - Font All Round Gothic di Drive masih DEMO: karakter 4, %, dan - terkunci. Angka 4 dan % digambar vektor

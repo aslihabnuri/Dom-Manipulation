@@ -5,7 +5,9 @@ import sys
 from PIL import Image, ImageDraw
 sys.path.insert(0, "/tmp/claude-0/-home-user-Dom-Manipulation/cc5b59a6-6b87-5897-882c-ef3d3b14e312/scratchpad")
 from compose import font, draw_tracked, vector_45pct, ARG_BOLD, COMF_REG, CHAR
-from compose2 import logo_variant, DEEP
+from compose2 import logo_variant, DEEP as _DEEP
+import os
+DEEP = CHAR if os.environ.get("HEAD_COLOR") == "charcoal" else _DEEP
 
 INK = (70, 70, 68)
 
@@ -44,13 +46,14 @@ def build(src, out_base, mode, crop_anchor=0.55):
     d = ImageDraw.Draw(img)
 
     if mode == "portrait":
-        hs = u(128); y = u(188)
+        tight = os.environ.get("TIGHT") == "1"
+        hs = u(114 if tight else 128); y = u(168 if tight else 188)
         fb = font(ARG_BOLD, hs)
         draw_tracked(d, x, y, "10.10 Sale.", fb, hs * -0.01, DEEP)
-        y2 = y + hs * 1.08
+        y2 = y + hs * 1.06
         headline_line2(img, d, x, y2, hs, DEEP)
         d = ImageDraw.Draw(img)
-        fc = font(COMF_REG, u(30))
+        fc = font(COMF_REG, u(29 if tight else 30))
         draw_tracked(d, x + u(4), y2 + hs * 0.98, "gratis ongkir & voucher hingga 15rb, semua produk.", fc, u(0.4), INK)
     else:
         hs = u(96); y = u(320)
