@@ -1,4 +1,4 @@
-# Nomukita 10.10 promo banner (revisi 10, final): tiga produk, packaging asli
+# Nomukita 10.10 promo banner (revisi 11, final): tiga produk, packaging asli, minuman layered
 
 File utama
 - `nomukita-1010-feed-1080x1350.jpg/png` : feed / marketplace 4:5, plus `nomukita-1010-feed-2K.jpg`
@@ -8,16 +8,18 @@ File utama
 - `compose3.py` (+ helper `compose.py`, `compose2.py`) : seluruh teks dirender dari file font asli
 
 Visual
-- Scene digenerate dengan GPT Image 2 (2K, kie.ai) meniru referensi BIRU: backdrop off-white bertekstur, kubus putih
-  dilihat dari sudut depan, cahaya keras dari kanan atas, tiga cup takeaway transparan bertutup dengan sedotan hitam
-  (Ube, Charcoal, Matcha Latte) tersusun diagonal. Prompt lengkap di `prompt_feed.txt`, `prompt_toko.txt`.
+- Feed dan story: scene baru (GPT Image 2, 2K) dengan tiga minuman layered masa kini di cup takeaway: Ube Matcha
+  (ube ungu, susu, foam matcha), Charcoal (charcoal hitam, susu, vanilla cream foam, debu cocoa), Matcha Ube (matcha,
+  susu, swirl ube cream). Prompt di `prompt_feed.txt`. Toko masih memakai scene minuman lama (`prompt_toko.txt`),
+  render baru untuk toko butuh 10 kredit.
 - Semua format memakai tiga mockup pouch ASLI 250 gram (bukan render AI), dikomposit dengan `pouch_comp2.py`
   ke scene cup. Kunci agar menapak, hasil mempelajari scene dan referensi: (1) bayangan pouch diproyeksikan ke arah
   yang sama dengan bayangan cup di scene ini, yaitu ke kiri dan ke belakang (naik di layar), tepi tajam, kegelapan
   dikalibrasi ke bayangan cup (sekitar 70 persen putih permukaan); (2) pouch berdiri tepat di belakang cup sehingga
   cup dan sedotan menutupi bagian bawah pouch (oklusi = petunjuk kedalaman terkuat); (3) putih pouch disamakan dengan
-  putih scene secara global, keystone perspektif kamera dari atas, grain, dan penggelapan dasar; (4) cup dikembalikan ke depan pouch sebagai siluet
-  pejal (tutup, susu, es, sedotan, dan bayangan cup) dengan closing + fill-holes, bukan hanya piksel berwarna.
+  putih scene secara global, keystone perspektif kamera dari atas, grain, dan penggelapan dasar; (4) pouch berdiri tepat di belakang cup tanpa
+  bersinggungan dengan tutup transparan (seperti referensi, objek tidak saling tumpang tindih); cup dikembalikan
+  sebagai siluet pejal bila ada tumpang tindih, dengan zona tutup transparan memakai multiply blend.
 - `raw_visual_feed_no_text.jpg`, `raw_visual_toko_no_text.jpg` : scene + pouch tanpa teks.
 - `nomukita-1010-story-1080x1920.jpg` : versi 9:16 (rasio referensi), teks disusun ulang untuk kanvas story.
 

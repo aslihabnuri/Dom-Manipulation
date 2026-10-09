@@ -84,7 +84,8 @@ def _fill_holes_pil(mask_img):
     from PIL import ImageDraw
     w, h = mask_img.size
     outside = mask_img.copy()            # 0 = background, 255 = object
-    seeds = [(0, 0), (w - 1, 0), (0, h - 1), (w - 1, h - 1), (w // 2, 0), (w // 2, h - 1), (0, h // 2), (w - 1, h // 2)]
+    seeds = [(x, 0) for x in range(0, w, 20)] + [(x, h - 1) for x in range(0, w, 20)] + \
+            [(0, y) for y in range(0, h, 20)] + [(w - 1, y) for y in range(0, h, 20)]
     for sx, sy in seeds:
         if outside.getpixel((sx, sy)) == 0:
             ImageDraw.floodfill(outside, (sx, sy), 128)
@@ -92,19 +93,33 @@ def _fill_holes_pil(mask_img):
     return Image.fromarray(np.where(a == 128, 0, 255).astype(np.uint8), "L")
 
 
-def restore_foreground(orig, comp, box):
-    """Paste the whole cup (its full solid silhouette, straw and cast shadow) back over the pouch."""
+def restore_foreground(orig, comp, box, lid_y=None):
+    """Paste the cup back in front of the pouch. Below lid_y the cup is opaque (drink, cream, ice);
+    above lid_y (the clear lid and the straw) the original pixels are MULTIPLIED over the pouch so the
+    print shows through the transparent lid while rim lines, reflections' shading and the straw stay."""
     x0, y0, x1, y1 = box
     o = np.asarray(orig.crop(box).convert("RGB")).astype(np.int16)
     bg = np.percentile(o.reshape(-1, 3), 92, axis=0)
     dist = np.abs(o - bg).max(axis=2)
     m = Image.fromarray(((dist > RESTORE_T) * 255).astype(np.uint8), "L")
-    m = m.filter(ImageFilter.MaxFilter(15)).filter(ImageFilter.MinFilter(13))   # closing: seal rim gaps
-    m = _fill_holes_pil(m)                                                     # solid cup: milk, lid, ice
-    m = m.filter(ImageFilter.MinFilter(3)).filter(ImageFilter.MaxFilter(3))   # drop specks
-    mask = m.filter(ImageFilter.GaussianBlur(1.2))
-    region = orig.crop(box).convert("RGBA"); region.putalpha(mask)
-    comp.alpha_composite(region, (x0, y0))
+    m = m.filter(ImageFilter.MaxFilter(15)).filter(ImageFilter.MinFilter(13))
+    m = _fill_holes_pil(m)
+    m = m.filter(ImageFilter.MinFilter(3)).filter(ImageFilter.MaxFilter(3))
+    mask = np.asarray(m.filter(ImageFilter.GaussianBlur(1.2))).astype(np.float32) / 255.0
+    region = orig.crop(box).convert("RGB")
+    cur = comp.crop(box).convert("RGB")
+    ra = np.asarray(region).astype(np.float32); ca = np.asarray(cur).astype(np.float32)
+    # multiply blend normalised to the scene white, so plain backdrop seen through the lid stays neutral
+    white = np.percentile(ra.reshape(-1, 3), 92, axis=0)
+    mult = np.clip(ca * (ra / np.maximum(white, 1)), 0, 255)
+    out = ra.copy()
+    if lid_y is not None:
+        ly = max(0, min(y1 - y0, int(lid_y - y0)))
+        # soft 20 px transition between the transparent lid zone and the opaque drink zone
+        t = np.clip((np.arange(y1 - y0)[:, None] - (ly - 20)) / 20.0, 0, 1)[..., None]
+        out = mult * (1 - t) + ra * t
+    blended = ca * (1 - mask[..., None]) + out * mask[..., None]
+    comp.paste(Image.fromarray(np.clip(blended, 0, 255).astype(np.uint8), "RGB"), (x0, y0))
 
 
 def composite(scene_path, out_path, items, restore=(), k=0.55, opacity=0.5):
@@ -137,7 +152,7 @@ def composite(scene_path, out_path, items, restore=(), k=0.55, opacity=0.5):
         scene.alpha_composite(p, (x0, y0))
         holes.paste(ImageChops.invert(alpha), (x0, y0), alpha)
     for box in restore:
-        restore_foreground(orig, scene, box)
+        restore_foreground(orig, scene, box[:4], box[4] if len(box) > 4 else None)
     shadows.putalpha(ImageChops.multiply(shadows.split()[3], holes))
     scene.alpha_composite(shadows)
     scene.convert("RGB").save(out_path)
