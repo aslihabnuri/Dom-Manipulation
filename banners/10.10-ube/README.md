@@ -1,4 +1,4 @@
-# Nomukita 10.10 promo banner (revisi 7, final): tiga produk
+# Nomukita 10.10 promo banner (revisi 8, final): tiga produk
 
 File utama
 - `nomukita-1010-feed-1080x1350.jpg/png` : feed / marketplace 4:5, plus `nomukita-1010-feed-2K.jpg`
@@ -11,11 +11,13 @@ Visual
 - Scene digenerate dengan GPT Image 2 (2K, kie.ai) meniru referensi BIRU: backdrop off-white bertekstur, kubus putih
   dilihat dari sudut depan, cahaya keras dari kanan atas, tiga cup takeaway transparan bertutup dengan sedotan hitam
   (Ube, Charcoal, Matcha Latte) tersusun diagonal. Prompt lengkap di `prompt_feed.txt`, `prompt_toko.txt`.
-- Tiga pouch adalah mockup asli 250 gram (`nomukita-ube-250g.png`, `nomukita-charcoal-250g.png`,
-  `nomukita-matcha-latte-250g.png`), dikomposit berdiri di belakang cup masing-masing dengan `pouch_comp2.py`:
-  relight dari kanan, bayangan jatuh ke kiri bawah mengikuti bayangan cup, sedotan dikembalikan di depan pouch.
-- `raw_scene_*_cups_only.jpg` : scene polos; `raw_visual_*_with_pouches_no_text.jpg` : scene + pouch tanpa teks.
-- Tambahan: `nomukita-1010-story-1080x1920.jpg`, crop 9:16 dari master feed (rasio referensi).
+- Feed dan story: pouch dirender DI DALAM set oleh GPT Image 2 (edit image-to-image atas scene cup, dengan tiga
+  mockup asli sebagai referensi ketat), sehingga cahaya, perspektif dan bayangan satu kesatuan dengan cup.
+  Prompt di `prompt_feed_pouch_edit.txt`. Cetakan pouch diverifikasi pada zoom penuh.
+- Toko: pouch mockup asli dikomposit dengan `pouch_comp2.py` (tone match ke putih scene, keystone, grain,
+  ambient occlusion, bayangan ke kiri bawah). Render in-scene untuk toko butuh 10 kredit tambahan.
+- `raw_visual_feed_in_scene_no_text.jpg` : scene feed final tanpa teks; `raw_visual_toko_composited_no_text.jpg` : scene toko tanpa teks.
+- `nomukita-1010-story-1080x1920.jpg` : versi 9:16 (rasio referensi), teks disusun ulang untuk kanvas story.
 
 Tipografi (struktur referensi BIRU: logo kecil, headline dua baris, satu subline)
 1. Logo nomukita kecil di pojok kiri atas, lebar 170 px

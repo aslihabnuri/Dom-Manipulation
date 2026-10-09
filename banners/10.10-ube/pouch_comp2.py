@@ -34,6 +34,36 @@ def relight(p, strength=0.10):
     return Image.fromarray(a.astype(np.uint8), "RGBA")
 
 
+def find_coeffs(pa, pb):
+    import numpy as _np
+    M = []
+    for (x, y), (u, v) in zip(pa, pb):
+        M.append([x, y, 1, 0, 0, 0, -u * x, -u * y]); M.append([0, 0, 0, x, y, 1, -v * x, -v * y])
+    A = _np.array(M, dtype=float); B = _np.array([c for pt in pb for c in pt], dtype=float)
+    return _np.linalg.solve(A, B)
+
+
+def integrate(p, scene_white, keystone=0.035, grain=2.2, ao=0.16):
+    """Make the mockup sit in the photo: match its whites to the scene, add a slight downward
+    keystone (camera above), darken the base (ambient occlusion) and add the scene's grain."""
+    w, h = p.size
+    a = np.asarray(p).astype(np.float32)
+    al = a[..., 3] > 0
+    pw = np.percentile(a[..., :3][al], 97, axis=0)              # pouch white point
+    f = np.array(scene_white, dtype=np.float32) / np.maximum(pw, 1)
+    a[..., :3] = np.clip(a[..., :3] * f, 0, 255)
+    ys = np.linspace(0, 1, h)[:, None]
+    occl = 1 - ao * np.clip((ys - 0.82) / 0.18, 0, 1) ** 1.5      # darker toward the base
+    a[..., :3] *= occl[..., None]
+    rng = np.random.default_rng(7)
+    a[..., :3] = np.clip(a[..., :3] + rng.normal(0, grain, a[..., :3].shape), 0, 255)
+    p = Image.fromarray(a.astype(np.uint8), "RGBA")
+    # keystone: bottom edge slightly narrower than the top (verticals converge downward)
+    d = keystone * w / 2
+    coeffs = find_coeffs([(0, 0), (w, 0), (w - d, h), (d, h)], [(0, 0), (w, 0), (w, h), (0, h)])
+    return p.transform((w, h), Image.PERSPECTIVE, coeffs, resample=Image.BICUBIC)
+
+
 def cast_shadow_left(alpha, k, sy, blur, opacity):
     """Ground projection to the lower LEFT. Returns (shadow L image, x offset of silhouette base)."""
     w, h = alpha.size
@@ -67,6 +97,10 @@ def composite(scene_path, out_path, items, restore=(), k=0.55, opacity=0.5):
         p = relight(p.resize((int(p.width * s), int(p.height * s)), Image.LANCZOS))
         pw, ph = p.size
         x0 = int(xc - pw / 2); y0 = int(yb - ph)
+        # scene white reference: cube top just below-left of the pouch base
+        patch = np.asarray(orig.convert("RGB").crop((max(0, x0 - 80), int(yb) + 10, max(1, x0 - 10), int(yb) + 60))).reshape(-1, 3)
+        scene_white = np.percentile(patch, 90, axis=0) if len(patch) else (240, 240, 238)
+        p = integrate(p, scene_white)
         alpha = p.split()[3]
         sh, off = cast_shadow_left(alpha, k, 0.10, 4, opacity)
         dark = Image.new("RGBA", sh.size, (40, 36, 52, 255)); dark.putalpha(sh)

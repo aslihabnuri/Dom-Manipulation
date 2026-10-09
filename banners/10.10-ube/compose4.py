@@ -25,7 +25,10 @@ def headline_line2(img, d, x, y, size, color):
 def build(src, out_base, mode, crop_anchor=0.55):
     im = Image.open(src).convert("RGB")
     W, H = im.size
-    if mode == "portrait":
+    if mode == "story":
+        tw = int(H * 9 / 16); x0 = (W - tw) // 2; im = im.crop((x0, 0, x0 + tw, H))
+        S = im.height / 1920.0
+    elif mode == "portrait":
         if W / H > 0.8:
             tw = int(H * 0.8); x0 = int((W - tw) * 0.5); im = im.crop((x0, 0, x0 + tw, H))
         else:
@@ -45,7 +48,17 @@ def build(src, out_base, mode, crop_anchor=0.55):
     img.alpha_composite(logo, (int(x), int(u(58))))
     d = ImageDraw.Draw(img)
 
-    if mode == "portrait":
+    if mode == "story":
+        hs = u(104); y = u(236)
+        fb = font(ARG_BOLD, hs)
+        draw_tracked(d, x, y, "10.10 Sale.", fb, hs * -0.01, DEEP)
+        y2 = y + hs * 1.06
+        headline_line2(img, d, x, y2, hs, DEEP)
+        d = ImageDraw.Draw(img)
+        fc = font(COMF_REG, u(28))
+        draw_tracked(d, x + u(4), y2 + hs * 0.98, "gratis ongkir & voucher hingga 15rb,", fc, u(0.4), INK)
+        draw_tracked(d, x + u(4), y2 + hs * 0.98 + u(42), "semua produk.", fc, u(0.4), INK)
+    elif mode == "portrait":
         tight = os.environ.get("TIGHT") == "1"
         hs = u(114 if tight else 128); y = u(168 if tight else 188)
         fb = font(ARG_BOLD, hs)
@@ -68,7 +81,9 @@ def build(src, out_base, mode, crop_anchor=0.55):
 
     out = img.convert("RGB")
     out.save(out_base + "_2K.png")
-    if mode == "portrait":
+    if mode == "story":
+        out.resize((1080, 1920), Image.LANCZOS).save(out_base + "_1080x1920.jpg", quality=94)
+    elif mode == "portrait":
         out.resize((1080, 1350), Image.LANCZOS).save(out_base + "_1080x1350.png")
         out.resize((1080, 1350), Image.LANCZOS).save(out_base + "_1080x1350.jpg", quality=94)
     else:
