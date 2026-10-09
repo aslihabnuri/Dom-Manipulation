@@ -1,37 +1,3 @@
-<div class="cover">
-<h1 class="first">Jawaban Latihan<br>Soal Ujian Business Ethics and Sustainability</h1>
-<p class="sub">Soal ujian Desember 2025, dijawab sebagai bahan belajar menghadapi ujian tengah semester</p>
-<div class="line"></div>
-<div class="meta">
-<p>Buku acuan: Crane, Matten, Glozer, dan Spence (2019), <em>Business Ethics</em>, edisi kelima</p>
-<p>Program Magister Manajemen, Fakultas Ekonomika dan Bisnis, Universitas Gadjah Mada</p>
-<p>Disusun Oktober 2026</p>
-</div>
-</div>
-<!-- /cover -->
-
-# Cara Memakai Jawaban Ini
-
-## Bentuk soalnya
-
-Soal ujian Desember 2025 terdiri dari dua bagian. Waktunya 120 menit, boleh membuka buku, tidak boleh internet, dan jawaban ditulis tangan.
-
-| Bagian | Isi | Yang dinilai |
-|---|---|---|
-| Soal A | Sepuluh pernyataan. Kamu menyatakan BENAR atau SALAH, lalu memberi alasan dengan prinsip etika | Ketepatan posisi dan ketepatan prinsip yang dipakai |
-| Soal B nomor 1 dan 2 | Tulis ulang satu kasus kelompokmu sendiri dan satu kasus kelompok lain | Tema, dilema etika, prinsip yang dilanggar, siapa yang terlibat dan bertanggung jawab, lesson learned, saran pencegahan |
-| Soal B nomor 3 | Analisis banjir dan tanah longsor di Jawa, Sumatera Barat, Sumatera Utara, dan Aceh | Akar masalah etika, siapa yang paling bertanggung jawab, mengapa bisa terjadi, lesson learned, saran |
-
-## Pola jawaban yang aman untuk soal benar atau salah
-
-Setiap jawaban cukup tiga kalimat. Kalimat pertama: posisi (BENAR atau SALAH). Kalimat kedua: prinsip etika yang jadi dasar, sebut namanya seperti di buku. Kalimat ketiga: alasan singkat atau contoh. Kalau pernyataannya setengah benar, katakan bagian mana yang benar dan bagian mana yang salah, lalu tetap pilih satu posisi.
-
-Prinsip yang paling sering dipakai di jawaban ini: fairness atau keadilan (Theory of Justice dari Rawls), kejujuran dan transparansi, Ethic of Care, Utilitarianism (menimbang manfaat dan kerugian semua pihak), Ethics of Duty dari Kant (apakah tindakan ini boleh dilakukan semua orang), Ethics of Rights (hak siapa yang dilanggar), sustainability dan triple bottom line, serta kalimat kunci dari buku: etika bisnis dimulai ketika hukum berakhir.
-
-## Pola jawaban untuk soal kasus
-
-Pakai urutan tujuh komponen yang disebut dosen: deskripsi singkat kasus, dilema etika, pelaku, pihak yang dirugikan, prinsip yang dilanggar, lesson learned, dan saran pencegahan. Untuk pelaku, selalu bedakan tiga level: orang (individu), perusahaan (organisasi), dan aturan atau pasar (sistem).
-
 # Soal A. Benar atau Salah dengan Alasan
 
 ### Pernyataan 1
