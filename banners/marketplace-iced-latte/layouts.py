@@ -282,3 +282,116 @@ S3.update(
         dict(name="bigice_B", cx=645, cy=1150, width=135, rot=-12, shadow=0.25),
     ],
 )
+
+VIOLET = (58, 40, 104)
+P1 = dict(V6)
+P1.update(
+    mid=[
+        dict(name="drink_matcha", cx=300, cy=640, height=640, rot=9, shadow=0.35, see=True),
+        dict(name="drink_charcoal_fix", cx=600, cy=860, height=660, rot=-3, shadow=0.35, see=True),
+        dict(name="ubeslice_L", cx=650, cy=1590, width=300, rot=20, shadow=0.3),
+        dict(name="pouch_ube", cx=535, cy=1205, width=300, rot=-7, shadow=0.4),
+        dict(name="pouch_charcoal", cx=352, cy=1170, width=300, rot=2, shadow=0.4),
+        dict(name="pouch_matcha", cx=172, cy=1135, width=300, rot=10, shadow=0.4),
+        dict(name="drink_ube", cx=905, cy=1110, height=820, rot=-8, shadow=0.4, see=True),
+    ],
+    texts=[
+        dict(s="BRING THE CAFE HOME", x=1140, y=262, size=34, tr=1.5, align="right"),
+        dict(s="DISC", x=640, y=346, size=40, tr=2),
+        dict(s="UP TO", x=640, y=398, size=40, tr=2),
+        dict(pct="25", x=1140, y=330, size=196, align="right"),
+        dict(pill=True, s="GRATIS ONGKIR", x=1140, y=520, size=24, h=54, pad=24, fill=None, outline=(255, 255, 255), stroke=3, text=(255, 255, 255), align="right"),
+        dict(pill=True, s="VOUCHER HINGGA 15RB", x=1140, y=586, size=24, h=54, pad=24, fill=None, outline=(255, 255, 255), stroke=3, text=(255, 255, 255), align="right"),
+        dict(pill=True, s="SHOP NOW", x=60, y=1468, size=34, h=82, pad=36, fill=(255, 255, 255), text=VIOLET, arrow=True, tr=2),
+    ],
+)
+
+P2 = dict(P1)
+P2["texts"] = [
+    dict(s="BRING THE CAFE HOME", x=1140, y=262, size=34, tr=1.5, align="right"),
+    dict(s="DISC", x=628, y=334, size=42, tr=2),
+    dict(s="UP TO", x=628, y=388, size=42, tr=2),
+    dict(pct="25", x=1140, y=318, size=200, align="right"),
+    dict(pill=True, s="GRATIS ONGKIR", x=1140, y=488, size=29, h=64, pad=24, fill=None, outline=(255, 255, 255), stroke=3.5, text=(255, 255, 255), tr=1, align="right"),
+    dict(pill=True, s="VOUCHER HINGGA 15RB", x=1140, y=566, size=29, h=64, pad=24, fill=None, outline=(255, 255, 255), stroke=3.5, text=(255, 255, 255), tr=1, align="right"),
+    dict(pill=True, s="SHOP NOW", x=60, y=1468, size=36, h=86, pad=38, fill=(255, 255, 255), text=VIOLET, arrow=True, tr=2),
+]
+
+P3 = dict(P1)
+P3["texts"] = [
+    dict(s="BRING THE CAFE HOME", x=1140, y=262, size=34, tr=1.5, align="right"),
+    dict(s="DISC", x=640, y=328, size=42, tr=2),
+    dict(s="UP TO", x=640, y=382, size=42, tr=2),
+    dict(pct="25", x=1140, y=314, size=192, align="right"),
+    dict(pill=True, s="VOUCHER HINGGA 15RB", x=1140, y=470, size=29, h=64, pad=24, fill=None, outline=(255, 255, 255), stroke=3.5, text=(255, 255, 255), tr=1, align="right"),
+    dict(pill=True, s="GRATIS ONGKIR", x=1140, y=548, size=29, h=64, pad=24, fill=None, outline=(255, 255, 255), stroke=3.5, text=(255, 255, 255), tr=1, align="right"),
+    dict(pill=True, s="SHOP NOW", x=60, y=1468, size=36, h=86, pad=38, fill=(255, 255, 255), text=VIOLET, arrow=True, tr=2),
+]
+
+S4 = dict(S3)
+S4.update(
+    mid=[
+        dict(name="drink_matcha", cx=290, cy=545, height=540, rot=9, shadow=0.35, see=True),
+        dict(name="drink_charcoal_fix", cx=590, cy=735, height=520, rot=-3, shadow=0.35, see=True),
+        dict(name="pouch_ube", cx=500, cy=945, width=250, rot=-7, shadow=0.4),
+        dict(name="pouch_charcoal", cx=330, cy=920, width=250, rot=2, shadow=0.4),
+        dict(name="pouch_matcha", cx=160, cy=895, width=250, rot=10, shadow=0.4),
+        dict(name="drink_ube", cx=895, cy=875, height=620, rot=-8, shadow=0.4, see=True),
+    ],
+    texts=[
+        dict(s="BRING THE CAFE HOME", x=1140, y=258, size=32, tr=1.5, align="right"),
+        dict(s="DISC", x=700, y=312, size=34, tr=2),
+        dict(s="UP TO", x=700, y=356, size=34, tr=2),
+        dict(pct="25", x=1140, y=300, size=150, align="right"),
+        dict(pill=True, s="VOUCHER HINGGA 15RB", x=1140, y=422, size=25, h=54, pad=20, fill=None, outline=(255, 255, 255), stroke=3, text=(255, 255, 255), tr=1, align="right"),
+        dict(pill=True, s="GRATIS ONGKIR", x=1140, y=488, size=25, h=54, pad=20, fill=None, outline=(255, 255, 255), stroke=3, text=(255, 255, 255), tr=1, align="right"),
+        dict(pill=True, s="SHOP NOW", x=60, y=1090, size=32, h=76, pad=32, fill=(255, 255, 255), text=VIOLET, arrow=True, tr=2),
+    ],
+)
+
+W4 = dict(W3)
+W4.update(
+    head_fit=820, head_y=140,
+    logo=dict(x=72, y=58, w=165),
+    mid=[
+        dict(name="ubeslice_M", cx=1955, cy=150, width=240, rot=-15, shadow=0.3),
+        dict(name="drink_matcha", cx=1080, cy=470, height=600, rot=9, shadow=0.35, see=True),
+        dict(name="drink_charcoal_fix", cx=1390, cy=560, height=640, rot=-3, shadow=0.35, see=True),
+        dict(name="ubeslice_L", cx=1550, cy=1010, width=280, rot=20, shadow=0.3),
+        dict(name="tealeaves", cx=1985, cy=800, width=300, rot=-25, shadow=0.22),
+        dict(name="pouch_ube", cx=470, cy=845, width=230, rot=-7, shadow=0.4),
+        dict(name="pouch_charcoal", cx=315, cy=828, width=230, rot=2, shadow=0.4),
+        dict(name="pouch_matcha", cx=165, cy=810, width=230, rot=10, shadow=0.4),
+        dict(name="drink_ube", cx=1705, cy=590, height=760, rot=-8, shadow=0.4, see=True),
+    ],
+    front=[
+        dict(name="icecube_1", cx=905, cy=890, width=140, rot=-15, shadow=0.25),
+        dict(name="bigice_B", cx=1235, cy=965, width=220, rot=-10, shadow=0.25),
+    ],
+    texts=[
+        dict(s="BRING THE CAFE HOME", x=74, y=268, size=30, tr=1.5),
+        dict(s="DISC", x=74, y=340, size=36, tr=2),
+        dict(s="UP TO", x=74, y=386, size=36, tr=2),
+        dict(pct="25", x=228, y=326, size=150, align="left"),
+        dict(pill=True, s="VOUCHER HINGGA 15RB", x=74, y=460, size=25, h=54, pad=20, fill=None, outline=(255, 255, 255), stroke=3, text=(255, 255, 255), tr=1),
+        dict(pill=True, s="GRATIS ONGKIR", x=468, y=460, size=25, h=54, pad=20, fill=None, outline=(255, 255, 255), stroke=3, text=(255, 255, 255), tr=1),
+        dict(pill=True, s="SHOP NOW", x=74, y=548, size=30, h=70, pad=30, fill=(255, 255, 255), text=VIOLET, arrow=True, tr=2),
+    ],
+)
+
+W5 = dict(W4)
+W5["texts"] = [
+    dict(s="BRING THE CAFE HOME", x=74, y=268, size=30, tr=1.5),
+    dict(s="DISC", x=74, y=336, size=40, tr=2),
+    dict(s="UP TO", x=74, y=388, size=40, tr=2),
+    dict(pct="25", x=242, y=322, size=164, align="left"),
+    dict(pill=True, s="VOUCHER HINGGA 15RB", x=74, y=464, size=29, h=62, pad=22, fill=None, outline=(255, 255, 255), stroke=3.5, text=(255, 255, 255), tr=1),
+    dict(pill=True, s="GRATIS ONGKIR", x=480, y=464, size=29, h=62, pad=22, fill=None, outline=(255, 255, 255), stroke=3.5, text=(255, 255, 255), tr=1),
+    dict(pill=True, s="SHOP NOW", x=74, y=554, size=33, h=78, pad=32, fill=(255, 255, 255), text=VIOLET, arrow=True, tr=2),
+]
+
+W6 = dict(W5)
+W6["back"] = [
+    dict(name="milk", cx=1060, cy=575, height=620, rot=-12, shadow=0.18),
+    dict(name="matcha_pw", cx=1015, cy=250, width=390, rot=10, shadow=0),
+]

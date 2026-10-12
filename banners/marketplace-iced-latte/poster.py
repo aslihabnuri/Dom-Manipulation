@@ -214,6 +214,66 @@ def arc_text(canvas, cx, cy, radius, start_deg, s, f, tr=0, fill=WHITE, clockwis
         ang = ang + step if clockwise else ang - step
 
 
+def pct_block(canvas, x, y, digits, size, fill=WHITE, align="left"):
+    """Big number with a vector % (the DEMO font locks '%'). y = top of the figures. Returns width (design units)."""
+    f = font(ARG_BOLD, size)
+    b = f.getbbox("2"); H = b[3] - b[1]; top = b[1]
+    S = size * K
+    t = 0.135 * S; r = 0.142 * S; ring = 0.082 * S; wp = 0.60 * S; gap = 0.07 * S
+    wd = sum(f.getlength(c) for c in digits) - 0.02 * S * (len(digits) - 1)
+    total = wd + gap + wp
+    X = x * K - (total if align == "right" else total / 2 if align == "center" else 0)
+    Y = y * K
+    d = ImageDraw.Draw(canvas)
+    cx = X
+    for c in digits:
+        d.text((cx, Y - top), c, font=f, fill=fill); cx += f.getlength(c) - 0.02 * S
+    # vector percent, supersampled
+    ss = 3
+    lay = Image.new("L", (int((wp + 4) * ss), int((H + 4) * ss)), 0); ld = ImageDraw.Draw(lay)
+    R = r * ss; RI = (r - ring) * ss
+    c1 = (R + 2, R + 2); c2 = (wp * ss - R - 2, H * ss - R - 2)
+    for c0 in (c1, c2):
+        ld.ellipse([c0[0] - R, c0[1] - R, c0[0] + R, c0[1] + R], fill=255)
+        ld.ellipse([c0[0] - RI, c0[1] - RI, c0[0] + RI, c0[1] + RI], fill=0)
+    q1 = (wp * ss - r * 0.55 * ss, 0); q2 = (r * 0.55 * ss, H * ss)
+    dx, dy = q2[0] - q1[0], q2[1] - q1[1]; L = math.hypot(dx, dy); nx, ny = -dy / L, dx / L; th = t * 0.72 / 2 * ss
+    ld.polygon([(q1[0] + nx * th, q1[1] + ny * th), (q1[0] - nx * th, q1[1] - ny * th),
+                (q2[0] - nx * th, q2[1] - ny * th), (q2[0] + nx * th, q2[1] + ny * th)], fill=255)
+    ld.rectangle([0, H * ss + 1, lay.width, lay.height], fill=0); ld.rectangle([0, 0, lay.width, 0], fill=0)
+    lay = lay.resize((int(wp + 4), int(H + 4)), Image.LANCZOS)
+    col = Image.new("RGBA", lay.size, fill + (255,)); col.putalpha(lay)
+    canvas.alpha_composite(col, (int(cx + gap), int(Y)))
+    return total / K, H / K
+
+
+def pill_button(canvas, x, y, s, size, h, pad, fill=WHITE, text=(58, 40, 104), outline=None, stroke=3, arrow=False, tr=1.5, align="left"):
+    """Rounded pill with centred caps text; outline-only when fill is None. x,y = top-left (or top-right). Returns width."""
+    f = font(ARG_BOLD, size)
+    tw = text_width(f, s, tr) / K
+    aw = size * 0.75 if arrow else 0
+    w = tw + 2 * pad + (aw + size * 0.45 if arrow else 0)
+    X = x - w if align == "right" else x
+    ss = 3
+    lay = Image.new("RGBA", (int(w * K * ss), int(h * K * ss)), (0, 0, 0, 0)); ld = ImageDraw.Draw(lay)
+    if fill:
+        ld.rounded_rectangle([0, 0, lay.width - 1, lay.height - 1], radius=lay.height / 2, fill=fill + (255,))
+    if outline:
+        ld.rounded_rectangle([stroke * K * ss / 2, stroke * K * ss / 2, lay.width - 1 - stroke * K * ss / 2, lay.height - 1 - stroke * K * ss / 2],
+                             radius=lay.height / 2, outline=outline + (255,), width=int(stroke * K * ss))
+    lay = lay.resize((int(w * K), int(h * K)), Image.LANCZOS)
+    canvas.alpha_composite(lay, (int(X * K), int(y * K)))
+    ch = (f.getbbox("H")[3] - f.getbbox("H")[1]) / K
+    draw_text(canvas, X + pad, y + (h - ch) / 2, s, f, tr, fill=text)
+    if arrow:
+        d = ImageDraw.Draw(canvas)
+        ax = (X + pad + tw + size * 0.45) * K; ay = (y + h / 2) * K; L = aw * K; th = max(2, size * 0.14 * K)
+        d.line([(ax, ay), (ax + L, ay)], fill=text, width=int(th))
+        d.line([(ax + L - L * 0.42, ay - L * 0.42), (ax + L + th * 0.2, ay + th * 0.15)], fill=text, width=int(th))
+        d.line([(ax + L - L * 0.42, ay + L * 0.42), (ax + L + th * 0.2, ay - th * 0.15)], fill=text, width=int(th))
+    return w
+
+
 def logo_white():
     sys.path.insert(0, ROOT)
     from compose import logo_rgba
@@ -247,6 +307,12 @@ def build(L, out_base):
         place(cv, **item)
     # small type
     for t in L["texts"]:
+        if t.get("pct"):
+            pct_block(cv, t["x"], t["y"], t["pct"], t["size"], align=t.get("align", "left")); continue
+        if t.get("pill"):
+            pill_button(cv, t["x"], t["y"], t["s"], t["size"], t["h"], t["pad"], fill=t.get("fill"), text=tuple(t.get("text", WHITE)),
+                        outline=t.get("outline"), stroke=t.get("stroke", 3), arrow=t.get("arrow", False), tr=t.get("tr", 1.5),
+                        align=t.get("align", "left")); continue
         f = font(ARG_BOLD if t.get("bold", True) else ARG_DEMI, t["size"])
         if t.get("arc"):
             arc_text(cv, t["cx"], t["cy"], t["r"], t["start"], t["s"], f, t.get("tr", 2))
