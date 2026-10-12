@@ -31,3 +31,6 @@ Fonts (not committed): Zalando Sans Expanded + Arimo static TTFs in `fonts/stati
 
 ## Logo update
 The logo is now the official file from Drive (`6.png`, saved as `scripts/logo_6.png`): `scripts/logo.py` extracts the light mark as a mask and tints it to the colour the layout asks for. Because the official lockup is wider and has no tagline, logo widths are 1.2x the old value so the wordmark keeps its visual size.
+
+## Square version (1080x1080, 2160x2160)
+Re-flowed, not cropped: photo cropped to the torso (`crop_pos 0.30`), logo top centre, hero `SAVE UP TO / 25%` on the left wall behind the head (`bigw 560`, `hero_y 0.14`), the offer block moved to the left wall under the hero (`offer_pos lm`, `offer_y 0.49`, benefits in three short lines so they stop before the arm), `Made to Move With You` right-aligned on the sofa (`line_pos sofa`, `msg_y 0.82`). Official logo.

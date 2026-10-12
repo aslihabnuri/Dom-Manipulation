@@ -14,8 +14,8 @@ def tracked(d,xy,text,f,fill,track=0):
         d.text((x,y),ch,font=f,fill=fill); x+=d.textlength(ch,font=f)+track
 def tracked_w(d,text,f,track=0):
     return sum(d.textlength(ch,font=f) for ch in text)+track*(len(text)-1)
-def build(photo_path,out_path,k=1.0,pct="25%",bigw=560,hero_y=0.165,eyebrow="EVERYDAY ESSENTIALS",cutout=None,line_pos="offer",msg_y=0.47,tag_size=22,tag_gap=22):
-    W,H=int(1080*k),int(1620*k); g=lambda v:int(round(v*k))
+def build(photo_path,out_path,k=1.0,pct="25%",bigw=560,hero_y=0.165,eyebrow="EVERYDAY ESSENTIALS",cutout=None,line_pos="offer",msg_y=0.47,tag_size=22,tag_gap=22,height=1620,crop_pos=0.5,offer_pos="br",offer_y=0.50):
+    W,H=int(1080*k),int(height*k); g=lambda v:int(round(v*k))
     def font(name,size): return ImageFont.truetype(F+name,g(size))
     def fit_font(d,text,name,target_w,track=0,lo=50,hi=1200):
         while lo<hi:
@@ -25,7 +25,7 @@ def build(photo_path,out_path,k=1.0,pct="25%",bigw=560,hero_y=0.165,eyebrow="EVE
         return ImageFont.truetype(F+name,lo)
     src=Image.open(photo_path).convert("RGB")
     s=max(W/src.width,H/src.height); src=src.resize((int(src.width*s+0.5),int(src.height*s+0.5)),Image.LANCZOS)
-    ox=(src.width-W)//2; oy=(src.height-H)//2; canvas=src.crop((ox,oy,ox+W,oy+H))
+    ox=(src.width-W)//2; oy=int((src.height-H)*crop_pos); canvas=src.crop((ox,oy,ox+W,oy+H))
     d=ImageDraw.Draw(canvas); M=g(72); L=M; R=W-M
     # --- top row: masthead ---
     logo=make_logo(color=CHAR,scale=8); lw=g(1.2*280); logo=logo.resize((lw,int(logo.height*lw/logo.width)),Image.LANCZOS)
@@ -45,17 +45,29 @@ def build(photo_path,out_path,k=1.0,pct="25%",bigw=560,hero_y=0.165,eyebrow="EVE
     if cutout:  # subject layered in front of the type (type-behind-subject)
         cu=Image.open(cutout).convert("RGBA").resize(src.size,Image.LANCZOS).crop((ox,oy,ox+W,oy+H))
         canvas.paste(cu,(0,0),cu); d=ImageDraw.Draw(canvas)
-    # --- bottom-right block on the sofa ---
+    # --- offer block: bottom-right on the sofa (default) or left-mid on the wall (square layouts) ---
     f_ben=font("Arimo-Regular.ttf",26); f_cta=font("ZalandoSansExpanded-Bold.ttf",26); f_tc=font("Arimo-Regular.ttf",20)
     cw=int(tracked_w(d,"SHOP NOW",f_cta,g(4)))+2*g(46); ch=g(70)
-    yb=H-M-g(20)              # terms baseline top
-    t="*Terms & conditions apply"; d.text((R-d.textlength(t,font=f_tc),yb),t,font=f_tc,fill=GREY)
-    yb-=g(22)+ch
-    d.rounded_rectangle([R-cw,yb,R,yb+ch],radius=ch//2,fill=CHAR)
-    tracked(d,(R-cw+g(46),yb+(ch-g(26))//2-g(4)),"SHOP NOW",f_cta,WHITE,track=g(4))
-    yb-=g(26)
-    for t in reversed(["Free shipping","Extra IDR 5K voucher for new buyers"]):
-        yb-=g(26); d.text((R-d.textlength(t,font=f_ben),yb),t,font=f_ben,fill=CHAR); yb-=g(8)
+    if offer_pos=="lm":
+        yo=int(H*offer_y)
+        for t in ["Free shipping","Extra IDR 5K voucher","for new buyers"]:
+            d.text((L,yo),t,font=f_ben,fill=CHAR); yo+=g(26+10)
+        yo+=g(18); d.rounded_rectangle([L,yo,L+cw,yo+ch],radius=ch//2,fill=CHAR)
+        tracked(d,(L+g(46),yo+(ch-g(26))//2-g(4)),"SHOP NOW",f_cta,WHITE,track=g(4)); yo+=ch+g(18)
+        d.text((L,yo),"*Terms & conditions apply",font=f_tc,fill=GREY)
+    else:
+        yb=H-M-g(20)
+        t="*Terms & conditions apply"; d.text((R-d.textlength(t,font=f_tc),yb),t,font=f_tc,fill=GREY)
+        yb-=g(22)+ch
+        d.rounded_rectangle([R-cw,yb,R,yb+ch],radius=ch//2,fill=CHAR)
+        tracked(d,(R-cw+g(46),yb+(ch-g(26))//2-g(4)),"SHOP NOW",f_cta,WHITE,track=g(4))
+        yb-=g(26)
+        for t in reversed(["Free shipping","Extra IDR 5K voucher for new buyers"]):
+            yb-=g(26); d.text((R-d.textlength(t,font=f_ben),yb),t,font=f_ben,fill=CHAR); yb-=g(8)
+    if line_pos=="sofa":  # message right-aligned on the sofa, bottom right, two lines
+        f_w=font("ZalandoSansExpanded-Regular.ttf",40); wy=int(H*msg_y)
+        for t in ["Made to Move","With You"]:
+            wb=d.textbbox((0,0),t,font=f_w); w=tracked_w(d,t,f_w,g(1)); tracked(d,(R-w-wb[0],wy-wb[1]),t,f_w,CHAR,track=g(1)); wy+=int((wb[3]-wb[1])*1.25)+g(6)
     if line_pos=="tagline":  # brand signature: tracked caps centred under the logo, its own masthead lockup
         f_t=font("ZalandoSansExpanded-SemiBold.ttf",tag_size); t="MADE TO MOVE WITH YOU"
         tb=d.textbbox((0,0),t,font=f_t); w=tracked_w(d,t,f_t,g(7))
