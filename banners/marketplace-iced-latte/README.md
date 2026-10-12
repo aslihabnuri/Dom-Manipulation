@@ -1,13 +1,20 @@
-# Nomukita ICED LATTE, banner marketplace (gaya poster "SMOOTHIE")
+# Nomukita CHILL SALE, banner promo marketplace (Matcha, Ube, Charcoal)
 
-File utama (versi promo)
-- `nomukita-iced-latte-promo-3x4-1200x1600.jpg/png` : master, poster tegak (rasio terdekat dengan referensi)
-- `nomukita-iced-latte-promo-1x1-1200x1200.jpg/png` : slot foto produk marketplace
-- `nomukita-iced-latte-promo-2x1-2000x1000.png`, `-promo-2x1-1200x600.jpg` : banner toko
-- `archive-no-promo/` : versi pertama tanpa promo
-- `archive-promo-busy/` : versi promo pertama (kolase penuh dekorasi, dinilai terlalu ramai)
+File utama (versi aktif)
+- `nomukita-chill-sale-3x4-1200x1600.jpg/png` : master, poster tegak
+- `nomukita-chill-sale-1x1-1200x1200.jpg/png` : slot foto produk marketplace
+- `nomukita-chill-sale-2x1-2000x1000.png`, `-2x1-1200x600.jpg` : banner toko
+- Arsip: `archive-no-promo/` (tanpa promo), `archive-promo-busy/` (promo, tipografi ramai),
+  `archive-promo-plain/` (promo clean tanpa ornamen)
 
-Revisi clean (versi aktif)
+Versi aktif: ornamen segar + sistem tipografi tenang
+- Headline promo CHILL SALE (chill = dingin dan santai, sale = sinyal promo), bukan nama minuman.
+- Semua teks penawaran dalam satu tumpukan rata kiri di bawah headline: DISC UP TO 25%, lalu satu baris
+  GRATIS ONGKIR • VOUCHER HINGGA 15RB (Demi). Tombol SHOP NOW rata tengah di bawah produk.
+- Tiga tingkat ukuran saja: headline, angka 25%, huruf kapital kecil. Ornamen tidak pernah menyentuh teks.
+- Ornamen: gelombang susu horizontal di belakang trio, bubuk matcha, daun teh, es batu, irisan ube di sudut.
+
+Revisi clean (diarsipkan di archive-promo-plain)
 - Semua dekorasi dihapus (cipratan susu, bubuk matcha, daun teh, es batu, irisan ube) dan subjudul
   BRING THE CAFE HOME dihapus. Dari sekitar 20 elemen tinggal 12.
 - Susunan pita horizontal: logo dan headline, pita penawaran (DISC UP TO 25% kiri, dua pill kanan),
@@ -46,7 +53,7 @@ Visual
 - Prompt di `source/`, potongan aset di `parts/`.
 
 Mengubah layout tanpa kredit
-- Semua posisi ada di `layouts.py` (clean aktif: C2 = 3:4, S5 = 1:1, W7 = 2:1; promo ramai: P3, S4, W6; tanpa promo: V6, S3, W3). Jalankan `python3 poster.py V6 out`.
+- Semua posisi ada di `layouts.py` (aktif: T4 = 3:4, U2 = 1:1, X2 = 2:1; clean polos: C2, S5, W7; promo ramai: P3, S4, W6; tanpa promo: V6, S3, W3). Jalankan `python3 poster.py V6 out`.
 - Path di skrip mengarah ke scratchpad sesi; sesuaikan `ROOT` bila dijalankan di tempat lain.
 
 Kredit kie.ai: 33 (3 render GPT Image 2 2K + 3 remove-background).
