@@ -276,6 +276,90 @@ def pill_button(canvas, x, y, s, size, h, pad, fill=WHITE, text=(58, 40, 104), o
     return w
 
 
+def scallop_badge(canvas, cx, cy, r, rot, fill, lobes=20, amp=0.055, top_text=None, top_size=26, top_tr=2,
+                  digits="25", num_size=120, text=(58, 40, 104), shadow=0.3):
+    """Wavy-edged round sticker with an arched label inside the top and a big vector-% number in the middle."""
+    R = r * K; size = int(R * 2.6)
+    lay = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+    ss = 3
+    big = Image.new("L", (size * ss, size * ss), 0); bd = ImageDraw.Draw(big)
+    c = size * ss / 2; pts = []
+    for i in range(720):
+        t = 2 * math.pi * i / 720
+        rr = R * ss * (1 + amp * math.cos(lobes * t))
+        pts.append((c + rr * math.cos(t), c + rr * math.sin(t)))
+    bd.polygon(pts, fill=255)
+    mask = big.resize((size, size), Image.LANCZOS)
+    col = Image.new("RGBA", (size, size), fill + (255,)); col.putalpha(mask)
+    lay.alpha_composite(col)
+    # inner content, drawn upright then the whole sticker is rotated
+    if top_text:
+        f = font(ARG_BOLD, top_size)
+        tw = text_width(f, top_text, top_tr)
+        Rin = R * 0.70
+        ang = -90 - math.degrees(tw / Rin) / 2
+        arc_text(lay, (size / 2) / K, (size / 2) / K, Rin / K, ang, top_text, f, top_tr, fill=text)
+    f2 = font(ARG_BOLD, num_size); b = f2.getbbox("2"); H = (b[3] - b[1]) / K
+    pct_block(lay, (size / 2) / K, (size / 2) / K - H / 2 + R * 0.10 / K, digits, num_size, fill=text, align="center")
+    lay = lay.rotate(rot, resample=Image.BICUBIC, expand=False)
+    if shadow:
+        sh = lay.split()[3].filter(ImageFilter.GaussianBlur(14 * K)).point(lambda v: int(v * shadow))
+        dark = Image.new("RGBA", lay.size, (34, 18, 64, 255)); dark.putalpha(sh)
+        canvas.alpha_composite(dark, (int(cx * K - size / 2 + 8 * K), int(cy * K - size / 2 + 14 * K)))
+    canvas.alpha_composite(lay, (int(cx * K - size / 2), int(cy * K - size / 2)))
+
+
+def sticker_pill(canvas, cx, cy, s, size, h, pad, rot, fill, text, tr=1.5, shadow=0.3):
+    f = font(ARG_BOLD, size)
+    w = text_width(f, s, tr) / K + 2 * pad
+    lay = Image.new("RGBA", (int((w + 40) * K), int((h + 40) * K)), (0, 0, 0, 0))
+    pill_button(lay, 20, 20, s, size, h, pad, fill=fill, text=text, tr=tr)
+    lay = lay.rotate(rot, resample=Image.BICUBIC, expand=True)
+    if shadow:
+        sh = lay.split()[3].filter(ImageFilter.GaussianBlur(10 * K)).point(lambda v: int(v * shadow))
+        dark = Image.new("RGBA", lay.size, (34, 18, 64, 255)); dark.putalpha(sh)
+        canvas.alpha_composite(dark, (int(cx * K - lay.width / 2 + 6 * K), int(cy * K - lay.height / 2 + 10 * K)))
+    canvas.alpha_composite(lay, (int(cx * K - lay.width / 2), int(cy * K - lay.height / 2)))
+
+
+def bouncy_headline(canvas, x, y, s, f, tr, fill, pattern):
+    """Each glyph gets a small vertical offset and tilt from `pattern` [(dy, deg), ...] cycled."""
+    top = f.getbbox("H")[1]; ch = f.getbbox("H")[3] - top
+    X = x * K; i = 0
+    for c in s:
+        w = f.getlength(c)
+        if c != " ":
+            dy, deg = pattern[i % len(pattern)]; i += 1
+            g = Image.new("RGBA", (int(w + 40 * K), int(ch * 1.6 + 40 * K)), (0, 0, 0, 0))
+            ImageDraw.Draw(g).text((20 * K, 20 * K - top + ch * 0.3), c, font=f, fill=fill)
+            g = g.rotate(deg, resample=Image.BICUBIC, expand=False)
+            canvas.alpha_composite(g, (int(X - 20 * K), int(y * K + dy * K - 20 * K - ch * 0.3)))
+        X += w + tr * K
+
+
+def wave_headline(canvas, x, y, s, size, tr, fill, amp=22, freq=0.85, phase=0.0, scales=None, tilt=1.0):
+    """Glyphs ride a sine wave: baseline offset amp*sin, each glyph tilted to the wave's tangent,
+    optional per-glyph scale (bottom-aligned) so letters can swell like a sound."""
+    scales = scales or [1.0] * len(s)
+    X = x * K
+    base = (y + size * 0.72) * K          # nominal baseline (cap height ~0.72 em)
+    for i, c in enumerate(s):
+        sc = scales[i]
+        f = ImageFont.truetype(ARG_BOLD, int(size * sc * K))
+        w = f.getlength(c)
+        t = i * freq + phase
+        dy = amp * math.sin(t) * K
+        deg = -math.degrees(math.atan(amp * freq * math.cos(t) / (size * 0.62))) * tilt
+        if c != " ":
+            bb = f.getbbox(c)
+            pad = int(40 * K)
+            g = Image.new("RGBA", (int(w + 2 * pad), int(bb[3] + 2 * pad)), (0, 0, 0, 0))
+            ImageDraw.Draw(g).text((pad, pad), c, font=f, fill=fill)
+            g = g.rotate(deg, resample=Image.BICUBIC, center=(pad + w / 2, pad + bb[3]))
+            canvas.alpha_composite(g, (int(X - pad), int(base + dy - bb[3] - pad)))
+        X += w + tr * K * sc
+
+
 def logo_white():
     sys.path.insert(0, ROOT)
     from compose import logo_rgba
@@ -304,7 +388,13 @@ def build(L, out_base):
         L["head_size"] = 200 * L["head_fit"] / w0
         print("head size", round(L["head_size"], 1))
     fh = font(ARG_BOLD, L["head_size"])
-    draw_text(cv, L["head_x"], L["head_y"], L["head"], fh, L.get("head_tr", -2), align=L.get("head_align", "left"))
+    if L.get("head_wave"):
+        hw = L["head_wave"]
+        wave_headline(cv, L["head_x"], L["head_y"], L["head"], L["head_size"], L.get("head_tr", -2), WHITE, **hw)
+    elif L.get("head_bounce"):
+        bouncy_headline(cv, L["head_x"], L["head_y"], L["head"], fh, L.get("head_tr", -2), WHITE, L["head_bounce"])
+    else:
+        draw_text(cv, L["head_x"], L["head_y"], L["head"], fh, L.get("head_tr", -2), align=L.get("head_align", "left"))
     for item in L["mid"]:
         place(cv, **item)
     for item in L["front"]:
@@ -313,13 +403,21 @@ def build(L, out_base):
     for t in L["texts"]:
         if t.get("pct"):
             pct_block(cv, t["x"], t["y"], t["pct"], t["size"], align=t.get("align", "left")); continue
+        if t.get("badge"):
+            scallop_badge(cv, t["cx"], t["cy"], t["r"], t["rot"], tuple(t["fill"]), top_text=t.get("top"), top_size=t.get("top_size", 26),
+                          digits=t.get("digits", "25"), num_size=t.get("num_size", 120), text=tuple(t.get("text", (58, 40, 104)))); continue
+        if t.get("sticker"):
+            sticker_pill(cv, t["cx"], t["cy"], t["s"], t["size"], t["h"], t["pad"], t["rot"], tuple(t["fill"]), tuple(t["text"]), t.get("tr", 1.5)); continue
         if t.get("pill"):
             pill_button(cv, t["x"], t["y"], t["s"], t["size"], t["h"], t["pad"], fill=t.get("fill"), text=tuple(t.get("text", WHITE)),
                         outline=t.get("outline"), stroke=t.get("stroke", 3), arrow=t.get("arrow", False), tr=t.get("tr", 1.5),
                         align=t.get("align", "left")); continue
         f = font(ARG_BOLD if t.get("bold", True) else ARG_DEMI, t["size"])
         if t.get("arc"):
-            arc_text(cv, t["cx"], t["cy"], t["r"], t["start"], t["s"], f, t.get("tr", 2))
+            start = t.get("start")
+            if start is None:   # centre the text on angle t["center_on"]
+                start = t.get("center_on", -90) - math.degrees(text_width(f, t["s"], t.get("tr", 2)) / (t["r"] * K)) / 2
+            arc_text(cv, t["cx"], t["cy"], t["r"], start, t["s"], f, t.get("tr", 2))
         else:
             draw_text(cv, t["x"], t["y"], t["s"], f, t.get("tr", 1), align=t.get("align", "left"))
     if L.get("logo"):

@@ -609,3 +609,102 @@ X1 = dict(
 T4 = dict(T3, head="CHILL SALE")
 U2 = dict(U1, head="CHILL SALE")
 X2 = dict(X1, head="CHILL SALE")
+
+H_OPTS = ["SEGER SALE", "LAGI HAUS?", "SERBU HEMAT", "COOL DEALS", "PESTA SEGAR", "HEMAT SEGAR"]
+for _i, _h in enumerate(H_OPTS):
+    globals()[f"H{_i+1}"] = dict(T3, head=_h)
+
+LIME = (206, 240, 96)
+BOUNCE = [(0, -2), (-9, 2), (4, -3), (-6, 2.5), (7, -2), (-5, 3), (3, -2.5), (-8, 2), (5, -3), (-3, 2)]
+Z1 = dict(T3)
+Z1.update(
+    head="SEGERTOBER", head_bounce=BOUNCE,
+    mid=[
+        dict(name="drink_matcha", cx=296, cy=852, height=650, rot=5, shadow=0.32, see=True),
+        dict(name="drink_charcoal_fix", cx=904, cy=852, height=650, rot=-5, shadow=0.32, see=True),
+        dict(name="drink_ube", cx=600, cy=892, height=730, rot=0, shadow=0.36, see=True),
+    ],
+    front=[
+        dict(name="pouch_matcha", cx=296, cy=1276, width=262, rot=0, shadow=0.32),
+        dict(name="pouch_charcoal", cx=904, cy=1276, width=262, rot=0, shadow=0.32),
+        dict(name="pouch_ube", cx=600, cy=1300, width=280, rot=0, shadow=0.34),
+        dict(name="bigice_B", cx=1135, cy=1170, width=210, rot=-10, shadow=0.24),
+        dict(name="icecube_1", cx=72, cy=1290, width=130, rot=18, shadow=0.24),
+        dict(name="ubeslice_L", cx=1150, cy=1570, width=290, rot=20, shadow=0.28),
+    ],
+    texts=[
+        dict(arc=True, s="VOUCHER HINGGA 15RB", cx=300, cy=930, r=500, center_on=-90, size=30, tr=3),
+        dict(badge=True, cx=930, cy=414, r=150, rot=-10, fill=LIME, top="DISC UP TO", top_size=24, num_size=112, text=VIOLET),
+        dict(sticker=True, s="GRATIS ONGKIR", cx=196, cy=1500, size=28, h=64, pad=26, rot=-6, fill=LIME, text=VIOLET),
+        dict(pill=True, s="SHOP NOW", x=640, y=1468, size=34, h=80, pad=40, fill=WHITE3, text=VIOLET, arrow=True, tr=2, align="center"),
+    ],
+)
+
+Z2 = dict(Z1)
+Z2["texts"] = [dict(arc=True, s="VOUCHER HINGGA 15RB", cx=300, cy=770, r=340, center_on=-90, size=33, tr=3)] + Z1["texts"][1:]
+
+# --- natural October headline: question kicker + answer headline ---
+Q1 = dict(Z2)
+Q1.update(head="SEGERIN AJA", head_x=60, head_y=150, head_fit=1000)
+Q1["texts"] = [
+    dict(s="OKTOBER LAGI GERAH?", x=64, y=100, size=40, tr=4),
+    dict(arc=True, s="VOUCHER HINGGA 15RB", cx=290, cy=760, r=340, center_on=-99, size=33, tr=3),
+    dict(badge=True, cx=940, cy=440, r=142, rot=-10, fill=LIME, top="DISC UP TO", top_size=23, num_size=106, text=VIOLET),
+] + Z2["texts"][2:]
+Q1["logo"] = dict(x=62, y=40, w=160)
+
+# --- SRUUUPUT: onomatopoeia headline riding a wave, the U's swell like a long sip ---
+SRU_SCALES = [1.0, 1.0, 1.04, 1.12, 1.18, 1.0, 1.0, 1.0]
+SP1 = dict(Q1)
+SP1.update(head="SRUUUPUT", head_x=58, head_y=92, head_size=196, head_tr=-1, head_fit=None,
+          head_wave=dict(amp=16, freq=0.78, phase=0.3, scales=SRU_SCALES))
+SP1["texts"] = [
+    dict(s="BUNYI PALING ADEM BULAN OKTOBER", x=64, y=300, size=30, tr=3.5),
+] + Q1["texts"][1:]
+SP2 = dict(SP1); SP2.update(head_size=188, head_y=100, head_tr=-2,
+    head_wave=dict(amp=30, freq=0.95, phase=-0.4, scales=[1.0, 1.0, 1.07, 1.14, 1.07, 1.0, 1.0, 1.0]))
+SP3 = dict(SP1); SP3.update(head_size=186, head_y=104, head_tr=-2,
+    head_wave=dict(amp=26, freq=1.25, phase=1.2, scales=[1.0, 1.0, 1.1, 1.1, 1.1, 1.0, 1.0, 1.0], tilt=0.8))
+SP4 = dict(SP1); SP4.update(head_size=176, head_y=100, head_tr=7,
+    head_wave=dict(amp=20, freq=0.8, phase=-0.9, scales=[1.0, 1.0, 1.05, 1.1, 1.05, 1.0, 1.0, 1.0], tilt=0.65))
+SP5 = dict(SP1); SP5.update(head_size=176, head_y=100, head_tr=7,
+    head_wave=dict(amp=18, freq=0.8, phase=2.2, scales=[1.0, 1.0, 1.05, 1.1, 1.05, 1.0, 1.0, 1.0], tilt=0.65))
+SP6 = dict(SP5); SP6.update(head_size=190, head_y=96, head_tr=6,
+    head_wave=dict(amp=19, freq=0.8, phase=2.2, scales=[1.0, 1.0, 1.05, 1.1, 1.05, 1.0, 1.0, 1.0], tilt=0.65))
+SP6["texts"] = [dict(s="BUNYI PALING ADEM BULAN OKTOBER", x=66, y=312, size=30, tr=3.5)] + SP1["texts"][1:]
+
+SRU_WAVE = dict(amp=19, freq=0.8, phase=2.2, scales=[1.0, 1.0, 1.05, 1.1, 1.05, 1.0, 1.0, 1.0], tilt=0.65)
+SQ1 = dict(U1)
+SQ1.update(head="SRUUUPUT", head_x=58, head_y=92, head_size=160, head_tr=5, head_fit=None, head_wave=dict(SRU_WAVE, amp=16))
+SQ1["front"] = [it for it in U1["front"] if it["name"] != "ubeslice_S"]
+SQ1["mid"] = [it for it in U1["mid"] if it["name"] != "ubeslice_M"]
+SQ1["texts"] = [
+    dict(s="BUNYI PALING ADEM BULAN OKTOBER", x=62, y=272, size=26, tr=3),
+    dict(arc=True, s="VOUCHER HINGGA 15RB", cx=300, cy=690, r=300, center_on=-100, size=28, tr=3),
+    dict(badge=True, cx=1040, cy=250, r=118, rot=-10, fill=LIME, top="DISC UP TO", top_size=20, num_size=88, text=VIOLET),
+    dict(sticker=True, s="GRATIS ONGKIR", cx=180, cy=1110, size=25, h=58, pad=22, rot=-6, fill=LIME, text=VIOLET),
+    dict(pill=True, s="SHOP NOW", x=600, y=1092, size=31, h=72, pad=36, fill=WHITE3, text=VIOLET, arrow=True, tr=2, align="center"),
+]
+SQ2 = dict(SQ1)
+SQ2["back"] = [dict(U1["back"][0], cy=830, height=820)] + U1["back"][1:]
+SQ2["texts"] = [SQ1["texts"][0], dict(arc=True, s="VOUCHER HINGGA 15RB", cx=330, cy=650, r=300, center_on=-96, size=28, tr=3)] + SQ1["texts"][2:]
+SW1 = dict(X1)
+SW1.update(head="SRUUUPUT", head_x=72, head_y=170, head_size=162, head_tr=5, head_fit=None, head_wave=dict(SRU_WAVE, amp=16))
+SW1["mid"] = [it for it in X1["mid"] if it["name"] != "ubeslice_M"]
+SW1["texts"] = [
+    dict(s="BUNYI PALING ADEM BULAN OKTOBER", x=78, y=392, size=27, tr=3),
+    dict(badge=True, cx=240, cy=680, r=140, rot=-10, fill=LIME, top="DISC UP TO", top_size=22, num_size=102, text=VIOLET),
+    dict(arc=True, s="VOUCHER HINGGA 15RB", cx=640, cy=760, r=230, center_on=-90, size=26, tr=3),
+    dict(pill=True, s="SHOP NOW", x=640, y=806, size=32, h=76, pad=36, fill=WHITE3, text=VIOLET, arrow=True, tr=2, align="center"),
+    dict(sticker=True, s="GRATIS ONGKIR", cx=1850, cy=120, size=26, h=60, pad=24, rot=6, fill=LIME, text=VIOLET),
+]
+SW2 = dict(SW1)
+SW2.update(head_y=150, head_size=142, head_wave=dict(SRU_WAVE, amp=14))
+SW2["back"] = [X1["back"][0], dict(name="matcha_pw", cx=1030, cy=215, width=260, rot=10, shadow=0)] + X1["back"][2:]
+SW2["texts"] = [
+    dict(s="BUNYI PALING ADEM BULAN OKTOBER", x=76, y=312, size=26, tr=3),
+    dict(badge=True, cx=235, cy=650, r=138, rot=-10, fill=LIME, top="DISC UP TO", top_size=22, num_size=100, text=VIOLET),
+    dict(arc=True, s="VOUCHER HINGGA 15RB", cx=640, cy=860, r=240, center_on=-90, size=26, tr=3),
+    dict(pill=True, s="SHOP NOW", x=640, y=738, size=32, h=76, pad=36, fill=WHITE3, text=VIOLET, arrow=True, tr=2, align="center"),
+    SW1["texts"][4],
+]
