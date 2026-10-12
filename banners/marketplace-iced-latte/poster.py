@@ -17,6 +17,7 @@ POUCH = {"matcha": ROOT + "/assets/nomukita-matcha-latte-250g.png",
          "ube": ROOT + "/assets/nomukita-ube-250g.png",
          "charcoal": ROOT + "/assets/nomukita-charcoal-250g.png"}
 WHITE = (255, 255, 255)
+GRAIN = 9.5
 K = 2  # supersampling: design units are for the 1200-wide master
 
 
@@ -53,7 +54,8 @@ def from_oklab(lab):
     return np.stack([lin_to_srgb(r), lin_to_srgb(g), lin_to_srgb(bb)], axis=-1)
 
 
-def gradient(W, H, stops, angle_deg=8, grain=9.5, seed=3):
+def gradient(W, H, stops, angle_deg=8, grain=None, seed=3):
+    grain = GRAIN if grain is None else grain
     """Vertical-ish gradient through OKLab colour stops [(pos, rgb), ...] with film grain."""
     yy, xx = np.mgrid[0:H, 0:W].astype(np.float64)
     a = math.radians(angle_deg)
@@ -253,7 +255,7 @@ def pill_button(canvas, x, y, s, size, h, pad, fill=WHITE, text=(58, 40, 104), o
     tw = text_width(f, s, tr) / K
     aw = size * 0.75 if arrow else 0
     w = tw + 2 * pad + (aw + size * 0.45 if arrow else 0)
-    X = x - w if align == "right" else x
+    X = x - w if align == "right" else (x - w / 2 if align == "center" else x)
     ss = 3
     lay = Image.new("RGBA", (int(w * K * ss), int(h * K * ss)), (0, 0, 0, 0)); ld = ImageDraw.Draw(lay)
     if fill:
@@ -290,6 +292,8 @@ STOPS = [(0.0, (104, 58, 206)), (0.42, (96, 120, 236)), (0.66, (70, 178, 196)), 
 
 def build(L, out_base):
     W, H = L["size"]
+    global GRAIN
+    GRAIN = L.get("grain", 9.5)
     cv = gradient(W * K, H * K, L.get("stops", STOPS), L.get("angle", 8))
     for item in L["back"]:
         place(cv, **item)

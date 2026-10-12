@@ -5,8 +5,18 @@ File utama (versi promo)
 - `nomukita-iced-latte-promo-1x1-1200x1200.jpg/png` : slot foto produk marketplace
 - `nomukita-iced-latte-promo-2x1-2000x1000.png`, `-promo-2x1-1200x600.jpg` : banner toko
 - `archive-no-promo/` : versi pertama tanpa promo
+- `archive-promo-busy/` : versi promo pertama (kolase penuh dekorasi, dinilai terlalu ramai)
 
-Struktur yang diambil dari referensi
+Revisi clean (versi aktif)
+- Semua dekorasi dihapus (cipratan susu, bubuk matcha, daun teh, es batu, irisan ube) dan subjudul
+  BRING THE CAFE HOME dihapus. Dari sekitar 20 elemen tinggal 12.
+- Susunan pita horizontal: logo dan headline, pita penawaran (DISC UP TO 25% kiri, dua pill kanan),
+  tiga minuman (ube di tengah dan di depan, matcha kiri, charcoal kanan, miring 5 derajat),
+  tiga pouch tepat di bawah minumannya masing-masing, tombol SHOP NOW rata tengah.
+- Satu-satunya tumpang tindih yang disengaja: pouch di depan dasar gelasnya, sebagai pasangan produk dan hasil.
+- Grain diturunkan dari 9,5 ke 7.
+
+Struktur yang diambil dari referensi (versi kolase)
 - Headline putih raksasa satu baris, subjudul kecil rata kanan di bawahnya, teks melengkung mengikuti gelas
   depan, CTA dua baris di kiri bawah. Semua teks putih.
 - Dua sampai tiga gelas miring berlawanan arah dalam diagonal kiri atas ke kanan bawah, gelas depan paling besar.
@@ -36,7 +46,7 @@ Visual
 - Prompt di `source/`, potongan aset di `parts/`.
 
 Mengubah layout tanpa kredit
-- Semua posisi ada di `layouts.py` (promo: P3 = 3:4, S4 = 1:1, W6 = 2:1; tanpa promo: V6, S3, W3). Jalankan `python3 poster.py V6 out`.
+- Semua posisi ada di `layouts.py` (clean aktif: C2 = 3:4, S5 = 1:1, W7 = 2:1; promo ramai: P3, S4, W6; tanpa promo: V6, S3, W3). Jalankan `python3 poster.py V6 out`.
 - Path di skrip mengarah ke scratchpad sesi; sesuaikan `ROOT` bila dijalankan di tempat lain.
 
 Kredit kie.ai: 33 (3 render GPT Image 2 2K + 3 remove-background).

@@ -395,3 +395,94 @@ W6["back"] = [
     dict(name="milk", cx=1060, cy=575, height=620, rot=-12, shadow=0.18),
     dict(name="matcha_pw", cx=1015, cy=250, width=390, rot=10, shadow=0),
 ]
+
+WHITE3 = (255, 255, 255)
+C1 = dict(
+    size=(1200, 1600), angle=6, grain=7.0,
+    head="ICED LATTE", head_x=60, head_y=104, head_fit=1080, head_tr=-3,
+    logo=dict(x=62, y=44, w=168),
+    back=[],
+    mid=[
+        dict(name="drink_matcha", cx=292, cy=830, height=680, rot=5, shadow=0.32, see=True),
+        dict(name="drink_charcoal_fix", cx=908, cy=830, height=680, rot=-5, shadow=0.32, see=True),
+        dict(name="drink_ube", cx=600, cy=868, height=760, rot=0, shadow=0.36, see=True),
+    ],
+    front=[
+        dict(name="pouch_matcha", cx=292, cy=1262, width=272, rot=0, shadow=0.32),
+        dict(name="pouch_charcoal", cx=908, cy=1262, width=272, rot=0, shadow=0.32),
+        dict(name="pouch_ube", cx=600, cy=1290, width=290, rot=0, shadow=0.34),
+    ],
+    texts=[
+        dict(s="DISC", x=62, y=318, size=42, tr=2),
+        dict(s="UP TO", x=62, y=372, size=42, tr=2),
+        dict(pct="25", x=228, y=304, size=196, align="left"),
+        dict(pill=True, s="VOUCHER HINGGA 15RB", x=1140, y=304, size=29, h=62, pad=24, fill=None, outline=WHITE3, stroke=3.5, text=WHITE3, tr=1, align="right"),
+        dict(pill=True, s="GRATIS ONGKIR", x=1140, y=380, size=29, h=62, pad=24, fill=None, outline=WHITE3, stroke=3.5, text=WHITE3, tr=1, align="right"),
+        dict(pill=True, s="SHOP NOW", x=600, y=1456, size=36, h=86, pad=40, fill=WHITE3, text=VIOLET, arrow=True, tr=2, align="center"),
+    ],
+)
+
+C2 = dict(C1)
+C2.update(
+    mid=[
+        dict(name="drink_matcha", cx=296, cy=842, height=650, rot=5, shadow=0.32, see=True),
+        dict(name="drink_charcoal_fix", cx=904, cy=842, height=650, rot=-5, shadow=0.32, see=True),
+        dict(name="drink_ube", cx=600, cy=882, height=730, rot=0, shadow=0.36, see=True),
+    ],
+    front=[
+        dict(name="pouch_matcha", cx=296, cy=1268, width=262, rot=0, shadow=0.32),
+        dict(name="pouch_charcoal", cx=904, cy=1268, width=262, rot=0, shadow=0.32),
+        dict(name="pouch_ube", cx=600, cy=1292, width=280, rot=0, shadow=0.34),
+    ],
+    texts=[t if not t.get("s") == "SHOP NOW" else dict(t, y=1462, h=80, size=34) for t in C1["texts"]],
+)
+
+S5 = dict(
+    size=(1200, 1200), angle=6, grain=7.0,
+    head="ICED LATTE", head_x=60, head_y=96, head_fit=1080, head_tr=-3,
+    logo=dict(x=62, y=40, w=160),
+    back=[],
+    mid=[
+        dict(name="drink_matcha", cx=330, cy=668, height=470, rot=5, shadow=0.32, see=True),
+        dict(name="drink_charcoal_fix", cx=870, cy=668, height=470, rot=-5, shadow=0.32, see=True),
+        dict(name="drink_ube", cx=600, cy=698, height=530, rot=0, shadow=0.36, see=True),
+    ],
+    front=[
+        dict(name="pouch_matcha", cx=330, cy=950, width=200, rot=0, shadow=0.32),
+        dict(name="pouch_charcoal", cx=870, cy=950, width=200, rot=0, shadow=0.32),
+        dict(name="pouch_ube", cx=600, cy=968, width=214, rot=0, shadow=0.34),
+    ],
+    texts=[
+        dict(s="DISC", x=62, y=290, size=34, tr=2),
+        dict(s="UP TO", x=62, y=334, size=34, tr=2),
+        dict(pct="25", x=196, y=280, size=150, align="left"),
+        dict(pill=True, s="VOUCHER HINGGA 15RB", x=1140, y=280, size=25, h=54, pad=21, fill=None, outline=WHITE3, stroke=3, text=WHITE3, tr=1, align="right"),
+        dict(pill=True, s="GRATIS ONGKIR", x=1140, y=344, size=25, h=54, pad=21, fill=None, outline=WHITE3, stroke=3, text=WHITE3, tr=1, align="right"),
+        dict(pill=True, s="SHOP NOW", x=600, y=1084, size=31, h=72, pad=36, fill=WHITE3, text=VIOLET, arrow=True, tr=2, align="center"),
+    ],
+)
+
+W7 = dict(
+    size=(2000, 1000), angle=4, grain=7.0,
+    head="ICED LATTE", head_x=74, head_y=262, head_fit=820, head_tr=-3,
+    logo=dict(x=76, y=66, w=165),
+    back=[],
+    mid=[
+        dict(name="drink_matcha", cx=1150, cy=440, height=560, rot=5, shadow=0.32, see=True),
+        dict(name="drink_charcoal_fix", cx=1690, cy=440, height=560, rot=-5, shadow=0.32, see=True),
+        dict(name="drink_ube", cx=1420, cy=470, height=630, rot=0, shadow=0.36, see=True),
+    ],
+    front=[
+        dict(name="pouch_matcha", cx=1150, cy=815, width=225, rot=0, shadow=0.32),
+        dict(name="pouch_charcoal", cx=1690, cy=815, width=225, rot=0, shadow=0.32),
+        dict(name="pouch_ube", cx=1420, cy=835, width=240, rot=0, shadow=0.34),
+    ],
+    texts=[
+        dict(s="DISC", x=76, y=432, size=40, tr=2),
+        dict(s="UP TO", x=76, y=484, size=40, tr=2),
+        dict(pct="25", x=244, y=418, size=164, align="left"),
+        dict(pill=True, s="VOUCHER HINGGA 15RB", x=76, y=568, size=29, h=62, pad=22, fill=None, outline=WHITE3, stroke=3.5, text=WHITE3, tr=1),
+        dict(pill=True, s="GRATIS ONGKIR", x=482, y=568, size=29, h=62, pad=22, fill=None, outline=WHITE3, stroke=3.5, text=WHITE3, tr=1),
+        dict(pill=True, s="SHOP NOW", x=76, y=666, size=33, h=78, pad=32, fill=WHITE3, text=VIOLET, arrow=True, tr=2),
+    ],
+)
