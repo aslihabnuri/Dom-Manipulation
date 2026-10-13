@@ -360,6 +360,48 @@ def wave_headline(canvas, x, y, s, size, tr, fill, amp=22, freq=0.85, phase=0.0,
         X += w + tr * K * sc
 
 
+def shiver_headline(canvas, x, y, s, size, tr, fill, shiver=(), rots=None, dys=None, ghost=7, ghost_a=0.55,
+                    ghost_fill=(170, 222, 255), marks=True):
+    """Straight headline whose `shiver` glyphs tremble: alternating tilt, small vertical jitter, icy ghost copies
+    offset left/right BEHIND every glyph, and short vibration strokes after the word (cartoon cold shiver)."""
+    rots = rots or [0] * len(s); dys = dys or [0] * len(s)
+    f = ImageFont.truetype(ARG_BOLD, int(size * K))
+    base = (y + size * 0.72) * K
+    pad = int(40 * K)
+    items = []
+    X = x * K
+    for i, c in enumerate(s):
+        w = f.getlength(c)
+        if c != " ":
+            items.append((i, c, X, w, f.getbbox(c)))
+        X += w + tr * K
+    end_x = X - tr * K
+
+    def glyph(c, w, bb, rot, col):
+        g = Image.new("RGBA", (int(w + 2 * pad), int(bb[3] + 2 * pad)), (0, 0, 0, 0))
+        ImageDraw.Draw(g).text((pad, pad), c, font=f, fill=col)
+        return g.rotate(rot, resample=Image.BICUBIC, center=(pad + w / 2, pad + (bb[1] + bb[3]) / 2))
+    for i, c, X0, w, bb in items:          # pass 1: ghosts behind
+        if i in shiver:
+            gh = glyph(c, w, bb, rots[i], ghost_fill + (int(255 * ghost_a),))
+            px, py = int(X0 - pad), int(base + dys[i] * K - bb[3] - pad)
+            canvas.alpha_composite(gh, (px - int(ghost * K), py))
+            canvas.alpha_composite(gh, (px + int(ghost * K), py))
+    for i, c, X0, w, bb in items:          # pass 2: letters
+        canvas.alpha_composite(glyph(c, w, bb, rots[i], fill + (255,)), (int(X0 - pad), int(base + dys[i] * K - bb[3] - pad)))
+    if marks:                              # two curved "sound" strokes after the word, like a shiver
+        ch = (f.getbbox("H")[3] - f.getbbox("H")[1])
+        d = ImageDraw.Draw(canvas)
+        sw = int(size * 0.05 * K)
+        cy = base - ch * 0.5
+        x0 = end_x + ghost * K
+        for r in (ch * 0.30, ch * 0.52):
+            box = [x0 - r, cy - r, x0 + r, cy + r]
+            d.arc(box, -42, 42, fill=fill + (255,), width=sw)
+            for ang in (-42, 42):
+                ex = x0 + (r - sw / 2) * math.cos(math.radians(ang)); ey = cy + (r - sw / 2) * math.sin(math.radians(ang))
+                d.ellipse([ex - sw / 2, ey - sw / 2, ex + sw / 2, ey + sw / 2], fill=fill + (255,))
+
 def logo_white():
     sys.path.insert(0, ROOT)
     from compose import logo_rgba
@@ -388,7 +430,9 @@ def build(L, out_base):
         L["head_size"] = 200 * L["head_fit"] / w0
         print("head size", round(L["head_size"], 1))
     fh = font(ARG_BOLD, L["head_size"])
-    if L.get("head_wave"):
+    if L.get("head_shiver"):
+        shiver_headline(cv, L["head_x"], L["head_y"], L["head"], L["head_size"], L.get("head_tr", -2), WHITE, **L["head_shiver"])
+    elif L.get("head_wave"):
         hw = L["head_wave"]
         wave_headline(cv, L["head_x"], L["head_y"], L["head"], L["head_size"], L.get("head_tr", -2), WHITE, **hw)
     elif L.get("head_bounce"):

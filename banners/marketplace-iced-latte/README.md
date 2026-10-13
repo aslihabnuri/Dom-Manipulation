@@ -1,13 +1,24 @@
-# Nomukita SRUUUPUT, banner promo marketplace Oktober (Matcha, Ube, Charcoal)
+# Nomukita OKTOBRRR SALE, banner promo marketplace Oktober (Matcha, Ube, Charcoal)
 
 File utama (versi aktif)
-- `nomukita-sruuuput-3x4-1200x1600.jpg/png` : master, poster tegak
-- `nomukita-sruuuput-1x1-1200x1200.jpg/png` : slot foto produk marketplace
-- `nomukita-sruuuput-2x1-2000x1000.png`, `-2x1-1200x600.jpg` : banner toko
-- Arsip: `archive-chill-sale/` (headline CHILL SALE, tipografi bertumpuk), `archive-no-promo/` (tanpa promo),
-  `archive-promo-busy/` (promo, tipografi ramai), `archive-promo-plain/` (promo clean tanpa ornamen)
+- `nomukita-oktobrrr-3x4-1200x1600.jpg/png` : master, poster tegak
+- `nomukita-oktobrrr-1x1-1200x1200.jpg/png` : slot foto produk marketplace
+- `nomukita-oktobrrr-2x1-2000x1000.png`, `-2x1-1200x600.jpg` : banner toko
+- Arsip: `archive-sruuuput/` (headline SRUUUPUT), `archive-chill-sale/` (CHILL SALE, tipografi bertumpuk),
+  `archive-no-promo/`, `archive-promo-busy/`, `archive-promo-plain/`
 
-Versi aktif: campaign Oktober SRUUUPUT
+Versi aktif: campaign OKTOBRRR SALE
+- Nama campaign mengikuti pola Oktoboom / Shocktober: bagian "-ber" pada Oktober diganti "brrr", bunyi orang
+  menggigil kedinginan. Bunyinya menyatu (ber -> brrr) sehingga tidak terasa ditempel, dan maknanya langsung
+  ke minuman dingin. SALE di baris kedua, kapital lebar.
+- Tipografi: OKTOB lurus dan tenang; RRR bergetar (miring bergantian -7/+6/-5 derajat, naik turun sedikit),
+  dengan bayangan biru es di kiri dan kanan tiap R, ditambah dua garis getar melengkung setelah kata.
+  Kontras lurus vs bergetar ini membuat RRR terbaca disengaja, bukan salah ketik.
+- Teks promo tetap tersebar sebagai elemen lucu: badge bergerigi lime DISC UP TO 25%, teks melengkung
+  VOUCHER HINGGA 15RB, stiker miring GRATIS ONGKIR, tombol SHOP NOW.
+- Visual, ornamen, dan pouch asli sama dengan versi sebelumnya.
+
+Versi SRUUUPUT (diarsipkan di archive-sruuuput)
 - Headline berupa bunyi menyeruput: SRUUUPUT. Tidak menjelaskan produk; bunyinya membuat orang membayangkan
   tegukan dingin, dan tiga gelas di bawahnya menjadi jawabannya.
 - Kicker kecil di bawahnya mengikat ke bulan campaign: BUNYI PALING ADEM BULAN OKTOBER.
@@ -62,7 +73,7 @@ Visual
 - Prompt di `source/`, potongan aset di `parts/`.
 
 Mengubah layout tanpa kredit
-- Semua posisi ada di `layouts.py` (aktif: SP6 = 3:4, SQ2 = 1:1, SW2 = 2:1; CHILL SALE: T4, U2, X2; clean polos: C2, S5, W7; promo ramai: P3, S4, W6; tanpa promo: V6, S3, W3). Jalankan `python3 poster.py V6 out`.
+- Semua posisi ada di `layouts.py` (aktif: OB4 = 3:4, OQ1 = 1:1, OW2 = 2:1; SRUUUPUT: SP6, SQ2, SW2; CHILL SALE: T4, U2, X2; clean polos: C2, S5, W7; promo ramai: P3, S4, W6; tanpa promo: V6, S3, W3). Jalankan `python3 poster.py V6 out`.
 - Path di skrip mengarah ke scratchpad sesi; sesuaikan `ROOT` bila dijalankan di tempat lain.
 
 Kredit kie.ai: 33 (3 render GPT Image 2 2K + 3 remove-background).

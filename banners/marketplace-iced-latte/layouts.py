@@ -708,3 +708,31 @@ SW2["texts"] = [
     dict(pill=True, s="SHOP NOW", x=640, y=738, size=32, h=76, pad=36, fill=WHITE3, text=VIOLET, arrow=True, tr=2, align="center"),
     SW1["texts"][4],
 ]
+
+# --- OKTOBRRR SALE: Okto + "brrr" (shivering with cold); RRR tremble, the rest stays straight ---
+BRRR = dict(shiver=(5, 6, 7), rots=[0, 0, 0, 0, 0, -7, 6, -5], dys=[0, 0, 0, 0, 0, -5, 3, -3], ghost=9, ghost_a=0.3)
+OB1 = dict(SP6)
+OB1.update(head="OKTOBRRR", head_x=58, head_y=96, head_size=184, head_tr=0, head_wave=None, head_shiver=BRRR)
+OB1["texts"] = [dict(s="SALE", x=62, y=298, size=112, tr=14)] + SP6["texts"][1:]
+OB2 = dict(OB1)
+OB2.update(head_size=176, head_x=58)
+OB2["texts"] = [dict(s="SALE", x=64, y=300, size=104, tr=16)] + SP6["texts"][1:]
+OB3 = dict(OB2); OB3["head_shiver"] = dict(BRRR, ghost=6, ghost_a=0.7)
+OB4 = dict(OB3)
+OB4["texts"] = [dict(s="SALE", x=64, y=276, size=104, tr=16)] + SP6["texts"][1:]
+
+OQ1 = dict(SQ2)
+OQ1.update(head="OKTOBRRR", head_x=58, head_y=92, head_size=146, head_tr=0, head_wave=None,
+           head_shiver=dict(BRRR, ghost=5, ghost_a=0.7))
+OQ1["texts"] = [
+    dict(s="SALE", x=62, y=236, size=82, tr=13),
+    SQ2["texts"][1],
+    dict(SQ2["texts"][2], cy=300),
+] + SQ2["texts"][3:]
+
+OW1 = dict(SW2)
+OW1.update(head="OKTOBRRR", head_x=72, head_y=150, head_size=132, head_tr=0, head_wave=None,
+           head_shiver=dict(BRRR, ghost=5, ghost_a=0.7))
+OW1["texts"] = [dict(s="SALE", x=76, y=282, size=78, tr=12)] + SW2["texts"][1:]
+OW2 = dict(OW1); OW2.update(head_y=182)
+OW2["texts"] = [dict(s="SALE", x=76, y=314, size=78, tr=12)] + SW2["texts"][1:]
