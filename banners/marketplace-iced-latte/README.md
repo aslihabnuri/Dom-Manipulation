@@ -16,7 +16,12 @@ Versi aktif: campaign OKTOBRRR SALE
   Kontras lurus vs bergetar ini membuat RRR terbaca disengaja, bukan salah ketik.
 - Teks promo tetap tersebar sebagai elemen lucu: badge bergerigi lime DISC UP TO 25%, teks melengkung
   VOUCHER HINGGA 15RB, stiker miring GRATIS ONGKIR, tombol SHOP NOW.
-- Visual, ornamen, dan pouch asli sama dengan versi sebelumnya.
+- Gelas tengah kini ICED MATCHA UBE LATTE: ube ungu di bawah, susu putih di tengah, shot matcha hijau di atas,
+  foam lavender ube bertabur matcha (GPT Image 2 image-to-image dari foto trio yang sama, hanya gelas tengah dipakai).
+- Visual ube baru yang lebih segar: ube terbelah dengan daging ungu mengkilap dan butir air, irisan miring, dan
+  ledakan bubuk ube ungu. Bubuk ube di pojok kanan bawah membentuk diagonal dengan bubuk matcha di kiri atas.
+  Bubuk ube ditaruh di belakang pouch supaya label tetap terbaca.
+- Pouch asli sama dengan versi sebelumnya.
 - 2:1 diperkaya: ube terbelah melayang di atas cipratan susu kecil (mengisi ruang di atas teks voucher),
   es batu tambahan, irisan ube kecil di antara gelas, dan bubuk matcha dipindah ke DEPAN gelas matcha,
   meledak ke arah tombol SHOP NOW.
@@ -76,7 +81,9 @@ Visual
 - Prompt di `source/`, potongan aset di `parts/`.
 
 Mengubah layout tanpa kredit
-- Semua posisi ada di `layouts.py` (aktif: OB4 = 3:4, OQ1 = 1:1, OW4 = 2:1; SRUUUPUT: SP6, SQ2, SW2; CHILL SALE: T4, U2, X2; clean polos: C2, S5, W7; promo ramai: P3, S4, W6; tanpa promo: V6, S3, W3). Jalankan `python3 poster.py V6 out`.
+- Semua posisi ada di `layouts.py` (aktif: OB6 = 3:4, OQ4 = 1:1, OW6 = 2:1; SRUUUPUT: SP6, SQ2, SW2; CHILL SALE: T4, U2, X2; clean polos: C2, S5, W7; promo ramai: P3, S4, W6; tanpa promo: V6, S3, W3). Jalankan `python3 poster.py V6 out`.
 - Path di skrip mengarah ke scratchpad sesi; sesuaikan `ROOT` bila dijalankan di tempat lain.
 
-Kredit kie.ai: 33 (3 render GPT Image 2 2K + 3 remove-background).
+Kredit kie.ai: 33 untuk set awal (3 render GPT Image 2 2K + 3 remove-background), ditambah 2 render GPT Image 2 2K
+dan 2 remove-background untuk Matcha Ube Latte dan aset ube baru (prompt di `source/prompt_matchaube.txt`,
+`source/prompt_ube3.txt`): 22 kredit, total fase ini 55.

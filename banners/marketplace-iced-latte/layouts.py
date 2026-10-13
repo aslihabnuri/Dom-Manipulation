@@ -763,3 +763,51 @@ OW4["front"] = X1["front"] + [
     dict(name="icecube_1", cx=790, cy=520, width=60, rot=-12, shadow=0.2),
     dict(name="matcha_pw", cx=950, cy=575, width=300, rot=-18, shadow=0),
 ]
+
+# --- Matcha Ube Latte in the centre glass + fresher ube imagery (vivid cut ube, tilted slice, ube powder) ---
+def _swap(items, table):
+    out = []
+    for it in items:
+        it = dict(it)
+        if it["name"] in table:
+            new = table[it["name"]]
+            if new is None: continue
+            it.update(new) if isinstance(new, dict) else it.update(name=new)
+        out.append(it)
+    return out
+
+UBE_SWAP = {
+    "drink_ube": "drink_matchaube",
+    "ubeslice_L": dict(name="ubeslice_T"),
+    "ubeslice_S": dict(name="ubeslice_T"),
+    "ubeslice_M": dict(name="ubeslice_T"),
+    "ubehalf_single": dict(name="ubefresh_0"),
+}
+def _ube(L, extra_back=(), extra_front=()):
+    L = dict(L)
+    L["back"] = _swap(L["back"], UBE_SWAP) + list(extra_back)
+    L["mid"] = _swap(L["mid"], UBE_SWAP)
+    L["front"] = _swap(L["front"], UBE_SWAP) + list(extra_front)
+    return L
+
+OB5 = _ube(OB4)
+OQ3 = _ube(OQ1)
+OW5 = _ube(OW4)
+# ube corner: violet powder burst + vivid cut ube, mirroring the matcha burst on the opposite diagonal
+def _corner(L, slice_name_xy, pw, fresh):
+    L = dict(L)
+    L["front"] = [it for it in L["front"] if not (it["name"] == "ubeslice_T" and (it["cx"], it["cy"]) == slice_name_xy)] + [pw, fresh]
+    return L
+OB6 = _corner(OB5, (1150, 1570), dict(name="ube_pw", cx=1105, cy=1475, width=360, rot=-20, shadow=0),
+              dict(name="ubefresh_0", cx=1118, cy=1545, width=250, rot=-14, shadow=0.3))
+OQ4 = _corner(OQ3, (1160, 1180), dict(name="ube_pw", cx=1120, cy=1095, width=290, rot=-20, shadow=0),
+              dict(name="ubefresh_0", cx=1135, cy=1150, width=200, rot=-14, shadow=0.3))
+OW6 = dict(OW5)
+OW6["front"] = OW5["front"][:]
+OW6["front"].insert(0, dict(name="ube_pw", cx=925, cy=955, width=300, rot=-25, shadow=0))
+for _L in (OB6, OQ4):          # powder BEHIND the pouches so every label stays readable
+    _pw = [it for it in _L["front"] if it["name"] == "ube_pw"][0]
+    _L["front"] = [_pw] + [it for it in _L["front"] if it["name"] != "ube_pw"]
+# turn the cut face toward the poster (ubefresh_1 shows its violet face on the left)
+for _L, _xy in ((OB6, dict(cx=1092, cy=1520, width=255, rot=18)), (OQ4, dict(cx=1112, cy=1118, width=205, rot=18))):
+    _L["front"] = [dict(it, name="ubefresh_1", **_xy) if it["name"] == "ubefresh_0" else it for it in _L["front"]]
