@@ -821,3 +821,15 @@ OB7 = _badge(OB6, cx=965, cy=440, r=182, top_size=29, num_size=138)
 OQ5 = _badge(OQ4, cx=1032, cy=298, r=150, top_size=25, num_size=114)
 OW7 = _badge(OW6, cx=258, cy=640, r=176, top_size=28, num_size=130)
 OB8 = _badge(OB6, cx=1004, cy=394, r=176, top_size=28, num_size=134)
+
+# back to the first round ube slices (user prefers them); the violet powder burst stays behind them
+def _first_ube(L, table):
+    L = dict(L)
+    for k in ("mid", "front"):
+        L[k] = [dict(it, **table[(it["name"], it["cx"], it["cy"])]) if (it["name"], it["cx"], it["cy"]) in table else it for it in L[k]]
+    return L
+OB9 = _first_ube(OB8, {("ubefresh_1", 1092, 1520): dict(name="ubeslice_L", cx=1140, cy=1560, width=290, rot=20)})
+OQ6 = _first_ube(OQ5, {("ubefresh_1", 1112, 1118): dict(name="ubeslice_L", cx=1150, cy=1170, width=230, rot=20)})
+OW8 = _first_ube(OW7, {("ubeslice_T", 1556, 92): dict(name="ubeslice_S"),
+                       ("ubeslice_T", 860, 1010): dict(name="ubeslice_L"),
+                       ("ubefresh_0", 652, 448): dict(name="ubeslice_M", width=200, rot=-16)})

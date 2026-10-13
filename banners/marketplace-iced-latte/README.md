@@ -18,8 +18,8 @@ Versi aktif: campaign OKTOBRRR SALE
   VOUCHER HINGGA 15RB, stiker miring GRATIS ONGKIR, tombol SHOP NOW.
 - Gelas tengah kini ICED MATCHA UBE LATTE: ube ungu di bawah, susu putih di tengah, shot matcha hijau di atas,
   foam lavender ube bertabur matcha (GPT Image 2 image-to-image dari foto trio yang sama, hanya gelas tengah dipakai).
-- Visual ube baru yang lebih segar: ube terbelah dengan daging ungu mengkilap dan butir air, irisan miring, dan
-  ledakan bubuk ube ungu. Bubuk ube di pojok kanan bawah membentuk diagonal dengan bubuk matcha di kiri atas.
+- Potongan ube memakai irisan bulat versi pertama (ube terbelah dan irisan miring hasil generate kedua
+  tidak dipakai karena terlihat kurang bagus); dari aset baru hanya ledakan bubuk ube ungu yang dipertahankan. Bubuk ube di pojok kanan bawah membentuk diagonal dengan bubuk matcha di kiri atas.
   Bubuk ube ditaruh di belakang pouch supaya label tetap terbaca.
 - Pouch asli sama dengan versi sebelumnya.
 - Badge DISC UP TO 25% diperbesar sekitar 25 persen di semua ukuran; di 3:4 dinaikkan agar taburan charcoal tetap terlihat.
@@ -82,7 +82,7 @@ Visual
 - Prompt di `source/`, potongan aset di `parts/`.
 
 Mengubah layout tanpa kredit
-- Semua posisi ada di `layouts.py` (aktif: OB8 = 3:4, OQ5 = 1:1, OW7 = 2:1; SRUUUPUT: SP6, SQ2, SW2; CHILL SALE: T4, U2, X2; clean polos: C2, S5, W7; promo ramai: P3, S4, W6; tanpa promo: V6, S3, W3). Jalankan `python3 poster.py V6 out`.
+- Semua posisi ada di `layouts.py` (aktif: OB9 = 3:4, OQ6 = 1:1, OW8 = 2:1; SRUUUPUT: SP6, SQ2, SW2; CHILL SALE: T4, U2, X2; clean polos: C2, S5, W7; promo ramai: P3, S4, W6; tanpa promo: V6, S3, W3). Jalankan `python3 poster.py V6 out`.
 - Path di skrip mengarah ke scratchpad sesi; sesuaikan `ROOT` bila dijalankan di tempat lain.
 
 Kredit kie.ai: 33 untuk set awal (3 render GPT Image 2 2K + 3 remove-background), ditambah 2 render GPT Image 2 2K
