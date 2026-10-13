@@ -811,3 +811,13 @@ for _L in (OB6, OQ4):          # powder BEHIND the pouches so every label stays 
 # turn the cut face toward the poster (ubefresh_1 shows its violet face on the left)
 for _L, _xy in ((OB6, dict(cx=1092, cy=1520, width=255, rot=18)), (OQ4, dict(cx=1112, cy=1118, width=205, rot=18))):
     _L["front"] = [dict(it, name="ubefresh_1", **_xy) if it["name"] == "ubefresh_0" else it for it in _L["front"]]
+
+# bigger DISC UP TO 25% badge
+def _badge(L, **kw):
+    L = dict(L)
+    L["texts"] = [dict(t, **kw) if t.get("badge") else t for t in L["texts"]]
+    return L
+OB7 = _badge(OB6, cx=965, cy=440, r=182, top_size=29, num_size=138)
+OQ5 = _badge(OQ4, cx=1032, cy=298, r=150, top_size=25, num_size=114)
+OW7 = _badge(OW6, cx=258, cy=640, r=176, top_size=28, num_size=130)
+OB8 = _badge(OB6, cx=1004, cy=394, r=176, top_size=28, num_size=134)
