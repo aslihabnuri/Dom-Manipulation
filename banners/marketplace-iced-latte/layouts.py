@@ -736,3 +736,30 @@ OW1.update(head="OKTOBRRR", head_x=72, head_y=150, head_size=132, head_tr=0, hea
 OW1["texts"] = [dict(s="SALE", x=76, y=282, size=78, tr=12)] + SW2["texts"][1:]
 OW2 = dict(OW1); OW2.update(head_y=182)
 OW2["texts"] = [dict(s="SALE", x=76, y=314, size=78, tr=12)] + SW2["texts"][1:]
+
+# 2:1 richer: more ube / matcha / milk / ice, matcha powder bursting in FRONT, floating ube over a milk splash
+OW3 = dict(OW2)
+OW3["back"] = [
+    X1["back"][0],                                                                   # milk wave behind the trio
+    dict(name="milk", cx=640, cy=470, height=430, rot=-62, flip=True, shadow=0.14),  # second splash carrying the ube
+    X1["back"][2],                                                                   # tea leaves, right edge
+]
+OW3["mid"] = [
+    dict(name="ubeslice_S", cx=1556, cy=92, width=118, rot=-20, shadow=0.26),
+    dict(name="icecube_0", cx=1885, cy=330, width=170, rot=8, shadow=0.22),
+] + [it for it in X1["mid"] if it["name"] != "ubeslice_M"]
+OW3["front"] = X1["front"] + [
+    dict(name="ubehalf_single", cx=650, cy=470, width=230, rot=-16, shadow=0.3),
+    dict(name="icecube_1", cx=520, cy=405, width=86, rot=24, shadow=0.22),
+    dict(name="icecube_1", cx=800, cy=545, width=64, rot=-12, shadow=0.2),
+    dict(name="matcha_pw", cx=940, cy=560, width=300, rot=-18, shadow=0),
+]
+OW4 = dict(OW3)
+OW4["back"] = [X1["back"][0], dict(name="milk", cx=650, cy=445, height=310, rot=-70, flip=True, shadow=0.14), X1["back"][2]]
+OW4["mid"] = [dict(OW3["mid"][0], width=132)] + OW3["mid"][1:]
+OW4["front"] = X1["front"] + [
+    dict(name="ubehalf_single", cx=652, cy=448, width=215, rot=-16, shadow=0.3),
+    dict(name="icecube_1", cx=530, cy=392, width=80, rot=24, shadow=0.22),
+    dict(name="icecube_1", cx=790, cy=520, width=60, rot=-12, shadow=0.2),
+    dict(name="matcha_pw", cx=950, cy=575, width=300, rot=-18, shadow=0),
+]

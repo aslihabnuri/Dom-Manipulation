@@ -17,6 +17,9 @@ Versi aktif: campaign OKTOBRRR SALE
 - Teks promo tetap tersebar sebagai elemen lucu: badge bergerigi lime DISC UP TO 25%, teks melengkung
   VOUCHER HINGGA 15RB, stiker miring GRATIS ONGKIR, tombol SHOP NOW.
 - Visual, ornamen, dan pouch asli sama dengan versi sebelumnya.
+- 2:1 diperkaya: ube terbelah melayang di atas cipratan susu kecil (mengisi ruang di atas teks voucher),
+  es batu tambahan, irisan ube kecil di antara gelas, dan bubuk matcha dipindah ke DEPAN gelas matcha,
+  meledak ke arah tombol SHOP NOW.
 
 Versi SRUUUPUT (diarsipkan di archive-sruuuput)
 - Headline berupa bunyi menyeruput: SRUUUPUT. Tidak menjelaskan produk; bunyinya membuat orang membayangkan
@@ -73,7 +76,7 @@ Visual
 - Prompt di `source/`, potongan aset di `parts/`.
 
 Mengubah layout tanpa kredit
-- Semua posisi ada di `layouts.py` (aktif: OB4 = 3:4, OQ1 = 1:1, OW2 = 2:1; SRUUUPUT: SP6, SQ2, SW2; CHILL SALE: T4, U2, X2; clean polos: C2, S5, W7; promo ramai: P3, S4, W6; tanpa promo: V6, S3, W3). Jalankan `python3 poster.py V6 out`.
+- Semua posisi ada di `layouts.py` (aktif: OB4 = 3:4, OQ1 = 1:1, OW4 = 2:1; SRUUUPUT: SP6, SQ2, SW2; CHILL SALE: T4, U2, X2; clean polos: C2, S5, W7; promo ramai: P3, S4, W6; tanpa promo: V6, S3, W3). Jalankan `python3 poster.py V6 out`.
 - Path di skrip mengarah ke scratchpad sesi; sesuaikan `ROOT` bila dijalankan di tempat lain.
 
 Kredit kie.ai: 33 (3 render GPT Image 2 2K + 3 remove-background).
