@@ -6,10 +6,11 @@ photo card held by two washi tapes, the brand logo sits on the right.
 Outputs (1080x1080):
   bg.png    - RGB background: solid colour + soft card shadow + logo
   tapes.png - RGBA overlay: two washi-tape strips over the card corners
+              (skipped with --no-tapes)
   card.json - card rectangle the video must be scaled/placed into
 
 Usage:
-  python3 make_frame.py --logo logo.png --out frame --bg '#F1EBE2' --tape '#7A2E3B'
+  python3 make_frame.py --logo logo.png --out frame --bg '#F1EBE2' --tape '#7A2E3B' [--no-tapes]
   ./render.sh frame input_9x16.mp4 output_1x1.mp4
 """
 import argparse
@@ -128,6 +129,7 @@ def main():
     ap.add_argument('--logo-center', default='815,540')
     ap.add_argument('--card-shadow', type=float, default=0.22)
     ap.add_argument('--seed', type=int, default=7)
+    ap.add_argument('--no-tapes', action='store_true', help='plain card, no washi tapes')
     a = ap.parse_args()
     os.makedirs(a.out, exist_ok=True)
 
@@ -151,12 +153,13 @@ def main():
     bg.alpha_composite(logo, (lx - lw // 2, ly - lh // 2))
     bg.convert('RGB').save(os.path.join(a.out, 'bg.png'))
 
-    tapes = Image.new('RGBA', (S, S), (0, 0, 0, 0))
-    for (tx, ty), seed, ang in (((cx + cw - 12, cy + 8), a.seed, -45),
-                                ((cx + 24, cy + ch - 2), a.seed + 1, -44)):
-        t = make_tape(138, 40, a.tape, a.dots, seed, ang)
-        tapes.alpha_composite(t, (tx - t.width // 2, ty - t.height // 2))
-    tapes.save(os.path.join(a.out, 'tapes.png'))
+    if not a.no_tapes:
+        tapes = Image.new('RGBA', (S, S), (0, 0, 0, 0))
+        for (tx, ty), seed, ang in (((cx + cw - 12, cy + 8), a.seed, -45),
+                                    ((cx + 24, cy + ch - 2), a.seed + 1, -44)):
+            t = make_tape(138, 40, a.tape, a.dots, seed, ang)
+            tapes.alpha_composite(t, (tx - t.width // 2, ty - t.height // 2))
+        tapes.save(os.path.join(a.out, 'tapes.png'))
 
     with open(os.path.join(a.out, 'card.json'), 'w') as f:
         json.dump({'x': cx, 'y': cy, 'w': cw, 'h': ch}, f)
