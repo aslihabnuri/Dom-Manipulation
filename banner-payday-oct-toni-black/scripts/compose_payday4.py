@@ -30,11 +30,7 @@ def build(photo,out,k=1.0,pct="35",date_lines=("25 – 31","OCTOBER"),head_y=0.2
     f_h=font("ZalandoSansExpanded-Regular.ttf",g(lo)); trh=int(g(lo)*0.12); hc=cb(d,"H",f_h); ch=hc[3]-hc[1]; y=int(H*head_y)
     for t in lines: tracked(d,(x0-cb(d,t,f_h)[0],y-hc[1]),t,f_h,C282,trh); y+=int(ch*1.55)
     xr=int(x0+tw(d,lines[1],f_h,trh)); y_row=y-int(ch*1.55)+ch+int(ch*1.15)
-    # dates: a small dateline above the headline on the left axis, in the empty wall
     f_l=font("ZalandoSansExpanded-SemiBold.ttf",g(24)); trl=g(3); lc=cb(d,"H",f_l); lh=lc[3]-lc[1]; lead=int(lh*1.7)
-    yd=int(H*head_y)-int(ch*1.4)-(lead*(len(date_lines)-1)+lh)
-    for t in date_lines:
-        tracked(d,(x0-cb(d,t,f_l)[0],yd-lc[1]),t,f_l,C282,trl); yd+=lead
     # kicker row directly under the headline
     zk_probe=None
     base=y_row+g(58)
@@ -60,8 +56,13 @@ def build(photo,out,k=1.0,pct="35",date_lines=("25 – 31","OCTOBER"),head_y=0.2
     nb=cb(d,num,fn); tracked(d,(x0-nb[0],ytop-nc[1]),num,fn,C282,g(-2))
     f_a=font("ZalandoSansExpanded-SemiBold.ttf",int(lo*0.24)); ab=cb(d,"*",f_a)
     d.text((x0+nw+g(6)-ab[0],ytop-ab[1]),"*",font=f_a,fill=C282)
+    # dates: the promo period, right under the numeral on the left axis
+    yd=ytop+nh+g(44)
+    for t in date_lines:
+        tracked(d,(x0-cb(d,t,f_l)[0],yd-lc[1]),t,f_l,C282,trl); yd+=lead
+    yd_end=yd-lead+lh
     # SHOP NOW
-    f_s=font("ZalandoSansExpanded-SemiBold.ttf",g(24)); sc=cb(d,"H",f_s); ys=ytop+nh+g(56); t="SHOP NOW"; w=tw(d,t,f_s,g(3))
+    f_s=font("ZalandoSansExpanded-SemiBold.ttf",g(24)); sc=cb(d,"H",f_s); ys=yd_end+g(58); t="SHOP NOW"; w=tw(d,t,f_s,g(3))
     tracked(d,(x0-cb(d,t,f_s)[0],ys-sc[1]),t,f_s,C282,g(3)); uy=ys+(sc[3]-sc[1])+g(10); d.rectangle([x0,uy,x0+int(w),uy+max(1,g(1.5))-1],fill=C282)
     # bottom line and terms
     f_b=font("ZalandoSansExpanded-SemiBold.ttf",g(22)); t="TAILORED FOR COMFORT, DEFINED BY ORIGINALITY"; bc=cb(d,"H",f_b); w=tw(d,t,f_b,g(4)); yb=int(H*0.938)

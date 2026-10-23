@@ -28,6 +28,6 @@ On request the offer now matches the scale of the 9.9 / 10.10 banners. `scripts/
 - `SHOP NOW` underlined below on the left axis. Logo, bottom line and terms unchanged.
 The headline is now the second level; the percentage is the focal point. Every glyph keeps at least 20 px from the model.
 
-## Dates moved to a dateline (current final)
-The dates sat in the row between the headline and the numeral, so four elements crowded one area. They now sit above the headline as a small dateline (SemiBold 24, tracked), on the same left axis, in the empty wall. One column, in reading order: when, what, how much, act.
-Measured gaps between groups (px): dateline to headline 55, headline to offer 73, numeral to SHOP NOW 57; inside each group the line gaps are 13 to 30, so every group reads as one unit. `SAVE UP TO` now stands alone above `35%` (191 px).
+## Dates under the offer (current final)
+A dateline above the headline was tried and dropped: the headline has to open the page. The dates now sit right under `35%` as the promo period, then `SHOP NOW`, all on the headline's left axis. Reading order: what, how much, when, act.
+Measured gaps (px): headline to `SAVE UP TO` 73, `SAVE UP TO` to `35%` 30, `35%` to dates 45, dates to `SHOP NOW` 59; line gap inside the dates 13.
