@@ -10,7 +10,7 @@ def tracked(d,xy,t,f,fill,track=0):
     for ch in t: d.text((x,y),ch,font=f,fill=fill); x+=d.textlength(ch,font=f)+track
 def tw(d,t,f,track=0): return sum(d.textlength(ch,font=f) for ch in t)+track*(len(t)-1)
 def capbox(d,t,f): b=d.textbbox((0,0),t,font=f); return b
-def build(photo,out,k=1.0,pct=None,date_lines=None,corners=None,head_y=0.255,head_x=0.14,head_w=600,col2_x=0.35):
+def build(photo,out,k=1.0,pct=None,date_lines=None,corners=None,pct_max=110,head_y=0.255,head_x=0.14,head_w=600,col2_x=0.35):
     W,H=int(1334*k),int(2000*k); g=lambda v:int(round(v*k))
     src=Image.open(photo).convert("RGB"); s=max(W/src.width,H/src.height)
     src=src.resize((int(src.width*s+0.5),int(src.height*s+0.5)),Image.LANCZOS)
@@ -39,14 +39,25 @@ def build(photo,out,k=1.0,pct=None,date_lines=None,corners=None,head_y=0.255,hea
     y_lab=y-int(ch*1.55)+ch+int(ch*0.9)
     # two label columns under the headline
     f_l=font("ZalandoSansExpanded-SemiBold.ttf",24); trl=g(2); lcap=capbox(d,"H",f_l); lh=lcap[3]-lcap[1]; lead=int(lh*1.7)
-    col=[["SAVE UP TO"]+([f"{pct}%*"] if pct else []), list(date_lines) if date_lines else []]
-    xs=[x0,int(W*col2_x)]; yend=y_lab
-    for c,xc in zip(col,xs):
+    xs=[x0,int(W*col2_x)]
+    # left column: SAVE UP TO, then the percentage as a large numeral fitted to the column width; asterisk as a small superscript
+    tracked(d,(xs[0]-capbox(d,"SAVE UP TO",f_l)[0],y_lab-lcap[1]),"SAVE UP TO",f_l,C282,trl)
+    yend=y_lab+lh
+    if pct:
+        num=f"{pct}%"; lo2,hi2=24,300
+        while lo2<hi2:
+            m=(lo2+hi2+1)//2; fn=ImageFont.truetype(F+"ZalandoSansExpanded-SemiBold.ttf",g(m))
+            if tw(d,num,fn,g(1))+tw(d,"*",f_l)+g(4)<=xs[1]-xs[0]-g(44) and m<=pct_max: lo2=m
+            else: hi2=m-1
+        fn=ImageFont.truetype(F+"ZalandoSansExpanded-SemiBold.ttf",g(lo2)); nc=capbox(d,"8",fn); nh=nc[3]-nc[1]
+        yn=y_lab+lh+int(lh*0.9); tracked(d,(xs[0]-capbox(d,num,fn)[0],yn-nc[1]),num,fn,C282,g(1))
+        xa=xs[0]+tw(d,num,fn,g(1))+g(4); sb=capbox(d,"*",f_l); d.text((xa-sb[0],yn-sb[1]),"*",font=f_l,fill=C282)
+        yend=yn+nh; print("pct size",lo2)
+    if date_lines:
         yy=y_lab
-        for t in c: tracked(d,(xc-capbox(d,t,f_l)[0],yy-lcap[1]),t,f_l,C282,trl); yy+=lead
-        yend=max(yend,yy)
-    rows=max(len(col[0]),len(col[1]) if col[1] else 0,2)  # reserve two rows so SHOP NOW keeps its place
-    y_shop=y_lab+lead*rows+int(lh*1.1)
+        for t in date_lines: tracked(d,(xs[1]-capbox(d,t,f_l)[0],yy-lcap[1]),t,f_l,C282,trl); yy+=lead
+        yend=max(yend,yy-lead+lh)
+    y_shop=yend+int(lh*1.8)
     f_s=font("ZalandoSansExpanded-SemiBold.ttf",22); trs=g(3); sc=capbox(d,"H",f_s); sh=sc[3]-sc[1]
     t="SHOP NOW"; w=tw(d,t,f_s,trs); tracked(d,(x0-capbox(d,t,f_s)[0],y_shop-sc[1]),t,f_s,C282,trs)
     uy=y_shop+sh+g(9); d.rectangle([x0,uy,x0+int(w),uy+max(1,g(1.5))-1],fill=C282)

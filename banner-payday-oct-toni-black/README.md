@@ -5,7 +5,7 @@
 ## Copy and slots
 - Top centre: official logo (`6.png`), tinted `#282828`, no box.
 - Headline at head height, left of the model: `PAYDAY.` / `SPEND IT WELL.` (Zalando Sans Expanded Regular, tracking 0.12 em, fitted to 600 px, `#282828`).
-- Label columns under the headline: left `SAVE UP TO` + percentage line, right the two date lines (SemiBold 24). Right column at 0.35 W as in the reference, clear of the model's arm.
+- Label columns under the headline: left `SAVE UP TO` (SemiBold 24) with the percentage set as a large numeral under it (SemiBold, fitted to the left column, 76 px; the asterisk kept at label size as a superscript), right the two date lines (SemiBold 24) aligned to the top of `SAVE UP TO`. Right column at 0.35 W as in the reference, clear of the model's arm.
 - `SHOP NOW` under the labels, SemiBold 22 with a 1.5 px underline.
 - Bottom centre: `TAILORED FOR COMFORT, DEFINED BY ORIGINALITY` (SemiBold 22, tracked), `*Terms & conditions apply` under it (Arimo 16, `#818284`).
 - Palette: `#282828`, `#FFFFFF`, `#4F5052`, `#818284`, `#CCCCCC` only.
