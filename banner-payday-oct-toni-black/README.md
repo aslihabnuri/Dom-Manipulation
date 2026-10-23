@@ -4,7 +4,7 @@
 
 ## Copy and slots
 - Top centre: official logo (`6.png`), tinted `#282828`, no box.
-- Headline at head height, left of the model: `PAYDAY.` / `SPEND IT WELL.` (Zalando Sans Expanded Regular, tracking 0.12 em, fitted to 600 px, `#282828`).
+- Headline at head height, left of the model: `PAYDAY.` / `WORTH THE WAIT.` (Zalando Sans Expanded Regular, tracking 0.12 em, fitted to 630 px, `#282828`).
 - Label columns under the headline: left `SAVE UP TO` (SemiBold 24) with the percentage set as a large numeral under it (SemiBold, fitted to the left column, 76 px; the asterisk kept at label size as a superscript), right the two date lines (SemiBold 24) aligned to the top of `SAVE UP TO`. Right column at 0.35 W as in the reference, clear of the model's arm.
 - `SHOP NOW` under the labels, SemiBold 22 with a 1.5 px underline.
 - Bottom centre: `TAILORED FOR COMFORT, DEFINED BY ORIGINALITY` (SemiBold 22, tracked), `*Terms & conditions apply` under it (Arimo 16, `#818284`).
@@ -31,3 +31,6 @@ The headline is now the second level; the percentage is the focal point. Every g
 ## Dates under the offer (current final)
 A dateline above the headline was tried and dropped: the headline has to open the page. The dates now sit right under `35%` as the promo period, then `SHOP NOW`, all on the headline's left axis. Reading order: what, how much, when, act.
 Measured gaps (px): headline to `SAVE UP TO` 73, `SAVE UP TO` to `35%` 30, `35%` to dates 45, dates to `SHOP NOW` 59; line gap inside the dates 13.
+
+## Headline: PAYDAY. / WORTH THE WAIT. (current final)
+Headline copy changed to `PAYDAY.` / `WORTH THE WAIT.`, set in caps with the same full stops as before. The longer second line is fitted to 630 px so it keeps 20 px from the model's head (Regular 50 px, cap 35, tracking 0.12 em); the offer, dates and `SHOP NOW` follow on the same axis.

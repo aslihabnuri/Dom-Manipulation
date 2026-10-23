@@ -11,7 +11,7 @@ def tracked(d,xy,t,f,fill,track=0):
     for ch in t: d.text((x,y),ch,font=f,fill=fill); x+=d.textlength(ch,font=f)+track
 def tw(d,t,f,track=0): return sum(d.textlength(ch,font=f) for ch in t)+track*(len(t)-1)
 def cb(d,t,f): return d.textbbox((0,0),t,font=f)
-def build(photo,out,k=1.0,pct="35",date_lines=("25 – 31","OCTOBER"),head_y=0.255,head_x=0.14,head_w=600,clear=25,kick_ratio=0.62):
+def build(photo,out,k=1.0,pct="35",date_lines=("25 – 31","OCTOBER"),head_y=0.255,head_x=0.14,head_w=630,clear=25,kick_ratio=0.62,headline=("PAYDAY.","WORTH THE WAIT."),head_size=None):
     W,H=int(1334*k),int(2000*k); g=lambda v:int(round(v*k))
     src=Image.open(photo).convert("RGB"); s=max(W/src.width,H/src.height)
     src=src.resize((int(src.width*s+0.5),int(src.height*s+0.5)),Image.LANCZOS)
@@ -22,14 +22,15 @@ def build(photo,out,k=1.0,pct="35",date_lines=("25 – 31","OCTOBER"),head_y=0.2
     # logo
     lw=g(300); lg=make_logo(C282,8); lg=lg.resize((lw,int(lg.height*lw/lg.width)),Image.LANCZOS); cv.paste(lg,((W-lw)//2,g(80)),lg)
     # headline
-    lines=("PAYDAY.","SPEND IT WELL."); x0=int(W*head_x); lo,hi=10,300
-    while lo<hi:
+    lines=headline; x0=int(W*head_x); lo,hi=10,300
+    while head_size is None and lo<hi:
         m=(lo+hi+1)//2; f=font("ZalandoSansExpanded-Regular.ttf",g(m))
         if tw(d,lines[1],f,int(g(m)*0.12))<=g(head_w): lo=m
         else: hi=m-1
+    if head_size: lo=head_size
     f_h=font("ZalandoSansExpanded-Regular.ttf",g(lo)); trh=int(g(lo)*0.12); hc=cb(d,"H",f_h); ch=hc[3]-hc[1]; y=int(H*head_y)
     for t in lines: tracked(d,(x0-cb(d,t,f_h)[0],y-hc[1]),t,f_h,C282,trh); y+=int(ch*1.55)
-    xr=int(x0+tw(d,lines[1],f_h,trh)); y_row=y-int(ch*1.55)+ch+int(ch*1.15)
+    xr=int(x0+max(tw(d,t,f_h,trh) for t in lines)); print('headline right edge',xr); y_row=y-int(ch*1.55)+ch+int(ch*1.15)
     f_l=font("ZalandoSansExpanded-SemiBold.ttf",g(24)); trl=g(3); lc=cb(d,"H",f_l); lh=lc[3]-lc[1]; lead=int(lh*1.7)
     # kicker row directly under the headline
     zk_probe=None
