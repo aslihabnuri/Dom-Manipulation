@@ -11,10 +11,10 @@
 - Palette: `#282828`, `#FFFFFF`, `#4F5052`, `#818284`, `#CCCCCC` only.
 
 ## Bracketed copy
-The second brief drops the two corner labels (removed) and fills the percentage as `[35]`; the dates stay `[25 – 31]` / `[OCTOBER]`, all still inside brackets.
-- `final/TONI-BLACK_Payday-Oct_1334x2000.jpg`: values printed (`35%*`, `25 – 31`, `OCTOBER`), pending the owner's confirmation that the brackets are only field markers.
+The second brief drops the two corner labels (removed) and fills the percentage as `[35]`; the dates stay `[23 – 31]` / `[OCTOBER]`, all still inside brackets.
+- `final/TONI-BLACK_Payday-Oct_1334x2000.jpg`: values printed (`35%*`, `23 – 31`, `OCTOBER`), pending the owner's confirmation that the brackets are only field markers.
 - `draft/TONI-BLACK_Payday-Oct_1334x2000_strict-no-bracket-values.jpg`: the strict reading, bracketed lines not printed.
-Render call: `build(photo, out, pct="35", date_lines=("25 – 31","OCTOBER"))`.
+Render call: `build(photo, out, pct="35", date_lines=("23 – 31","OCTOBER"))`.
 
 ## Pipeline
 1. `prompts/prompt_payday3.txt`, Nano Banana Pro 2:3 2K, references in order: the banner reference (composition), the Toni Black model (`banner-bau-toni-black/final/model-photo_raw.jpg`, the same model as the Drive "Banner BAU" file but without type), the singlet, the boxer brief. One generation.

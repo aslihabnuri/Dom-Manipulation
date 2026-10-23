@@ -11,7 +11,7 @@ def tracked(d,xy,t,f,fill,track=0):
     for ch in t: d.text((x,y),ch,font=f,fill=fill); x+=d.textlength(ch,font=f)+track
 def tw(d,t,f,track=0): return sum(d.textlength(ch,font=f) for ch in t)+track*(len(t)-1)
 def cb(d,t,f): return d.textbbox((0,0),t,font=f)
-def build(photo,out,k=1.0,pct="35",date_lines=("25 – 31","OCTOBER"),head_y=0.255,head_x=0.14,head_w=630,clear=25,kick_ratio=0.62,headline=("PAYDAY.","WORTH THE WAIT."),head_size=None):
+def build(photo,out,k=1.0,pct="35",date_lines=("23 – 31","OCTOBER"),head_y=0.255,head_x=0.14,head_w=630,clear=25,kick_ratio=0.62,headline=("PAYDAY.","WORTH THE WAIT."),head_size=None):
     W,H=int(1334*k),int(2000*k); g=lambda v:int(round(v*k))
     src=Image.open(photo).convert("RGB"); s=max(W/src.width,H/src.height)
     src=src.resize((int(src.width*s+0.5),int(src.height*s+0.5)),Image.LANCZOS)
