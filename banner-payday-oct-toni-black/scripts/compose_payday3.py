@@ -10,7 +10,7 @@ def tracked(d,xy,t,f,fill,track=0):
     for ch in t: d.text((x,y),ch,font=f,fill=fill); x+=d.textlength(ch,font=f)+track
 def tw(d,t,f,track=0): return sum(d.textlength(ch,font=f) for ch in t)+track*(len(t)-1)
 def capbox(d,t,f): b=d.textbbox((0,0),t,font=f); return b
-def build(photo,out,k=1.0,pct=None,date_lines=None,head_y=0.255,head_x=0.14,head_w=600,col2_x=0.35):
+def build(photo,out,k=1.0,pct=None,date_lines=None,corners=None,head_y=0.255,head_x=0.14,head_w=600,col2_x=0.35):
     W,H=int(1334*k),int(2000*k); g=lambda v:int(round(v*k))
     src=Image.open(photo).convert("RGB"); s=max(W/src.width,H/src.height)
     src=src.resize((int(src.width*s+0.5),int(src.height*s+0.5)),Image.LANCZOS)
@@ -22,7 +22,7 @@ def build(photo,out,k=1.0,pct=None,date_lines=None,head_y=0.255,head_x=0.14,head
     ly=g(80); cv.paste(lg,((W-lw)//2,ly),lg); lc=ly+lg.height//2
     # corner labels, level with the logo centre
     f_c=font("ZalandoSansExpanded-SemiBold.ttf",22); trc=g(3)
-    for t,al in (("PRECISION & FIT","l"),("AUTHENTIC SIMPLICITY","r")):
+    for t,al in (corners or ()):
         b=capbox(d,t,f_c); w=tw(d,t,f_c,trc); x=M if al=="l" else W-M-w
         tracked(d,(x-b[0],lc-(b[3]-b[1])//2-b[1]),t,f_c,C4F,trc)
     # headline: Regular, wide tracking, fitted to head_w

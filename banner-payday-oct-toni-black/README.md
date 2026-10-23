@@ -4,7 +4,6 @@
 
 ## Copy and slots
 - Top centre: official logo (`6.png`), tinted `#282828`, no box.
-- Top left / top right, level with the logo centre: `PRECISION & FIT`, `AUTHENTIC SIMPLICITY` (SemiBold 22, `#4F5052`).
 - Headline at head height, left of the model: `PAYDAY.` / `SPEND IT WELL.` (Zalando Sans Expanded Regular, tracking 0.12 em, fitted to 600 px, `#282828`).
 - Label columns under the headline: left `SAVE UP TO` + percentage line, right the two date lines (SemiBold 24). Right column at 0.35 W as in the reference, clear of the model's arm.
 - `SHOP NOW` under the labels, SemiBold 22 with a 1.5 px underline.
@@ -12,7 +11,10 @@
 - Palette: `#282828`, `#FFFFFF`, `#4F5052`, `#818284`, `#CCCCCC` only.
 
 ## Bracketed copy
-The brief has `[XX]%*`, `[25 – 31]` and `[OCTOBER]`. Per the brief these are never printed until confirmed. The draft in `draft/` leaves those lines empty (the space is kept so nothing moves when they are filled). Final render: `build(photo, out, pct="NN", date_lines=("25 – 31","OCTOBER"))`.
+The second brief drops the two corner labels (removed) and fills the percentage as `[35]`; the dates stay `[25 – 31]` / `[OCTOBER]`, all still inside brackets.
+- `final/TONI-BLACK_Payday-Oct_1334x2000.jpg`: values printed (`35%*`, `25 – 31`, `OCTOBER`), pending the owner's confirmation that the brackets are only field markers.
+- `draft/TONI-BLACK_Payday-Oct_1334x2000_strict-no-bracket-values.jpg`: the strict reading, bracketed lines not printed.
+Render call: `build(photo, out, pct="35", date_lines=("25 – 31","OCTOBER"))`.
 
 ## Pipeline
 1. `prompts/prompt_payday3.txt`, Nano Banana Pro 2:3 2K, references in order: the banner reference (composition), the Toni Black model (`banner-bau-toni-black/final/model-photo_raw.jpg`, the same model as the Drive "Banner BAU" file but without type), the singlet, the boxer brief. One generation.
