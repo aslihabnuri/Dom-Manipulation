@@ -27,3 +27,7 @@ On request the offer now matches the scale of the 9.9 / 10.10 banners. `scripts/
 - `35%` below in SemiBold at 191 px (cap 143 px, 0.40 W), the largest size that keeps 25 px from the model, found by testing the glyphs against the subject mask. The asterisk is a superscript at 0.24 of the numeral size.
 - `SHOP NOW` underlined below on the left axis. Logo, bottom line and terms unchanged.
 The headline is now the second level; the percentage is the focal point. Every glyph keeps at least 20 px from the model.
+
+## Dates moved to a dateline (current final)
+The dates sat in the row between the headline and the numeral, so four elements crowded one area. They now sit above the headline as a small dateline (SemiBold 24, tracked), on the same left axis, in the empty wall. One column, in reading order: when, what, how much, act.
+Measured gaps between groups (px): dateline to headline 55, headline to offer 73, numeral to SHOP NOW 57; inside each group the line gaps are 13 to 30, so every group reads as one unit. `SAVE UP TO` now stands alone above `35%` (191 px).

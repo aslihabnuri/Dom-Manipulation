@@ -30,12 +30,14 @@ def build(photo,out,k=1.0,pct="35",date_lines=("25 – 31","OCTOBER"),head_y=0.2
     f_h=font("ZalandoSansExpanded-Regular.ttf",g(lo)); trh=int(g(lo)*0.12); hc=cb(d,"H",f_h); ch=hc[3]-hc[1]; y=int(H*head_y)
     for t in lines: tracked(d,(x0-cb(d,t,f_h)[0],y-hc[1]),t,f_h,C282,trh); y+=int(ch*1.55)
     xr=int(x0+tw(d,lines[1],f_h,trh)); y_row=y-int(ch*1.55)+ch+int(ch*1.15)
-    # dates: SemiBold 24, right-aligned on the headline's right edge
-    f_l=font("ZalandoSansExpanded-SemiBold.ttf",g(24)); trl=g(2); lc=cb(d,"H",f_l); lh=lc[3]-lc[1]; lead=int(lh*1.7)
-    yy=y_row
+    # dates: a small dateline above the headline on the left axis, in the empty wall
+    f_l=font("ZalandoSansExpanded-SemiBold.ttf",g(24)); trl=g(3); lc=cb(d,"H",f_l); lh=lc[3]-lc[1]; lead=int(lh*1.7)
+    yd=int(H*head_y)-int(ch*1.4)-(lead*(len(date_lines)-1)+lh)
     for t in date_lines:
-        w=tw(d,t,f_l,trl); tracked(d,(xr-w-cb(d,t,f_l)[0],yy-lc[1]),t,f_l,C282,trl); yy+=lead
-    base=yy-lead+lh                      # last baseline of the dates
+        tracked(d,(x0-cb(d,t,f_l)[0],yd-lc[1]),t,f_l,C282,trl); yd+=lead
+    # kicker row directly under the headline
+    zk_probe=None
+    base=y_row+g(58)
     # percentage: largest size that clears the model
     num=f"{pct}%"; ytop=base+g(30)
     def fits(z):
@@ -53,7 +55,7 @@ def build(photo,out,k=1.0,pct="35",date_lines=("25 – 31","OCTOBER"),head_y=0.2
     while tw(d,"SAVE UP TO",font("ZalandoSansExpanded-SemiBold.ttf",zk+1),g(4))<=nw*kick_ratio: zk+=1
     f_k=font("ZalandoSansExpanded-SemiBold.ttf",zk); kc=cb(d,"H",f_k)
     tracked(d,(x0-cb(d,"SAVE UP TO",f_k)[0],base-kc[3]),"SAVE UP TO",f_k,C282,g(4))
-    kick_end=x0+tw(d,"SAVE UP TO",f_k,g(4)); date_start=xr-max(tw(d,t,f_l,trl) for t in date_lines)
+    kick_end=x0+tw(d,"SAVE UP TO",f_k,g(4)); date_start=x0
     # numeral and asterisk
     nb=cb(d,num,fn); tracked(d,(x0-nb[0],ytop-nc[1]),num,fn,C282,g(-2))
     f_a=font("ZalandoSansExpanded-SemiBold.ttf",int(lo*0.24)); ab=cb(d,"*",f_a)
