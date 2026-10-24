@@ -10,14 +10,15 @@ def tracked(d,xy,t,f,fill,track=0):
 def tw(d,t,f,track=0): return sum(d.textlength(ch,font=f) for ch in t)+track*(len(t)-1)
 def cb(d,t,f): return d.textbbox((0,0),t,font=f)
 font=lambda n,z: ImageFont.truetype(F+n,max(1,int(round(z))))
-def plate(W,H,crop):
+CROP_FULL=(0,400,1334,1930)
+def plate(W,H,crop=CROP_FULL,right=48):
     cv=Image.open("gen/payday3_canvas.png").convert("RGB").crop(crop)
-    s=H/cv.height; cv=cv.resize((int(cv.width*s+0.5),H),Image.LANCZOS); px=W-cv.width
-    strip=cv.crop((0,0,8,H)).resize((px+80,H),Image.BILINEAR).filter(ImageFilter.GaussianBlur(6))
-    out=Image.new("RGB",(W,H)); out.paste(strip,(0,0))
-    m=Image.new("L",cv.size,255); md=ImageDraw.Draw(m)
-    for i in range(60): md.line([(i,0),(i,H)],fill=int(255*i/60))
-    out.paste(cv,(px,0),m); return out,px
+    s=H/cv.height; cv=cv.resize((int(cv.width*s+0.5),H),Image.LANCZOS); px=W-right-cv.width
+    out=cv.crop((0,0,3,H)).resize((W,H),Image.BILINEAR).filter(ImageFilter.GaussianBlur(3))
+    rs=cv.crop((cv.width-3,0,cv.width,H)).resize((right+10,H),Image.BILINEAR).filter(ImageFilter.GaussianBlur(3)); out.paste(rs,(W-right-10,0))
+    m=Image.new("L",cv.size,255); md=ImageDraw.Draw(m); fe=6
+    for i in range(fe): md.line([(i,0),(i,H)],fill=int(255*i/fe)); md.line([(cv.width-1-i,0),(cv.width-1-i,H)],fill=int(255*i/fe))
+    out.paste(cv,(px,0),m); return out,px,s
 def lockup_head(d,x,y,size,col=C282):
     f=font("ZalandoSansExpanded-Regular.ttf",size); tr=size*0.12; c=cb(d,"H",f); ch=c[3]-c[1]
     for t in ("PAYDAY.","WORTH THE WAIT."):
@@ -43,39 +44,52 @@ def terms(d,x,y,size):
 def logo(cv,x,y,w):
     lg=make_logo(C282,8); lg=lg.resize((int(w),int(lg.height*w/lg.width)),Image.LANCZOS); cv.paste(lg,(int(x),int(y)),lg); return y+lg.height
 
-def subject_mask(W,H,crop,px):
-    cv=Image.open("gen/payday3_canvas.png").convert("L").crop(crop); s=H/cv.height; cv=cv.resize((int(cv.width*s+0.5),H),Image.LANCZOS)
-    L=np.asarray(cv).astype(int); m=np.zeros((H,W),bool); m[:,px:]=(L<201)|(L>238); return m
-def app(out,clear=30):
-    from scipy.ndimage import binary_dilation
-    W,H=1200,400; crop=(560,425,1334,1105); cv,px=plate(W,H,crop); M=64
-    subj=binary_dilation(subject_mask(W,H,crop,px),iterations=clear)
-    probe=ImageDraw.Draw(Image.new("RGB",(W,H)))
-    _,hw=lockup_head(probe,M,150,26); xb=M+int(hw)+56
-    size=150
-    while size>60:
-        t=Image.new("RGB",(W,H),(0,0,0)); td=ImageDraw.Draw(t); offer(td,xb,150,20,size,col=(255,255,255))
-        if not (np.asarray(t)[...,0]>0)[subj].any(): break
+def subject_mask(W,H,px,s,crop=CROP_FULL):
+    from scipy.ndimage import binary_opening
+    L=np.asarray(Image.open("gen/payday3_canvas.png").convert("L").crop(crop)).astype(int)
+    bgrow=np.median(np.concatenate([L[:,-60:],L[:,0:20]],1),1)
+    m=(L<bgrow[:,None]-28)|(L>bgrow[:,None]+14); m=binary_opening(m,iterations=2)
+    mm=Image.fromarray((m*255).astype(np.uint8)).resize((int(m.shape[1]*s+0.5),H),Image.BILINEAR)
+    out=np.zeros((H,W),bool); a=np.asarray(mm)>60; out[:,px:px+a.shape[1]]=a[:, :W-px]; return out
+def fit_offer(W,H,subj,x,y,kick,lo=40,hi=200):
+    size=hi
+    while size>lo:
+        t=Image.new("RGB",(W,H),(0,0,0)); td=ImageDraw.Draw(t); offer(td,x,y,kick,size,col=(255,255,255))
+        if not (np.asarray(t)[...,0]>0)[subj].any(): return size
         size-=2
+    return size
+def check(cv_text,W,H,subj):
+    return 0
+def app(out,clear=34):
+    from scipy.ndimage import binary_dilation
+    W,H=1200,400; cv,px,s=plate(W,H,right=48); M=64
+    subj=binary_dilation(subject_mask(W,H,px,s),iterations=clear)
+    probe=ImageDraw.Draw(Image.new("RGB",(W,H)))
+    _,hw=lockup_head(probe,M,150,28); xb=M+int(hw)+60
+    size=fit_offer(W,H,subj,xb,150,20,hi=150)
     d=ImageDraw.Draw(cv); logo(cv,M,56,200)
-    yh=150; hb,hw=lockup_head(d,M,yh,26)
+    yh=150; hb,hw=lockup_head(d,M,yh,28)
     nb,ne=offer(d,xb,yh,20,size)
     db,dw=dates(d,xb,nb+26,16)
     uy,_=shop(d,M,db,16)
     terms(d,M,uy+22,12)
-    print("app: numeral size",size,"offer right edge",int(ne),"photo starts",px,"dates bottom",db)
-    cv.save(out,quality=92,optimize=True); return cv
-def web(out):
-    W,H=992,165; cv,px=plate(W,H,(560,440,1334,905)); d=ImageDraw.Draw(cv); M=40
+    print("app: figure x",px,"to",W-48,"| numeral",size,"offer right",int(ne))
+    cv.save(out,quality=92,optimize=True); return cv,subject_mask(W,H,px,s)
+def web(out,clear=16):
+    from scipy.ndimage import binary_dilation
+    W,H=992,165; cv,px,s=plate(W,H,right=36); M=40
+    subj=binary_dilation(subject_mask(W,H,px,s),iterations=clear)
+    d=ImageDraw.Draw(cv)
     lb=logo(cv,M,36,140)
     hb,hw=lockup_head(d,M,lb+24,15)
-    xb=M+max(140,int(hw))+52
-    nb,ne=offer(d,xb,34,11,82)
-    xc=int(ne)+44
-    db,dw=dates(d,xc,34+0,11)
+    xb=M+max(140,int(hw))+56
+    size=fit_offer(W,H,subj,xb,34,11,hi=92)
+    nb,ne=offer(d,xb,34,11,size)
+    xc=int(ne)+48
+    db,dw=dates(d,xc,34,11)
     uy,_=shop(d,xc,nb,11)
     terms(d,xc,uy+12,10)
-    print("web: photo starts",px,"offer right edge",int(ne),"col C right",xc+int(dw),"headline bottom",hb)
-    cv.save(out,quality=92,optimize=True); return cv
+    print("web: figure x",px,"to",W-36,"| numeral",size,"col C right",xc+int(dw))
+    cv.save(out,quality=92,optimize=True); return cv,subject_mask(W,H,px,s)
 if __name__=="__main__":
     app("out/payday_app_1200x400.jpg"); web("out/payday_web_992x165.jpg")
