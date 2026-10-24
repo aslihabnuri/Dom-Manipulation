@@ -7,7 +7,7 @@ Dokumen ini BUKAN bagian laporan yang diserahkan. Ia memuat (A) audit mandiri 11
 | No | Item | Skor | Catatan dan perbaikan yang sudah dilakukan |
 |---|---|---|---|
 | 1 | Format laporan manajemen (bab bernomor, bahasa untuk Direksi/Dekom, bukan artikel jurnal) | 5 | Bab 1–5 bernomor sampai level 3; tabel/gambar bernomor dengan baris Sumber; tidak ada bagian "metodologi penelitian" ala jurnal; rekomendasi berpemilik dan berhorizon. |
-| 2 | Daftar isi dan abstrak | 4 | Daftar Isi dibuat otomatis oleh Word (bidang TOC) sampai level 3: setelah membuka file, klik kanan Daftar Isi → *Update Field* agar nomor halaman terisi. Daftar Tabel dan Daftar Gambar ditulis manual tanpa nomor halaman; isi nomor halaman di Word. Abstrak 295 kata, 7 kata kunci. |
+| 2 | Daftar isi, kata pengantar, dan abstrak | 4 | Daftar Isi dibuat otomatis oleh Word (bidang TOC) sampai level 3: setelah membuka file, klik kanan Daftar Isi → *Update Field* agar nomor halaman terisi. Daftar Tabel dan Daftar Gambar ditulis manual tanpa nomor halaman; isi nomor halaman di Word. Abstrak 287 kata, 7 kata kunci. Cover mengikuti format paper referensi (judul, logo UGM, nama mata kuliah, dosen, nama, NIM, kelas, program, fakultas, universitas) dan Kata Pengantar ditambahkan sebelum Abstrak. |
 | 3 | Pertanyaan penelitian termasuk inovasi | 5 | PP1–PP3 tentang pengaruh faktor dan key factor; PP4 eksplisit tentang inovasi; dijawab satu per satu di Bab 5.1. |
 | 4 | Bab 2 generik dengan pernyataan faktor terpenting | 5 | Tiap konstruk: satu paragraf literatur + satu paragraf relevansi generik; tidak memuat data AKR rinci; Bab 2.5 menyatakan tegas Pemerintah & Regulasi paling penting dengan tiga argumen struktural. |
 | 5 | Bab 3 industri dan entitas | 4 | Industri BBM/kimia, KEK, profil, kinerja 2021–2025, posisi kompetitif lengkap. Kekurangan: volume fisik BBM/kimia dan jumlah SPBU pesaing belum terisi (ditandai [VERIFIKASI]) karena tidak tersedia di AR 2025 yang ditelaah. |
@@ -16,21 +16,21 @@ Dokumen ini BUKAN bagian laporan yang diserahkan. Ia memuat (A) audit mandiri 11
 | 8 | Konsistensi angka antar bab | 5 | Semua angka keuangan dicek langsung ke AR 2025 hlm. 24–30, 114–121, 136–137 dan SR 2025 hlm. 6–7, 42, 52. Laba kotor segmen (3.004 + 49 + 208 + 836 = 4.097 ≈ 4.098) dan kontribusi 73/1/5/20% konsisten di Bab 1, 3, 4. Inkonsistensi internal AR (hlm. 4 vs 44; tahun berdiri 1970 vs 1977; investasi JIIPE Rp111,5 T vs Rp87 T vs Rp52 T) diungkap, bukan disembunyikan. |
 | 9 | Sitasi dan DOI | 4 | 34 artikel jurnal berperingkat + 3 HBR klasik, semua dengan DOI dari ingatan atas artikel yang isinya diketahui; kuartil SJR tiga jurnal ditandai VERIFIKASI. Jumlah melebihi kisaran 12–18 karena syarat minimal dua jurnal per faktor dan per konstruk; tidak ada [CARI JURNAL]. Perlu cek ulang volume/halaman di scimagojr.com dan doi.org sebelum cetak. |
 | 10 | Panjang dan proporsi | 4 | Lihat bagian B. Tanpa sitasi dalam teks dan label [Fakta]/[Inferensi], tubuh laporan 7.591 kata (dalam toleransi 7.500 ± 300). Dengan sitasi dan label: 8.235 kata. Telah dipangkas ±300 kata pada Bab 2 dan 4 saat audit. Jika dosen menghitung termasuk sitasi, pangkas Bab 2.2–2.4 (satu kalimat literatur per konstruk) dan Bab 4.1.1 (issue keempat) untuk ±400 kata. |
-| 11 | Bahasa | 4 | Bahasa Indonesia baku, kalimat aktif, istilah asing dimiringkan saat pertama muncul. Beberapa kalimat panjang di Bab 4.3.3 dan 4.7.8 (>35 kata) dapat dipecah saat penyuntingan akhir. |
+| 11 | Bahasa | 5 | Revisi 24 Oktober 2026: seluruh naskah ditulis ulang dengan kalimat pendek dan kata sehari-hari, tanpa tanda pisah panjang (em dash), tanpa pola "bukan X melainkan Y", dan tanpa titik koma di luar sitasi. Istilah asing tetap dimiringkan saat pertama muncul. |
 
-## B. Hitungan kata
+## B. Hitungan kata (setelah revisi gaya bahasa, 24 Oktober 2026)
 
-| Bagian | Target | Prosa tanpa sitasi/label | Prosa dengan sitasi/label | Total termasuk tabel |
-|---|---|---|---|---|
-| Abstrak | 250–300 | 295 | 295 | 295 |
-| Bab 1 | ±900 | 903 | 940 | 1.121 |
-| Bab 2 | ±1.300 | 1.359 | 1.492 | ±1.600 |
-| Bab 3 | ±1.400 | 1.214 | 1.365 | ±2.000 |
-| Bab 4 | ±3.000 | 3.449 | 3.771 | ±5.000 |
-| Bab 5 | ±500 | 371 | 372 | 550 |
-| **Total tubuh** | **7.500 ± 300** | **7.591 (+91)** | **8.235 (+735)** | — |
+| Bagian | Target | Prosa tanpa sitasi/label | Prosa dengan sitasi/label |
+|---|---|---|---|
+| Abstrak | 250–300 | 287 | 287 |
+| Bab 1 | ±900 | 923 | 960 |
+| Bab 2 | ±1.300 | 1.423 | 1.557 |
+| Bab 3 | ±1.400 | 1.269 | 1.419 |
+| Bab 4 | ±3.000 | 3.655 | 3.983 |
+| Bab 5 | ±500 | 380 | 381 |
+| **Total tubuh** | **7.500 ± 300** | **7.937 (+437)** | **8.587 (+1.087)** |
 
-Daftar isi, daftar pustaka, dan lampiran tidak dihitung.
+Catatan: penulisan ulang ke bahasa yang lebih sederhana menambah sekitar 350 kata karena kalimat panjang dipecah menjadi beberapa kalimat pendek. Kalau dosen menghitung ketat, bagian yang paling aman dipangkas adalah Bab 2.2–2.4 (satu kalimat literatur per konstruk) dan Bab 4.1.1 (issue keempat), sekitar 400–500 kata. Daftar isi, kata pengantar, daftar pustaka, dan lampiran tidak dihitung.
 
 ## C. Daftar lengkap tanda
 
