@@ -34,3 +34,9 @@ Measured gaps (px): headline to `SAVE UP TO` 73, `SAVE UP TO` to `35%` 30, `35%`
 
 ## Headline: PAYDAY. / WORTH THE WAIT. (current final)
 Headline copy changed to `PAYDAY.` / `WORTH THE WAIT.`, set in caps with the same full stops as before. The longer second line is fitted to 630 px so it keeps 20 px from the model's head (Regular 50 px, cap 35, tracking 0.12 em); the offer, dates and `SHOP NOW` follow on the same axis.
+
+## Wide formats: App 1200x400, Website 992x165
+`scripts/compose_wide.py` (needs `gen/payday3_canvas.png`, the 1334x2000 photo canvas). Not a crop of the portrait: the photo is cut from head to waist (left edge at canvas x 560, bottom at y 1105 for App and 905 for Website, so no limb crosses the left edge), placed on the right, and the studio wall is extended to the left with a 60 px feather.
+- **App 1200x400:** logo top left; column A: headline (Regular 26) and, at the bottom, `SHOP NOW` and the terms; column B: `SAVE UP TO`, `35%*` (SemiBold, the largest size that keeps 30 px from the model, 134 px), dates under it. `SHOP NOW` sits on the dates' last baseline.
+- **Website 992x165:** three columns: logo over the headline (Regular 15); `SAVE UP TO` over `35%*` (82 px); dates top-aligned with `SAVE UP TO`, `SHOP NOW` on the numeral's baseline, terms under it (Arimo 10).
+- The bottom line `TAILORED FOR COMFORT, DEFINED BY ORIGINALITY` is left out of both wide formats: at these heights it would set below a readable size, and it carries no offer information.
