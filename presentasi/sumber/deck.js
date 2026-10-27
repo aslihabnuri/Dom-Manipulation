@@ -5,6 +5,7 @@ const ReactDOMServer = require('react-dom/server');
 const sharp = require('sharp');
 const fa = require('react-icons/fa');
 const path = require('path');
+const fs = require('fs');
 const { spawnSync } = require('child_process');
 const { applyTheme } = require(process.env.SKILL_DIR + '/scripts/apply_theme.js');
 
@@ -114,7 +115,9 @@ function tableRows(header, rows, o = {}) {
   return [hd, ...body];
 }
 function addTable(s, rows, x, y, w, colW, o = {}) { s.addTable(rows, { x, y, w, colW, rowH: o.rowH, border: { type: 'solid', color: 'DADAD5', pt: 0.75 }, margin: 0.06, fontFace: BODY, objectName: o.name || 'table', autoPage: false }); }
-function slide(section, bgColor, notes, plain) { const s = pres.addSlide({ masterName: plain ? 'PLAIN' : 'NUM', sectionTitle: section }); if (bgColor) s.background = { color: bgColor }; if (notes) s.addNotes(notes); return s; }
+const NASKAH = fs.existsSync(path.join(__dirname, 'docs', 'naskah.json')) ? JSON.parse(fs.readFileSync(path.join(__dirname, 'docs', 'naskah.json'), 'utf8')) : {};
+let slideNo = 0;
+function slide(section, bgColor, notes, plain) { const s = pres.addSlide({ masterName: plain ? 'PLAIN' : 'NUM', sectionTitle: section }); if (bgColor) s.background = { color: bgColor }; slideNo++; const txt = NASKAH[String(slideNo)] ? NASKAH[String(slideNo)] + (slideNo === 19 ? '\n\n' + REFS : '') : notes; if (txt) s.addNotes(txt); return s; }
 function source(s, text, color) { P(s, text, M, 6.96, 11.0, 0.38, { fs: 13, color: color || GREY, italic: true }); }
 
 const PRESENTERS = [['Aslih Abnuri', '25/574338/PEK/31801'], ['Happy Dinithasari', '25/574400/PEK/31831'], ['Juan Bagas Prayogo', '25/573847/PEK/31678'], ['Riska Novalita', '25/574037/PEK/31724']];
@@ -422,7 +425,7 @@ const REFS = 'Referensi: Heizer, J., Render, B., & Munson, C. (2017). Operations
     const cyc = [['Kebutuhan', ['5', '5', '6', '5', '4', '3', '3']], ['Kapasitas', ['6', '6', '7', '5', '5', '3', '3']], ['Kelebihan', ['1', '1', '1', '0', '1', '0', '0']]];
     const cRows = tableRows(['', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'], cyc.map((r, i) => [{ text: r[0], bold: true }, ...r[1].map(v => ({ text: v, fill: i === 1 ? LIME : undefined }))]), { fs: 12.5 });
     addTable(s, cRows, rx + 0.3, 3.3, rw - 0.6, [1.25, ...Array(7).fill((rw - 0.6 - 1.25) / 7)], { rowH: 0.42 });
-    P(s, '**Hari libur:** P1, P2, P4 Sabtu–Minggu; P3, P6 Kamis–Jumat; P5, P7 Senin–Selasa (P = petugas).', rx + 0.3, 5.15, rw - 0.6, 0.6, { fs: 14 });
+    P(s, '**Hari libur:** P1, P2, P4, P7 Sabtu–Minggu; P3, P6 Kamis–Jumat; P5 Senin–Selasa (P = petugas).', rx + 0.3, 5.15, rw - 0.6, 0.6, { fs: 14 });
     P(s, 'Kapasitas *deicing* disiapkan delapan jam sebelum hujan beku tiba (10.00 untuk 18.00): staf darat musim dingin dijadwalkan dari prakiraan, bukan dari kejadian.', rx + 0.3, 5.82, rw - 0.6, 0.98, { fs: 13.5, color: GREY, italic: true });
   }
   // 18. EVALUASI & REKOMENDASI (oranye)

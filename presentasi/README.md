@@ -7,6 +7,9 @@ Presenter: Aslih Abnuri (25/574338/PEK/31801), Happy Dinithasari (25/574400/PEK/
 - `Planning-and-Control_MRP-ERP-Scheduling_Alaska-Airlines.pptx` — 20 slide, dapat diedit di PowerPoint.
 - `Planning-and-Control_MRP-ERP-Scheduling_Alaska-Airlines.pdf` — versi PDF (font sudah tertanam).
 - `Font-Barlow-untuk-PPT.zip` dan folder `fonts/` — font yang dipakai deck (lisensi SIL OFL, gratis). **Pasang dulu sebelum membuka PPTX** agar tampilan sama dengan PDF: Barlow Condensed ExtraBold (judul), Barlow Condensed Bold (label), Barlow Regular/Bold/Italic (isi). Sumber: https://fonts.google.com/specimen/Barlow+Condensed dan https://fonts.google.com/specimen/Barlow.
+- `Materi-Pemahaman_Alaska-Airlines.pdf` — materi pemahaman dengan bahasa sederhana: konsep di balik tiap slide, data dan sumbernya, perhitungan langkah demi langkah, antisipasi pertanyaan, kamus istilah.
+- `Naskah-Presentasi_Alaska-Airlines.pdf` — naskah lisan per slide (±26 menit): Aslih slide 1–9 (pembuka, MRP), Happy 10–11 (ERP), Juan 12–15 (scheduling), Riska 16–20 (sequencing, evaluasi, kesimpulan). Naskah yang sama tertanam di catatan pembicara PPTX.
+- `sumber/make_docs.py` dan `sumber/topdf.js` — pembangkit kedua dokumen (HTML → PDF via Chromium).
 - `sumber/` — skrip pembangkit: `deck.js` (pptxgenjs), `prep_images.py` (pemotong foto ke rasio persis + sudut bulat), `gen_alaska.py` dan `gen_retry.py` (kie.ai Nano Banana 2; foto referensi Anda dipakai sebagai acuan tone dan livery Alaska Airlines asli dengan tulisan "Alaska" dan logo ekor; kunci API dari variabel lingkungan `KIE_KEY`), `measure.py` (pengukur lebar teks untuk kotak sorot judul).
 
 ## Desain
