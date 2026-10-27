@@ -306,8 +306,8 @@ const REFS = 'Referensi: Heizer, J., Render, B., & Munson, C. (2017). Operations
       HT(s, c[1], x + 0.3, 2.3, cw - 0.6, 0.95, { fs: 26 });
       P(s, c[2], x + 0.3, 3.3, cw - 0.6, 2.4, { fs: 15.5 });
     });
-    photo(s, 'ops.png', M + 2 * (cw + 0.25), 1.5, 4.3, 3.22, 'foto pusat operasi');
-    P(s, 'Pusat operasi penerbangan bergantung pada sistem terintegrasi.', M + 2 * (cw + 0.25), 4.8, 4.3, 0.8, { fs: 14, color: GREY, italic: true, align: 'center' });
+    photo(s, 'ground_stop.png', M + 2 * (cw + 0.25), 1.5, 4.3, 3.22, 'foto apron sepi saat ground stop');
+    P(s, 'Ground stop: seluruh pesawat tertahan di gate sampai sistem pulih.', M + 2 * (cw + 0.25), 4.8, 4.3, 0.8, { fs: 14, color: GREY, italic: true, align: 'center' });
     card(s, M, 6.0, CW, 0.85, { fill: BLACK });
     P(s, '**Pelajaran:** semakin terintegrasi sistem, semakin besar dampak satu titik kegagalan (*single point of failure*). Nilai integrasi hanya terwujud bila sistemnya tetap hidup.', M + 0.35, 6.0, CW - 0.7, 0.85, { fs: 16, color: WHITE, valign: 'middle' });
   }
