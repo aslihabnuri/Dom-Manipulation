@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>Panduan Bab 10 Kelompok 3</title>
+<style>
+  @page { size: A4; margin: 12mm 14mm 14mm 14mm; }
+  :root { --bg:#F4F4F4; --card:#E8E8E8; --lime:#D4FC00; --black:#141417; --ink:#1A1A1C; --muted:#5A5A5F; --line:#DCDCDC; }
+  * { box-sizing: border-box; }
+  html, body { margin:0; padding:0; background:#fff; color:var(--ink); font-family:'Outfit', 'Inter', Arial, sans-serif; font-size:11.5pt; line-height:1.38; }
+  .page { width:182mm; padding:0; page-break-before:always; position:relative; background:#fff; }
+  section.page:first-of-type { page-break-before:auto; }
+  /* nav strip */
+  .nav { display:flex; align-items:center; gap:6mm; font-size:8.5pt; color:var(--muted); margin-bottom:7mm; }
+  .nav .brand { font-weight:500; color:var(--ink); margin-right:auto; }
+  .nav span.on { background:var(--lime); color:var(--black); font-weight:600; padding:1.2mm 3.5mm; border-radius:99px; }
+  .nav .pg { margin-left:auto; }
+  h1 { font-weight:600; font-size:30pt; line-height:1.05; margin:0 0 4mm 0; letter-spacing:-0.2px; text-transform:uppercase; }
+  h2 { font-weight:600; font-size:20pt; line-height:1.1; margin:0 0 3mm 0; text-transform:uppercase; }
+  h3 { font-weight:600; font-size:13.5pt; margin:0 0 1.5mm 0; }
+  p { margin:0 0 2.5mm 0; }
+  .muted { color:var(--muted); }
+  .lead { font-size:13.5pt; line-height:1.38; }
+  .pill { display:inline-block; border:1.2px solid var(--black); border-radius:99px; padding:1.2mm 4mm; font-size:8.5pt; font-weight:500; letter-spacing:.4px; text-transform:uppercase; }
+  .pill.lime { background:var(--lime); }
+  .pill.black { background:var(--black); color:var(--lime); border-color:var(--black); }
+  .card { background:var(--card); border-radius:5mm; padding:4mm 5mm; break-inside:avoid; }
+  .card.lime { background:var(--lime); }
+  .card.black { background:var(--black); color:#E8E8EA; }
+  .card.black h3, .card.black .lab { color:var(--lime); }
+  .card.white { background:#fff; border:1.2px solid var(--line); }
+  .lab { font-size:8.5pt; font-weight:600; letter-spacing:.6px; text-transform:uppercase; color:var(--muted); margin-bottom:1.5mm; }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:4mm; }
+  .grid3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:4mm; }
+  .row { display:flex; gap:5mm; align-items:stretch; }
+  .row > * { flex:1; }
+  img.ill { width:100%; border-radius:5mm; display:block; object-fit:cover; }
+  /* avatars and bubbles */
+  .av { width:9mm; height:9mm; border-radius:50%; background:var(--black); color:var(--lime); font-weight:600; font-size:8.5pt; display:flex; align-items:center; justify-content:center; flex:0 0 auto; }
+  .av.lime { background:var(--lime); color:var(--black); }
+  .av.gray { background:#CFCFD3; color:var(--black); }
+  .bubble { display:flex; gap:3mm; align-items:flex-start; margin:2mm 0; }
+  .bubble .b { background:#fff; border:1.2px solid var(--line); border-radius:4mm; border-top-left-radius:1mm; padding:2.5mm 3.5mm; font-size:10.5pt; line-height:1.36; flex:1; }
+  .bubble.q .b { background:var(--black); color:#E8E8EA; border-color:var(--black); }
+  .bubble .who { font-size:8pt; font-weight:600; letter-spacing:.5px; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:1mm; }
+  .bubble.q .who { color:var(--lime); }
+  /* slide panel */
+  .panel { border:1.2px solid var(--line); border-radius:5mm; padding:4mm 5mm; margin-bottom:3.5mm; background:#fff; page-break-inside:avoid; break-inside:avoid; }
+  .panel .head { display:flex; align-items:center; gap:3mm; margin-bottom:2mm; }
+  .panel .num { background:var(--lime); border-radius:99px; font-weight:600; font-size:9.5pt; padding:1mm 3.5mm; }
+  .panel .title { font-weight:600; font-size:13pt; }
+  .panel .one { font-size:12.5pt; font-weight:500; line-height:1.3; margin:1mm 0 2.5mm 0; }
+  .panel .cols { display:grid; grid-template-columns:1fr 1fr; gap:4mm; margin-bottom:1.5mm; }
+  .panel .cols .lab { margin-bottom:1mm; }
+  .panel .cols p { font-size:10.5pt; line-height:1.36; }
+  .trap { background:var(--black); color:#E8E8EA; border-radius:4mm; padding:2.5mm 3.5mm; font-size:10.5pt; margin-top:1.5mm; line-height:1.36; }
+  .trap b { color:var(--lime); }
+  .facts { display:flex; gap:3mm; flex-wrap:wrap; margin:2mm 0; }
+  .fact { background:var(--card); border-radius:3.5mm; padding:2mm 3.5mm; font-size:10pt; }
+  .fact b { font-size:14pt; font-weight:600; display:block; line-height:1.1; }
+  .fact.lime { background:var(--lime); }
+  /* route */
+  .route { display:grid; grid-template-columns:repeat(10, 1fr); gap:2mm; }
+  .route .s { border-radius:3mm; padding:2mm 1.5mm; font-size:8pt; text-align:center; line-height:1.15; min-height:16mm; display:flex; flex-direction:column; justify-content:center; }
+  .route .s b { font-size:11pt; display:block; }
+  .legend { display:flex; gap:5mm; font-size:9pt; margin-top:3mm; flex-wrap:wrap; }
+  .legend span { display:inline-flex; align-items:center; gap:2mm; }
+  .legend i { width:4mm; height:4mm; border-radius:1.5mm; display:inline-block; }
+  .c-as { background:var(--lime); } .c-tp { background:#CFCFD3; } .c-hd { background:#fff; border:1.2px solid var(--line); } .c-da { background:var(--black); color:#fff; }
+  /* strip (comic) */
+  .strip { display:grid; grid-template-columns:repeat(4,1fr); gap:3mm; }
+  .strip .f { background:var(--card); border-radius:4mm; padding:3.5mm 4mm; font-size:10.5pt; line-height:1.35; min-height:38mm; }
+  .strip .f .k { font-weight:600; font-size:11pt; display:block; margin-bottom:1.5mm; }
+  .quiz li { margin-bottom:2.2mm; }
+  .quiz ol { padding-left:5mm; margin:0; }
+  .ans { font-size:10pt; color:var(--muted); }
+  .check li { margin-bottom:1.5mm; list-style:none; padding-left:7mm; position:relative; }
+  .check li:before { content:""; position:absolute; left:0; top:1.2mm; width:4mm; height:4mm; border:1.4px solid var(--black); border-radius:1mm; }
+  .foot { font-size:7.5pt; color:#8A8A8E; display:flex; justify-content:space-between; margin-top:5mm; padding-top:2mm; border-top:1px solid var(--line); }
+  .big { font-size:46pt; font-weight:600; line-height:1; }
+  .cover-ill { display:block; width:120mm; margin:10mm 0 0 auto; border-radius:6mm; }
+</style>
+</head>
+<body>
+
+<!-- ========== COVER ========== -->
+<section class="page">
+  <div class="nav"><span class="brand">KELOMPOK 3 · CHAPTER 10</span><span>Foundation</span><span>Staffing</span><span>Capabilities</span><span>Structure</span></div>
+  <div class="pill lime" style="margin-bottom:6mm">Panduan baca 20 menit</div>
+  <h1 style="font-size:34pt; max-width:150mm">Kapal Kelompok 3<br>dan Bab yang Sering Dianggap Membosankan</h1>
+  <p class="lead" style="max-width:140mm">Bab 10 bicara tentang satu hal yang jarang dibahas di kelas strategi: mengapa strategi yang bagus sering gagal di lapangan, dan apa yang harus dibangun supaya tidak gagal. Panduan ini menemani deck 20 slide kita, satu panel per slide, supaya siapa pun di kelompok bisa membawakannya tanpa membaca ulang bukunya.</p>
+  <div class="row" style="margin-top:8mm; max-width:140mm">
+    <div class="bubble"><div class="av lime">AA</div><div class="b"><span class="who">Aslih</span>Pembuka, Foundation, Sintesis</div></div>
+    <div class="bubble"><div class="av gray">TP</div><div class="b"><span class="who">Tifani</span>Staffing</div></div>
+  </div>
+  <div class="row" style="max-width:140mm">
+    <div class="bubble"><div class="av">HD</div><div class="b"><span class="who">Happy</span>Capabilities</div></div>
+    <div class="bubble"><div class="av gray">DA</div><div class="b"><span class="who">Dara</span>Structure</div></div>
+  </div>
+  <img class="cover-ill" src="../ill/ship.png" alt="">
+  <div class="foot"><span>Strategic Management · MAN 5422 · MM FEB UGM · Sesi 9, 7 November 2026</span><span>Sumber utama: Thompson, Peteraf, Gamble & Strickland (2024), Bab 10</span></div>
+</section>
+
+<!-- ========== HOOK ========== -->
+<section class="page">
+  <div class="nav"><span class="brand">KELOMPOK 3 · CHAPTER 10</span><span>Foundation</span><span>Staffing</span><span>Capabilities</span><span>Structure</span><span class="pg">02</span></div>
+  <h2>Sebelum mulai: 90 detik</h2>
+  <div class="grid3" style="margin-bottom:6mm">
+    <div class="card lime"><div class="lab">Kenapa bab ini</div><span class="big">No.1</span><p style="margin-top:2mm">Dari 400 CEO di tiga benua, <b>executional excellence</b> adalah tantangan terbesar mereka, bukan perumusan strategi (Sull dkk., 2015).</p></div>
+    <div class="card"><div class="lab">Kenapa cara baca ini</div><p>Pak Rangga tidak menilai <i>what</i>. "Pertanyaan di level what mudah didapat dengan AI." Yang dinilai adalah <b>how</b> dan terutama <b>why</b>. Setiap panel di sini punya keduanya.</p></div>
+    <div class="card black"><div class="lab">Aturan main kelas</div><p>10 sampai 15 menit, lalu diskusi. Kerangka dulu, kasus belakangan. Setiap klaim keunggulan harus punya pembanding. Kalau waktu habis, beliau akan minta "langsung ke kesimpulan".</p></div>
+  </div>
+
+  <h3>Cerita yang menyambungkan semua sesi: kapal</h3>
+  <p class="muted" style="margin-bottom:3mm">Ini analogi yang dipakai Pak Rangga sejak sesi pertama. Kita tinggal melanjutkannya.</p>
+  <div class="strip">
+    <div class="f"><span class="k">Bab 1 sampai 2</span>Visi adalah bintang di langit. Ia memberi arah, bukan tenaga.</div>
+    <div class="f"><span class="k">Bab 3</span>Lingkungan eksternal adalah angin. Five Forces dan PESTEL membaca dari mana ia bertiup.</div>
+    <div class="f"><span class="k">Bab 4 sampai 9</span>Resources dan capabilities adalah layar dan mesin. Strategi adalah haluan yang dipilih nakhoda.</div>
+    <div class="f" style="background:var(--lime)"><span class="k">Bab 10, giliran kita</span>Siapa awaknya? Apa yang mereka kuasai? Bagaimana mereka ditata di geladak supaya kapal benar-benar bergerak?</div>
+  </div>
+
+  <div class="bubble" style="margin-top:6mm"><div class="av lime">AA</div><div class="b"><span class="who">Kalimat pembuka yang bisa dipakai</span>"Sampai sesi lalu kapal kita sudah punya bintang, sudah membaca angin, sudah punya layar, dan sudah memilih haluan. Hari ini kita bicara soal awak kapalnya. Karena layar sebagus apa pun tidak bergerak kalau tidak ada yang menariknya serentak."</div></div>
+
+  <div class="card white" style="margin-top:4mm">
+    <div class="lab">Satu kalimat tesis bab, dari pembuka bab itu sendiri</div>
+    <p class="lead" style="margin:0">"Crafting a good strategy is half of the job; the other half is to build an organization to roll it out." (J. Ramon Lecuona)</p>
+  </div>
+</section>
+
+<!-- ========== ROUTE ========== -->
+<section class="page">
+  <div class="nav"><span class="brand">KELOMPOK 3 · CHAPTER 10</span><span>Foundation</span><span>Staffing</span><span>Capabilities</span><span>Structure</span><span class="pg">03</span></div>
+  <h2>Peta perjalanan 20 slide</h2>
+  <p class="muted" style="margin-bottom:4mm">Warna menunjukkan siapa yang bicara. Di deck, menu di baris atas ikut menyala sesuai bagian yang sedang dibahas.</p>
+  <div class="route">
+    <div class="s c-as"><b>1</b>Sampul</div><div class="s c-as"><b>2</b>Alur</div><div class="s c-as"><b>3</b>Peta kerangka</div><div class="s c-as"><b>4</b>Dari merumuskan ke mengeksekusi</div><div class="s c-as"><b>5</b>Eksekusi itu ujian</div><div class="s c-as"><b>6</b>Figure 10.1</div><div class="s c-as"><b>7</b>Figure 10.2</div><div class="s c-tp"><b>8</b>Tim manajemen</div><div class="s c-tp"><b>9</b>Karyawan</div><div class="s c-hd"><b>10</b>Tiga jalan</div>
+    <div class="s c-hd"><b>11</b>Tumbuh bertahap</div><div class="s c-hd"><b>12</b>Akuisisi, kemitraan</div><div class="s c-hd"><b>13</b>Zara</div><div class="s c-da"><b>14</b>Figure 10.3</div><div class="s c-da"><b>15</b>Outsourcing, Apple</div><div class="s c-da"><b>16</b>Empat struktur</div><div class="s c-da"><b>17</b>Table 10.1</div><div class="s c-da"><b>18</b>Koordinasi</div><div class="s c-as"><b>19</b>Sintesis</div><div class="s c-as"><b>20</b>Terima kasih</div>
+  </div>
+  <div class="legend"><span><i class="c-as"></i>Aslih · 1 sampai 7, 19 sampai 20</span><span><i class="c-tp"></i>Tifani · 8 sampai 9</span><span><i class="c-hd"></i>Happy · 10 sampai 13</span><span><i class="c-da"></i>Dara · 14 sampai 18</span></div>
+
+  <div class="grid2" style="margin-top:7mm">
+    <div class="card"><div class="lab">Jatah waktu</div><p><b>Aslih</b> 4 menit + 1 menit penutup · <b>Tifani</b> 2,5 menit · <b>Happy</b> 4 menit · <b>Dara</b> 4 menit. Totalnya sekitar 15 menit. Patokannya 40 detik per slide; slide 6, 7, 14, dan 17 boleh 1 menit karena itu gambar kerangka.</p></div>
+    <div class="card black"><div class="lab">Kalau dipotong di tengah jalan</div><p>Lewati slide 5 dan 11. Gabungkan penjelasan slide 6 dan 7 menjadi satu napas. Kalau beliau bilang "langsung kesimpulan", lompat ke slide 19. Jangan pernah melewati slide 9 atau 18, karena itu memutus logika bab.</p></div>
+  </div>
+
+  <h3 style="margin-top:7mm">Kerangka bab, supaya tidak ada yang terlewat</h3>
+  <div class="grid2">
+    <div class="card white"><div class="lab">Empat kerangka bergambar</div><p><b>Figure 10.1</b> sepuluh tugas eksekusi (slide 6)<br><b>Figure 10.2</b> tiga aksi kunci (slide 7)<br><b>Figure 10.3</b> lima keputusan struktur (slide 14)<br><b>Table 10.1</b> centralized vs decentralized (slide 17)</p></div>
+    <div class="card white"><div class="lab">Empat taksonomi</div><p>Dua tanda eksekusi yang baik (slide 5)<br>Tiga jalan membangun capability (slide 10)<br>Tiga jalur kemitraan (slide 12)<br>Empat tipe struktur organisasi (slide 16)</p></div>
+  </div>
+</section>
+
+<!-- ========== FOUNDATION 1 ========== -->
+<section class="page">
+  <div class="nav"><span class="brand">KELOMPOK 3 · CHAPTER 10</span><span class="on">Foundation</span><span>Staffing</span><span>Capabilities</span><span>Structure</span><span class="pg">04</span></div>
+  <div class="row" style="align-items:center; margin-bottom:5mm"><div><div class="pill black">Bagian 01 · Aslih</div><h2 style="margin-top:3mm">Foundation</h2><p class="lead">Mengapa eksekusi berbeda dari perumusan, dan peta besar bab.</p></div><div style="flex:0 0 58mm"><img class="ill" src="../ill/crew.png" alt=""></div></div>
+
+  <div class="panel">
+    <div class="head"><span class="num">Slide 4</span><span class="title">Dari merumuskan ke mengeksekusi strategi</span></div>
+    <div class="one">Merumuskan itu pekerjaan analitis. Mengeksekusi itu pekerjaan operasional, dan menyangkut orang.</div>
+    <div class="cols">
+      <div><div class="lab">Kenapa penting</div><p>Dua pekerjaan ini menuntut keterampilan manajerial yang berbeda. Perusahaan yang hebat menganalisis pasar belum tentu hebat menggerakkan orang. Bab 10 adalah bab pertama dari tiga bab yang khusus bicara soal "setengah pekerjaan" yang kedua.</p></div>
+      <div><div class="lab">Caranya menjelaskan</div><p>Pakai dua chip di slide: <b>Analitis</b> untuk Bab 1 sampai 9 (pasar, resources, capabilities), <b>Operasional</b> untuk Bab 10 sampai 12 (orang, proses, struktur). Lalu tutup dengan kutipan Lecuona.</p></div>
+    </div>
+    <div class="bubble"><div class="av lime">AA</div><div class="b"><span class="who">Ucapkan begini</span>"Setengah pekerjaan selesai ketika strategi dirumuskan. Setengahnya lagi, dan ini yang lebih lama, adalah membangun organisasi yang bisa menjalankannya."</div></div>
+  </div>
+
+  <div class="panel">
+    <div class="head"><span class="num">Slide 5</span><span class="title">Eksekusi adalah ujian yang sesungguhnya</span></div>
+    <div class="one">Lebih sulit karena melibatkan semua orang, tidak ada resep tunggal, dan butuh waktu bertahun-tahun.</div>
+    <div class="facts"><div class="fact lime"><b>400 CEO</b>executional excellence jadi tantangan nomor satu</div><div class="fact"><b>Bulan ke tahun</b>waktu implementasi perubahan strategi</div><div class="fact"><b>2 tanda</b>target tercapai, aktivitas kritis dijalankan mahir</div></div>
+    <div class="cols">
+      <div><div class="lab">Kenapa penting</div><p>Dua tanda itu adalah alat diagnosis. Kalau kinerja meleset padahal aktivitas kritis sudah mahir, masalahnya di strategi. Kalau aktivitas kritis belum mahir, masalahnya di eksekusi. Buku: shortfall kinerja menandakan strategi lemah, eksekusi lemah, atau keduanya.</p></div>
+      <div><div class="lab">Caranya menjelaskan</div><p>Jangan membaca empat kartu. Pilih satu: "tidak ada resep tunggal", lalu beri contoh dari buku bahwa mengeksekusi strategi biaya rendah berbeda dari diferensiasi, dan perusahaan krisis berbeda dari yang sehat.</p></div>
+    </div>
+    <div class="bubble q"><div class="av gray">D</div><div class="b"><span class="who">Kalau Dosen bertanya: "Bagaimana membedakan strategi gagal dan eksekusi gagal?"</span>Periksa tanda kedua dulu. Aktivitas rantai nilai yang kritis sudah dijalankan mahir atau belum. Dari situ ketahuan letak masalahnya.</div></div>
+  </div>
+</section>
+
+<!-- ========== FOUNDATION 2 ========== -->
+<section class="page">
+  <div class="nav"><span class="brand">KELOMPOK 3 · CHAPTER 10</span><span class="on">Foundation</span><span>Staffing</span><span>Capabilities</span><span>Structure</span><span class="pg">05</span></div>
+  <div class="panel">
+    <div class="head"><span class="num">Slide 6</span><span class="title">Sepuluh tugas eksekusi (Figure 10.1)</span></div>
+    <div class="one">Sepuluh tugas yang selalu ada, apa pun situasinya. Tiga pertama membangun organisasi yang mampu, tujuh berikutnya menggerakkannya.</div>
+    <div class="cols">
+      <div><div class="lab">Sepuluh tugas, urutan buku</div><p>1 Staffing · 2 Resources dan capabilities · 3 Structure · 4 Alokasi sumber daya · 5 Policies dan procedures · 6 Continuous improvement · 7 Information dan operating systems · 8 Rewards · 9 Corporate culture · 10 Leadership</p></div>
+      <div><div class="lab">Caranya menjelaskan</div><p>Sebut tiga yang lime saja. Lalu bilang: "Tugas 4 sampai 8 dibahas Kelompok 4 di Bab 11, tugas 9 dan 10 oleh Kelompok 5 di Bab 12." Itu menunjukkan Anda tahu posisi bab ini di keseluruhan kurikulum, hal yang disukai Pak Rangga.</p></div>
+    </div>
+    <div class="trap"><b>Jebakan.</b> Jangan bilang "buku menyatakan urutan ini bermakna". Buku hanya membagi sepuluh tugas ke tiga bab. Bahwa percuma memasang insentif pada orang yang salah adalah interpretasi kita. Boleh dipakai, asal diakui sebagai interpretasi.</div>
+  </div>
+
+  <div class="panel">
+    <div class="head"><span class="num">Slide 7</span><span class="title">Tiga aksi kunci (Figure 10.2)</span></div>
+    <div class="one">Staffing dan capabilities menghasilkan resources yang mendukung strategi. Structure menghasilkan tata kerja yang mendukung strategi. Keduanya saling menopang.</div>
+    <div class="cols">
+      <div><div class="lab">Kenapa penting</div><p>Ini peta seluruh presentasi kita. Tiga bagian berikutnya (Staffing, Capabilities, Structure) adalah tiga aksi ini, satu per satu. Panah dua arah di gambar bukan hiasan: capability yang bagus menuntut struktur yang cocok, dan struktur menentukan apakah capability terpakai.</p></div>
+      <div><div class="lab">Kenapa ketiganya didahulukan</div><p>Buku: eksekusi yang mahir bergantung pertama-tama pada organisasi yang mampu menjalankan tugas yang dituntut. Dan strategic assets terdepresiasi, jadi pembaruan diperlukan bahkan ketika strategi tidak berubah.</p></div>
+    </div>
+    <div class="bubble"><div class="av lime">AA</div><div class="b"><span class="who">Serah terima ke Tifani</span>"Aksi pertama adalah orang. Tanpa orang yang tepat, dua aksi lainnya tidak punya pelaku. Tifani akan mulai dari sana."</div></div>
+  </div>
+</section>
+
+<!-- ========== STAFFING ========== -->
+<section class="page">
+  <div class="nav"><span class="brand">KELOMPOK 3 · CHAPTER 10</span><span>Foundation</span><span class="on">Staffing</span><span>Capabilities</span><span>Structure</span><span class="pg">06</span></div>
+  <div class="row" style="align-items:center; margin-bottom:5mm"><div><div class="pill black">Bagian 02 · Tifani</div><h2 style="margin-top:3mm">Staffing</h2><p class="lead">Tim manajemen yang kuat, lalu karyawan yang tepat di semua lapis.</p></div><div style="flex:0 0 46mm"><img class="ill" src="../ill/scale.png" alt=""></div></div>
+
+  <div class="panel">
+    <div class="head"><span class="num">Slide 8</span><span class="title">Menyusun tim manajemen yang kuat</span></div>
+    <div class="one">Yang dicari bukan satu bintang, melainkan critical mass manajer yang bisa menjadi agents of change.</div>
+    <div class="cols">
+      <div><div class="lab">Kenapa penting</div><p>Tanpa tim yang kapabel dan berorientasi hasil, tenggat meleset, upaya salah arah, dan mutu kerja di bawah eksekutif yang lemah ikut merosot. Buku merujuk Collins (Good to Great): manajer kelas satu yang saling mendukung menghasilkan lebih dari jumlah individunya.</p></div>
+      <div><div class="lab">Caranya</div><p>Profil: berpikir jernih, mahir mengelola orang, paham detail bisnis, terbukti menyelesaikan pekerjaan, emotional intelligence tinggi. Cara memperkuat: promosi dari dalam atau rekrut dari luar; perekrutan luar lazim saat turnaround, pertumbuhan cepat, atau know-how tidak ada. Yang tidak mampu berubah, diganti.</p></div>
+    </div>
+    <div class="bubble q"><div class="av gray">D</div><div class="b"><span class="who">Kalau Dosen bertanya: "Apakah pengalaman manajer saja cukup?"</span>Tidak. Buku menuntut kombinasi: kecerdasan, keterampilan mengelola orang, rekam jejak menyelesaikan pekerjaan, dan kesediaan mengakui bahwa perubahan diperlukan. Pengalaman tanpa kesediaan berubah justru hambatan.</div></div>
+  </div>
+
+  <div class="panel">
+    <div class="head"><span class="num">Slide 9</span><span class="title">Merekrut, melatih, dan mempertahankan karyawan</span></div>
+    <div class="one">Sasaran buku: seluruh workforce menjadi genuine competitive asset, bukan hanya manajemennya.</div>
+    <div class="facts"><div class="fact lime"><b>3%</b>pelamar yang diterima Southwest Airlines</div><div class="fact"><b>Top 10%</b>talenta yang dibidik Cisco</div><div class="fact"><b>4.000+</b>perusahaan punya internal university</div></div>
+    <div class="cols">
+      <div><div class="lab">Delapan praktik buku, dipadatkan jadi empat</div><p>Seleksi ketat dan penugasan menantang · pelatihan sepanjang karier dan rotasi lintas fungsi · lingkungan yang menstimulasi dan ide karyawan dihargai · retensi lewat promosi, bonus, equity, plus coaching bagi yang rata-rata dan weeding out bagi yang tertinggal.</p></div>
+      <div><div class="lab">Yang sering dilupakan</div><p>Pelatihan adalah bagian eksekusi strategi, bukan biaya overhead. Buku: bila strategi menuntut skill baru, pelatihan harus didanai memadai dan naik ke puncak action agenda. Deloitte (IC 10.2) membangun jalur jelas menuju partner, milestone school, dan sponsorship, bukan sekadar mentorship.</p></div>
+    </div>
+    <div class="trap"><b>Jebakan.</b> Angka 3% dan 10% adalah ilustrasi seberapa ketat seleksi, bukan klaim bahwa perusahaan itu lebih unggul. Kalau ditanya pembandingnya, jawab jujur: buku tidak memberi rata-rata industri untuk angka ini.</div>
+    <div class="bubble"><div class="av gray">TP</div><div class="b"><span class="who">Serah terima ke Happy</span>"Orang yang tepat baru bahan mentah. Yang membuat mereka menjadi keunggulan adalah capability. Happy melanjutkan."</div></div>
+  </div>
+</section>
+
+<!-- ========== CAPABILITIES 1 ========== -->
+<section class="page">
+  <div class="nav"><span class="brand">KELOMPOK 3 · CHAPTER 10</span><span>Foundation</span><span>Staffing</span><span class="on">Capabilities</span><span>Structure</span><span class="pg">07</span></div>
+  <div class="row" style="align-items:center; margin-bottom:5mm"><div><div class="pill black">Bagian 03 · Happy</div><h2 style="margin-top:3mm">Capabilities</h2><p class="lead">Tiga jalan membangunnya, mengapa tidak bisa dibeli semalam, dan bukti bahwa eksekusi sendiri bisa menjadi keunggulan.</p></div><div style="flex:0 0 46mm"><img class="ill" src="../ill/stairs.png" alt=""></div></div>
+
+  <div class="panel">
+    <div class="head"><span class="num">Slide 10</span><span class="title">Tiga jalan membangun organizational capabilities</span></div>
+    <div class="one">Dibangun sendiri, dibeli lewat akuisisi, atau diakses lewat kemitraan. Bedanya ada di kecepatan, kendali, dan risiko.</div>
+    <div class="cols">
+      <div><div class="lab">Tautan ke Bab 4</div><p>Keunggulan yang bertahan bergantung pada kaliber resources dan capabilities (uji VRIN). Merumuskan strategi mengidentifikasi capability yang dibutuhkan; mengeksekusi berarti memperolehnya, menempatkannya, dan terus menyegarkannya (dynamic capabilities).</p></div>
+      <div><div class="lab">Caranya menjelaskan</div><p>Internal: bertahap, kendali penuh, paling lama. Akuisisi: paling cepat, risikonya pada integrasi. Kemitraan: outsourcing, aliansi, belajar dari mitra, hemat sumber daya. Lalu kutip analogi buku: mempelajari Shaun White tidak membuat kita juara halfpipe.</p></div>
+    </div>
+    <div class="trap"><b>Jebakan.</b> Pembacaan "cepat, kendali, risiko" adalah cara baca kita, bukan tabel buku. Sampaikan sebagai cara membandingkan, jangan sebagai kutipan.</div>
+  </div>
+
+  <div class="panel">
+    <div class="head"><span class="num">Slide 11</span><span class="title">Capability tumbuh bertahap</span></div>
+    <div class="one">Buku menamai dua tahap: ability yang belum sempurna menjadi tried-and-true competence. Setelah itu dijaga dan diperbarui.</div>
+    <div class="cols">
+      <div><div class="lab">Kenapa penting</div><p>Ini jawaban mengapa capability tidak bisa dibeli semalam. Ia tumbuh dari eksperimen dan trial and error, menjadi konsisten lewat pengulangan dan learning by doing, lalu harus terus disegarkan. Akseleratornya dua: pembelajaran yang sengaja dirancang dan insentif.</p></div>
+      <div><div class="lab">Contoh buku</div><p>Williams-Sonoma memperbarui capability penjualan jarak jauh dari katalog (1970) ke e-commerce (2000) hingga masuk Fortune 500 (2019). Toyota menyempurnakan Toyota Production System dan teknologi hybrid hingga melampaui GM. Merekombinasi yang ada lebih mudah daripada membangun dari nol.</p></div>
+    </div>
+    <div class="trap"><b>Jebakan.</b> Batang ketiga di grafik slide ("Diperbarui") adalah fase penjagaan, bukan "tahap ketiga versi buku". Kalau ditanya, katakan: dua tahap di buku, lalu dijaga sebagai dynamic capability.</div>
+  </div>
+</section>
+
+<!-- ========== CAPABILITIES 2 ========== -->
+<section class="page">
+  <div class="nav"><span class="brand">KELOMPOK 3 · CHAPTER 10</span><span>Foundation</span><span>Staffing</span><span class="on">Capabilities</span><span>Structure</span><span class="pg">08</span></div>
+  <div class="panel">
+    <div class="head"><span class="num">Slide 12</span><span class="title">Akuisisi dan kemitraan membeli waktu, bukan integrasi</span></div>
+    <div class="one">Yang dibeli lewat akuisisi adalah rutinitas yang tacit. Justru itu yang paling sulit dipindahkan.</div>
+    <div class="cols">
+      <div><div class="lab">Akuisisi</div><p>Tepat bila capability terlalu jauh dari basis yang ada, atau waktu sangat menentukan. Risiko: tacit knowledge dan rutinitas rumit tidak mudah dipindahkan; inkompatibilitas sistem; dalam kasus terburuk akuisisi merusak capability yang diincar. Meta membelanjakan lebih dari US$25 miliar untuk AR, pengenalan suara, dan penerjemahan; manfaatnya, kata buku, "may prove easier said than done".</p></div>
+      <div><div class="lab">Kemitraan, tiga jalur</div><p>1 Outsource fungsi yang lemah ke pemasok kunci. 2 Berkolaborasi lewat joint venture atau aliansi, pilih mitra dari gaya manajemen dan budaya, bukan hanya aset. 3 Belajar dari mitra lalu menginternalisasi; harus dua arah, kalau sepihak itu abuse of trust. Lebih aman lintas industri: produsen mobil dengan Waymo, Nvidia, Mobileye; Nike dengan Bluesign.</p></div>
+    </div>
+    <div class="bubble q"><div class="av gray">D</div><div class="b"><span class="who">Kalau Dosen bertanya: "Kalau bisa dibeli, kenapa repot membangun?"</span>Karena yang dibeli adalah orang dan rutinitas, bukan mesin. Capability baru berguna setelah ditanam ke rutinitas organisasi sendiri, dan di situ aksi 1 (orang) dan aksi 3 (struktur) menentukan. Akuisisi membeli waktu, bukan integrasi.</div></div>
+  </div>
+
+  <div class="panel">
+    <div class="head"><span class="num">Slide 13</span><span class="title">Eksekusi yang unggul adalah keunggulan itu sendiri (Zara)</span></div>
+    <div class="one">Strategi fast fashion Zara tidak unik. Keunggulannya ada pada eksekusi yang socially complex dan sulit ditiru.</div>
+    <div class="facts"><div class="fact lime"><b>4 minggu</b>desain ke rak toko; peritel lain 6 bulan</div><div class="fact"><b>12.000</b>model per tahun; industri 3.000</div><div class="fact"><b>17 kali</b>kunjungan per tahun; pesaing 2 kali</div><div class="fact"><b>11 hari</b>umur item di toko</div></div>
+    <div class="cols">
+      <div><div class="lab">Kenapa semua angka berpasangan</div><p>Karena Pak Rangga menolak klaim kekuatan tanpa pembanding. Setiap angka Zara di slide diberi pembanding dari buku. Mekanismenya: produksi lot kecil dekat kantor pusat, rantai pasok terintegrasi tanpa gudang, nol iklan tetapi lokasi premium, pengiriman hingga dua kali seminggu per toko.</p></div>
+      <div><div class="lab">Kenapa bertahan</div><p>Execution capabilities bersifat socially complex dan dibangun bertahun-tahun, jadi sulit ditiru dan tidak tersubstitusi. Dua dari empat uji resource Bab 4 terpenuhi. Kesimpulan buku: bila strategi mudah ditiru, satu-satunya jalan adalah out-execute pesaing. Tantangan Zara kini H&M, Uniqlo, Shein, dan belanja daring.</p></div>
+    </div>
+    <div class="bubble"><div class="av">HD</div><div class="b"><span class="who">Serah terima ke Dara</span>"Orang dan capability sudah ada. Pertanyaannya sekarang: bagaimana menatanya? Dara akan bicara struktur."</div></div>
+  </div>
+</section>
+
+<!-- ========== STRUCTURE 1 ========== -->
+<section class="page">
+  <div class="nav"><span class="brand">KELOMPOK 3 · CHAPTER 10</span><span>Foundation</span><span>Staffing</span><span>Capabilities</span><span class="on">Structure</span><span class="pg">09</span></div>
+  <div class="row" style="align-items:center; margin-bottom:5mm"><div><div class="pill black">Bagian 04 · Dara</div><h2 style="margin-top:3mm">Structure</h2><p class="lead">Lima keputusan menata organisasi dan pekerjaan, dari outsourcing sampai mitra eksternal.</p></div><div style="flex:0 0 46mm"><img class="ill" src="../ill/blocks.png" alt=""></div></div>
+
+  <div class="panel">
+    <div class="head"><span class="num">Slide 14</span><span class="title">Struktur mengikuti strategi (Figure 10.3)</span></div>
+    <div class="one">Satu aturan baku di buku: struktur organisasi harus dicocokkan dengan kebutuhan spesifik implementasi strategi.</div>
+    <div class="cols">
+      <div><div class="lab">Lima keputusan</div><p>1 Aktivitas mana dikerjakan sendiri, mana di-outsource · 2 Tipe struktur yang selaras strategi · 3 Seberapa besar wewenang dipusatkan atau didelegasikan · 4 Koordinasi lintas unit · 5 Kolaborasi dengan mitra eksternal. Semua bermuara pada satu kotak di gambar: struktur yang cocok dengan kebutuhan eksekusi.</p></div>
+      <div><div class="lab">Kenapa penting</div><p>Struktur yang tidak cocok menaikkan bureaucratic costs dan merusak koordinasi. Desain yang baik menurunkan biaya, mempercepat pembangunan capability, dan membuat perusahaan lebih dulu ke pasar. Definisi buku: pengaturan formal dan informal atas tugas, tanggung jawab, garis wewenang, dan pelaporan (untuk definisi ini buku merujuk Chandler, 1962).</p></div>
+    </div>
+    <div class="trap"><b>Jebakan.</b> Frasa "struktur mengikuti strategi" di judul slide adalah ringkasan kita, bukan kutipan buku. Jangan menyebutnya sebagai kalimat Chandler di bab ini.</div>
+  </div>
+
+  <div class="panel">
+    <div class="head"><span class="num">Slide 15</span><span class="title">Dikerjakan sendiri atau di-outsource (Apple)</span></div>
+    <div class="one">Pertanyaannya bukan "bisakah di-outsource", melainkan "apakah ini inti strategi kami".</div>
+    <div class="cols">
+      <div><div class="lab">Tiga manfaat, satu batas</div><p>Fokus lebih tajam sehingga competence bisa naik jadi distinctive competence · organisasi lebih ramping dan cepat · capability mitra kelas satu ikut terpakai. Batasnya (Bab 6): jangan kehilangan keahlian pada aktivitas yang menopang keunggulan jangka panjang; perusahaan harus tetap master of its own destiny.</p></div>
+      <div><div class="lab">Apple (IC 10.4)</div><p>Desain dan pengembangan produk dikerjakan sendiri. Manufaktur diserahkan ke Foxconn, 1,3 juta pekerja pada 2023, bisa merekrut 3.000 orang seketika. Harganya: kendali atas kondisi kerja berkurang, standar pemasok diperketat, produksi mulai dipindah ke luar Tiongkok. Pola serupa: 83% dari sepuluh farmasi terbesar meng-outsource pengelolaan data klinis; Nike; Broadcom.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== STRUCTURE 2 ========== -->
+<section class="page">
+  <div class="nav"><span class="brand">KELOMPOK 3 · CHAPTER 10</span><span>Foundation</span><span>Staffing</span><span>Capabilities</span><span class="on">Structure</span><span class="pg">10</span></div>
+  <div class="panel">
+    <div class="head"><span class="num">Slide 16</span><span class="title">Empat tipe struktur</span></div>
+    <div class="one">Tipe struktur ditentukan oleh ukuran dan susunan bisnis, bukan oleh generic strategy yang dipilih. Ia berevolusi seiring pertumbuhan.</div>
+    <div class="grid2" style="margin-bottom:2mm">
+      <div class="card"><div class="lab">Simple · line-and-staff</div><p style="font-size:11pt">Eksekutif pusat dan staf kecil. Murah, lentur, cepat. Tidak memadai saat tumbuh. Startup dan perusahaan kecil.</p></div>
+      <div class="card lime"><div class="lab" style="color:var(--ink)">Functional · U-form</div><p style="font-size:11pt">Departemen per fungsi rantai nilai. Untuk perusahaan satu bisnis, apa pun strateginya; GM kini satu struktur untuk semua merek. Spesialisasi kuat, tetapi bersekat.</p></div>
+      <div class="card"><div class="lab">Multidivisional · M-form</div><p style="font-size:11pt">Divisi sebagai profit center (SBU) dengan kantor pusat. Untuk diversifikasi, internasionalisasi, integrasi vertikal. Sinergi lintas bisnis sulit.</p></div>
+      <div class="card black"><div class="lab">Matrix · composite</div><p style="font-size:11pt">Dua dimensi atau lebih, beberapa atasan. Versi modern: satu garis utama plus garis sekunder sementara. Texas Instruments, Caterpillar, Philips.</p></div>
+    </div>
+    <div class="trap"><b>Jebakan.</b> Jangan bilang matrix "dua atasan". Buku: "two or more dimensions", "several bosses", dan versi modern justru lebih lentur. Satu prinsip yang mengikat semuanya: aktivitas yang kritis bagi strategi menjadi building blocks struktur.</div>
+  </div>
+
+  <div class="panel">
+    <div class="head"><span class="num">Slide 17</span><span class="title">Memusatkan atau mendelegasikan keputusan (Table 10.1)</span></div>
+    <div class="one">Keduanya punya logika. Pilihan bergantung pada di mana pengetahuan relevan berada dan seberapa cepat respons dibutuhkan.</div>
+    <div class="cols">
+      <div><div class="lab">Centralized</div><p>Asumsi: lini bawah tak punya pengetahuan atau waktu untuk memutuskan, jadi kontrol dari puncak paling efektif. Kelebihan: akuntabilitas jelas, tidak ada tujuan yang bertentangan, tegas saat krisis. Kelemahan: respons lambat karena menunggu persetujuan, inisiatif lini bawah mati.</p></div>
+      <div><div class="lab">Decentralized</div><p>Asumsi: yang terdekat dengan situasi paling tahu, dan intellectual capital semua karyawan bernilai. Kelebihan: inisiatif, ide baru, respons pasar cepat, lapisan lebih sedikit. Kelemahan: puncak bisa tidak tahu, pendekatan tidak konsisten, koordinasi lintas unit lemah.</p></div>
+    </div>
+    <div class="bubble q"><div class="av gray">D</div><div class="b"><span class="who">Kalau Dosen bertanya: "Desentralisasi berarti lepas kendali?"</span>Tidak. Buku memberi lima pengaman: batas wewenang, strategic control systems, akuntabilitas, insentif, dan budaya dengan peer pressure (Simons, 1995). Contohnya Starbucks: karyawan membagikan kopi gratis saat kasir offline. Itu wewenang, bukan kekacauan. Untuk sinergi lintas bisnis, fungsi yang butuh koordinasi erat, seperti R&D atau sales force bersama, justru dipusatkan.</div></div>
+  </div>
+</section>
+
+<!-- ========== STRUCTURE 3 + SYNTHESIS ========== -->
+<section class="page">
+  <div class="nav"><span class="brand">KELOMPOK 3 · CHAPTER 10</span><span>Foundation</span><span>Staffing</span><span>Capabilities</span><span class="on">Structure</span><span class="pg">11</span></div>
+  <div class="panel">
+    <div class="head"><span class="num">Slide 18</span><span class="title">Koordinasi ke dalam dan ke luar</span></div>
+    <div class="one">Struktur formal saja tidak cukup. Kerja sama harus dirancang, ke dalam dan ke luar.</div>
+    <div class="cols">
+      <div><div class="lab">Ke dalam</div><p>Capability seperti speed-to-market melintasi R&D, produksi, dan pemasaran. Alatnya: komitmen bersama atas tenggat, tindak lanjut eksekutif, komite lintas fungsi, tim proyek, project management office. Yang paling efektif menurut buku: kompensasi yang terikat pada kinerja kelompok lintas unit. Hambatannya: dalam struktur terdesentralisasi, kepala departemen cenderung mendahulukan unitnya.</p></div>
+      <div><div class="lab">Ke luar</div><p>Kemitraan tanpa pengelolaan aktif tidak menghasilkan nilai; tunjuk relationship managers. Dua bentuk: <b>network</b>, ikatan kontraktual yang diatur satu perusahaan pusat (Ducati dan pemasoknya), dan <b>ecosystem</b>, ikatan longgar non-kontraktual antar banyak jenis organisasi (Silicon Valley). Pesan penutup bagian buku: membangun organisasi berarti merajut upaya orang dan kelompok secara sadar, tugas manajemen senior.</p></div>
+    </div>
+    <div class="bubble"><div class="av gray">DA</div><div class="b"><span class="who">Serah terima ke Aslih</span>"Lima keputusan itu adalah aksi ketiga. Sekarang kita rangkai ketiganya."</div></div>
+  </div>
+
+  <div class="row" style="align-items:center; margin:5mm 0 4mm 0"><div><div class="pill black">Bagian 05 · Aslih</div><h2 style="margin-top:3mm">Sintesis</h2></div><div style="flex:0 0 42mm"><img class="ill" src="../ill/network.png" alt=""></div></div>
+  <div class="panel">
+    <div class="head"><span class="num">Slide 19</span><span class="title">Organisasi yang mampu mengeksekusi</span></div>
+    <div class="one">Orang membangun capability, capability menuntut struktur, struktur menentukan apakah capability terpakai. Hasilnya proficiency pada aktivitas kritis.</div>
+    <div class="cols">
+      <div><div class="lab">Narasi penutup ala Pak Rangga</div><p>Capability yang tacit dan socially complex adalah pengetahuan yang sulit ditiru; itu pergeseran dari resource-based ke knowledge-based yang sering beliau sebut. Network dan ecosystem menggeser competitive advantage menuju collaborative advantage (Kanter, 1994, dikutip bab sebagai catatan akhir 27).</p></div>
+      <div><div class="lab">Tiga jembatan</div><p><b>Bab 11</b> menggerakkan organisasi yang sudah dibangun: sumber daya, kebijakan, proses, sistem, imbalan. <b>Bab 12</b> menopangnya dengan budaya dan kepemimpinan. <b>4DX</b>, kerangka yang kita presentasikan sendiri: focus on the wildly important, act on lead measures, keep a compelling scoreboard, create a cadence of accountability.</p></div>
+    </div>
+    <div class="bubble"><div class="av lime">AA</div><div class="b"><span class="who">Kalimat terakhir sebelum slide terima kasih</span>"Strategi sebaik apa pun hanya setengah pekerjaan. Keunggulan yang bertahan lahir ketika orang, capability, dan struktur dibangun untuk menjalankannya lebih baik daripada pesaing."</div></div>
+  </div>
+</section>
+
+<!-- ========== Q&A ========== -->
+<section class="page">
+  <div class="nav"><span class="brand">KELOMPOK 3 · CHAPTER 10</span><span>Foundation</span><span>Staffing</span><span>Capabilities</span><span>Structure</span><span class="pg">12</span></div>
+  <h2>Kalau diskusi dibuka</h2>
+  <p class="muted" style="margin-bottom:4mm">Gaya bertanya Pak Rangga sokratik: "apakah X saja cukup?" Empat pertanyaan ini dulu ada di slide; sekarang jadi bekal kita.</p>
+
+  <div class="bubble q"><div class="av gray">D</div><div class="b"><span class="who">Awak kapal</span>Layar dan haluan sudah ada. Apa yang terjadi bila awak tidak terlatih atau garis komando tidak jelas? Cukupkah strategi yang tepat?</div></div>
+  <div class="bubble"><div class="av lime">AA</div><div class="b">Tidak cukup. Tanpa awak yang mampu dan komando yang jelas, layar dan haluan tidak menghasilkan gerak. Itu tesis Lecuona dan alasan Bab 10 ada.</div></div>
+
+  <div class="bubble q"><div class="av gray">D</div><div class="b"><span class="who">Strategi yang mudah ditiru</span>Dua jaringan minimarket di Indonesia menjalankan strategi yang nyaris sama. Di mana keunggulan bisa dibangun?</div></div>
+  <div class="bubble"><div class="av gray">DA</div><div class="b">Pada eksekusi: kecepatan replenishment, standar layanan toko, pemilihan lokasi, pelatihan kasir. Ukur terhadap rata-rata industri supaya bukan klaim personal. Ini kasus out-execute yang persis dibahas slide 13.</div></div>
+
+  <div class="bubble q"><div class="av gray">D</div><div class="b"><span class="who">Membeli capability</span>Merger Gojek dan Tokopedia (2021) menggabungkan capability dua organisasi. Mengapa sulit?</div></div>
+  <div class="bubble"><div class="av">HD</div><div class="b">Karena capability tacit dan tertanam dalam rutinitas tim lintas fungsi. Syarat keberhasilannya: kompatibilitas sistem dan budaya, retensi orang kunci, integrasi bertahap, dan struktur koordinasi yang sengaja dirancang. Kita tidak mengklaim data kinerja GoTo; ini argumen konseptual dari slide 12.</div></div>
+
+  <div class="bubble q"><div class="av gray">D</div><div class="b"><span class="who">Kendali atau inisiatif</span>Kapan sentralisasi lebih baik daripada desentralisasi?</div></div>
+  <div class="bubble"><div class="av gray">TP</div><div class="b">Sentralisasi saat krisis yang menuntut respons seragam dan cepat. Desentralisasi saat pengetahuan relevan ada di lini depan dan inovasi dibutuhkan. Kendali tetap dijaga lewat lima pengaman di Table 10.1.</div></div>
+
+  <div class="card lime" style="margin-top:4mm"><div class="lab" style="color:var(--ink)">Satu pertanyaan lagi yang mungkin muncul</div><p style="margin:0"><b>"Apa bedanya bab ini dengan Bab 4 yang juga bicara capability?"</b> Bab 4 menilai capability yang sudah ada (VRIN, apakah ia sumber keunggulan). Bab 10 bicara cara memperoleh dan menyegarkannya saat strategi dijalankan. Bab 4 adalah diagnosis, Bab 10 adalah pembangunan.</p></div>
+</section>
+
+<!-- ========== QUIZ + CHECKLIST ========== -->
+<section class="page">
+  <div class="nav"><span class="brand">KELOMPOK 3 · CHAPTER 10</span><span>Foundation</span><span>Staffing</span><span>Capabilities</span><span>Structure</span><span class="pg">13</span></div>
+  <div class="row" style="align-items:center; margin-bottom:4mm"><div><h2>Kuis tiga menit</h2><p class="muted">Tutup jawabannya dulu. Kalau delapan benar, Anda siap.</p></div><div style="flex:0 0 45mm"><img class="ill" src="../ill/finish.png" alt=""></div></div>
+  <div class="card white quiz">
+    <ol>
+      <li>Dua tanda eksekusi yang baik? <span class="ans">Target kinerja tercapai; proficiency pada aktivitas rantai nilai yang kritis.</span></li>
+      <li>Tiga aksi kunci Figure 10.2? <span class="ans">Staffing; acquiring, developing, strengthening capabilities; structuring the organization and work effort.</span></li>
+      <li>Berapa tahap pengembangan capability internal menurut buku, dan apa setelahnya? <span class="ans">Dua: ability lalu tried-and-true competence. Setelah itu dijaga dan diperbarui.</span></li>
+      <li>Kapan akuisisi capability tepat? <span class="ans">Bila capability terlalu jauh dari basis yang ada, atau waktu sangat menentukan.</span></li>
+      <li>Empat angka Zara beserta pembandingnya? <span class="ans">4 minggu vs 6 bulan; 12.000 vs 3.000 model; 17 vs 2 kunjungan; 11 hari umur item.</span></li>
+      <li>Apa yang menentukan tipe struktur menurut buku? <span class="ans">Ukuran dan susunan bisnis, bukan generic strategy.</span></li>
+      <li>Lima pengaman kendali dalam desentralisasi? <span class="ans">Batas wewenang, strategic control systems, akuntabilitas, insentif, budaya dengan peer pressure.</span></li>
+      <li>Beda network dan ecosystem? <span class="ans">Network kontraktual dengan satu perusahaan pusat (Ducati); ecosystem longgar dan non-kontraktual (Silicon Valley).</span></li>
+    </ol>
+  </div>
+
+  <h2 style="margin-top:6mm">Checklist hari H</h2>
+  <div class="grid2">
+    <div class="card"><ul class="check" style="padding:0; margin:0">
+      <li>Font Outfit (Regular, Medium, SemiBold) terpasang di laptop presentasi; berkasnya ada di folder fonts.</li>
+      <li>PDF dibuka sebagai cadangan; PDF sudah membawa fontnya sendiri.</li>
+      <li>Uji baca dari bangku paling belakang: buka slide 5 atau 9, baca teks kartu abu.</li>
+      <li>Setiap presenter hafal kalimat serah terima ke presenter berikutnya.</li>
+    </ul></div>
+    <div class="card black"><ul class="check" style="padding:0; margin:0">
+      <li style="color:#E8E8EA">Timer 15 menit di meja; patokan 40 detik per slide.</li>
+      <li style="color:#E8E8EA">Rencana pangkas disepakati: lewati 5 dan 11, gabung 6 dan 7, lompat ke 19.</li>
+      <li style="color:#E8E8EA">Tiga "jebakan" diingat: dua tahap capability, matrix bukan "dua atasan", Chandler hanya untuk definisi struktur.</li>
+      <li style="color:#E8E8EA">Nama berkas mengikuti format silabus SMJKT_Group 3_Nama_Chapter 10.</li>
+    </ul><p style="font-size:8pt; color:#9A9A9E; margin:3mm 0 0 0">Sumber: Thompson, Peteraf, Gamble & Strickland (2024), Bab 10, hlm. 294 sampai 325; Kanter (1994); Simons (1995); McChesney, Covey & Huling (2012).</p></div>
+  </div>
+</section>
+
+</body>
+</html>
