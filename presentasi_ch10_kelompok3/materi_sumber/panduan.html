@@ -9,14 +9,14 @@
   * { box-sizing: border-box; }
   html, body { margin:0; padding:0; background:#fff; color:var(--ink); font-family:'Outfit', 'Inter', Arial, sans-serif; font-size:11.5pt; line-height:1.38; }
   .page { width:182mm; padding:0; page-break-before:always; position:relative; background:#fff; }
-  section.page:first-of-type { page-break-before:auto; }
+  section.page.first { page-break-before:auto; }
   /* nav strip */
   .nav { display:flex; align-items:center; gap:6mm; font-size:8.5pt; color:var(--muted); margin-bottom:7mm; }
   .nav .brand { font-weight:500; color:var(--ink); margin-right:auto; }
   .nav span.on { background:var(--lime); color:var(--black); font-weight:600; padding:1.2mm 3.5mm; border-radius:99px; }
   .nav .pg { margin-left:auto; }
   h1 { font-weight:600; font-size:30pt; line-height:1.05; margin:0 0 4mm 0; letter-spacing:-0.2px; text-transform:uppercase; }
-  h2 { font-weight:600; font-size:20pt; line-height:1.1; margin:0 0 3mm 0; text-transform:uppercase; }
+  h2 { break-after:avoid; page-break-after:avoid; font-weight:600; font-size:20pt; line-height:1.1; margin:0 0 3mm 0; text-transform:uppercase; }
   h3 { font-weight:600; font-size:13.5pt; margin:0 0 1.5mm 0; }
   p { margin:0 0 2.5mm 0; }
   .muted { color:var(--muted); }
@@ -83,78 +83,10 @@
 </head>
 <body>
 
-<!-- ========== COVER ========== -->
-<section class="page">
-  <div class="nav"><span class="brand">KELOMPOK 3 · CHAPTER 10</span><span>Foundation</span><span>Staffing</span><span>Capabilities</span><span>Structure</span></div>
-  <div class="pill lime" style="margin-bottom:6mm">Panduan baca 20 menit</div>
-  <h1 style="font-size:34pt; max-width:150mm">Kapal Kelompok 3<br>dan Bab yang Sering Dianggap Membosankan</h1>
-  <p class="lead" style="max-width:140mm">Bab 10 bicara tentang satu hal yang jarang dibahas di kelas strategi: mengapa strategi yang bagus sering gagal di lapangan, dan apa yang harus dibangun supaya tidak gagal. Panduan ini menemani deck 20 slide kita, satu panel per slide, supaya siapa pun di kelompok bisa membawakannya tanpa membaca ulang bukunya.</p>
-  <div class="row" style="margin-top:8mm; max-width:140mm">
-    <div class="bubble"><div class="av lime">AA</div><div class="b"><span class="who">Aslih</span>Pembuka, Foundation, Sintesis</div></div>
-    <div class="bubble"><div class="av gray">TP</div><div class="b"><span class="who">Tifani</span>Staffing</div></div>
-  </div>
-  <div class="row" style="max-width:140mm">
-    <div class="bubble"><div class="av">HD</div><div class="b"><span class="who">Happy</span>Capabilities</div></div>
-    <div class="bubble"><div class="av gray">DA</div><div class="b"><span class="who">Dara</span>Structure</div></div>
-  </div>
-  <img class="cover-ill" src="../ill/ship.png" alt="">
-  <div class="foot"><span>Strategic Management · MAN 5422 · MM FEB UGM · Sesi 9, 7 November 2026</span><span>Sumber utama: Thompson, Peteraf, Gamble & Strickland (2024), Bab 10</span></div>
-</section>
-
-<!-- ========== HOOK ========== -->
-<section class="page">
-  <div class="nav"><span class="brand">KELOMPOK 3 · CHAPTER 10</span><span>Foundation</span><span>Staffing</span><span>Capabilities</span><span>Structure</span><span class="pg">02</span></div>
-  <h2>Sebelum mulai: 90 detik</h2>
-  <div class="grid3" style="margin-bottom:6mm">
-    <div class="card lime"><div class="lab">Kenapa bab ini</div><span class="big">No.1</span><p style="margin-top:2mm">Dari 400 CEO di tiga benua, <b>executional excellence</b> adalah tantangan terbesar mereka, bukan perumusan strategi (Sull dkk., 2015).</p></div>
-    <div class="card"><div class="lab">Kenapa cara baca ini</div><p>Pak Rangga tidak menilai <i>what</i>. "Pertanyaan di level what mudah didapat dengan AI." Yang dinilai adalah <b>how</b> dan terutama <b>why</b>. Setiap panel di sini punya keduanya.</p></div>
-    <div class="card black"><div class="lab">Aturan main kelas</div><p>10 sampai 15 menit, lalu diskusi. Kerangka dulu, kasus belakangan. Setiap klaim keunggulan harus punya pembanding. Kalau waktu habis, beliau akan minta "langsung ke kesimpulan".</p></div>
-  </div>
-
-  <h3>Cerita yang menyambungkan semua sesi: kapal</h3>
-  <p class="muted" style="margin-bottom:3mm">Ini analogi yang dipakai Pak Rangga sejak sesi pertama. Kita tinggal melanjutkannya.</p>
-  <div class="strip">
-    <div class="f"><span class="k">Bab 1 sampai 2</span>Visi adalah bintang di langit. Ia memberi arah, bukan tenaga.</div>
-    <div class="f"><span class="k">Bab 3</span>Lingkungan eksternal adalah angin. Five Forces dan PESTEL membaca dari mana ia bertiup.</div>
-    <div class="f"><span class="k">Bab 4 sampai 9</span>Resources dan capabilities adalah layar dan mesin. Strategi adalah haluan yang dipilih nakhoda.</div>
-    <div class="f" style="background:var(--lime)"><span class="k">Bab 10, giliran kita</span>Siapa awaknya? Apa yang mereka kuasai? Bagaimana mereka ditata di geladak supaya kapal benar-benar bergerak?</div>
-  </div>
-
-  <div class="bubble" style="margin-top:6mm"><div class="av lime">AA</div><div class="b"><span class="who">Kalimat pembuka yang bisa dipakai</span>"Sampai sesi lalu kapal kita sudah punya bintang, sudah membaca angin, sudah punya layar, dan sudah memilih haluan. Hari ini kita bicara soal awak kapalnya. Karena layar sebagus apa pun tidak bergerak kalau tidak ada yang menariknya serentak."</div></div>
-
-  <div class="card white" style="margin-top:4mm">
-    <div class="lab">Satu kalimat tesis bab, dari pembuka bab itu sendiri</div>
-    <p class="lead" style="margin:0">"Crafting a good strategy is half of the job; the other half is to build an organization to roll it out." (J. Ramon Lecuona)</p>
-  </div>
-</section>
-
-<!-- ========== ROUTE ========== -->
-<section class="page">
-  <div class="nav"><span class="brand">KELOMPOK 3 · CHAPTER 10</span><span>Foundation</span><span>Staffing</span><span>Capabilities</span><span>Structure</span><span class="pg">03</span></div>
-  <h2>Peta perjalanan 20 slide</h2>
-  <p class="muted" style="margin-bottom:4mm">Warna menunjukkan siapa yang bicara. Di deck, menu di baris atas ikut menyala sesuai bagian yang sedang dibahas.</p>
-  <div class="route">
-    <div class="s c-as"><b>1</b>Sampul</div><div class="s c-as"><b>2</b>Alur</div><div class="s c-as"><b>3</b>Peta kerangka</div><div class="s c-as"><b>4</b>Dari merumuskan ke mengeksekusi</div><div class="s c-as"><b>5</b>Eksekusi itu ujian</div><div class="s c-as"><b>6</b>Figure 10.1</div><div class="s c-as"><b>7</b>Figure 10.2</div><div class="s c-tp"><b>8</b>Tim manajemen</div><div class="s c-tp"><b>9</b>Karyawan</div><div class="s c-hd"><b>10</b>Tiga jalan</div>
-    <div class="s c-hd"><b>11</b>Tumbuh bertahap</div><div class="s c-hd"><b>12</b>Akuisisi, kemitraan</div><div class="s c-hd"><b>13</b>Zara</div><div class="s c-da"><b>14</b>Figure 10.3</div><div class="s c-da"><b>15</b>Outsourcing, Apple</div><div class="s c-da"><b>16</b>Empat struktur</div><div class="s c-da"><b>17</b>Table 10.1</div><div class="s c-da"><b>18</b>Koordinasi</div><div class="s c-as"><b>19</b>Sintesis</div><div class="s c-as"><b>20</b>Terima kasih</div>
-  </div>
-  <div class="legend"><span><i class="c-as"></i>Aslih · 1 sampai 7, 19 sampai 20</span><span><i class="c-tp"></i>Tifani · 8 sampai 9</span><span><i class="c-hd"></i>Happy · 10 sampai 13</span><span><i class="c-da"></i>Dara · 14 sampai 18</span></div>
-
-  <div class="grid2" style="margin-top:7mm">
-    <div class="card"><div class="lab">Jatah waktu</div><p><b>Aslih</b> 4 menit + 1 menit penutup · <b>Tifani</b> 2,5 menit · <b>Happy</b> 4 menit · <b>Dara</b> 4 menit. Totalnya sekitar 15 menit. Patokannya 40 detik per slide; slide 6, 7, 14, dan 17 boleh 1 menit karena itu gambar kerangka.</p></div>
-    <div class="card black"><div class="lab">Kalau dipotong di tengah jalan</div><p>Lewati slide 5 dan 11. Gabungkan penjelasan slide 6 dan 7 menjadi satu napas. Kalau beliau bilang "langsung kesimpulan", lompat ke slide 19. Jangan pernah melewati slide 9 atau 18, karena itu memutus logika bab.</p></div>
-  </div>
-
-  <h3 style="margin-top:7mm">Kerangka bab, supaya tidak ada yang terlewat</h3>
-  <div class="grid2">
-    <div class="card white"><div class="lab">Empat kerangka bergambar</div><p><b>Figure 10.1</b> sepuluh tugas eksekusi (slide 6)<br><b>Figure 10.2</b> tiga aksi kunci (slide 7)<br><b>Figure 10.3</b> lima keputusan struktur (slide 14)<br><b>Table 10.1</b> centralized vs decentralized (slide 17)</p></div>
-    <div class="card white"><div class="lab">Empat taksonomi</div><p>Dua tanda eksekusi yang baik (slide 5)<br>Tiga jalan membangun capability (slide 10)<br>Tiga jalur kemitraan (slide 12)<br>Empat tipe struktur organisasi (slide 16)</p></div>
-  </div>
-</section>
-
 <!-- ========== FOUNDATION 1 ========== -->
-<section class="page">
-  <div class="nav"><span class="brand">KELOMPOK 3 · CHAPTER 10</span><span class="on">Foundation</span><span>Staffing</span><span>Capabilities</span><span>Structure</span><span class="pg">04</span></div>
-  <div class="row" style="align-items:center; margin-bottom:5mm"><div><div class="pill black">Bagian 01 · Aslih</div><h2 style="margin-top:3mm">Foundation</h2><p class="lead">Mengapa eksekusi berbeda dari perumusan, dan peta besar bab.</p></div><div style="flex:0 0 58mm"><img class="ill" src="../ill/crew.png" alt=""></div></div>
+<section class="page first">
+  <div class="nav"><span class="brand">KELOMPOK 3 · CHAPTER 10</span><span class="on">Foundation</span><span>Staffing</span><span>Capabilities</span><span>Structure</span><span class="pg">01</span></div>
+  <div class="row" style="align-items:center; margin-bottom:5mm"><div><div class="pill black">Bagian 01 · Aslih</div><h2 style="margin-top:3mm">Foundation</h2><p class="lead">Mengapa eksekusi berbeda dari perumusan, dan peta besar bab.</p></div><div style="flex:0 0 70mm"><img class="ill" src="../comic/foundation.png" alt=""></div></div>
 
   <div class="panel">
     <div class="head"><span class="num">Slide 4</span><span class="title">Dari merumuskan ke mengeksekusi strategi</span></div>
@@ -180,7 +112,7 @@
 
 <!-- ========== FOUNDATION 2 ========== -->
 <section class="page">
-  <div class="nav"><span class="brand">KELOMPOK 3 · CHAPTER 10</span><span class="on">Foundation</span><span>Staffing</span><span>Capabilities</span><span>Structure</span><span class="pg">05</span></div>
+  <div class="nav"><span class="brand">KELOMPOK 3 · CHAPTER 10</span><span class="on">Foundation</span><span>Staffing</span><span>Capabilities</span><span>Structure</span><span class="pg">02</span></div>
   <div class="panel">
     <div class="head"><span class="num">Slide 6</span><span class="title">Sepuluh tugas eksekusi (Figure 10.1)</span></div>
     <div class="one">Sepuluh tugas yang selalu ada, apa pun situasinya. Tiga pertama membangun organisasi yang mampu, tujuh berikutnya menggerakkannya.</div>
@@ -204,8 +136,8 @@
 
 <!-- ========== STAFFING ========== -->
 <section class="page">
-  <div class="nav"><span class="brand">KELOMPOK 3 · CHAPTER 10</span><span>Foundation</span><span class="on">Staffing</span><span>Capabilities</span><span>Structure</span><span class="pg">06</span></div>
-  <div class="row" style="align-items:center; margin-bottom:5mm"><div><div class="pill black">Bagian 02 · Tifani</div><h2 style="margin-top:3mm">Staffing</h2><p class="lead">Tim manajemen yang kuat, lalu karyawan yang tepat di semua lapis.</p></div><div style="flex:0 0 46mm"><img class="ill" src="../ill/scale.png" alt=""></div></div>
+  <div class="nav"><span class="brand">KELOMPOK 3 · CHAPTER 10</span><span>Foundation</span><span class="on">Staffing</span><span>Capabilities</span><span>Structure</span><span class="pg">03</span></div>
+  <div class="row" style="align-items:center; margin-bottom:5mm"><div><div class="pill black">Bagian 02 · Tifani</div><h2 style="margin-top:3mm">Staffing</h2><p class="lead">Tim manajemen yang kuat, lalu karyawan yang tepat di semua lapis.</p></div><div style="flex:0 0 70mm"><img class="ill" src="../comic/staffing.png" alt=""></div></div>
 
   <div class="panel">
     <div class="head"><span class="num">Slide 8</span><span class="title">Menyusun tim manajemen yang kuat</span></div>
@@ -232,8 +164,8 @@
 
 <!-- ========== CAPABILITIES 1 ========== -->
 <section class="page">
-  <div class="nav"><span class="brand">KELOMPOK 3 · CHAPTER 10</span><span>Foundation</span><span>Staffing</span><span class="on">Capabilities</span><span>Structure</span><span class="pg">07</span></div>
-  <div class="row" style="align-items:center; margin-bottom:5mm"><div><div class="pill black">Bagian 03 · Happy</div><h2 style="margin-top:3mm">Capabilities</h2><p class="lead">Tiga jalan membangunnya, mengapa tidak bisa dibeli semalam, dan bukti bahwa eksekusi sendiri bisa menjadi keunggulan.</p></div><div style="flex:0 0 46mm"><img class="ill" src="../ill/stairs.png" alt=""></div></div>
+  <div class="nav"><span class="brand">KELOMPOK 3 · CHAPTER 10</span><span>Foundation</span><span>Staffing</span><span class="on">Capabilities</span><span>Structure</span><span class="pg">04</span></div>
+  <div class="row" style="align-items:center; margin-bottom:5mm"><div><div class="pill black">Bagian 03 · Happy</div><h2 style="margin-top:3mm">Capabilities</h2><p class="lead">Tiga jalan membangunnya, mengapa tidak bisa dibeli semalam, dan bukti bahwa eksekusi sendiri bisa menjadi keunggulan.</p></div><div style="flex:0 0 70mm"><img class="ill" src="../comic/capabilities.png" alt=""></div></div>
 
   <div class="panel">
     <div class="head"><span class="num">Slide 10</span><span class="title">Tiga jalan membangun organizational capabilities</span></div>
@@ -258,7 +190,7 @@
 
 <!-- ========== CAPABILITIES 2 ========== -->
 <section class="page">
-  <div class="nav"><span class="brand">KELOMPOK 3 · CHAPTER 10</span><span>Foundation</span><span>Staffing</span><span class="on">Capabilities</span><span>Structure</span><span class="pg">08</span></div>
+  <div class="nav"><span class="brand">KELOMPOK 3 · CHAPTER 10</span><span>Foundation</span><span>Staffing</span><span class="on">Capabilities</span><span>Structure</span><span class="pg">05</span></div>
   <div class="panel">
     <div class="head"><span class="num">Slide 12</span><span class="title">Akuisisi dan kemitraan membeli waktu, bukan integrasi</span></div>
     <div class="one">Yang dibeli lewat akuisisi adalah rutinitas yang tacit. Justru itu yang paling sulit dipindahkan.</div>
@@ -283,8 +215,8 @@
 
 <!-- ========== STRUCTURE 1 ========== -->
 <section class="page">
-  <div class="nav"><span class="brand">KELOMPOK 3 · CHAPTER 10</span><span>Foundation</span><span>Staffing</span><span>Capabilities</span><span class="on">Structure</span><span class="pg">09</span></div>
-  <div class="row" style="align-items:center; margin-bottom:5mm"><div><div class="pill black">Bagian 04 · Dara</div><h2 style="margin-top:3mm">Structure</h2><p class="lead">Lima keputusan menata organisasi dan pekerjaan, dari outsourcing sampai mitra eksternal.</p></div><div style="flex:0 0 46mm"><img class="ill" src="../ill/blocks.png" alt=""></div></div>
+  <div class="nav"><span class="brand">KELOMPOK 3 · CHAPTER 10</span><span>Foundation</span><span>Staffing</span><span>Capabilities</span><span class="on">Structure</span><span class="pg">06</span></div>
+  <div class="row" style="align-items:center; margin-bottom:5mm"><div><div class="pill black">Bagian 04 · Dara</div><h2 style="margin-top:3mm">Structure</h2><p class="lead">Lima keputusan menata organisasi dan pekerjaan, dari outsourcing sampai mitra eksternal.</p></div><div style="flex:0 0 70mm"><img class="ill" src="../comic/structure.png" alt=""></div></div>
 
   <div class="panel">
     <div class="head"><span class="num">Slide 14</span><span class="title">Struktur mengikuti strategi (Figure 10.3)</span></div>
@@ -308,7 +240,7 @@
 
 <!-- ========== STRUCTURE 2 ========== -->
 <section class="page">
-  <div class="nav"><span class="brand">KELOMPOK 3 · CHAPTER 10</span><span>Foundation</span><span>Staffing</span><span>Capabilities</span><span class="on">Structure</span><span class="pg">10</span></div>
+  <div class="nav"><span class="brand">KELOMPOK 3 · CHAPTER 10</span><span>Foundation</span><span>Staffing</span><span>Capabilities</span><span class="on">Structure</span><span class="pg">07</span></div>
   <div class="panel">
     <div class="head"><span class="num">Slide 16</span><span class="title">Empat tipe struktur</span></div>
     <div class="one">Tipe struktur ditentukan oleh ukuran dan susunan bisnis, bukan oleh generic strategy yang dipilih. Ia berevolusi seiring pertumbuhan.</div>
@@ -334,7 +266,7 @@
 
 <!-- ========== STRUCTURE 3 + SYNTHESIS ========== -->
 <section class="page">
-  <div class="nav"><span class="brand">KELOMPOK 3 · CHAPTER 10</span><span>Foundation</span><span>Staffing</span><span>Capabilities</span><span class="on">Structure</span><span class="pg">11</span></div>
+  <div class="nav"><span class="brand">KELOMPOK 3 · CHAPTER 10</span><span>Foundation</span><span>Staffing</span><span>Capabilities</span><span class="on">Structure</span><span class="pg">08</span></div>
   <div class="panel">
     <div class="head"><span class="num">Slide 18</span><span class="title">Koordinasi ke dalam dan ke luar</span></div>
     <div class="one">Struktur formal saja tidak cukup. Kerja sama harus dirancang, ke dalam dan ke luar.</div>
@@ -345,7 +277,7 @@
     <div class="bubble"><div class="av gray">DA</div><div class="b"><span class="who">Serah terima ke Aslih</span>"Lima keputusan itu adalah aksi ketiga. Sekarang kita rangkai ketiganya."</div></div>
   </div>
 
-  <div class="row" style="align-items:center; margin:5mm 0 4mm 0"><div><div class="pill black">Bagian 05 · Aslih</div><h2 style="margin-top:3mm">Sintesis</h2></div><div style="flex:0 0 42mm"><img class="ill" src="../ill/network.png" alt=""></div></div>
+  <div class="row" style="align-items:center; margin:5mm 0 4mm 0"><div><div class="pill black">Bagian 05 · Aslih</div><h2 style="margin-top:3mm">Sintesis</h2></div><div style="flex:0 0 60mm"><img class="ill" src="../comic/synthesis.png" alt=""></div></div>
   <div class="panel">
     <div class="head"><span class="num">Slide 19</span><span class="title">Organisasi yang mampu mengeksekusi</span></div>
     <div class="one">Orang membangun capability, capability menuntut struktur, struktur menentukan apakah capability terpakai. Hasilnya proficiency pada aktivitas kritis.</div>
@@ -359,9 +291,8 @@
 
 <!-- ========== Q&A ========== -->
 <section class="page">
-  <div class="nav"><span class="brand">KELOMPOK 3 · CHAPTER 10</span><span>Foundation</span><span>Staffing</span><span>Capabilities</span><span>Structure</span><span class="pg">12</span></div>
-  <h2>Kalau diskusi dibuka</h2>
-  <p class="muted" style="margin-bottom:4mm">Gaya bertanya Pak Rangga sokratik: "apakah X saja cukup?" Empat pertanyaan ini dulu ada di slide; sekarang jadi bekal kita.</p>
+  <div class="nav"><span class="brand">KELOMPOK 3 · CHAPTER 10</span><span>Foundation</span><span>Staffing</span><span>Capabilities</span><span>Structure</span><span class="pg">09</span></div>
+  <div class="row" style="align-items:center; margin-bottom:4mm"><div><h2>Kalau diskusi dibuka</h2><p class="muted">Gaya bertanya Pak Rangga sokratik: "apakah X saja cukup?" Empat pertanyaan ini dulu ada di slide; sekarang jadi bekal kita.</p></div><div style="flex:0 0 70mm"><img class="ill" src="../comic/qa.png" alt=""></div></div>
 
   <div class="bubble q"><div class="av gray">D</div><div class="b"><span class="who">Awak kapal</span>Layar dan haluan sudah ada. Apa yang terjadi bila awak tidak terlatih atau garis komando tidak jelas? Cukupkah strategi yang tepat?</div></div>
   <div class="bubble"><div class="av lime">AA</div><div class="b">Tidak cukup. Tanpa awak yang mampu dan komando yang jelas, layar dan haluan tidak menghasilkan gerak. Itu tesis Lecuona dan alasan Bab 10 ada.</div></div>
@@ -380,8 +311,8 @@
 
 <!-- ========== QUIZ + CHECKLIST ========== -->
 <section class="page">
-  <div class="nav"><span class="brand">KELOMPOK 3 · CHAPTER 10</span><span>Foundation</span><span>Staffing</span><span>Capabilities</span><span>Structure</span><span class="pg">13</span></div>
-  <div class="row" style="align-items:center; margin-bottom:4mm"><div><h2>Kuis tiga menit</h2><p class="muted">Tutup jawabannya dulu. Kalau delapan benar, Anda siap.</p></div><div style="flex:0 0 45mm"><img class="ill" src="../ill/finish.png" alt=""></div></div>
+  <div class="nav"><span class="brand">KELOMPOK 3 · CHAPTER 10</span><span>Foundation</span><span>Staffing</span><span>Capabilities</span><span>Structure</span><span class="pg">10</span></div>
+  <h2>Kuis tiga menit</h2><p class="muted" style="margin-bottom:3mm">Tutup jawabannya dulu. Kalau delapan benar, Anda siap.</p>
   <div class="card white quiz">
     <ol>
       <li>Dua tanda eksekusi yang baik? <span class="ans">Target kinerja tercapai; proficiency pada aktivitas rantai nilai yang kritis.</span></li>
@@ -395,7 +326,9 @@
     </ol>
   </div>
 
-  <h2 style="margin-top:6mm">Checklist hari H</h2>
+  <h2 style="margin-top:6mm">Siapa bicara apa</h2>
+  <div class="grid2" style="margin-bottom:5mm"><div class="card"><p style="margin:0"><b>Aslih</b> slide 1 sampai 7 dan 19 sampai 20 (5 menit) · <b>Tifani</b> slide 8 sampai 9 (2,5 menit) · <b>Happy</b> slide 10 sampai 13 (4 menit) · <b>Dara</b> slide 14 sampai 18 (4 menit). Patokan 40 detik per slide.</p></div><div class="card black"><p style="margin:0">Kalau dipotong: lewati slide 5 dan 11, gabungkan 6 dan 7, dan bila diminta "langsung kesimpulan" lompat ke slide 19. Jangan lewati slide 9 atau 18.</p></div></div>
+  <div style="break-inside:avoid; page-break-inside:avoid"><h2>Checklist hari H</h2>
   <div class="grid2">
     <div class="card"><ul class="check" style="padding:0; margin:0">
       <li>Font Outfit (Regular, Medium, SemiBold) terpasang di laptop presentasi; berkasnya ada di folder fonts.</li>
@@ -410,6 +343,7 @@
       <li style="color:#E8E8EA">Nama berkas mengikuti format silabus SMJKT_Group 3_Nama_Chapter 10.</li>
     </ul><p style="font-size:8pt; color:#9A9A9E; margin:3mm 0 0 0">Sumber: Thompson, Peteraf, Gamble & Strickland (2024), Bab 10, hlm. 294 sampai 325; Kanter (1994); Simons (1995); McChesney, Covey & Huling (2012).</p></div>
   </div>
+</div>
 </section>
 
 </body>
