@@ -10,7 +10,7 @@ from compose_himhim3 import offer
 from compose_himhim5 import graded
 from compose_himhim6 import centred
 C282=(40,40,40)
-def build(out,W=1080,H=1620,M=65,fig_scale=0.95,num_frac=0.85,kick=30,pair_left=360,clear=34):
+def build(out,W=1080,H=1620,M=65,fig_scale=0.95,num_frac=0.85,kick=30,pair_left=400,clear=34):
     src=graded("gen/himhim_e_0.png"); alpha=Image.open("gen/himhim_e_cutout.png").split()[3]
     s=max(W/src.width,H/src.height)*fig_scale; fw,fh=int(src.width*s+0.5),int(src.height*s+0.5)
     fig=src.resize((fw,fh),Image.LANCZOS); fig.putalpha(alpha.resize((fw,fh),Image.LANCZOS))
@@ -24,13 +24,13 @@ def build(out,W=1080,H=1620,M=65,fig_scale=0.95,num_frac=0.85,kick=30,pair_left=
     fx=int(pair_left-bx0); cv.paste(fig,(fx,fy),fig); d=ImageDraw.Draw(cv)
     strip=pair_left-clear-M
     # left column: headline (two lines) centred vertically in the column's upper half, offer block at the bottom
-    lines=("MADE","FOR HIM","AND HIM"); z=min(fit(d,t,"ZalandoSansExpanded-Regular.ttf",strip,0.10) for t in lines); fh_=font("ZalandoSansExpanded-Regular.ttf",z); c=cb(d,"H",fh_); ch=c[3]-c[1]
+    lines=("MADE","FOR","HIM","AND","HIM"); z=min(fit(d,t,"ZalandoSansExpanded-Regular.ttf",strip,0.08) for t in lines); fh_=font("ZalandoSansExpanded-Regular.ttf",z); c=cb(d,"H",fh_); ch=c[3]-c[1]
     ben=22
     while ben>16 and tw(d,"Extra IDR 5K voucher",font("Arimo-Regular.ttf",ben))>strip: ben-=1
     probe=ImageDraw.Draw(Image.new("RGB",(W,H))); top_probe,_=offer(probe,M,H-M-20,ben,int(ben*2.6),ben+1); bh=(H-M-20)-top_probe
     free_top=num_bot+60; free_bot=H-M-20-bh-80
-    hy=int((free_top+free_bot)/2-(len(lines)*ch+(len(lines)-1)*int(ch*0.45))/2)
-    for t in lines: tracked(d,(M-cb(d,t,fh_)[0],hy-c[1]),t,fh_,C282,z*0.10); hy+=int(ch*1.45)
+    hy=int((free_top+free_bot)/2-(len(lines)*ch+(len(lines)-1)*int(ch*0.30))/2)
+    for t in lines: tracked(d,(M-cb(d,t,fh_)[0],hy-c[1]),t,fh_,C282,z*0.08); hy+=int(ch*1.30)
     ob,orx=offer(d,M,H-M-20,ben,int(ben*2.6),ben+1)
     sub=np.zeros((H,W),bool); sub[max(fy,0):H,max(fx,0):min(fx+fw,W)]=al0[max(0,-fy):H-fy,max(0,-fx):W-fx]
     rows=np.where(sub[num_top:num_bot].any(1))[0]; covered=(num_bot-(num_top+rows.min())) if len(rows) else 0
