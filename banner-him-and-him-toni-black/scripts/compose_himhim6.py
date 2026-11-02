@@ -10,7 +10,7 @@ from compose_himhim5 import graded
 C282=(40,40,40)
 def centred(d,W,t,f,y,trk=0.0,fill=C282):
     w=tw(d,t,f,f.size*trk); b=cb(d,t,f); tracked(d,((W-w)/2-b[0],y-b[1]),t,f,fill,f.size*trk); return y+(b[3]-b[1])
-def build(out,W=1080,H=1620,M=65,fig_scale=0.86,num_frac=0.85,head_size=40,kick=30,gaps=(26,34,22)):
+def build(out,W=1080,H=1620,M=65,fig_scale=0.86,num_frac=0.85,head_size=40,kick=30,gaps=(44,48,26),centre_pair=True,clear=34,pair_left=345):
     src=graded("gen/himhim_e_0.png"); alpha=Image.open("gen/himhim_e_cutout.png").split()[3]
     s=max(W/src.width,H/src.height)*fig_scale; fw,fh=int(src.width*s+0.5),int(src.height*s+0.5)
     fig=src.resize((fw,fh),Image.LANCZOS); fig.putalpha(alpha.resize((fw,fh),Image.LANCZOS))
@@ -23,8 +23,16 @@ def build(out,W=1080,H=1620,M=65,fig_scale=0.86,num_frac=0.85,head_size=40,kick=
     fn=font("ZalandoSansExpanded-Black.ttf",fit(d,"25%","ZalandoSansExpanded-Black.ttf",int(W*num_frac),-0.02)); nb=cb(d,"25%",fn); cap=nb[3]-nb[1]
     num_top=y; num_bot=centred(d,W,"25%",fn,y,-0.02)
     # figures over the number, knee-framed at the bottom edge, same horizontal placement as the photo
-    fx=int((W-fw)/2); fy=H-fh; cv.paste(fig,(fx,fy),fig)
-    d=ImageDraw.Draw(cv); ob,orx=offer(d,M,H-M-20,22,60,24)
+    fy=H-fh; al0=np.asarray(fig.split()[3])>128; vis=al0[-fy if fy<0 else 0:]
+    cols=np.where(vis.any(0))[0]; bx0,bx1=cols.min(),cols.max()
+    fx=int(pair_left-bx0) if pair_left else (int(W/2-(bx0+bx1)/2) if centre_pair else int((W-fw)/2))
+    cv.paste(fig,(fx,fy),fig); strip=fx+bx0-clear-M   # wall left of the pair, minus clearance
+    print("pair x",fx+bx0,"-",fx+bx1,"| left strip for the offer block",strip)
+    d=ImageDraw.Draw(cv); ben=22
+    while ben>16 and tw(d,"Extra IDR 5K voucher",font("Arimo-Regular.ttf",ben))>strip: ben-=1
+    # offer block vertically centred in the free strip between the number and the bottom edge
+    probe=ImageDraw.Draw(Image.new("RGB",(W,H))); top_probe,_=offer(probe,M,H-M-20,ben,int(ben*2.6),ben+1); bh=(H-M-20)-top_probe
+    base_y=int((num_bot+H)/2+bh/2); ob,orx=offer(d,M,base_y,ben,int(ben*2.6),ben+1)
     # checks
     sub=np.zeros((H,W),bool); al=np.asarray(fig.split()[3])>128; sub[max(fy,0):H, max(fx,0):min(fx+fw,W)]=al[max(0,-fy):H-fy, max(0,-fx):W-fx]
     rows=np.where(sub[num_top:num_bot].any(1))[0]; covered=(num_bot-(num_top+rows.min())) if len(rows) else 0

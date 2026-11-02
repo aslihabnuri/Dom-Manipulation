@@ -23,3 +23,6 @@ New photo (`prompts/prompt_himhim4.txt`, generated without the earlier photo as 
 
 ## v5 (current 2:3 final, `scripts/compose_himhim6.py`)
 Father's boxer replaced by one edit pass (`prompts/prompt_himhim5.txt`) with the exact Drive product `6a.png`: short legs ending in the upper third of the thigh, `TONI BLACK` waistband, front-pouch seams. Layout: logo, `MADE FOR HIM AND HIM` and `SAVE UP TO` centred at the top; `25%` in Zalando Black at 85% of the width (915 px, cap 237 px = 15% of the height; at 85% width the cap cannot reach 20% with this face) behind the figures; the figures cut out at 86% of the full-bleed scale, knee-framed at the bottom edge, their heads just under the number (0% cover, within the quarter allowed); offer block small bottom-left, 60 px clear of the boy. Wall: one flat light grey sampled from the photo's bright wall. The 1:1 file is still v3.
+
+### v5b (current)
+Top stack opened: logo to headline 44 px, headline to `SAVE UP TO` 48, kicker to `25%` 26; the heads now cover 33 px of the number (14%, within the quarter allowed). The pair moved left to x 345 to 882 (right margin 18%), leaving a 246 px strip on the left; the offer block (Arimo 22, pill 57) sits vertically centred in that strip, 34 px clear of the boy, so the left column no longer reads as a void. `build(..., pair_left=345)`.
