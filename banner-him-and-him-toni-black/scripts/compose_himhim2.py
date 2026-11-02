@@ -28,8 +28,8 @@ def offer(d,x,base,ben=26,cta=70):
     return y
 def subject(cv,px,py,pw,ph_h):
     L=np.asarray(cv.convert("L")).astype(int); H,W=L.shape; m=np.zeros((H,W),bool)
-    reg=L[py:py+ph_h,px:px+pw]; bg=np.median(np.concatenate([reg[:,:12],reg[:,-12:]],1),1)
-    mm=(reg<bg[:,None]-30)|(reg>bg[:,None]+16); m[py:py+ph_h,px:px+pw]=binary_opening(mm,iterations=2); return m
+    reg=L[py:py+ph_h,px:px+pw]; bg=np.percentile(reg,60,axis=1)
+    mm=(reg<bg[:,None]-30)|(reg>bg[:,None]+22); m[py:py+ph_h,px:px+pw]=binary_opening(mm,iterations=2); return m
 def build(W,H,out,pw_frac,right,bottom,numw,hero_y,msg_y,msg_size,M=72,clear=24):
     ph=graded_photo(); pw=int(W*pw_frac); s=pw/ph.width; phh=int(ph.height*s+0.5); px=W-right-pw; py=H-bottom-phh
     cv=plate(W,H,ph,pw,px,py); d=ImageDraw.Draw(cv)
