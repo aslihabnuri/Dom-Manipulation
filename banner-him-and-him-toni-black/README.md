@@ -8,9 +8,8 @@ Father and son high-five, from the pose reference ("Referensi2.jpeg"), with the 
 | `final/TONI-BLACK_Him-and-Him_1080x1080.jpg` | 1:1, product-grid and square ad slots |
 | `final/photo_generated.jpg` | the raw photo, one generation |
 
-## Layout
-- **2:3:** masthead on the clean wall above the raised hands: logo, `MADE FOR HIM AND HIM` (Zalando Sans Expanded Regular, tracked), `SAVE UP TO` / `25%` (the dominant element, Black, 560 px), one benefits line, `SHOP NOW` pill. The photo sits below at 78% width with the wall extended around it, so the figures are never cropped: both products stay in frame. Terms at the bottom.
-- **1:1:** two columns: the type block left-aligned on the left, the full photo on the right at 84% height. Benefits in two lines so they stay inside the column.
+## Layout (BAU structure, `scripts/compose_himhim2.py`)
+Same placement as the BAU banner: logo top centre; hero `SAVE UP TO` / `25%` top-left at BAU scale (`25%` Zalando Black fitted to 780 px on 2:3, 600 px on 1:1, the kicker fitted to the same width); the message `Made For / Him and Him` mid-left in Zalando Regular (40 / 34); the offer block bottom-left: benefits in three short lines (Arimo 26), `SHOP NOW` charcoal pill, terms in `#818284`. The photo is never cropped: it sits bottom-right at 70% width (2:3) or 58% (1:1) with the studio wall extended, so the figures and both products stay whole. All type on one left axis (72 px), with the wall left of the boy as its field; every glyph keeps 24 px from the figures (checked against the subject mask). Colour: the same global grade as the BAU / 9.9 banners (contrast, -12% chroma, cool highlights); the BAU skin transfer was not applied because this model's skin is lighter than the BAU model's and the transfer would darken it.
 
 ## Pipeline
 1. `prompts/prompt_himhim.txt`, Nano Banana Pro, 2:3, 2K. References in order: pose, model, men's boxer brief (`6a.png`), singlet (`TNB 5 gm.jpg`), kids boxer (`Boxer anak/2.png`), BAU graded photo (look). One generation, 18 credits.
