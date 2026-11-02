@@ -8,9 +8,12 @@ Father and son high-five, from the pose reference ("Referensi2.jpeg"), with the 
 | `final/TONI-BLACK_Him-and-Him_1080x1080.jpg` | 1:1, product-grid and square ad slots |
 | `final/photo_generated.jpg` | the raw photo, one generation |
 
-## Layout (BAU structure, `scripts/compose_himhim2.py`)
-Same placement as the BAU banner: logo top centre; hero `SAVE UP TO` / `25%` top-left at BAU scale (`25%` Zalando Black fitted to 780 px on 2:3, 600 px on 1:1, the kicker fitted to the same width); the message `Made For / Him and Him` mid-left in Zalando Regular (40 / 34); the offer block bottom-left: benefits in three short lines (Arimo 26), `SHOP NOW` charcoal pill, terms in `#818284`. The photo is never cropped: it sits bottom-right at 70% width (2:3) or 58% (1:1) with the studio wall extended, so the figures and both products stay whole. All type on one left axis (72 px), with the wall left of the boy as its field; every glyph keeps 24 px from the figures (checked against the subject mask). Colour: the same global grade as the BAU / 9.9 banners (contrast, -12% chroma, cool highlights); the BAU skin transfer was not applied because this model's skin is lighter than the BAU model's and the transfer would darken it.
+## Layout (v3, `scripts/compose_himhim3.py`)
+The pair in the photo spans almost the whole frame width, so a full-bleed photo leaves no field for a poster-scale header. The figures are therefore cut out (rembg, `final/photo_generated_cutout.png`) and set large on a wall rebuilt from the photo's own wall gradient (per-row median of the non-subject pixels), with soft contact shadows. A re-shoot asking for the pair in the right half (`prompts/prompt_himhim2.txt`) came back with the same composition and was not used.
+- **2:3:** logo top centre; header `MADE FOR / HIM AND HIM` at poster scale (Zalando Sans Expanded Regular 87 px, tracked 0.12 em, fitted to 760 px); hero `SAVE UP TO` / `25%` (Black, 760 px) below it; the figures at 58% of the height, right-aligned, their raised arms passing in front of the number (type-behind-subject, as in BAU); offer block bottom-left in the wall left of the boy: three short benefit lines (Arimo 22), `SHOP NOW` pill, terms. One left axis at 72 px.
+- **1:1:** figures at 70% of the height on the right; left column (380 px) carries the header (43 px), hero (`25%` 380 px), benefits, pill and terms, logo top centre.
+Hierarchy by size: number, header, kicker, benefits, terms. Groups separated by gaps several times their internal leading.
 
 ## Pipeline
 1. `prompts/prompt_himhim.txt`, Nano Banana Pro, 2:3, 2K. References in order: pose, model, men's boxer brief (`6a.png`), singlet (`TNB 5 gm.jpg`), kids boxer (`Boxer anak/2.png`), BAU graded photo (look). One generation, 18 credits.
-2. `scripts/compose_himhim.py` (needs `gen/himhim_a_0.png` and `fonts/static/`): applies the global grade, extends the wall, sets the type. `build_23`, `build_11`.
+2. `scripts/compose_himhim3.py` (needs `gen/himhim_a_0.png`, `gen/himhim_a_cutout.png` and `fonts/static/`; imports helpers from `compose_himhim.py`): global BAU grade, rebuilt wall, cut-out figures, type.
