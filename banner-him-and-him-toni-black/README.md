@@ -17,3 +17,6 @@ Hierarchy by size: number, header, kicker, benefits, terms. Groups separated by 
 ## Pipeline
 1. `prompts/prompt_himhim.txt`, Nano Banana Pro, 2:3, 2K. References in order: pose, model, men's boxer brief (`6a.png`), singlet (`TNB 5 gm.jpg`), kids boxer (`Boxer anak/2.png`), BAU graded photo (look). One generation, 18 credits.
 2. `scripts/compose_himhim3.py` (needs `gen/himhim_a_0.png`, `gen/himhim_a_cutout.png` and `fonts/static/`; imports helpers from `compose_himhim.py`): global BAU grade, rebuilt wall, cut-out figures, type.
+
+## v4 (current 2:3 final, `scripts/compose_himhim5.py`)
+New photo (`prompts/prompt_himhim4.txt`, generated without the earlier photo as a reference so the composition could change): the pair compact and side by side, the boy 9 years old with a child's proportions, framed at the knees, plain even light-grey wall with no floor line. The photo runs full-bleed; the figures fill 58% of the width and 83% of the height, right of centre. Type fitted to the empty left third: header 51 px (443 px wide), `25%` at 380 px (60% of the previous 760 px, never wider than the header), offer block bottom-left. Every glyph keeps 40 px from the figures (checked against the cutout). `prompts/prompt_himhim3.txt` was a first attempt that kept the old photo as a reference and returned the old composition; not used. The 1:1 file is still v3.
