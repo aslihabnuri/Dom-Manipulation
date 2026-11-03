@@ -25,22 +25,21 @@ def pills(d,x,y,labels,f,h,pad,gap,stroke):
         x0=x+i*(w+gap); d.rounded_rectangle([x0,y,x0+w,y+h],radius=h//2,outline=C282,width=stroke)
         b=cb(d,t,f); tt=tw(d,t,f,f.size*0.08); tracked(d,(x0+(w-tt)/2-b[0],y+(h-(b[3]-b[1]))/2-b[1]),t,f,C282,f.size*0.08)
     return x+len(labels)*w+(len(labels)-1)*gap, w
-def build(out,W=2000,H=2000,M=120,photo_scale=0.94,floor=0,label=64,btn=30,btn_h=72,pad=44,gap=24,stroke=3,top_y=78,clear=40):
-    ph_img=graded("gen/cat2_c_0.png"); pw=int(W*photo_scale); s=pw/ph_img.width; phh=int(ph_img.height*s+0.5)
+def build(out,W=2000,H=2000,M=120,photo_scale=0.92,floor=0,label=64,btn=28,btn_h=68,pad=34,gap=24,stroke=3,logo_y=48,logo_gap=72,clear=40):
+    ph_img=graded("gen/cat2_c_fixed.png"); pw=int(W*photo_scale); s=pw/ph_img.width; phh=int(ph_img.height*s+0.5)
     px=(W-pw)//2; py=H-floor-phh; cv,_=plate(W,H,ph_img,pw,px,py); d=ImageDraw.Draw(cv)
     lg=make_logo(C282,8); lw=300; lg=lg.resize((lw,int(lg.height*lw/lg.width)),Image.LANCZOS)
     fl=font("ZalandoSansExpanded-Bold.ttf",label); fb=font("ZalandoSansExpanded-SemiBold.ttf",btn)
+    cv.paste(lg,((W-lw)//2,logo_y),lg); top_y=logo_y+lg.height+logo_gap   # logo alone on the first tier; categories on the second
     lb=cb(d,"KIDS",fl); lh=lb[3]-lb[1]; row_y=top_y+lh+28
     # KIDS block, top-left
     xe,w=pills(d,M,row_y,["BRIEF","BOXER"],fb,btn_h,pad,gap,stroke); cx=(M+xe)/2; t=tw(d,"KIDS",fl,label*0.08); tracked(d,(cx-t/2-lb[0],top_y-lb[1]),"KIDS",fl,C282,label*0.08)
     # MEN block, top-right
     rw=3*w+2*gap; xs=W-M-rw; xe2,_=pills(d,xs,row_y,["BRIEF","BOXER","SINGLET"],fb,btn_h,pad,gap,stroke); cx=(xs+xe2)/2; mb=cb(d,"MEN",fl); t=tw(d,"MEN",fl,label*0.08); tracked(d,(cx-t/2-mb[0],top_y-mb[1]),"MEN",fl,C282,label*0.08)
-    # logo centred between the blocks, vertically centred on the band
-    band_mid=(top_y+row_y+btn_h)/2; cv.paste(lg,((W-lw)//2,int(band_mid-lg.height/2)),lg)
     # clearance check against the cutout
     a=Image.open("gen/cat2_c_cutout.png").split()[3].resize((pw,phh),Image.LANCZOS); sub=np.zeros((H,W),bool); sub[py:py+phh,px:px+pw]=np.asarray(a)>128
     base,_=plate(W,H,ph_img,pw,px,py); txt=np.abs(np.asarray(cv.convert("L")).astype(int)-np.asarray(base.convert("L")).astype(int))>40
     hit=int((txt&binary_dilation(sub,iterations=clear)).sum()); ys,xs_=np.where(sub)
-    print(f"photo {pw}px wide at y {py}-{py+phh} | figures x {xs_.min()}-{xs_.max()} ({(xs_.max()-xs_.min())/W:.0%} W) y {ys.min()}-{ys.max()} ({(ys.max()-ys.min())/H:.0%} H) | band {top_y}-{row_y+btn_h}, boy head top {ys.min()}, gap {ys.min()-(row_y+btn_h)} | button w {w} | type within {clear}px of figures: {hit}")
+    print(f"logo {logo_y}-{logo_y+lg.height}, categories {top_y}-{row_y+btn_h} | photo {pw}px wide at y {py}-{py+phh} | figures x {xs_.min()}-{xs_.max()} ({(xs_.max()-xs_.min())/W:.0%} W) y {ys.min()}-{ys.max()} ({(ys.max()-ys.min())/H:.0%} H) | band {top_y}-{row_y+btn_h}, boy head top {ys.min()}, gap {ys.min()-(row_y+btn_h)} | button w {w} | type within {clear}px of figures: {hit}")
     cv.save(out,quality=92,optimize=True,progressive=True); return cv
 if __name__=="__main__": build("out/cat2.jpg")

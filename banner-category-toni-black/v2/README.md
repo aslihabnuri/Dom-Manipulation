@@ -6,3 +6,7 @@ Boy seated on a white block (left), father seated on the floor leaning on the bl
 
 ## Layout (`scripts/compose_cat2.py`)
 Photo at 94% width, bottom-aligned, the wall extended at the top and sides; figures fill 78% of the width and 75% of the height (the pair is nearly square, so 85% width and 65% height cannot both hold). Header band at the top: `KIDS` over two outlined capsules `BRIEF` `BOXER` top-left; logo (`#282828`, no box) centred; `MEN` over three capsules `BRIEF` `BOXER` `SINGLET` top-right. Labels Zalando Sans Expanded Bold 64, centred over their rows; capsules Zalando SemiBold 28, 3 px `#282828` outline, no fill, equal width (201 px) and gap (24 px), separate click areas. Margins 120 px (6%). Every glyph keeps 40 px from the figures (checked against the cutout); the boy's head is 168 px below the band. JPG 0.52 MB.
+
+### Revision: singlet match and two-tier header
+- The boy's singlet was slightly brighter and cooler than the father's (Lab L 82.5 vs 81.1, b -4.4 vs -5.4). Its pixels were matched to the father's singlet mean and spread in Lab, feathered (`final/photo_generated_singlet-matched.jpg`); no credits.
+- Nothing sits level with the logo any more: tier one is the logo alone at the top centre; tier two, 72 px below it, holds `KIDS` + capsules on the left and `MEN` + capsules on the right. The gap between tiers (72) is larger than the gap inside each block (28), so the brand reads first and the navigation second. Photo at 92% width so the boy's head stays 120+ px below the capsules.
