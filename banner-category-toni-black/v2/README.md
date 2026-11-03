@@ -1,0 +1,8 @@
+# Toni Black category banner v2 (2000x2000)
+
+Boy seated on a white block (left), father seated on the floor leaning on the block (right), light-grey cyclorama, after "Referensi Kategori.jpeg"; the two people from the Him and Him banner. Father: black Toni Black brief (`Brief dewasa/6.png`) and white singlet. Son: white tee and the grey Toni Black kids boxer brief.
+
+**Product note.** The brief asked for the grey kids brief (`Brief anak/6.png`). The image provider rejected that prompt as not allowed (a child in briefs) and no credits were charged; the same request with the grey kids boxer brief was accepted (`prompts/prompt_cat2b.txt`). The father's brief is the exact product.
+
+## Layout (`scripts/compose_cat2.py`)
+Photo at 94% width, bottom-aligned, the wall extended at the top and sides; figures fill 78% of the width and 75% of the height (the pair is nearly square, so 85% width and 65% height cannot both hold). Header band at the top: `KIDS` over two outlined capsules `BRIEF` `BOXER` top-left; logo (`#282828`, no box) centred; `MEN` over three capsules `BRIEF` `BOXER` `SINGLET` top-right. Labels Zalando Sans Expanded Bold 64, centred over their rows; capsules Zalando SemiBold 28, 3 px `#282828` outline, no fill, equal width (201 px) and gap (24 px), separate click areas. Margins 120 px (6%). Every glyph keeps 40 px from the figures (checked against the cutout); the boy's head is 168 px below the band. JPG 0.52 MB.
