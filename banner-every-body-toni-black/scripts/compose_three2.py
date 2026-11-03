@@ -3,13 +3,17 @@ from PIL import Image, ImageDraw, ImageFont, ImageFilter
 from logo import make_logo
 from compose_alt_a import tracked, tracked_w, invert_icon
 import icons
+import os
 F="fonts/static/"; BG=(40,40,40); WHITE=(255,255,255); STEEL=(204,204,204)
+# THEME=light: set on the light wall of the Category banner; type turns Dark Charcoal, subline Grey #4F5052,
+# icons stay as drawn (charcoal disc, white strokes) instead of being inverted
+if os.environ.get("THEME")=="light": WHITE=(40,40,40); STEEL=(79,80,82); invert_icon=lambda im: im
 # vertical rhythm on a 24 px unit; measured from the top edge
 def build(photo_path,out_path,k=1.0,height=2400,grid_cols=2,top=120,logo_w=340,gap_logo=96,gap_head=56,gap_sub=120,gap_names=84,gap_run=112,gap_grid=132,grid_pitch=160,
           crop_top=300,prod_top_frac=0.37,prod_bot_frac=0.66,
           headline=("MADE FOR","EVERY BODY."),sub="WHATEVER YOUR SHAPE, IT FITS",sub_track=4,
           products=(("BRIEF",0.19),("BOXER BRIEF",0.50),("BOXER",0.81)),sizes=("S","M","L","XL","XXL","XXXL")):
-    W,H=int(1600*k),int(height*k); g=lambda v:int(round(v*k)); C=W//2
+    W,H=int(1600*k),int(height*k); g=lambda v:int(round(v*k)); C=W//2; grid_cols=int(grid_cols)
     def font(name,size): return ImageFont.truetype(F+name,g(size))
     def fit_font(d,text,name,target_w,track=0,lo=40,hi=700):
         while lo<hi:

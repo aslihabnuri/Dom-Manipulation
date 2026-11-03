@@ -50,3 +50,9 @@ Positions are no longer fractions of the canvas; the page is set as a vertical f
 ## Logo update
 The logo is now the official file from Drive (`6.png`, saved as `scripts/logo_6.png`): `scripts/logo.py` extracts the light mark as a mask and tints it to the colour the layout asks for. Because the official lockup is wider and has no tagline, logo widths are 1.2x the old value so the wordmark keeps its visual size.
 The 1600x2000 Three Cuts banner keeps the benefit grid (3x2) with the official logo (`compose_three2.py PHOTO OUT 1 2000 3 130 340 96 52 140 96 112 140 150`); a version without the grid is kept as `…_no-benefits_…` (`1 2000 0 170 340 112 56 270 140 220`).
+
+## Three Cuts, latar terang (warna dinding Category Banner)
+- `no-model/TONI-BLACK_Every-Body_Three-Cuts_light-bg_1600x2000.jpg/.png` dan `…_3200x4000.jpg`. Versi gelap tetap ada.
+- Warna diukur dari `TONI-BLACK_Category-Banner_1200x990.jpg`: dinding RGB 200, 202, 210 (abu-abu sangat terang, sedikit dingin), lantai 229, 229, 239, dengan sedikit glow di tengah dinding seperti di Category.
+- `scripts/light_plate.py`: garmen diambil dari cutout rembg (matte diketatkan: ambang 50%, kikis 2 px, feather 1 px, jadi tidak ada sisa latar gelap di tepi), transisi dinding ke lantai mengikuti profil foto asli, dan bayangan lantai asli tiap garmen dipertahankan sebagai multiply yang dilunakkan; acuan bayangan adalah selubung terang lokal lantai, jadi falloff cahaya set lama tidak ikut terbawa. Tanpa kie credit.
+- `scripts/compose_three2.py` dengan `THEME=light`: semua teks Dark Charcoal #282828, subline Grey #4F5052 (Steel #CCCCCC tidak terbaca di dinding terang), logo 6.png charcoal, ikon tidak diinvert (lingkaran charcoal, garis putih). Layout dan jarak tidak berubah: `THEME=light compose_three2.py PHOTO OUT 1 2000 3 130 340 96 52 140 96 112 140 150`.
