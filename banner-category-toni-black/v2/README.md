@@ -10,3 +10,11 @@ Photo at 94% width, bottom-aligned, the wall extended at the top and sides; figu
 ### Revision: singlet match and two-tier header
 - The boy's singlet was slightly brighter and cooler than the father's (Lab L 82.5 vs 81.1, b -4.4 vs -5.4). Its pixels were matched to the father's singlet mean and spread in Lab, feathered (`final/photo_generated_singlet-matched.jpg`); no credits.
 - Nothing sits level with the logo any more: tier one is the logo alone at the top centre; tier two, 72 px below it, holds `KIDS` + capsules on the left and `MEN` + capsules on the right. The gap between tiers (72) is larger than the gap inside each block (28), so the brand reads first and the navigation second. Photo at 92% width so the boy's head stays 120+ px below the capsules.
+
+## Revisi: posisi copy KIDS / MEN
+
+- Logo tidak dipindah (tetap sendirian di tengah atas, y 48).
+- Blok KIDS (label + kapsul BRIEF, BOXER) diletakkan tepat di atas kepala anak, rata kiri margin.
+- Blok MEN (label + kapsul BRIEF, BOXER, SINGLET) diletakkan tepat di atas kepala ayah, rata kanan margin.
+- Kedua blok duduk 64 px di atas kepala masing-masing (diukur dari cutout), jadi tidak ada teks yang sejajar dengan logo dan tidak ada teks di baris atas.
+- Foto diskalakan 0.88 agar ada ruang untuk blok KIDS di atas anak; 0 piksel teks dalam jarak 40 px dari figur.
