@@ -18,3 +18,9 @@ Photo at 94% width, bottom-aligned, the wall extended at the top and sides; figu
 - Blok MEN (label + kapsul BRIEF, BOXER, SINGLET) diletakkan tepat di atas kepala ayah, rata kanan margin.
 - Kedua blok duduk 64 px di atas kepala masing-masing (diukur dari cutout), jadi tidak ada teks yang sejajar dengan logo dan tidak ada teks di baris atas.
 - Foto diskalakan 0.88 agar ada ruang untuk blok KIDS di atas anak; 0 piksel teks dalam jarak 40 px dari figur.
+
+## Ukuran Banner Category asli: 1200x990 (retina 2400x1980)
+
+- `TONI-BLACK_Category-Banner_1200x990.jpg` (upload) dan `TONI-BLACK_Category-Banner_2400x1980.jpg` (retina), skrip `scripts/compose_cat2w.py`.
+- Foto persegi diskalakan 0.89 tinggi kanvas dan duduk di lantai; dinding kiri/kanan diperpanjang per baris dengan warna tepi foto dan feather 220 px, jadi tanpa sambungan.
+- Logo sendirian di tengah atas. KIDS + kapsul berpusat di atas kepala anak; MEN + kapsul rata margin kanan di atas kepala ayah. Nol piksel teks dalam 40 px dari figur.
