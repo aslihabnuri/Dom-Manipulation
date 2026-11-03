@@ -31,3 +31,9 @@ Subline centred under the headline, two lines, 0.40 of the headline cap height, 
 
 ## Logo update
 The logo is now the official file from Drive (`6.png`, saved as `scripts/logo_6.png`): `scripts/logo.py` extracts the light mark as a mask and tints it to the colour the layout asks for. Because the official lockup is wider and has no tagline, logo widths are 1.2x the old value so the wordmark keeps its visual size.
+
+## Model swap (model dari `Referensi Model.png`)
+- Satu edit pass Nano Banana Pro (`prompts/prompt_story_model-swap.txt`): referensi pertama foto lama (pose, kaos, boxer, stool, set, framing dikunci), referensi kedua model baru dipotong tanpa panel teks. Hanya model yang berganti; wajah tetap tertutup kaos sesuai pose asli.
+- Grading: hanya grade global BAU (kontras L x1.10, chroma x0.88, highlight sedikit dingin). Transfer warna kulit tidak dipakai karena akan menggelapkan kulit model baru.
+- Logo: tetap file resmi terbaru `6.png` (satu-satunya file di folder logo Drive), charcoal tanpa kotak.
+- Headline knockout: karena kulit model baru terang, huruf berubah putih hanya di atas area subjek yang gelap (luminance di bawah 50 dari 255, yaitu boxer); di atas kulit huruf tetap Dark Charcoal. `compose.py ... 1 0.47 0.86 50` dan `... 2 0.47 0.86 50`.

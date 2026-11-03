@@ -2,7 +2,7 @@
 figure; charcoal on the wall, white wherever it overlaps the subject (via the cutout mask). Logo top-left.
 Usage: python3 compose_story2.py PHOTO CUTOUT OUT [scale] [head_y] [width_frac]"""
 import sys
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont, ImageFilter
 from logo import make_logo
 F="fonts/static/"
 CHAR=(40,40,40); WHITE=(255,255,255); DAVI=(79,80,82); LIGHT=(230,230,230)
@@ -12,7 +12,7 @@ def tracked(d,xy,text,f,fill,track=0):
         d.text((x,y),ch,font=f,fill=fill); x+=d.textlength(ch,font=f)+track
 def tracked_w(d,text,f,track=0): return sum(d.textlength(ch,font=f) for ch in text)+track*(len(text)-1)
 def build(photo_path,cutout_path,out_path,k=1.0,head_y=0.47,width_frac=0.86,
-          headline=("TAILORED FOR","COMFORT."),sub_scale=0.40,sub_measure=0.36,sub_lum=150,sub_lines=("Defined by originality,","driven by innovation.","Every detail is","created with purpose."),sub=("Defined by Originality, Driven by Innovation.","Every Detail is Created With Purpose.")):
+          headline=("TAILORED FOR","COMFORT."),sub_scale=0.40,sub_measure=0.36,sub_lum=150,sub_lines=("Defined by originality,","driven by innovation.","Every detail is","created with purpose."),sub=("Defined by Originality, Driven by Innovation.","Every Detail is Created With Purpose."),knock_lum=None):
     W,H=int(1600*k),int(2000*k); g=lambda v:int(round(v*k))
     def font(name,size): return ImageFont.truetype(F+name,g(size))
     def fit_font(d,text,name,target_w,track=0,lo=40,hi=900):
@@ -50,7 +50,11 @@ def build(photo_path,cutout_path,out_path,k=1.0,head_y=0.47,width_frac=0.86,
                 dd.text((x-sb[0],y-sb[1]),ch,font=f_s,fill=(WHITE if lum<sub_lum else CHAR)+(255,))
             x+=cw
         y+=sl
-    canvas.paste(dark,(0,0),dark)
+    canvas_src=canvas.copy(); canvas.paste(dark,(0,0),dark)
+    if knock_lum is not None:
+        # white only where the subject under the ink is dark (boxer, deep shadow); light skin keeps the charcoal letter
+        dk=(np.asarray(canvas_src.convert("L")).astype(float)<knock_lum)*(np.asarray(alpha)/255.0)
+        alpha=Image.fromarray((dk*255).astype("uint8")).filter(ImageFilter.GaussianBlur(g(1.5)))
     lm=Image.new("L",(W,H),0); lm.paste(light.split()[3],(0,0),alpha)   # white only where the subject is
     canvas.paste(light,(0,0),lm)
     d=ImageDraw.Draw(canvas)
@@ -58,5 +62,5 @@ def build(photo_path,cutout_path,out_path,k=1.0,head_y=0.47,width_frac=0.86,
     canvas.paste(logo,(g(100),g(90)),logo)
     canvas.save(out_path,quality=95); return canvas
 if __name__=="__main__":
-    a=sys.argv; photo,cut,out=a[1],a[2],a[3]; k=float(a[4]) if len(a)>4 else 1.0; hy=float(a[5]) if len(a)>5 else 0.47; wf=float(a[6]) if len(a)>6 else 0.86
-    im=build(photo,cut,out,k=k,head_y=hy,width_frac=wf); im.resize((640,800),Image.LANCZOS).save(out.rsplit(".",1)[0]+"_preview.jpg",quality=85); print(out,im.size)
+    a=sys.argv; photo,cut,out=a[1],a[2],a[3]; k=float(a[4]) if len(a)>4 else 1.0; kl=float(a[7]) if len(a)>7 else None; hy=float(a[5]) if len(a)>5 else 0.47; wf=float(a[6]) if len(a)>6 else 0.86
+    im=build(photo,cut,out,k=k,head_y=hy,width_frac=wf,knock_lum=kl); im.resize((640,800),Image.LANCZOS).save(out.rsplit(".",1)[0]+"_preview.jpg",quality=85); print(out,im.size)
