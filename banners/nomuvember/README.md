@@ -28,6 +28,17 @@ Hierarki dan copy
   Tanpa "Anda", "Kami", "saya". Font DEMO mengunci "+" dan "!", jadi penawaran ditulis dua baris.
 - Dua blok teks: blok diskon di tengah atas, blok produk dan penawaran di kiri, produk di kanan.
 
+Versi 2:3 (ukuran himhim7_23.jpg): `nomuvember-ube-matcha-latte-1080x1620.jpg` (1080 x 1620 px, JPG, 0,58 MB)
+- Folder Drive acuan hanya berisi himhim7_23.jpg (1080 x 1620), jadi ukuran itu yang dipakai.
+- Tata letak mengikuti himhim: logo, DISC UP TO, 25% di tengah atas; NOMUVEMBER SALE besar di tengah kiri (posisi
+  "MADE FOR HIM"); Gratis ongkir / Voucher hingga 15rb dan SHOP NOW di kiri bawah; produk di kanan bawah.
+- Scene v2 diskalakan 0,64 dan ditaruh di bawah; gradasi latar diperpanjang ke atas; ube kiri atas dipindah ke
+  pojok atas kanvas baru agar tidak terpotong di tengah.
+- Tinggi blok angka 237 px = 21,94% dari 1080 (sama dengan referensi).
+- Di format ini angka 25% dibuat PUTIH: di atas gradasi gelap bagian atas, ungu tua hanya 2,2:1, putih 5,2:1.
+  Kontras lain: logo 8,0:1, DISC UP TO 7,2:1, NOMUVEMBER SALE ungu tua 3,5:1 (teks besar), penawaran 7,2:1, tombol 8,1:1.
+- Tanpa kredit kie.ai tambahan.
+
 Keterbacaan (rasio kontras terburuk terhadap latar di bawah tiap blok, persentil 5/95)
 - Logo putih 5,6:1; DISC UP TO putih 5,1:1; 25% ungu tua 3,2:1 (teks sangat besar, batas AA teks besar 3:1);
   NOMUVEMBER SALE 6,7:1; UBE MATCHA LATTE 7,1:1; penawaran 8,3:1; tombol 9,7:1 terhadap latar, teks putih 18:1.
