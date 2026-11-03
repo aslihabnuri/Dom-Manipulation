@@ -1,6 +1,19 @@
 # NOMUVEMBER, banner toko marketplace (Ube Matcha Latte)
 
-File: `nomuvember-ube-matcha-latte.jpg` (1:1, 2000 x 2000 px, JPG, sekitar 0,9 MB)
+File: `nomuvember-ube-matcha-latte.jpg` (1:1, 2000 x 2000 px, JPG, 1,12 MB). Versi pertama di `archive-v1/`.
+
+Revisi v2
+- Es dan ube mengikuti bentuk di Referensi N: tumpukan bongkahan es kristal bening bersegi, es melayang, dan potongan
+  ube bulat besar dengan sisi potongan menghadap kamera, melayang seperti buah di referensi (kiri atas, kanan,
+  kiri bawah). Cipratan di bibir gelas dibuat lebih besar dan bervolume.
+- UBE MATCHA LATTE dihapus. Hierarki: 25% > NOMUVEMBER SALE (tiga baris NOMU / VEMBER / SALE, MU di atas penanda lime)
+  > Gratis ongkir / Voucher hingga 15rb > SHOP NOW.
+- Ujung cipratan menembus ke depan dasar angka 25 untuk kedalaman, seperti di referensi.
+- Ube kiri atas digeser agar tidak menyentuh angka; dua bongkah es melayang di kolom teks dihapus.
+- Pouch asli ditempel ulang (registrasi SIFT skala 1,00, rotasi 0,28 derajat), cipratan di depannya dipertahankan.
+- Tinggi angka terukur 439 px (21,95%). Kontras terburuk: logo 5,2:1, DISC UP TO 4,7:1, 25% 3,5:1,
+  NOMUVEMBER SALE 6,7:1, penawaran 7,4:1, tombol 8,4:1 terhadap latar.
+- Kredit kie.ai v2: 10 (satu image-to-image dengan Referensi N sebagai acuan gaya).
 
 Kenapa 1:1, bukan 2:1
 - Tinggi angka "25" di referensi himhim7_23 diukur per piksel: 237 px pada lebar 1080 px = 21,94% lebar gambar

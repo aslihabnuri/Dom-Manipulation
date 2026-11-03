@@ -32,7 +32,7 @@ def erase_left_slice(im):
     out = Image.composite(out.filter(ImageFilter.GaussianBlur(3)), out, m)
     return out
 
-scene = Image.open(N + "/scene2000_clean.png").convert("RGB")   # left ube slice removed (see clean step)
+scene = Image.open(N + "/" + L.get("scene", "scene2_clean.png")).convert("RGB")
 cv = scene.resize((W * K, W * K), Image.LANCZOS).convert("RGBA")
 
 # ---- top block: logo, DISC UP TO, 25% ----
@@ -45,33 +45,50 @@ pct_size = 439 / 0.680          # union height of "2"+"5" = 0.680 em -> 439 px =
 pw, ph = pct_block(cv, W / 2 + L.get("pct_dx", 0), L.get("pct_y", 222), "25", pct_size, fill=INK, align="center")
 print("25% block", round(pw), "x", round(ph), "digit height % of width", round(100 * ph / W, 2))
 
-# ---- left column ----
-x = L.get("col_x", 96)
-y = L.get("lab_y", 792)
-flab = font(ARG_BOLD, L.get("lab_size", 48)); tr = L.get("lab_tr", 3)
-pre, mid, post = "NO", "MU", "VEMBER SALE"
-wpre = text_width(flab, pre, tr) / K + tr; wmid = text_width(flab, mid, tr) / K
-chl = (flab.getbbox("H")[3] - flab.getbbox("H")[1]) / K
-hl = Image.new("RGBA", (int((wmid + 22) * K), int((chl + 22) * K)), (0, 0, 0, 0))
-ImageDraw.Draw(hl).rounded_rectangle([0, 0, hl.width - 1, hl.height - 1], radius=int(10 * K), fill=LIME + (255,))
+# ---- left column: campaign name (2nd in hierarchy) > offers > CTA ----
+x = L.get("col_x", 82)
+fc = font(ARG_BOLD, L.get("camp_size", 120)); ctr = L.get("camp_tr", -1); lh = L.get("camp_lh", 120)
+cy0 = L.get("camp_y", 740)
+chc = (fc.getbbox("H")[3] - fc.getbbox("H")[1]) / K
+# NOMU with the brand half "MU" on a lime marker, then VEMBER, then SALE
+wno = (fc.getlength("N") + fc.getlength("O")) / K + 2 * ctr
+wmu = (fc.getlength("M") + fc.getlength("U")) / K + ctr
+padx, pady = 14, 14
+hl = Image.new("RGBA", (int((wmu + 2 * padx) * K), int((chc + 2 * pady) * K)), (0, 0, 0, 0))
+ImageDraw.Draw(hl).rounded_rectangle([0, 0, hl.width - 1, hl.height - 1], radius=int(16 * K), fill=LIME + (255,))
 hl = hl.rotate(-3, resample=Image.BICUBIC, expand=True)
-cv.alpha_composite(hl, (int((x + wpre - 8) * K), int((y - 11) * K) - int((hl.height - (chl + 22) * K) / 2)))
-draw_text(cv, x, y, pre + mid + post, flab, tr, fill=INK)
-
-fp = font(ARG_BOLD, L.get("prod_size", 128)); lh = L.get("prod_lh", 118)
-py = L.get("prod_y", 870)
-for i, line in enumerate(["UBE", "MATCHA", "LATTE"]):
-    draw_text(cv, x - 4, py + i * lh, line, fp, L.get("prod_tr", 0), fill=INK)
-chp = (fp.getbbox("H")[3] - fp.getbbox("H")[1]) / K
-prod_bottom = py + 2 * lh + chp
+cv.alpha_composite(hl, (int((x + wno - padx) * K) - int((hl.width - (wmu + 2 * padx) * K) / 2),
+                        int((cy0 - pady) * K) - int((hl.height - (chc + 2 * pady) * K) / 2)))
+widths = []
+for i, line in enumerate(["NOMU", "VEMBER", "SALE"]):
+    widths.append(draw_text(cv, x - 4, cy0 + i * lh, line, fc, ctr, fill=INK))
+camp_bottom = cy0 + 2 * lh + chc
 fo = font(ARG_DEMI, L.get("off_size", 46))
-oy = prod_bottom + L.get("gap_off", 66)
+oy = camp_bottom + L.get("gap_off", 62)
 draw_text(cv, x, oy, "Gratis ongkir", fo, 1, fill=INK)
-draw_text(cv, x, oy + L.get("off_lh", 62), "Voucher hingga 15rb", fo, 1, fill=INK)
-cy = oy + L.get("off_lh", 62) + L.get("gap_cta", 104)
-pill_button(cv, x, cy, "SHOP NOW", L.get("cta_size", 40), L.get("cta_h", 98), L.get("cta_pad", 44), fill=INK, text=WHITE, arrow=True, tr=3)
-print("blocks y: label", y, "product", py, "-", round(prod_bottom), "offers", round(oy), "cta", round(cy), "-", round(cy + L.get("cta_h", 98)))
+draw_text(cv, x, oy + L.get("off_lh", 60), "Voucher hingga 15rb", fo, 1, fill=INK)
+ctay = oy + L.get("off_lh", 60) + L.get("gap_cta", 92)
+pill_button(cv, x, ctay, "SHOP NOW", L.get("cta_size", 40), L.get("cta_h", 94), L.get("cta_pad", 42), fill=INK, text=WHITE, arrow=True, tr=3)
+print("campaign widest line", round(max(widths)), "right edge", round(x - 4 + max(widths)), "| blocks y: campaign", cy0, "-", round(camp_bottom),
+      "offers", round(oy), "cta", round(ctay), "-", round(ctay + L.get("cta_h", 94)))
 
+# splash crown in FRONT of the 25%: put the scene's violet splash pixels back over the type (depth, like the reference)
+if L.get("splash_front", True):
+    import cv2
+    sc = np.asarray(scene).astype(np.float32)
+    # splash = whatever stands out from the smooth local background (bg estimated with a wide median)
+    bg = cv2.medianBlur(sc.astype(np.uint8), 61).astype(np.float32)
+    dev = np.abs(sc - bg).max(axis=2)
+    spl = dev > 22
+    zone = np.zeros_like(spl); zone[470:720, 560:1600] = True
+    spl = (spl & zone).astype(np.uint8)
+    spl = cv2.morphologyEx(spl, cv2.MORPH_OPEN, np.ones((3, 3), np.uint8))
+    spl = cv2.morphologyEx(spl, cv2.MORPH_CLOSE, np.ones((5, 5), np.uint8))
+    print("splash-in-front px", int(spl.sum()))
+    m = cv2.GaussianBlur(spl.astype(np.float32), (0, 0), 0.9)
+    m = Image.fromarray((m * 255).astype(np.uint8)).resize((W * K, W * K), Image.LANCZOS)
+    front = scene.resize((W * K, W * K), Image.LANCZOS).convert("RGBA"); front.putalpha(m)
+    cv.alpha_composite(front)
 out = cv.convert("RGB").resize((W, W), Image.LANCZOS)
 a = np.asarray(out).astype(np.float32)
 a += np.random.default_rng(11).normal(0, 1.8, a.shape[:2])[..., None]
