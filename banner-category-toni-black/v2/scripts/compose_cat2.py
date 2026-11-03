@@ -26,7 +26,7 @@ def pills(d,x,y,labels,f,h,pad,gap,stroke):
         b=cb(d,t,f); tt=tw(d,t,f,f.size*0.08); tracked(d,(x0+(w-tt)/2-b[0],y+(h-(b[3]-b[1]))/2-b[1]),t,f,C282,f.size*0.08)
     return x+len(labels)*w+(len(labels)-1)*gap, w
 def build(out,W=2000,H=2000,M=120,photo_scale=0.94,floor=0,label=64,btn=30,btn_h=72,pad=44,gap=24,stroke=3,top_y=78,clear=40):
-    ph_img=graded("gen/cat2_b_0.png"); pw=int(W*photo_scale); s=pw/ph_img.width; phh=int(ph_img.height*s+0.5)
+    ph_img=graded("gen/cat2_c_0.png"); pw=int(W*photo_scale); s=pw/ph_img.width; phh=int(ph_img.height*s+0.5)
     px=(W-pw)//2; py=H-floor-phh; cv,_=plate(W,H,ph_img,pw,px,py); d=ImageDraw.Draw(cv)
     lg=make_logo(C282,8); lw=300; lg=lg.resize((lw,int(lg.height*lw/lg.width)),Image.LANCZOS)
     fl=font("ZalandoSansExpanded-Bold.ttf",label); fb=font("ZalandoSansExpanded-SemiBold.ttf",btn)
@@ -38,7 +38,7 @@ def build(out,W=2000,H=2000,M=120,photo_scale=0.94,floor=0,label=64,btn=30,btn_h
     # logo centred between the blocks, vertically centred on the band
     band_mid=(top_y+row_y+btn_h)/2; cv.paste(lg,((W-lw)//2,int(band_mid-lg.height/2)),lg)
     # clearance check against the cutout
-    a=Image.open("gen/cat2_b_cutout.png").split()[3].resize((pw,phh),Image.LANCZOS); sub=np.zeros((H,W),bool); sub[py:py+phh,px:px+pw]=np.asarray(a)>128
+    a=Image.open("gen/cat2_c_cutout.png").split()[3].resize((pw,phh),Image.LANCZOS); sub=np.zeros((H,W),bool); sub[py:py+phh,px:px+pw]=np.asarray(a)>128
     base,_=plate(W,H,ph_img,pw,px,py); txt=np.abs(np.asarray(cv.convert("L")).astype(int)-np.asarray(base.convert("L")).astype(int))>40
     hit=int((txt&binary_dilation(sub,iterations=clear)).sum()); ys,xs_=np.where(sub)
     print(f"photo {pw}px wide at y {py}-{py+phh} | figures x {xs_.min()}-{xs_.max()} ({(xs_.max()-xs_.min())/W:.0%} W) y {ys.min()}-{ys.max()} ({(ys.max()-ys.min())/H:.0%} H) | band {top_y}-{row_y+btn_h}, boy head top {ys.min()}, gap {ys.min()-(row_y+btn_h)} | button w {w} | type within {clear}px of figures: {hit}")

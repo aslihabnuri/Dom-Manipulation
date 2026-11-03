@@ -1,6 +1,6 @@
 # Toni Black category banner v2 (2000x2000)
 
-Boy seated on a white block (left), father seated on the floor leaning on the block (right), light-grey cyclorama, after "Referensi Kategori.jpeg"; the two people from the Him and Him banner. Father: black Toni Black brief (`Brief dewasa/6.png`) and white singlet. Son: white tee and the grey Toni Black kids boxer brief.
+Boy seated on a white block (left), father seated on the floor leaning on the block (right), light-grey cyclorama, after "Referensi Kategori.jpeg"; the two people from the Him and Him banner. Father: black Toni Black boxer brief (`6a.png`) and white singlet. Son: white singlet and the black Toni Black kids boxer brief (`Boxer anak/2.png`, black). Set by one edit pass on the first photo (`prompts/prompt_cat2c.txt`). Colour: the same global grade as the Him and Him banner (the file the owner pointed to as the filter reference).
 
 **Product note.** The brief asked for the grey kids brief (`Brief anak/6.png`). The image provider rejected that prompt as not allowed (a child in briefs) and no credits were charged; the same request with the grey kids boxer brief was accepted (`prompts/prompt_cat2b.txt`). The father's brief is the exact product.
 
