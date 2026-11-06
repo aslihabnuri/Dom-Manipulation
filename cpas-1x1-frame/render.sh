@@ -26,5 +26,5 @@ ffmpeg -v error -stats -y "${inputs[@]}" \
   -color_primaries bt709 -color_trc bt709 -colorspace bt709 -color_range tv \
   -r 30 -g 60 \
   -c:a copy \
-  -movflags +faststart -shortest \
+  -movflags +faststart \
   "$out"
