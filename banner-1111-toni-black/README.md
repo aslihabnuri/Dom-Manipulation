@@ -35,3 +35,8 @@ Three tiers, each with one job and one type size, separated by gaps at least twi
 2. **Offer**: `SAVE UP TO` (Zalando Bold 30, tracked 14%) 20 px over `45%` (Zalando Black, as wide as it can be while keeping 40 px clear of the heads: 0.81 W at this framing).
 3. **Detail**: the two badges (72 px discs, labels Zalando SemiBold 22) and `SHOP NOW` (68 px pill), on the left margin, centred between the number and the floor where the free wall allows.
 Photo at 74% width (figures slightly smaller than before) so the header, offer and figures each have their own band.
+
+## Revision: guideline fonts only, more space (`build4`, `--v4`, final)
+- **Fonts by guideline role.** Zalando Sans Expanded for every display line: header (Black), `11.11` (Black), `45%` (Black), `SAVE UP TO` and `SHOP NOW` (Bold). Arimo Bold for the small badge labels (the guideline's reading face). The Arimo `11.11` with a synthetic stroke is gone: a faux bold is itself a change to the typeface. Zalando's stylistic set ss02 was checked for a plain 1, but it is a struck-through numeral set for crossed-out prices, so `11.11` uses the typeface's own 1.
+- **Less stacking.** The top holds only two groups: the header (`MADE TO MOVE.` / `TOGETHER.`, cap 46, leading 1.5) and the offer (`SAVE UP TO` / `45%` at 85% of the width). `11.11` moved to the left wall as the event tag above the badges and `SHOP NOW`, at the header's cap height so the header stays the lead line.
+- **Spacing.** Logo to header 72, header to offer 84, offer to the heads 111, tag to badges 64, badges to CTA 56: every gap between groups is at least twice the space between lines inside a group. Photo at 72% of the width. 0 type pixels within 40 px of the figures.

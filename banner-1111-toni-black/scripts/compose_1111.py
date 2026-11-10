@@ -197,5 +197,64 @@ def build3(photo,cutout,out,k=1,W=1080,H=1620,M=65,photo_w=0.74,logo_w=300,logo_
     hit=int(((np.asarray(front.split()[3])>40)&binary_dilation(sub,iterations=g(clear))).sum())
     print(f"{out}: logo {g(logo_y)}-{g(logo_y)+lg.height} | header {y}-{y1e} (cap {c}, lead {lead}) | SAVE UP TO {yk}-{yke} | 45% {y3}-{y3e} ({f3.size}px, {w3:.0f} wide = {bw_:.2f} W) | head {head} gap {head-y3e} | detail {top}-{pill_y+pill_h} | front type within {clear}px: {hit}")
     cv.save(out,quality=92,optimize=True,progressive=True); return cv
+def build4(photo,cutout,out,k=1,W=1080,H=1620,M=65,photo_w=0.72,logo_w=300,logo_y=56,cap=46,lead_k=1.5,gap_logo=72,gap_tier=84,big_w=0.85,num_gap=56,tag_cap=46,badge=68,clear=40):
+    """Guideline fonts only, by role: Zalando Sans Expanded for display (header, 11.11, 45%, SAVE UP TO, SHOP NOW),
+    Arimo for the small detail labels. No synthetic weight.
+    Top: logo / MADE TO MOVE. TOGETHER. / SAVE UP TO 45%. Left wall: 11.11 / badges / SHOP NOW.
+    Every gap between groups is at least twice the space between lines inside a group."""
+    W,H,M=W*k,H*k,M*k; g=lambda v:int(round(v*k))
+    src=graded(photo); pw=int(W*photo_w); s=pw/src.width; ph=int(src.height*s+0.5); p=src.resize((pw,ph),Image.LANCZOS)
+    a=Image.open(cutout).split()[3].resize((pw,ph),Image.LANCZOS); am=np.asarray(a)>128
+    xs=np.where(am.any(0))[0]; px=int(W-M-xs.max()); py=H-ph
+    cv=plate(W,H,p,px,py); sub=np.zeros((H,W),bool); ys0,xs0=np.where(am); yy=ys0+py; xx=xs0+px; ok=(xx>=0)&(xx<W)&(yy>=0); sub[yy[ok],xx[ok]]=True
+    head=np.where(sub.any(1))[0].min(); d=ImageDraw.Draw(cv)
+    front=Image.new("RGBA",(W,H),(0,0,0,0)); df=ImageDraw.Draw(front)
+    def at_cap(name,c,probe="H"):
+        lo,hi=8,900
+        while lo<hi:
+            m=(lo+hi+1)//2; b=d.textbbox((0,0),probe,font=font(name,m))
+            if b[3]-b[1]<=c: lo=m
+            else: hi=m-1
+        return font(name,lo)
+    def line(t,f,x,ytop,trk,align="c",fill=C):
+        w=tw(d,t,f,trk); b=d.textbbox((0,0),t,font=f); top_ink=d.textbbox((0,0),"H",font=f)[1]
+        xx=(W-w)/2 if align=="c" else x; tracked(df,(xx-b[0],ytop-top_ink),t,f,fill,trk); return w
+    BLK="ZalandoSansExpanded-Black.ttf"; BLD="ZalandoSansExpanded-Bold.ttf"
+    lg=make_logo(C,8*k); lw=g(logo_w); lg=lg.resize((lw,int(lg.height*lw/lg.width)),Image.LANCZOS); front.paste(lg,((W-lw)//2,g(logo_y)),lg)
+    # header
+    c=g(cap); lead=int(c*lead_k); fh=at_cap(BLK,c); y=g(logo_y)+lg.height+g(gap_logo)
+    for i,t in enumerate(("MADE TO MOVE.","TOGETHER.")): line(t,fh,0,y+i*lead,0.02*fh.size)
+    yhe=y+lead+c
+    # offer
+    fk=at_cap(BLD,g(21)); yk=yhe+g(gap_tier); line("SAVE UP TO",fk,0,yk,0.16*fk.size); yke=yk+g(21)
+    bw_=big_w
+    while True:
+        f3=fit(d,"45%",BLK,int(W*bw_),-0.02); b3=d.textbbox((0,0),"45%",font=f3); y3=yke+g(24); y3e=y3+b3[3]-b3[1]
+        if head-y3e>=g(num_gap) or bw_<=0.60: break
+        bw_-=0.01
+    w3=tw(d,"45%",f3,-0.02*f3.size); tracked(df,((W-w3)/2-b3[0],y3-b3[1]),"45%",f3,C,-0.02*f3.size)
+    # left wall: 11.11 tag, badges (Arimo labels), SHOP NOW
+    first=np.where(sub.any(1),sub.argmax(1),W); freerow=first-g(clear)-M
+    ft=at_cap(BLK,g(tag_cap),"1"); tt=0.02*ft.size; tag_w=tw(d,"11.11",ft,tt)
+    bi=g(badge); bgap=g(20); fb=at_cap("Arimo-Bold.ttf",g(17)); tb=0.08*fb.size; bpitch=bi+g(28)
+    blabels=(("FREE ONGKIR",),("VOUCHER 5K","NEW BUYER")); bicons=(badges.truck,badges.ticket)
+    fc=at_cap(BLD,g(18)); ct="SHOP NOW"; tc=0.12*fc.size; cw=tw(d,ct,fc,tc); pill_h=g(66); pill_w=int(cw+g(80))
+    need=max(tag_w,bi+bgap+max(tw(d,t,fb,tb) for lab in blabels for t in lab),pill_w)
+    g1=g(64); g2=g(56); bh=g(tag_cap)+g1+bpitch+bi+g2+pill_h
+    lo_y=y3e+g(num_gap); hi_y=H-int(M*1.6); mid=lo_y+(hi_y-lo_y-bh)//2
+    top=next(t for t in sorted(range(lo_y,hi_y-bh+1,g(4)),key=lambda t:abs(t-mid)) if freerow[t:t+bh].min()>=need)
+    bt=d.textbbox((0,0),"11.11",font=ft); tracked(df,(M-bt[0],top-bt[1]),"11.11",ft,C,tt)
+    yb=top+g(tag_cap)+g1; lh=g(17); lgap=int(lh*0.7)
+    for i,(lab,icon) in enumerate(zip(blabels,bicons)):
+        ic=icon(bi); y0=yb+i*bpitch; front.paste(ic,(M,y0),ic); tot=lh*len(lab)+lgap*(len(lab)-1); ty=y0+(bi-tot)/2
+        top_ink=d.textbbox((0,0),"H",font=fb)[1]
+        for j,t in enumerate(lab):
+            bb=d.textbbox((0,0),t,font=fb); tracked(df,(M+bi+bgap-bb[0],ty+j*(lh+lgap)-top_ink),t,fb,C,tb)
+    pill_y=yb+bpitch+bi+g2; df.rounded_rectangle([M,pill_y,M+pill_w,pill_y+pill_h],radius=pill_h//2,fill=C+(255,))
+    bc=d.textbbox((0,0),ct,font=fc); top_ink=d.textbbox((0,0),"H",font=fc)[1]; tracked(df,(M+(pill_w-cw)/2-bc[0],pill_y+(pill_h-g(18))/2-top_ink),ct,fc,WHITE,tc)
+    cv.paste(front,(0,0),front)
+    hit=int(((np.asarray(front.split()[3])>40)&binary_dilation(sub,iterations=g(clear))).sum())
+    print(f"{out}: logo {g(logo_y)}-{g(logo_y)+lg.height} | header {y}-{yhe} (cap {c}, lead {lead}) | SAVE UP TO {yk} | 45% {y3}-{y3e} ({bw_:.2f} W) | head {head} gap {head-y3e} | left {top}-{pill_y+pill_h} | type within {clear}px: {hit}")
+    cv.save(out,quality=92,optimize=True,progressive=True); return cv
 if __name__=="__main__":
-    a=sys.argv; (build3 if "--v3" in a else build2 if "--v2" in a else build)(a[1],a[2],a[3],k=int(a[4]) if len(a)>4 and not a[4].startswith("--") else 1)
+    a=sys.argv; (build4 if "--v4" in a else build3 if "--v3" in a else build2 if "--v2" in a else build)(a[1],a[2],a[3],k=int(a[4]) if len(a)>4 and not a[4].startswith("--") else 1)
