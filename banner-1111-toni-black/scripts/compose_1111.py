@@ -8,15 +8,16 @@ from logo import make_logo
 import badges
 import grade as G
 F="fonts/static/"; C=(40,40,40); WHITE=(255,255,255)
-def font(n,s): return ImageFont.truetype(F+n,int(s))
-def tw(d,t,f,trk=0): return sum(d.textlength(ch,font=f) for ch in t)+trk*(len(t)-1)
-def tracked(d,xy,t,f,fill,trk=0,stroke=0):
+def font(n,s): return ImageFont.truetype(F+n,int(s),layout_engine=ImageFont.Layout.RAQM)
+TNUM=["tnum"]   # Zalando's tabular 1 (one.tf): full base and short flag, reads as 1 at display size; the default 1 reads as t
+def tw(d,t,f,trk=0,feat=None): return sum(d.textlength(ch,font=f,features=feat) for ch in t)+trk*(len(t)-1)
+def tracked(d,xy,t,f,fill,trk=0,stroke=0,feat=None):
     x,y=xy
-    for ch in t: d.text((x,y),ch,font=f,fill=fill,stroke_width=stroke,stroke_fill=fill); x+=d.textlength(ch,font=f)+trk+2*stroke
-def fit(d,t,name,target,trk_em=0.0,lo=8,hi=900):
+    for ch in t: d.text((x,y),ch,font=f,fill=fill,stroke_width=stroke,stroke_fill=fill,features=feat); x+=d.textlength(ch,font=f,features=feat)+trk+2*stroke
+def fit(d,t,name,target,trk_em=0.0,lo=8,hi=900,feat=None):
     while lo<hi:
         m=(lo+hi+1)//2; f=font(name,m)
-        if tw(d,t,f,m*trk_em)<=target: lo=m
+        if tw(d,t,f,m*trk_em,feat)<=target: lo=m
         else: hi=m-1
     return font(name,lo)
 def graded(path):
@@ -197,7 +198,7 @@ def build3(photo,cutout,out,k=1,W=1080,H=1620,M=65,photo_w=0.74,logo_w=300,logo_
     hit=int(((np.asarray(front.split()[3])>40)&binary_dilation(sub,iterations=g(clear))).sum())
     print(f"{out}: logo {g(logo_y)}-{g(logo_y)+lg.height} | header {y}-{y1e} (cap {c}, lead {lead}) | SAVE UP TO {yk}-{yke} | 45% {y3}-{y3e} ({f3.size}px, {w3:.0f} wide = {bw_:.2f} W) | head {head} gap {head-y3e} | detail {top}-{pill_y+pill_h} | front type within {clear}px: {hit}")
     cv.save(out,quality=92,optimize=True,progressive=True); return cv
-def build4(photo,cutout,out,k=1,W=1080,H=1620,M=65,photo_w=0.72,logo_w=300,logo_y=56,cap=46,lead_k=1.5,gap_logo=72,gap_tier=84,big_w=0.85,num_gap=56,tag_cap=46,badge=68,clear=40):
+def build4(photo,cutout,out,k=1,W=1080,H=1620,M=65,photo_w=0.72,logo_w=300,logo_y=56,cap=46,lead_k=1.5,gap_logo=72,gap_tier=84,big_w=0.85,num_gap=56,tag_cap=46,badge=68,clear=40,giant=False,giant_bottom=1450,tag=True):
     """Guideline fonts only, by role: Zalando Sans Expanded for display (header, 11.11, 45%, SAVE UP TO, SHOP NOW),
     Arimo for the small detail labels. No synthetic weight.
     Top: logo / MADE TO MOVE. TOGETHER. / SAVE UP TO 45%. Left wall: 11.11 / badges / SHOP NOW.
@@ -235,16 +236,20 @@ def build4(photo,cutout,out,k=1,W=1080,H=1620,M=65,photo_w=0.72,logo_w=300,logo_
     w3=tw(d,"45%",f3,-0.02*f3.size); tracked(df,((W-w3)/2-b3[0],y3-b3[1]),"45%",f3,C,-0.02*f3.size)
     # left wall: 11.11 tag, badges (Arimo labels), SHOP NOW
     first=np.where(sub.any(1),sub.argmax(1),W); freerow=first-g(clear)-M
-    ft=at_cap(BLK,g(tag_cap),"1"); tt=0.02*ft.size; tag_w=tw(d,"11.11",ft,tt)
+    back=Image.new("RGBA",(W,H),(0,0,0,0)); giant_top=H
+    if giant:   # 11.11 super-graphic in Clean White behind the figures, across the margins, on the band of the boxers and legs
+        fg=fit(d,"11.11",BLK,W-2*M,-0.02); bg_=d.textbbox((0,0),"11.11",font=fg); tg=-0.02*fg.size; wg=tw(d,"11.11",fg,tg)
+        giant_top=g(giant_bottom)-(bg_[3]-bg_[1]); tracked(ImageDraw.Draw(back),((W-wg)/2-bg_[0],giant_top-bg_[1]),"11.11",fg,WHITE,tg)
+    ft=at_cap(BLK,g(tag_cap),"1"); tt=0.02*ft.size; tag_w=tw(d,"11.11",ft,tt) if tag else 0
     bi=g(badge); bgap=g(20); fb=at_cap("Arimo-Bold.ttf",g(17)); tb=0.08*fb.size; bpitch=bi+g(28)
     blabels=(("FREE ONGKIR",),("VOUCHER 5K","NEW BUYER")); bicons=(badges.truck,badges.ticket)
     fc=at_cap(BLD,g(18)); ct="SHOP NOW"; tc=0.12*fc.size; cw=tw(d,ct,fc,tc); pill_h=g(66); pill_w=int(cw+g(80))
     need=max(tag_w,bi+bgap+max(tw(d,t,fb,tb) for lab in blabels for t in lab),pill_w)
-    g1=g(64); g2=g(56); bh=g(tag_cap)+g1+bpitch+bi+g2+pill_h
-    lo_y=y3e+g(num_gap); hi_y=H-int(M*1.6); mid=lo_y+(hi_y-lo_y-bh)//2
+    g1=g(64) if tag else 0; g2=g(56); bh=(g(tag_cap) if tag else 0)+g1+bpitch+bi+g2+pill_h
+    lo_y=y3e+g(num_gap); hi_y=(giant_top-g(56)) if giant else H-int(M*1.6); mid=lo_y+(hi_y-lo_y-bh)//2
     top=next(t for t in sorted(range(lo_y,hi_y-bh+1,g(4)),key=lambda t:abs(t-mid)) if freerow[t:t+bh].min()>=need)
-    bt=d.textbbox((0,0),"11.11",font=ft); tracked(df,(M-bt[0],top-bt[1]),"11.11",ft,C,tt)
-    yb=top+g(tag_cap)+g1; lh=g(17); lgap=int(lh*0.7)
+    if tag: bt=d.textbbox((0,0),"11.11",font=ft); tracked(df,(M-bt[0],top-bt[1]),"11.11",ft,C,tt)
+    yb=top+(g(tag_cap) if tag else 0)+g1; lh=g(17); lgap=int(lh*0.7)
     for i,(lab,icon) in enumerate(zip(blabels,bicons)):
         ic=icon(bi); y0=yb+i*bpitch; front.paste(ic,(M,y0),ic); tot=lh*len(lab)+lgap*(len(lab)-1); ty=y0+(bi-tot)/2
         top_ink=d.textbbox((0,0),"H",font=fb)[1]
@@ -252,9 +257,72 @@ def build4(photo,cutout,out,k=1,W=1080,H=1620,M=65,photo_w=0.72,logo_w=300,logo_
             bb=d.textbbox((0,0),t,font=fb); tracked(df,(M+bi+bgap-bb[0],ty+j*(lh+lgap)-top_ink),t,fb,C,tb)
     pill_y=yb+bpitch+bi+g2; df.rounded_rectangle([M,pill_y,M+pill_w,pill_y+pill_h],radius=pill_h//2,fill=C+(255,))
     bc=d.textbbox((0,0),ct,font=fc); top_ink=d.textbbox((0,0),"H",font=fc)[1]; tracked(df,(M+(pill_w-cw)/2-bc[0],pill_y+(pill_h-g(18))/2-top_ink),ct,fc,WHITE,tc)
+    if giant:
+        cv.paste(back,(0,0),back); fig=Image.new("RGB",(W,H)); fig.paste(p,(px,py)); m=Image.new("L",(W,H),0); m.paste(a,(px,py)); cv.paste(fig,(0,0),m)
     cv.paste(front,(0,0),front)
     hit=int(((np.asarray(front.split()[3])>40)&binary_dilation(sub,iterations=g(clear))).sum())
+    print(f"giant 11.11 {giant_top}-{g(giant_bottom)}" if giant else "")
     print(f"{out}: logo {g(logo_y)}-{g(logo_y)+lg.height} | header {y}-{yhe} (cap {c}, lead {lead}) | SAVE UP TO {yk} | 45% {y3}-{y3e} ({bw_:.2f} W) | head {head} gap {head-y3e} | left {top}-{pill_y+pill_h} | type within {clear}px: {hit}")
     cv.save(out,quality=92,optimize=True,progressive=True); return cv
+def build6(photo,cutout,out,k=1,W=1080,H=1620,M=65,photo_w=0.72,logo_w=300,logo_y=56,head_cap=30,hero_w=0.90,badge=68,clear=40):
+    """11.11-led layout. Logo alone, centred. Everything else on one left axis (the margin):
+    header line, 11.11 as the hero across the measure, then SAVE UP TO / 45% as large as the free wall allows,
+    then badges and SHOP NOW beside the figures. Zalando for display, Arimo for the badge labels."""
+    W,H,M=W*k,H*k,M*k; g=lambda v:int(round(v*k))
+    src=graded(photo); pw=int(W*photo_w); s=pw/src.width; ph=int(src.height*s+0.5); p=src.resize((pw,ph),Image.LANCZOS)
+    a=Image.open(cutout).split()[3].resize((pw,ph),Image.LANCZOS); am=np.asarray(a)>128
+    xs=np.where(am.any(0))[0]; px=int(W-M-xs.max()); py=H-ph
+    cv=plate(W,H,p,px,py); sub=np.zeros((H,W),bool); ys0,xs0=np.where(am); yy=ys0+py; xx=xs0+px; ok=(xx>=0)&(xx<W)&(yy>=0); sub[yy[ok],xx[ok]]=True
+    head=np.where(sub.any(1))[0].min(); d=ImageDraw.Draw(cv); df=d
+    def at_cap(name,c,probe="H"):
+        lo,hi=8,900
+        while lo<hi:
+            m=(lo+hi+1)//2; b=d.textbbox((0,0),probe,font=font(name,m))
+            if b[3]-b[1]<=c: lo=m
+            else: hi=m-1
+        return font(name,lo)
+    def put(t,f,x,ytop,trk,probe="H"):
+        b=d.textbbox((0,0),t,font=f); ti=d.textbbox((0,0),probe,font=f)[1]; tracked(d,(x-b[0],ytop-ti),t,f,C,trk); return tw(d,t,f,trk)
+    BLK="ZalandoSansExpanded-Black.ttf"; BLD="ZalandoSansExpanded-Bold.ttf"
+    first=np.where(sub.any(1),sub.argmax(1),W); freerow=first-g(clear)-M
+    lg=make_logo(C,8*k); lw=g(logo_w); lg=lg.resize((lw,int(lg.height*lw/lg.width)),Image.LANCZOS); cv.paste(lg,((W-lw)//2,g(logo_y)),lg)
+    # header: one line
+    fh=at_cap(BLK,g(head_cap)); y=g(logo_y)+lg.height+g(64); put("MADE TO MOVE. TOGETHER.",fh,M,y,0.02*fh.size); yhe=y+g(head_cap)
+    # hero: 11.11 across the measure
+    def ink_w(f):
+        im=Image.new("L",(int(f.size*6),int(f.size*2)),0); tracked(ImageDraw.Draw(im),(f.size,0),"11.11",f,255,-0.08*f.size,feat=TNUM)
+        c=np.where((np.asarray(im)>128).any(0))[0]; return c.max()-c.min()+1
+    fx=fit(d,"11.11",BLK,int(W-2*M),-0.08,feat=TNUM); fx=fit(d,"11.11",BLK,int((W-2*M)*(W-2*M)/ink_w(fx)),-0.08,feat=TNUM)   # ink, not advance, spans the measure
+    bx=d.textbbox((0,0),"11.11",font=fx,features=TNUM); hx=bx[3]-bx[1]
+    probe=Image.new("L",(fx.size*2,fx.size*2),0); ImageDraw.Draw(probe).text((0,0),"1",font=fx,fill=255,features=TNUM)
+    lx=int(np.where((np.asarray(probe)>128).any(0))[0].min())          # measured ink edge: textbbox reports 0 for the tabular 1
+    yx=yhe+g(48); tracked(d,(M-lx,yx-bx[1]),"11.11",fx,C,-0.08*fx.size,feat=TNUM); yxe=yx+hx
+    # offer: SAVE UP TO + the largest 45% that fits the free wall under the hero
+    fk=at_cap(BLD,g(22)); yk=yxe+g(72); put("SAVE UP TO",fk,M,yk,0.16*fk.size); y3=yk+g(22)+g(22)
+    for sz in range(g(400),g(60),-g(2)):
+        f3=font(BLK,sz); b3=d.textbbox((0,0),"45%",font=f3); w3=tw(d,"45%",f3,-0.02*sz); h3=b3[3]-b3[1]
+        if h3<=0.75*hx and freerow[y3:y3+h3+g(clear)].min()>=w3: break        # second to the hero, clear of the figures below
+    tracked(d,(M-b3[0],y3-b3[1]),"45%",f3,C,-0.02*f3.size); y3e=y3+h3
+    # detail: badges + CTA
+    bi=g(badge); bgap=g(20); fb=at_cap("Arimo-Bold.ttf",g(17)); tb=0.08*fb.size; bpitch=bi+g(28)
+    blabels=(("FREE ONGKIR",),("VOUCHER 5K","NEW BUYER")); bicons=(badges.truck,badges.ticket)
+    fc=at_cap(BLD,g(18)); ct="SHOP NOW"; tc=0.12*fc.size; cw=tw(d,ct,fc,tc); pill_h=g(66); pill_w=int(cw+g(80))
+    need=max(bi+bgap+max(tw(d,t,fb,tb) for lab in blabels for t in lab),pill_w); bh=bpitch+bi+g(52)+pill_h
+    lo_y=y3e+g(72); hi_y=H-int(M*1.6); mid=lo_y+(hi_y-lo_y-bh)//2
+    top=next(t for t in sorted(range(lo_y,hi_y-bh+1,g(4)),key=lambda t:abs(t-mid)) if freerow[t:t+bh].min()>=need)
+    lh=g(17); lgap=int(lh*0.7); ti=d.textbbox((0,0),"H",font=fb)[1]
+    for i,(lab,icon) in enumerate(zip(blabels,bicons)):
+        ic=icon(bi); y0=top+i*bpitch; cv.paste(ic,(M,y0),ic); tot=lh*len(lab)+lgap*(len(lab)-1); ty=y0+(bi-tot)/2
+        for j,t in enumerate(lab):
+            bb=d.textbbox((0,0),t,font=fb); tracked(d,(M+bi+bgap-bb[0],ty+j*(lh+lgap)-ti),t,fb,C,tb)
+    pill_y=top+bpitch+bi+g(52); d.rounded_rectangle([M,pill_y,M+pill_w,pill_y+pill_h],radius=pill_h//2,fill=C)
+    bc=d.textbbox((0,0),ct,font=fc); ti=d.textbbox((0,0),"H",font=fc)[1]; tracked(d,(M+(pill_w-cw)/2-bc[0],pill_y+(pill_h-g(18))/2-ti),ct,fc,WHITE,tc)
+    base=plate(W,H,p,px,py); txt=np.abs(np.asarray(cv.convert("L")).astype(int)-np.asarray(base.convert("L")).astype(int))>40
+    hit=int((txt&binary_dilation(sub,iterations=g(clear))).sum())
+    print(f"{out}: logo | header {y}-{yhe} | 11.11 {yx}-{yxe} ({fx.size}px) | SAVE UP TO {yk} | 45% {y3}-{y3e} ({f3.size}px, {w3:.0f} wide) | head {head} | detail {top}-{pill_y+pill_h} | type within {clear}px: {hit}")
+    cv.save(out,quality=92,optimize=True,progressive=True); return cv
 if __name__=="__main__":
-    a=sys.argv; (build4 if "--v4" in a else build3 if "--v3" in a else build2 if "--v2" in a else build)(a[1],a[2],a[3],k=int(a[4]) if len(a)>4 and not a[4].startswith("--") else 1)
+    a=sys.argv
+    if "--v6" in a: build6(a[1],a[2],a[3],k=int(a[4]) if len(a)>4 and not a[4].startswith("--") else 1); sys.exit()
+    if "--v5" in a: build4(a[1],a[2],a[3],k=int(a[4]) if len(a)>4 and not a[4].startswith("--") else 1,giant=True,tag=False); sys.exit()
+    (build4 if "--v4" in a else build3 if "--v3" in a else build2 if "--v2" in a else build)(a[1],a[2],a[3],k=int(a[4]) if len(a)>4 and not a[4].startswith("--") else 1)
