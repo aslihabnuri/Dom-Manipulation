@@ -10,6 +10,13 @@ Copy
 - Angka 45: tinggi blok 237 px = 21,94% lebar (aturan dari himhim7_23), diukur ulang pada piksel hasil render.
   Font DEMO mengunci "4" dan "%", jadi keduanya digambar sebagai vektor (vector_45pct dari banner 10.10).
 
+Revisi: tipografi clean (scripts/compose_1111_clean.py)
+- Satu sumbu rata kiri (x=58) untuk semua teks; sebelumnya campuran rata tengah (atas) dan rata kiri (tengah).
+- Dua kelompok saja: penawaran (logo, DISC UP TO, 45%, UBELIEVABLE 11.11) di atas, manfaat + tombol di atas garis air.
+- UBELIEVABLE 11.11 jadi satu baris dengan satu ukuran (58) alih-alih dua baris dua ukuran; hanya UBE yang berwarna.
+- Empat ukuran teks: 45% (237 px = 21,94%), headline 58, body 28, label/tombol 24. Versi sebelumnya di archive-cup-v1/.
+- Kontras terburuk: 45% 12,1:1, UBE 4,8:1, LIEVABLE 11.11 12,7:1, body 12,8:1. Tanpa kredit tambahan.
+
 Revisi: botol diganti cup
 - Minuman memakai cup plastik bening seperti banner NOMUVEMBER (lapisan ube, susu dengan es, matcha, cipratan mahkota
   ungu-putih). Edit image-to-image dari scene lama dengan crop cup NOMUVEMBER sebagai acuan; pouch dan teks pouch dicek
