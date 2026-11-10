@@ -50,3 +50,10 @@ Photo at 74% width (figures slightly smaller than before) so the header, offer a
 
 ### Balance: 45% leads, 11.11 second
 The full-measure 11.11 drowned the offer. Now `11.11` is set to 70% of the measure (cap 142 px at 1080) and `45%` is the largest size that keeps 40 px clear of the figures (cap 220 px, 870 wide): the offer leads, the date still reads at a glance. Order on the left axis: header line, 11.11, SAVE UP TO, 45%, badges, SHOP NOW.
+
+### Clean pass (`--v7`, final)
+The top half was a wall of three Black-weight blocks (header, 11.11, 45%), and the tabular 1 in Black reads as a heavy slab. Now only `45%` is Black, the single heavy mass:
+- Header `MADE TO MOVE. TOGETHER.` Zalando Bold, cap 26, tracked 8%.
+- `11.11` Zalando Medium with the tabular 1 (`tnum`), cap 92, tracked 4%: a light date mark that still reads at a glance.
+- Gaps: logo to header 64, header to 11.11 72, 11.11 to SAVE UP TO 72, 45% to the figures at least 64 (65 at this framing).
+- `45%` the largest size inside the measure that keeps that gap: cap 225, 888 wide at 1080.
