@@ -10,6 +10,17 @@ Copy
 - Angka 45: tinggi blok 237 px = 21,94% lebar (aturan dari himhim7_23), diukur ulang pada piksel hasil render.
   Font DEMO mengunci "4" dan "%", jadi keduanya digambar sebagai vektor (vector_45pct dari banner 10.10).
 
+Revisi v3: teks besar dan terbaca di aplikasi (scripts/compose_1111_v3.py)
+- Patokan: banner 1080 px tampil sekitar 360-400 pt di Shopee/TikTok (kira-kira 1/3). Teks terkecil dibuat >= 38 px
+  (setara sekitar 12 pt di layar). Tinggi huruf kapital: header 75 px, DISC UP TO 30 px, body 28 px, tombol 25 px.
+- Header UBELIEVABLE 11.11 satu baris selebar banner (font 115, sebelumnya 58); DISC UP TO 46 (sebelumnya 24);
+  Gratis ongkir / Voucher 15rb 42 (sebelumnya 28); tombol SHOP NOW tinggi 84 px.
+- Urutan atas ke bawah pada satu sumbu kiri: logo, header, DISC UP TO, 45% (237 px = 21,94%), manfaat, tombol.
+- Agar muat, scene diperkecil ke 80% dan digeser ke kanan bawah; strip kiri bawah diisi AI (outpaint, 10 kredit),
+  lalu scene asli ditempel kembali di atasnya sehingga pouch dan tulisannya tidak berubah.
+- Kontras terburuk: UBE ~4,9:1, LIEVABLE 11.11 9,9:1, DISC UP TO 10,3:1, 45% 11,0:1, body 11,5:1, tombol 12,5:1.
+- Versi sebelumnya di archive-clean-v1/. Sisa saldo kie.ai 55,69.
+
 Revisi: tipografi clean (scripts/compose_1111_clean.py)
 - Satu sumbu rata kiri (x=58) untuk semua teks; sebelumnya campuran rata tengah (atas) dan rata kiri (tengah).
 - Dua kelompok saja: penawaran (logo, DISC UP TO, 45%, UBELIEVABLE 11.11) di atas, manfaat + tombol di atas garis air.
