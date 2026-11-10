@@ -5,6 +5,7 @@ import sys, numpy as np
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 from scipy.ndimage import binary_dilation
 from logo import make_logo
+import badges
 import grade as G
 F="fonts/static/"; C=(40,40,40); WHITE=(255,255,255)
 def font(n,s): return ImageFont.truetype(F+n,int(s))
@@ -104,24 +105,35 @@ def build2(photo,cutout,out,k=1,W=1080,H=1620,M=65,photo_w=0.80,logo_w=320,logo_
     # left wall: headline stack + CTA, the largest stack that fits between the number and the floor
     first=np.where(sub.any(1),sub.argmax(1),W); freerow=first-g(clear)-M
     lines=("MADE","TO MOVE.","TOGETHER."); fc=font("ZalandoSansExpanded-Bold.ttf",g(24)); ct="SHOP NOW"; tc=0.10*fc.size; cw=tw(d,ct,fc,tc); pill_h=g(64); pill_w=int(cw+g(64))
+    # badges: icon disc + label, two rows
+    bi=g(64); bgap=g(18); fb=font("ZalandoSansExpanded-SemiBold.ttf",g(20)); tb=0.08*fb.size; bpitch=g(84)
+    blabels=(("FREE ONGKIR",),("VOUCHER 5K","NEW BUYER")); bicons=(badges.truck,badges.ticket)
+    bw=bi+bgap+max(tw(d,t,fb,tb) for lab in blabels for t in lab); badges_h=bpitch+bi
     lo_y=y3e+g(72); hi_y=H-int(M*1.6); best=None
     for sz in range(g(120),g(24),-g(2)):
         fh=font("ZalandoSansExpanded-Bold.ttf",sz); trk=0.04*sz; need=max(max(tw(d,t,fh,trk) for t in lines),pill_w)
-        cap=d.textbbox((0,0),"MADE",font=fh); ch=cap[3]-cap[1]; lead=int(ch*1.35); bh=ch+lead*(len(lines)-1)+g(48)+pill_h
-        for top in range(lo_y,hi_y-bh+1,g(8)):                         # highest position first: the stack hangs from the number
+        cap=d.textbbox((0,0),"MADE",font=fh); ch=cap[3]-cap[1]; lead=int(ch*1.35); need=max(need,bw); bh=ch+lead*(len(lines)-1)+g(48)+badges_h+g(40)+pill_h
+        mid=lo_y+(hi_y-lo_y-bh)//2                                     # centred between the number and the floor margin,
+        for top in sorted(range(lo_y,hi_y-bh+1,g(4)),key=lambda t:abs(t-mid)):   # else the nearest position that fits
             if freerow[top:top+bh].min()>=need: best=(fh,trk,ch,lead,top,bh); break
         if best: break
     fh,trk,ch,lead,top,bh=best
     for i,t in enumerate(lines):
         bb=d.textbbox((0,0),t,font=fh); tracked(dfront,(M-bb[0],top+i*lead-bb[1]),t,fh,C,trk)
-    pill_y=top+ch+lead*(len(lines)-1)+g(48); dfront.rounded_rectangle([M,pill_y,M+pill_w,pill_y+pill_h],radius=pill_h//2,fill=C+(255,))
+    yb=top+ch+lead*(len(lines)-1)+g(48)
+    for i,(lab,icon) in enumerate(zip(blabels,bicons)):
+        ic=icon(bi); y0=yb+i*bpitch; front.paste(ic,(M,y0),ic)
+        lh=d.textbbox((0,0),"VOUCHER",font=fb); lhh=lh[3]-lh[1]; lgap=int(lhh*0.6); tot=lhh*len(lab)+lgap*(len(lab)-1); ty=y0+(bi-tot)/2
+        for j,t in enumerate(lab):
+            bb=d.textbbox((0,0),t,font=fb); tracked(dfront,(M+bi+bgap-bb[0],ty+j*(lhh+lgap)-lh[1]),t,fb,C,tb)
+    pill_y=yb+badges_h+g(40); dfront.rounded_rectangle([M,pill_y,M+pill_w,pill_y+pill_h],radius=pill_h//2,fill=C+(255,))
     bc=d.textbbox((0,0),ct,font=fc); tracked(dfront,(M+(pill_w-cw)/2-bc[0],pill_y+(pill_h-(bc[3]-bc[1]))/2-bc[1]),ct,fc,WHITE,tc)
     # layers: wall, 45%, figures, front type
     base=cv.copy(); cv.paste(back,(0,0),back)
     fig=Image.new("RGBA",(W,H),(0,0,0,0)); fig.paste(p,(px,py)); m=Image.new("L",(W,H),0); m.paste(a,(px,py)); cv.paste(fig.convert("RGB"),(0,0),m)
     cv.paste(front,(0,0),front)
     hit=int(((np.asarray(front.split()[3])>40)&binary_dilation(sub,iterations=g(clear))).sum())
-    print(f"{out}: logo {g(logo_y)}-{g(logo_y)+lg.height} | 11.11 {y}-{y1e} ({f1.size}px) | SAVE UP TO {yk}-{yke} | 45% {y3}-{y3e} ({f3.size}px, {w3:.0f} wide, {covered:.0%} covered by figures) | head {head} | stack {top}-{pill_y+pill_h} ({fh.size}px) | front type within {clear}px: {hit}")
+    print(f"{out}: logo {g(logo_y)}-{g(logo_y)+lg.height} | 11.11 {y}-{y1e} ({f1.size}px) | SAVE UP TO {yk}-{yke} | 45% {y3}-{y3e} ({f3.size}px, {w3:.0f} wide, {covered:.0%} covered by figures) | head {head} | stack {top}-{pill_y+pill_h} ({fh.size}px, badges {yb}-{yb+badges_h}) | front type within {clear}px: {hit}")
     cv.save(out,quality=92,optimize=True,progressive=True); return cv
 if __name__=="__main__":
     a=sys.argv; (build2 if "--v2" in a else build)(a[1],a[2],a[3],k=int(a[4]) if len(a)>4 and a[4]!="--v2" else 1)

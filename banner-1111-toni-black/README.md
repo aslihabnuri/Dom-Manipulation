@@ -24,3 +24,7 @@ Final layout is `build2` (`compose_1111.py PHOTO CUTOUT OUT [k] --v2`), the Him 
 - `MADE / TO MOVE. / TOGETHER.` stacked on the left wall, Zalando Bold, the largest size whose stack and the `SHOP NOW` pill fit the free wall with 40 px clearance (46 px at 1080), hung 72 px or more below the number.
 - `45%` is now the dominant element and `11.11` second: two numbers at full size would compete.
 The first layout (`build`, offer block small on the left) is kept in the script.
+
+## Revision: free ongkir and new-buyer voucher badges
+- `FREE ONGKIR` and `VOUCHER 5K` / `NEW BUYER` as two badges in the guideline icon style (white line icon on a charcoal disc, `scripts/badges.py`: truck, ticket with notches and tear line), 64 px discs, Zalando SemiBold 20 tracked, 84 px pitch. The Drive file `Banner_BAU Voucher` uses text only, so there was no brand badge to reuse.
+- Order in the left column: headline stack, badges, `SHOP NOW` (offer details before the action). The column is centred between the number and the floor where it fits; lower down the boy's legs narrow the free wall, so it sits beside his torso.
