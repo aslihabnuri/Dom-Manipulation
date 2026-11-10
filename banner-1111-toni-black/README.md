@@ -47,3 +47,6 @@ Photo at 74% width (figures slightly smaller than before) so the header, offer a
 - **One left axis.** Header line (`MADE TO MOVE. TOGETHER.`, Zalando Black, cap 30), 11.11, `SAVE UP TO`, `45%`, badges and `SHOP NOW` all start at the 65 px margin; only the logo is centred, alone.
 - **45%** is the largest size that is at most 75% of the hero's height and keeps 40 px clear of the figures (206 px, 602 wide at 1080).
 - Tried and rejected: a giant Clean White 11.11 behind the figures (`--v5`): the figures hid most of it and the default 1s read as crosses.
+
+### Balance: 45% leads, 11.11 second
+The full-measure 11.11 drowned the offer. Now `11.11` is set to 70% of the measure (cap 142 px at 1080) and `45%` is the largest size that keeps 40 px clear of the figures (cap 220 px, 870 wide): the offer leads, the date still reads at a glance. Order on the left axis: header line, 11.11, SAVE UP TO, 45%, badges, SHOP NOW.

@@ -264,7 +264,7 @@ def build4(photo,cutout,out,k=1,W=1080,H=1620,M=65,photo_w=0.72,logo_w=300,logo_
     print(f"giant 11.11 {giant_top}-{g(giant_bottom)}" if giant else "")
     print(f"{out}: logo {g(logo_y)}-{g(logo_y)+lg.height} | header {y}-{yhe} (cap {c}, lead {lead}) | SAVE UP TO {yk} | 45% {y3}-{y3e} ({bw_:.2f} W) | head {head} gap {head-y3e} | left {top}-{pill_y+pill_h} | type within {clear}px: {hit}")
     cv.save(out,quality=92,optimize=True,progressive=True); return cv
-def build6(photo,cutout,out,k=1,W=1080,H=1620,M=65,photo_w=0.72,logo_w=300,logo_y=56,head_cap=30,hero_w=0.90,badge=68,clear=40):
+def build6(photo,cutout,out,k=1,W=1080,H=1620,M=65,photo_w=0.72,logo_w=300,logo_y=56,head_cap=30,hero_w=0.70,badge=68,clear=40):
     """11.11-led layout. Logo alone, centred. Everything else on one left axis (the margin):
     header line, 11.11 as the hero across the measure, then SAVE UP TO / 45% as large as the free wall allows,
     then badges and SHOP NOW beside the figures. Zalando for display, Arimo for the badge labels."""
@@ -292,7 +292,8 @@ def build6(photo,cutout,out,k=1,W=1080,H=1620,M=65,photo_w=0.72,logo_w=300,logo_
     def ink_w(f):
         im=Image.new("L",(int(f.size*6),int(f.size*2)),0); tracked(ImageDraw.Draw(im),(f.size,0),"11.11",f,255,-0.08*f.size,feat=TNUM)
         c=np.where((np.asarray(im)>128).any(0))[0]; return c.max()-c.min()+1
-    fx=fit(d,"11.11",BLK,int(W-2*M),-0.08,feat=TNUM); fx=fit(d,"11.11",BLK,int((W-2*M)*(W-2*M)/ink_w(fx)),-0.08,feat=TNUM)   # ink, not advance, spans the measure
+    tgt=int((W-2*M)*hero_w)                                              # 11.11 ink width: hero_w of the measure, so 45% can lead
+    fx=fit(d,"11.11",BLK,tgt,-0.08,feat=TNUM); fx=fit(d,"11.11",BLK,int(tgt*tgt/ink_w(fx)),-0.08,feat=TNUM)
     bx=d.textbbox((0,0),"11.11",font=fx,features=TNUM); hx=bx[3]-bx[1]
     probe=Image.new("L",(fx.size*2,fx.size*2),0); ImageDraw.Draw(probe).text((0,0),"1",font=fx,fill=255,features=TNUM)
     lx=int(np.where((np.asarray(probe)>128).any(0))[0].min())          # measured ink edge: textbbox reports 0 for the tabular 1
@@ -301,7 +302,7 @@ def build6(photo,cutout,out,k=1,W=1080,H=1620,M=65,photo_w=0.72,logo_w=300,logo_
     fk=at_cap(BLD,g(22)); yk=yxe+g(72); put("SAVE UP TO",fk,M,yk,0.16*fk.size); y3=yk+g(22)+g(22)
     for sz in range(g(400),g(60),-g(2)):
         f3=font(BLK,sz); b3=d.textbbox((0,0),"45%",font=f3); w3=tw(d,"45%",f3,-0.02*sz); h3=b3[3]-b3[1]
-        if h3<=0.75*hx and freerow[y3:y3+h3+g(clear)].min()>=w3: break        # second to the hero, clear of the figures below
+        if w3<=W-2*M and freerow[y3:y3+h3+g(clear)].min()>=w3: break         # the largest 45% that keeps clear of the figures
     tracked(d,(M-b3[0],y3-b3[1]),"45%",f3,C,-0.02*f3.size); y3e=y3+h3
     # detail: badges + CTA
     bi=g(badge); bgap=g(20); fb=at_cap("Arimo-Bold.ttf",g(17)); tb=0.08*fb.size; bpitch=bi+g(28)
@@ -319,7 +320,7 @@ def build6(photo,cutout,out,k=1,W=1080,H=1620,M=65,photo_w=0.72,logo_w=300,logo_
     bc=d.textbbox((0,0),ct,font=fc); ti=d.textbbox((0,0),"H",font=fc)[1]; tracked(d,(M+(pill_w-cw)/2-bc[0],pill_y+(pill_h-g(18))/2-ti),ct,fc,WHITE,tc)
     base=plate(W,H,p,px,py); txt=np.abs(np.asarray(cv.convert("L")).astype(int)-np.asarray(base.convert("L")).astype(int))>40
     hit=int((txt&binary_dilation(sub,iterations=g(clear))).sum())
-    print(f"{out}: logo | header {y}-{yhe} | 11.11 {yx}-{yxe} ({fx.size}px) | SAVE UP TO {yk} | 45% {y3}-{y3e} ({f3.size}px, {w3:.0f} wide) | head {head} | detail {top}-{pill_y+pill_h} | type within {clear}px: {hit}")
+    print(f"{out}: logo | header {y}-{yhe} | 11.11 {yx}-{yxe} (cap {hx}px) | SAVE UP TO {yk} | 45% {y3}-{y3e} (cap {h3}px, {w3:.0f} wide) | head {head} | detail {top}-{pill_y+pill_h} | type within {clear}px: {hit}")
     cv.save(out,quality=92,optimize=True,progressive=True); return cv
 if __name__=="__main__":
     a=sys.argv
