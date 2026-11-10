@@ -24,7 +24,7 @@ def text(cv, x, y, s, fnt, tr=0, fill=INK, align="left"):
 def cap(fnt): b = fnt.getbbox("H"); return (b[3] - b[1]) / K
 
 # ---- backdrop: scene shifted down, gradient-continued on top ----
-sc = Image.open(ROOT + "/d1111/S1111_A.png").convert("RGB")
+sc = Image.open(ROOT + "/d1111/" + L.get("scene", "S1111_A.png")).convert("RGB")
 s = CW / sc.width; sc = sc.resize((CW, round(sc.height * s)), Image.LANCZOS)
 SHIFT = L.get("shift", 45)
 bg = Image.new("RGB", (CW, CH))

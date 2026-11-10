@@ -10,6 +10,13 @@ Copy
 - Angka 45: tinggi blok 237 px = 21,94% lebar (aturan dari himhim7_23), diukur ulang pada piksel hasil render.
   Font DEMO mengunci "4" dan "%", jadi keduanya digambar sebagai vektor (vector_45pct dari banner 10.10).
 
+Revisi: botol diganti cup
+- Minuman memakai cup plastik bening seperti banner NOMUVEMBER (lapisan ube, susu dengan es, matcha, cipratan mahkota
+  ungu-putih). Edit image-to-image dari scene lama dengan crop cup NOMUVEMBER sebagai acuan; pouch dan teks pouch dicek
+  ulang dan tetap sesuai mockup. Versi botol disimpan di `archive-bottle/`.
+- Scene digeser turun 95 px dan UBELIEVABLE diperkecil (90 -> 84) supaya bibir cup tidak menyentuh teks.
+  Angka 45 tetap 237 px (21,94%). Kredit tambahan: 10 (sisa saldo 65,69).
+
 Visual
 - Gaya Referensi "Premium Apple Juice Label Design _ Liva Packaging": produk menembus garis air, objek di bawah air
   dipenuhi gelembung kecil, latar terang lembut. Padanan Nomukita: latar krem-lavender, umbi ube utuh dan terbelah,
