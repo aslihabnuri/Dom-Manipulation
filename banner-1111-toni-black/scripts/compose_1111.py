@@ -10,9 +10,9 @@ import grade as G
 F="fonts/static/"; C=(40,40,40); WHITE=(255,255,255)
 def font(n,s): return ImageFont.truetype(F+n,int(s))
 def tw(d,t,f,trk=0): return sum(d.textlength(ch,font=f) for ch in t)+trk*(len(t)-1)
-def tracked(d,xy,t,f,fill,trk=0):
+def tracked(d,xy,t,f,fill,trk=0,stroke=0):
     x,y=xy
-    for ch in t: d.text((x,y),ch,font=f,fill=fill); x+=d.textlength(ch,font=f)+trk
+    for ch in t: d.text((x,y),ch,font=f,fill=fill,stroke_width=stroke,stroke_fill=fill); x+=d.textlength(ch,font=f)+trk+2*stroke
 def fit(d,t,name,target,trk_em=0.0,lo=8,hi=900):
     while lo<hi:
         m=(lo+hi+1)//2; f=font(name,m)
@@ -135,5 +135,67 @@ def build2(photo,cutout,out,k=1,W=1080,H=1620,M=65,photo_w=0.80,logo_w=320,logo_
     hit=int(((np.asarray(front.split()[3])>40)&binary_dilation(sub,iterations=g(clear))).sum())
     print(f"{out}: logo {g(logo_y)}-{g(logo_y)+lg.height} | 11.11 {y}-{y1e} ({f1.size}px) | SAVE UP TO {yk}-{yke} | 45% {y3}-{y3e} ({f3.size}px, {w3:.0f} wide, {covered:.0%} covered by figures) | head {head} | stack {top}-{pill_y+pill_h} ({fh.size}px, badges {yb}-{yb+badges_h}) | front type within {clear}px: {hit}")
     cv.save(out,quality=92,optimize=True,progressive=True); return cv
+def build3(photo,cutout,out,k=1,W=1080,H=1620,M=65,photo_w=0.74,logo_w=300,logo_y=56,cap=52,big_w=0.82,badge=72,clear=40,num_gap=40):
+    """Header-led layout. Three tiers, three sizes of type:
+    1 header  11.11 / MADE TO MOVE. / TOGETHER.  one cap height, centred, leading 1.45 cap
+    2 offer   SAVE UP TO (small, tracked) tight on 45% (80% of the width), behind the heads
+    3 detail  FREE ONGKIR, VOUCHER 5K / NEW BUYER badges and SHOP NOW, left wall, one left axis
+    Gaps between tiers are at least twice the leading inside a tier."""
+    W,H,M=W*k,H*k,M*k; g=lambda v:int(round(v*k))
+    src=graded(photo); pw=int(W*photo_w); s=pw/src.width; ph=int(src.height*s+0.5); p=src.resize((pw,ph),Image.LANCZOS)
+    a=Image.open(cutout).split()[3].resize((pw,ph),Image.LANCZOS); am=np.asarray(a)>128
+    xs=np.where(am.any(0))[0]; px=int(W-M-xs.max()); py=H-ph
+    cv=plate(W,H,p,px,py); sub=np.zeros((H,W),bool); ys0,xs0=np.where(am); yy=ys0+py; xx=xs0+px; ok=(xx>=0)&(xx<W)&(yy>=0); sub[yy[ok],xx[ok]]=True
+    head=np.where(sub.any(1))[0].min(); d=ImageDraw.Draw(cv)
+    front=Image.new("RGBA",(W,H),(0,0,0,0)); dfront=ImageDraw.Draw(front); back=Image.new("RGBA",(W,H),(0,0,0,0)); dback=ImageDraw.Draw(back)
+    lg=make_logo(C,8*k); lw=g(logo_w); lg=lg.resize((lw,int(lg.height*lw/lg.width)),Image.LANCZOS); front.paste(lg,((W-lw)//2,g(logo_y)),lg)
+    # tier 1: header, every line at the same cap height
+    def at_cap(name,txt,c):
+        lo,hi=8,600
+        while lo<hi:
+            m=(lo+hi+1)//2; b=d.textbbox((0,0),"H" if "Zalando" in name else "1",font=font(name,m))
+            if b[3]-b[1]<=c: lo=m
+            else: hi=m-1
+        return font(name,lo)
+    c=g(cap); lead=int(c*1.45); y=g(logo_y)+lg.height+g(64)
+    head_lines=(("11.11","Arimo-Bold.ttf",-0.01),("MADE TO MOVE.","ZalandoSansExpanded-Black.ttf",0.02),("TOGETHER.","ZalandoSansExpanded-Black.ttf",0.02))
+    # Arimo Bold's stem is about 0.21 cap, Zalando Black's about 0.31 cap: thicken 11.11 by a stroke so the three lines share one weight,
+    # and set it smaller by twice the stroke so the cap height stays equal
+    st=max(1,int(round(0.05*c)))
+    for i,(t,n,tr) in enumerate(head_lines):
+        sw=st if "Arimo" in n else 0; f=at_cap(n,t,c-2*sw); trk=tr*f.size; w=tw(d,t,f,trk)+2*sw*len(t); b=d.textbbox((0,0),t,font=f)
+        top_ink=d.textbbox((0,0),"H" if "Zalando" in n else "1",font=f)[1]
+        tracked(dfront,((W-w)/2-b[0]+sw,y+i*lead-top_ink+sw),t,f,C,trk,sw)
+    y1e=y+2*lead+c
+    # tier 2: offer
+    fk=font("ZalandoSansExpanded-Bold.ttf",g(30)); kt="SAVE UP TO"; tk=0.14*fk.size; kw=tw(d,kt,fk,tk); bk=d.textbbox((0,0),kt,font=fk)
+    yk=y1e+g(64); tracked(dfront,((W-kw)/2-bk[0],yk-bk[1]),kt,fk,C,tk); yke=yk+bk[3]-bk[1]
+    bw_=big_w
+    while True:                                                         # widest 45% that keeps num_gap clear above the heads
+        f3=fit(d,"45%","ZalandoSansExpanded-Black.ttf",int(W*bw_),-0.02); b3=d.textbbox((0,0),"45%",font=f3); t3=-0.02*f3.size; w3=tw(d,"45%",f3,t3)
+        y3=yke+g(20); y3e=y3+b3[3]-b3[1]
+        if head-y3e>=g(num_gap) or bw_<=0.66: break
+        bw_-=0.01
+    tracked(dback,((W-w3)/2-b3[0],y3-b3[1]),"45%",f3,C,t3); y3e=y3+b3[3]-b3[1]
+    num=np.asarray(back.split()[3])>128; covered=(num&sub).sum()/max(num.sum(),1)
+    # tier 3: badges + CTA on the left wall, one left axis, centred in the band between the number and the floor where it fits
+    first=np.where(sub.any(1),sub.argmax(1),W); freerow=first-g(clear)-M
+    bi=g(badge); bgap=g(20); fb=font("ZalandoSansExpanded-SemiBold.ttf",g(22)); tb=0.08*fb.size; bpitch=bi+g(24)
+    blabels=(("FREE ONGKIR",),("VOUCHER 5K","NEW BUYER")); bicons=(badges.truck,badges.ticket)
+    fc=font("ZalandoSansExpanded-Bold.ttf",g(24)); ct="SHOP NOW"; tc=0.10*fc.size; cw=tw(d,ct,fc,tc); pill_h=g(68); pill_w=int(cw+g(72))
+    need=max(bi+bgap+max(tw(d,t,fb,tb) for lab in blabels for t in lab),pill_w); bh=bpitch+bi+g(48)+pill_h
+    lo_y=y3e+g(80); hi_y=H-int(M*1.6); mid=lo_y+(hi_y-lo_y-bh)//2
+    top=next(t for t in sorted(range(lo_y,hi_y-bh+1,g(4)),key=lambda t:abs(t-mid)) if freerow[t:t+bh].min()>=need)
+    lh=d.textbbox((0,0),"VOUCHER",font=fb); lhh=lh[3]-lh[1]; lgap=int(lhh*0.6)
+    for i,(lab,icon) in enumerate(zip(blabels,bicons)):
+        ic=icon(bi); y0=top+i*bpitch; front.paste(ic,(M,y0),ic); tot=lhh*len(lab)+lgap*(len(lab)-1); ty=y0+(bi-tot)/2
+        for j,t in enumerate(lab):
+            bb=d.textbbox((0,0),t,font=fb); tracked(dfront,(M+bi+bgap-bb[0],ty+j*(lhh+lgap)-lh[1]),t,fb,C,tb)
+    pill_y=top+bpitch+bi+g(48); dfront.rounded_rectangle([M,pill_y,M+pill_w,pill_y+pill_h],radius=pill_h//2,fill=C+(255,))
+    bc=d.textbbox((0,0),ct,font=fc); tracked(dfront,(M+(pill_w-cw)/2-bc[0],pill_y+(pill_h-(bc[3]-bc[1]))/2-bc[1]),ct,fc,WHITE,tc)
+    cv.paste(back,(0,0),back); fig=Image.new("RGB",(W,H)); fig.paste(p,(px,py)); m=Image.new("L",(W,H),0); m.paste(a,(px,py)); cv.paste(fig,(0,0),m); cv.paste(front,(0,0),front)
+    hit=int(((np.asarray(front.split()[3])>40)&binary_dilation(sub,iterations=g(clear))).sum())
+    print(f"{out}: logo {g(logo_y)}-{g(logo_y)+lg.height} | header {y}-{y1e} (cap {c}, lead {lead}) | SAVE UP TO {yk}-{yke} | 45% {y3}-{y3e} ({f3.size}px, {w3:.0f} wide = {bw_:.2f} W) | head {head} gap {head-y3e} | detail {top}-{pill_y+pill_h} | front type within {clear}px: {hit}")
+    cv.save(out,quality=92,optimize=True,progressive=True); return cv
 if __name__=="__main__":
-    a=sys.argv; (build2 if "--v2" in a else build)(a[1],a[2],a[3],k=int(a[4]) if len(a)>4 and a[4]!="--v2" else 1)
+    a=sys.argv; (build3 if "--v3" in a else build2 if "--v2" in a else build)(a[1],a[2],a[3],k=int(a[4]) if len(a)>4 and not a[4].startswith("--") else 1)

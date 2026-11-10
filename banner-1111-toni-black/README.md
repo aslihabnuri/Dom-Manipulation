@@ -28,3 +28,10 @@ The first layout (`build`, offer block small on the left) is kept in the script.
 ## Revision: free ongkir and new-buyer voucher badges
 - `FREE ONGKIR` and `VOUCHER 5K` / `NEW BUYER` as two badges in the guideline icon style (white line icon on a charcoal disc, `scripts/badges.py`: truck, ticket with notches and tear line), 64 px discs, Zalando SemiBold 20 tracked, 84 px pitch. The Drive file `Banner_BAU Voucher` uses text only, so there was no brand badge to reuse.
 - Order in the left column: headline stack, badges, `SHOP NOW` (offer details before the action). The column is centred between the number and the floor where it fits; lower down the boy's legs narrow the free wall, so it sits beside his torso.
+
+## Revision: MADE TO MOVE. TOGETHER. as the header (`build3`, `--v3`, final)
+Three tiers, each with one job and one type size, separated by gaps at least twice the leading inside a tier:
+1. **Header**, centred under the logo: `11.11` / `MADE TO MOVE.` / `TOGETHER.`, all three lines at one cap height (52 px at 1080), leading 1.45 cap. `MADE TO MOVE.` and `TOGETHER.` in Zalando Black, tracked +2%. `11.11` stays in Arimo Bold (Zalando's 1 reads as a t) and is thickened with a stroke of 0.05 cap, set smaller by twice the stroke, because Arimo Bold's stem is about 0.21 cap against Zalando Black's 0.31; the three lines now share one weight.
+2. **Offer**: `SAVE UP TO` (Zalando Bold 30, tracked 14%) 20 px over `45%` (Zalando Black, as wide as it can be while keeping 40 px clear of the heads: 0.81 W at this framing).
+3. **Detail**: the two badges (72 px discs, labels Zalando SemiBold 22) and `SHOP NOW` (68 px pill), on the left margin, centred between the number and the floor where the free wall allows.
+Photo at 74% width (figures slightly smaller than before) so the header, offer and figures each have their own band.
