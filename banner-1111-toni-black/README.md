@@ -57,3 +57,9 @@ The top half was a wall of three Black-weight blocks (header, 11.11, 45%), and t
 - `11.11` Zalando Medium with the tabular 1 (`tnum`), cap 92, tracked 4%: a light date mark that still reads at a glance.
 - Gaps: logo to header 64, header to 11.11 72, 11.11 to SAVE UP TO 72, 45% to the figures at least 64 (65 at this framing).
 - `45%` the largest size inside the measure that keeps that gap: cap 225, 888 wide at 1080.
+
+## Typography alternatives (`alternatives/`, `scripts/alternatives_1111.py PHOTO CUTOUT OUTDIR [k]`)
+Same photo, copy, fonts (Zalando display, Arimo labels, tabular 1 for 11.11) and centred logo; three different structures:
+- **A, Simetris**: one centre axis. Header line (Bold, cap 26), 11.11 (Medium, cap 72), SAVE UP TO, 45% (Black, full measure, 79 px clear of the figures). Details on the left wall.
+- **B, Header besar**: one left axis. `MADE TO MOVE.` / `TOGETHER.` as a two-line Black header (cap 50), then 11.11, SAVE UP TO, 45%. Figures at 66% width to make room.
+- **C, Berlapis**: centre axis, 45% at 88% of the width placed so the heads overlap its lower 20% (the Him and Him device); header and 11.11 centred with equal space above and below.
