@@ -18,7 +18,7 @@ Revisi v3: teks besar dan terbaca di aplikasi (scripts/compose_1111_v3.py)
 - Urutan atas ke bawah pada satu sumbu kiri: logo, header, DISC UP TO, 45% (237 px = 21,94%), manfaat, tombol.
 - Agar muat, scene diperkecil ke 80% dan digeser ke kanan bawah; strip kiri bawah diisi AI (outpaint, 10 kredit),
   lalu scene asli ditempel kembali di atasnya sehingga pouch dan tulisannya tidak berubah.
-- Kontras terburuk: UBE ~4,9:1, LIEVABLE 11.11 9,9:1, DISC UP TO 10,3:1, 45% 11,0:1, body 11,5:1, tombol 12,5:1.
+- Kontras terburuk: UBE 5,7:1, LIEVABLE 11.11 9,9:1, DISC UP TO 10,3:1, 45% 11,0:1, body 11,5:1, tombol 12,5:1.
 - Versi sebelumnya di archive-clean-v1/. Sisa saldo kie.ai 55,69.
 
 Revisi: tipografi clean (scripts/compose_1111_clean.py)
