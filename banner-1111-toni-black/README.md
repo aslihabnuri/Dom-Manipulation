@@ -16,3 +16,11 @@
 1. `prompts/prompt_1111.txt` with Nano Banana Pro, 2:3, 2K, three references: the pose reference, the Category banner photo (people, clothes, set), the boxer brief `6a.png`. (`prompt_1111_minimal-contact_not-used.txt` was the first, calmer pose; replaced at the owner's request for the exact reference pose.)
 2. A stray white "YY" mark the generator put on the boy's boxer leg was covered with adjacent fabric (`final/photo_mark-removed.jpg`).
 3. `scripts/compose_1111.py PHOTO CUTOUT OUT [k]`: global BAU grade, photo at 80% width with the father's knee on the right margin and the floor on the bottom edge, wall continued row by row and column by column, type as above. Cutout by rembg u2net.
+
+## Revision: SAVE UP TO 45% as large as on `himhim7_23.jpg`
+Final layout is `build2` (`compose_1111.py PHOTO CUTOUT OUT [k] --v2`), the Him and Him structure:
+- Logo alone at top centre, then `11.11` (Arimo Bold, 46% of the width), then `SAVE UP TO` (Zalando Bold 36, tracked) tight on `45%`.
+- `45%` Zalando Black at 85% of the width (917 px at 1080), drawn on a layer behind the figures so the heads may overlap it; at this framing it clears the boy's hands by 47 px.
+- `MADE / TO MOVE. / TOGETHER.` stacked on the left wall, Zalando Bold, the largest size whose stack and the `SHOP NOW` pill fit the free wall with 40 px clearance (46 px at 1080), hung 72 px or more below the number.
+- `45%` is now the dominant element and `11.11` second: two numbers at full size would compete.
+The first layout (`build`, offer block small on the left) is kept in the script.
