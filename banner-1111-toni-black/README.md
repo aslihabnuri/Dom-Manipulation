@@ -63,3 +63,6 @@ Same photo, copy, fonts (Zalando display, Arimo labels, tabular 1 for 11.11) and
 - **A, Simetris**: one centre axis. Header line (Bold, cap 26), 11.11 (Medium, cap 72), SAVE UP TO, 45% (Black, full measure, 79 px clear of the figures). Details on the left wall.
 - **B, Header besar**: one left axis. `MADE TO MOVE.` / `TOGETHER.` as a two-line Black header (cap 50), then 11.11, SAVE UP TO, 45%. Figures at 66% width to make room.
 - **C, Berlapis**: centre axis, 45% at 88% of the width placed so the heads overlap its lower 20% (the Him and Him device); header and 11.11 centred with equal space above and below.
+
+## Alternative B at 1:1 (`final/TONI-BLACK_11.11-Banner_Alt-B_1080x1080.jpg/.png`, retina 2160x2160)
+`alternatives_1111.py` → `alt_B_square(..., fig_h=0.62)`. Same left axis and order as B (two-line Black header, 11.11 Medium tabular, SAVE UP TO, 45%, badges, SHOP NOW); logo centred alone. The figures are sized by height (62% of the square), right-aligned with the father's knee on the margin, feet 30 px above the bottom edge, never cropped. 56% left the top right empty, 68% pushed the boy's hands against the type. At this size 45% is the largest that keeps 48 px clear of the figures: cap 122 px, 468 wide. 0 type pixels within 40 px of the figures.

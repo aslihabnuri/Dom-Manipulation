@@ -101,3 +101,23 @@ def alt_C(photo,cut,out,k=1,overlap=0.20):
 if __name__=="__main__":
     photo,cut,outdir=sys.argv[1:4]; k=int(sys.argv[4]) if len(sys.argv)>4 else 1
     for n,fn in (("A",alt_A),("B",alt_B),("C",alt_C)): fn(photo,cut,f"{outdir}/alt_{n}.jpg",k)
+
+def alt_B_square(photo,cut,out,k=1,fig_h=0.62,head_cap=44,lead=64,cap11=50,logo_w=280):
+    """Alternative B at 1:1 (1080x1080): same left axis and order; figures sized by height, right-aligned, on the floor."""
+    s=Page.__new__(Page); s.k=k; s.W=s.H=1080*k; s.M=65*k; g=s.g
+    src=graded(photo); a0=Image.open(cut).split()[3]; am0=np.asarray(a0.resize(src.size))>128
+    ys=np.where(am0.any(1))[0]; fh_src=ys.max()-ys.min()                       # figure height in the source
+    sc=fig_h*s.H/fh_src; pw=int(src.width*sc); ph=int(src.height*sc); s.p=src.resize((pw,ph),Image.LANCZOS); s.a=a0.resize((pw,ph),Image.LANCZOS)
+    am=np.asarray(s.a)>128; xs=np.where(am.any(0))[0]; ysb=np.where(am.any(1))[0]
+    s.px=int(s.W-s.M-xs.max()); s.py=int(s.H-g(30)-ysb.max())                  # feet 30 px above the bottom edge
+    s.base=plate(s.W,s.H,s.p,s.px,s.py); s.sub=np.zeros((s.H,s.W),bool); y0,x0=np.where(am); yy=y0+s.py; xx=x0+s.px; ok=(xx>=0)&(xx<s.W)&(yy>=0)&(yy<s.H); s.sub[yy[ok],xx[ok]]=True
+    s.head=np.where(s.sub.any(1))[0].min(); s.first=np.where(s.sub.any(1),s.sub.argmax(1),s.W)
+    s.back=Image.new("RGBA",(s.W,s.H),(0,0,0,0)); s.front=Image.new("RGBA",(s.W,s.H),(0,0,0,0)); s.d=ImageDraw.Draw(s.front); M=s.M
+    y=s.logo(y=48,w=logo_w)+g(56); fh=at_cap(BLK,g(head_cap))
+    s.text("MADE TO MOVE.",fh,0.01*fh.size,M,y); y,_=s.text("TOGETHER.",fh,0.01*fh.size,M,y+g(lead))
+    f11=at_cap(MED,g(cap11),"1",TNUM); y,_=s.text("11.11",f11,0.04*f11.size,M,y+g(52),feat=TNUM)
+    y,_=s.text("SAVE UP TO",at_cap(BLD,g(20)),0.16*g(20)*1.4,M,y+g(48))
+    f3,h3,w3=biggest_45(s,y+g(20),"l",s.W-2*M,g(48),x=M); y3e,_=s.text("45%",f3,-0.02*f3.size,M,y+g(20))
+    try: s.details(y3e+g(48),badge=60); ok_d=True
+    except StopIteration: ok_d=False
+    cv,hit=s.save(out); print(out,f"fig_h {fig_h} head {s.head} | 45% cap {h3} w {w3} ends {y3e} | details {'ok' if ok_d else 'NO ROOM'} | hit {hit}")
