@@ -10,6 +10,13 @@ Copy
 - Angka 45: tinggi blok 237 px = 21,94% lebar (aturan dari himhim7_23), diukur ulang pada piksel hasil render.
   Font DEMO mengunci "4" dan "%", jadi keduanya digambar sebagai vektor (vector_45pct dari banner 10.10).
 
+Versi 1:1: `ubelievable-1111-ube-matcha-latte-1080x1080.jpg` (1080 x 1080 px, JPG 0,43 MB, scripts/compose_1111_sq.py)
+- Ukuran teks dan sumbu kiri sama dengan versi 2:3, jadi aturan keterbacaan aplikasi tetap berlaku.
+- Scene diperkecil ke 72% dan ditaruh di kanan; strip kiri diisi AI (10 kredit), scene asli ditempel kembali.
+- Gratis ongkir dan Voucher 15rb dijadikan satu baris dengan titik vektor agar tombol tetap di atas garis air.
+- Angka 45: 237 px (21,94%). Kontras terburuk: UBE 4,8:1, LIEVABLE 11.11 10,0:1, DISC UP TO 10,0:1, 45% 10,6:1,
+  manfaat 11,1:1, tombol 11,7:1. Sisa saldo kie.ai 45,69.
+
 Revisi v3: teks besar dan terbaca di aplikasi (scripts/compose_1111_v3.py)
 - Patokan: banner 1080 px tampil sekitar 360-400 pt di Shopee/TikTok (kira-kira 1/3). Teks terkecil dibuat >= 38 px
   (setara sekitar 12 pt di layar). Tinggi huruf kapital: header 75 px, DISC UP TO 30 px, body 28 px, tombol 25 px.
