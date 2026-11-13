@@ -63,7 +63,7 @@ DRINKS = {
     # Revisi: pelanggan mengganti minuman Taro dengan taro strawberry latte.
     # Wadah di acuannya gelas plastik, jadi gelasnya ikut diganti (SWAP_GLASS,
     # GLASS_STYLE). Gelas versi pertama disimpan sebagai generated/glass-taro-v1.png.
-    "taro": ("TaroStrawberry_drink.jpeg", None),
+    "taro": ("TaroStrawberry_drink_white.png", None),
     # Ube: foto minuman dari pelanggan, gelas tabung lurus berisi lapisan ungu
     # dan putih dengan pusaran krim di atasnya, tanpa straw. Dipentaskan ulang
     # apa adanya.
@@ -121,11 +121,15 @@ PROPS = {
 # Produk yang gelasnya TIDAK diwarisi dari acuannya, dengan minuman yang harus
 # dituangkan ke gelas penggantinya.
 SWAP_GLASS = {
-    "taro": "an iced taro strawberry latte in two soft layers: a pink strawberry milk "
-            "layer on top blending into a lavender purple taro milk layer below, with fine "
-            "purple specks through it, clear ice cubes in the drink, and two fresh "
-            "strawberries - one whole with its green leaves and one cut in half - resting on "
-            "the ice at the top. No straw",
+    # Versi kedua. Versi pertama gagal audit: potongan stroberi di dalam minuman
+    # tercetak sebagai noda merah gelap, jadi sekarang minumannya mulus tanpa
+    # potongan apa pun di dalamnya.
+    "taro": "an iced taro strawberry latte in two smooth creamy layers: a clear rosy pink "
+            "strawberry milk layer on top blending softly into a lavender purple taro milk "
+            "layer below. The drink is smooth and even inside, with NO fruit pieces, chunks, "
+            "seeds, streaks, smears or dark spots anywhere in it. A few clear ice cubes "
+            "at the surface, and two fresh bright red strawberries - one whole with its "
+            "green leaves and one cut in half - resting on the ice at the top. No straw",
     "puredarkcocoa": "a thick dark chocolate milkshake, deep even cocoa brown, under a piped "
                      "dome of whipped cream with a thin dark chocolate drizzle over the cream "
                      "only. Nothing runs down the outside of the glass and nothing rests on "
@@ -544,7 +548,10 @@ FLUTED_GLASS = (
     "Do NOT copy the cup from the photograph - it is a plastic cup and must be replaced. "
     "Serve the drink in a tall clear FLUTED highball glass instead: colourless glass with "
     "fine evenly spaced vertical ribs running up the outside wall, tapering very slightly "
-    "wider toward the rim, a clean bright smooth rim and a thick flat clear base. NO stem, "
+    "wider toward the rim, and a thick flat clear base. The rim is a complete, smooth, "
+    "even ellipse visible all the way round, and the clear glass wall shows as a crisp "
+    "transparent band with a bright highlight down BOTH sides of the drink, so the outline "
+    "of the glass is straight and clean from rim to base. NO stem, "
     "NO foot, NO handle, nothing tinted, smoked or frosted, and no bright white fill "
     "anywhere in the base. The drink colour must read clearly through the ribs. "
     "Fill it with {desc}. Keep the drink appetising, with real texture."
