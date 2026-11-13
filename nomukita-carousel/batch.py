@@ -60,7 +60,10 @@ DRINKS = {
     "puredarkcocoa": ("PureDarkCocoa_drink.jpg", None),
     "darkcocoa": ("DarkCocoa_drink.webp", None),
     "cappuccino": ("Cappucino_drink.jpg", None),
-    "taro": ("Taro_drink.jpg", None),
+    # Revisi: pelanggan mengganti minuman Taro dengan taro strawberry latte.
+    # Wadah di acuannya gelas plastik, jadi gelasnya ikut diganti (SWAP_GLASS,
+    # GLASS_STYLE). Gelas versi pertama disimpan sebagai generated/glass-taro-v1.png.
+    "taro": ("TaroStrawberry_drink.jpeg", None),
     # Ube: foto minuman dari pelanggan, gelas tabung lurus berisi lapisan ungu
     # dan putih dengan pusaran krim di atasnya, tanpa straw. Dipentaskan ulang
     # apa adanya.
@@ -118,6 +121,11 @@ PROPS = {
 # Produk yang gelasnya TIDAK diwarisi dari acuannya, dengan minuman yang harus
 # dituangkan ke gelas penggantinya.
 SWAP_GLASS = {
+    "taro": "an iced taro strawberry latte in two soft layers: a pink strawberry milk "
+            "layer on top blending into a lavender purple taro milk layer below, with fine "
+            "purple specks through it, clear ice cubes in the drink, and two fresh "
+            "strawberries - one whole with its green leaves and one cut in half - resting on "
+            "the ice at the top. No straw",
     "puredarkcocoa": "a thick dark chocolate milkshake, deep even cocoa brown, under a piped "
                      "dome of whipped cream with a thin dark chocolate drizzle over the cream "
                      "only. Nothing runs down the outside of the glass and nothing rests on "
@@ -457,6 +465,37 @@ def strip_watermark(src, dst, margin=60, light=225, sat=28):
     return dst
 
 
+def level_sweep(src, dst, left=(10, 300), right=(1004, 1020), keep=(330, 700), fade=60):
+    """Ratakan latar studio yang tidak rata menjadi putih bersih.
+
+    Dipakai pada gelas Taro: acuannya berlatar dinding abu-abu dan meja putih,
+    dan model menyalin sambungan itu (garis di y~715, abu-abu 234 di atas, 246
+    di bawah, makin gelap ke kanan). Di slide, latar seperti itu tercetak sebagai
+    kotak samar di belakang gelas, ditambah bayangan meja yang memanjang ke kanan.
+
+    Tiap baris dibagi dengan garis lurus yang ditarik antara rata-rata kolom tepi
+    kiri dan tepi kanan - keduanya selalu latar - jadi latar menjadi 255 dan gelas
+    serta bayangannya tetap relatif terhadap latarnya. Bayangan di luar rentang x
+    `keep` (lebar gelas) dipudarkan ke putih supaya yang tersisa hanya bayangan
+    kontak di bawah dasar gelas.
+    """
+    import numpy as np
+    from PIL import Image
+    a = np.asarray(Image.open(src).convert("RGB"), dtype=np.float32)
+    h, w = a.shape[:2]
+    L = a[:, left[0]:left[1]].mean(1)                # (h, 3)
+    R = a[:, right[0]:right[1]].mean(1)
+    xl, xr = sum(left) / 2, sum(right) / 2
+    t = ((np.arange(w) - xl) / (xr - xl))[None, :, None]
+    bg = L[:, None, :] * (1 - t) + R[:, None, :] * t
+    r = np.clip(a / bg, 0, 1)
+    x = np.arange(w)
+    wgt = np.clip(1 - np.maximum(keep[0] - x, x - keep[1]) / fade, 0, 1)[None, :, None]
+    r = 1 - (1 - r) * np.maximum(wgt, 0)
+    Image.fromarray(np.rint(r * 255).astype(np.uint8)).save(dst)
+    return dst
+
+
 def upload(name):
     b64 = base64.b64encode(open(os.path.join(REF, name), "rb").read()).decode()
     ext = name.lower().rsplit(".", 1)[-1]
@@ -497,6 +536,22 @@ def run(prompt, urls, size, out, tries=2):
     return None
 
 
+# Gelas pengganti per produk; yang tidak terdaftar memakai tumbler lurus NEW_GLASS.
+# Taro diminta "gelas yang lebih estetik": highball bening bergaris vertikal, gaya
+# kafe. Tetap tanpa kaki dan tanpa batang - kaki gelas adalah tempat cacat cocoa
+# dulu muncul (isi putih di lengkungan, kaki keruh, terpotong di slide 300 g).
+FLUTED_GLASS = (
+    "Do NOT copy the cup from the photograph - it is a plastic cup and must be replaced. "
+    "Serve the drink in a tall clear FLUTED highball glass instead: colourless glass with "
+    "fine evenly spaced vertical ribs running up the outside wall, tapering very slightly "
+    "wider toward the rim, a clean bright smooth rim and a thick flat clear base. NO stem, "
+    "NO foot, NO handle, nothing tinted, smoked or frosted, and no bright white fill "
+    "anywhere in the base. The drink colour must read clearly through the ribs. "
+    "Fill it with {desc}. Keep the drink appetising, with real texture."
+)
+GLASS_STYLE = {"taro": FLUTED_GLASS}
+
+
 def main(only=None):
     os.makedirs(OUT, exist_ok=True)
     cache = {}
@@ -516,7 +571,7 @@ def main(only=None):
         if slug in CHECKERED_DRINK:
             flood_white(*CHECKERED_DRINK[slug])
         if slug in SWAP_GLASS:
-            what = NEW_GLASS.format(desc=SWAP_GLASS[slug])
+            what = GLASS_STYLE.get(slug, NEW_GLASS).format(desc=SWAP_GLASS[slug])
         else:
             what = KEEP_GLASS_AND_DRINK if desc is None else KEEP_GLASS_ONLY.format(desc=desc)
         prompt = DRINK_PROMPT.format(what=what, sweep=WHITE_SWEEP,
