@@ -3,8 +3,8 @@
 `final/TONI-BLACK_Made-For-Every-Body_Motion_1080x1080.mp4`: 1:1, 1080x1080, 24 fps, 18 s, H.264 + AAC, about 1.6 MB. Motion-graphic style of the Drive file `Video Referensi.mp4` (product carousel, header wipe, button tapped by a hand cursor), re-set to the Toni Black guideline (monochrome, Zalando Sans Expanded and Arimo, logo `6.png`).
 
 ## Copy on screen (exactly)
-`MADE FOR EVERY BODY` / `SAVE UP TO` / `23%` / per product: name, strike price, sale price / `FREE ONGKIR` / `VOUCHER` `NEW BUYER 5K` / `SHOP NOW`.
-- **23%, not 25%:** the largest discount in the supplied prices is 23.5% (Brief Kids 3pcs, Rp239.000 to Rp182.850); the others are 20.5% to 22.4%. 25% is reached only on Brief Kids with the new-buyer voucher, so the on-screen claim follows the prices shown.
+`MADE FOR EVERY BODY` / `SAVE UP TO` / `25%` / per product: name, strike price, sale price / `FREE ONGKIR` / `VOUCHER` `NEW BUYER 5K` / `SHOP NOW`.
+- **25%** is set as the campaign headline figure at the owner's decision (a promotional line, not computed from the listed prices; the largest listed discount is 23.5%, Brief Kids 3pcs).
 - Prices in Rp format with a dot (marketplace convention).
 
 ## Products (real photos from Drive, shape and colour unchanged)
@@ -24,7 +24,7 @@ Instrumental minimal deep house, about 120.7 BPM (beat 0.497 s, std 0.011 s). Tw
 
 ## Timeline (bar starts from the beat grid: 0, 2.00, 3.99, 5.97, 7.96, 9.96, 11.93, 13.93, 15.93 s)
 - 0 to 2 s: logo fades in, headline wipes in, `SAVE UP TO` and `23%` pop, badge row rises, carousel slides in.
-- 2 to 15.9 s: one product per bar, each arriving on the downbeat (0.42 s slide), name and prices cross-fade, the strike line draws across; `23%` pulses on the drop at 3.99 s; the hand taps `SHOP NOW` at 5.97, 9.96, 13.93 s with a ripple.
+- 2 to 15.9 s: one product per bar, each arriving on the downbeat (0.42 s slide), name and prices cross-fade, the strike line draws across; `25%` pulses on the drop at 3.99 s; the hand taps `SHOP NOW` at 5.97, 9.96, 13.93 s with a ripple.
 - 15.9 to 18 s: the seven products settle into a 4 + 3 grid; a last tap at 16.9 s.
 
 ## Rebuild

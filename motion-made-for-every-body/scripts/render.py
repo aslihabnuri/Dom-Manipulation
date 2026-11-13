@@ -70,7 +70,7 @@ class Scene:
         lg = make_logo(C, 8); lw = 250; s.logo = lg.resize((lw, int(lg.height * lw / lg.width)), Image.LANCZOS)
         s.head, s.hw, s.hh = text_layer("MADE FOR EVERY BODY", at_cap(BLK, 36), 0.02 * 50)
         fk = at_cap(BLD, 18); s.kick, _, _ = text_layer("SAVE UP TO", fk, 0.16 * fk.size)
-        fn = at_cap(BLK, 104); s.num, _, _ = text_layer("23%", fn, -0.02 * fn.size)
+        fn = at_cap(BLK, 104); s.num, _, _ = text_layer("25%", fn, -0.02 * fn.size)
         fp = at_cap(BLD, 20); fs = at_cap(ARI, 21); fr = at_cap(BLD, 36)
         s.names = [text_layer(p[0], fp, 0.10 * fp.size)[0] for p in PRODUCTS]
         s.strikes = [text_layer(rp(p[2]), fs, 0.02 * fs.size, fill=G)[0] for p in PRODUCTS]
