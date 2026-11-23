@@ -1,10 +1,33 @@
 # PAY LATTE, banner payday (Ube & Matcha Latte 250 g, Ube Matcha Latte)
 
-File (versi 4, aktif)
-- `pay-latte-payday-1080x1620.jpg` (2:3, 0,57 MB)
-- `pay-latte-payday-1080x1080.jpg` (1:1, 0,38 MB)
-- Versi sebelumnya: `archive-v3/` (gaya luar angkasa, pouch 1000 g), `archive-v2/`, `archive-v1/`.
+File (versi 5, aktif)
+- `pay-latte-payday-1080x1620.jpg` (2:3, 0,48 MB)
+- `pay-latte-payday-1080x1080.jpg` (1:1, 0,35 MB)
+- Versi sebelumnya: `archive-v4/` (latar pucat, pouch melayang), `archive-v3/`, `archive-v2/`, `archive-v1/`.
 
+Versi 5: revisi
+1. Tipografi lebih lega: PAYDAY SALE dihapus, PAY LATTE satu baris dan lebih kecil (96 / 88), manfaat jadi
+   satu baris (ikon truk + Free ongkir, ikon tiket + Voucher 15rb), tombol lebih kecil. Urutan pada satu garis
+   rata kiri: logo, PAY LATTE, DISC UP TO, 35%, manfaat, SHOP NOW. Ukuran huruf: label/body 34, judul, 35%, tombol 30.
+   Angka 35 tetap 237 px (21,94% lebar) sesuai aturan referensi.
+2. Pouch tidak lagi melayang: foto baru (GPT Image 2) dengan podium batu lilac; kedua pouch berdiri di atas
+   podium dengan bayangan kontak.
+3. PAYDAY SALE dihapus.
+4. Warna ube dan matcha dipekatkan lewat prompt (ube ungu tua #6A2FB0-#8B4FD0, matcha hijau giok #4E9A2E-#6FB43A),
+   latar juga sedikit lebih dalam (lilac di atas, mint di bawah).
+- Pouch: AI menggambar pouch lebih tinggi daripada aslinya, jadi seluruh area pouch AI diganti latar (per baris,
+  campuran warna kiri-kanan) lalu mockup ASLI 250 g ditempel selebar badan pouch AI, alas di garis podium yang sama,
+  ukuran keduanya identik (`scripts/v5/paste250c.py`). Semua cetakan dari file asli.
+- Foto digeser ke kiri (2:3: 90 px, 1:1: 60 px) supaya pita cipratan tidak menyentuh teks.
+
+Pengukuran v5 (`scripts/v5/verify3.py`)
+- Kontras terburuk 8,7:1 sampai 13,2:1; LATTE ungu 5,3:1 (2:3) dan 5,9:1 (1:1).
+- Tidak ada objek foto di bawah teks maupun dalam jarak 20 px.
+
+Kredit kie.ai v5: 60 (3 varian 2:3 + 3 varian 1:1). Saldo key baru 8.436.
+
+---
+Catatan versi 4
 Versi 4: tipografi lebih clean + pouch 250 g
 - Pouch: foto mockup ASLI 250 g (nomukita-ube-250g.png, nomukita-matcha latte japanese.png), sudah tampak depan,
   ditempel apa adanya tanpa digambar ulang AI. Ukuran keduanya sama (2:3: 376 x 314 px; 1:1: 331 x 276 px,
