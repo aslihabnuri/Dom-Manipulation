@@ -1,10 +1,31 @@
 # PAY LATTE, banner payday (Ube & Matcha Latte 1000 g, Ube Matcha Latte)
 
-File (versi 2, aktif)
-- `pay-latte-payday-1080x1620.jpg` (2:3, 0,52 MB)
-- `pay-latte-payday-1080x1080.jpg` (1:1, 0,34 MB)
-- Versi pertama (pouch miring, teks menumpuk di kiri atas, cup kecil) ada di `archive-v1/`.
+File (versi 3, aktif)
+- `pay-latte-payday-1080x1620.jpg` (2:3, 0,56 MB)
+- `pay-latte-payday-1080x1080.jpg` (1:1, 0,38 MB)
+- Versi sebelumnya: `archive-v2/` (tas jaring, pouch depan), `archive-v1/` (tas jaring, pouch miring).
 
+Versi 3: gaya "Referensi Payday_Nomu.jpeg"
+- Langit luar angkasa pastel dengan planet lembut, pita cairan yang melilit keluar dari produk, bahan melayang.
+  Warna diganti ke palet Nomukita: lilac di atas, mint pucat di bawah.
+- Cup Ube Matcha Latte besar di kiri bawah; dari cup keluar pita ube (ungu) dan matcha (hijau) yang saling
+  melilit, dengan irisan ube, es batu, daun teh, dan bubuk matcha melayang di sekitarnya.
+- Dua pouch 1000 g di kanan bawah, menghadap depan, UKURAN SAMA (2:3: 412 x 640 px; 1:1: 398 x 618 px pada foto 2K),
+  rasio = panel depan mockup asli. Cetakan berasal dari mockup Drive yang diluruskan
+  (`../v2/front_*.png`, lihat `scripts/v2/rectify.py`), ditempel di atas pouch AI (`scripts/v3/paste_real.py`).
+- Tipografi satu kolom rata kanan seperti masthead referensi: PAY / LATTE (LATTE ungu), PAYDAY SALE,
+  DISC UP TO, 35%, ikon truk + Free ongkir, ikon tiket + Voucher 15rb, tombol SHOP NOW. Logo kiri atas.
+  Copy sama dengan versi sebelumnya.
+
+Pengukuran v3 (`scripts/v3/verify3.py`)
+- Tinggi angka 35 = 237 px (21,94% lebar) di kedua ukuran.
+- Kontras terburuk 2:3: 9,5:1 sampai 12,6:1, LATTE ungu 6,4:1. 1:1: 10,8:1 sampai 13,2:1, LATTE ungu 6,6:1.
+- Tidak ada objek foto di bawah teks (tombol di 1:1 berada di atas latar gradien, jarak ke pouch sekitar 45 px).
+
+Kredit kie.ai v3: 90 (3 varian 2:3 + 3 varian 1:1 + 3 varian 1:1 ulang). Saldo key baru 8.496.
+
+---
+Catatan versi 2
 Versi 2: apa yang diubah
 - Pouch menghadap DEPAN. Di Drive tidak ada foto 1000 g tampak depan (semua file memakai mockup miring yang sama),
   jadi panel depan mockup asli diluruskan dengan transformasi perspektif (`scripts/v2/rectify.py`): cetakannya tetap
