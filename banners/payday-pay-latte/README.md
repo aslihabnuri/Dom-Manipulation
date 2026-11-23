@@ -1,10 +1,35 @@
-# PAY LATTE, banner payday (Ube & Matcha Latte 1000 g, Ube Matcha Latte)
+# PAY LATTE, banner payday (Ube & Matcha Latte 250 g, Ube Matcha Latte)
 
-File (versi 3, aktif)
-- `pay-latte-payday-1080x1620.jpg` (2:3, 0,56 MB)
+File (versi 4, aktif)
+- `pay-latte-payday-1080x1620.jpg` (2:3, 0,57 MB)
 - `pay-latte-payday-1080x1080.jpg` (1:1, 0,38 MB)
-- Versi sebelumnya: `archive-v2/` (tas jaring, pouch depan), `archive-v1/` (tas jaring, pouch miring).
+- Versi sebelumnya: `archive-v3/` (gaya luar angkasa, pouch 1000 g), `archive-v2/`, `archive-v1/`.
 
+Versi 4: tipografi lebih clean + pouch 250 g
+- Pouch: foto mockup ASLI 250 g (nomukita-ube-250g.png, nomukita-matcha latte japanese.png), sudah tampak depan,
+  ditempel apa adanya tanpa digambar ulang AI. Ukuran keduanya sama (2:3: 376 x 314 px; 1:1: 331 x 276 px,
+  termasuk tali). Bayangan bawaan mockup dibuang, diganti bayangan melayang lembut seperti referensi.
+- Pouch hitam 1000 g dikeluarkan dari foto v3 (`scripts/v4/plate.py`): kotaknya diisi gradasi langit
+  dari sisi yang bersih, bukan AI. Planet di belakang kolom teks juga dihapus agar teks berdiri di latar polos.
+  Foto digeser ke kiri (2:3: 80 px, 1:1: 100 px) supaya pita cipratan tidak menyentuh judul.
+- Tipografi:
+  - SATU garis rata kiri untuk semua teks (2:3: x 462; 1:1: x 456). Versi 3 rata kanan sehingga tepi kiri
+    tiap baris bergerigi.
+  - Tiga kelompok dengan jarak yang sama: [PAYDAY SALE / PAY LATTE] - [DISC UP TO / 35%] - [Free ongkir,
+    Voucher 15rb / SHOP NOW]. Pouch di bawahnya.
+  - Hanya empat ukuran: label kapital 36 (PAYDAY SALE, DISC UP TO, sama persis), judul, angka 35%, body 38.
+  - 2:3 judul dua baris (PAY / LATTE), 1:1 satu baris.
+- Copy sama: PAYDAY SALE, PAY LATTE, DISC UP TO 35%, Free ongkir, Voucher 15rb, SHOP NOW.
+
+Pengukuran v4 (`scripts/v4/verify3.py`)
+- Tinggi angka 35 = 237 px (21,94% lebar) di kedua ukuran.
+- Kontras terburuk 10,2:1 sampai 13,5:1; LATTE ungu 6,6-6,7:1.
+- Tidak ada pita, planet, atau objek di bawah teks (yang terdeteksi di dekat LATTE hanya bintik bintang).
+
+Kredit kie.ai v4: 0 (memakai foto v3).
+
+---
+Catatan versi 3
 Versi 3: gaya "Referensi Payday_Nomu.jpeg"
 - Langit luar angkasa pastel dengan planet lembut, pita cairan yang melilit keluar dari produk, bahan melayang.
   Warna diganti ke palet Nomukita: lilac di atas, mint pucat di bawah.
