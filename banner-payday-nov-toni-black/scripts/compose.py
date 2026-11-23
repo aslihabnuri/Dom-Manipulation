@@ -113,7 +113,7 @@ def build2(photo, cutout, out, k=1, W=1334, H=2000, M=80, clear=56, window_x=0.5
 
 
 def build3(photo, cutout, out, k=1, W=1334, H=2000, M=80, clear=48,
-           worktop=(0.32, 0.555), branch=(0.79, 0.12), pocket=(0.735, 0.335, 0.965, 0.545)):
+           worktop=(0.32, 0.555), branch=(0.79, 0.12), pocket=(0.735, 0.335, 0.965, 0.545), badge=64, badges_top=False):
     """Laundry-room v2 (redesigned room). Masthead: BACK IN THE (lead-in, wide tracking) over BLACK (large, stopping
     before the olive branch). Left wall, which is tall and narrow: SAVE UP TO and a giant 35% set vertically, reading
     bottom to top like a book spine. Badges in the clean wall pocket between the shelf and the worktop on the right."""
@@ -149,11 +149,24 @@ def build3(photo, cutout, out, k=1, W=1334, H=2000, M=80, clear=48,
     rot = blk.rotate(90, expand=True)                                 # reads bottom to top; SAVE UP TO on the outside (left)
     lay.alpha_composite(rot, (M, y))
     # badges in the right pocket
-    bi = g(64); fbg = font(ARB, g(24)); tbg = 0.08 * fbg.size; gap = g(18); pitch = bi + g(22)
+    bi = g(badge); fbg = font(ARB, g(24 * badge / 64)); tbg = 0.08 * fbg.size; gap = g(18 * badge / 64); pitch = bi + g(22 * badge / 64)
     rows = ((badges.truck, ["FREE ONGKIR"]), (badges.ticket, ["VOUCHER", "NEW BUYERS 5K"]))
+    if badges_top:   # one row, right-aligned on the margin, centred on the logo's height: a header line opposite the logo
+        bi = g(56); fbg = font(ARB, g(22)); tbg = 0.08 * fbg.size; gap = g(14); lh = ink("H", fbg)[3]; lg_ = int(lh * 0.55)
+        items = []
+        for icon, labs in rows:
+            w = bi + gap + max(ink(t, fbg, tbg)[2] for t in labs); items.append((icon, labs, w))
+        sep = g(40); total = sum(w for _, _, w in items) + sep * (len(items) - 1); x = W - M - total; yc = ly + lg.height / 2
+        for icon, labs, w in items:
+            ic = icon(bi); lay.paste(ic, (int(x), int(yc - bi / 2)), ic); tot = lh * len(labs) + lg_ * (len(labs) - 1)
+            for j, t in enumerate(labs): draw(d, t, fbg, x + bi + gap, yc - tot / 2 + j * (lh + lg_), tbg)
+            x += w + sep
+        rows = ()
+        bx, by, bw = W - M - total, int(yc - bi / 2), total
     px0, py0, px1, py1 = int(pocket[0] * W), int(pocket[1] * H), int(pocket[2] * W), int(pocket[3] * H)
-    bw = bi + gap + max(ink(t, fbg, tbg)[2] for r in rows for t in r[1]); bgh = pitch + bi
-    bx = max(px0, min(px1 - bw, W - M - bw)); by = py0 + (py1 - py0 - bgh) // 2
+    if rows:
+        bw = bi + gap + max(ink(t, fbg, tbg)[2] for r in rows for t in r[1]); bgh = pitch + bi
+        bx = min(max(px0, px1 - bw), W - M - bw); by = py0 + (py1 - py0 - bgh) // 2     # never past the right margin
     for i, (icon, labs) in enumerate(rows):
         ic = icon(bi); y0 = by + i * pitch; lay.paste(ic, (bx, y0), ic)
         lh = ink("H", fbg)[3]; lg_ = int(lh * 0.55); tot = lh * len(labs) + lg_ * (len(labs) - 1)
@@ -164,5 +177,6 @@ def build3(photo, cutout, out, k=1, W=1334, H=2000, M=80, clear=48,
     cv.convert("RGB").save(out, quality=92, optimize=True, progressive=True); return cv
 
 if __name__ == "__main__":
-    a = sys.argv; fn = build3 if "--v3" in a else build2 if "--v2" in a else build; a = [x for x in a if x not in ("--v2", "--v3")]
-    fn(a[1], a[2], a[3], k=int(a[4]) if len(a) > 4 else 1)
+    a = sys.argv; v4 = "--v4" in a; fn = build3 if ("--v3" in a or v4) else build2 if "--v2" in a else build; a = [x for x in a if x not in ("--v2", "--v3", "--v4")]
+    kw = dict(branch=(0.86, 0.12), badges_top=True) if v4 else {}
+    fn(a[1], a[2], a[3], k=int(a[4]) if len(a) > 4 else 1, **kw)
