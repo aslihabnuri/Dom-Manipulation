@@ -111,6 +111,58 @@ def build2(photo, cutout, out, k=1, W=1334, H=2000, M=80, clear=56, window_x=0.5
     print(f"{out}: logo {ly} | BLACK {bkw}x{bkh} ends {hb} | 35% {nw}x{nh} at {ny} | group {oy}-{by+bgh} (space above {oy-hb}, below {H-M-by-bgh})")
     cv.convert("RGB").save(out, quality=92, optimize=True, progressive=True); return cv
 
+
+def build3(photo, cutout, out, k=1, W=1334, H=2000, M=80, clear=48,
+           worktop=(0.32, 0.555), branch=(0.79, 0.12), pocket=(0.735, 0.335, 0.965, 0.545)):
+    """Laundry-room v2 (redesigned room). Masthead: BACK IN THE (lead-in, wide tracking) over BLACK (large, stopping
+    before the olive branch). Left wall, which is tall and narrow: SAVE UP TO and a giant 35% set vertically, reading
+    bottom to top like a book spine. Badges in the clean wall pocket between the shelf and the worktop on the right."""
+    g = lambda v: int(round(v * k)); W, H, M = W * k, H * k, M * k
+    cv = graded(Image.open(photo)).resize((W, H), Image.LANCZOS).convert("RGBA")
+    sub = np.asarray(Image.open(cutout).split()[3].resize((W, H), Image.LANCZOS)) > 128
+    block = sub.copy(); block[int(worktop[1] * H):, int(worktop[0] * W):] = True        # worktop, machine, basket
+    halo = binary_dilation(block, iterations=g(clear)); first = np.where(halo.any(1), halo.argmax(1), W)
+    room = first - M
+    lay = Image.new("RGBA", (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(lay)
+    lg = make_logo(C, 8 * k); lw = g(260); lg = lg.resize((lw, int(lg.height * lw / lg.width)), Image.LANCZOS); ly = g(56)
+    lay.paste(lg, (M, ly), lg)
+    # masthead
+    fa = font(BLD, g(34)); ta = 0.34 * fa.size; ah = ink("BACK IN THE", fa, ta)[3]; ya = ly + lg.height + g(56)
+    draw(d, "BACK IN THE", fa, M, ya, ta)
+    head = np.where(sub.any(1))[0].min(); yb = ya + ah + g(20); maxw = int(branch[0] * W) - g(clear) - M
+    for sz in range(g(700), g(40), -g(2)):
+        fb_ = font(BLK, sz); tb_ = -0.015 * sz; bw_, bh_ = ink("BLACK", fb_, tb_)[2:]
+        if bw_ <= maxw and yb + bh_ <= min(head - g(clear), int(branch[1] * H) + g(400)): break
+    draw(d, "BLACK", fb_, M, yb, tb_); mast_end = yb + bh_
+    # vertical offer on the left wall: build horizontally, rotate 90 degrees counter-clockwise
+    fk = font(BLD, g(30)); tk = 0.18 * fk.size; kw, kh = ink("SAVE UP TO", fk, tk)[2:]
+    lo = mast_end + g(80); hi = H - M; best = None
+    for sz in range(g(1200), g(80), -g(4)):
+        fn_ = font(BLK, sz); tn = -0.02 * sz; nw, nh = ink("35%", fn_, tn)[2:]
+        thick = kh + g(22) + nh; length = max(nw, kw)              # after rotation: width = thick, height = length
+        if length > hi - lo: continue
+        y = hi - length
+        if room[y:hi].min() >= thick: best = (fn_, tn, nw, nh, thick, length, y); break
+    fn_, tn, nw, nh, thick, length, y = best
+    blk = Image.new("RGBA", (length, thick), (0, 0, 0, 0)); bd = ImageDraw.Draw(blk)
+    draw(bd, "SAVE UP TO", fk, 0, 0, tk); draw(bd, "35%", fn_, 0, kh + g(22), tn)
+    rot = blk.rotate(90, expand=True)                                 # reads bottom to top; SAVE UP TO on the outside (left)
+    lay.alpha_composite(rot, (M, y))
+    # badges in the right pocket
+    bi = g(64); fbg = font(ARB, g(24)); tbg = 0.08 * fbg.size; gap = g(18); pitch = bi + g(22)
+    rows = ((badges.truck, ["FREE ONGKIR"]), (badges.ticket, ["VOUCHER", "NEW BUYERS 5K"]))
+    px0, py0, px1, py1 = int(pocket[0] * W), int(pocket[1] * H), int(pocket[2] * W), int(pocket[3] * H)
+    bw = bi + gap + max(ink(t, fbg, tbg)[2] for r in rows for t in r[1]); bgh = pitch + bi
+    bx = max(px0, min(px1 - bw, W - M - bw)); by = py0 + (py1 - py0 - bgh) // 2
+    for i, (icon, labs) in enumerate(rows):
+        ic = icon(bi); y0 = by + i * pitch; lay.paste(ic, (bx, y0), ic)
+        lh = ink("H", fbg)[3]; lg_ = int(lh * 0.55); tot = lh * len(labs) + lg_ * (len(labs) - 1)
+        for j, t in enumerate(labs): draw(d, t, fbg, bx + bi + gap, y0 + (bi - tot) / 2 + j * (lh + lg_), tbg)
+    hit = int(((np.asarray(lay.split()[3]) > 40) & binary_dilation(sub, iterations=g(32))).sum())
+    cv.alpha_composite(lay)
+    print(f"{out}: BLACK {bw_}x{bh_} ends {mast_end} (head {head}) | 35% vertical, cap {nh}, length {length}, block {thick}px wide at y {y}-{y+length} | badges {bx},{by} w {bw} | type within 32px of the man: {hit}")
+    cv.convert("RGB").save(out, quality=92, optimize=True, progressive=True); return cv
+
 if __name__ == "__main__":
-    a = sys.argv; fn = build2 if "--v2" in a else build; a = [x for x in a if x != "--v2"]
+    a = sys.argv; fn = build3 if "--v3" in a else build2 if "--v2" in a else build; a = [x for x in a if x not in ("--v2", "--v3")]
     fn(a[1], a[2], a[3], k=int(a[4]) if len(a) > 4 else 1)

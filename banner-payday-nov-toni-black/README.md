@@ -14,3 +14,11 @@ One left axis on the wall, 80 px margin; nothing crosses the window frame, the w
 - Logo `6.png` charcoal, top-left on the axis.
 - Headline as lead-in plus key word: `BACK IN THE` (Zalando Bold 46, tracked) over `BLACK` (Zalando Black, as wide as the wall left of the window allows), so the stress falls on the brand word.
 - Offer group: `SAVE UP TO` (Zalando Bold 32, tracked) / `35%` (Zalando Black) / the two badges (guideline icon style, Arimo Bold labels), placed as one group in the lower band, level with the top of the washing machine; the 35% is the largest that fits there.
+
+## Revision: a better laundry room, livelier typography (, final)
+- **Room** (): one edit pass on the recreated photo, which keeps the man, his pose, the clothes and the film look and changes only the room: warm off-white limewash plaster, a pale oak worktop over the white front-loader, a floating oak shelf with folded white towels, amber bottles and an olive branch, a woven linen basket, stone floor, soft window-pane sunlight on the walls. 18 credits; this banner has now used six generations (108 credits).
+- **Typography** (), built from scale contrast and the room's own shapes:
+  - Masthead:  (Zalando Bold, wide 34% tracking) over  (Zalando Black, cap 156 px, 922 px wide), ending before the olive branch and clear of the head.
+  - The left wall is tall and narrow, so  /  are set vertically, reading bottom to top like a book spine: the number reaches cap 241 px (about twice the horizontal setting the wall allowed), bottom-aligned on the margin.
+  - Badges in the clean, sunlit wall pocket between the shelf and the worktop.
+  - Logo  top-left on the same axis as the masthead. No type within 32 px of the man.
