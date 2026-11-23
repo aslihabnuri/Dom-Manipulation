@@ -1,10 +1,30 @@
 # PAY LATTE, banner payday (Ube & Matcha Latte 250 g, Ube Matcha Latte)
 
-File (versi 5, aktif)
-- `pay-latte-payday-1080x1620.jpg` (2:3, 0,48 MB)
-- `pay-latte-payday-1080x1080.jpg` (1:1, 0,35 MB)
-- Versi sebelumnya: `archive-v4/` (latar pucat, pouch melayang), `archive-v3/`, `archive-v2/`, `archive-v1/`.
+File (versi 6, aktif)
+- `pay-latte-payday-1080x1620.jpg` (2:3, 0,65 MB)
+- `pay-latte-payday-1080x1080.jpg` (1:1, 0,44 MB)
+- Versi sebelumnya: `archive-v5/` (latar lilac-mint), `archive-v4/`, `archive-v3/`, `archive-v2/`, `archive-v1/`.
 
+Versi 6: latar sama dengan "Referensi Payday_Nomu.jpeg"
+- Latar dibuat ulang dari referensi (GPT Image 2, `source/prompt_v6_background.txt`): langit luar angkasa hijau sage
+  berkabut dengan cahaya terang di tengah, bintang halus, bulan abu-abu berkawah di kiri, planet mint besar di kanan
+  bawah, planet kecil di kiri bawah. Semua objek referensi (buah, karakter, cup, teks, logo) dihapus.
+- Objek depan versi 5 (cup, pita ube-matcha, irisan ube, es, daun, podium, pouch 250 g asli) dipotong dengan Recraft
+  remove-background lalu ditempel di atas latar baru (`scripts/v6/comp.py`); pouch tidak digambar ulang.
+  Sisa planet lilac dari latar lama ikut terpotong dan dihapus.
+- Tipografi clean versi 5 dipakai apa adanya (satu garis rata kiri: logo, PAY LATTE, DISC UP TO, 35%, satu baris
+  manfaat, SHOP NOW). Warna LATTE diganti ungu tua (52,14,108): ungu ube lama hanya 2,7:1 di latar hijau.
+
+Pengukuran v6 (`scripts/v6/verify3.py`)
+- Tinggi angka 35 = 237 px (21,94% lebar).
+- Kontras terburuk (2:3 / 1:1): PAY 4,7 / 4,5; LATTE 3,7 / 3,8; DISC UP TO 5,5 / 5,4; 35% 6,1 / 5,6;
+  Free ongkir 12,1 / 11,0; Voucher 15rb 6,9 / 6,3; tombol 10,2 / 10,3. Lebih rendah dari v5 karena latar hijau
+  lebih gelap, tetapi semua di atas 3:1 untuk teks besar.
+
+Kredit kie.ai v6: 42 (4 latar 2K + 2 remove-background). Saldo key baru 8.340.
+
+---
+Catatan versi 5
 Versi 5: revisi
 1. Tipografi lebih lega: PAYDAY SALE dihapus, PAY LATTE satu baris dan lebih kecil (96 / 88), manfaat jadi
    satu baris (ikon truk + Free ongkir, ikon tiket + Voucher 15rb), tombol lebih kecil. Urutan pada satu garis
