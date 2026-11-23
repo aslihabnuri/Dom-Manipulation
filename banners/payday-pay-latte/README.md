@@ -1,10 +1,28 @@
 # PAY LATTE, banner payday (Ube & Matcha Latte 250 g, Ube Matcha Latte)
 
-File (versi 6, aktif)
-- `pay-latte-payday-1080x1620.jpg` (2:3, 0,65 MB)
-- `pay-latte-payday-1080x1080.jpg` (1:1, 0,44 MB)
-- Versi sebelumnya: `archive-v5/` (latar lilac-mint), `archive-v4/`, `archive-v3/`, `archive-v2/`, `archive-v1/`.
+File (versi 7, aktif)
+- `pay-latte-payday-1080x1620.jpg` (2:3, 0,61 MB)
+- `pay-latte-payday-1080x1080.jpg` (1:1, 0,41 MB)
+- Versi sebelumnya: `archive-v6/` (latar hijau seperti referensi), `archive-v5/`, `archive-v4/`, `archive-v3/`, `archive-v2/`, `archive-v1/`.
 
+Versi 7: latar bergaya referensi, warna bertema Matcha Ube Latte
+- Komposisi latar sama dengan "Referensi Payday_Nomu.jpeg" (langit berkabut dengan cahaya lembut, bintang halus,
+  vignette, bulan di kiri, planet besar di kanan bawah, planet kecil di kiri bawah), tetapi diwarnai ulang:
+  langit gradasi ungu ube (atas) ke krem susu ke hijau matcha (bawah); bulan kiri = planet ungu ube bertekstur
+  seperti daging ubi; planet kanan bawah = planet hijau matcha dengan alur susu seperti latte art; planet kecil
+  = campuran ube-matcha. Prompt: `source/prompt_v7_background_ube_matcha.txt`.
+- Objek depan (cup, pita, irisan ube, es, daun, podium, pouch 250 g asli) sama dengan v5/v6, ditempel utuh.
+- Tipografi clean v5; LATTE kembali ungu ube (78,30,146) karena latar terang di belakang teks.
+
+Pengukuran v7 (`scripts/v7/verify3.py`)
+- Tinggi angka 35 = 237 px (21,94% lebar).
+- Kontras terburuk (2:3 / 1:1): PAY 8,7 / 9,3; LATTE ungu 6,1 / 4,9; DISC UP TO 10,6 / 11,3; 35% 11,9 / 9,1;
+  manfaat 11,8-14,8 / 10,0-14,0; tombol 14,1 / 12,4. Tidak ada objek foto di bawah teks.
+
+Kredit kie.ai v7: 60 (6 latar 2K). Saldo key baru 8.280.
+
+---
+Catatan versi 6
 Versi 6: latar sama dengan "Referensi Payday_Nomu.jpeg"
 - Latar dibuat ulang dari referensi (GPT Image 2, `source/prompt_v6_background.txt`): langit luar angkasa hijau sage
   berkabut dengan cahaya terang di tengah, bintang halus, bulan abu-abu berkawah di kiri, planet mint besar di kanan
