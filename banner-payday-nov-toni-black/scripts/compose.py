@@ -65,5 +65,52 @@ def build(photo, cutout, out, k=1, W=1334, H=2000, M=80, clear=48, wall_y=(490, 
     txt = np.zeros((H, W), bool); txt[by:H - M, M:M + bw2] = True
     print(f"{out}: headline {f.size}px cap {cap} {top}-{head_bot} | 35% {fn.size}px {nw}x{nh} at y {oy} | badges {by}-{H-M} x {M}-{M+bw2} | badge area touches figure: {bool((txt & halo).any())}")
     cv.convert("RGB").save(out, quality=92, optimize=True, progressive=True); return cv
+
+def build2(photo, cutout, out, k=1, W=1334, H=2000, M=80, clear=56, window_x=0.555, window_y=0.28, machine=(0.43, 0.595)):
+    """Recreated layout: one left axis on the clean yellow wall. Logo, BACK IN / THE BLACK, then SAVE UP TO / 35%
+    centred in the free band, then the two badges on the bottom margin. Every block keeps `clear` px from the man
+    and stays left of the window frame."""
+    g = lambda v: int(round(v * k)); W, H, M = W * k, H * k, M * k
+    cv = graded(Image.open(photo)).resize((W, H), Image.LANCZOS); d = ImageDraw.Draw(cv)
+    sub = np.asarray(Image.open(cutout).split()[3].resize((W, H), Image.LANCZOS)) > 128
+    halo = binary_dilation(sub, iterations=g(clear))
+    first = np.where(halo.any(1), halo.argmax(1), W)                       # first blocked column per row
+    win = np.zeros(H, int) + W; win[: int(window_y * H)] = int(window_x * W) - g(40)
+    win[int(machine[1] * H) - g(clear):] = int(machine[0] * W) - g(clear)  # the washing machine is not in the cut-out
+    room = np.minimum(first, win) - M                                       # free width per row on the left axis
+    lg = make_logo(C, 8 * k); lw = g(280); lg = lg.resize((lw, int(lg.height * lw / lg.width)), Image.LANCZOS); ly = g(72)
+    cv.paste(lg, (M, ly), lg)
+    # headline: "BACK IN THE" as the lead-in, "BLACK" (the brand word) as large as the free wall allows
+    top = ly + lg.height + g(72)
+    fa = font(BLD, g(46)); ta = 0.06 * fa.size; aw, ah = ink("BACK IN THE", fa, ta)[2:]
+    yb = top + ah + g(18)
+    for sz in range(g(600), g(40), -g(2)):
+        fbk = font(BLK, sz); tbk = -0.01 * sz; bkw, bkh = ink("BLACK", fbk, tbk)[2:]
+        if room[yb:yb + bkh].min() >= bkw: break
+    draw(d, "BACK IN THE", fa, M, top, ta); draw(d, "BLACK", fbk, M, yb, tbk); hb = yb + bkh
+    # offer group: SAVE UP TO / 35% / badges, centred in the band between the headline and the bottom margin
+    fk = font(BLD, g(32)); tk = 0.16 * fk.size; kw, kh = ink("SAVE UP TO", fk, tk)[2:]
+    bi = g(72); fb = font(ARB, g(26)); tb = 0.08 * fb.size; gap = g(20); pitch = bi + g(24)
+    rows = ((badges.truck, ["FREE ONGKIR"]), (badges.ticket, ["VOUCHER", "NEW BUYERS 5K"]))
+    bw = bi + gap + max(ink(t, fb, tb)[2] for r in rows for t in r[1]); bgh = pitch + bi
+    lo, hi = hb + g(120), H - M; best = None
+    for sz in range(g(500), g(60), -g(2)):
+        fn = font(BLK, sz); tn = -0.02 * sz; nw, nh = ink("35%", fn, tn)[2:]
+        gh = kh + g(22) + nh + g(64) + bgh; mid = lo + (hi - lo - gh) // 2
+        for y in [y for y in range(lo, hi - gh + 1, g(4)) if abs(y - mid) <= g(120)]:   # centred first, then as large as fits
+            ny = y + kh + g(22); by_ = ny + nh + g(64)
+            if room[y:ny + nh].min() >= max(nw, kw) and room[by_:by_ + bgh].min() >= bw: best = (fn, tn, nw, nh, y, ny, by_); break
+        if best: break
+    fn, tn, nw, nh, oy, ny, by = best
+    draw(d, "SAVE UP TO", fk, M, oy, tk); draw(d, "35%", fn, M, ny, tn)
+    for i, (icon, labs) in enumerate(rows):
+        ic = icon(bi); y0 = by + i * pitch; cv.paste(ic, (M, y0), ic)
+        lh = ink("H", fb)[3]; lg_ = int(lh * 0.55); tot = lh * len(labs) + lg_ * (len(labs) - 1)
+        for j, t in enumerate(labs): draw(d, t, fb, M + bi + gap, y0 + (bi - tot) / 2 + j * (lh + lg_), tb)
+    cap = bkh; top = yb
+    print(f"{out}: logo {ly} | BLACK {bkw}x{bkh} ends {hb} | 35% {nw}x{nh} at {ny} | group {oy}-{by+bgh} (space above {oy-hb}, below {H-M-by-bgh})")
+    cv.convert("RGB").save(out, quality=92, optimize=True, progressive=True); return cv
+
 if __name__ == "__main__":
-    a = sys.argv; build(a[1], a[2], a[3], k=int(a[4]) if len(a) > 4 else 1)
+    a = sys.argv; fn = build2 if "--v2" in a else build; a = [x for x in a if x != "--v2"]
+    fn(a[1], a[2], a[3], k=int(a[4]) if len(a) > 4 else 1)
