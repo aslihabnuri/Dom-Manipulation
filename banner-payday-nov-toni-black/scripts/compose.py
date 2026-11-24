@@ -265,9 +265,79 @@ def build6(photo, cutout, out, k=1, W=1334, H=2000, M=80, clear=48, jumper=(0.86
     print(f"{out}: headline at x {hx} y {yh}, BLACK {bkw}x{bkh} | 35% {nw}x{nh} at {oy} | badges {bx},{by} | type near man/jumper: {hit}")
     cv.convert("RGB").save(out, quality=92, optimize=True, progressive=True); return cv
 
+def inv_icon(ic):
+    """Badge icon with the palette swapped (white disc, charcoal line) for use on the darkened floor."""
+    a = np.asarray(ic).astype(np.int16); a[..., :3] = 295 - a[..., :3]
+    return Image.fromarray(np.clip(a, 0, 255).astype(np.uint8), "RGBA")
+
+def burn(cv, y0, y1, lo, W, H):
+    """Photographic burn of the floor toward the camera (linear-light multiply, hue kept): 1.0 above y0, easing to lo at y1."""
+    a = np.asarray(cv.convert("RGB")).astype(np.float32) / 255
+    lin = np.where(a <= 0.04045, a / 12.92, ((a + 0.055) / 1.055) ** 2.4)
+    t = np.clip((np.arange(H) - y0) / (y1 - y0), 0, 1); t = t * t * (3 - 2 * t)
+    f = (1 - (1 - lo) * t)[:, None, None]; lin = lin * f
+    a = np.where(lin <= 0.0031308, lin * 12.92, 1.055 * lin ** (1 / 2.4) - 0.055)
+    return Image.fromarray((np.clip(a, 0, 1) * 255 + 0.5).astype(np.uint8)).convert("RGBA")
+
+def build7(photo, cutout, out, k=1, W=1334, H=2000, M=80, clear=48, jumper=(0.86, 0.0, 1.0, 0.735), burn_y=(1180, 1680), burn_lo=0.34):
+    """v7, built on two typography references (Elam's structural systems, modular scale, Nix/Stocks finish):
+    - System: bilateral masthead (logo alone, centred on the calm steel panel) + one axial footer on the left margin.
+      Every footer element starts on x = M or ends on x = W - M; nothing floats on its own coordinate.
+    - Contrast first: the blue floor is mid-tone (white 3.3:1, charcoal 4.5:1 at best), so the floor is burned
+      toward the camera and the type goes white (#FFFFFF from the palette), >= 7:1 under every word.
+    - Scale: one ratio, 1.5, from a 26 px base: 26 / 39 / 58 / 88 / 132 / 198 / 297 / 446. No off-scale size.
+    - Hierarchy by size + weight + space: 35% (Black, 446) dominant; BACK IN THE BLACK (Black, 88) one line;
+      SAVE UP TO (Bold 39, caps tracked) bound tight to 35%; badges (Arimo Bold 26) as the terminal stop.
+    - Spacing is not uniform: kicker-to-number 0.33 x kicker cap; headline-to-offer group gap >= 3x that."""
+    g = lambda v: int(round(v * k)); W, H, M = W * k, H * k, M * k
+    WH = (255, 255, 255)
+    cv = graded(Image.open(photo)).resize((W, H), Image.LANCZOS).convert("RGBA")
+    cv = burn(cv, g(burn_y[0]), g(burn_y[1]), burn_lo, W, H)
+    sub = np.asarray(Image.open(cutout).split()[3].resize((W, H), Image.LANCZOS)) > 128
+    block = sub.copy(); jx0, jy0, jx1, jy1 = [int(v * (W if i % 2 == 0 else H)) for i, v in enumerate(jumper)]; block[jy0:jy1, jx0:jx1] = True
+    halo = binary_dilation(block, iterations=g(clear))
+    lay = Image.new("RGBA", (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(lay)
+    S = [g(26 * 1.5 ** i) for i in range(8)]  # 26 39 58 88 132 197 296 444
+    # masthead: logo centred on the steel panel of machine 12, charcoal
+    lg = make_logo(C, 8 * k); lw = g(260); lg = lg.resize((lw, int(lg.height * lw / lg.width)), Image.LANCZOS)
+    lay.paste(lg, ((W - lw) // 2, g(100)), lg)
+    # offer: SAVE UP TO (39) bound tight to 35% (296), on the left axis, 35% baseline on the bottom margin
+    fn_ = font(BLK, S[6]); tn = -0.02 * fn_.size; nw, nh = ink("35%", fn_, tn)[2:]
+    fk = font(BLD, S[1]); tk = 0.14 * fk.size; kw, kh = ink("SAVE UP TO", fk, tk)[2:]
+    inner = int(kh * 0.9); ny = H - M - nh; ky = ny - inner - kh
+    draw(d, "35%", fn_, M, ny, tn, WH); draw(d, "SAVE UP TO", fk, M, ky, tk, WH)
+    # badges: right column, icon over label, everything flush right on x = W - M, last baseline on H - M
+    bi = g(52); fb = font(ARB, S[0]); tb = 0.08 * fb.size; lh = ink("H", fb)[3]; lead = int(lh * 0.6); ig = g(12)
+    rows = ((badges.truck, ["FREE ONGKIR"]), (badges.ticket, ["VOUCHER", "NEW BUYERS 5K"]))
+    hts = [bi + ig + lh * len(l) + lead * (len(l) - 1) for _, l in rows]
+    bgap = (nh - sum(hts))  # the stack spans exactly the cap height of 35%: top on its cap line, bottom on its baseline
+    yy = ny; bx = W - M - max(ink(t, fb, tb)[2] for _, l in rows for t in l)
+    for (icon, labs), hgt in zip(rows, hts):
+        ic = inv_icon(icon(bi)); lay.paste(ic, (W - M - bi, yy), ic)
+        for j, t in enumerate(labs):
+            tw = ink(t, fb, tb)[2]; draw(d, t, fb, W - M - tw, yy + bi + ig + j * (lh + lead), tb, WH)
+        yy += hgt + bgap
+    # headline: one line, Black 88, tracked so it spans the full measure M .. W - M (it sets the frame both axes hang on)
+    fh = font(BLK, S[3]); meas = W - 2 * M; n = len("BACK IN THE BLACK") - 1
+    w0 = ink("BACK IN THE BLACK", fh, 0)[2]; th = (meas - w0) / n; hw, hh = ink("BACK IN THE BLACK", fh, th)[2:]
+    for gg in (2.6, 2.4, 2.2, 2.0):  # group gap 2x-2.6x the kicker gap, largest that keeps the 48 px clearance to the jumper
+        hy = ky - int(inner * gg) - hh
+        if not halo[hy:hy + hh, M:W - M].any(): break
+    draw(d, "BACK IN THE BLACK", fh, M, hy, th, WH)
+    print(f"track headline {th / fh.size:.3f} em, 35% right edge {M + nw}, badge col x {bx}, group gap {ky - hy - hh} vs inner {inner}")
+    hit = int(((np.asarray(lay.split()[3]) > 40) & halo).sum())
+    # contrast audit under the type
+    a = np.asarray(cv.convert("RGB")).astype(np.float32) / 255; lin = np.where(a <= 0.04045, a / 12.92, ((a + 0.055) / 1.055) ** 2.4)
+    Lr = lin @ np.array([0.2126, 0.7152, 0.0722]); m = np.asarray(lay.split()[3]) > 128
+    m[:g(400)] = False; worst = np.percentile(Lr[m], 95); cr = 1.05 / (worst + 0.05)
+    cv.alpha_composite(lay)
+    print(f"{out}: sizes 35%={fn_.size} head={fh.size} kicker={fk.size} badge={fb.size} | head y {hy} w {hw} | 35% {nw}x{nh} | badges x {bx} | near man/jumper {hit} | white CR (p95 bg) {cr:.1f}:1")
+    cv.convert("RGB").save(out, quality=92, optimize=True, progressive=True); return cv
+
 if __name__ == "__main__":
     a = sys.argv; v6 = "--v6" in a; v5 = "--v5" in a; v4 = "--v4" in a; fn = build3 if ("--v3" in a or v4) else build2 if "--v2" in a else build; a = [x for x in a if x not in ("--v2", "--v3", "--v4")]
     kw = dict(branch=(0.86, 0.12), badges_top=True) if v4 else {}
     if v5: fn, kw = build5, {}; a = [x for x in a if x != "--v5"]
     if v6: fn, kw = build6, {}; a = [x for x in a if x != "--v6"]
+    if "--v7" in a: fn, kw = build7, {}; a = [x for x in a if x != "--v7"]
     fn(a[1], a[2], a[3], k=int(a[4]) if len(a) > 4 else 1, **kw)

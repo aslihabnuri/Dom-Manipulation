@@ -32,10 +32,20 @@ One left axis on the wall, 80 px margin; nothing crosses the window frame, the w
 - Two passes were not used: `9_laundromat_first_not-used.txt` (good pose, but the man and the machines filled the frame, leaving only a small floor corner for type) and `10_laundromat_reframe-edit_failed.txt` (asked to pull the camera back; it kept the framing and faded the stretched leg into the floor). Three generations in this round, 198 credits for the banner in all.
 - **Typography** (`scripts/compose.py PHOTO CUTOUT OUT --v5`): all type on the open floor in charcoal (the blue floor gives about 5:1 contrast; white would be about 2.5:1). Left stack: logo, `BACK IN THE` (Zalando Bold, wide tracking), `BLACK` (Zalando Black, the largest that fits under the stretched leg in its own columns, cap 153 px). Bottom row on the margin: `SAVE UP TO` / `35%` (cap 127 px) left, the two badges right. Nothing within 48 px of the man or the knitted jumper. The man's face top-left and the type bottom-left give a Z reading path.
 
-## Revision: type spread over the frame (`--v6`, final)
+## Revision: type spread over the frame (`--v6`)
 The v5 type sat in one block at the bottom. Rebuilt from open banner-layout guidance (Adobe, PMG, Quantcast, Linear Design, StackAdapt: one dominant offer, a small but consistent logo on an edge or with the brand line, deliberate negative space, asymmetric zones along the reading path) on the same photo, no credits:
 - Top: pure photo. The steel machines have no calm edge for a logo (top-left luminance spread 58.7, top-right crowded by the number tag and the machine seam).
 - Middle right, on the open floor beside the legs: the brand unit, logo `6.png` over `BACK IN THE` (Zalando Bold, wide tracking) over `BLACK` (Zalando Black), left-aligned on a second axis at 42% of the width.
 - Bottom left: `SAVE UP TO` / `35%`, the dominant element (cap 208 px, 792 wide).
 - Bottom right: the two badges, right-aligned on the margin, as the last stop.
 Nothing within 48 px of the man, the open machine door, the shirt or the knitted jumper.
+
+## Revision: typography rebuilt on two typography skill sets (`--v7`, final)
+Feedback on v6: the typography was still very poor. Studied `jpoindexter/typography-skills` (hierarchy-and-scale, typography-layout-systems, typography-critique, microtypography) and the `banner-design` skill in `nextlevelbuilder/ui-ux-pro-max-skill`, then re-set the type on the same photo, no credits:
+- Audit before taste: the blue floor is a mid-tone, so neither palette colour reached 4.5:1 on it (white 3.3:1, #282828 4.5:1 at best). That muddy contrast was the main reason v1 to v6 looked dirty. The floor is now burned toward the camera (linear-light multiply, hue kept, smooth from y 1180 to 1680, no band) and the type is white `#FFFFFF`; worst-case background under the type gives 5.7:1.
+- Structural system (Elam): a bilateral masthead (logo `6.png` in `#282828`, centred on the clean steel panel of machine 12) plus one axial footer. Every footer element starts on the left margin or ends on the right margin; nothing floats on its own coordinate as in v6 (three unrelated x axes).
+- One scale, ratio 1.5 from a 26 px base (26 / 39 / 58 / 88 / 132 / 197 / 296), no off-scale sizes: `35%` Zalando Black 296, `BACK IN THE BLACK` Zalando Black 88, `SAVE UP TO` Zalando Bold 39, badge labels Arimo Bold 26.
+- `BACK IN THE BLACK` is one line tracked (+0.027 em, caps need positive tracking) to exactly the full measure, so it defines the frame both axes hang on.
+- Hierarchy by size, weight and space, not size alone. Spacing is deliberately unequal: `SAVE UP TO` sits 27 px above `35%` (bound to it), the headline 59 px above (a separate group).
+- Badges are a right column, icon over label, flush right; the stack spans exactly the cap height of `35%` (top on its cap line, bottom on its baseline). Icons are the same discs with the palette swapped (white disc, charcoal line) for the dark floor.
+- Clearance: nothing within 48 px of the man or the knitted jumper.
