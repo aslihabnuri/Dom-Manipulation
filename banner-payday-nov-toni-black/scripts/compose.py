@@ -381,6 +381,51 @@ def build8(photo, cutout, out, k=1, W=1334, H=2000, M=80, clear=48, jumper=(0.80
     print(f"{out}: BLACK {hw}x{hh} (bottom {M + kh + inner + hh}) | 35% {nw}x{nh} at {ky}-{H - M} | badges x {bx} | near man/jumper {hit} | CR top charcoal {crt:.1f}:1, bottom white {crb:.1f}:1")
     cv.convert("RGB").save(out, quality=92, optimize=True, progressive=True); return cv
 
+def build9(photo, cutout, out, k=1, W=1334, H=2000, M=80, clear=48, zoom=1.12, burn_y=(1460, 1880), burn_lo=0.34):
+    """v9: no empty field beside the man. Photo pay13 with the knitted jumper removed (floor cloned in perspective),
+    zoomed 1.12 from the top-left so the man is larger and the empty floor shrinks.
+    - Top band (wall, charcoal): BACK IN THE / BLACK flush left; logo over the two badges in one column flush right.
+    - Beside the man (floor, white): SAVE UP TO / 35% flush right, filling the floor right of his legs.
+    Axes: x = M and x = W - M. Scale 1.5 from 26 px."""
+    g = lambda v: int(round(v * k)); W, H, M = W * k, H * k, M * k
+    WH = (255, 255, 255); zw, zh = int(W * zoom), int(H * zoom)
+    cv = graded(Image.open(photo)).resize((zw, zh), Image.LANCZOS).crop((0, 0, W, H)).convert("RGBA")
+    cv = burn(cv, g(burn_y[0]), g(burn_y[1]), burn_lo, W, H)
+    sub = np.asarray(Image.open(cutout).split()[3].resize((zw, zh), Image.LANCZOS))[:H, :W] > 128
+    halo = binary_dilation(sub, iterations=g(clear))
+    lay = Image.new("RGBA", (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(lay)
+    S = [g(26 * 1.5 ** i) for i in range(8)]
+    # top-left headline, charcoal
+    fk = font(BLD, S[1]); tk = 0.14 * fk.size; kw, kh = ink("BACK IN THE", fk, tk)[2:]; inner = int(kh * 0.9)
+    fh = font(BLK, S[5]); th = -0.01 * fh.size; hw, hh = ink("BLACK", fh, th)[2:]
+    draw(d, "BACK IN THE", fk, M, M, tk); draw(d, "BLACK", fh, M, M + kh + inner, th)
+    # top-right column: logo, then the badges (charcoal discs), all flush right
+    lg = make_logo(C, 8 * k); lw = g(240); lg = lg.resize((lw, int(lg.height * lw / lg.width)), Image.LANCZOS)
+    lay.paste(lg, (W - M - lw, M), lg)
+    bi = g(52); fb = font(ARB, S[0]); tb = 0.08 * fb.size; lh = ink("H", fb)[3]; lead = int(lh * 0.6); ig = g(12)
+    rows = ((badges.truck, ["FREE ONGKIR"]), (badges.ticket, ["VOUCHER", "NEW BUYERS 5K"]))
+    yy = M + kh + inner  # first badge starts on the cap line of BLACK
+    hts = [bi + ig + lh * len(l) + lead * (len(l) - 1) for _, l in rows]; bgap = g(30)
+    bx = W - M - max(ink(t, fb, tb)[2] for _, l in rows for t in l)
+    for (icon, labs), hgt in zip(rows, hts):
+        ic = icon(bi); lay.paste(ic, (W - M - bi, yy), ic)
+        for j, t in enumerate(labs):
+            tw = ink(t, fb, tb)[2]; draw(d, t, fb, W - M - tw, yy + bi + ig + j * (lh + lead), tb)
+        yy += hgt + bgap
+    badge_bottom = yy - bgap
+    # beside the man: offer, white, flush right, 35% baseline on the bottom margin
+    fn_ = font(BLK, S[6]); tn = -0.02 * fn_.size; nw, nh = ink("35%", fn_, tn)[2:]
+    ny = H - M - nh; ky = ny - inner - kh
+    draw(d, "35%", fn_, W - M - nw, ny, tn, WH); draw(d, "SAVE UP TO", fk, W - M - kw, ky, tk, WH)
+    hit = int(((np.asarray(lay.split()[3]) > 40) & halo).sum())
+    a = np.asarray(cv.convert("RGB")).astype(np.float32) / 255; lin = np.where(a <= 0.04045, a / 12.92, ((a + 0.055) / 1.055) ** 2.4)
+    Lr = lin @ np.array([0.2126, 0.7152, 0.0722]); m = np.asarray(lay.split()[3]) > 128
+    top = m.copy(); top[H // 2:] = False; bot = m.copy(); bot[:H // 2] = False
+    crt = (np.percentile(Lr[top], 5) + 0.05) / 0.0712; crb = 1.05 / (np.percentile(Lr[bot], 95) + 0.05)
+    cv.alpha_composite(lay)
+    print(f"{out}: BLACK {hw} wide ends x {M + hw} | badge col x {bx}, bottom {badge_bottom} | 35% x {W - M - nw} y {ky}-{H - M} | near man {hit} | CR top {crt:.1f}:1, bottom {crb:.1f}:1")
+    cv.convert("RGB").save(out, quality=92, optimize=True, progressive=True); return cv
+
 if __name__ == "__main__":
     a = sys.argv; v6 = "--v6" in a; v5 = "--v5" in a; v4 = "--v4" in a; fn = build3 if ("--v3" in a or v4) else build2 if "--v2" in a else build; a = [x for x in a if x not in ("--v2", "--v3", "--v4")]
     kw = dict(branch=(0.86, 0.12), badges_top=True) if v4 else {}
@@ -388,4 +433,5 @@ if __name__ == "__main__":
     if v6: fn, kw = build6, {}; a = [x for x in a if x != "--v6"]
     if "--v7" in a: fn, kw = build7, {}; a = [x for x in a if x != "--v7"]
     if "--v8" in a: fn, kw = build8, {}; a = [x for x in a if x != "--v8"]
+    if "--v9" in a: fn, kw = build9, {}; a = [x for x in a if x != "--v9"]
     fn(a[1], a[2], a[3], k=int(a[4]) if len(a) > 4 else 1, **kw)

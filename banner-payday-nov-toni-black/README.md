@@ -50,7 +50,7 @@ Feedback on v6: the typography was still very poor. Studied `jpoindexter/typogra
 - Badges are a right column, icon over label, flush right; the stack spans exactly the cap height of `35%` (top on its cap line, bottom on its baseline). Icons are the same discs with the palette swapped (white disc, charcoal line) for the dark floor.
 - Clearance: nothing within 48 px of the man or the knitted jumper.
 
-## Revision: copy spread to the four corners (`--v8`, final)
+## Revision: copy spread to the four corners (`--v8`)
 Feedback on v7: still poor, and all the copy sat at the bottom. The real blocker was the photo: the machines filled the whole top half, so there was no calm ground for type up there. One outpaint pass (`prompts/12_outpaint_wall_used.txt`, 18 credits) re-framed pay12c as if the camera stood further back, adding a plain painted wall above the machines. Same man, pose, singlet and boxer briefs; `final/photo_generated.jpg` is now this photo.
 - Top-left on the wall, `#282828`: `BACK IN THE` (Zalando Bold 39, +0.14 em) over `BLACK` (Zalando Black 197). Contrast 6.7:1 worst case.
 - Top-right: logo `6.png` in `#282828`, its top on the same line as `BACK IN THE`.
@@ -58,5 +58,14 @@ Feedback on v7: still poor, and all the copy sat at the bottom. The real blocker
 - Bottom-right: the two badges, icon over label, flush right, spanning exactly the cap height of `35%`.
 - Two axes (left and right margin), two bands (wall and floor), the man in the middle between them. Scale 1.5 from 26 px as in v7. Colour follows the ground: charcoal on the light wall, white on the dark floor.
 - Nothing within 48 px of the man or the knitted jumper.
+
+
+## Revision: no empty field beside the man (`--v9`, final)
+Feedback on v8: a large empty space in the middle, beside the man. Fixed without credits:
+- The knitted jumper (a prop, not a product) is removed from the floor: the floor is cloned from the tile column to its left with a per-row shift that follows the perspective of the tile grid (275 px at the tile base, widening 0.4 px per row), three passes so no jumper pixels feed the fill. `final/photo_generated.jpg` is this cleaned photo.
+- The photo is zoomed 1.12 from the top-left: the man is larger and the empty floor shrinks.
+- Top band (wall, `#282828`): `BACK IN THE` / `BLACK` flush left; one column flush right with the logo, then `FREE ONGKIR` and `VOUCHER` / `NEW BUYERS 5K` (charcoal discs, icon over label), the first badge starting on the cap line of `BLACK`.
+- Beside the man (floor, white): `SAVE UP TO` / `35%` (Zalando Black 296) flush right, filling the floor right of his legs, baseline on the bottom margin.
+- Contrast worst case: 6.1:1 top, 5.0:1 bottom. Nothing within 48 px of the man.
 
 Credits for this banner: 216 (12 generations at 18).
