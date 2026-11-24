@@ -69,11 +69,20 @@ Feedback on v8: a large empty space in the middle, beside the man. Fixed without
 - Contrast worst case: 6.1:1 top, 5.0:1 bottom. Nothing within 48 px of the man.
 
 
-## Revision: wall used edge to edge, offer group beside the legs (`--v10`, final)
+## Revision: wall used edge to edge, offer group beside the legs (`--v10`)
 Feedback on v9: the top-left was cramped and the wall below it was empty. Same photo, no credits:
 - Wall: one row with `BACK IN THE` (left) and the logo (right) on the same line, then `BLACK` set to the full measure (Zalando Black 266, 1173 px wide). The block is centred in the wall, equal space above it and below it to the machine tops, so the wall is used edge to edge and top to bottom instead of only its top-left corner.
 - Floor beside the legs, flush right, white: the two badges in one row, `SAVE UP TO`, then `35%` (Zalando Black 338, as large as the floor beside the legs allows). The badges now sit with the offer they belong to; the top right no longer stacks logo and badges.
 - Hierarchy: `35%` stays the largest (cap 252 vs 197 for `BLACK`); charcoal on the light wall, white on the dark floor.
 - Contrast worst case: 6.3:1 top, 5.5:1 bottom. Nothing within 48 px of the man.
+
+
+## Revision: closer on the man, badges at the bottom (`--v11`, final)
+Requested: badges at the bottom, and the man larger so the products read clearly. Same photo, no credits:
+- Crop: zoom 1.30 from (100, 110) in the 1334x2000 frame of the photo (v10 was 1.12 from the origin): the singlet and boxer briefs are 16% larger. The crop takes the end of the stretched foot and some floor, not the products.
+- Bottom margin, flush right, white: the badge row (`FREE ONGKIR`, `VOUCHER` / `NEW BUYERS 5K`).
+- Above it, flush right: `SAVE UP TO` and `35%` (Zalando Black 252, as large as the floor beside the legs allows).
+- Wall: `BACK IN THE` + logo on one line, `BLACK` below (Zalando Black 202), capped at 0.80 x the cap height of `35%` so the offer stays the dominant element; block centred in the wall.
+- Contrast worst case: 7.4:1 top, 6.2:1 bottom. Nothing within 48 px of the man.
 
 Credits for this banner: 216 (12 generations at 18).
