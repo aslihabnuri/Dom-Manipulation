@@ -220,8 +220,54 @@ def build5(photo, cutout, out, k=1, W=1334, H=2000, M=80, clear=48, jumper=(0.86
     print(f"{out}: header y {ya} | BLACK {bkw}x{bkh} at {yb} | 35% {nw}x{nh} at {oy} | badges {bx},{by} | type within {clear}px of the man/jumper: {hit} | head top {np.where(sub.any(1))[0].min()}")
     cv.convert("RGB").save(out, quality=92, optimize=True, progressive=True); return cv
 
+
+def build6(photo, cutout, out, k=1, W=1334, H=2000, M=80, clear=48, jumper=(0.86, 0.0, 1.0, 0.74), head_x=0.42, head_band=(1100, 1500)):
+    """Laundromat, spread layout: the top stays pure photo (the man, the machines); the brand unit (logo over BACK IN THE
+    over BLACK) sits on the open floor right of his legs; SAVE UP TO / 35% large bottom-left; badges bottom-right as the
+    last stop. Three zones, each with its own job, instead of one block."""
+    g = lambda v: int(round(v * k)); W, H, M = W * k, H * k, M * k
+    cv = graded(Image.open(photo)).resize((W, H), Image.LANCZOS).convert("RGBA")
+    sub = np.asarray(Image.open(cutout).split()[3].resize((W, H), Image.LANCZOS)) > 128
+    block = sub.copy(); jx0, jy0, jx1, jy1 = [int(v * (W if i % 2 == 0 else H)) for i, v in enumerate(jumper)]; block[jy0:jy1, jx0:jx1] = True
+    halo = binary_dilation(block, iterations=g(clear))
+    def free(x0, y0, x1, y1): return not halo[max(0, int(y0)):int(y1), max(0, int(x0)):int(x1)].any()
+    lay = Image.new("RGBA", (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(lay)
+    # 1 logo, top-right on the calm steel panel
+    lg = make_logo(C, 8 * k); lw = g(250); lg = lg.resize((lw, int(lg.height * lw / lg.width)), Image.LANCZOS)
+    # 2 brand unit on the open floor right of the legs: logo / BACK IN THE / BLACK, left-aligned on a second axis
+    hx = int(head_x * W); y0, y1 = g(head_band[0]), g(head_band[1])
+    fa = font(BLD, g(32)); ta = 0.30 * fa.size; aw, ah = ink("BACK IN THE", fa, ta)[2:]
+    for sz in range(g(400), g(40), -g(2)):
+        fbk = font(BLK, sz); tbk = -0.015 * sz; bkw, bkh = ink("BLACK", fbk, tbk)[2:]
+        hh = lg.height + g(44) + ah + g(22) + bkh
+        if hh > y1 - y0: continue
+        ys = [y for y in range(y0, y1 - hh + 1, g(4)) if free(hx, y, hx + max(bkw, aw, lw), y + hh)]
+        if ys: yh = ys[len(ys) // 2]; break
+    lay.paste(lg, (hx, yh), lg); ya = yh + lg.height + g(44)
+    draw(d, "BACK IN THE", fa, hx, ya, ta); draw(d, "BLACK", fbk, hx, ya + ah + g(22), tbk)
+    # 4 badges, bottom-right, right-aligned on the margin
+    bi = g(60); fb = font(ARB, g(24)); tb = 0.08 * fb.size; gap = g(16); pitch = bi + g(18)
+    rows = ((badges.truck, ["FREE ONGKIR"]), (badges.ticket, ["VOUCHER", "NEW BUYERS 5K"]))
+    bw = bi + gap + max(ink(t, fb, tb)[2] for r in rows for t in r[1]); bgh = pitch + bi
+    bx, by = W - M - bw, H - M - bgh
+    for i, (icon, labs) in enumerate(rows):
+        ic = icon(bi); yy = by + i * pitch; lay.paste(ic, (bx, yy), ic)
+        lh = ink("H", fb)[3]; lg_ = int(lh * 0.55); tot = lh * len(labs) + lg_ * (len(labs) - 1)
+        for j, t in enumerate(labs): draw(d, t, fb, bx + bi + gap, yy + (bi - tot) / 2 + j * (lh + lg_), tb)
+    # 3 offer, bottom-left: the largest SAVE UP TO / 35% that leaves 80 px to the badges
+    fk = font(BLD, g(30)); tk = 0.16 * fk.size; kw, kh = ink("SAVE UP TO", fk, tk)[2:]
+    for sz in range(g(500), g(60), -g(2)):
+        fn_ = font(BLK, sz); tn = -0.02 * sz; nw, nh = ink("35%", fn_, tn)[2:]
+        if M + nw <= bx - g(80): break
+    oy = H - M - (kh + g(16) + nh); draw(d, "SAVE UP TO", fk, M, oy, tk); draw(d, "35%", fn_, M, oy + kh + g(16), tn)
+    hit = int(((np.asarray(lay.split()[3]) > 40) & halo).sum())
+    cv.alpha_composite(lay)
+    print(f"{out}: headline at x {hx} y {yh}, BLACK {bkw}x{bkh} | 35% {nw}x{nh} at {oy} | badges {bx},{by} | type near man/jumper: {hit}")
+    cv.convert("RGB").save(out, quality=92, optimize=True, progressive=True); return cv
+
 if __name__ == "__main__":
-    a = sys.argv; v5 = "--v5" in a; v4 = "--v4" in a; fn = build3 if ("--v3" in a or v4) else build2 if "--v2" in a else build; a = [x for x in a if x not in ("--v2", "--v3", "--v4")]
+    a = sys.argv; v6 = "--v6" in a; v5 = "--v5" in a; v4 = "--v4" in a; fn = build3 if ("--v3" in a or v4) else build2 if "--v2" in a else build; a = [x for x in a if x not in ("--v2", "--v3", "--v4")]
     kw = dict(branch=(0.86, 0.12), badges_top=True) if v4 else {}
     if v5: fn, kw = build5, {}; a = [x for x in a if x != "--v5"]
+    if v6: fn, kw = build6, {}; a = [x for x in a if x != "--v6"]
     fn(a[1], a[2], a[3], k=int(a[4]) if len(a) > 4 else 1, **kw)
