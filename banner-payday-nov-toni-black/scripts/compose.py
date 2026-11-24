@@ -334,10 +334,58 @@ def build7(photo, cutout, out, k=1, W=1334, H=2000, M=80, clear=48, jumper=(0.86
     print(f"{out}: sizes 35%={fn_.size} head={fh.size} kicker={fk.size} badge={fb.size} | head y {hy} w {hw} | 35% {nw}x{nh} | badges x {bx} | near man/jumper {hit} | white CR (p95 bg) {cr:.1f}:1")
     cv.convert("RGB").save(out, quality=92, optimize=True, progressive=True); return cv
 
+def build8(photo, cutout, out, k=1, W=1334, H=2000, M=80, clear=48, jumper=(0.80, 0.66, 1.0, 0.80), burn_y=(1420, 1880), burn_lo=0.34):
+    """v8, four corners around the man (photo pay13: the same scene outpainted upward, so a plain wall sits above the machines).
+    - Top-left, charcoal on the wall: BACK IN THE (Bold 39, tracked) over BLACK (Black 197).
+    - Top-right: logo 6.png in #282828, its top on the same line as BACK IN THE.
+    - Bottom-left, white on the burned floor: SAVE UP TO (Bold 39) over 35% (Black 296), the dominant element.
+    - Bottom-right: the two badges, icon over label, flush right, spanning exactly the cap height of 35%.
+    Two axes (x = M and x = W - M), two bands (wall and floor), one 1.5 scale. Colour follows the ground:
+    charcoal where the ground is light, white where it is dark."""
+    g = lambda v: int(round(v * k)); W, H, M = W * k, H * k, M * k
+    WH = (255, 255, 255)
+    cv = graded(Image.open(photo)).resize((W, H), Image.LANCZOS).convert("RGBA")
+    cv = burn(cv, g(burn_y[0]), g(burn_y[1]), burn_lo, W, H)
+    sub = np.asarray(Image.open(cutout).split()[3].resize((W, H), Image.LANCZOS)) > 128
+    block = sub.copy(); jx0, jy0, jx1, jy1 = [int(v * (W if i % 2 == 0 else H)) for i, v in enumerate(jumper)]; block[jy0:jy1, jx0:jx1] = True
+    halo = binary_dilation(block, iterations=g(clear))
+    lay = Image.new("RGBA", (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(lay)
+    S = [g(26 * 1.5 ** i) for i in range(8)]
+    # top-left headline, charcoal
+    fk = font(BLD, S[1]); tk = 0.14 * fk.size; kw, kh = ink("BACK IN THE", fk, tk)[2:]; inner = int(kh * 0.9)
+    fh = font(BLK, S[5]); th = -0.01 * fh.size; hw, hh = ink("BLACK", fh, th)[2:]
+    draw(d, "BACK IN THE", fk, M, M, tk); draw(d, "BLACK", fh, M, M + kh + inner, th)
+    # top-right logo, top on the same line
+    lg = make_logo(C, 8 * k); lw = g(240); lg = lg.resize((lw, int(lg.height * lw / lg.width)), Image.LANCZOS)
+    lay.paste(lg, (W - M - lw, M), lg)
+    # bottom-left offer, white
+    fn_ = font(BLK, S[6]); tn = -0.02 * fn_.size; nw, nh = ink("35%", fn_, tn)[2:]
+    ny = H - M - nh; ky = ny - inner - kh
+    draw(d, "35%", fn_, M, ny, tn, WH); draw(d, "SAVE UP TO", fk, M, ky, tk, WH)
+    # bottom-right badges, icon over label, flush right, spanning the cap height of 35%
+    bi = g(52); fb = font(ARB, S[0]); tb = 0.08 * fb.size; lh = ink("H", fb)[3]; lead = int(lh * 0.6); ig = g(12)
+    rows = ((badges.truck, ["FREE ONGKIR"]), (badges.ticket, ["VOUCHER", "NEW BUYERS 5K"]))
+    hts = [bi + ig + lh * len(l) + lead * (len(l) - 1) for _, l in rows]; bgap = nh - sum(hts); yy = ny
+    bx = W - M - max(ink(t, fb, tb)[2] for _, l in rows for t in l)
+    for (icon, labs), hgt in zip(rows, hts):
+        ic = inv_icon(icon(bi)); lay.paste(ic, (W - M - bi, yy), ic)
+        for j, t in enumerate(labs):
+            tw = ink(t, fb, tb)[2]; draw(d, t, fb, W - M - tw, yy + bi + ig + j * (lh + lead), tb, WH)
+        yy += hgt + bgap
+    hit = int(((np.asarray(lay.split()[3]) > 40) & halo).sum())
+    a = np.asarray(cv.convert("RGB")).astype(np.float32) / 255; lin = np.where(a <= 0.04045, a / 12.92, ((a + 0.055) / 1.055) ** 2.4)
+    Lr = lin @ np.array([0.2126, 0.7152, 0.0722]); m = np.asarray(lay.split()[3]) > 128
+    top = m.copy(); top[H // 2:] = False; bot = m.copy(); bot[:H // 2] = False
+    crt = (np.percentile(Lr[top], 5) + 0.05) / 0.0712; crb = 1.05 / (np.percentile(Lr[bot], 95) + 0.05)
+    cv.alpha_composite(lay)
+    print(f"{out}: BLACK {hw}x{hh} (bottom {M + kh + inner + hh}) | 35% {nw}x{nh} at {ky}-{H - M} | badges x {bx} | near man/jumper {hit} | CR top charcoal {crt:.1f}:1, bottom white {crb:.1f}:1")
+    cv.convert("RGB").save(out, quality=92, optimize=True, progressive=True); return cv
+
 if __name__ == "__main__":
     a = sys.argv; v6 = "--v6" in a; v5 = "--v5" in a; v4 = "--v4" in a; fn = build3 if ("--v3" in a or v4) else build2 if "--v2" in a else build; a = [x for x in a if x not in ("--v2", "--v3", "--v4")]
     kw = dict(branch=(0.86, 0.12), badges_top=True) if v4 else {}
     if v5: fn, kw = build5, {}; a = [x for x in a if x != "--v5"]
     if v6: fn, kw = build6, {}; a = [x for x in a if x != "--v6"]
     if "--v7" in a: fn, kw = build7, {}; a = [x for x in a if x != "--v7"]
+    if "--v8" in a: fn, kw = build8, {}; a = [x for x in a if x != "--v8"]
     fn(a[1], a[2], a[3], k=int(a[4]) if len(a) > 4 else 1, **kw)

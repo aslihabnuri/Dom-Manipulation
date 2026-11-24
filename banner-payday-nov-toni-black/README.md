@@ -40,7 +40,7 @@ The v5 type sat in one block at the bottom. Rebuilt from open banner-layout guid
 - Bottom right: the two badges, right-aligned on the margin, as the last stop.
 Nothing within 48 px of the man, the open machine door, the shirt or the knitted jumper.
 
-## Revision: typography rebuilt on two typography skill sets (`--v7`, final)
+## Revision: typography rebuilt on two typography skill sets (`--v7`)
 Feedback on v6: the typography was still very poor. Studied `jpoindexter/typography-skills` (hierarchy-and-scale, typography-layout-systems, typography-critique, microtypography) and the `banner-design` skill in `nextlevelbuilder/ui-ux-pro-max-skill`, then re-set the type on the same photo, no credits:
 - Audit before taste: the blue floor is a mid-tone, so neither palette colour reached 4.5:1 on it (white 3.3:1, #282828 4.5:1 at best). That muddy contrast was the main reason v1 to v6 looked dirty. The floor is now burned toward the camera (linear-light multiply, hue kept, smooth from y 1180 to 1680, no band) and the type is white `#FFFFFF`; worst-case background under the type gives 5.7:1.
 - Structural system (Elam): a bilateral masthead (logo `6.png` in `#282828`, centred on the clean steel panel of machine 12) plus one axial footer. Every footer element starts on the left margin or ends on the right margin; nothing floats on its own coordinate as in v6 (three unrelated x axes).
@@ -49,3 +49,14 @@ Feedback on v6: the typography was still very poor. Studied `jpoindexter/typogra
 - Hierarchy by size, weight and space, not size alone. Spacing is deliberately unequal: `SAVE UP TO` sits 27 px above `35%` (bound to it), the headline 59 px above (a separate group).
 - Badges are a right column, icon over label, flush right; the stack spans exactly the cap height of `35%` (top on its cap line, bottom on its baseline). Icons are the same discs with the palette swapped (white disc, charcoal line) for the dark floor.
 - Clearance: nothing within 48 px of the man or the knitted jumper.
+
+## Revision: copy spread to the four corners (`--v8`, final)
+Feedback on v7: still poor, and all the copy sat at the bottom. The real blocker was the photo: the machines filled the whole top half, so there was no calm ground for type up there. One outpaint pass (`prompts/12_outpaint_wall_used.txt`, 18 credits) re-framed pay12c as if the camera stood further back, adding a plain painted wall above the machines. Same man, pose, singlet and boxer briefs; `final/photo_generated.jpg` is now this photo.
+- Top-left on the wall, `#282828`: `BACK IN THE` (Zalando Bold 39, +0.14 em) over `BLACK` (Zalando Black 197). Contrast 6.7:1 worst case.
+- Top-right: logo `6.png` in `#282828`, its top on the same line as `BACK IN THE`.
+- Bottom-left on the floor (burned toward the camera, as in v7), white: `SAVE UP TO` over `35%` (Zalando Black 296), the dominant element. Contrast 4.6:1 worst case.
+- Bottom-right: the two badges, icon over label, flush right, spanning exactly the cap height of `35%`.
+- Two axes (left and right margin), two bands (wall and floor), the man in the middle between them. Scale 1.5 from 26 px as in v7. Colour follows the ground: charcoal on the light wall, white on the dark floor.
+- Nothing within 48 px of the man or the knitted jumper.
+
+Credits for this banner: 216 (12 generations at 18).
