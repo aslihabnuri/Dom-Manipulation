@@ -60,12 +60,20 @@ Feedback on v7: still poor, and all the copy sat at the bottom. The real blocker
 - Nothing within 48 px of the man or the knitted jumper.
 
 
-## Revision: no empty field beside the man (`--v9`, final)
+## Revision: no empty field beside the man (`--v9`)
 Feedback on v8: a large empty space in the middle, beside the man. Fixed without credits:
 - The knitted jumper (a prop, not a product) is removed from the floor: the floor is cloned from the tile column to its left with a per-row shift that follows the perspective of the tile grid (275 px at the tile base, widening 0.4 px per row), three passes so no jumper pixels feed the fill. `final/photo_generated.jpg` is this cleaned photo.
 - The photo is zoomed 1.12 from the top-left: the man is larger and the empty floor shrinks.
 - Top band (wall, `#282828`): `BACK IN THE` / `BLACK` flush left; one column flush right with the logo, then `FREE ONGKIR` and `VOUCHER` / `NEW BUYERS 5K` (charcoal discs, icon over label), the first badge starting on the cap line of `BLACK`.
 - Beside the man (floor, white): `SAVE UP TO` / `35%` (Zalando Black 296) flush right, filling the floor right of his legs, baseline on the bottom margin.
 - Contrast worst case: 6.1:1 top, 5.0:1 bottom. Nothing within 48 px of the man.
+
+
+## Revision: wall used edge to edge, offer group beside the legs (`--v10`, final)
+Feedback on v9: the top-left was cramped and the wall below it was empty. Same photo, no credits:
+- Wall: one row with `BACK IN THE` (left) and the logo (right) on the same line, then `BLACK` set to the full measure (Zalando Black 266, 1173 px wide). The block is centred in the wall, equal space above it and below it to the machine tops, so the wall is used edge to edge and top to bottom instead of only its top-left corner.
+- Floor beside the legs, flush right, white: the two badges in one row, `SAVE UP TO`, then `35%` (Zalando Black 338, as large as the floor beside the legs allows). The badges now sit with the offer they belong to; the top right no longer stacks logo and badges.
+- Hierarchy: `35%` stays the largest (cap 252 vs 197 for `BLACK`); charcoal on the light wall, white on the dark floor.
+- Contrast worst case: 6.3:1 top, 5.5:1 bottom. Nothing within 48 px of the man.
 
 Credits for this banner: 216 (12 generations at 18).
