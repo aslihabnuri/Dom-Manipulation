@@ -72,26 +72,27 @@ DRINKS = {
 
 # slug -> (reference, what to build from it). Shared props are generated once.
 PROPS = {
-    # Biskuit rancangan sendiri, BUKAN dari acuan. Acuan lamanya foto Oreo dan
-    # propnya keluar sebagai Oreo lengkap dengan pola timbul dan emblemnya;
-    # pelanggan kena penalti marketplace karenanya. Bentuk, warna dan permukaannya
-    # sengaja dijauhkan dari tampilan dagang Oreo: persegi, cokelat kakao susu,
-    # polos berlubang tusuk, tanpa pola timbul atau tulisan apa pun.
+    # Biskuit dibuat dari kanvas kosong, BUKAN dari acuan. Acuan lamanya foto
+    # Oreo dan propnya keluar sebagai Oreo lengkap dengan pola timbul dan
+    # emblemnya; pelanggan kena penalti marketplace karenanya. Versi persegi
+    # cokelat ditolak pelanggan - bentuknya harus seperti Oreo: bulat, kakao
+    # gelap, krim putih. Yang dibuang adalah semua penanda mereknya: emblem dan
+    # tulisan di tengah, serta pola bunga timbul yang juga bagian dari tampilan
+    # dagangnya. Generasi pertama dengan perintah ini masih menaruh cincin bunga
+    # timbul kecil di pinggir; dihapus dengan retouch_cookie.py.
     "cookiescream": ("blank_white.png",
-                     "two original square cocoa sandwich biscuits of our own design, about "
-                     "5 cm across with softly rounded corners. Each biscuit is two thin, "
-                     "flat, smooth CHOCOLATE wafers baked with cocoa: a rich deep cocoa "
-                     "brown like a brownie, clearly a chocolate biscuit - not tan, not "
-                     "beige, not graham-cracker coloured, and not black - "
-                     "with a neat grid of small pin-prick docking holes and a plain straight "
-                     "edge, sandwiching a thick layer of white vanilla cream that shows "
-                     "clearly between them. One biscuit lies flat; the second leans against "
-                     "it at an angle; a third biscuit is broken in half in front, showing "
-                     "the crumbly cocoa crumb and the cream, with a few small crumbs beside "
-                     "it. The surfaces are completely plain apart from the pin-prick holes: "
-                     "NO embossed pattern, NO flowers, NO rings of ridges, NO emblem, NO "
-                     "round biscuits, NO scalloped or ridged edge, NO brand name, NO "
-                     "lettering of any kind"),
+                     "exactly two classic round chocolate sandwich cookies, about 4.5 cm "
+                     "across: two thin round very dark cocoa wafers, almost black-brown, "
+                     "with a thick layer of white vanilla cream between them that shows "
+                     "clearly all round the side. One cookie lies flat and the second leans "
+                     "against it at an angle so its top face is seen. The edge of each wafer "
+                     "has fine vertical crimping. The top face of each wafer is completely "
+                     "FLAT and FEATURELESS, like a plain baked chocolate wafer: one even "
+                     "surface with only a fine matte cocoa crumb texture, nothing raised and "
+                     "nothing pressed into it anywhere. ABSOLUTELY NO embossed or stamped "
+                     "marks of any kind - no ring of little flowers or dots around the edge, "
+                     "no leaves, no lines, no circle or medallion in the centre, no emblem, "
+                     "no brand name, no letters or words anywhere on the cookie"),
     # Sent through strip_watermark first - see there for why.
     "blacktea": ("Black tea_refrensi.jpg",
                  "a low loose heap of dried curled tea leaves with one small fresh green tea "
