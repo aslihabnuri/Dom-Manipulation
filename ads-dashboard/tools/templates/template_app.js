@@ -1322,6 +1322,8 @@ function detectRows(rows,filename){
     if(bhi<0)bhi=findHeader(rows,['Campaign name','Spend','Paid follows']);
     /* TikTok Ads Manager kadang mengekspor dengan header bahasa Indonesia */
     if(bhi<0)bhi=findHeader(rows,['Nama Kampanye','Belanja']);
+    /* varian tata letak baru (Nov 2026): tanpa kolom Reach/Consideration, ada Campaign Budget */
+    if(bhi<0)bhi=findHeader(rows,['Campaign name','Spend','Campaign Budget']);
     if(bhi>=0){
       const H=H_at(bhi);
       const cName=colIdxOf(H,'Campaign name','Nama Kampanye'),cSpend=colIdxOf(H,'Spend','Belanja'),
