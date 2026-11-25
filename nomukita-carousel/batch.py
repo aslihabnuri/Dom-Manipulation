@@ -72,11 +72,26 @@ DRINKS = {
 
 # slug -> (reference, what to build from it). Shared props are generated once.
 PROPS = {
-    "cookiescream": ("Cookies & Cream_referensi.webp",
-                     "exactly two round chocolate sandwich biscuits with a white cream "
-                     "filling, one lying flat and the second leaning against it, arranged "
-                     "the same way as the reference. Plain embossed pattern on the biscuit, "
-                     "no brand name and no lettering of any kind"),
+    # Biskuit rancangan sendiri, BUKAN dari acuan. Acuan lamanya foto Oreo dan
+    # propnya keluar sebagai Oreo lengkap dengan pola timbul dan emblemnya;
+    # pelanggan kena penalti marketplace karenanya. Bentuk, warna dan permukaannya
+    # sengaja dijauhkan dari tampilan dagang Oreo: persegi, cokelat kakao susu,
+    # polos berlubang tusuk, tanpa pola timbul atau tulisan apa pun.
+    "cookiescream": ("blank_white.png",
+                     "two original square cocoa sandwich biscuits of our own design, about "
+                     "5 cm across with softly rounded corners. Each biscuit is two thin, "
+                     "flat, smooth CHOCOLATE wafers baked with cocoa: a rich deep cocoa "
+                     "brown like a brownie, clearly a chocolate biscuit - not tan, not "
+                     "beige, not graham-cracker coloured, and not black - "
+                     "with a neat grid of small pin-prick docking holes and a plain straight "
+                     "edge, sandwiching a thick layer of white vanilla cream that shows "
+                     "clearly between them. One biscuit lies flat; the second leans against "
+                     "it at an angle; a third biscuit is broken in half in front, showing "
+                     "the crumbly cocoa crumb and the cream, with a few small crumbs beside "
+                     "it. The surfaces are completely plain apart from the pin-prick holes: "
+                     "NO embossed pattern, NO flowers, NO rings of ridges, NO emblem, NO "
+                     "round biscuits, NO scalloped or ridged edge, NO brand name, NO "
+                     "lettering of any kind"),
     # Sent through strip_watermark first - see there for why.
     "blacktea": ("Black tea_refrensi.jpg",
                  "a low loose heap of dried curled tea leaves with one small fresh green tea "
@@ -559,6 +574,19 @@ FLUTED_GLASS = (
 GLASS_STYLE = {"taro": FLUTED_GLASS}
 
 
+# Prop yang dibuat dari kanvas putih kosong, bukan dipentaskan ulang dari foto.
+FREE_PROP_PROMPT = (
+    "This image is only a blank white studio canvas. Create on it a new calm studio "
+    "product photograph of {desc}. "
+    "Natural matte colour, no rim light, no glowing outline, no harsh specular highlight. "
+    "Seamless pure white background with no horizon line and no table edge, soft diffused "
+    "studio light from the upper left, one soft contact shadow directly beneath. Real "
+    "camera photograph, eye level slightly from above, sharp focus, no text, no lettering, "
+    "no brand name, no logo, no watermark, no other props."
+)
+FREE_PROPS = {"cookiescream"}
+
+
 def main(only=None):
     os.makedirs(OUT, exist_ok=True)
     cache = {}
@@ -596,7 +624,8 @@ def main(only=None):
             ref = strip_watermark(ref, WATERMARKED[name])
         if name in CHECKERED:
             ref = flatten_checker(*CHECKERED[name])
-        run(PROP_PROMPT.format(desc=desc), [link(ref)], "4:3", out)
+        tpl = FREE_PROP_PROMPT if name in FREE_PROPS else PROP_PROMPT
+        run(tpl.format(desc=desc), [link(ref)], "4:3", out)
 
     if SPENT:
         print(f"\n{len(SPENT)} images, {sum(SPENT)} credits this run")
