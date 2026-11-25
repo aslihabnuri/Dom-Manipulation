@@ -72,27 +72,24 @@ DRINKS = {
 
 # slug -> (reference, what to build from it). Shared props are generated once.
 PROPS = {
-    # Biskuit dibuat dari kanvas kosong, BUKAN dari acuan. Acuan lamanya foto
-    # Oreo dan propnya keluar sebagai Oreo lengkap dengan pola timbul dan
-    # emblemnya; pelanggan kena penalti marketplace karenanya. Versi persegi
-    # cokelat ditolak pelanggan - bentuknya harus seperti Oreo: bulat, kakao
-    # gelap, krim putih. Yang dibuang adalah semua penanda mereknya: emblem dan
-    # tulisan di tengah, serta pola bunga timbul yang juga bagian dari tampilan
-    # dagangnya. Generasi pertama dengan perintah ini masih menaruh cincin bunga
-    # timbul kecil di pinggir; dihapus dengan retouch_cookie.py.
-    "cookiescream": ("blank_white.png",
-                     "exactly two classic round chocolate sandwich cookies, about 4.5 cm "
-                     "across: two thin round very dark cocoa wafers, almost black-brown, "
-                     "with a thick layer of white vanilla cream between them that shows "
-                     "clearly all round the side. One cookie lies flat and the second leans "
-                     "against it at an angle so its top face is seen. The edge of each wafer "
-                     "has fine vertical crimping. The top face of each wafer is completely "
-                     "FLAT and FEATURELESS, like a plain baked chocolate wafer: one even "
-                     "surface with only a fine matte cocoa crumb texture, nothing raised and "
-                     "nothing pressed into it anywhere. ABSOLUTELY NO embossed or stamped "
-                     "marks of any kind - no ring of little flowers or dots around the edge, "
-                     "no leaves, no lines, no circle or medallion in the centre, no emblem, "
-                     "no brand name, no letters or words anywhere on the cookie"),
+    # Riwayat: acuan lama foto Oreo -> listing kena penalti. Persegi cokelat
+    # ditolak (bentuk harus seperti Oreo). Dari kanvas kosong model terus
+    # menaruh cincin bunga timbul khas Oreo; retouch_cookie.py menghapusnya,
+    # tetapi pelanggan menilai hasil retus itu kasar. Sekarang hasil retus itu
+    # sendiri yang menjadi acuan: modelnya cukup memotret ulang dua biskuit
+    # yang permukaannya SUDAH polos, jadi bentuk polosnya ikut terbawa dan
+    # kehalusan fotonya datang dari model.
+    "cookiescream": ("CookiesCream_plain_ref.png",
+                     "these exact two round chocolate sandwich cookies, re-photographed as a "
+                     "premium food product shot: one lying flat and the second leaning against "
+                     "it, the same arrangement as the reference. Two thin round very dark cocoa "
+                     "wafers with finely crimped edges and a neat, even layer of smooth white "
+                     "vanilla cream between them. The top face of each wafer is plain, the way "
+                     "it is in the reference: an evenly baked, smooth dark cocoa surface with a "
+                     "fine natural matte crumb texture and a soft sheen of light, crisp and "
+                     "realistic. Keep the top faces plain - no embossed pattern, no ring of "
+                     "flowers or dots, no medallion, no emblem, no brand name, no letters or "
+                     "words anywhere on the cookies"),
     # Sent through strip_watermark first - see there for why.
     "blacktea": ("Black tea_refrensi.jpg",
                  "a low loose heap of dried curled tea leaves with one small fresh green tea "
@@ -585,7 +582,7 @@ FREE_PROP_PROMPT = (
     "camera photograph, eye level slightly from above, sharp focus, no text, no lettering, "
     "no brand name, no logo, no watermark, no other props."
 )
-FREE_PROPS = {"cookiescream"}
+FREE_PROPS = set()   # cookiescream kini dipentaskan ulang dari acuan polosnya
 
 
 def main(only=None):

@@ -37,29 +37,25 @@ def ellipse(shape, cx, cy, a, b, deg):
 
 def faces(a):
     dark = ndi.binary_fill_holes(a.mean(2) < 170)
-    right = ellipse(a.shape, 783, 349, 194, 122, 29.4) & ndi.binary_erosion(dark, iterations=12)
+    right = ellipse(a.shape, 786, 346, 196, 130, 29.4) & ndi.binary_erosion(dark, iterations=8)
     right_whole = ellipse(a.shape, 772, 366, 250, 152, 27)
     left = (ellipse(a.shape, 428, 415, 190, 94, -2) & ndi.binary_erosion(dark, iterations=9)
             & ~right_whole)
     return [left, right]
 
 
-def flatten(a, m, sigma=14, grain_sigma=0.8):
+def flatten(a, m, sigma=18):
+    """Permukaan baru: gradasi cahaya dari blur lebar bermasker, ditambah butir
+    remah halus yang seragam. Versi sebelumnya mempertahankan lolos-tinggi
+    gambar asli (dipotong) dan menambah belang kasar; pelanggan menilainya
+    kurang halus - sisa tepi motif dan belangnya terbaca seperti kulit suede.
+    Sekarang tidak ada apa pun dari permukaan lama selain cahayanya."""
     w = ndi.gaussian_filter(m.astype(float), sigma)
     base = np.stack([ndi.gaussian_filter(a[..., c] * m, sigma) for c in range(3)], -1)
     base = base / np.maximum(w, 1e-6)[..., None]
-    hp = a - np.stack([ndi.gaussian_filter(a[..., c], grain_sigma) for c in range(3)], -1)
-    core = ndi.binary_erosion(m, iterations=40)
-    lim = 1.2 * hp[core].std() if core.any() else 4.0
-    # Pemotongan itu juga memangkas butir remahnya sendiri, dan permukaan tanpa
-    # butir terbaca seperti kulit atau plastik. Butir acak ditambahkan kembali
-    # sampai amplitudonya sama dengan bagian tengah yang polos (~3,2 level),
-    # dengan belang kasar tipis supaya terbaca sebagai adonan panggang.
     rng = np.random.default_rng(7)
-    fine = ndi.gaussian_filter(rng.normal(0, 1, a.shape[:2]), 0.6)
-    coarse = ndi.gaussian_filter(rng.normal(0, 1, a.shape[:2]), 3.0)
-    grain = 2.4 * fine / fine.std() + 1.4 * coarse / coarse.std()
-    return base + np.clip(hp, -lim, lim) + grain[..., None]
+    fine = ndi.gaussian_filter(rng.normal(0, 1, a.shape[:2]), 0.55)
+    return base + (2.2 * fine / fine.std())[..., None]
 
 
 def main(src, dst):
